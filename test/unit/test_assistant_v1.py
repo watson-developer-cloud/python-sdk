@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2018, 2021.
+# (C) Copyright IBM Corp. 2018, 2022.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -34,10 +34,37 @@ version = 'testString'
 _service = AssistantV1(
     authenticator=NoAuthAuthenticator(),
     version=version
-    )
+)
 
 _base_url = 'https://api.us-south.assistant.watson.cloud.ibm.com'
 _service.set_service_url(_base_url)
+
+
+def preprocess_url(operation_path: str):
+    """
+    Returns the request url associated with the specified operation path.
+    This will be base_url concatenated with a quoted version of operation_path.
+    The returned request URL is used to register the mock response so it needs
+    to match the request URL that is formed by the requests library.
+    """
+    # First, unquote the path since it might have some quoted/escaped characters in it
+    # due to how the generator inserts the operation paths into the unit test code.
+    operation_path = urllib.parse.unquote(operation_path)
+
+    # Next, quote the path using urllib so that we approximate what will
+    # happen during request processing.
+    operation_path = urllib.parse.quote(operation_path, safe='/')
+
+    # Finally, form the request URL from the base URL and operation path.
+    request_url = _base_url + operation_path
+
+    # If the request url does NOT end with a /, then just return it as-is.
+    # Otherwise, return a regular expression that matches one or more trailing /.
+    if re.fullmatch('.*/+', request_url) is None:
+        return request_url
+    else:
+        return re.compile(request_url.rstrip('/') + '/+')
+
 
 ##############################################################################
 # Start of Service: Message
@@ -49,25 +76,14 @@ class TestMessage():
     Test Class for message
     """
 
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     @responses.activate
     def test_message_all_params(self):
         """
         message()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/message')
-        mock_response = '{"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "text": ["text"], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}'
+        url = preprocess_url('/v1/workspaces/testString/message')
+        mock_response = '{"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -135,7 +151,6 @@ class TestMessage():
         runtime_entity_model['location'] = [38]
         runtime_entity_model['value'] = 'testString'
         runtime_entity_model['confidence'] = 72.5
-        runtime_entity_model['metadata'] = {}
         runtime_entity_model['groups'] = [capture_group_model]
         runtime_entity_model['interpretation'] = runtime_entity_interpretation_model
         runtime_entity_model['alternatives'] = [runtime_entity_alternative_model]
@@ -200,7 +215,6 @@ class TestMessage():
         output_data_model['nodes_visited'] = ['testString']
         output_data_model['nodes_visited_details'] = [dialog_node_visited_details_model]
         output_data_model['log_messages'] = [log_message_model]
-        output_data_model['text'] = ['testString']
         output_data_model['generic'] = [runtime_response_generic_model]
         output_data_model['foo'] = 'testString'
 
@@ -246,6 +260,14 @@ class TestMessage():
         assert req_body['output'] == output_data_model
         assert req_body['user_id'] == 'testString'
 
+    def test_message_all_params_with_retries(self):
+        # Enable retries and run test_message_all_params.
+        _service.enable_retries()
+        self.test_message_all_params()
+
+        # Disable retries and run test_message_all_params.
+        _service.disable_retries()
+        self.test_message_all_params()
 
     @responses.activate
     def test_message_required_params(self):
@@ -253,8 +275,8 @@ class TestMessage():
         test_message_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/message')
-        mock_response = '{"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "text": ["text"], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}'
+        url = preprocess_url('/v1/workspaces/testString/message')
+        mock_response = '{"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -274,6 +296,14 @@ class TestMessage():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_message_required_params_with_retries(self):
+        # Enable retries and run test_message_required_params.
+        _service.enable_retries()
+        self.test_message_required_params()
+
+        # Disable retries and run test_message_required_params.
+        _service.disable_retries()
+        self.test_message_required_params()
 
     @responses.activate
     def test_message_value_error(self):
@@ -281,8 +311,8 @@ class TestMessage():
         test_message_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/message')
-        mock_response = '{"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "text": ["text"], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}'
+        url = preprocess_url('/v1/workspaces/testString/message')
+        mock_response = '{"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -302,6 +332,14 @@ class TestMessage():
                 _service.message(**req_copy)
 
 
+    def test_message_value_error_with_retries(self):
+        # Enable retries and run test_message_value_error.
+        _service.enable_retries()
+        self.test_message_value_error()
+
+        # Disable retries and run test_message_value_error.
+        _service.disable_retries()
+        self.test_message_value_error()
 
 # endregion
 ##############################################################################
@@ -318,25 +356,14 @@ class TestBulkClassify():
     Test Class for bulk_classify
     """
 
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     @responses.activate
     def test_bulk_classify_all_params(self):
         """
         bulk_classify()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/bulk_classify')
-        mock_response = '{"output": [{"input": {"text": "text"}, "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "intents": [{"intent": "intent", "confidence": 10}]}]}'
+        url = preprocess_url('/v1/workspaces/testString/bulk_classify')
+        mock_response = '{"output": [{"input": {"text": "text"}, "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "intents": [{"intent": "intent", "confidence": 10}]}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -365,6 +392,14 @@ class TestBulkClassify():
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['input'] == [bulk_classify_utterance_model]
 
+    def test_bulk_classify_all_params_with_retries(self):
+        # Enable retries and run test_bulk_classify_all_params.
+        _service.enable_retries()
+        self.test_bulk_classify_all_params()
+
+        # Disable retries and run test_bulk_classify_all_params.
+        _service.disable_retries()
+        self.test_bulk_classify_all_params()
 
     @responses.activate
     def test_bulk_classify_required_params(self):
@@ -372,8 +407,8 @@ class TestBulkClassify():
         test_bulk_classify_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/bulk_classify')
-        mock_response = '{"output": [{"input": {"text": "text"}, "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "intents": [{"intent": "intent", "confidence": 10}]}]}'
+        url = preprocess_url('/v1/workspaces/testString/bulk_classify')
+        mock_response = '{"output": [{"input": {"text": "text"}, "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "intents": [{"intent": "intent", "confidence": 10}]}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -393,6 +428,14 @@ class TestBulkClassify():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_bulk_classify_required_params_with_retries(self):
+        # Enable retries and run test_bulk_classify_required_params.
+        _service.enable_retries()
+        self.test_bulk_classify_required_params()
+
+        # Disable retries and run test_bulk_classify_required_params.
+        _service.disable_retries()
+        self.test_bulk_classify_required_params()
 
     @responses.activate
     def test_bulk_classify_value_error(self):
@@ -400,8 +443,8 @@ class TestBulkClassify():
         test_bulk_classify_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/bulk_classify')
-        mock_response = '{"output": [{"input": {"text": "text"}, "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "intents": [{"intent": "intent", "confidence": 10}]}]}'
+        url = preprocess_url('/v1/workspaces/testString/bulk_classify')
+        mock_response = '{"output": [{"input": {"text": "text"}, "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "intents": [{"intent": "intent", "confidence": 10}]}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -421,6 +464,14 @@ class TestBulkClassify():
                 _service.bulk_classify(**req_copy)
 
 
+    def test_bulk_classify_value_error_with_retries(self):
+        # Enable retries and run test_bulk_classify_value_error.
+        _service.enable_retries()
+        self.test_bulk_classify_value_error()
+
+        # Disable retries and run test_bulk_classify_value_error.
+        _service.disable_retries()
+        self.test_bulk_classify_value_error()
 
 # endregion
 ##############################################################################
@@ -437,24 +488,13 @@ class TestListWorkspaces():
     Test Class for list_workspaces
     """
 
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     @responses.activate
     def test_list_workspaces_all_params(self):
         """
         list_workspaces()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces')
+        url = preprocess_url('/v1/workspaces')
         mock_response = '{"workspaces": [{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
@@ -491,6 +531,14 @@ class TestListWorkspaces():
         assert 'cursor={}'.format(cursor) in query_string
         assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
 
+    def test_list_workspaces_all_params_with_retries(self):
+        # Enable retries and run test_list_workspaces_all_params.
+        _service.enable_retries()
+        self.test_list_workspaces_all_params()
+
+        # Disable retries and run test_list_workspaces_all_params.
+        _service.disable_retries()
+        self.test_list_workspaces_all_params()
 
     @responses.activate
     def test_list_workspaces_required_params(self):
@@ -498,7 +546,7 @@ class TestListWorkspaces():
         test_list_workspaces_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces')
+        url = preprocess_url('/v1/workspaces')
         mock_response = '{"workspaces": [{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
@@ -514,6 +562,14 @@ class TestListWorkspaces():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_list_workspaces_required_params_with_retries(self):
+        # Enable retries and run test_list_workspaces_required_params.
+        _service.enable_retries()
+        self.test_list_workspaces_required_params()
+
+        # Disable retries and run test_list_workspaces_required_params.
+        _service.disable_retries()
+        self.test_list_workspaces_required_params()
 
     @responses.activate
     def test_list_workspaces_value_error(self):
@@ -521,7 +577,7 @@ class TestListWorkspaces():
         test_list_workspaces_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces')
+        url = preprocess_url('/v1/workspaces')
         mock_response = '{"workspaces": [{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
@@ -538,22 +594,19 @@ class TestListWorkspaces():
                 _service.list_workspaces(**req_copy)
 
 
+    def test_list_workspaces_value_error_with_retries(self):
+        # Enable retries and run test_list_workspaces_value_error.
+        _service.enable_retries()
+        self.test_list_workspaces_value_error()
+
+        # Disable retries and run test_list_workspaces_value_error.
+        _service.disable_retries()
+        self.test_list_workspaces_value_error()
 
 class TestCreateWorkspace():
     """
     Test Class for create_workspace
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_create_workspace_all_params(self):
@@ -561,7 +614,7 @@ class TestCreateWorkspace():
         create_workspace()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces')
+        url = preprocess_url('/v1/workspaces')
         mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
         responses.add(responses.POST,
                       url,
@@ -775,6 +828,14 @@ class TestCreateWorkspace():
         assert req_body['intents'] == [create_intent_model]
         assert req_body['entities'] == [create_entity_model]
 
+    def test_create_workspace_all_params_with_retries(self):
+        # Enable retries and run test_create_workspace_all_params.
+        _service.enable_retries()
+        self.test_create_workspace_all_params()
+
+        # Disable retries and run test_create_workspace_all_params.
+        _service.disable_retries()
+        self.test_create_workspace_all_params()
 
     @responses.activate
     def test_create_workspace_required_params(self):
@@ -782,7 +843,7 @@ class TestCreateWorkspace():
         test_create_workspace_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces')
+        url = preprocess_url('/v1/workspaces')
         mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
         responses.add(responses.POST,
                       url,
@@ -798,6 +859,14 @@ class TestCreateWorkspace():
         assert len(responses.calls) == 1
         assert response.status_code == 201
 
+    def test_create_workspace_required_params_with_retries(self):
+        # Enable retries and run test_create_workspace_required_params.
+        _service.enable_retries()
+        self.test_create_workspace_required_params()
+
+        # Disable retries and run test_create_workspace_required_params.
+        _service.disable_retries()
+        self.test_create_workspace_required_params()
 
     @responses.activate
     def test_create_workspace_value_error(self):
@@ -805,7 +874,7 @@ class TestCreateWorkspace():
         test_create_workspace_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces')
+        url = preprocess_url('/v1/workspaces')
         mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
         responses.add(responses.POST,
                       url,
@@ -822,22 +891,19 @@ class TestCreateWorkspace():
                 _service.create_workspace(**req_copy)
 
 
+    def test_create_workspace_value_error_with_retries(self):
+        # Enable retries and run test_create_workspace_value_error.
+        _service.enable_retries()
+        self.test_create_workspace_value_error()
+
+        # Disable retries and run test_create_workspace_value_error.
+        _service.disable_retries()
+        self.test_create_workspace_value_error()
 
 class TestGetWorkspace():
     """
     Test Class for get_workspace
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_get_workspace_all_params(self):
@@ -845,7 +911,7 @@ class TestGetWorkspace():
         get_workspace()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString')
+        url = preprocess_url('/v1/workspaces/testString')
         mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
         responses.add(responses.GET,
                       url,
@@ -878,6 +944,14 @@ class TestGetWorkspace():
         assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
         assert 'sort={}'.format(sort) in query_string
 
+    def test_get_workspace_all_params_with_retries(self):
+        # Enable retries and run test_get_workspace_all_params.
+        _service.enable_retries()
+        self.test_get_workspace_all_params()
+
+        # Disable retries and run test_get_workspace_all_params.
+        _service.disable_retries()
+        self.test_get_workspace_all_params()
 
     @responses.activate
     def test_get_workspace_required_params(self):
@@ -885,7 +959,7 @@ class TestGetWorkspace():
         test_get_workspace_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString')
+        url = preprocess_url('/v1/workspaces/testString')
         mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
         responses.add(responses.GET,
                       url,
@@ -906,6 +980,14 @@ class TestGetWorkspace():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_get_workspace_required_params_with_retries(self):
+        # Enable retries and run test_get_workspace_required_params.
+        _service.enable_retries()
+        self.test_get_workspace_required_params()
+
+        # Disable retries and run test_get_workspace_required_params.
+        _service.disable_retries()
+        self.test_get_workspace_required_params()
 
     @responses.activate
     def test_get_workspace_value_error(self):
@@ -913,7 +995,7 @@ class TestGetWorkspace():
         test_get_workspace_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString')
+        url = preprocess_url('/v1/workspaces/testString')
         mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
         responses.add(responses.GET,
                       url,
@@ -934,22 +1016,19 @@ class TestGetWorkspace():
                 _service.get_workspace(**req_copy)
 
 
+    def test_get_workspace_value_error_with_retries(self):
+        # Enable retries and run test_get_workspace_value_error.
+        _service.enable_retries()
+        self.test_get_workspace_value_error()
+
+        # Disable retries and run test_get_workspace_value_error.
+        _service.disable_retries()
+        self.test_get_workspace_value_error()
 
 class TestUpdateWorkspace():
     """
     Test Class for update_workspace
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_update_workspace_all_params(self):
@@ -957,7 +1036,7 @@ class TestUpdateWorkspace():
         update_workspace()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString')
+        url = preprocess_url('/v1/workspaces/testString')
         mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
         responses.add(responses.POST,
                       url,
@@ -1176,6 +1255,14 @@ class TestUpdateWorkspace():
         assert req_body['intents'] == [create_intent_model]
         assert req_body['entities'] == [create_entity_model]
 
+    def test_update_workspace_all_params_with_retries(self):
+        # Enable retries and run test_update_workspace_all_params.
+        _service.enable_retries()
+        self.test_update_workspace_all_params()
+
+        # Disable retries and run test_update_workspace_all_params.
+        _service.disable_retries()
+        self.test_update_workspace_all_params()
 
     @responses.activate
     def test_update_workspace_required_params(self):
@@ -1183,7 +1270,7 @@ class TestUpdateWorkspace():
         test_update_workspace_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString')
+        url = preprocess_url('/v1/workspaces/testString')
         mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
         responses.add(responses.POST,
                       url,
@@ -1204,6 +1291,14 @@ class TestUpdateWorkspace():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_update_workspace_required_params_with_retries(self):
+        # Enable retries and run test_update_workspace_required_params.
+        _service.enable_retries()
+        self.test_update_workspace_required_params()
+
+        # Disable retries and run test_update_workspace_required_params.
+        _service.disable_retries()
+        self.test_update_workspace_required_params()
 
     @responses.activate
     def test_update_workspace_value_error(self):
@@ -1211,7 +1306,7 @@ class TestUpdateWorkspace():
         test_update_workspace_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString')
+        url = preprocess_url('/v1/workspaces/testString')
         mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
         responses.add(responses.POST,
                       url,
@@ -1232,22 +1327,19 @@ class TestUpdateWorkspace():
                 _service.update_workspace(**req_copy)
 
 
+    def test_update_workspace_value_error_with_retries(self):
+        # Enable retries and run test_update_workspace_value_error.
+        _service.enable_retries()
+        self.test_update_workspace_value_error()
+
+        # Disable retries and run test_update_workspace_value_error.
+        _service.disable_retries()
+        self.test_update_workspace_value_error()
 
 class TestDeleteWorkspace():
     """
     Test Class for delete_workspace
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_delete_workspace_all_params(self):
@@ -1255,7 +1347,7 @@ class TestDeleteWorkspace():
         delete_workspace()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString')
+        url = preprocess_url('/v1/workspaces/testString')
         responses.add(responses.DELETE,
                       url,
                       status=200)
@@ -1273,6 +1365,14 @@ class TestDeleteWorkspace():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_delete_workspace_all_params_with_retries(self):
+        # Enable retries and run test_delete_workspace_all_params.
+        _service.enable_retries()
+        self.test_delete_workspace_all_params()
+
+        # Disable retries and run test_delete_workspace_all_params.
+        _service.disable_retries()
+        self.test_delete_workspace_all_params()
 
     @responses.activate
     def test_delete_workspace_value_error(self):
@@ -1280,7 +1380,7 @@ class TestDeleteWorkspace():
         test_delete_workspace_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString')
+        url = preprocess_url('/v1/workspaces/testString')
         responses.add(responses.DELETE,
                       url,
                       status=200)
@@ -1298,6 +1398,14 @@ class TestDeleteWorkspace():
                 _service.delete_workspace(**req_copy)
 
 
+    def test_delete_workspace_value_error_with_retries(self):
+        # Enable retries and run test_delete_workspace_value_error.
+        _service.enable_retries()
+        self.test_delete_workspace_value_error()
+
+        # Disable retries and run test_delete_workspace_value_error.
+        _service.disable_retries()
+        self.test_delete_workspace_value_error()
 
 # endregion
 ##############################################################################
@@ -1314,24 +1422,13 @@ class TestListIntents():
     Test Class for list_intents
     """
 
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     @responses.activate
     def test_list_intents_all_params(self):
         """
         list_intents()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/intents')
+        url = preprocess_url('/v1/workspaces/testString/intents')
         mock_response = '{"intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
@@ -1373,6 +1470,14 @@ class TestListIntents():
         assert 'cursor={}'.format(cursor) in query_string
         assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
 
+    def test_list_intents_all_params_with_retries(self):
+        # Enable retries and run test_list_intents_all_params.
+        _service.enable_retries()
+        self.test_list_intents_all_params()
+
+        # Disable retries and run test_list_intents_all_params.
+        _service.disable_retries()
+        self.test_list_intents_all_params()
 
     @responses.activate
     def test_list_intents_required_params(self):
@@ -1380,7 +1485,7 @@ class TestListIntents():
         test_list_intents_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/intents')
+        url = preprocess_url('/v1/workspaces/testString/intents')
         mock_response = '{"intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
@@ -1401,6 +1506,14 @@ class TestListIntents():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_list_intents_required_params_with_retries(self):
+        # Enable retries and run test_list_intents_required_params.
+        _service.enable_retries()
+        self.test_list_intents_required_params()
+
+        # Disable retries and run test_list_intents_required_params.
+        _service.disable_retries()
+        self.test_list_intents_required_params()
 
     @responses.activate
     def test_list_intents_value_error(self):
@@ -1408,7 +1521,7 @@ class TestListIntents():
         test_list_intents_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/intents')
+        url = preprocess_url('/v1/workspaces/testString/intents')
         mock_response = '{"intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
@@ -1429,22 +1542,19 @@ class TestListIntents():
                 _service.list_intents(**req_copy)
 
 
+    def test_list_intents_value_error_with_retries(self):
+        # Enable retries and run test_list_intents_value_error.
+        _service.enable_retries()
+        self.test_list_intents_value_error()
+
+        # Disable retries and run test_list_intents_value_error.
+        _service.disable_retries()
+        self.test_list_intents_value_error()
 
 class TestCreateIntent():
     """
     Test Class for create_intent
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_create_intent_all_params(self):
@@ -1452,7 +1562,7 @@ class TestCreateIntent():
         create_intent()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/intents')
+        url = preprocess_url('/v1/workspaces/testString/intents')
         mock_response = '{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.POST,
                       url,
@@ -1500,6 +1610,14 @@ class TestCreateIntent():
         assert req_body['description'] == 'testString'
         assert req_body['examples'] == [example_model]
 
+    def test_create_intent_all_params_with_retries(self):
+        # Enable retries and run test_create_intent_all_params.
+        _service.enable_retries()
+        self.test_create_intent_all_params()
+
+        # Disable retries and run test_create_intent_all_params.
+        _service.disable_retries()
+        self.test_create_intent_all_params()
 
     @responses.activate
     def test_create_intent_required_params(self):
@@ -1507,7 +1625,7 @@ class TestCreateIntent():
         test_create_intent_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/intents')
+        url = preprocess_url('/v1/workspaces/testString/intents')
         mock_response = '{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.POST,
                       url,
@@ -1549,6 +1667,14 @@ class TestCreateIntent():
         assert req_body['description'] == 'testString'
         assert req_body['examples'] == [example_model]
 
+    def test_create_intent_required_params_with_retries(self):
+        # Enable retries and run test_create_intent_required_params.
+        _service.enable_retries()
+        self.test_create_intent_required_params()
+
+        # Disable retries and run test_create_intent_required_params.
+        _service.disable_retries()
+        self.test_create_intent_required_params()
 
     @responses.activate
     def test_create_intent_value_error(self):
@@ -1556,7 +1682,7 @@ class TestCreateIntent():
         test_create_intent_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/intents')
+        url = preprocess_url('/v1/workspaces/testString/intents')
         mock_response = '{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.POST,
                       url,
@@ -1591,22 +1717,19 @@ class TestCreateIntent():
                 _service.create_intent(**req_copy)
 
 
+    def test_create_intent_value_error_with_retries(self):
+        # Enable retries and run test_create_intent_value_error.
+        _service.enable_retries()
+        self.test_create_intent_value_error()
+
+        # Disable retries and run test_create_intent_value_error.
+        _service.disable_retries()
+        self.test_create_intent_value_error()
 
 class TestGetIntent():
     """
     Test Class for get_intent
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_get_intent_all_params(self):
@@ -1614,7 +1737,7 @@ class TestGetIntent():
         get_intent()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/intents/testString')
+        url = preprocess_url('/v1/workspaces/testString/intents/testString')
         mock_response = '{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.GET,
                       url,
@@ -1646,6 +1769,14 @@ class TestGetIntent():
         assert 'export={}'.format('true' if export else 'false') in query_string
         assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
 
+    def test_get_intent_all_params_with_retries(self):
+        # Enable retries and run test_get_intent_all_params.
+        _service.enable_retries()
+        self.test_get_intent_all_params()
+
+        # Disable retries and run test_get_intent_all_params.
+        _service.disable_retries()
+        self.test_get_intent_all_params()
 
     @responses.activate
     def test_get_intent_required_params(self):
@@ -1653,7 +1784,7 @@ class TestGetIntent():
         test_get_intent_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/intents/testString')
+        url = preprocess_url('/v1/workspaces/testString/intents/testString')
         mock_response = '{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.GET,
                       url,
@@ -1676,6 +1807,14 @@ class TestGetIntent():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_get_intent_required_params_with_retries(self):
+        # Enable retries and run test_get_intent_required_params.
+        _service.enable_retries()
+        self.test_get_intent_required_params()
+
+        # Disable retries and run test_get_intent_required_params.
+        _service.disable_retries()
+        self.test_get_intent_required_params()
 
     @responses.activate
     def test_get_intent_value_error(self):
@@ -1683,7 +1822,7 @@ class TestGetIntent():
         test_get_intent_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/intents/testString')
+        url = preprocess_url('/v1/workspaces/testString/intents/testString')
         mock_response = '{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.GET,
                       url,
@@ -1706,22 +1845,19 @@ class TestGetIntent():
                 _service.get_intent(**req_copy)
 
 
+    def test_get_intent_value_error_with_retries(self):
+        # Enable retries and run test_get_intent_value_error.
+        _service.enable_retries()
+        self.test_get_intent_value_error()
+
+        # Disable retries and run test_get_intent_value_error.
+        _service.disable_retries()
+        self.test_get_intent_value_error()
 
 class TestUpdateIntent():
     """
     Test Class for update_intent
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_update_intent_all_params(self):
@@ -1729,7 +1865,7 @@ class TestUpdateIntent():
         update_intent()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/intents/testString')
+        url = preprocess_url('/v1/workspaces/testString/intents/testString')
         mock_response = '{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.POST,
                       url,
@@ -1782,6 +1918,14 @@ class TestUpdateIntent():
         assert req_body['description'] == 'testString'
         assert req_body['examples'] == [example_model]
 
+    def test_update_intent_all_params_with_retries(self):
+        # Enable retries and run test_update_intent_all_params.
+        _service.enable_retries()
+        self.test_update_intent_all_params()
+
+        # Disable retries and run test_update_intent_all_params.
+        _service.disable_retries()
+        self.test_update_intent_all_params()
 
     @responses.activate
     def test_update_intent_required_params(self):
@@ -1789,7 +1933,7 @@ class TestUpdateIntent():
         test_update_intent_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/intents/testString')
+        url = preprocess_url('/v1/workspaces/testString/intents/testString')
         mock_response = '{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.POST,
                       url,
@@ -1833,6 +1977,14 @@ class TestUpdateIntent():
         assert req_body['description'] == 'testString'
         assert req_body['examples'] == [example_model]
 
+    def test_update_intent_required_params_with_retries(self):
+        # Enable retries and run test_update_intent_required_params.
+        _service.enable_retries()
+        self.test_update_intent_required_params()
+
+        # Disable retries and run test_update_intent_required_params.
+        _service.disable_retries()
+        self.test_update_intent_required_params()
 
     @responses.activate
     def test_update_intent_value_error(self):
@@ -1840,7 +1992,7 @@ class TestUpdateIntent():
         test_update_intent_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/intents/testString')
+        url = preprocess_url('/v1/workspaces/testString/intents/testString')
         mock_response = '{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.POST,
                       url,
@@ -1876,22 +2028,19 @@ class TestUpdateIntent():
                 _service.update_intent(**req_copy)
 
 
+    def test_update_intent_value_error_with_retries(self):
+        # Enable retries and run test_update_intent_value_error.
+        _service.enable_retries()
+        self.test_update_intent_value_error()
+
+        # Disable retries and run test_update_intent_value_error.
+        _service.disable_retries()
+        self.test_update_intent_value_error()
 
 class TestDeleteIntent():
     """
     Test Class for delete_intent
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_delete_intent_all_params(self):
@@ -1899,7 +2048,7 @@ class TestDeleteIntent():
         delete_intent()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/intents/testString')
+        url = preprocess_url('/v1/workspaces/testString/intents/testString')
         responses.add(responses.DELETE,
                       url,
                       status=200)
@@ -1919,6 +2068,14 @@ class TestDeleteIntent():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_delete_intent_all_params_with_retries(self):
+        # Enable retries and run test_delete_intent_all_params.
+        _service.enable_retries()
+        self.test_delete_intent_all_params()
+
+        # Disable retries and run test_delete_intent_all_params.
+        _service.disable_retries()
+        self.test_delete_intent_all_params()
 
     @responses.activate
     def test_delete_intent_value_error(self):
@@ -1926,7 +2083,7 @@ class TestDeleteIntent():
         test_delete_intent_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/intents/testString')
+        url = preprocess_url('/v1/workspaces/testString/intents/testString')
         responses.add(responses.DELETE,
                       url,
                       status=200)
@@ -1946,6 +2103,14 @@ class TestDeleteIntent():
                 _service.delete_intent(**req_copy)
 
 
+    def test_delete_intent_value_error_with_retries(self):
+        # Enable retries and run test_delete_intent_value_error.
+        _service.enable_retries()
+        self.test_delete_intent_value_error()
+
+        # Disable retries and run test_delete_intent_value_error.
+        _service.disable_retries()
+        self.test_delete_intent_value_error()
 
 # endregion
 ##############################################################################
@@ -1962,24 +2127,13 @@ class TestListExamples():
     Test Class for list_examples
     """
 
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     @responses.activate
     def test_list_examples_all_params(self):
         """
         list_examples()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/intents/testString/examples')
+        url = preprocess_url('/v1/workspaces/testString/intents/testString/examples')
         mock_response = '{"examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
@@ -2020,6 +2174,14 @@ class TestListExamples():
         assert 'cursor={}'.format(cursor) in query_string
         assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
 
+    def test_list_examples_all_params_with_retries(self):
+        # Enable retries and run test_list_examples_all_params.
+        _service.enable_retries()
+        self.test_list_examples_all_params()
+
+        # Disable retries and run test_list_examples_all_params.
+        _service.disable_retries()
+        self.test_list_examples_all_params()
 
     @responses.activate
     def test_list_examples_required_params(self):
@@ -2027,7 +2189,7 @@ class TestListExamples():
         test_list_examples_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/intents/testString/examples')
+        url = preprocess_url('/v1/workspaces/testString/intents/testString/examples')
         mock_response = '{"examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
@@ -2050,6 +2212,14 @@ class TestListExamples():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_list_examples_required_params_with_retries(self):
+        # Enable retries and run test_list_examples_required_params.
+        _service.enable_retries()
+        self.test_list_examples_required_params()
+
+        # Disable retries and run test_list_examples_required_params.
+        _service.disable_retries()
+        self.test_list_examples_required_params()
 
     @responses.activate
     def test_list_examples_value_error(self):
@@ -2057,7 +2227,7 @@ class TestListExamples():
         test_list_examples_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/intents/testString/examples')
+        url = preprocess_url('/v1/workspaces/testString/intents/testString/examples')
         mock_response = '{"examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
@@ -2080,22 +2250,19 @@ class TestListExamples():
                 _service.list_examples(**req_copy)
 
 
+    def test_list_examples_value_error_with_retries(self):
+        # Enable retries and run test_list_examples_value_error.
+        _service.enable_retries()
+        self.test_list_examples_value_error()
+
+        # Disable retries and run test_list_examples_value_error.
+        _service.disable_retries()
+        self.test_list_examples_value_error()
 
 class TestCreateExample():
     """
     Test Class for create_example
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_create_example_all_params(self):
@@ -2103,7 +2270,7 @@ class TestCreateExample():
         create_example()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/intents/testString/examples')
+        url = preprocess_url('/v1/workspaces/testString/intents/testString/examples')
         mock_response = '{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
@@ -2145,6 +2312,14 @@ class TestCreateExample():
         assert req_body['text'] == 'testString'
         assert req_body['mentions'] == [mention_model]
 
+    def test_create_example_all_params_with_retries(self):
+        # Enable retries and run test_create_example_all_params.
+        _service.enable_retries()
+        self.test_create_example_all_params()
+
+        # Disable retries and run test_create_example_all_params.
+        _service.disable_retries()
+        self.test_create_example_all_params()
 
     @responses.activate
     def test_create_example_required_params(self):
@@ -2152,7 +2327,7 @@ class TestCreateExample():
         test_create_example_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/intents/testString/examples')
+        url = preprocess_url('/v1/workspaces/testString/intents/testString/examples')
         mock_response = '{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
@@ -2188,6 +2363,14 @@ class TestCreateExample():
         assert req_body['text'] == 'testString'
         assert req_body['mentions'] == [mention_model]
 
+    def test_create_example_required_params_with_retries(self):
+        # Enable retries and run test_create_example_required_params.
+        _service.enable_retries()
+        self.test_create_example_required_params()
+
+        # Disable retries and run test_create_example_required_params.
+        _service.disable_retries()
+        self.test_create_example_required_params()
 
     @responses.activate
     def test_create_example_value_error(self):
@@ -2195,7 +2378,7 @@ class TestCreateExample():
         test_create_example_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/intents/testString/examples')
+        url = preprocess_url('/v1/workspaces/testString/intents/testString/examples')
         mock_response = '{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
@@ -2226,22 +2409,19 @@ class TestCreateExample():
                 _service.create_example(**req_copy)
 
 
+    def test_create_example_value_error_with_retries(self):
+        # Enable retries and run test_create_example_value_error.
+        _service.enable_retries()
+        self.test_create_example_value_error()
+
+        # Disable retries and run test_create_example_value_error.
+        _service.disable_retries()
+        self.test_create_example_value_error()
 
 class TestGetExample():
     """
     Test Class for get_example
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_get_example_all_params(self):
@@ -2249,7 +2429,7 @@ class TestGetExample():
         get_example()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/intents/testString/examples/testString')
+        url = preprocess_url('/v1/workspaces/testString/intents/testString/examples/testString')
         mock_response = '{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.GET,
                       url,
@@ -2280,6 +2460,14 @@ class TestGetExample():
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
 
+    def test_get_example_all_params_with_retries(self):
+        # Enable retries and run test_get_example_all_params.
+        _service.enable_retries()
+        self.test_get_example_all_params()
+
+        # Disable retries and run test_get_example_all_params.
+        _service.disable_retries()
+        self.test_get_example_all_params()
 
     @responses.activate
     def test_get_example_required_params(self):
@@ -2287,7 +2475,7 @@ class TestGetExample():
         test_get_example_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/intents/testString/examples/testString')
+        url = preprocess_url('/v1/workspaces/testString/intents/testString/examples/testString')
         mock_response = '{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.GET,
                       url,
@@ -2312,6 +2500,14 @@ class TestGetExample():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_get_example_required_params_with_retries(self):
+        # Enable retries and run test_get_example_required_params.
+        _service.enable_retries()
+        self.test_get_example_required_params()
+
+        # Disable retries and run test_get_example_required_params.
+        _service.disable_retries()
+        self.test_get_example_required_params()
 
     @responses.activate
     def test_get_example_value_error(self):
@@ -2319,7 +2515,7 @@ class TestGetExample():
         test_get_example_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/intents/testString/examples/testString')
+        url = preprocess_url('/v1/workspaces/testString/intents/testString/examples/testString')
         mock_response = '{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.GET,
                       url,
@@ -2344,22 +2540,19 @@ class TestGetExample():
                 _service.get_example(**req_copy)
 
 
+    def test_get_example_value_error_with_retries(self):
+        # Enable retries and run test_get_example_value_error.
+        _service.enable_retries()
+        self.test_get_example_value_error()
+
+        # Disable retries and run test_get_example_value_error.
+        _service.disable_retries()
+        self.test_get_example_value_error()
 
 class TestUpdateExample():
     """
     Test Class for update_example
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_update_example_all_params(self):
@@ -2367,7 +2560,7 @@ class TestUpdateExample():
         update_example()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/intents/testString/examples/testString')
+        url = preprocess_url('/v1/workspaces/testString/intents/testString/examples/testString')
         mock_response = '{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
@@ -2411,6 +2604,14 @@ class TestUpdateExample():
         assert req_body['text'] == 'testString'
         assert req_body['mentions'] == [mention_model]
 
+    def test_update_example_all_params_with_retries(self):
+        # Enable retries and run test_update_example_all_params.
+        _service.enable_retries()
+        self.test_update_example_all_params()
+
+        # Disable retries and run test_update_example_all_params.
+        _service.disable_retries()
+        self.test_update_example_all_params()
 
     @responses.activate
     def test_update_example_required_params(self):
@@ -2418,7 +2619,7 @@ class TestUpdateExample():
         test_update_example_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/intents/testString/examples/testString')
+        url = preprocess_url('/v1/workspaces/testString/intents/testString/examples/testString')
         mock_response = '{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
@@ -2456,6 +2657,14 @@ class TestUpdateExample():
         assert req_body['text'] == 'testString'
         assert req_body['mentions'] == [mention_model]
 
+    def test_update_example_required_params_with_retries(self):
+        # Enable retries and run test_update_example_required_params.
+        _service.enable_retries()
+        self.test_update_example_required_params()
+
+        # Disable retries and run test_update_example_required_params.
+        _service.disable_retries()
+        self.test_update_example_required_params()
 
     @responses.activate
     def test_update_example_value_error(self):
@@ -2463,7 +2672,7 @@ class TestUpdateExample():
         test_update_example_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/intents/testString/examples/testString')
+        url = preprocess_url('/v1/workspaces/testString/intents/testString/examples/testString')
         mock_response = '{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
@@ -2495,22 +2704,19 @@ class TestUpdateExample():
                 _service.update_example(**req_copy)
 
 
+    def test_update_example_value_error_with_retries(self):
+        # Enable retries and run test_update_example_value_error.
+        _service.enable_retries()
+        self.test_update_example_value_error()
+
+        # Disable retries and run test_update_example_value_error.
+        _service.disable_retries()
+        self.test_update_example_value_error()
 
 class TestDeleteExample():
     """
     Test Class for delete_example
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_delete_example_all_params(self):
@@ -2518,7 +2724,7 @@ class TestDeleteExample():
         delete_example()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/intents/testString/examples/testString')
+        url = preprocess_url('/v1/workspaces/testString/intents/testString/examples/testString')
         responses.add(responses.DELETE,
                       url,
                       status=200)
@@ -2540,6 +2746,14 @@ class TestDeleteExample():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_delete_example_all_params_with_retries(self):
+        # Enable retries and run test_delete_example_all_params.
+        _service.enable_retries()
+        self.test_delete_example_all_params()
+
+        # Disable retries and run test_delete_example_all_params.
+        _service.disable_retries()
+        self.test_delete_example_all_params()
 
     @responses.activate
     def test_delete_example_value_error(self):
@@ -2547,7 +2761,7 @@ class TestDeleteExample():
         test_delete_example_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/intents/testString/examples/testString')
+        url = preprocess_url('/v1/workspaces/testString/intents/testString/examples/testString')
         responses.add(responses.DELETE,
                       url,
                       status=200)
@@ -2569,6 +2783,14 @@ class TestDeleteExample():
                 _service.delete_example(**req_copy)
 
 
+    def test_delete_example_value_error_with_retries(self):
+        # Enable retries and run test_delete_example_value_error.
+        _service.enable_retries()
+        self.test_delete_example_value_error()
+
+        # Disable retries and run test_delete_example_value_error.
+        _service.disable_retries()
+        self.test_delete_example_value_error()
 
 # endregion
 ##############################################################################
@@ -2585,24 +2807,13 @@ class TestListCounterexamples():
     Test Class for list_counterexamples
     """
 
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     @responses.activate
     def test_list_counterexamples_all_params(self):
         """
         list_counterexamples()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/counterexamples')
+        url = preprocess_url('/v1/workspaces/testString/counterexamples')
         mock_response = '{"counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
@@ -2641,6 +2852,14 @@ class TestListCounterexamples():
         assert 'cursor={}'.format(cursor) in query_string
         assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
 
+    def test_list_counterexamples_all_params_with_retries(self):
+        # Enable retries and run test_list_counterexamples_all_params.
+        _service.enable_retries()
+        self.test_list_counterexamples_all_params()
+
+        # Disable retries and run test_list_counterexamples_all_params.
+        _service.disable_retries()
+        self.test_list_counterexamples_all_params()
 
     @responses.activate
     def test_list_counterexamples_required_params(self):
@@ -2648,7 +2867,7 @@ class TestListCounterexamples():
         test_list_counterexamples_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/counterexamples')
+        url = preprocess_url('/v1/workspaces/testString/counterexamples')
         mock_response = '{"counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
@@ -2669,6 +2888,14 @@ class TestListCounterexamples():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_list_counterexamples_required_params_with_retries(self):
+        # Enable retries and run test_list_counterexamples_required_params.
+        _service.enable_retries()
+        self.test_list_counterexamples_required_params()
+
+        # Disable retries and run test_list_counterexamples_required_params.
+        _service.disable_retries()
+        self.test_list_counterexamples_required_params()
 
     @responses.activate
     def test_list_counterexamples_value_error(self):
@@ -2676,7 +2903,7 @@ class TestListCounterexamples():
         test_list_counterexamples_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/counterexamples')
+        url = preprocess_url('/v1/workspaces/testString/counterexamples')
         mock_response = '{"counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
@@ -2697,22 +2924,19 @@ class TestListCounterexamples():
                 _service.list_counterexamples(**req_copy)
 
 
+    def test_list_counterexamples_value_error_with_retries(self):
+        # Enable retries and run test_list_counterexamples_value_error.
+        _service.enable_retries()
+        self.test_list_counterexamples_value_error()
+
+        # Disable retries and run test_list_counterexamples_value_error.
+        _service.disable_retries()
+        self.test_list_counterexamples_value_error()
 
 class TestCreateCounterexample():
     """
     Test Class for create_counterexample
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_create_counterexample_all_params(self):
@@ -2720,7 +2944,7 @@ class TestCreateCounterexample():
         create_counterexample()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/counterexamples')
+        url = preprocess_url('/v1/workspaces/testString/counterexamples')
         mock_response = '{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
@@ -2752,6 +2976,14 @@ class TestCreateCounterexample():
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['text'] == 'testString'
 
+    def test_create_counterexample_all_params_with_retries(self):
+        # Enable retries and run test_create_counterexample_all_params.
+        _service.enable_retries()
+        self.test_create_counterexample_all_params()
+
+        # Disable retries and run test_create_counterexample_all_params.
+        _service.disable_retries()
+        self.test_create_counterexample_all_params()
 
     @responses.activate
     def test_create_counterexample_required_params(self):
@@ -2759,7 +2991,7 @@ class TestCreateCounterexample():
         test_create_counterexample_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/counterexamples')
+        url = preprocess_url('/v1/workspaces/testString/counterexamples')
         mock_response = '{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
@@ -2785,6 +3017,14 @@ class TestCreateCounterexample():
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['text'] == 'testString'
 
+    def test_create_counterexample_required_params_with_retries(self):
+        # Enable retries and run test_create_counterexample_required_params.
+        _service.enable_retries()
+        self.test_create_counterexample_required_params()
+
+        # Disable retries and run test_create_counterexample_required_params.
+        _service.disable_retries()
+        self.test_create_counterexample_required_params()
 
     @responses.activate
     def test_create_counterexample_value_error(self):
@@ -2792,7 +3032,7 @@ class TestCreateCounterexample():
         test_create_counterexample_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/counterexamples')
+        url = preprocess_url('/v1/workspaces/testString/counterexamples')
         mock_response = '{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
@@ -2815,22 +3055,19 @@ class TestCreateCounterexample():
                 _service.create_counterexample(**req_copy)
 
 
+    def test_create_counterexample_value_error_with_retries(self):
+        # Enable retries and run test_create_counterexample_value_error.
+        _service.enable_retries()
+        self.test_create_counterexample_value_error()
+
+        # Disable retries and run test_create_counterexample_value_error.
+        _service.disable_retries()
+        self.test_create_counterexample_value_error()
 
 class TestGetCounterexample():
     """
     Test Class for get_counterexample
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_get_counterexample_all_params(self):
@@ -2838,7 +3075,7 @@ class TestGetCounterexample():
         get_counterexample()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/counterexamples/testString')
+        url = preprocess_url('/v1/workspaces/testString/counterexamples/testString')
         mock_response = '{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.GET,
                       url,
@@ -2867,6 +3104,14 @@ class TestGetCounterexample():
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
 
+    def test_get_counterexample_all_params_with_retries(self):
+        # Enable retries and run test_get_counterexample_all_params.
+        _service.enable_retries()
+        self.test_get_counterexample_all_params()
+
+        # Disable retries and run test_get_counterexample_all_params.
+        _service.disable_retries()
+        self.test_get_counterexample_all_params()
 
     @responses.activate
     def test_get_counterexample_required_params(self):
@@ -2874,7 +3119,7 @@ class TestGetCounterexample():
         test_get_counterexample_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/counterexamples/testString')
+        url = preprocess_url('/v1/workspaces/testString/counterexamples/testString')
         mock_response = '{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.GET,
                       url,
@@ -2897,6 +3142,14 @@ class TestGetCounterexample():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_get_counterexample_required_params_with_retries(self):
+        # Enable retries and run test_get_counterexample_required_params.
+        _service.enable_retries()
+        self.test_get_counterexample_required_params()
+
+        # Disable retries and run test_get_counterexample_required_params.
+        _service.disable_retries()
+        self.test_get_counterexample_required_params()
 
     @responses.activate
     def test_get_counterexample_value_error(self):
@@ -2904,7 +3157,7 @@ class TestGetCounterexample():
         test_get_counterexample_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/counterexamples/testString')
+        url = preprocess_url('/v1/workspaces/testString/counterexamples/testString')
         mock_response = '{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.GET,
                       url,
@@ -2927,22 +3180,19 @@ class TestGetCounterexample():
                 _service.get_counterexample(**req_copy)
 
 
+    def test_get_counterexample_value_error_with_retries(self):
+        # Enable retries and run test_get_counterexample_value_error.
+        _service.enable_retries()
+        self.test_get_counterexample_value_error()
+
+        # Disable retries and run test_get_counterexample_value_error.
+        _service.disable_retries()
+        self.test_get_counterexample_value_error()
 
 class TestUpdateCounterexample():
     """
     Test Class for update_counterexample
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_update_counterexample_all_params(self):
@@ -2950,7 +3200,7 @@ class TestUpdateCounterexample():
         update_counterexample()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/counterexamples/testString')
+        url = preprocess_url('/v1/workspaces/testString/counterexamples/testString')
         mock_response = '{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
@@ -2984,6 +3234,14 @@ class TestUpdateCounterexample():
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['text'] == 'testString'
 
+    def test_update_counterexample_all_params_with_retries(self):
+        # Enable retries and run test_update_counterexample_all_params.
+        _service.enable_retries()
+        self.test_update_counterexample_all_params()
+
+        # Disable retries and run test_update_counterexample_all_params.
+        _service.disable_retries()
+        self.test_update_counterexample_all_params()
 
     @responses.activate
     def test_update_counterexample_required_params(self):
@@ -2991,7 +3249,7 @@ class TestUpdateCounterexample():
         test_update_counterexample_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/counterexamples/testString')
+        url = preprocess_url('/v1/workspaces/testString/counterexamples/testString')
         mock_response = '{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
@@ -3019,6 +3277,14 @@ class TestUpdateCounterexample():
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['text'] == 'testString'
 
+    def test_update_counterexample_required_params_with_retries(self):
+        # Enable retries and run test_update_counterexample_required_params.
+        _service.enable_retries()
+        self.test_update_counterexample_required_params()
+
+        # Disable retries and run test_update_counterexample_required_params.
+        _service.disable_retries()
+        self.test_update_counterexample_required_params()
 
     @responses.activate
     def test_update_counterexample_value_error(self):
@@ -3026,7 +3292,7 @@ class TestUpdateCounterexample():
         test_update_counterexample_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/counterexamples/testString')
+        url = preprocess_url('/v1/workspaces/testString/counterexamples/testString')
         mock_response = '{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
@@ -3050,22 +3316,19 @@ class TestUpdateCounterexample():
                 _service.update_counterexample(**req_copy)
 
 
+    def test_update_counterexample_value_error_with_retries(self):
+        # Enable retries and run test_update_counterexample_value_error.
+        _service.enable_retries()
+        self.test_update_counterexample_value_error()
+
+        # Disable retries and run test_update_counterexample_value_error.
+        _service.disable_retries()
+        self.test_update_counterexample_value_error()
 
 class TestDeleteCounterexample():
     """
     Test Class for delete_counterexample
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_delete_counterexample_all_params(self):
@@ -3073,7 +3336,7 @@ class TestDeleteCounterexample():
         delete_counterexample()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/counterexamples/testString')
+        url = preprocess_url('/v1/workspaces/testString/counterexamples/testString')
         responses.add(responses.DELETE,
                       url,
                       status=200)
@@ -3093,6 +3356,14 @@ class TestDeleteCounterexample():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_delete_counterexample_all_params_with_retries(self):
+        # Enable retries and run test_delete_counterexample_all_params.
+        _service.enable_retries()
+        self.test_delete_counterexample_all_params()
+
+        # Disable retries and run test_delete_counterexample_all_params.
+        _service.disable_retries()
+        self.test_delete_counterexample_all_params()
 
     @responses.activate
     def test_delete_counterexample_value_error(self):
@@ -3100,7 +3371,7 @@ class TestDeleteCounterexample():
         test_delete_counterexample_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/counterexamples/testString')
+        url = preprocess_url('/v1/workspaces/testString/counterexamples/testString')
         responses.add(responses.DELETE,
                       url,
                       status=200)
@@ -3120,6 +3391,14 @@ class TestDeleteCounterexample():
                 _service.delete_counterexample(**req_copy)
 
 
+    def test_delete_counterexample_value_error_with_retries(self):
+        # Enable retries and run test_delete_counterexample_value_error.
+        _service.enable_retries()
+        self.test_delete_counterexample_value_error()
+
+        # Disable retries and run test_delete_counterexample_value_error.
+        _service.disable_retries()
+        self.test_delete_counterexample_value_error()
 
 # endregion
 ##############################################################################
@@ -3136,24 +3415,13 @@ class TestListEntities():
     Test Class for list_entities
     """
 
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     @responses.activate
     def test_list_entities_all_params(self):
         """
         list_entities()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities')
+        url = preprocess_url('/v1/workspaces/testString/entities')
         mock_response = '{"entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
@@ -3195,6 +3463,14 @@ class TestListEntities():
         assert 'cursor={}'.format(cursor) in query_string
         assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
 
+    def test_list_entities_all_params_with_retries(self):
+        # Enable retries and run test_list_entities_all_params.
+        _service.enable_retries()
+        self.test_list_entities_all_params()
+
+        # Disable retries and run test_list_entities_all_params.
+        _service.disable_retries()
+        self.test_list_entities_all_params()
 
     @responses.activate
     def test_list_entities_required_params(self):
@@ -3202,7 +3478,7 @@ class TestListEntities():
         test_list_entities_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities')
+        url = preprocess_url('/v1/workspaces/testString/entities')
         mock_response = '{"entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
@@ -3223,6 +3499,14 @@ class TestListEntities():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_list_entities_required_params_with_retries(self):
+        # Enable retries and run test_list_entities_required_params.
+        _service.enable_retries()
+        self.test_list_entities_required_params()
+
+        # Disable retries and run test_list_entities_required_params.
+        _service.disable_retries()
+        self.test_list_entities_required_params()
 
     @responses.activate
     def test_list_entities_value_error(self):
@@ -3230,7 +3514,7 @@ class TestListEntities():
         test_list_entities_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities')
+        url = preprocess_url('/v1/workspaces/testString/entities')
         mock_response = '{"entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
@@ -3251,22 +3535,19 @@ class TestListEntities():
                 _service.list_entities(**req_copy)
 
 
+    def test_list_entities_value_error_with_retries(self):
+        # Enable retries and run test_list_entities_value_error.
+        _service.enable_retries()
+        self.test_list_entities_value_error()
+
+        # Disable retries and run test_list_entities_value_error.
+        _service.disable_retries()
+        self.test_list_entities_value_error()
 
 class TestCreateEntity():
     """
     Test Class for create_entity
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_create_entity_all_params(self):
@@ -3274,7 +3555,7 @@ class TestCreateEntity():
         create_entity()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities')
+        url = preprocess_url('/v1/workspaces/testString/entities')
         mock_response = '{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.POST,
                       url,
@@ -3326,6 +3607,14 @@ class TestCreateEntity():
         assert req_body['fuzzy_match'] == True
         assert req_body['values'] == [create_value_model]
 
+    def test_create_entity_all_params_with_retries(self):
+        # Enable retries and run test_create_entity_all_params.
+        _service.enable_retries()
+        self.test_create_entity_all_params()
+
+        # Disable retries and run test_create_entity_all_params.
+        _service.disable_retries()
+        self.test_create_entity_all_params()
 
     @responses.activate
     def test_create_entity_required_params(self):
@@ -3333,7 +3622,7 @@ class TestCreateEntity():
         test_create_entity_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities')
+        url = preprocess_url('/v1/workspaces/testString/entities')
         mock_response = '{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.POST,
                       url,
@@ -3379,6 +3668,14 @@ class TestCreateEntity():
         assert req_body['fuzzy_match'] == True
         assert req_body['values'] == [create_value_model]
 
+    def test_create_entity_required_params_with_retries(self):
+        # Enable retries and run test_create_entity_required_params.
+        _service.enable_retries()
+        self.test_create_entity_required_params()
+
+        # Disable retries and run test_create_entity_required_params.
+        _service.disable_retries()
+        self.test_create_entity_required_params()
 
     @responses.activate
     def test_create_entity_value_error(self):
@@ -3386,7 +3683,7 @@ class TestCreateEntity():
         test_create_entity_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities')
+        url = preprocess_url('/v1/workspaces/testString/entities')
         mock_response = '{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.POST,
                       url,
@@ -3421,22 +3718,19 @@ class TestCreateEntity():
                 _service.create_entity(**req_copy)
 
 
+    def test_create_entity_value_error_with_retries(self):
+        # Enable retries and run test_create_entity_value_error.
+        _service.enable_retries()
+        self.test_create_entity_value_error()
+
+        # Disable retries and run test_create_entity_value_error.
+        _service.disable_retries()
+        self.test_create_entity_value_error()
 
 class TestGetEntity():
     """
     Test Class for get_entity
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_get_entity_all_params(self):
@@ -3444,7 +3738,7 @@ class TestGetEntity():
         get_entity()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString')
+        url = preprocess_url('/v1/workspaces/testString/entities/testString')
         mock_response = '{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.GET,
                       url,
@@ -3476,6 +3770,14 @@ class TestGetEntity():
         assert 'export={}'.format('true' if export else 'false') in query_string
         assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
 
+    def test_get_entity_all_params_with_retries(self):
+        # Enable retries and run test_get_entity_all_params.
+        _service.enable_retries()
+        self.test_get_entity_all_params()
+
+        # Disable retries and run test_get_entity_all_params.
+        _service.disable_retries()
+        self.test_get_entity_all_params()
 
     @responses.activate
     def test_get_entity_required_params(self):
@@ -3483,7 +3785,7 @@ class TestGetEntity():
         test_get_entity_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString')
+        url = preprocess_url('/v1/workspaces/testString/entities/testString')
         mock_response = '{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.GET,
                       url,
@@ -3506,6 +3808,14 @@ class TestGetEntity():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_get_entity_required_params_with_retries(self):
+        # Enable retries and run test_get_entity_required_params.
+        _service.enable_retries()
+        self.test_get_entity_required_params()
+
+        # Disable retries and run test_get_entity_required_params.
+        _service.disable_retries()
+        self.test_get_entity_required_params()
 
     @responses.activate
     def test_get_entity_value_error(self):
@@ -3513,7 +3823,7 @@ class TestGetEntity():
         test_get_entity_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString')
+        url = preprocess_url('/v1/workspaces/testString/entities/testString')
         mock_response = '{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.GET,
                       url,
@@ -3536,22 +3846,19 @@ class TestGetEntity():
                 _service.get_entity(**req_copy)
 
 
+    def test_get_entity_value_error_with_retries(self):
+        # Enable retries and run test_get_entity_value_error.
+        _service.enable_retries()
+        self.test_get_entity_value_error()
+
+        # Disable retries and run test_get_entity_value_error.
+        _service.disable_retries()
+        self.test_get_entity_value_error()
 
 class TestUpdateEntity():
     """
     Test Class for update_entity
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_update_entity_all_params(self):
@@ -3559,7 +3866,7 @@ class TestUpdateEntity():
         update_entity()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString')
+        url = preprocess_url('/v1/workspaces/testString/entities/testString')
         mock_response = '{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.POST,
                       url,
@@ -3616,6 +3923,14 @@ class TestUpdateEntity():
         assert req_body['fuzzy_match'] == True
         assert req_body['values'] == [create_value_model]
 
+    def test_update_entity_all_params_with_retries(self):
+        # Enable retries and run test_update_entity_all_params.
+        _service.enable_retries()
+        self.test_update_entity_all_params()
+
+        # Disable retries and run test_update_entity_all_params.
+        _service.disable_retries()
+        self.test_update_entity_all_params()
 
     @responses.activate
     def test_update_entity_required_params(self):
@@ -3623,7 +3938,7 @@ class TestUpdateEntity():
         test_update_entity_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString')
+        url = preprocess_url('/v1/workspaces/testString/entities/testString')
         mock_response = '{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.POST,
                       url,
@@ -3671,6 +3986,14 @@ class TestUpdateEntity():
         assert req_body['fuzzy_match'] == True
         assert req_body['values'] == [create_value_model]
 
+    def test_update_entity_required_params_with_retries(self):
+        # Enable retries and run test_update_entity_required_params.
+        _service.enable_retries()
+        self.test_update_entity_required_params()
+
+        # Disable retries and run test_update_entity_required_params.
+        _service.disable_retries()
+        self.test_update_entity_required_params()
 
     @responses.activate
     def test_update_entity_value_error(self):
@@ -3678,7 +4001,7 @@ class TestUpdateEntity():
         test_update_entity_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString')
+        url = preprocess_url('/v1/workspaces/testString/entities/testString')
         mock_response = '{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.POST,
                       url,
@@ -3714,22 +4037,19 @@ class TestUpdateEntity():
                 _service.update_entity(**req_copy)
 
 
+    def test_update_entity_value_error_with_retries(self):
+        # Enable retries and run test_update_entity_value_error.
+        _service.enable_retries()
+        self.test_update_entity_value_error()
+
+        # Disable retries and run test_update_entity_value_error.
+        _service.disable_retries()
+        self.test_update_entity_value_error()
 
 class TestDeleteEntity():
     """
     Test Class for delete_entity
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_delete_entity_all_params(self):
@@ -3737,7 +4057,7 @@ class TestDeleteEntity():
         delete_entity()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString')
+        url = preprocess_url('/v1/workspaces/testString/entities/testString')
         responses.add(responses.DELETE,
                       url,
                       status=200)
@@ -3757,6 +4077,14 @@ class TestDeleteEntity():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_delete_entity_all_params_with_retries(self):
+        # Enable retries and run test_delete_entity_all_params.
+        _service.enable_retries()
+        self.test_delete_entity_all_params()
+
+        # Disable retries and run test_delete_entity_all_params.
+        _service.disable_retries()
+        self.test_delete_entity_all_params()
 
     @responses.activate
     def test_delete_entity_value_error(self):
@@ -3764,7 +4092,7 @@ class TestDeleteEntity():
         test_delete_entity_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString')
+        url = preprocess_url('/v1/workspaces/testString/entities/testString')
         responses.add(responses.DELETE,
                       url,
                       status=200)
@@ -3784,6 +4112,14 @@ class TestDeleteEntity():
                 _service.delete_entity(**req_copy)
 
 
+    def test_delete_entity_value_error_with_retries(self):
+        # Enable retries and run test_delete_entity_value_error.
+        _service.enable_retries()
+        self.test_delete_entity_value_error()
+
+        # Disable retries and run test_delete_entity_value_error.
+        _service.disable_retries()
+        self.test_delete_entity_value_error()
 
 # endregion
 ##############################################################################
@@ -3800,24 +4136,13 @@ class TestListMentions():
     Test Class for list_mentions
     """
 
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     @responses.activate
     def test_list_mentions_all_params(self):
         """
         list_mentions()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString/mentions')
+        url = preprocess_url('/v1/workspaces/testString/entities/testString/mentions')
         mock_response = '{"examples": [{"text": "text", "intent": "intent", "location": [8]}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
@@ -3849,6 +4174,14 @@ class TestListMentions():
         assert 'export={}'.format('true' if export else 'false') in query_string
         assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
 
+    def test_list_mentions_all_params_with_retries(self):
+        # Enable retries and run test_list_mentions_all_params.
+        _service.enable_retries()
+        self.test_list_mentions_all_params()
+
+        # Disable retries and run test_list_mentions_all_params.
+        _service.disable_retries()
+        self.test_list_mentions_all_params()
 
     @responses.activate
     def test_list_mentions_required_params(self):
@@ -3856,7 +4189,7 @@ class TestListMentions():
         test_list_mentions_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString/mentions')
+        url = preprocess_url('/v1/workspaces/testString/entities/testString/mentions')
         mock_response = '{"examples": [{"text": "text", "intent": "intent", "location": [8]}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
@@ -3879,6 +4212,14 @@ class TestListMentions():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_list_mentions_required_params_with_retries(self):
+        # Enable retries and run test_list_mentions_required_params.
+        _service.enable_retries()
+        self.test_list_mentions_required_params()
+
+        # Disable retries and run test_list_mentions_required_params.
+        _service.disable_retries()
+        self.test_list_mentions_required_params()
 
     @responses.activate
     def test_list_mentions_value_error(self):
@@ -3886,7 +4227,7 @@ class TestListMentions():
         test_list_mentions_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString/mentions')
+        url = preprocess_url('/v1/workspaces/testString/entities/testString/mentions')
         mock_response = '{"examples": [{"text": "text", "intent": "intent", "location": [8]}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
@@ -3909,6 +4250,14 @@ class TestListMentions():
                 _service.list_mentions(**req_copy)
 
 
+    def test_list_mentions_value_error_with_retries(self):
+        # Enable retries and run test_list_mentions_value_error.
+        _service.enable_retries()
+        self.test_list_mentions_value_error()
+
+        # Disable retries and run test_list_mentions_value_error.
+        _service.disable_retries()
+        self.test_list_mentions_value_error()
 
 # endregion
 ##############################################################################
@@ -3925,24 +4274,13 @@ class TestListValues():
     Test Class for list_values
     """
 
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     @responses.activate
     def test_list_values_all_params(self):
         """
         list_values()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString/values')
+        url = preprocess_url('/v1/workspaces/testString/entities/testString/values')
         mock_response = '{"values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
@@ -3986,6 +4324,14 @@ class TestListValues():
         assert 'cursor={}'.format(cursor) in query_string
         assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
 
+    def test_list_values_all_params_with_retries(self):
+        # Enable retries and run test_list_values_all_params.
+        _service.enable_retries()
+        self.test_list_values_all_params()
+
+        # Disable retries and run test_list_values_all_params.
+        _service.disable_retries()
+        self.test_list_values_all_params()
 
     @responses.activate
     def test_list_values_required_params(self):
@@ -3993,7 +4339,7 @@ class TestListValues():
         test_list_values_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString/values')
+        url = preprocess_url('/v1/workspaces/testString/entities/testString/values')
         mock_response = '{"values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
@@ -4016,6 +4362,14 @@ class TestListValues():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_list_values_required_params_with_retries(self):
+        # Enable retries and run test_list_values_required_params.
+        _service.enable_retries()
+        self.test_list_values_required_params()
+
+        # Disable retries and run test_list_values_required_params.
+        _service.disable_retries()
+        self.test_list_values_required_params()
 
     @responses.activate
     def test_list_values_value_error(self):
@@ -4023,7 +4377,7 @@ class TestListValues():
         test_list_values_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString/values')
+        url = preprocess_url('/v1/workspaces/testString/entities/testString/values')
         mock_response = '{"values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
@@ -4046,22 +4400,19 @@ class TestListValues():
                 _service.list_values(**req_copy)
 
 
+    def test_list_values_value_error_with_retries(self):
+        # Enable retries and run test_list_values_value_error.
+        _service.enable_retries()
+        self.test_list_values_value_error()
+
+        # Disable retries and run test_list_values_value_error.
+        _service.disable_retries()
+        self.test_list_values_value_error()
 
 class TestCreateValue():
     """
     Test Class for create_value
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_create_value_all_params(self):
@@ -4069,7 +4420,7 @@ class TestCreateValue():
         create_value()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString/values')
+        url = preprocess_url('/v1/workspaces/testString/entities/testString/values')
         mock_response = '{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
@@ -4115,6 +4466,14 @@ class TestCreateValue():
         assert req_body['synonyms'] == ['testString']
         assert req_body['patterns'] == ['testString']
 
+    def test_create_value_all_params_with_retries(self):
+        # Enable retries and run test_create_value_all_params.
+        _service.enable_retries()
+        self.test_create_value_all_params()
+
+        # Disable retries and run test_create_value_all_params.
+        _service.disable_retries()
+        self.test_create_value_all_params()
 
     @responses.activate
     def test_create_value_required_params(self):
@@ -4122,7 +4481,7 @@ class TestCreateValue():
         test_create_value_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString/values')
+        url = preprocess_url('/v1/workspaces/testString/entities/testString/values')
         mock_response = '{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
@@ -4162,6 +4521,14 @@ class TestCreateValue():
         assert req_body['synonyms'] == ['testString']
         assert req_body['patterns'] == ['testString']
 
+    def test_create_value_required_params_with_retries(self):
+        # Enable retries and run test_create_value_required_params.
+        _service.enable_retries()
+        self.test_create_value_required_params()
+
+        # Disable retries and run test_create_value_required_params.
+        _service.disable_retries()
+        self.test_create_value_required_params()
 
     @responses.activate
     def test_create_value_value_error(self):
@@ -4169,7 +4536,7 @@ class TestCreateValue():
         test_create_value_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString/values')
+        url = preprocess_url('/v1/workspaces/testString/entities/testString/values')
         mock_response = '{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
@@ -4198,22 +4565,19 @@ class TestCreateValue():
                 _service.create_value(**req_copy)
 
 
+    def test_create_value_value_error_with_retries(self):
+        # Enable retries and run test_create_value_value_error.
+        _service.enable_retries()
+        self.test_create_value_value_error()
+
+        # Disable retries and run test_create_value_value_error.
+        _service.disable_retries()
+        self.test_create_value_value_error()
 
 class TestGetValue():
     """
     Test Class for get_value
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_get_value_all_params(self):
@@ -4221,7 +4585,7 @@ class TestGetValue():
         get_value()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString/values/testString')
+        url = preprocess_url('/v1/workspaces/testString/entities/testString/values/testString')
         mock_response = '{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.GET,
                       url,
@@ -4255,6 +4619,14 @@ class TestGetValue():
         assert 'export={}'.format('true' if export else 'false') in query_string
         assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
 
+    def test_get_value_all_params_with_retries(self):
+        # Enable retries and run test_get_value_all_params.
+        _service.enable_retries()
+        self.test_get_value_all_params()
+
+        # Disable retries and run test_get_value_all_params.
+        _service.disable_retries()
+        self.test_get_value_all_params()
 
     @responses.activate
     def test_get_value_required_params(self):
@@ -4262,7 +4634,7 @@ class TestGetValue():
         test_get_value_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString/values/testString')
+        url = preprocess_url('/v1/workspaces/testString/entities/testString/values/testString')
         mock_response = '{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.GET,
                       url,
@@ -4287,6 +4659,14 @@ class TestGetValue():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_get_value_required_params_with_retries(self):
+        # Enable retries and run test_get_value_required_params.
+        _service.enable_retries()
+        self.test_get_value_required_params()
+
+        # Disable retries and run test_get_value_required_params.
+        _service.disable_retries()
+        self.test_get_value_required_params()
 
     @responses.activate
     def test_get_value_value_error(self):
@@ -4294,7 +4674,7 @@ class TestGetValue():
         test_get_value_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString/values/testString')
+        url = preprocess_url('/v1/workspaces/testString/entities/testString/values/testString')
         mock_response = '{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.GET,
                       url,
@@ -4319,22 +4699,19 @@ class TestGetValue():
                 _service.get_value(**req_copy)
 
 
+    def test_get_value_value_error_with_retries(self):
+        # Enable retries and run test_get_value_value_error.
+        _service.enable_retries()
+        self.test_get_value_value_error()
+
+        # Disable retries and run test_get_value_value_error.
+        _service.disable_retries()
+        self.test_get_value_value_error()
 
 class TestUpdateValue():
     """
     Test Class for update_value
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_update_value_all_params(self):
@@ -4342,7 +4719,7 @@ class TestUpdateValue():
         update_value()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString/values/testString')
+        url = preprocess_url('/v1/workspaces/testString/entities/testString/values/testString')
         mock_response = '{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
@@ -4393,6 +4770,14 @@ class TestUpdateValue():
         assert req_body['synonyms'] == ['testString']
         assert req_body['patterns'] == ['testString']
 
+    def test_update_value_all_params_with_retries(self):
+        # Enable retries and run test_update_value_all_params.
+        _service.enable_retries()
+        self.test_update_value_all_params()
+
+        # Disable retries and run test_update_value_all_params.
+        _service.disable_retries()
+        self.test_update_value_all_params()
 
     @responses.activate
     def test_update_value_required_params(self):
@@ -4400,7 +4785,7 @@ class TestUpdateValue():
         test_update_value_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString/values/testString')
+        url = preprocess_url('/v1/workspaces/testString/entities/testString/values/testString')
         mock_response = '{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
@@ -4442,6 +4827,14 @@ class TestUpdateValue():
         assert req_body['synonyms'] == ['testString']
         assert req_body['patterns'] == ['testString']
 
+    def test_update_value_required_params_with_retries(self):
+        # Enable retries and run test_update_value_required_params.
+        _service.enable_retries()
+        self.test_update_value_required_params()
+
+        # Disable retries and run test_update_value_required_params.
+        _service.disable_retries()
+        self.test_update_value_required_params()
 
     @responses.activate
     def test_update_value_value_error(self):
@@ -4449,7 +4842,7 @@ class TestUpdateValue():
         test_update_value_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString/values/testString')
+        url = preprocess_url('/v1/workspaces/testString/entities/testString/values/testString')
         mock_response = '{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
@@ -4479,22 +4872,19 @@ class TestUpdateValue():
                 _service.update_value(**req_copy)
 
 
+    def test_update_value_value_error_with_retries(self):
+        # Enable retries and run test_update_value_value_error.
+        _service.enable_retries()
+        self.test_update_value_value_error()
+
+        # Disable retries and run test_update_value_value_error.
+        _service.disable_retries()
+        self.test_update_value_value_error()
 
 class TestDeleteValue():
     """
     Test Class for delete_value
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_delete_value_all_params(self):
@@ -4502,7 +4892,7 @@ class TestDeleteValue():
         delete_value()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString/values/testString')
+        url = preprocess_url('/v1/workspaces/testString/entities/testString/values/testString')
         responses.add(responses.DELETE,
                       url,
                       status=200)
@@ -4524,6 +4914,14 @@ class TestDeleteValue():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_delete_value_all_params_with_retries(self):
+        # Enable retries and run test_delete_value_all_params.
+        _service.enable_retries()
+        self.test_delete_value_all_params()
+
+        # Disable retries and run test_delete_value_all_params.
+        _service.disable_retries()
+        self.test_delete_value_all_params()
 
     @responses.activate
     def test_delete_value_value_error(self):
@@ -4531,7 +4929,7 @@ class TestDeleteValue():
         test_delete_value_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString/values/testString')
+        url = preprocess_url('/v1/workspaces/testString/entities/testString/values/testString')
         responses.add(responses.DELETE,
                       url,
                       status=200)
@@ -4553,6 +4951,14 @@ class TestDeleteValue():
                 _service.delete_value(**req_copy)
 
 
+    def test_delete_value_value_error_with_retries(self):
+        # Enable retries and run test_delete_value_value_error.
+        _service.enable_retries()
+        self.test_delete_value_value_error()
+
+        # Disable retries and run test_delete_value_value_error.
+        _service.disable_retries()
+        self.test_delete_value_value_error()
 
 # endregion
 ##############################################################################
@@ -4569,24 +4975,13 @@ class TestListSynonyms():
     Test Class for list_synonyms
     """
 
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     @responses.activate
     def test_list_synonyms_all_params(self):
         """
         list_synonyms()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString/values/testString/synonyms')
+        url = preprocess_url('/v1/workspaces/testString/entities/testString/values/testString/synonyms')
         mock_response = '{"synonyms": [{"synonym": "synonym", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
@@ -4629,6 +5024,14 @@ class TestListSynonyms():
         assert 'cursor={}'.format(cursor) in query_string
         assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
 
+    def test_list_synonyms_all_params_with_retries(self):
+        # Enable retries and run test_list_synonyms_all_params.
+        _service.enable_retries()
+        self.test_list_synonyms_all_params()
+
+        # Disable retries and run test_list_synonyms_all_params.
+        _service.disable_retries()
+        self.test_list_synonyms_all_params()
 
     @responses.activate
     def test_list_synonyms_required_params(self):
@@ -4636,7 +5039,7 @@ class TestListSynonyms():
         test_list_synonyms_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString/values/testString/synonyms')
+        url = preprocess_url('/v1/workspaces/testString/entities/testString/values/testString/synonyms')
         mock_response = '{"synonyms": [{"synonym": "synonym", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
@@ -4661,6 +5064,14 @@ class TestListSynonyms():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_list_synonyms_required_params_with_retries(self):
+        # Enable retries and run test_list_synonyms_required_params.
+        _service.enable_retries()
+        self.test_list_synonyms_required_params()
+
+        # Disable retries and run test_list_synonyms_required_params.
+        _service.disable_retries()
+        self.test_list_synonyms_required_params()
 
     @responses.activate
     def test_list_synonyms_value_error(self):
@@ -4668,7 +5079,7 @@ class TestListSynonyms():
         test_list_synonyms_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString/values/testString/synonyms')
+        url = preprocess_url('/v1/workspaces/testString/entities/testString/values/testString/synonyms')
         mock_response = '{"synonyms": [{"synonym": "synonym", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
@@ -4693,22 +5104,19 @@ class TestListSynonyms():
                 _service.list_synonyms(**req_copy)
 
 
+    def test_list_synonyms_value_error_with_retries(self):
+        # Enable retries and run test_list_synonyms_value_error.
+        _service.enable_retries()
+        self.test_list_synonyms_value_error()
+
+        # Disable retries and run test_list_synonyms_value_error.
+        _service.disable_retries()
+        self.test_list_synonyms_value_error()
 
 class TestCreateSynonym():
     """
     Test Class for create_synonym
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_create_synonym_all_params(self):
@@ -4716,7 +5124,7 @@ class TestCreateSynonym():
         create_synonym()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString/values/testString/synonyms')
+        url = preprocess_url('/v1/workspaces/testString/entities/testString/values/testString/synonyms')
         mock_response = '{"synonym": "synonym", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
@@ -4752,6 +5160,14 @@ class TestCreateSynonym():
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['synonym'] == 'testString'
 
+    def test_create_synonym_all_params_with_retries(self):
+        # Enable retries and run test_create_synonym_all_params.
+        _service.enable_retries()
+        self.test_create_synonym_all_params()
+
+        # Disable retries and run test_create_synonym_all_params.
+        _service.disable_retries()
+        self.test_create_synonym_all_params()
 
     @responses.activate
     def test_create_synonym_required_params(self):
@@ -4759,7 +5175,7 @@ class TestCreateSynonym():
         test_create_synonym_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString/values/testString/synonyms')
+        url = preprocess_url('/v1/workspaces/testString/entities/testString/values/testString/synonyms')
         mock_response = '{"synonym": "synonym", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
@@ -4789,6 +5205,14 @@ class TestCreateSynonym():
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['synonym'] == 'testString'
 
+    def test_create_synonym_required_params_with_retries(self):
+        # Enable retries and run test_create_synonym_required_params.
+        _service.enable_retries()
+        self.test_create_synonym_required_params()
+
+        # Disable retries and run test_create_synonym_required_params.
+        _service.disable_retries()
+        self.test_create_synonym_required_params()
 
     @responses.activate
     def test_create_synonym_value_error(self):
@@ -4796,7 +5220,7 @@ class TestCreateSynonym():
         test_create_synonym_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString/values/testString/synonyms')
+        url = preprocess_url('/v1/workspaces/testString/entities/testString/values/testString/synonyms')
         mock_response = '{"synonym": "synonym", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
@@ -4823,22 +5247,19 @@ class TestCreateSynonym():
                 _service.create_synonym(**req_copy)
 
 
+    def test_create_synonym_value_error_with_retries(self):
+        # Enable retries and run test_create_synonym_value_error.
+        _service.enable_retries()
+        self.test_create_synonym_value_error()
+
+        # Disable retries and run test_create_synonym_value_error.
+        _service.disable_retries()
+        self.test_create_synonym_value_error()
 
 class TestGetSynonym():
     """
     Test Class for get_synonym
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_get_synonym_all_params(self):
@@ -4846,7 +5267,7 @@ class TestGetSynonym():
         get_synonym()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString/values/testString/synonyms/testString')
+        url = preprocess_url('/v1/workspaces/testString/entities/testString/values/testString/synonyms/testString')
         mock_response = '{"synonym": "synonym", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.GET,
                       url,
@@ -4879,6 +5300,14 @@ class TestGetSynonym():
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
 
+    def test_get_synonym_all_params_with_retries(self):
+        # Enable retries and run test_get_synonym_all_params.
+        _service.enable_retries()
+        self.test_get_synonym_all_params()
+
+        # Disable retries and run test_get_synonym_all_params.
+        _service.disable_retries()
+        self.test_get_synonym_all_params()
 
     @responses.activate
     def test_get_synonym_required_params(self):
@@ -4886,7 +5315,7 @@ class TestGetSynonym():
         test_get_synonym_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString/values/testString/synonyms/testString')
+        url = preprocess_url('/v1/workspaces/testString/entities/testString/values/testString/synonyms/testString')
         mock_response = '{"synonym": "synonym", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.GET,
                       url,
@@ -4913,6 +5342,14 @@ class TestGetSynonym():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_get_synonym_required_params_with_retries(self):
+        # Enable retries and run test_get_synonym_required_params.
+        _service.enable_retries()
+        self.test_get_synonym_required_params()
+
+        # Disable retries and run test_get_synonym_required_params.
+        _service.disable_retries()
+        self.test_get_synonym_required_params()
 
     @responses.activate
     def test_get_synonym_value_error(self):
@@ -4920,7 +5357,7 @@ class TestGetSynonym():
         test_get_synonym_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString/values/testString/synonyms/testString')
+        url = preprocess_url('/v1/workspaces/testString/entities/testString/values/testString/synonyms/testString')
         mock_response = '{"synonym": "synonym", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.GET,
                       url,
@@ -4947,22 +5384,19 @@ class TestGetSynonym():
                 _service.get_synonym(**req_copy)
 
 
+    def test_get_synonym_value_error_with_retries(self):
+        # Enable retries and run test_get_synonym_value_error.
+        _service.enable_retries()
+        self.test_get_synonym_value_error()
+
+        # Disable retries and run test_get_synonym_value_error.
+        _service.disable_retries()
+        self.test_get_synonym_value_error()
 
 class TestUpdateSynonym():
     """
     Test Class for update_synonym
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_update_synonym_all_params(self):
@@ -4970,7 +5404,7 @@ class TestUpdateSynonym():
         update_synonym()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString/values/testString/synonyms/testString')
+        url = preprocess_url('/v1/workspaces/testString/entities/testString/values/testString/synonyms/testString')
         mock_response = '{"synonym": "synonym", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
@@ -5008,6 +5442,14 @@ class TestUpdateSynonym():
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['synonym'] == 'testString'
 
+    def test_update_synonym_all_params_with_retries(self):
+        # Enable retries and run test_update_synonym_all_params.
+        _service.enable_retries()
+        self.test_update_synonym_all_params()
+
+        # Disable retries and run test_update_synonym_all_params.
+        _service.disable_retries()
+        self.test_update_synonym_all_params()
 
     @responses.activate
     def test_update_synonym_required_params(self):
@@ -5015,7 +5457,7 @@ class TestUpdateSynonym():
         test_update_synonym_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString/values/testString/synonyms/testString')
+        url = preprocess_url('/v1/workspaces/testString/entities/testString/values/testString/synonyms/testString')
         mock_response = '{"synonym": "synonym", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
@@ -5047,6 +5489,14 @@ class TestUpdateSynonym():
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['synonym'] == 'testString'
 
+    def test_update_synonym_required_params_with_retries(self):
+        # Enable retries and run test_update_synonym_required_params.
+        _service.enable_retries()
+        self.test_update_synonym_required_params()
+
+        # Disable retries and run test_update_synonym_required_params.
+        _service.disable_retries()
+        self.test_update_synonym_required_params()
 
     @responses.activate
     def test_update_synonym_value_error(self):
@@ -5054,7 +5504,7 @@ class TestUpdateSynonym():
         test_update_synonym_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString/values/testString/synonyms/testString')
+        url = preprocess_url('/v1/workspaces/testString/entities/testString/values/testString/synonyms/testString')
         mock_response = '{"synonym": "synonym", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
@@ -5082,22 +5532,19 @@ class TestUpdateSynonym():
                 _service.update_synonym(**req_copy)
 
 
+    def test_update_synonym_value_error_with_retries(self):
+        # Enable retries and run test_update_synonym_value_error.
+        _service.enable_retries()
+        self.test_update_synonym_value_error()
+
+        # Disable retries and run test_update_synonym_value_error.
+        _service.disable_retries()
+        self.test_update_synonym_value_error()
 
 class TestDeleteSynonym():
     """
     Test Class for delete_synonym
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_delete_synonym_all_params(self):
@@ -5105,7 +5552,7 @@ class TestDeleteSynonym():
         delete_synonym()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString/values/testString/synonyms/testString')
+        url = preprocess_url('/v1/workspaces/testString/entities/testString/values/testString/synonyms/testString')
         responses.add(responses.DELETE,
                       url,
                       status=200)
@@ -5129,6 +5576,14 @@ class TestDeleteSynonym():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_delete_synonym_all_params_with_retries(self):
+        # Enable retries and run test_delete_synonym_all_params.
+        _service.enable_retries()
+        self.test_delete_synonym_all_params()
+
+        # Disable retries and run test_delete_synonym_all_params.
+        _service.disable_retries()
+        self.test_delete_synonym_all_params()
 
     @responses.activate
     def test_delete_synonym_value_error(self):
@@ -5136,7 +5591,7 @@ class TestDeleteSynonym():
         test_delete_synonym_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString/values/testString/synonyms/testString')
+        url = preprocess_url('/v1/workspaces/testString/entities/testString/values/testString/synonyms/testString')
         responses.add(responses.DELETE,
                       url,
                       status=200)
@@ -5160,6 +5615,14 @@ class TestDeleteSynonym():
                 _service.delete_synonym(**req_copy)
 
 
+    def test_delete_synonym_value_error_with_retries(self):
+        # Enable retries and run test_delete_synonym_value_error.
+        _service.enable_retries()
+        self.test_delete_synonym_value_error()
+
+        # Disable retries and run test_delete_synonym_value_error.
+        _service.disable_retries()
+        self.test_delete_synonym_value_error()
 
 # endregion
 ##############################################################################
@@ -5176,24 +5639,13 @@ class TestListDialogNodes():
     Test Class for list_dialog_nodes
     """
 
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     @responses.activate
     def test_list_dialog_nodes_all_params(self):
         """
         list_dialog_nodes()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/dialog_nodes')
+        url = preprocess_url('/v1/workspaces/testString/dialog_nodes')
         mock_response = '{"dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
@@ -5232,6 +5684,14 @@ class TestListDialogNodes():
         assert 'cursor={}'.format(cursor) in query_string
         assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
 
+    def test_list_dialog_nodes_all_params_with_retries(self):
+        # Enable retries and run test_list_dialog_nodes_all_params.
+        _service.enable_retries()
+        self.test_list_dialog_nodes_all_params()
+
+        # Disable retries and run test_list_dialog_nodes_all_params.
+        _service.disable_retries()
+        self.test_list_dialog_nodes_all_params()
 
     @responses.activate
     def test_list_dialog_nodes_required_params(self):
@@ -5239,7 +5699,7 @@ class TestListDialogNodes():
         test_list_dialog_nodes_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/dialog_nodes')
+        url = preprocess_url('/v1/workspaces/testString/dialog_nodes')
         mock_response = '{"dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
@@ -5260,6 +5720,14 @@ class TestListDialogNodes():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_list_dialog_nodes_required_params_with_retries(self):
+        # Enable retries and run test_list_dialog_nodes_required_params.
+        _service.enable_retries()
+        self.test_list_dialog_nodes_required_params()
+
+        # Disable retries and run test_list_dialog_nodes_required_params.
+        _service.disable_retries()
+        self.test_list_dialog_nodes_required_params()
 
     @responses.activate
     def test_list_dialog_nodes_value_error(self):
@@ -5267,7 +5735,7 @@ class TestListDialogNodes():
         test_list_dialog_nodes_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/dialog_nodes')
+        url = preprocess_url('/v1/workspaces/testString/dialog_nodes')
         mock_response = '{"dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
@@ -5288,22 +5756,19 @@ class TestListDialogNodes():
                 _service.list_dialog_nodes(**req_copy)
 
 
+    def test_list_dialog_nodes_value_error_with_retries(self):
+        # Enable retries and run test_list_dialog_nodes_value_error.
+        _service.enable_retries()
+        self.test_list_dialog_nodes_value_error()
+
+        # Disable retries and run test_list_dialog_nodes_value_error.
+        _service.disable_retries()
+        self.test_list_dialog_nodes_value_error()
 
 class TestCreateDialogNode():
     """
     Test Class for create_dialog_node
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_create_dialog_node_all_params(self):
@@ -5311,7 +5776,7 @@ class TestCreateDialogNode():
         create_dialog_node()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/dialog_nodes')
+        url = preprocess_url('/v1/workspaces/testString/dialog_nodes')
         mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
@@ -5450,6 +5915,14 @@ class TestCreateDialogNode():
         assert req_body['user_label'] == 'testString'
         assert req_body['disambiguation_opt_out'] == False
 
+    def test_create_dialog_node_all_params_with_retries(self):
+        # Enable retries and run test_create_dialog_node_all_params.
+        _service.enable_retries()
+        self.test_create_dialog_node_all_params()
+
+        # Disable retries and run test_create_dialog_node_all_params.
+        _service.disable_retries()
+        self.test_create_dialog_node_all_params()
 
     @responses.activate
     def test_create_dialog_node_required_params(self):
@@ -5457,7 +5930,7 @@ class TestCreateDialogNode():
         test_create_dialog_node_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/dialog_nodes')
+        url = preprocess_url('/v1/workspaces/testString/dialog_nodes')
         mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
@@ -5590,6 +6063,14 @@ class TestCreateDialogNode():
         assert req_body['user_label'] == 'testString'
         assert req_body['disambiguation_opt_out'] == False
 
+    def test_create_dialog_node_required_params_with_retries(self):
+        # Enable retries and run test_create_dialog_node_required_params.
+        _service.enable_retries()
+        self.test_create_dialog_node_required_params()
+
+        # Disable retries and run test_create_dialog_node_required_params.
+        _service.disable_retries()
+        self.test_create_dialog_node_required_params()
 
     @responses.activate
     def test_create_dialog_node_value_error(self):
@@ -5597,7 +6078,7 @@ class TestCreateDialogNode():
         test_create_dialog_node_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/dialog_nodes')
+        url = preprocess_url('/v1/workspaces/testString/dialog_nodes')
         mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
@@ -5691,22 +6172,19 @@ class TestCreateDialogNode():
                 _service.create_dialog_node(**req_copy)
 
 
+    def test_create_dialog_node_value_error_with_retries(self):
+        # Enable retries and run test_create_dialog_node_value_error.
+        _service.enable_retries()
+        self.test_create_dialog_node_value_error()
+
+        # Disable retries and run test_create_dialog_node_value_error.
+        _service.disable_retries()
+        self.test_create_dialog_node_value_error()
 
 class TestGetDialogNode():
     """
     Test Class for get_dialog_node
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_get_dialog_node_all_params(self):
@@ -5714,7 +6192,7 @@ class TestGetDialogNode():
         get_dialog_node()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/dialog_nodes/testString')
+        url = preprocess_url('/v1/workspaces/testString/dialog_nodes/testString')
         mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.GET,
                       url,
@@ -5743,6 +6221,14 @@ class TestGetDialogNode():
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
 
+    def test_get_dialog_node_all_params_with_retries(self):
+        # Enable retries and run test_get_dialog_node_all_params.
+        _service.enable_retries()
+        self.test_get_dialog_node_all_params()
+
+        # Disable retries and run test_get_dialog_node_all_params.
+        _service.disable_retries()
+        self.test_get_dialog_node_all_params()
 
     @responses.activate
     def test_get_dialog_node_required_params(self):
@@ -5750,7 +6236,7 @@ class TestGetDialogNode():
         test_get_dialog_node_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/dialog_nodes/testString')
+        url = preprocess_url('/v1/workspaces/testString/dialog_nodes/testString')
         mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.GET,
                       url,
@@ -5773,6 +6259,14 @@ class TestGetDialogNode():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_get_dialog_node_required_params_with_retries(self):
+        # Enable retries and run test_get_dialog_node_required_params.
+        _service.enable_retries()
+        self.test_get_dialog_node_required_params()
+
+        # Disable retries and run test_get_dialog_node_required_params.
+        _service.disable_retries()
+        self.test_get_dialog_node_required_params()
 
     @responses.activate
     def test_get_dialog_node_value_error(self):
@@ -5780,7 +6274,7 @@ class TestGetDialogNode():
         test_get_dialog_node_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/dialog_nodes/testString')
+        url = preprocess_url('/v1/workspaces/testString/dialog_nodes/testString')
         mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.GET,
                       url,
@@ -5803,22 +6297,19 @@ class TestGetDialogNode():
                 _service.get_dialog_node(**req_copy)
 
 
+    def test_get_dialog_node_value_error_with_retries(self):
+        # Enable retries and run test_get_dialog_node_value_error.
+        _service.enable_retries()
+        self.test_get_dialog_node_value_error()
+
+        # Disable retries and run test_get_dialog_node_value_error.
+        _service.disable_retries()
+        self.test_get_dialog_node_value_error()
 
 class TestUpdateDialogNode():
     """
     Test Class for update_dialog_node
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_update_dialog_node_all_params(self):
@@ -5826,7 +6317,7 @@ class TestUpdateDialogNode():
         update_dialog_node()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/dialog_nodes/testString')
+        url = preprocess_url('/v1/workspaces/testString/dialog_nodes/testString')
         mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
@@ -5967,6 +6458,14 @@ class TestUpdateDialogNode():
         assert req_body['user_label'] == 'testString'
         assert req_body['disambiguation_opt_out'] == False
 
+    def test_update_dialog_node_all_params_with_retries(self):
+        # Enable retries and run test_update_dialog_node_all_params.
+        _service.enable_retries()
+        self.test_update_dialog_node_all_params()
+
+        # Disable retries and run test_update_dialog_node_all_params.
+        _service.disable_retries()
+        self.test_update_dialog_node_all_params()
 
     @responses.activate
     def test_update_dialog_node_required_params(self):
@@ -5974,7 +6473,7 @@ class TestUpdateDialogNode():
         test_update_dialog_node_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/dialog_nodes/testString')
+        url = preprocess_url('/v1/workspaces/testString/dialog_nodes/testString')
         mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
@@ -6109,6 +6608,14 @@ class TestUpdateDialogNode():
         assert req_body['user_label'] == 'testString'
         assert req_body['disambiguation_opt_out'] == False
 
+    def test_update_dialog_node_required_params_with_retries(self):
+        # Enable retries and run test_update_dialog_node_required_params.
+        _service.enable_retries()
+        self.test_update_dialog_node_required_params()
+
+        # Disable retries and run test_update_dialog_node_required_params.
+        _service.disable_retries()
+        self.test_update_dialog_node_required_params()
 
     @responses.activate
     def test_update_dialog_node_value_error(self):
@@ -6116,7 +6623,7 @@ class TestUpdateDialogNode():
         test_update_dialog_node_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/dialog_nodes/testString')
+        url = preprocess_url('/v1/workspaces/testString/dialog_nodes/testString')
         mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
@@ -6211,22 +6718,19 @@ class TestUpdateDialogNode():
                 _service.update_dialog_node(**req_copy)
 
 
+    def test_update_dialog_node_value_error_with_retries(self):
+        # Enable retries and run test_update_dialog_node_value_error.
+        _service.enable_retries()
+        self.test_update_dialog_node_value_error()
+
+        # Disable retries and run test_update_dialog_node_value_error.
+        _service.disable_retries()
+        self.test_update_dialog_node_value_error()
 
 class TestDeleteDialogNode():
     """
     Test Class for delete_dialog_node
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_delete_dialog_node_all_params(self):
@@ -6234,7 +6738,7 @@ class TestDeleteDialogNode():
         delete_dialog_node()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/dialog_nodes/testString')
+        url = preprocess_url('/v1/workspaces/testString/dialog_nodes/testString')
         responses.add(responses.DELETE,
                       url,
                       status=200)
@@ -6254,6 +6758,14 @@ class TestDeleteDialogNode():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_delete_dialog_node_all_params_with_retries(self):
+        # Enable retries and run test_delete_dialog_node_all_params.
+        _service.enable_retries()
+        self.test_delete_dialog_node_all_params()
+
+        # Disable retries and run test_delete_dialog_node_all_params.
+        _service.disable_retries()
+        self.test_delete_dialog_node_all_params()
 
     @responses.activate
     def test_delete_dialog_node_value_error(self):
@@ -6261,7 +6773,7 @@ class TestDeleteDialogNode():
         test_delete_dialog_node_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/dialog_nodes/testString')
+        url = preprocess_url('/v1/workspaces/testString/dialog_nodes/testString')
         responses.add(responses.DELETE,
                       url,
                       status=200)
@@ -6281,6 +6793,14 @@ class TestDeleteDialogNode():
                 _service.delete_dialog_node(**req_copy)
 
 
+    def test_delete_dialog_node_value_error_with_retries(self):
+        # Enable retries and run test_delete_dialog_node_value_error.
+        _service.enable_retries()
+        self.test_delete_dialog_node_value_error()
+
+        # Disable retries and run test_delete_dialog_node_value_error.
+        _service.disable_retries()
+        self.test_delete_dialog_node_value_error()
 
 # endregion
 ##############################################################################
@@ -6297,25 +6817,14 @@ class TestListLogs():
     Test Class for list_logs
     """
 
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     @responses.activate
     def test_list_logs_all_params(self):
         """
         list_logs()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/logs')
-        mock_response = '{"logs": [{"request": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "text": ["text"], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "response": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "text": ["text"], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "log_id": "log_id", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "workspace_id": "workspace_id", "language": "language"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
+        url = preprocess_url('/v1/workspaces/testString/logs')
+        mock_response = '{"logs": [{"request": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "response": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "log_id": "log_id", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "workspace_id": "workspace_id", "language": "language"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -6350,6 +6859,14 @@ class TestListLogs():
         assert 'page_limit={}'.format(page_limit) in query_string
         assert 'cursor={}'.format(cursor) in query_string
 
+    def test_list_logs_all_params_with_retries(self):
+        # Enable retries and run test_list_logs_all_params.
+        _service.enable_retries()
+        self.test_list_logs_all_params()
+
+        # Disable retries and run test_list_logs_all_params.
+        _service.disable_retries()
+        self.test_list_logs_all_params()
 
     @responses.activate
     def test_list_logs_required_params(self):
@@ -6357,8 +6874,8 @@ class TestListLogs():
         test_list_logs_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/logs')
-        mock_response = '{"logs": [{"request": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "text": ["text"], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "response": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "text": ["text"], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "log_id": "log_id", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "workspace_id": "workspace_id", "language": "language"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
+        url = preprocess_url('/v1/workspaces/testString/logs')
+        mock_response = '{"logs": [{"request": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "response": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "log_id": "log_id", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "workspace_id": "workspace_id", "language": "language"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -6378,6 +6895,14 @@ class TestListLogs():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_list_logs_required_params_with_retries(self):
+        # Enable retries and run test_list_logs_required_params.
+        _service.enable_retries()
+        self.test_list_logs_required_params()
+
+        # Disable retries and run test_list_logs_required_params.
+        _service.disable_retries()
+        self.test_list_logs_required_params()
 
     @responses.activate
     def test_list_logs_value_error(self):
@@ -6385,8 +6910,8 @@ class TestListLogs():
         test_list_logs_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/workspaces/testString/logs')
-        mock_response = '{"logs": [{"request": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "text": ["text"], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "response": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "text": ["text"], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "log_id": "log_id", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "workspace_id": "workspace_id", "language": "language"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
+        url = preprocess_url('/v1/workspaces/testString/logs')
+        mock_response = '{"logs": [{"request": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "response": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "log_id": "log_id", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "workspace_id": "workspace_id", "language": "language"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -6406,22 +6931,19 @@ class TestListLogs():
                 _service.list_logs(**req_copy)
 
 
+    def test_list_logs_value_error_with_retries(self):
+        # Enable retries and run test_list_logs_value_error.
+        _service.enable_retries()
+        self.test_list_logs_value_error()
+
+        # Disable retries and run test_list_logs_value_error.
+        _service.disable_retries()
+        self.test_list_logs_value_error()
 
 class TestListAllLogs():
     """
     Test Class for list_all_logs
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_list_all_logs_all_params(self):
@@ -6429,8 +6951,8 @@ class TestListAllLogs():
         list_all_logs()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/logs')
-        mock_response = '{"logs": [{"request": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "text": ["text"], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "response": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "text": ["text"], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "log_id": "log_id", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "workspace_id": "workspace_id", "language": "language"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
+        url = preprocess_url('/v1/logs')
+        mock_response = '{"logs": [{"request": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "response": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "log_id": "log_id", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "workspace_id": "workspace_id", "language": "language"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -6463,6 +6985,14 @@ class TestListAllLogs():
         assert 'page_limit={}'.format(page_limit) in query_string
         assert 'cursor={}'.format(cursor) in query_string
 
+    def test_list_all_logs_all_params_with_retries(self):
+        # Enable retries and run test_list_all_logs_all_params.
+        _service.enable_retries()
+        self.test_list_all_logs_all_params()
+
+        # Disable retries and run test_list_all_logs_all_params.
+        _service.disable_retries()
+        self.test_list_all_logs_all_params()
 
     @responses.activate
     def test_list_all_logs_required_params(self):
@@ -6470,8 +7000,8 @@ class TestListAllLogs():
         test_list_all_logs_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/logs')
-        mock_response = '{"logs": [{"request": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "text": ["text"], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "response": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "text": ["text"], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "log_id": "log_id", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "workspace_id": "workspace_id", "language": "language"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
+        url = preprocess_url('/v1/logs')
+        mock_response = '{"logs": [{"request": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "response": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "log_id": "log_id", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "workspace_id": "workspace_id", "language": "language"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -6495,6 +7025,14 @@ class TestListAllLogs():
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'filter={}'.format(filter) in query_string
 
+    def test_list_all_logs_required_params_with_retries(self):
+        # Enable retries and run test_list_all_logs_required_params.
+        _service.enable_retries()
+        self.test_list_all_logs_required_params()
+
+        # Disable retries and run test_list_all_logs_required_params.
+        _service.disable_retries()
+        self.test_list_all_logs_required_params()
 
     @responses.activate
     def test_list_all_logs_value_error(self):
@@ -6502,8 +7040,8 @@ class TestListAllLogs():
         test_list_all_logs_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/logs')
-        mock_response = '{"logs": [{"request": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "text": ["text"], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "response": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "text": ["text"], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "log_id": "log_id", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "workspace_id": "workspace_id", "language": "language"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
+        url = preprocess_url('/v1/logs')
+        mock_response = '{"logs": [{"request": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "response": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "log_id": "log_id", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "workspace_id": "workspace_id", "language": "language"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -6523,6 +7061,14 @@ class TestListAllLogs():
                 _service.list_all_logs(**req_copy)
 
 
+    def test_list_all_logs_value_error_with_retries(self):
+        # Enable retries and run test_list_all_logs_value_error.
+        _service.enable_retries()
+        self.test_list_all_logs_value_error()
+
+        # Disable retries and run test_list_all_logs_value_error.
+        _service.disable_retries()
+        self.test_list_all_logs_value_error()
 
 # endregion
 ##############################################################################
@@ -6539,24 +7085,13 @@ class TestDeleteUserData():
     Test Class for delete_user_data
     """
 
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     @responses.activate
     def test_delete_user_data_all_params(self):
         """
         delete_user_data()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/user_data')
+        url = preprocess_url('/v1/user_data')
         responses.add(responses.DELETE,
                       url,
                       status=202)
@@ -6578,6 +7113,14 @@ class TestDeleteUserData():
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'customer_id={}'.format(customer_id) in query_string
 
+    def test_delete_user_data_all_params_with_retries(self):
+        # Enable retries and run test_delete_user_data_all_params.
+        _service.enable_retries()
+        self.test_delete_user_data_all_params()
+
+        # Disable retries and run test_delete_user_data_all_params.
+        _service.disable_retries()
+        self.test_delete_user_data_all_params()
 
     @responses.activate
     def test_delete_user_data_value_error(self):
@@ -6585,7 +7128,7 @@ class TestDeleteUserData():
         test_delete_user_data_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/user_data')
+        url = preprocess_url('/v1/user_data')
         responses.add(responses.DELETE,
                       url,
                       status=202)
@@ -6603,6 +7146,14 @@ class TestDeleteUserData():
                 _service.delete_user_data(**req_copy)
 
 
+    def test_delete_user_data_value_error_with_retries(self):
+        # Enable retries and run test_delete_user_data_value_error.
+        _service.enable_retries()
+        self.test_delete_user_data_value_error()
+
+        # Disable retries and run test_delete_user_data_value_error.
+        _service.disable_retries()
+        self.test_delete_user_data_value_error()
 
 # endregion
 ##############################################################################
@@ -6702,7 +7253,6 @@ class TestModel_BulkClassifyOutput():
         runtime_entity_model['location'] = [38]
         runtime_entity_model['value'] = 'testString'
         runtime_entity_model['confidence'] = 72.5
-        runtime_entity_model['metadata'] = {}
         runtime_entity_model['groups'] = [capture_group_model]
         runtime_entity_model['interpretation'] = runtime_entity_interpretation_model
         runtime_entity_model['alternatives'] = [runtime_entity_alternative_model]
@@ -6792,7 +7342,6 @@ class TestModel_BulkClassifyResponse():
         runtime_entity_model['location'] = [38]
         runtime_entity_model['value'] = 'testString'
         runtime_entity_model['confidence'] = 72.5
-        runtime_entity_model['metadata'] = {}
         runtime_entity_model['groups'] = [capture_group_model]
         runtime_entity_model['interpretation'] = runtime_entity_interpretation_model
         runtime_entity_model['alternatives'] = [runtime_entity_alternative_model]
@@ -7046,8 +7595,8 @@ class TestModel_Counterexample():
         # Construct a json representation of a Counterexample model
         counterexample_model_json = {}
         counterexample_model_json['text'] = 'testString'
-        counterexample_model_json['created'] = "2019-01-01T12:00:00Z"
-        counterexample_model_json['updated'] = "2019-01-01T12:00:00Z"
+        counterexample_model_json['created'] = '2019-01-01T12:00:00Z'
+        counterexample_model_json['updated'] = '2019-01-01T12:00:00Z'
 
         # Construct a model instance of Counterexample by calling from_dict on the json representation
         counterexample_model = Counterexample.from_dict(counterexample_model_json)
@@ -7078,8 +7627,8 @@ class TestModel_CounterexampleCollection():
 
         counterexample_model = {} # Counterexample
         counterexample_model['text'] = 'testString'
-        counterexample_model['created'] = "2019-01-01T12:00:00Z"
-        counterexample_model['updated'] = "2019-01-01T12:00:00Z"
+        counterexample_model['created'] = '2019-01-01T12:00:00Z'
+        counterexample_model['updated'] = '2019-01-01T12:00:00Z'
 
         pagination_model = {} # Pagination
         pagination_model['refresh_url'] = 'testString'
@@ -7127,8 +7676,8 @@ class TestModel_CreateEntity():
         create_value_model['type'] = 'synonyms'
         create_value_model['synonyms'] = ['testString']
         create_value_model['patterns'] = ['testString']
-        create_value_model['created'] = "2019-01-01T12:00:00Z"
-        create_value_model['updated'] = "2019-01-01T12:00:00Z"
+        create_value_model['created'] = '2019-01-01T12:00:00Z'
+        create_value_model['updated'] = '2019-01-01T12:00:00Z'
 
         # Construct a json representation of a CreateEntity model
         create_entity_model_json = {}
@@ -7136,8 +7685,8 @@ class TestModel_CreateEntity():
         create_entity_model_json['description'] = 'testString'
         create_entity_model_json['metadata'] = {}
         create_entity_model_json['fuzzy_match'] = True
-        create_entity_model_json['created'] = "2019-01-01T12:00:00Z"
-        create_entity_model_json['updated'] = "2019-01-01T12:00:00Z"
+        create_entity_model_json['created'] = '2019-01-01T12:00:00Z'
+        create_entity_model_json['updated'] = '2019-01-01T12:00:00Z'
         create_entity_model_json['values'] = [create_value_model]
 
         # Construct a model instance of CreateEntity by calling from_dict on the json representation
@@ -7174,15 +7723,15 @@ class TestModel_CreateIntent():
         example_model = {} # Example
         example_model['text'] = 'testString'
         example_model['mentions'] = [mention_model]
-        example_model['created'] = "2019-01-01T12:00:00Z"
-        example_model['updated'] = "2019-01-01T12:00:00Z"
+        example_model['created'] = '2019-01-01T12:00:00Z'
+        example_model['updated'] = '2019-01-01T12:00:00Z'
 
         # Construct a json representation of a CreateIntent model
         create_intent_model_json = {}
         create_intent_model_json['intent'] = 'testString'
         create_intent_model_json['description'] = 'testString'
-        create_intent_model_json['created'] = "2019-01-01T12:00:00Z"
-        create_intent_model_json['updated'] = "2019-01-01T12:00:00Z"
+        create_intent_model_json['created'] = '2019-01-01T12:00:00Z'
+        create_intent_model_json['updated'] = '2019-01-01T12:00:00Z'
         create_intent_model_json['examples'] = [example_model]
 
         # Construct a model instance of CreateIntent by calling from_dict on the json representation
@@ -7217,8 +7766,8 @@ class TestModel_CreateValue():
         create_value_model_json['type'] = 'synonyms'
         create_value_model_json['synonyms'] = ['testString']
         create_value_model_json['patterns'] = ['testString']
-        create_value_model_json['created'] = "2019-01-01T12:00:00Z"
-        create_value_model_json['updated'] = "2019-01-01T12:00:00Z"
+        create_value_model_json['created'] = '2019-01-01T12:00:00Z'
+        create_value_model_json['updated'] = '2019-01-01T12:00:00Z'
 
         # Construct a model instance of CreateValue by calling from_dict on the json representation
         create_value_model = CreateValue.from_dict(create_value_model_json)
@@ -7312,8 +7861,8 @@ class TestModel_DialogNode():
         dialog_node_model_json['user_label'] = 'testString'
         dialog_node_model_json['disambiguation_opt_out'] = False
         dialog_node_model_json['disabled'] = True
-        dialog_node_model_json['created'] = "2019-01-01T12:00:00Z"
-        dialog_node_model_json['updated'] = "2019-01-01T12:00:00Z"
+        dialog_node_model_json['created'] = '2019-01-01T12:00:00Z'
+        dialog_node_model_json['updated'] = '2019-01-01T12:00:00Z'
 
         # Construct a model instance of DialogNode by calling from_dict on the json representation
         dialog_node_model = DialogNode.from_dict(dialog_node_model_json)
@@ -7439,8 +7988,8 @@ class TestModel_DialogNodeCollection():
         dialog_node_model['user_label'] = 'testString'
         dialog_node_model['disambiguation_opt_out'] = False
         dialog_node_model['disabled'] = True
-        dialog_node_model['created'] = "2019-01-01T12:00:00Z"
-        dialog_node_model['updated'] = "2019-01-01T12:00:00Z"
+        dialog_node_model['created'] = '2019-01-01T12:00:00Z'
+        dialog_node_model['updated'] = '2019-01-01T12:00:00Z'
 
         pagination_model = {} # Pagination
         pagination_model['refresh_url'] = 'testString'
@@ -7732,7 +8281,6 @@ class TestModel_DialogNodeOutputOptionsElement():
         runtime_entity_model['location'] = [38]
         runtime_entity_model['value'] = 'testString'
         runtime_entity_model['confidence'] = 72.5
-        runtime_entity_model['metadata'] = {}
         runtime_entity_model['groups'] = [capture_group_model]
         runtime_entity_model['interpretation'] = runtime_entity_interpretation_model
         runtime_entity_model['alternatives'] = [runtime_entity_alternative_model]
@@ -7831,7 +8379,6 @@ class TestModel_DialogNodeOutputOptionsElementValue():
         runtime_entity_model['location'] = [38]
         runtime_entity_model['value'] = 'testString'
         runtime_entity_model['confidence'] = 72.5
-        runtime_entity_model['metadata'] = {}
         runtime_entity_model['groups'] = [capture_group_model]
         runtime_entity_model['interpretation'] = runtime_entity_interpretation_model
         runtime_entity_model['alternatives'] = [runtime_entity_alternative_model]
@@ -7986,7 +8533,6 @@ class TestModel_DialogSuggestion():
         runtime_entity_model['location'] = [38]
         runtime_entity_model['value'] = 'testString'
         runtime_entity_model['confidence'] = 72.5
-        runtime_entity_model['metadata'] = {}
         runtime_entity_model['groups'] = [capture_group_model]
         runtime_entity_model['interpretation'] = runtime_entity_interpretation_model
         runtime_entity_model['alternatives'] = [runtime_entity_alternative_model]
@@ -8087,7 +8633,6 @@ class TestModel_DialogSuggestionValue():
         runtime_entity_model['location'] = [38]
         runtime_entity_model['value'] = 'testString'
         runtime_entity_model['confidence'] = 72.5
-        runtime_entity_model['metadata'] = {}
         runtime_entity_model['groups'] = [capture_group_model]
         runtime_entity_model['interpretation'] = runtime_entity_interpretation_model
         runtime_entity_model['alternatives'] = [runtime_entity_alternative_model]
@@ -8132,8 +8677,8 @@ class TestModel_Entity():
         value_model['type'] = 'synonyms'
         value_model['synonyms'] = ['testString']
         value_model['patterns'] = ['testString']
-        value_model['created'] = "2019-01-01T12:00:00Z"
-        value_model['updated'] = "2019-01-01T12:00:00Z"
+        value_model['created'] = '2019-01-01T12:00:00Z'
+        value_model['updated'] = '2019-01-01T12:00:00Z'
 
         # Construct a json representation of a Entity model
         entity_model_json = {}
@@ -8141,8 +8686,8 @@ class TestModel_Entity():
         entity_model_json['description'] = 'testString'
         entity_model_json['metadata'] = {}
         entity_model_json['fuzzy_match'] = True
-        entity_model_json['created'] = "2019-01-01T12:00:00Z"
-        entity_model_json['updated'] = "2019-01-01T12:00:00Z"
+        entity_model_json['created'] = '2019-01-01T12:00:00Z'
+        entity_model_json['updated'] = '2019-01-01T12:00:00Z'
         entity_model_json['values'] = [value_model]
 
         # Construct a model instance of Entity by calling from_dict on the json representation
@@ -8178,16 +8723,16 @@ class TestModel_EntityCollection():
         value_model['type'] = 'synonyms'
         value_model['synonyms'] = ['testString']
         value_model['patterns'] = ['testString']
-        value_model['created'] = "2019-01-01T12:00:00Z"
-        value_model['updated'] = "2019-01-01T12:00:00Z"
+        value_model['created'] = '2019-01-01T12:00:00Z'
+        value_model['updated'] = '2019-01-01T12:00:00Z'
 
         entity_model = {} # Entity
         entity_model['entity'] = 'testString'
         entity_model['description'] = 'testString'
         entity_model['metadata'] = {}
         entity_model['fuzzy_match'] = True
-        entity_model['created'] = "2019-01-01T12:00:00Z"
-        entity_model['updated'] = "2019-01-01T12:00:00Z"
+        entity_model['created'] = '2019-01-01T12:00:00Z'
+        entity_model['updated'] = '2019-01-01T12:00:00Z'
         entity_model['values'] = [value_model]
 
         pagination_model = {} # Pagination
@@ -8314,8 +8859,8 @@ class TestModel_Example():
         example_model_json = {}
         example_model_json['text'] = 'testString'
         example_model_json['mentions'] = [mention_model]
-        example_model_json['created'] = "2019-01-01T12:00:00Z"
-        example_model_json['updated'] = "2019-01-01T12:00:00Z"
+        example_model_json['created'] = '2019-01-01T12:00:00Z'
+        example_model_json['updated'] = '2019-01-01T12:00:00Z'
 
         # Construct a model instance of Example by calling from_dict on the json representation
         example_model = Example.from_dict(example_model_json)
@@ -8351,8 +8896,8 @@ class TestModel_ExampleCollection():
         example_model = {} # Example
         example_model['text'] = 'testString'
         example_model['mentions'] = [mention_model]
-        example_model['created'] = "2019-01-01T12:00:00Z"
-        example_model['updated'] = "2019-01-01T12:00:00Z"
+        example_model['created'] = '2019-01-01T12:00:00Z'
+        example_model['updated'] = '2019-01-01T12:00:00Z'
 
         pagination_model = {} # Pagination
         pagination_model['refresh_url'] = 'testString'
@@ -8401,15 +8946,15 @@ class TestModel_Intent():
         example_model = {} # Example
         example_model['text'] = 'testString'
         example_model['mentions'] = [mention_model]
-        example_model['created'] = "2019-01-01T12:00:00Z"
-        example_model['updated'] = "2019-01-01T12:00:00Z"
+        example_model['created'] = '2019-01-01T12:00:00Z'
+        example_model['updated'] = '2019-01-01T12:00:00Z'
 
         # Construct a json representation of a Intent model
         intent_model_json = {}
         intent_model_json['intent'] = 'testString'
         intent_model_json['description'] = 'testString'
-        intent_model_json['created'] = "2019-01-01T12:00:00Z"
-        intent_model_json['updated'] = "2019-01-01T12:00:00Z"
+        intent_model_json['created'] = '2019-01-01T12:00:00Z'
+        intent_model_json['updated'] = '2019-01-01T12:00:00Z'
         intent_model_json['examples'] = [example_model]
 
         # Construct a model instance of Intent by calling from_dict on the json representation
@@ -8446,14 +8991,14 @@ class TestModel_IntentCollection():
         example_model = {} # Example
         example_model['text'] = 'testString'
         example_model['mentions'] = [mention_model]
-        example_model['created'] = "2019-01-01T12:00:00Z"
-        example_model['updated'] = "2019-01-01T12:00:00Z"
+        example_model['created'] = '2019-01-01T12:00:00Z'
+        example_model['updated'] = '2019-01-01T12:00:00Z'
 
         intent_model = {} # Intent
         intent_model['intent'] = 'testString'
         intent_model['description'] = 'testString'
-        intent_model['created'] = "2019-01-01T12:00:00Z"
-        intent_model['updated'] = "2019-01-01T12:00:00Z"
+        intent_model['created'] = '2019-01-01T12:00:00Z'
+        intent_model['updated'] = '2019-01-01T12:00:00Z'
         intent_model['examples'] = [example_model]
 
         pagination_model = {} # Pagination
@@ -8552,7 +9097,6 @@ class TestModel_Log():
         runtime_entity_model['location'] = [38]
         runtime_entity_model['value'] = 'testString'
         runtime_entity_model['confidence'] = 72.5
-        runtime_entity_model['metadata'] = {}
         runtime_entity_model['groups'] = [capture_group_model]
         runtime_entity_model['interpretation'] = runtime_entity_interpretation_model
         runtime_entity_model['alternatives'] = [runtime_entity_alternative_model]
@@ -8607,7 +9151,6 @@ class TestModel_Log():
         output_data_model['nodes_visited'] = ['testString']
         output_data_model['nodes_visited_details'] = [dialog_node_visited_details_model]
         output_data_model['log_messages'] = [log_message_model]
-        output_data_model['text'] = ['testString']
         output_data_model['generic'] = [runtime_response_generic_model]
         output_data_model['foo'] = 'testString'
 
@@ -8731,7 +9274,6 @@ class TestModel_LogCollection():
         runtime_entity_model['location'] = [38]
         runtime_entity_model['value'] = 'testString'
         runtime_entity_model['confidence'] = 72.5
-        runtime_entity_model['metadata'] = {}
         runtime_entity_model['groups'] = [capture_group_model]
         runtime_entity_model['interpretation'] = runtime_entity_interpretation_model
         runtime_entity_model['alternatives'] = [runtime_entity_alternative_model]
@@ -8786,7 +9328,6 @@ class TestModel_LogCollection():
         output_data_model['nodes_visited'] = ['testString']
         output_data_model['nodes_visited_details'] = [dialog_node_visited_details_model]
         output_data_model['log_messages'] = [log_message_model]
-        output_data_model['text'] = ['testString']
         output_data_model['generic'] = [runtime_response_generic_model]
         output_data_model['foo'] = 'testString'
 
@@ -9122,7 +9663,6 @@ class TestModel_MessageRequest():
         runtime_entity_model['location'] = [38]
         runtime_entity_model['value'] = 'testString'
         runtime_entity_model['confidence'] = 72.5
-        runtime_entity_model['metadata'] = {}
         runtime_entity_model['groups'] = [capture_group_model]
         runtime_entity_model['interpretation'] = runtime_entity_interpretation_model
         runtime_entity_model['alternatives'] = [runtime_entity_alternative_model]
@@ -9177,7 +9717,6 @@ class TestModel_MessageRequest():
         output_data_model['nodes_visited'] = ['testString']
         output_data_model['nodes_visited_details'] = [dialog_node_visited_details_model]
         output_data_model['log_messages'] = [log_message_model]
-        output_data_model['text'] = ['testString']
         output_data_model['generic'] = [runtime_response_generic_model]
         output_data_model['foo'] = 'testString'
 
@@ -9282,7 +9821,6 @@ class TestModel_MessageResponse():
         runtime_entity_model['location'] = [38]
         runtime_entity_model['value'] = 'testString'
         runtime_entity_model['confidence'] = 72.5
-        runtime_entity_model['metadata'] = {}
         runtime_entity_model['groups'] = [capture_group_model]
         runtime_entity_model['interpretation'] = runtime_entity_interpretation_model
         runtime_entity_model['alternatives'] = [runtime_entity_alternative_model]
@@ -9337,7 +9875,6 @@ class TestModel_MessageResponse():
         output_data_model['nodes_visited'] = ['testString']
         output_data_model['nodes_visited_details'] = [dialog_node_visited_details_model]
         output_data_model['log_messages'] = [log_message_model]
-        output_data_model['text'] = ['testString']
         output_data_model['generic'] = [runtime_response_generic_model]
         output_data_model['foo'] = 'testString'
 
@@ -9457,7 +9994,6 @@ class TestModel_OutputData():
         runtime_entity_model['location'] = [38]
         runtime_entity_model['value'] = 'testString'
         runtime_entity_model['confidence'] = 72.5
-        runtime_entity_model['metadata'] = {}
         runtime_entity_model['groups'] = [capture_group_model]
         runtime_entity_model['interpretation'] = runtime_entity_interpretation_model
         runtime_entity_model['alternatives'] = [runtime_entity_alternative_model]
@@ -9488,7 +10024,6 @@ class TestModel_OutputData():
         output_data_model_json['nodes_visited'] = ['testString']
         output_data_model_json['nodes_visited_details'] = [dialog_node_visited_details_model]
         output_data_model_json['log_messages'] = [log_message_model]
-        output_data_model_json['text'] = ['testString']
         output_data_model_json['generic'] = [runtime_response_generic_model]
         output_data_model_json['foo'] = 'testString'
 
@@ -9637,7 +10172,6 @@ class TestModel_RuntimeEntity():
         runtime_entity_model_json['location'] = [38]
         runtime_entity_model_json['value'] = 'testString'
         runtime_entity_model_json['confidence'] = 72.5
-        runtime_entity_model_json['metadata'] = {}
         runtime_entity_model_json['groups'] = [capture_group_model]
         runtime_entity_model_json['interpretation'] = runtime_entity_interpretation_model
         runtime_entity_model_json['alternatives'] = [runtime_entity_alternative_model]
@@ -9814,8 +10348,8 @@ class TestModel_Synonym():
         # Construct a json representation of a Synonym model
         synonym_model_json = {}
         synonym_model_json['synonym'] = 'testString'
-        synonym_model_json['created'] = "2019-01-01T12:00:00Z"
-        synonym_model_json['updated'] = "2019-01-01T12:00:00Z"
+        synonym_model_json['created'] = '2019-01-01T12:00:00Z'
+        synonym_model_json['updated'] = '2019-01-01T12:00:00Z'
 
         # Construct a model instance of Synonym by calling from_dict on the json representation
         synonym_model = Synonym.from_dict(synonym_model_json)
@@ -9846,8 +10380,8 @@ class TestModel_SynonymCollection():
 
         synonym_model = {} # Synonym
         synonym_model['synonym'] = 'testString'
-        synonym_model['created'] = "2019-01-01T12:00:00Z"
-        synonym_model['updated'] = "2019-01-01T12:00:00Z"
+        synonym_model['created'] = '2019-01-01T12:00:00Z'
+        synonym_model['updated'] = '2019-01-01T12:00:00Z'
 
         pagination_model = {} # Pagination
         pagination_model['refresh_url'] = 'testString'
@@ -9894,8 +10428,8 @@ class TestModel_Value():
         value_model_json['type'] = 'synonyms'
         value_model_json['synonyms'] = ['testString']
         value_model_json['patterns'] = ['testString']
-        value_model_json['created'] = "2019-01-01T12:00:00Z"
-        value_model_json['updated'] = "2019-01-01T12:00:00Z"
+        value_model_json['created'] = '2019-01-01T12:00:00Z'
+        value_model_json['updated'] = '2019-01-01T12:00:00Z'
 
         # Construct a model instance of Value by calling from_dict on the json representation
         value_model = Value.from_dict(value_model_json)
@@ -9930,8 +10464,8 @@ class TestModel_ValueCollection():
         value_model['type'] = 'synonyms'
         value_model['synonyms'] = ['testString']
         value_model['patterns'] = ['testString']
-        value_model['created'] = "2019-01-01T12:00:00Z"
-        value_model['updated'] = "2019-01-01T12:00:00Z"
+        value_model['created'] = '2019-01-01T12:00:00Z'
+        value_model['updated'] = '2019-01-01T12:00:00Z'
 
         pagination_model = {} # Pagination
         pagination_model['refresh_url'] = 'testString'
@@ -10104,13 +10638,13 @@ class TestModel_Workspace():
         dialog_node_model['user_label'] = 'testString'
         dialog_node_model['disambiguation_opt_out'] = False
         dialog_node_model['disabled'] = True
-        dialog_node_model['created'] = "2019-01-01T12:00:00Z"
-        dialog_node_model['updated'] = "2019-01-01T12:00:00Z"
+        dialog_node_model['created'] = '2019-01-01T12:00:00Z'
+        dialog_node_model['updated'] = '2019-01-01T12:00:00Z'
 
         counterexample_model = {} # Counterexample
         counterexample_model['text'] = 'testString'
-        counterexample_model['created'] = "2019-01-01T12:00:00Z"
-        counterexample_model['updated'] = "2019-01-01T12:00:00Z"
+        counterexample_model['created'] = '2019-01-01T12:00:00Z'
+        counterexample_model['updated'] = '2019-01-01T12:00:00Z'
 
         workspace_system_settings_tooling_model = {} # WorkspaceSystemSettingsTooling
         workspace_system_settings_tooling_model['store_generic_responses'] = True
@@ -10155,14 +10689,14 @@ class TestModel_Workspace():
         example_model = {} # Example
         example_model['text'] = 'testString'
         example_model['mentions'] = [mention_model]
-        example_model['created'] = "2019-01-01T12:00:00Z"
-        example_model['updated'] = "2019-01-01T12:00:00Z"
+        example_model['created'] = '2019-01-01T12:00:00Z'
+        example_model['updated'] = '2019-01-01T12:00:00Z'
 
         intent_model = {} # Intent
         intent_model['intent'] = 'testString'
         intent_model['description'] = 'testString'
-        intent_model['created'] = "2019-01-01T12:00:00Z"
-        intent_model['updated'] = "2019-01-01T12:00:00Z"
+        intent_model['created'] = '2019-01-01T12:00:00Z'
+        intent_model['updated'] = '2019-01-01T12:00:00Z'
         intent_model['examples'] = [example_model]
 
         value_model = {} # Value
@@ -10171,16 +10705,16 @@ class TestModel_Workspace():
         value_model['type'] = 'synonyms'
         value_model['synonyms'] = ['testString']
         value_model['patterns'] = ['testString']
-        value_model['created'] = "2019-01-01T12:00:00Z"
-        value_model['updated'] = "2019-01-01T12:00:00Z"
+        value_model['created'] = '2019-01-01T12:00:00Z'
+        value_model['updated'] = '2019-01-01T12:00:00Z'
 
         entity_model = {} # Entity
         entity_model['entity'] = 'testString'
         entity_model['description'] = 'testString'
         entity_model['metadata'] = {}
         entity_model['fuzzy_match'] = True
-        entity_model['created'] = "2019-01-01T12:00:00Z"
-        entity_model['updated'] = "2019-01-01T12:00:00Z"
+        entity_model['created'] = '2019-01-01T12:00:00Z'
+        entity_model['updated'] = '2019-01-01T12:00:00Z'
         entity_model['values'] = [value_model]
 
         # Construct a json representation of a Workspace model
@@ -10191,8 +10725,8 @@ class TestModel_Workspace():
         workspace_model_json['workspace_id'] = 'testString'
         workspace_model_json['dialog_nodes'] = [dialog_node_model]
         workspace_model_json['counterexamples'] = [counterexample_model]
-        workspace_model_json['created'] = "2019-01-01T12:00:00Z"
-        workspace_model_json['updated'] = "2019-01-01T12:00:00Z"
+        workspace_model_json['created'] = '2019-01-01T12:00:00Z'
+        workspace_model_json['updated'] = '2019-01-01T12:00:00Z'
         workspace_model_json['metadata'] = {}
         workspace_model_json['learning_opt_out'] = False
         workspace_model_json['system_settings'] = workspace_system_settings_model
@@ -10292,13 +10826,13 @@ class TestModel_WorkspaceCollection():
         dialog_node_model['user_label'] = 'testString'
         dialog_node_model['disambiguation_opt_out'] = False
         dialog_node_model['disabled'] = True
-        dialog_node_model['created'] = "2019-01-01T12:00:00Z"
-        dialog_node_model['updated'] = "2019-01-01T12:00:00Z"
+        dialog_node_model['created'] = '2019-01-01T12:00:00Z'
+        dialog_node_model['updated'] = '2019-01-01T12:00:00Z'
 
         counterexample_model = {} # Counterexample
         counterexample_model['text'] = 'testString'
-        counterexample_model['created'] = "2019-01-01T12:00:00Z"
-        counterexample_model['updated'] = "2019-01-01T12:00:00Z"
+        counterexample_model['created'] = '2019-01-01T12:00:00Z'
+        counterexample_model['updated'] = '2019-01-01T12:00:00Z'
 
         workspace_system_settings_tooling_model = {} # WorkspaceSystemSettingsTooling
         workspace_system_settings_tooling_model['store_generic_responses'] = True
@@ -10343,14 +10877,14 @@ class TestModel_WorkspaceCollection():
         example_model = {} # Example
         example_model['text'] = 'testString'
         example_model['mentions'] = [mention_model]
-        example_model['created'] = "2019-01-01T12:00:00Z"
-        example_model['updated'] = "2019-01-01T12:00:00Z"
+        example_model['created'] = '2019-01-01T12:00:00Z'
+        example_model['updated'] = '2019-01-01T12:00:00Z'
 
         intent_model = {} # Intent
         intent_model['intent'] = 'testString'
         intent_model['description'] = 'testString'
-        intent_model['created'] = "2019-01-01T12:00:00Z"
-        intent_model['updated'] = "2019-01-01T12:00:00Z"
+        intent_model['created'] = '2019-01-01T12:00:00Z'
+        intent_model['updated'] = '2019-01-01T12:00:00Z'
         intent_model['examples'] = [example_model]
 
         value_model = {} # Value
@@ -10359,16 +10893,16 @@ class TestModel_WorkspaceCollection():
         value_model['type'] = 'synonyms'
         value_model['synonyms'] = ['testString']
         value_model['patterns'] = ['testString']
-        value_model['created'] = "2019-01-01T12:00:00Z"
-        value_model['updated'] = "2019-01-01T12:00:00Z"
+        value_model['created'] = '2019-01-01T12:00:00Z'
+        value_model['updated'] = '2019-01-01T12:00:00Z'
 
         entity_model = {} # Entity
         entity_model['entity'] = 'testString'
         entity_model['description'] = 'testString'
         entity_model['metadata'] = {}
         entity_model['fuzzy_match'] = True
-        entity_model['created'] = "2019-01-01T12:00:00Z"
-        entity_model['updated'] = "2019-01-01T12:00:00Z"
+        entity_model['created'] = '2019-01-01T12:00:00Z'
+        entity_model['updated'] = '2019-01-01T12:00:00Z'
         entity_model['values'] = [value_model]
 
         workspace_model = {} # Workspace
@@ -10378,8 +10912,8 @@ class TestModel_WorkspaceCollection():
         workspace_model['workspace_id'] = 'testString'
         workspace_model['dialog_nodes'] = [dialog_node_model]
         workspace_model['counterexamples'] = [counterexample_model]
-        workspace_model['created'] = "2019-01-01T12:00:00Z"
-        workspace_model['updated'] = "2019-01-01T12:00:00Z"
+        workspace_model['created'] = '2019-01-01T12:00:00Z'
+        workspace_model['updated'] = '2019-01-01T12:00:00Z'
         workspace_model['metadata'] = {}
         workspace_model['learning_opt_out'] = False
         workspace_model['system_settings'] = workspace_system_settings_model
@@ -10791,7 +11325,6 @@ class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeOption():
         runtime_entity_model['location'] = [38]
         runtime_entity_model['value'] = 'testString'
         runtime_entity_model['confidence'] = 72.5
-        runtime_entity_model['metadata'] = {}
         runtime_entity_model['groups'] = [capture_group_model]
         runtime_entity_model['interpretation'] = runtime_entity_interpretation_model
         runtime_entity_model['alternatives'] = [runtime_entity_alternative_model]
@@ -10986,6 +11519,46 @@ class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeUserDefined()
         dialog_node_output_generic_dialog_node_output_response_type_user_defined_model_json2 = dialog_node_output_generic_dialog_node_output_response_type_user_defined_model.to_dict()
         assert dialog_node_output_generic_dialog_node_output_response_type_user_defined_model_json2 == dialog_node_output_generic_dialog_node_output_response_type_user_defined_model_json
 
+class TestModel_RuntimeResponseGenericRuntimeResponseTypeAudio():
+    """
+    Test Class for RuntimeResponseGenericRuntimeResponseTypeAudio
+    """
+
+    def test_runtime_response_generic_runtime_response_type_audio_serialization(self):
+        """
+        Test serialization/deserialization for RuntimeResponseGenericRuntimeResponseTypeAudio
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model['channel'] = 'chat'
+
+        # Construct a json representation of a RuntimeResponseGenericRuntimeResponseTypeAudio model
+        runtime_response_generic_runtime_response_type_audio_model_json = {}
+        runtime_response_generic_runtime_response_type_audio_model_json['response_type'] = 'audio'
+        runtime_response_generic_runtime_response_type_audio_model_json['source'] = 'testString'
+        runtime_response_generic_runtime_response_type_audio_model_json['title'] = 'testString'
+        runtime_response_generic_runtime_response_type_audio_model_json['description'] = 'testString'
+        runtime_response_generic_runtime_response_type_audio_model_json['channels'] = [response_generic_channel_model]
+        runtime_response_generic_runtime_response_type_audio_model_json['channel_options'] = { 'foo': 'bar' }
+        runtime_response_generic_runtime_response_type_audio_model_json['alt_text'] = 'testString'
+
+        # Construct a model instance of RuntimeResponseGenericRuntimeResponseTypeAudio by calling from_dict on the json representation
+        runtime_response_generic_runtime_response_type_audio_model = RuntimeResponseGenericRuntimeResponseTypeAudio.from_dict(runtime_response_generic_runtime_response_type_audio_model_json)
+        assert runtime_response_generic_runtime_response_type_audio_model != False
+
+        # Construct a model instance of RuntimeResponseGenericRuntimeResponseTypeAudio by calling from_dict on the json representation
+        runtime_response_generic_runtime_response_type_audio_model_dict = RuntimeResponseGenericRuntimeResponseTypeAudio.from_dict(runtime_response_generic_runtime_response_type_audio_model_json).__dict__
+        runtime_response_generic_runtime_response_type_audio_model2 = RuntimeResponseGenericRuntimeResponseTypeAudio(**runtime_response_generic_runtime_response_type_audio_model_dict)
+
+        # Verify the model instances are equivalent
+        assert runtime_response_generic_runtime_response_type_audio_model == runtime_response_generic_runtime_response_type_audio_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        runtime_response_generic_runtime_response_type_audio_model_json2 = runtime_response_generic_runtime_response_type_audio_model.to_dict()
+        assert runtime_response_generic_runtime_response_type_audio_model_json2 == runtime_response_generic_runtime_response_type_audio_model_json
+
 class TestModel_RuntimeResponseGenericRuntimeResponseTypeChannelTransfer():
     """
     Test Class for RuntimeResponseGenericRuntimeResponseTypeChannelTransfer
@@ -11078,6 +11651,45 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeConnectToAgent():
         # Convert model instance back to dict and verify no loss of data
         runtime_response_generic_runtime_response_type_connect_to_agent_model_json2 = runtime_response_generic_runtime_response_type_connect_to_agent_model.to_dict()
         assert runtime_response_generic_runtime_response_type_connect_to_agent_model_json2 == runtime_response_generic_runtime_response_type_connect_to_agent_model_json
+
+class TestModel_RuntimeResponseGenericRuntimeResponseTypeIframe():
+    """
+    Test Class for RuntimeResponseGenericRuntimeResponseTypeIframe
+    """
+
+    def test_runtime_response_generic_runtime_response_type_iframe_serialization(self):
+        """
+        Test serialization/deserialization for RuntimeResponseGenericRuntimeResponseTypeIframe
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model['channel'] = 'chat'
+
+        # Construct a json representation of a RuntimeResponseGenericRuntimeResponseTypeIframe model
+        runtime_response_generic_runtime_response_type_iframe_model_json = {}
+        runtime_response_generic_runtime_response_type_iframe_model_json['response_type'] = 'iframe'
+        runtime_response_generic_runtime_response_type_iframe_model_json['source'] = 'testString'
+        runtime_response_generic_runtime_response_type_iframe_model_json['title'] = 'testString'
+        runtime_response_generic_runtime_response_type_iframe_model_json['description'] = 'testString'
+        runtime_response_generic_runtime_response_type_iframe_model_json['image_url'] = 'testString'
+        runtime_response_generic_runtime_response_type_iframe_model_json['channels'] = [response_generic_channel_model]
+
+        # Construct a model instance of RuntimeResponseGenericRuntimeResponseTypeIframe by calling from_dict on the json representation
+        runtime_response_generic_runtime_response_type_iframe_model = RuntimeResponseGenericRuntimeResponseTypeIframe.from_dict(runtime_response_generic_runtime_response_type_iframe_model_json)
+        assert runtime_response_generic_runtime_response_type_iframe_model != False
+
+        # Construct a model instance of RuntimeResponseGenericRuntimeResponseTypeIframe by calling from_dict on the json representation
+        runtime_response_generic_runtime_response_type_iframe_model_dict = RuntimeResponseGenericRuntimeResponseTypeIframe.from_dict(runtime_response_generic_runtime_response_type_iframe_model_json).__dict__
+        runtime_response_generic_runtime_response_type_iframe_model2 = RuntimeResponseGenericRuntimeResponseTypeIframe(**runtime_response_generic_runtime_response_type_iframe_model_dict)
+
+        # Verify the model instances are equivalent
+        assert runtime_response_generic_runtime_response_type_iframe_model == runtime_response_generic_runtime_response_type_iframe_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        runtime_response_generic_runtime_response_type_iframe_model_json2 = runtime_response_generic_runtime_response_type_iframe_model.to_dict()
+        assert runtime_response_generic_runtime_response_type_iframe_model_json2 == runtime_response_generic_runtime_response_type_iframe_model_json
 
 class TestModel_RuntimeResponseGenericRuntimeResponseTypeImage():
     """
@@ -11186,7 +11798,6 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeOption():
         runtime_entity_model['location'] = [38]
         runtime_entity_model['value'] = 'testString'
         runtime_entity_model['confidence'] = 72.5
-        runtime_entity_model['metadata'] = {}
         runtime_entity_model['groups'] = [capture_group_model]
         runtime_entity_model['interpretation'] = runtime_entity_interpretation_model
         runtime_entity_model['alternatives'] = [runtime_entity_alternative_model]
@@ -11333,7 +11944,6 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeSuggestion():
         runtime_entity_model['location'] = [38]
         runtime_entity_model['value'] = 'testString'
         runtime_entity_model['confidence'] = 72.5
-        runtime_entity_model['metadata'] = {}
         runtime_entity_model['groups'] = [capture_group_model]
         runtime_entity_model['interpretation'] = runtime_entity_interpretation_model
         runtime_entity_model['alternatives'] = [runtime_entity_alternative_model]
@@ -11446,6 +12056,46 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeUserDefined():
         # Convert model instance back to dict and verify no loss of data
         runtime_response_generic_runtime_response_type_user_defined_model_json2 = runtime_response_generic_runtime_response_type_user_defined_model.to_dict()
         assert runtime_response_generic_runtime_response_type_user_defined_model_json2 == runtime_response_generic_runtime_response_type_user_defined_model_json
+
+class TestModel_RuntimeResponseGenericRuntimeResponseTypeVideo():
+    """
+    Test Class for RuntimeResponseGenericRuntimeResponseTypeVideo
+    """
+
+    def test_runtime_response_generic_runtime_response_type_video_serialization(self):
+        """
+        Test serialization/deserialization for RuntimeResponseGenericRuntimeResponseTypeVideo
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model['channel'] = 'chat'
+
+        # Construct a json representation of a RuntimeResponseGenericRuntimeResponseTypeVideo model
+        runtime_response_generic_runtime_response_type_video_model_json = {}
+        runtime_response_generic_runtime_response_type_video_model_json['response_type'] = 'video'
+        runtime_response_generic_runtime_response_type_video_model_json['source'] = 'testString'
+        runtime_response_generic_runtime_response_type_video_model_json['title'] = 'testString'
+        runtime_response_generic_runtime_response_type_video_model_json['description'] = 'testString'
+        runtime_response_generic_runtime_response_type_video_model_json['channels'] = [response_generic_channel_model]
+        runtime_response_generic_runtime_response_type_video_model_json['channel_options'] = { 'foo': 'bar' }
+        runtime_response_generic_runtime_response_type_video_model_json['alt_text'] = 'testString'
+
+        # Construct a model instance of RuntimeResponseGenericRuntimeResponseTypeVideo by calling from_dict on the json representation
+        runtime_response_generic_runtime_response_type_video_model = RuntimeResponseGenericRuntimeResponseTypeVideo.from_dict(runtime_response_generic_runtime_response_type_video_model_json)
+        assert runtime_response_generic_runtime_response_type_video_model != False
+
+        # Construct a model instance of RuntimeResponseGenericRuntimeResponseTypeVideo by calling from_dict on the json representation
+        runtime_response_generic_runtime_response_type_video_model_dict = RuntimeResponseGenericRuntimeResponseTypeVideo.from_dict(runtime_response_generic_runtime_response_type_video_model_json).__dict__
+        runtime_response_generic_runtime_response_type_video_model2 = RuntimeResponseGenericRuntimeResponseTypeVideo(**runtime_response_generic_runtime_response_type_video_model_dict)
+
+        # Verify the model instances are equivalent
+        assert runtime_response_generic_runtime_response_type_video_model == runtime_response_generic_runtime_response_type_video_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        runtime_response_generic_runtime_response_type_video_model_json2 = runtime_response_generic_runtime_response_type_video_model.to_dict()
+        assert runtime_response_generic_runtime_response_type_video_model_json2 == runtime_response_generic_runtime_response_type_video_model_json
 
 
 # endregion

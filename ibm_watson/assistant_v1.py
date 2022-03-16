@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2019, 2021.
+# (C) Copyright IBM Corp. 2019, 2022.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 3.38.0-07189efd-20210827-205025
+# IBM OpenAPI SDK Code Generator Version: 3.46.0-a4e29da0-20220224-210428
 """
 The IBM Watson&trade; Assistant service combines machine learning, natural language
 understanding, and an integrated dialog editor to create conversation flows between your
@@ -60,10 +60,10 @@ class AssistantV1(BaseService):
         Construct a new client for the Assistant service.
 
         :param str version: Release date of the API version you want to use.
-               Specify dates in YYYY-MM-DD format. The current version is `2021-06-14`.
+               Specify dates in YYYY-MM-DD format. The current version is `2021-11-27`.
 
         :param Authenticator authenticator: The authenticator specifies the authentication mechanism.
-               Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
+               Get up to date information from https://github.com/IBM/python-sdk-core/blob/main/README.md
                about initializing the authenticator of your choice.
         """
         if version is None:
@@ -8003,21 +8003,17 @@ class OutputData():
           **nodes_visited_details** is set to `true` in the message request.
     :attr List[LogMessage] log_messages: An array of up to 50 messages logged with
           the request.
-    :attr List[str] text: An array of responses to the user.
     :attr List[RuntimeResponseGeneric] generic: (optional) Output intended for any
           channel. It is the responsibility of the client application to implement the
           supported response types.
     """
 
     # The set of defined properties for the class
-    _properties = frozenset([
-        'nodes_visited', 'nodes_visited_details', 'log_messages', 'text',
-        'generic'
-    ])
+    _properties = frozenset(
+        ['nodes_visited', 'nodes_visited_details', 'log_messages', 'generic'])
 
     def __init__(self,
                  log_messages: List['LogMessage'],
-                 text: List[str],
                  *,
                  nodes_visited: List[str] = None,
                  nodes_visited_details: List['DialogNodeVisitedDetails'] = None,
@@ -8028,7 +8024,6 @@ class OutputData():
 
         :param List[LogMessage] log_messages: An array of up to 50 messages logged
                with the request.
-        :param List[str] text: An array of responses to the user.
         :param List[str] nodes_visited: (optional) An array of the nodes that were
                triggered to create the response, in the order in which they were visited.
                This information is useful for debugging and for tracing the path taken
@@ -8045,7 +8040,6 @@ class OutputData():
         self.nodes_visited = nodes_visited
         self.nodes_visited_details = nodes_visited_details
         self.log_messages = log_messages
-        self.text = text
         self.generic = generic
         for _key, _value in kwargs.items():
             setattr(self, _key, _value)
@@ -8069,11 +8063,6 @@ class OutputData():
             raise ValueError(
                 'Required property \'log_messages\' not present in OutputData JSON'
             )
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
-        else:
-            raise ValueError(
-                'Required property \'text\' not present in OutputData JSON')
         if 'generic' in _dict:
             args['generic'] = [
                 RuntimeResponseGeneric.from_dict(x)
@@ -8100,8 +8089,6 @@ class OutputData():
             ]
         if hasattr(self, 'log_messages') and self.log_messages is not None:
             _dict['log_messages'] = [x.to_dict() for x in self.log_messages]
-        if hasattr(self, 'text') and self.text is not None:
-            _dict['text'] = self.text
         if hasattr(self, 'generic') and self.generic is not None:
             _dict['generic'] = [x.to_dict() for x in self.generic]
         for _key in [
@@ -8337,10 +8324,6 @@ class RuntimeEntity():
     :attr str value: The entity value that was recognized in the user input.
     :attr float confidence: (optional) A decimal percentage that represents Watson's
           confidence in the recognized entity.
-    :attr dict metadata: (optional) **Deprecated.** Any metadata for the entity.
-          Beginning with the `2021-06-14` API version, the `metadata` property is no
-          longer returned. For information about system entities recognized in the user
-          input, see the `interpretation` property.
     :attr List[CaptureGroup] groups: (optional) The recognized capture groups for
           the entity, as defined by the entity pattern.
     :attr RuntimeEntityInterpretation interpretation: (optional) An object
@@ -8365,7 +8348,6 @@ class RuntimeEntity():
                  *,
                  location: List[int] = None,
                  confidence: float = None,
-                 metadata: dict = None,
                  groups: List['CaptureGroup'] = None,
                  interpretation: 'RuntimeEntityInterpretation' = None,
                  alternatives: List['RuntimeEntityAlternative'] = None,
@@ -8380,11 +8362,6 @@ class RuntimeEntity():
                input text.
         :param float confidence: (optional) A decimal percentage that represents
                Watson's confidence in the recognized entity.
-        :param dict metadata: (optional) **Deprecated.** Any metadata for the
-               entity.
-               Beginning with the `2021-06-14` API version, the `metadata` property is no
-               longer returned. For information about system entities recognized in the
-               user input, see the `interpretation` property.
         :param List[CaptureGroup] groups: (optional) The recognized capture groups
                for the entity, as defined by the entity pattern.
         :param RuntimeEntityInterpretation interpretation: (optional) An object
@@ -8408,7 +8385,6 @@ class RuntimeEntity():
         self.location = location
         self.value = value
         self.confidence = confidence
-        self.metadata = metadata
         self.groups = groups
         self.interpretation = interpretation
         self.alternatives = alternatives
@@ -8433,8 +8409,6 @@ class RuntimeEntity():
                 'Required property \'value\' not present in RuntimeEntity JSON')
         if 'confidence' in _dict:
             args['confidence'] = _dict.get('confidence')
-        if 'metadata' in _dict:
-            args['metadata'] = _dict.get('metadata')
         if 'groups' in _dict:
             args['groups'] = [
                 CaptureGroup.from_dict(x) for x in _dict.get('groups')
@@ -8467,8 +8441,6 @@ class RuntimeEntity():
             _dict['value'] = self.value
         if hasattr(self, 'confidence') and self.confidence is not None:
             _dict['confidence'] = self.confidence
-        if hasattr(self, 'metadata') and self.metadata is not None:
-            _dict['metadata'] = self.metadata
         if hasattr(self, 'groups') and self.groups is not None:
             _dict['groups'] = [x.to_dict() for x in self.groups]
         if hasattr(self, 'interpretation') and self.interpretation is not None:
@@ -9090,7 +9062,10 @@ class RuntimeResponseGeneric():
                 'RuntimeResponseGenericRuntimeResponseTypeConnectToAgent',
                 'RuntimeResponseGenericRuntimeResponseTypeSuggestion',
                 'RuntimeResponseGenericRuntimeResponseTypeChannelTransfer',
-                'RuntimeResponseGenericRuntimeResponseTypeUserDefined'
+                'RuntimeResponseGenericRuntimeResponseTypeUserDefined',
+                'RuntimeResponseGenericRuntimeResponseTypeVideo',
+                'RuntimeResponseGenericRuntimeResponseTypeAudio',
+                'RuntimeResponseGenericRuntimeResponseTypeIframe'
             ]))
         raise Exception(msg)
 
@@ -9111,7 +9086,10 @@ class RuntimeResponseGeneric():
             'RuntimeResponseGenericRuntimeResponseTypeConnectToAgent',
             'RuntimeResponseGenericRuntimeResponseTypeSuggestion',
             'RuntimeResponseGenericRuntimeResponseTypeChannelTransfer',
-            'RuntimeResponseGenericRuntimeResponseTypeUserDefined'
+            'RuntimeResponseGenericRuntimeResponseTypeUserDefined',
+            'RuntimeResponseGenericRuntimeResponseTypeVideo',
+            'RuntimeResponseGenericRuntimeResponseTypeAudio',
+            'RuntimeResponseGenericRuntimeResponseTypeIframe'
         ]))
         raise Exception(msg)
 
@@ -9123,10 +9101,12 @@ class RuntimeResponseGeneric():
     @classmethod
     def _get_class_by_discriminator(cls, _dict: Dict) -> object:
         mapping = {}
+        mapping['audio'] = 'RuntimeResponseGenericRuntimeResponseTypeAudio'
         mapping[
             'channel_transfer'] = 'RuntimeResponseGenericRuntimeResponseTypeChannelTransfer'
         mapping[
             'connect_to_agent'] = 'RuntimeResponseGenericRuntimeResponseTypeConnectToAgent'
+        mapping['iframe'] = 'RuntimeResponseGenericRuntimeResponseTypeIframe'
         mapping['image'] = 'RuntimeResponseGenericRuntimeResponseTypeImage'
         mapping['option'] = 'RuntimeResponseGenericRuntimeResponseTypeOption'
         mapping[
@@ -9135,6 +9115,7 @@ class RuntimeResponseGeneric():
         mapping['text'] = 'RuntimeResponseGenericRuntimeResponseTypeText'
         mapping[
             'user_defined'] = 'RuntimeResponseGenericRuntimeResponseTypeUserDefined'
+        mapping['video'] = 'RuntimeResponseGenericRuntimeResponseTypeVideo'
         disc_value = _dict.get('response_type')
         if disc_value is None:
             raise ValueError(
@@ -9674,7 +9655,7 @@ class Workspace():
     :attr str description: (optional) The description of the workspace. This string
           cannot contain carriage return, newline, or tab characters.
     :attr str language: The language of the workspace.
-    :attr str workspace_id: The workspace ID of the workspace.
+    :attr str workspace_id: (optional) The workspace ID of the workspace.
     :attr List[DialogNode] dialog_nodes: (optional) An array of objects describing
           the dialog nodes in the workspace.
     :attr List[Counterexample] counterexamples: (optional) An array of objects
@@ -9698,10 +9679,10 @@ class Workspace():
     def __init__(self,
                  name: str,
                  language: str,
-                 workspace_id: str,
                  learning_opt_out: bool,
                  *,
                  description: str = None,
+                 workspace_id: str = None,
                  dialog_nodes: List['DialogNode'] = None,
                  counterexamples: List['Counterexample'] = None,
                  created: datetime = None,
@@ -9718,7 +9699,6 @@ class Workspace():
         :param str name: The name of the workspace. This string cannot contain
                carriage return, newline, or tab characters.
         :param str language: The language of the workspace.
-        :param str workspace_id: The workspace ID of the workspace.
         :param bool learning_opt_out: Whether training data from the workspace
                (including artifacts such as intents and entities) can be used by IBM for
                general service improvements. `true` indicates that workspace training data
@@ -9771,10 +9751,6 @@ class Workspace():
                 'Required property \'language\' not present in Workspace JSON')
         if 'workspace_id' in _dict:
             args['workspace_id'] = _dict.get('workspace_id')
-        else:
-            raise ValueError(
-                'Required property \'workspace_id\' not present in Workspace JSON'
-            )
         if 'dialog_nodes' in _dict:
             args['dialog_nodes'] = [
                 DialogNode.from_dict(x) for x in _dict.get('dialog_nodes')
@@ -11425,6 +11401,141 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeUserDefined(
         return not self == other
 
 
+class RuntimeResponseGenericRuntimeResponseTypeAudio(RuntimeResponseGeneric):
+    """
+    RuntimeResponseGenericRuntimeResponseTypeAudio.
+
+    :attr str response_type: The type of response returned by the dialog node. The
+          specified response type must be supported by the client application or channel.
+    :attr str source: The `https:` URL of the audio clip.
+    :attr str title: (optional) The title or introductory text to show before the
+          response.
+    :attr str description: (optional) The description to show with the the response.
+    :attr List[ResponseGenericChannel] channels: (optional) An array of objects
+          specifying channels for which the response is intended. If **channels** is
+          present, the response is intended for a built-in integration and should not be
+          handled by an API client.
+    :attr object channel_options: (optional) For internal use only.
+    :attr str alt_text: (optional) Descriptive text that can be used for screen
+          readers or other situations where the audio player cannot be seen.
+    """
+
+    def __init__(self,
+                 response_type: str,
+                 source: str,
+                 *,
+                 title: str = None,
+                 description: str = None,
+                 channels: List['ResponseGenericChannel'] = None,
+                 channel_options: object = None,
+                 alt_text: str = None) -> None:
+        """
+        Initialize a RuntimeResponseGenericRuntimeResponseTypeAudio object.
+
+        :param str response_type: The type of response returned by the dialog node.
+               The specified response type must be supported by the client application or
+               channel.
+        :param str source: The `https:` URL of the audio clip.
+        :param str title: (optional) The title or introductory text to show before
+               the response.
+        :param str description: (optional) The description to show with the the
+               response.
+        :param List[ResponseGenericChannel] channels: (optional) An array of
+               objects specifying channels for which the response is intended. If
+               **channels** is present, the response is intended for a built-in
+               integration and should not be handled by an API client.
+        :param object channel_options: (optional) For internal use only.
+        :param str alt_text: (optional) Descriptive text that can be used for
+               screen readers or other situations where the audio player cannot be seen.
+        """
+        # pylint: disable=super-init-not-called
+        self.response_type = response_type
+        self.source = source
+        self.title = title
+        self.description = description
+        self.channels = channels
+        self.channel_options = channel_options
+        self.alt_text = alt_text
+
+    @classmethod
+    def from_dict(
+            cls,
+            _dict: Dict) -> 'RuntimeResponseGenericRuntimeResponseTypeAudio':
+        """Initialize a RuntimeResponseGenericRuntimeResponseTypeAudio object from a json dictionary."""
+        args = {}
+        if 'response_type' in _dict:
+            args['response_type'] = _dict.get('response_type')
+        else:
+            raise ValueError(
+                'Required property \'response_type\' not present in RuntimeResponseGenericRuntimeResponseTypeAudio JSON'
+            )
+        if 'source' in _dict:
+            args['source'] = _dict.get('source')
+        else:
+            raise ValueError(
+                'Required property \'source\' not present in RuntimeResponseGenericRuntimeResponseTypeAudio JSON'
+            )
+        if 'title' in _dict:
+            args['title'] = _dict.get('title')
+        if 'description' in _dict:
+            args['description'] = _dict.get('description')
+        if 'channels' in _dict:
+            args['channels'] = [
+                ResponseGenericChannel.from_dict(x)
+                for x in _dict.get('channels')
+            ]
+        if 'channel_options' in _dict:
+            args['channel_options'] = _dict.get('channel_options')
+        if 'alt_text' in _dict:
+            args['alt_text'] = _dict.get('alt_text')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a RuntimeResponseGenericRuntimeResponseTypeAudio object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'response_type') and self.response_type is not None:
+            _dict['response_type'] = self.response_type
+        if hasattr(self, 'source') and self.source is not None:
+            _dict['source'] = self.source
+        if hasattr(self, 'title') and self.title is not None:
+            _dict['title'] = self.title
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
+        if hasattr(self, 'channels') and self.channels is not None:
+            _dict['channels'] = [x.to_dict() for x in self.channels]
+        if hasattr(self,
+                   'channel_options') and self.channel_options is not None:
+            _dict['channel_options'] = self.channel_options
+        if hasattr(self, 'alt_text') and self.alt_text is not None:
+            _dict['alt_text'] = self.alt_text
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this RuntimeResponseGenericRuntimeResponseTypeAudio object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self,
+               other: 'RuntimeResponseGenericRuntimeResponseTypeAudio') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self,
+               other: 'RuntimeResponseGenericRuntimeResponseTypeAudio') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class RuntimeResponseGenericRuntimeResponseTypeChannelTransfer(
         RuntimeResponseGeneric):
     """
@@ -11705,6 +11816,134 @@ class RuntimeResponseGenericRuntimeResponseTypeConnectToAgent(
     def __ne__(
         self, other: 'RuntimeResponseGenericRuntimeResponseTypeConnectToAgent'
     ) -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class RuntimeResponseGenericRuntimeResponseTypeIframe(RuntimeResponseGeneric):
+    """
+    RuntimeResponseGenericRuntimeResponseTypeIframe.
+
+    :attr str response_type: The type of response returned by the dialog node. The
+          specified response type must be supported by the client application or channel.
+    :attr str source: The `https:` URL of the embeddable content.
+    :attr str title: (optional) The title or introductory text to show before the
+          response.
+    :attr str description: (optional) The description to show with the the response.
+    :attr str image_url: (optional) The URL of an image that shows a preview of the
+          embedded content.
+    :attr List[ResponseGenericChannel] channels: (optional) An array of objects
+          specifying channels for which the response is intended. If **channels** is
+          present, the response is intended for a built-in integration and should not be
+          handled by an API client.
+    """
+
+    def __init__(self,
+                 response_type: str,
+                 source: str,
+                 *,
+                 title: str = None,
+                 description: str = None,
+                 image_url: str = None,
+                 channels: List['ResponseGenericChannel'] = None) -> None:
+        """
+        Initialize a RuntimeResponseGenericRuntimeResponseTypeIframe object.
+
+        :param str response_type: The type of response returned by the dialog node.
+               The specified response type must be supported by the client application or
+               channel.
+        :param str source: The `https:` URL of the embeddable content.
+        :param str title: (optional) The title or introductory text to show before
+               the response.
+        :param str description: (optional) The description to show with the the
+               response.
+        :param str image_url: (optional) The URL of an image that shows a preview
+               of the embedded content.
+        :param List[ResponseGenericChannel] channels: (optional) An array of
+               objects specifying channels for which the response is intended. If
+               **channels** is present, the response is intended for a built-in
+               integration and should not be handled by an API client.
+        """
+        # pylint: disable=super-init-not-called
+        self.response_type = response_type
+        self.source = source
+        self.title = title
+        self.description = description
+        self.image_url = image_url
+        self.channels = channels
+
+    @classmethod
+    def from_dict(
+            cls,
+            _dict: Dict) -> 'RuntimeResponseGenericRuntimeResponseTypeIframe':
+        """Initialize a RuntimeResponseGenericRuntimeResponseTypeIframe object from a json dictionary."""
+        args = {}
+        if 'response_type' in _dict:
+            args['response_type'] = _dict.get('response_type')
+        else:
+            raise ValueError(
+                'Required property \'response_type\' not present in RuntimeResponseGenericRuntimeResponseTypeIframe JSON'
+            )
+        if 'source' in _dict:
+            args['source'] = _dict.get('source')
+        else:
+            raise ValueError(
+                'Required property \'source\' not present in RuntimeResponseGenericRuntimeResponseTypeIframe JSON'
+            )
+        if 'title' in _dict:
+            args['title'] = _dict.get('title')
+        if 'description' in _dict:
+            args['description'] = _dict.get('description')
+        if 'image_url' in _dict:
+            args['image_url'] = _dict.get('image_url')
+        if 'channels' in _dict:
+            args['channels'] = [
+                ResponseGenericChannel.from_dict(x)
+                for x in _dict.get('channels')
+            ]
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a RuntimeResponseGenericRuntimeResponseTypeIframe object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'response_type') and self.response_type is not None:
+            _dict['response_type'] = self.response_type
+        if hasattr(self, 'source') and self.source is not None:
+            _dict['source'] = self.source
+        if hasattr(self, 'title') and self.title is not None:
+            _dict['title'] = self.title
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
+        if hasattr(self, 'image_url') and self.image_url is not None:
+            _dict['image_url'] = self.image_url
+        if hasattr(self, 'channels') and self.channels is not None:
+            _dict['channels'] = [x.to_dict() for x in self.channels]
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this RuntimeResponseGenericRuntimeResponseTypeIframe object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(
+            self,
+            other: 'RuntimeResponseGenericRuntimeResponseTypeIframe') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(
+            self,
+            other: 'RuntimeResponseGenericRuntimeResponseTypeIframe') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -12395,5 +12634,140 @@ class RuntimeResponseGenericRuntimeResponseTypeUserDefined(
     def __ne__(
             self, other: 'RuntimeResponseGenericRuntimeResponseTypeUserDefined'
     ) -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class RuntimeResponseGenericRuntimeResponseTypeVideo(RuntimeResponseGeneric):
+    """
+    RuntimeResponseGenericRuntimeResponseTypeVideo.
+
+    :attr str response_type: The type of response returned by the dialog node. The
+          specified response type must be supported by the client application or channel.
+    :attr str source: The `https:` URL of the video.
+    :attr str title: (optional) The title or introductory text to show before the
+          response.
+    :attr str description: (optional) The description to show with the the response.
+    :attr List[ResponseGenericChannel] channels: (optional) An array of objects
+          specifying channels for which the response is intended. If **channels** is
+          present, the response is intended for a built-in integration and should not be
+          handled by an API client.
+    :attr object channel_options: (optional) For internal use only.
+    :attr str alt_text: (optional) Descriptive text that can be used for screen
+          readers or other situations where the video cannot be seen.
+    """
+
+    def __init__(self,
+                 response_type: str,
+                 source: str,
+                 *,
+                 title: str = None,
+                 description: str = None,
+                 channels: List['ResponseGenericChannel'] = None,
+                 channel_options: object = None,
+                 alt_text: str = None) -> None:
+        """
+        Initialize a RuntimeResponseGenericRuntimeResponseTypeVideo object.
+
+        :param str response_type: The type of response returned by the dialog node.
+               The specified response type must be supported by the client application or
+               channel.
+        :param str source: The `https:` URL of the video.
+        :param str title: (optional) The title or introductory text to show before
+               the response.
+        :param str description: (optional) The description to show with the the
+               response.
+        :param List[ResponseGenericChannel] channels: (optional) An array of
+               objects specifying channels for which the response is intended. If
+               **channels** is present, the response is intended for a built-in
+               integration and should not be handled by an API client.
+        :param object channel_options: (optional) For internal use only.
+        :param str alt_text: (optional) Descriptive text that can be used for
+               screen readers or other situations where the video cannot be seen.
+        """
+        # pylint: disable=super-init-not-called
+        self.response_type = response_type
+        self.source = source
+        self.title = title
+        self.description = description
+        self.channels = channels
+        self.channel_options = channel_options
+        self.alt_text = alt_text
+
+    @classmethod
+    def from_dict(
+            cls,
+            _dict: Dict) -> 'RuntimeResponseGenericRuntimeResponseTypeVideo':
+        """Initialize a RuntimeResponseGenericRuntimeResponseTypeVideo object from a json dictionary."""
+        args = {}
+        if 'response_type' in _dict:
+            args['response_type'] = _dict.get('response_type')
+        else:
+            raise ValueError(
+                'Required property \'response_type\' not present in RuntimeResponseGenericRuntimeResponseTypeVideo JSON'
+            )
+        if 'source' in _dict:
+            args['source'] = _dict.get('source')
+        else:
+            raise ValueError(
+                'Required property \'source\' not present in RuntimeResponseGenericRuntimeResponseTypeVideo JSON'
+            )
+        if 'title' in _dict:
+            args['title'] = _dict.get('title')
+        if 'description' in _dict:
+            args['description'] = _dict.get('description')
+        if 'channels' in _dict:
+            args['channels'] = [
+                ResponseGenericChannel.from_dict(x)
+                for x in _dict.get('channels')
+            ]
+        if 'channel_options' in _dict:
+            args['channel_options'] = _dict.get('channel_options')
+        if 'alt_text' in _dict:
+            args['alt_text'] = _dict.get('alt_text')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a RuntimeResponseGenericRuntimeResponseTypeVideo object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'response_type') and self.response_type is not None:
+            _dict['response_type'] = self.response_type
+        if hasattr(self, 'source') and self.source is not None:
+            _dict['source'] = self.source
+        if hasattr(self, 'title') and self.title is not None:
+            _dict['title'] = self.title
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
+        if hasattr(self, 'channels') and self.channels is not None:
+            _dict['channels'] = [x.to_dict() for x in self.channels]
+        if hasattr(self,
+                   'channel_options') and self.channel_options is not None:
+            _dict['channel_options'] = self.channel_options
+        if hasattr(self, 'alt_text') and self.alt_text is not None:
+            _dict['alt_text'] = self.alt_text
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this RuntimeResponseGenericRuntimeResponseTypeVideo object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self,
+               other: 'RuntimeResponseGenericRuntimeResponseTypeVideo') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self,
+               other: 'RuntimeResponseGenericRuntimeResponseTypeVideo') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
