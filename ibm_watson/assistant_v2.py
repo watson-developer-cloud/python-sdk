@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2019, 2021.
+# (C) Copyright IBM Corp. 2019, 2022.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 3.38.0-07189efd-20210827-205025
+# IBM OpenAPI SDK Code Generator Version: 3.46.0-a4e29da0-20220224-210428
 """
 The IBM Watson&trade; Assistant service combines machine learning, natural language
 understanding, and an integrated dialog editor to create conversation flows between your
@@ -59,10 +59,10 @@ class AssistantV2(BaseService):
         Construct a new client for the Assistant service.
 
         :param str version: Release date of the API version you want to use.
-               Specify dates in YYYY-MM-DD format. The current version is `2021-06-14`.
+               Specify dates in YYYY-MM-DD format. The current version is `2021-11-27`.
 
         :param Authenticator authenticator: The authenticator specifies the authentication mechanism.
-               Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
+               Get up to date information from https://github.com/IBM/python-sdk-core/blob/main/README.md
                about initializing the authenticator of your choice.
         """
         if version is None:
@@ -1435,9 +1435,10 @@ class DialogNodeOutputOptionsElementValue():
         return not self == other
 
 
-class DialogNodesVisited():
+class DialogNodeVisited():
     """
-    DialogNodesVisited.
+    An objects containing detailed diagnostic information about a dialog node that was
+    triggered during processing of the input message.
 
     :attr str dialog_node: (optional) A dialog node that was triggered during
           processing of the input message.
@@ -1451,7 +1452,7 @@ class DialogNodesVisited():
                  title: str = None,
                  conditions: str = None) -> None:
         """
-        Initialize a DialogNodesVisited object.
+        Initialize a DialogNodeVisited object.
 
         :param str dialog_node: (optional) A dialog node that was triggered during
                processing of the input message.
@@ -1464,8 +1465,8 @@ class DialogNodesVisited():
         self.conditions = conditions
 
     @classmethod
-    def from_dict(cls, _dict: Dict) -> 'DialogNodesVisited':
-        """Initialize a DialogNodesVisited object from a json dictionary."""
+    def from_dict(cls, _dict: Dict) -> 'DialogNodeVisited':
+        """Initialize a DialogNodeVisited object from a json dictionary."""
         args = {}
         if 'dialog_node' in _dict:
             args['dialog_node'] = _dict.get('dialog_node')
@@ -1477,7 +1478,7 @@ class DialogNodesVisited():
 
     @classmethod
     def _from_dict(cls, _dict):
-        """Initialize a DialogNodesVisited object from a json dictionary."""
+        """Initialize a DialogNodeVisited object from a json dictionary."""
         return cls.from_dict(_dict)
 
     def to_dict(self) -> Dict:
@@ -1496,16 +1497,16 @@ class DialogNodesVisited():
         return self.to_dict()
 
     def __str__(self) -> str:
-        """Return a `str` version of this DialogNodesVisited object."""
+        """Return a `str` version of this DialogNodeVisited object."""
         return json.dumps(self.to_dict(), indent=2)
 
-    def __eq__(self, other: 'DialogNodesVisited') -> bool:
+    def __eq__(self, other: 'DialogNodeVisited') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other: 'DialogNodesVisited') -> bool:
+    def __ne__(self, other: 'DialogNodeVisited') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -2051,29 +2052,37 @@ class MessageContext():
     MessageContext.
 
     :attr MessageContextGlobal global_: (optional) Session context data that is
-          shared by all skills used by the Assistant.
+          shared by all skills used by the assistant.
     :attr dict skills: (optional) Information specific to particular skills used by
           the assistant.
           **Note:** Currently, only a single child property is supported, containing
           variables that apply to the dialog skill used by the assistant.
+    :attr object integrations: (optional) An object containing context data that is
+          specific to particular integrations. For more information, see the
+          [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-dialog-integrations).
     """
 
     def __init__(self,
                  *,
                  global_: 'MessageContextGlobal' = None,
-                 skills: dict = None) -> None:
+                 skills: dict = None,
+                 integrations: object = None) -> None:
         """
         Initialize a MessageContext object.
 
         :param MessageContextGlobal global_: (optional) Session context data that
-               is shared by all skills used by the Assistant.
+               is shared by all skills used by the assistant.
         :param dict skills: (optional) Information specific to particular skills
                used by the assistant.
                **Note:** Currently, only a single child property is supported, containing
                variables that apply to the dialog skill used by the assistant.
+        :param object integrations: (optional) An object containing context data
+               that is specific to particular integrations. For more information, see the
+               [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-dialog-integrations).
         """
         self.global_ = global_
         self.skills = skills
+        self.integrations = integrations
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'MessageContext':
@@ -2087,6 +2096,8 @@ class MessageContext():
                 k: MessageContextSkill.from_dict(v)
                 for k, v in _dict.get('skills').items()
             }
+        if 'integrations' in _dict:
+            args['integrations'] = _dict.get('integrations')
         return cls(**args)
 
     @classmethod
@@ -2101,6 +2112,8 @@ class MessageContext():
             _dict['global'] = self.global_.to_dict()
         if hasattr(self, 'skills') and self.skills is not None:
             _dict['skills'] = {k: v.to_dict() for k, v in self.skills.items()}
+        if hasattr(self, 'integrations') and self.integrations is not None:
+            _dict['integrations'] = self.integrations
         return _dict
 
     def _to_dict(self):
@@ -2124,7 +2137,7 @@ class MessageContext():
 
 class MessageContextGlobal():
     """
-    Session context data that is shared by all skills used by the Assistant.
+    Session context data that is shared by all skills used by the assistant.
 
     :attr MessageContextGlobalSystem system: (optional) Built-in system properties
           that apply to all skills used by the assistant.
@@ -2191,7 +2204,7 @@ class MessageContextGlobal():
 
 class MessageContextGlobalStateless():
     """
-    Session context data that is shared by all skills used by the Assistant.
+    Session context data that is shared by all skills used by the assistant.
 
     :attr MessageContextGlobalSystem system: (optional) Built-in system properties
           that apply to all skills used by the assistant.
@@ -2306,6 +2319,7 @@ class MessageContextGlobalSystem():
           of the subsequent message request to avoid disruptions if there are
           configuration changes during the conversation (such as a change to a skill the
           assistant uses).
+    :attr bool skip_user_input: (optional) For internal use only.
     """
 
     def __init__(self,
@@ -2316,7 +2330,8 @@ class MessageContextGlobalSystem():
                  locale: str = None,
                  reference_time: str = None,
                  session_start_time: str = None,
-                 state: str = None) -> None:
+                 state: str = None,
+                 skip_user_input: bool = None) -> None:
         """
         Initialize a MessageContextGlobalSystem object.
 
@@ -2368,6 +2383,7 @@ class MessageContextGlobalSystem():
                send it in the context of the subsequent message request to avoid
                disruptions if there are configuration changes during the conversation
                (such as a change to a skill the assistant uses).
+        :param bool skip_user_input: (optional) For internal use only.
         """
         self.timezone = timezone
         self.user_id = user_id
@@ -2376,6 +2392,7 @@ class MessageContextGlobalSystem():
         self.reference_time = reference_time
         self.session_start_time = session_start_time
         self.state = state
+        self.skip_user_input = skip_user_input
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'MessageContextGlobalSystem':
@@ -2395,6 +2412,8 @@ class MessageContextGlobalSystem():
             args['session_start_time'] = _dict.get('session_start_time')
         if 'state' in _dict:
             args['state'] = _dict.get('state')
+        if 'skip_user_input' in _dict:
+            args['skip_user_input'] = _dict.get('skip_user_input')
         return cls(**args)
 
     @classmethod
@@ -2421,6 +2440,9 @@ class MessageContextGlobalSystem():
             _dict['session_start_time'] = self.session_start_time
         if hasattr(self, 'state') and self.state is not None:
             _dict['state'] = self.state
+        if hasattr(self,
+                   'skip_user_input') and self.skip_user_input is not None:
+            _dict['skip_user_input'] = self.skip_user_input
         return _dict
 
     def _to_dict(self):
@@ -2469,7 +2491,7 @@ class MessageContextGlobalSystem():
 
 class MessageContextSkill():
     """
-    Contains information specific to a particular skill used by the Assistant. The
+    Contains information specific to a particular skill used by the assistant. The
     property name must be the same as the name of the skill (for example, `main skill`).
 
     :attr dict user_defined: (optional) Arbitrary variables that can be read and
@@ -2641,29 +2663,37 @@ class MessageContextStateless():
     MessageContextStateless.
 
     :attr MessageContextGlobalStateless global_: (optional) Session context data
-          that is shared by all skills used by the Assistant.
+          that is shared by all skills used by the assistant.
     :attr dict skills: (optional) Information specific to particular skills used by
           the assistant.
           **Note:** Currently, only a single child property is supported, containing
           variables that apply to the dialog skill used by the assistant.
+    :attr object integrations: (optional) An object containing context data that is
+          specific to particular integrations. For more information, see the
+          [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-dialog-integrations).
     """
 
     def __init__(self,
                  *,
                  global_: 'MessageContextGlobalStateless' = None,
-                 skills: dict = None) -> None:
+                 skills: dict = None,
+                 integrations: object = None) -> None:
         """
         Initialize a MessageContextStateless object.
 
         :param MessageContextGlobalStateless global_: (optional) Session context
-               data that is shared by all skills used by the Assistant.
+               data that is shared by all skills used by the assistant.
         :param dict skills: (optional) Information specific to particular skills
                used by the assistant.
                **Note:** Currently, only a single child property is supported, containing
                variables that apply to the dialog skill used by the assistant.
+        :param object integrations: (optional) An object containing context data
+               that is specific to particular integrations. For more information, see the
+               [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-dialog-integrations).
         """
         self.global_ = global_
         self.skills = skills
+        self.integrations = integrations
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'MessageContextStateless':
@@ -2677,6 +2707,8 @@ class MessageContextStateless():
                 k: MessageContextSkill.from_dict(v)
                 for k, v in _dict.get('skills').items()
             }
+        if 'integrations' in _dict:
+            args['integrations'] = _dict.get('integrations')
         return cls(**args)
 
     @classmethod
@@ -2691,6 +2723,8 @@ class MessageContextStateless():
             _dict['global'] = self.global_.to_dict()
         if hasattr(self, 'skills') and self.skills is not None:
             _dict['skills'] = {k: v.to_dict() for k, v in self.skills.items()}
+        if hasattr(self, 'integrations') and self.integrations is not None:
+            _dict['integrations'] = self.integrations
         return _dict
 
     def _to_dict(self):
@@ -2731,6 +2765,10 @@ class MessageInput():
           the message. Include entities from the previous response to continue using those
           entities rather than detecting entities in the new input.
     :attr str suggestion_id: (optional) For internal use only.
+    :attr List[MessageInputAttachment] attachments: (optional) An array of
+          multimedia attachments to be sent with the message.
+          **Note:** Attachments are not processed by the assistant itself, but can be sent
+          to external services by webhooks.
     :attr MessageInputOptions options: (optional) Optional properties that control
           how the assistant responds.
     """
@@ -2742,6 +2780,7 @@ class MessageInput():
                  intents: List['RuntimeIntent'] = None,
                  entities: List['RuntimeEntity'] = None,
                  suggestion_id: str = None,
+                 attachments: List['MessageInputAttachment'] = None,
                  options: 'MessageInputOptions' = None) -> None:
         """
         Initialize a MessageInput object.
@@ -2763,6 +2802,10 @@ class MessageInput():
                continue using those entities rather than detecting entities in the new
                input.
         :param str suggestion_id: (optional) For internal use only.
+        :param List[MessageInputAttachment] attachments: (optional) An array of
+               multimedia attachments to be sent with the message.
+               **Note:** Attachments are not processed by the assistant itself, but can be
+               sent to external services by webhooks.
         :param MessageInputOptions options: (optional) Optional properties that
                control how the assistant responds.
         """
@@ -2771,6 +2814,7 @@ class MessageInput():
         self.intents = intents
         self.entities = entities
         self.suggestion_id = suggestion_id
+        self.attachments = attachments
         self.options = options
 
     @classmethod
@@ -2791,6 +2835,11 @@ class MessageInput():
             ]
         if 'suggestion_id' in _dict:
             args['suggestion_id'] = _dict.get('suggestion_id')
+        if 'attachments' in _dict:
+            args['attachments'] = [
+                MessageInputAttachment.from_dict(x)
+                for x in _dict.get('attachments')
+            ]
         if 'options' in _dict:
             args['options'] = MessageInputOptions.from_dict(
                 _dict.get('options'))
@@ -2814,6 +2863,8 @@ class MessageInput():
             _dict['entities'] = [x.to_dict() for x in self.entities]
         if hasattr(self, 'suggestion_id') and self.suggestion_id is not None:
             _dict['suggestion_id'] = self.suggestion_id
+        if hasattr(self, 'attachments') and self.attachments is not None:
+            _dict['attachments'] = [x.to_dict() for x in self.attachments]
         if hasattr(self, 'options') and self.options is not None:
             _dict['options'] = self.options.to_dict()
         return _dict
@@ -2847,6 +2898,73 @@ class MessageInput():
         """
         TEXT = 'text'
         SEARCH = 'search'
+
+
+class MessageInputAttachment():
+    """
+    A reference to a media file to be sent as an attachment with the message.
+
+    :attr str url: The URL of the media file.
+    :attr str media_type: (optional) The media content type (such as a MIME type) of
+          the attachment.
+    """
+
+    def __init__(self, url: str, *, media_type: str = None) -> None:
+        """
+        Initialize a MessageInputAttachment object.
+
+        :param str url: The URL of the media file.
+        :param str media_type: (optional) The media content type (such as a MIME
+               type) of the attachment.
+        """
+        self.url = url
+        self.media_type = media_type
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'MessageInputAttachment':
+        """Initialize a MessageInputAttachment object from a json dictionary."""
+        args = {}
+        if 'url' in _dict:
+            args['url'] = _dict.get('url')
+        else:
+            raise ValueError(
+                'Required property \'url\' not present in MessageInputAttachment JSON'
+            )
+        if 'media_type' in _dict:
+            args['media_type'] = _dict.get('media_type')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a MessageInputAttachment object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'url') and self.url is not None:
+            _dict['url'] = self.url
+        if hasattr(self, 'media_type') and self.media_type is not None:
+            _dict['media_type'] = self.media_type
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this MessageInputAttachment object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'MessageInputAttachment') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'MessageInputAttachment') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
 
 
 class MessageInputOptions():
@@ -3180,6 +3298,10 @@ class MessageInputStateless():
           the message. Include entities from the previous response to continue using those
           entities rather than detecting entities in the new input.
     :attr str suggestion_id: (optional) For internal use only.
+    :attr List[MessageInputAttachment] attachments: (optional) An array of
+          multimedia attachments to be sent with the message.
+          **Note:** Attachments are not processed by the assistant itself, but can be sent
+          to external services by webhooks.
     :attr MessageInputOptionsStateless options: (optional) Optional properties that
           control how the assistant responds.
     """
@@ -3191,6 +3313,7 @@ class MessageInputStateless():
                  intents: List['RuntimeIntent'] = None,
                  entities: List['RuntimeEntity'] = None,
                  suggestion_id: str = None,
+                 attachments: List['MessageInputAttachment'] = None,
                  options: 'MessageInputOptionsStateless' = None) -> None:
         """
         Initialize a MessageInputStateless object.
@@ -3212,6 +3335,10 @@ class MessageInputStateless():
                continue using those entities rather than detecting entities in the new
                input.
         :param str suggestion_id: (optional) For internal use only.
+        :param List[MessageInputAttachment] attachments: (optional) An array of
+               multimedia attachments to be sent with the message.
+               **Note:** Attachments are not processed by the assistant itself, but can be
+               sent to external services by webhooks.
         :param MessageInputOptionsStateless options: (optional) Optional properties
                that control how the assistant responds.
         """
@@ -3220,6 +3347,7 @@ class MessageInputStateless():
         self.intents = intents
         self.entities = entities
         self.suggestion_id = suggestion_id
+        self.attachments = attachments
         self.options = options
 
     @classmethod
@@ -3240,6 +3368,11 @@ class MessageInputStateless():
             ]
         if 'suggestion_id' in _dict:
             args['suggestion_id'] = _dict.get('suggestion_id')
+        if 'attachments' in _dict:
+            args['attachments'] = [
+                MessageInputAttachment.from_dict(x)
+                for x in _dict.get('attachments')
+            ]
         if 'options' in _dict:
             args['options'] = MessageInputOptionsStateless.from_dict(
                 _dict.get('options'))
@@ -3263,6 +3396,8 @@ class MessageInputStateless():
             _dict['entities'] = [x.to_dict() for x in self.entities]
         if hasattr(self, 'suggestion_id') and self.suggestion_id is not None:
             _dict['suggestion_id'] = self.suggestion_id
+        if hasattr(self, 'attachments') and self.attachments is not None:
+            _dict['attachments'] = [x.to_dict() for x in self.attachments]
         if hasattr(self, 'options') and self.options is not None:
             _dict['options'] = self.options.to_dict()
         return _dict
@@ -3435,36 +3570,36 @@ class MessageOutputDebug():
     """
     Additional detailed information about a message response and how it was generated.
 
-    :attr List[DialogNodesVisited] nodes_visited: (optional) An array of objects
-          containing detailed diagnostic information about the nodes that were triggered
-          during processing of the input message.
+    :attr List[DialogNodeVisited] nodes_visited: (optional) An array of objects
+          containing detailed diagnostic information about dialog nodes that were
+          triggered during processing of the input message.
     :attr List[DialogLogMessage] log_messages: (optional) An array of up to 50
           messages logged with the request.
     :attr bool branch_exited: (optional) Assistant sets this to true when this
           message response concludes or interrupts a dialog.
     :attr str branch_exited_reason: (optional) When `branch_exited` is set to `true`
-          by the Assistant, the `branch_exited_reason` specifies whether the dialog
+          by the assistant, the `branch_exited_reason` specifies whether the dialog
           completed by itself or got interrupted.
     """
 
     def __init__(self,
                  *,
-                 nodes_visited: List['DialogNodesVisited'] = None,
+                 nodes_visited: List['DialogNodeVisited'] = None,
                  log_messages: List['DialogLogMessage'] = None,
                  branch_exited: bool = None,
                  branch_exited_reason: str = None) -> None:
         """
         Initialize a MessageOutputDebug object.
 
-        :param List[DialogNodesVisited] nodes_visited: (optional) An array of
-               objects containing detailed diagnostic information about the nodes that
+        :param List[DialogNodeVisited] nodes_visited: (optional) An array of
+               objects containing detailed diagnostic information about dialog nodes that
                were triggered during processing of the input message.
         :param List[DialogLogMessage] log_messages: (optional) An array of up to 50
                messages logged with the request.
         :param bool branch_exited: (optional) Assistant sets this to true when this
                message response concludes or interrupts a dialog.
         :param str branch_exited_reason: (optional) When `branch_exited` is set to
-               `true` by the Assistant, the `branch_exited_reason` specifies whether the
+               `true` by the assistant, the `branch_exited_reason` specifies whether the
                dialog completed by itself or got interrupted.
         """
         self.nodes_visited = nodes_visited
@@ -3478,7 +3613,7 @@ class MessageOutputDebug():
         args = {}
         if 'nodes_visited' in _dict:
             args['nodes_visited'] = [
-                DialogNodesVisited.from_dict(x)
+                DialogNodeVisited.from_dict(x)
                 for x in _dict.get('nodes_visited')
             ]
         if 'log_messages' in _dict:
@@ -3530,7 +3665,7 @@ class MessageOutputDebug():
 
     class BranchExitedReasonEnum(str, Enum):
         """
-        When `branch_exited` is set to `true` by the Assistant, the `branch_exited_reason`
+        When `branch_exited` is set to `true` by the assistant, the `branch_exited_reason`
         specifies whether the dialog completed by itself or got interrupted.
         """
         COMPLETED = 'completed'
@@ -4001,10 +4136,6 @@ class RuntimeEntity():
           value.
     :attr float confidence: (optional) A decimal percentage that represents Watson's
           confidence in the recognized entity.
-    :attr dict metadata: (optional) **Deprecated.** Any metadata for the entity.
-          Beginning with the `2021-06-14` API version, the `metadata` property is no
-          longer returned. For information about system entities recognized in the user
-          input, see the `interpretation` property.
     :attr List[CaptureGroup] groups: (optional) The recognized capture groups for
           the entity, as defined by the entity pattern.
     :attr RuntimeEntityInterpretation interpretation: (optional) An object
@@ -4031,7 +4162,6 @@ class RuntimeEntity():
                  *,
                  location: List[int] = None,
                  confidence: float = None,
-                 metadata: dict = None,
                  groups: List['CaptureGroup'] = None,
                  interpretation: 'RuntimeEntityInterpretation' = None,
                  alternatives: List['RuntimeEntityAlternative'] = None,
@@ -4047,11 +4177,6 @@ class RuntimeEntity():
                input text.
         :param float confidence: (optional) A decimal percentage that represents
                Watson's confidence in the recognized entity.
-        :param dict metadata: (optional) **Deprecated.** Any metadata for the
-               entity.
-               Beginning with the `2021-06-14` API version, the `metadata` property is no
-               longer returned. For information about system entities recognized in the
-               user input, see the `interpretation` property.
         :param List[CaptureGroup] groups: (optional) The recognized capture groups
                for the entity, as defined by the entity pattern.
         :param RuntimeEntityInterpretation interpretation: (optional) An object
@@ -4077,7 +4202,6 @@ class RuntimeEntity():
         self.location = location
         self.value = value
         self.confidence = confidence
-        self.metadata = metadata
         self.groups = groups
         self.interpretation = interpretation
         self.alternatives = alternatives
@@ -4102,8 +4226,6 @@ class RuntimeEntity():
                 'Required property \'value\' not present in RuntimeEntity JSON')
         if 'confidence' in _dict:
             args['confidence'] = _dict.get('confidence')
-        if 'metadata' in _dict:
-            args['metadata'] = _dict.get('metadata')
         if 'groups' in _dict:
             args['groups'] = [
                 CaptureGroup.from_dict(x) for x in _dict.get('groups')
@@ -4136,8 +4258,6 @@ class RuntimeEntity():
             _dict['value'] = self.value
         if hasattr(self, 'confidence') and self.confidence is not None:
             _dict['confidence'] = self.confidence
-        if hasattr(self, 'metadata') and self.metadata is not None:
-            _dict['metadata'] = self.metadata
         if hasattr(self, 'groups') and self.groups is not None:
             _dict['groups'] = [x.to_dict() for x in self.groups]
         if hasattr(self, 'interpretation') and self.interpretation is not None:
@@ -4760,7 +4880,10 @@ class RuntimeResponseGeneric():
                 'RuntimeResponseGenericRuntimeResponseTypeSuggestion',
                 'RuntimeResponseGenericRuntimeResponseTypeChannelTransfer',
                 'RuntimeResponseGenericRuntimeResponseTypeSearch',
-                'RuntimeResponseGenericRuntimeResponseTypeUserDefined'
+                'RuntimeResponseGenericRuntimeResponseTypeUserDefined',
+                'RuntimeResponseGenericRuntimeResponseTypeVideo',
+                'RuntimeResponseGenericRuntimeResponseTypeAudio',
+                'RuntimeResponseGenericRuntimeResponseTypeIframe'
             ]))
         raise Exception(msg)
 
@@ -4782,7 +4905,10 @@ class RuntimeResponseGeneric():
             'RuntimeResponseGenericRuntimeResponseTypeSuggestion',
             'RuntimeResponseGenericRuntimeResponseTypeChannelTransfer',
             'RuntimeResponseGenericRuntimeResponseTypeSearch',
-            'RuntimeResponseGenericRuntimeResponseTypeUserDefined'
+            'RuntimeResponseGenericRuntimeResponseTypeUserDefined',
+            'RuntimeResponseGenericRuntimeResponseTypeVideo',
+            'RuntimeResponseGenericRuntimeResponseTypeAudio',
+            'RuntimeResponseGenericRuntimeResponseTypeIframe'
         ]))
         raise Exception(msg)
 
@@ -4794,10 +4920,12 @@ class RuntimeResponseGeneric():
     @classmethod
     def _get_class_by_discriminator(cls, _dict: Dict) -> object:
         mapping = {}
+        mapping['audio'] = 'RuntimeResponseGenericRuntimeResponseTypeAudio'
         mapping[
             'channel_transfer'] = 'RuntimeResponseGenericRuntimeResponseTypeChannelTransfer'
         mapping[
             'connect_to_agent'] = 'RuntimeResponseGenericRuntimeResponseTypeConnectToAgent'
+        mapping['iframe'] = 'RuntimeResponseGenericRuntimeResponseTypeIframe'
         mapping['image'] = 'RuntimeResponseGenericRuntimeResponseTypeImage'
         mapping['option'] = 'RuntimeResponseGenericRuntimeResponseTypeOption'
         mapping[
@@ -4807,6 +4935,7 @@ class RuntimeResponseGeneric():
         mapping['text'] = 'RuntimeResponseGenericRuntimeResponseTypeText'
         mapping[
             'user_defined'] = 'RuntimeResponseGenericRuntimeResponseTypeUserDefined'
+        mapping['video'] = 'RuntimeResponseGenericRuntimeResponseTypeVideo'
         disc_value = _dict.get('response_type')
         if disc_value is None:
             raise ValueError(
@@ -5629,6 +5758,141 @@ class LogMessageSourceStep(LogMessageSource):
         return not self == other
 
 
+class RuntimeResponseGenericRuntimeResponseTypeAudio(RuntimeResponseGeneric):
+    """
+    RuntimeResponseGenericRuntimeResponseTypeAudio.
+
+    :attr str response_type: The type of response returned by the dialog node. The
+          specified response type must be supported by the client application or channel.
+    :attr str source: The `https:` URL of the audio clip.
+    :attr str title: (optional) The title or introductory text to show before the
+          response.
+    :attr str description: (optional) The description to show with the the response.
+    :attr List[ResponseGenericChannel] channels: (optional) An array of objects
+          specifying channels for which the response is intended. If **channels** is
+          present, the response is intended for a built-in integration and should not be
+          handled by an API client.
+    :attr object channel_options: (optional) For internal use only.
+    :attr str alt_text: (optional) Descriptive text that can be used for screen
+          readers or other situations where the audio player cannot be seen.
+    """
+
+    def __init__(self,
+                 response_type: str,
+                 source: str,
+                 *,
+                 title: str = None,
+                 description: str = None,
+                 channels: List['ResponseGenericChannel'] = None,
+                 channel_options: object = None,
+                 alt_text: str = None) -> None:
+        """
+        Initialize a RuntimeResponseGenericRuntimeResponseTypeAudio object.
+
+        :param str response_type: The type of response returned by the dialog node.
+               The specified response type must be supported by the client application or
+               channel.
+        :param str source: The `https:` URL of the audio clip.
+        :param str title: (optional) The title or introductory text to show before
+               the response.
+        :param str description: (optional) The description to show with the the
+               response.
+        :param List[ResponseGenericChannel] channels: (optional) An array of
+               objects specifying channels for which the response is intended. If
+               **channels** is present, the response is intended for a built-in
+               integration and should not be handled by an API client.
+        :param object channel_options: (optional) For internal use only.
+        :param str alt_text: (optional) Descriptive text that can be used for
+               screen readers or other situations where the audio player cannot be seen.
+        """
+        # pylint: disable=super-init-not-called
+        self.response_type = response_type
+        self.source = source
+        self.title = title
+        self.description = description
+        self.channels = channels
+        self.channel_options = channel_options
+        self.alt_text = alt_text
+
+    @classmethod
+    def from_dict(
+            cls,
+            _dict: Dict) -> 'RuntimeResponseGenericRuntimeResponseTypeAudio':
+        """Initialize a RuntimeResponseGenericRuntimeResponseTypeAudio object from a json dictionary."""
+        args = {}
+        if 'response_type' in _dict:
+            args['response_type'] = _dict.get('response_type')
+        else:
+            raise ValueError(
+                'Required property \'response_type\' not present in RuntimeResponseGenericRuntimeResponseTypeAudio JSON'
+            )
+        if 'source' in _dict:
+            args['source'] = _dict.get('source')
+        else:
+            raise ValueError(
+                'Required property \'source\' not present in RuntimeResponseGenericRuntimeResponseTypeAudio JSON'
+            )
+        if 'title' in _dict:
+            args['title'] = _dict.get('title')
+        if 'description' in _dict:
+            args['description'] = _dict.get('description')
+        if 'channels' in _dict:
+            args['channels'] = [
+                ResponseGenericChannel.from_dict(x)
+                for x in _dict.get('channels')
+            ]
+        if 'channel_options' in _dict:
+            args['channel_options'] = _dict.get('channel_options')
+        if 'alt_text' in _dict:
+            args['alt_text'] = _dict.get('alt_text')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a RuntimeResponseGenericRuntimeResponseTypeAudio object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'response_type') and self.response_type is not None:
+            _dict['response_type'] = self.response_type
+        if hasattr(self, 'source') and self.source is not None:
+            _dict['source'] = self.source
+        if hasattr(self, 'title') and self.title is not None:
+            _dict['title'] = self.title
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
+        if hasattr(self, 'channels') and self.channels is not None:
+            _dict['channels'] = [x.to_dict() for x in self.channels]
+        if hasattr(self,
+                   'channel_options') and self.channel_options is not None:
+            _dict['channel_options'] = self.channel_options
+        if hasattr(self, 'alt_text') and self.alt_text is not None:
+            _dict['alt_text'] = self.alt_text
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this RuntimeResponseGenericRuntimeResponseTypeAudio object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self,
+               other: 'RuntimeResponseGenericRuntimeResponseTypeAudio') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self,
+               other: 'RuntimeResponseGenericRuntimeResponseTypeAudio') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class RuntimeResponseGenericRuntimeResponseTypeChannelTransfer(
         RuntimeResponseGeneric):
     """
@@ -5897,6 +6161,134 @@ class RuntimeResponseGenericRuntimeResponseTypeConnectToAgent(
     def __ne__(
         self, other: 'RuntimeResponseGenericRuntimeResponseTypeConnectToAgent'
     ) -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class RuntimeResponseGenericRuntimeResponseTypeIframe(RuntimeResponseGeneric):
+    """
+    RuntimeResponseGenericRuntimeResponseTypeIframe.
+
+    :attr str response_type: The type of response returned by the dialog node. The
+          specified response type must be supported by the client application or channel.
+    :attr str source: The `https:` URL of the embeddable content.
+    :attr str title: (optional) The title or introductory text to show before the
+          response.
+    :attr str description: (optional) The description to show with the the response.
+    :attr str image_url: (optional) The URL of an image that shows a preview of the
+          embedded content.
+    :attr List[ResponseGenericChannel] channels: (optional) An array of objects
+          specifying channels for which the response is intended. If **channels** is
+          present, the response is intended for a built-in integration and should not be
+          handled by an API client.
+    """
+
+    def __init__(self,
+                 response_type: str,
+                 source: str,
+                 *,
+                 title: str = None,
+                 description: str = None,
+                 image_url: str = None,
+                 channels: List['ResponseGenericChannel'] = None) -> None:
+        """
+        Initialize a RuntimeResponseGenericRuntimeResponseTypeIframe object.
+
+        :param str response_type: The type of response returned by the dialog node.
+               The specified response type must be supported by the client application or
+               channel.
+        :param str source: The `https:` URL of the embeddable content.
+        :param str title: (optional) The title or introductory text to show before
+               the response.
+        :param str description: (optional) The description to show with the the
+               response.
+        :param str image_url: (optional) The URL of an image that shows a preview
+               of the embedded content.
+        :param List[ResponseGenericChannel] channels: (optional) An array of
+               objects specifying channels for which the response is intended. If
+               **channels** is present, the response is intended for a built-in
+               integration and should not be handled by an API client.
+        """
+        # pylint: disable=super-init-not-called
+        self.response_type = response_type
+        self.source = source
+        self.title = title
+        self.description = description
+        self.image_url = image_url
+        self.channels = channels
+
+    @classmethod
+    def from_dict(
+            cls,
+            _dict: Dict) -> 'RuntimeResponseGenericRuntimeResponseTypeIframe':
+        """Initialize a RuntimeResponseGenericRuntimeResponseTypeIframe object from a json dictionary."""
+        args = {}
+        if 'response_type' in _dict:
+            args['response_type'] = _dict.get('response_type')
+        else:
+            raise ValueError(
+                'Required property \'response_type\' not present in RuntimeResponseGenericRuntimeResponseTypeIframe JSON'
+            )
+        if 'source' in _dict:
+            args['source'] = _dict.get('source')
+        else:
+            raise ValueError(
+                'Required property \'source\' not present in RuntimeResponseGenericRuntimeResponseTypeIframe JSON'
+            )
+        if 'title' in _dict:
+            args['title'] = _dict.get('title')
+        if 'description' in _dict:
+            args['description'] = _dict.get('description')
+        if 'image_url' in _dict:
+            args['image_url'] = _dict.get('image_url')
+        if 'channels' in _dict:
+            args['channels'] = [
+                ResponseGenericChannel.from_dict(x)
+                for x in _dict.get('channels')
+            ]
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a RuntimeResponseGenericRuntimeResponseTypeIframe object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'response_type') and self.response_type is not None:
+            _dict['response_type'] = self.response_type
+        if hasattr(self, 'source') and self.source is not None:
+            _dict['source'] = self.source
+        if hasattr(self, 'title') and self.title is not None:
+            _dict['title'] = self.title
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
+        if hasattr(self, 'image_url') and self.image_url is not None:
+            _dict['image_url'] = self.image_url
+        if hasattr(self, 'channels') and self.channels is not None:
+            _dict['channels'] = [x.to_dict() for x in self.channels]
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this RuntimeResponseGenericRuntimeResponseTypeIframe object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(
+            self,
+            other: 'RuntimeResponseGenericRuntimeResponseTypeIframe') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(
+            self,
+            other: 'RuntimeResponseGenericRuntimeResponseTypeIframe') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -6728,5 +7120,140 @@ class RuntimeResponseGenericRuntimeResponseTypeUserDefined(
     def __ne__(
             self, other: 'RuntimeResponseGenericRuntimeResponseTypeUserDefined'
     ) -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class RuntimeResponseGenericRuntimeResponseTypeVideo(RuntimeResponseGeneric):
+    """
+    RuntimeResponseGenericRuntimeResponseTypeVideo.
+
+    :attr str response_type: The type of response returned by the dialog node. The
+          specified response type must be supported by the client application or channel.
+    :attr str source: The `https:` URL of the video.
+    :attr str title: (optional) The title or introductory text to show before the
+          response.
+    :attr str description: (optional) The description to show with the the response.
+    :attr List[ResponseGenericChannel] channels: (optional) An array of objects
+          specifying channels for which the response is intended. If **channels** is
+          present, the response is intended for a built-in integration and should not be
+          handled by an API client.
+    :attr object channel_options: (optional) For internal use only.
+    :attr str alt_text: (optional) Descriptive text that can be used for screen
+          readers or other situations where the video cannot be seen.
+    """
+
+    def __init__(self,
+                 response_type: str,
+                 source: str,
+                 *,
+                 title: str = None,
+                 description: str = None,
+                 channels: List['ResponseGenericChannel'] = None,
+                 channel_options: object = None,
+                 alt_text: str = None) -> None:
+        """
+        Initialize a RuntimeResponseGenericRuntimeResponseTypeVideo object.
+
+        :param str response_type: The type of response returned by the dialog node.
+               The specified response type must be supported by the client application or
+               channel.
+        :param str source: The `https:` URL of the video.
+        :param str title: (optional) The title or introductory text to show before
+               the response.
+        :param str description: (optional) The description to show with the the
+               response.
+        :param List[ResponseGenericChannel] channels: (optional) An array of
+               objects specifying channels for which the response is intended. If
+               **channels** is present, the response is intended for a built-in
+               integration and should not be handled by an API client.
+        :param object channel_options: (optional) For internal use only.
+        :param str alt_text: (optional) Descriptive text that can be used for
+               screen readers or other situations where the video cannot be seen.
+        """
+        # pylint: disable=super-init-not-called
+        self.response_type = response_type
+        self.source = source
+        self.title = title
+        self.description = description
+        self.channels = channels
+        self.channel_options = channel_options
+        self.alt_text = alt_text
+
+    @classmethod
+    def from_dict(
+            cls,
+            _dict: Dict) -> 'RuntimeResponseGenericRuntimeResponseTypeVideo':
+        """Initialize a RuntimeResponseGenericRuntimeResponseTypeVideo object from a json dictionary."""
+        args = {}
+        if 'response_type' in _dict:
+            args['response_type'] = _dict.get('response_type')
+        else:
+            raise ValueError(
+                'Required property \'response_type\' not present in RuntimeResponseGenericRuntimeResponseTypeVideo JSON'
+            )
+        if 'source' in _dict:
+            args['source'] = _dict.get('source')
+        else:
+            raise ValueError(
+                'Required property \'source\' not present in RuntimeResponseGenericRuntimeResponseTypeVideo JSON'
+            )
+        if 'title' in _dict:
+            args['title'] = _dict.get('title')
+        if 'description' in _dict:
+            args['description'] = _dict.get('description')
+        if 'channels' in _dict:
+            args['channels'] = [
+                ResponseGenericChannel.from_dict(x)
+                for x in _dict.get('channels')
+            ]
+        if 'channel_options' in _dict:
+            args['channel_options'] = _dict.get('channel_options')
+        if 'alt_text' in _dict:
+            args['alt_text'] = _dict.get('alt_text')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a RuntimeResponseGenericRuntimeResponseTypeVideo object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'response_type') and self.response_type is not None:
+            _dict['response_type'] = self.response_type
+        if hasattr(self, 'source') and self.source is not None:
+            _dict['source'] = self.source
+        if hasattr(self, 'title') and self.title is not None:
+            _dict['title'] = self.title
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
+        if hasattr(self, 'channels') and self.channels is not None:
+            _dict['channels'] = [x.to_dict() for x in self.channels]
+        if hasattr(self,
+                   'channel_options') and self.channel_options is not None:
+            _dict['channel_options'] = self.channel_options
+        if hasattr(self, 'alt_text') and self.alt_text is not None:
+            _dict['alt_text'] = self.alt_text
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this RuntimeResponseGenericRuntimeResponseTypeVideo object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self,
+               other: 'RuntimeResponseGenericRuntimeResponseTypeVideo') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self,
+               other: 'RuntimeResponseGenericRuntimeResponseTypeVideo') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
