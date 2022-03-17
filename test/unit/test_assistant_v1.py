@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2018, 2022.
+# (C) Copyright IBM Corp. 2022.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -495,7 +495,7 @@ class TestListWorkspaces():
         """
         # Set up mock
         url = preprocess_url('/v1/workspaces')
-        mock_response = '{"workspaces": [{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
+        mock_response = '{"workspaces": [{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "audio", "source": "source", "title": "title", "description": "description", "channels": [{"channel": "chat"}], "channel_options": {"anyKey": "anyValue"}, "alt_text": "alt_text"}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -547,7 +547,7 @@ class TestListWorkspaces():
         """
         # Set up mock
         url = preprocess_url('/v1/workspaces')
-        mock_response = '{"workspaces": [{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
+        mock_response = '{"workspaces": [{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "audio", "source": "source", "title": "title", "description": "description", "channels": [{"channel": "chat"}], "channel_options": {"anyKey": "anyValue"}, "alt_text": "alt_text"}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -578,7 +578,7 @@ class TestListWorkspaces():
         """
         # Set up mock
         url = preprocess_url('/v1/workspaces')
-        mock_response = '{"workspaces": [{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
+        mock_response = '{"workspaces": [{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "audio", "source": "source", "title": "title", "description": "description", "channels": [{"channel": "chat"}], "channel_options": {"anyKey": "anyValue"}, "alt_text": "alt_text"}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -615,35 +615,26 @@ class TestCreateWorkspace():
         """
         # Set up mock
         url = preprocess_url('/v1/workspaces')
-        mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
+        mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "audio", "source": "source", "title": "title", "description": "description", "channels": [{"channel": "chat"}], "channel_options": {"anyKey": "anyValue"}, "alt_text": "alt_text"}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
                       content_type='application/json',
                       status=201)
 
-        # Construct a dict representation of a ChannelTransferTargetChat model
-        channel_transfer_target_chat_model = {}
-        channel_transfer_target_chat_model['url'] = 'testString'
-
-        # Construct a dict representation of a ChannelTransferTarget model
-        channel_transfer_target_model = {}
-        channel_transfer_target_model['chat'] = channel_transfer_target_chat_model
-
-        # Construct a dict representation of a ChannelTransferInfo model
-        channel_transfer_info_model = {}
-        channel_transfer_info_model['target'] = channel_transfer_target_model
-
         # Construct a dict representation of a ResponseGenericChannel model
         response_generic_channel_model = {}
         response_generic_channel_model['channel'] = 'chat'
 
-        # Construct a dict representation of a DialogNodeOutputGenericDialogNodeOutputResponseTypeChannelTransfer model
+        # Construct a dict representation of a DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio model
         dialog_node_output_generic_model = {}
-        dialog_node_output_generic_model['response_type'] = 'channel_transfer'
-        dialog_node_output_generic_model['message_to_user'] = 'testString'
-        dialog_node_output_generic_model['transfer_info'] = channel_transfer_info_model
+        dialog_node_output_generic_model['response_type'] = 'audio'
+        dialog_node_output_generic_model['source'] = 'testString'
+        dialog_node_output_generic_model['title'] = 'testString'
+        dialog_node_output_generic_model['description'] = 'testString'
         dialog_node_output_generic_model['channels'] = [response_generic_channel_model]
+        dialog_node_output_generic_model['channel_options'] = { 'foo': 'bar' }
+        dialog_node_output_generic_model['alt_text'] = 'testString'
 
         # Construct a dict representation of a DialogNodeOutputModifiers model
         dialog_node_output_modifiers_model = {}
@@ -732,6 +723,7 @@ class TestCreateWorkspace():
         workspace_system_settings_model['spelling_auto_correct'] = False
         workspace_system_settings_model['system_entities'] = workspace_system_settings_system_entities_model
         workspace_system_settings_model['off_topic'] = workspace_system_settings_off_topic_model
+        workspace_system_settings_model['foo'] = 'testString'
 
         # Construct a dict representation of a WebhookHeader model
         webhook_header_model = {}
@@ -844,7 +836,7 @@ class TestCreateWorkspace():
         """
         # Set up mock
         url = preprocess_url('/v1/workspaces')
-        mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
+        mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "audio", "source": "source", "title": "title", "description": "description", "channels": [{"channel": "chat"}], "channel_options": {"anyKey": "anyValue"}, "alt_text": "alt_text"}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -875,7 +867,7 @@ class TestCreateWorkspace():
         """
         # Set up mock
         url = preprocess_url('/v1/workspaces')
-        mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
+        mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "audio", "source": "source", "title": "title", "description": "description", "channels": [{"channel": "chat"}], "channel_options": {"anyKey": "anyValue"}, "alt_text": "alt_text"}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -912,7 +904,7 @@ class TestGetWorkspace():
         """
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString')
-        mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
+        mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "audio", "source": "source", "title": "title", "description": "description", "channels": [{"channel": "chat"}], "channel_options": {"anyKey": "anyValue"}, "alt_text": "alt_text"}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -960,7 +952,7 @@ class TestGetWorkspace():
         """
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString')
-        mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
+        mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "audio", "source": "source", "title": "title", "description": "description", "channels": [{"channel": "chat"}], "channel_options": {"anyKey": "anyValue"}, "alt_text": "alt_text"}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -996,7 +988,7 @@ class TestGetWorkspace():
         """
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString')
-        mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
+        mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "audio", "source": "source", "title": "title", "description": "description", "channels": [{"channel": "chat"}], "channel_options": {"anyKey": "anyValue"}, "alt_text": "alt_text"}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1037,35 +1029,26 @@ class TestUpdateWorkspace():
         """
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString')
-        mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
+        mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "audio", "source": "source", "title": "title", "description": "description", "channels": [{"channel": "chat"}], "channel_options": {"anyKey": "anyValue"}, "alt_text": "alt_text"}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
                       content_type='application/json',
                       status=200)
 
-        # Construct a dict representation of a ChannelTransferTargetChat model
-        channel_transfer_target_chat_model = {}
-        channel_transfer_target_chat_model['url'] = 'testString'
-
-        # Construct a dict representation of a ChannelTransferTarget model
-        channel_transfer_target_model = {}
-        channel_transfer_target_model['chat'] = channel_transfer_target_chat_model
-
-        # Construct a dict representation of a ChannelTransferInfo model
-        channel_transfer_info_model = {}
-        channel_transfer_info_model['target'] = channel_transfer_target_model
-
         # Construct a dict representation of a ResponseGenericChannel model
         response_generic_channel_model = {}
         response_generic_channel_model['channel'] = 'chat'
 
-        # Construct a dict representation of a DialogNodeOutputGenericDialogNodeOutputResponseTypeChannelTransfer model
+        # Construct a dict representation of a DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio model
         dialog_node_output_generic_model = {}
-        dialog_node_output_generic_model['response_type'] = 'channel_transfer'
-        dialog_node_output_generic_model['message_to_user'] = 'testString'
-        dialog_node_output_generic_model['transfer_info'] = channel_transfer_info_model
+        dialog_node_output_generic_model['response_type'] = 'audio'
+        dialog_node_output_generic_model['source'] = 'testString'
+        dialog_node_output_generic_model['title'] = 'testString'
+        dialog_node_output_generic_model['description'] = 'testString'
         dialog_node_output_generic_model['channels'] = [response_generic_channel_model]
+        dialog_node_output_generic_model['channel_options'] = { 'foo': 'bar' }
+        dialog_node_output_generic_model['alt_text'] = 'testString'
 
         # Construct a dict representation of a DialogNodeOutputModifiers model
         dialog_node_output_modifiers_model = {}
@@ -1154,6 +1137,7 @@ class TestUpdateWorkspace():
         workspace_system_settings_model['spelling_auto_correct'] = False
         workspace_system_settings_model['system_entities'] = workspace_system_settings_system_entities_model
         workspace_system_settings_model['off_topic'] = workspace_system_settings_off_topic_model
+        workspace_system_settings_model['foo'] = 'testString'
 
         # Construct a dict representation of a WebhookHeader model
         webhook_header_model = {}
@@ -1271,7 +1255,7 @@ class TestUpdateWorkspace():
         """
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString')
-        mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
+        mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "audio", "source": "source", "title": "title", "description": "description", "channels": [{"channel": "chat"}], "channel_options": {"anyKey": "anyValue"}, "alt_text": "alt_text"}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -1307,7 +1291,7 @@ class TestUpdateWorkspace():
         """
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString')
-        mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
+        mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "audio", "source": "source", "title": "title", "description": "description", "channels": [{"channel": "chat"}], "channel_options": {"anyKey": "anyValue"}, "alt_text": "alt_text"}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -5646,7 +5630,7 @@ class TestListDialogNodes():
         """
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/dialog_nodes')
-        mock_response = '{"dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
+        mock_response = '{"dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "audio", "source": "source", "title": "title", "description": "description", "channels": [{"channel": "chat"}], "channel_options": {"anyKey": "anyValue"}, "alt_text": "alt_text"}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -5700,7 +5684,7 @@ class TestListDialogNodes():
         """
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/dialog_nodes')
-        mock_response = '{"dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
+        mock_response = '{"dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "audio", "source": "source", "title": "title", "description": "description", "channels": [{"channel": "chat"}], "channel_options": {"anyKey": "anyValue"}, "alt_text": "alt_text"}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -5736,7 +5720,7 @@ class TestListDialogNodes():
         """
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/dialog_nodes')
-        mock_response = '{"dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
+        mock_response = '{"dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "audio", "source": "source", "title": "title", "description": "description", "channels": [{"channel": "chat"}], "channel_options": {"anyKey": "anyValue"}, "alt_text": "alt_text"}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -5777,35 +5761,26 @@ class TestCreateDialogNode():
         """
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/dialog_nodes')
-        mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "audio", "source": "source", "title": "title", "description": "description", "channels": [{"channel": "chat"}], "channel_options": {"anyKey": "anyValue"}, "alt_text": "alt_text"}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
                       content_type='application/json',
                       status=201)
 
-        # Construct a dict representation of a ChannelTransferTargetChat model
-        channel_transfer_target_chat_model = {}
-        channel_transfer_target_chat_model['url'] = 'testString'
-
-        # Construct a dict representation of a ChannelTransferTarget model
-        channel_transfer_target_model = {}
-        channel_transfer_target_model['chat'] = channel_transfer_target_chat_model
-
-        # Construct a dict representation of a ChannelTransferInfo model
-        channel_transfer_info_model = {}
-        channel_transfer_info_model['target'] = channel_transfer_target_model
-
         # Construct a dict representation of a ResponseGenericChannel model
         response_generic_channel_model = {}
         response_generic_channel_model['channel'] = 'chat'
 
-        # Construct a dict representation of a DialogNodeOutputGenericDialogNodeOutputResponseTypeChannelTransfer model
+        # Construct a dict representation of a DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio model
         dialog_node_output_generic_model = {}
-        dialog_node_output_generic_model['response_type'] = 'channel_transfer'
-        dialog_node_output_generic_model['message_to_user'] = 'testString'
-        dialog_node_output_generic_model['transfer_info'] = channel_transfer_info_model
+        dialog_node_output_generic_model['response_type'] = 'audio'
+        dialog_node_output_generic_model['source'] = 'testString'
+        dialog_node_output_generic_model['title'] = 'testString'
+        dialog_node_output_generic_model['description'] = 'testString'
         dialog_node_output_generic_model['channels'] = [response_generic_channel_model]
+        dialog_node_output_generic_model['channel_options'] = { 'foo': 'bar' }
+        dialog_node_output_generic_model['alt_text'] = 'testString'
 
         # Construct a dict representation of a DialogNodeOutputModifiers model
         dialog_node_output_modifiers_model = {}
@@ -5931,35 +5906,26 @@ class TestCreateDialogNode():
         """
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/dialog_nodes')
-        mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "audio", "source": "source", "title": "title", "description": "description", "channels": [{"channel": "chat"}], "channel_options": {"anyKey": "anyValue"}, "alt_text": "alt_text"}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
                       content_type='application/json',
                       status=201)
 
-        # Construct a dict representation of a ChannelTransferTargetChat model
-        channel_transfer_target_chat_model = {}
-        channel_transfer_target_chat_model['url'] = 'testString'
-
-        # Construct a dict representation of a ChannelTransferTarget model
-        channel_transfer_target_model = {}
-        channel_transfer_target_model['chat'] = channel_transfer_target_chat_model
-
-        # Construct a dict representation of a ChannelTransferInfo model
-        channel_transfer_info_model = {}
-        channel_transfer_info_model['target'] = channel_transfer_target_model
-
         # Construct a dict representation of a ResponseGenericChannel model
         response_generic_channel_model = {}
         response_generic_channel_model['channel'] = 'chat'
 
-        # Construct a dict representation of a DialogNodeOutputGenericDialogNodeOutputResponseTypeChannelTransfer model
+        # Construct a dict representation of a DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio model
         dialog_node_output_generic_model = {}
-        dialog_node_output_generic_model['response_type'] = 'channel_transfer'
-        dialog_node_output_generic_model['message_to_user'] = 'testString'
-        dialog_node_output_generic_model['transfer_info'] = channel_transfer_info_model
+        dialog_node_output_generic_model['response_type'] = 'audio'
+        dialog_node_output_generic_model['source'] = 'testString'
+        dialog_node_output_generic_model['title'] = 'testString'
+        dialog_node_output_generic_model['description'] = 'testString'
         dialog_node_output_generic_model['channels'] = [response_generic_channel_model]
+        dialog_node_output_generic_model['channel_options'] = { 'foo': 'bar' }
+        dialog_node_output_generic_model['alt_text'] = 'testString'
 
         # Construct a dict representation of a DialogNodeOutputModifiers model
         dialog_node_output_modifiers_model = {}
@@ -6079,35 +6045,26 @@ class TestCreateDialogNode():
         """
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/dialog_nodes')
-        mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "audio", "source": "source", "title": "title", "description": "description", "channels": [{"channel": "chat"}], "channel_options": {"anyKey": "anyValue"}, "alt_text": "alt_text"}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
                       content_type='application/json',
                       status=201)
 
-        # Construct a dict representation of a ChannelTransferTargetChat model
-        channel_transfer_target_chat_model = {}
-        channel_transfer_target_chat_model['url'] = 'testString'
-
-        # Construct a dict representation of a ChannelTransferTarget model
-        channel_transfer_target_model = {}
-        channel_transfer_target_model['chat'] = channel_transfer_target_chat_model
-
-        # Construct a dict representation of a ChannelTransferInfo model
-        channel_transfer_info_model = {}
-        channel_transfer_info_model['target'] = channel_transfer_target_model
-
         # Construct a dict representation of a ResponseGenericChannel model
         response_generic_channel_model = {}
         response_generic_channel_model['channel'] = 'chat'
 
-        # Construct a dict representation of a DialogNodeOutputGenericDialogNodeOutputResponseTypeChannelTransfer model
+        # Construct a dict representation of a DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio model
         dialog_node_output_generic_model = {}
-        dialog_node_output_generic_model['response_type'] = 'channel_transfer'
-        dialog_node_output_generic_model['message_to_user'] = 'testString'
-        dialog_node_output_generic_model['transfer_info'] = channel_transfer_info_model
+        dialog_node_output_generic_model['response_type'] = 'audio'
+        dialog_node_output_generic_model['source'] = 'testString'
+        dialog_node_output_generic_model['title'] = 'testString'
+        dialog_node_output_generic_model['description'] = 'testString'
         dialog_node_output_generic_model['channels'] = [response_generic_channel_model]
+        dialog_node_output_generic_model['channel_options'] = { 'foo': 'bar' }
+        dialog_node_output_generic_model['alt_text'] = 'testString'
 
         # Construct a dict representation of a DialogNodeOutputModifiers model
         dialog_node_output_modifiers_model = {}
@@ -6193,7 +6150,7 @@ class TestGetDialogNode():
         """
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/dialog_nodes/testString')
-        mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "audio", "source": "source", "title": "title", "description": "description", "channels": [{"channel": "chat"}], "channel_options": {"anyKey": "anyValue"}, "alt_text": "alt_text"}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -6237,7 +6194,7 @@ class TestGetDialogNode():
         """
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/dialog_nodes/testString')
-        mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "audio", "source": "source", "title": "title", "description": "description", "channels": [{"channel": "chat"}], "channel_options": {"anyKey": "anyValue"}, "alt_text": "alt_text"}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -6275,7 +6232,7 @@ class TestGetDialogNode():
         """
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/dialog_nodes/testString')
-        mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "audio", "source": "source", "title": "title", "description": "description", "channels": [{"channel": "chat"}], "channel_options": {"anyKey": "anyValue"}, "alt_text": "alt_text"}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -6318,35 +6275,26 @@ class TestUpdateDialogNode():
         """
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/dialog_nodes/testString')
-        mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "audio", "source": "source", "title": "title", "description": "description", "channels": [{"channel": "chat"}], "channel_options": {"anyKey": "anyValue"}, "alt_text": "alt_text"}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
                       content_type='application/json',
                       status=200)
 
-        # Construct a dict representation of a ChannelTransferTargetChat model
-        channel_transfer_target_chat_model = {}
-        channel_transfer_target_chat_model['url'] = 'testString'
-
-        # Construct a dict representation of a ChannelTransferTarget model
-        channel_transfer_target_model = {}
-        channel_transfer_target_model['chat'] = channel_transfer_target_chat_model
-
-        # Construct a dict representation of a ChannelTransferInfo model
-        channel_transfer_info_model = {}
-        channel_transfer_info_model['target'] = channel_transfer_target_model
-
         # Construct a dict representation of a ResponseGenericChannel model
         response_generic_channel_model = {}
         response_generic_channel_model['channel'] = 'chat'
 
-        # Construct a dict representation of a DialogNodeOutputGenericDialogNodeOutputResponseTypeChannelTransfer model
+        # Construct a dict representation of a DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio model
         dialog_node_output_generic_model = {}
-        dialog_node_output_generic_model['response_type'] = 'channel_transfer'
-        dialog_node_output_generic_model['message_to_user'] = 'testString'
-        dialog_node_output_generic_model['transfer_info'] = channel_transfer_info_model
+        dialog_node_output_generic_model['response_type'] = 'audio'
+        dialog_node_output_generic_model['source'] = 'testString'
+        dialog_node_output_generic_model['title'] = 'testString'
+        dialog_node_output_generic_model['description'] = 'testString'
         dialog_node_output_generic_model['channels'] = [response_generic_channel_model]
+        dialog_node_output_generic_model['channel_options'] = { 'foo': 'bar' }
+        dialog_node_output_generic_model['alt_text'] = 'testString'
 
         # Construct a dict representation of a DialogNodeOutputModifiers model
         dialog_node_output_modifiers_model = {}
@@ -6474,35 +6422,26 @@ class TestUpdateDialogNode():
         """
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/dialog_nodes/testString')
-        mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "audio", "source": "source", "title": "title", "description": "description", "channels": [{"channel": "chat"}], "channel_options": {"anyKey": "anyValue"}, "alt_text": "alt_text"}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
                       content_type='application/json',
                       status=200)
 
-        # Construct a dict representation of a ChannelTransferTargetChat model
-        channel_transfer_target_chat_model = {}
-        channel_transfer_target_chat_model['url'] = 'testString'
-
-        # Construct a dict representation of a ChannelTransferTarget model
-        channel_transfer_target_model = {}
-        channel_transfer_target_model['chat'] = channel_transfer_target_chat_model
-
-        # Construct a dict representation of a ChannelTransferInfo model
-        channel_transfer_info_model = {}
-        channel_transfer_info_model['target'] = channel_transfer_target_model
-
         # Construct a dict representation of a ResponseGenericChannel model
         response_generic_channel_model = {}
         response_generic_channel_model['channel'] = 'chat'
 
-        # Construct a dict representation of a DialogNodeOutputGenericDialogNodeOutputResponseTypeChannelTransfer model
+        # Construct a dict representation of a DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio model
         dialog_node_output_generic_model = {}
-        dialog_node_output_generic_model['response_type'] = 'channel_transfer'
-        dialog_node_output_generic_model['message_to_user'] = 'testString'
-        dialog_node_output_generic_model['transfer_info'] = channel_transfer_info_model
+        dialog_node_output_generic_model['response_type'] = 'audio'
+        dialog_node_output_generic_model['source'] = 'testString'
+        dialog_node_output_generic_model['title'] = 'testString'
+        dialog_node_output_generic_model['description'] = 'testString'
         dialog_node_output_generic_model['channels'] = [response_generic_channel_model]
+        dialog_node_output_generic_model['channel_options'] = { 'foo': 'bar' }
+        dialog_node_output_generic_model['alt_text'] = 'testString'
 
         # Construct a dict representation of a DialogNodeOutputModifiers model
         dialog_node_output_modifiers_model = {}
@@ -6624,35 +6563,26 @@ class TestUpdateDialogNode():
         """
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/dialog_nodes/testString')
-        mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "audio", "source": "source", "title": "title", "description": "description", "channels": [{"channel": "chat"}], "channel_options": {"anyKey": "anyValue"}, "alt_text": "alt_text"}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
                       content_type='application/json',
                       status=200)
 
-        # Construct a dict representation of a ChannelTransferTargetChat model
-        channel_transfer_target_chat_model = {}
-        channel_transfer_target_chat_model['url'] = 'testString'
-
-        # Construct a dict representation of a ChannelTransferTarget model
-        channel_transfer_target_model = {}
-        channel_transfer_target_model['chat'] = channel_transfer_target_chat_model
-
-        # Construct a dict representation of a ChannelTransferInfo model
-        channel_transfer_info_model = {}
-        channel_transfer_info_model['target'] = channel_transfer_target_model
-
         # Construct a dict representation of a ResponseGenericChannel model
         response_generic_channel_model = {}
         response_generic_channel_model['channel'] = 'chat'
 
-        # Construct a dict representation of a DialogNodeOutputGenericDialogNodeOutputResponseTypeChannelTransfer model
+        # Construct a dict representation of a DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio model
         dialog_node_output_generic_model = {}
-        dialog_node_output_generic_model['response_type'] = 'channel_transfer'
-        dialog_node_output_generic_model['message_to_user'] = 'testString'
-        dialog_node_output_generic_model['transfer_info'] = channel_transfer_info_model
+        dialog_node_output_generic_model['response_type'] = 'audio'
+        dialog_node_output_generic_model['source'] = 'testString'
+        dialog_node_output_generic_model['title'] = 'testString'
+        dialog_node_output_generic_model['description'] = 'testString'
         dialog_node_output_generic_model['channels'] = [response_generic_channel_model]
+        dialog_node_output_generic_model['channel_options'] = { 'foo': 'bar' }
+        dialog_node_output_generic_model['alt_text'] = 'testString'
 
         # Construct a dict representation of a DialogNodeOutputModifiers model
         dialog_node_output_modifiers_model = {}
@@ -7796,23 +7726,17 @@ class TestModel_DialogNode():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        channel_transfer_target_chat_model = {} # ChannelTransferTargetChat
-        channel_transfer_target_chat_model['url'] = 'testString'
-
-        channel_transfer_target_model = {} # ChannelTransferTarget
-        channel_transfer_target_model['chat'] = channel_transfer_target_chat_model
-
-        channel_transfer_info_model = {} # ChannelTransferInfo
-        channel_transfer_info_model['target'] = channel_transfer_target_model
-
         response_generic_channel_model = {} # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'chat'
 
-        dialog_node_output_generic_model = {} # DialogNodeOutputGenericDialogNodeOutputResponseTypeChannelTransfer
-        dialog_node_output_generic_model['response_type'] = 'channel_transfer'
-        dialog_node_output_generic_model['message_to_user'] = 'testString'
-        dialog_node_output_generic_model['transfer_info'] = channel_transfer_info_model
+        dialog_node_output_generic_model = {} # DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio
+        dialog_node_output_generic_model['response_type'] = 'audio'
+        dialog_node_output_generic_model['source'] = 'testString'
+        dialog_node_output_generic_model['title'] = 'testString'
+        dialog_node_output_generic_model['description'] = 'testString'
         dialog_node_output_generic_model['channels'] = [response_generic_channel_model]
+        dialog_node_output_generic_model['channel_options'] = { 'foo': 'bar' }
+        dialog_node_output_generic_model['alt_text'] = 'testString'
 
         dialog_node_output_modifiers_model = {} # DialogNodeOutputModifiers
         dialog_node_output_modifiers_model['overwrite'] = True
@@ -7924,23 +7848,17 @@ class TestModel_DialogNodeCollection():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        channel_transfer_target_chat_model = {} # ChannelTransferTargetChat
-        channel_transfer_target_chat_model['url'] = 'testString'
-
-        channel_transfer_target_model = {} # ChannelTransferTarget
-        channel_transfer_target_model['chat'] = channel_transfer_target_chat_model
-
-        channel_transfer_info_model = {} # ChannelTransferInfo
-        channel_transfer_info_model['target'] = channel_transfer_target_model
-
         response_generic_channel_model = {} # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'chat'
 
-        dialog_node_output_generic_model = {} # DialogNodeOutputGenericDialogNodeOutputResponseTypeChannelTransfer
-        dialog_node_output_generic_model['response_type'] = 'channel_transfer'
-        dialog_node_output_generic_model['message_to_user'] = 'testString'
-        dialog_node_output_generic_model['transfer_info'] = channel_transfer_info_model
+        dialog_node_output_generic_model = {} # DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio
+        dialog_node_output_generic_model['response_type'] = 'audio'
+        dialog_node_output_generic_model['source'] = 'testString'
+        dialog_node_output_generic_model['title'] = 'testString'
+        dialog_node_output_generic_model['description'] = 'testString'
         dialog_node_output_generic_model['channels'] = [response_generic_channel_model]
+        dialog_node_output_generic_model['channel_options'] = { 'foo': 'bar' }
+        dialog_node_output_generic_model['alt_text'] = 'testString'
 
         dialog_node_output_modifiers_model = {} # DialogNodeOutputModifiers
         dialog_node_output_modifiers_model['overwrite'] = True
@@ -8102,23 +8020,17 @@ class TestModel_DialogNodeOutput():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        channel_transfer_target_chat_model = {} # ChannelTransferTargetChat
-        channel_transfer_target_chat_model['url'] = 'testString'
-
-        channel_transfer_target_model = {} # ChannelTransferTarget
-        channel_transfer_target_model['chat'] = channel_transfer_target_chat_model
-
-        channel_transfer_info_model = {} # ChannelTransferInfo
-        channel_transfer_info_model['target'] = channel_transfer_target_model
-
         response_generic_channel_model = {} # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'chat'
 
-        dialog_node_output_generic_model = {} # DialogNodeOutputGenericDialogNodeOutputResponseTypeChannelTransfer
-        dialog_node_output_generic_model['response_type'] = 'channel_transfer'
-        dialog_node_output_generic_model['message_to_user'] = 'testString'
-        dialog_node_output_generic_model['transfer_info'] = channel_transfer_info_model
+        dialog_node_output_generic_model = {} # DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio
+        dialog_node_output_generic_model['response_type'] = 'audio'
+        dialog_node_output_generic_model['source'] = 'testString'
+        dialog_node_output_generic_model['title'] = 'testString'
+        dialog_node_output_generic_model['description'] = 'testString'
         dialog_node_output_generic_model['channels'] = [response_generic_channel_model]
+        dialog_node_output_generic_model['channel_options'] = { 'foo': 'bar' }
+        dialog_node_output_generic_model['alt_text'] = 'testString'
 
         dialog_node_output_modifiers_model = {} # DialogNodeOutputModifiers
         dialog_node_output_modifiers_model['overwrite'] = True
@@ -10574,23 +10486,17 @@ class TestModel_Workspace():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        channel_transfer_target_chat_model = {} # ChannelTransferTargetChat
-        channel_transfer_target_chat_model['url'] = 'testString'
-
-        channel_transfer_target_model = {} # ChannelTransferTarget
-        channel_transfer_target_model['chat'] = channel_transfer_target_chat_model
-
-        channel_transfer_info_model = {} # ChannelTransferInfo
-        channel_transfer_info_model['target'] = channel_transfer_target_model
-
         response_generic_channel_model = {} # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'chat'
 
-        dialog_node_output_generic_model = {} # DialogNodeOutputGenericDialogNodeOutputResponseTypeChannelTransfer
-        dialog_node_output_generic_model['response_type'] = 'channel_transfer'
-        dialog_node_output_generic_model['message_to_user'] = 'testString'
-        dialog_node_output_generic_model['transfer_info'] = channel_transfer_info_model
+        dialog_node_output_generic_model = {} # DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio
+        dialog_node_output_generic_model['response_type'] = 'audio'
+        dialog_node_output_generic_model['source'] = 'testString'
+        dialog_node_output_generic_model['title'] = 'testString'
+        dialog_node_output_generic_model['description'] = 'testString'
         dialog_node_output_generic_model['channels'] = [response_generic_channel_model]
+        dialog_node_output_generic_model['channel_options'] = { 'foo': 'bar' }
+        dialog_node_output_generic_model['alt_text'] = 'testString'
 
         dialog_node_output_modifiers_model = {} # DialogNodeOutputModifiers
         dialog_node_output_modifiers_model['overwrite'] = True
@@ -10672,6 +10578,7 @@ class TestModel_Workspace():
         workspace_system_settings_model['spelling_auto_correct'] = False
         workspace_system_settings_model['system_entities'] = workspace_system_settings_system_entities_model
         workspace_system_settings_model['off_topic'] = workspace_system_settings_off_topic_model
+        workspace_system_settings_model['foo'] = 'testString'
 
         webhook_header_model = {} # WebhookHeader
         webhook_header_model['name'] = 'testString'
@@ -10762,23 +10669,17 @@ class TestModel_WorkspaceCollection():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        channel_transfer_target_chat_model = {} # ChannelTransferTargetChat
-        channel_transfer_target_chat_model['url'] = 'testString'
-
-        channel_transfer_target_model = {} # ChannelTransferTarget
-        channel_transfer_target_model['chat'] = channel_transfer_target_chat_model
-
-        channel_transfer_info_model = {} # ChannelTransferInfo
-        channel_transfer_info_model['target'] = channel_transfer_target_model
-
         response_generic_channel_model = {} # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'chat'
 
-        dialog_node_output_generic_model = {} # DialogNodeOutputGenericDialogNodeOutputResponseTypeChannelTransfer
-        dialog_node_output_generic_model['response_type'] = 'channel_transfer'
-        dialog_node_output_generic_model['message_to_user'] = 'testString'
-        dialog_node_output_generic_model['transfer_info'] = channel_transfer_info_model
+        dialog_node_output_generic_model = {} # DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio
+        dialog_node_output_generic_model['response_type'] = 'audio'
+        dialog_node_output_generic_model['source'] = 'testString'
+        dialog_node_output_generic_model['title'] = 'testString'
+        dialog_node_output_generic_model['description'] = 'testString'
         dialog_node_output_generic_model['channels'] = [response_generic_channel_model]
+        dialog_node_output_generic_model['channel_options'] = { 'foo': 'bar' }
+        dialog_node_output_generic_model['alt_text'] = 'testString'
 
         dialog_node_output_modifiers_model = {} # DialogNodeOutputModifiers
         dialog_node_output_modifiers_model['overwrite'] = True
@@ -10860,6 +10761,7 @@ class TestModel_WorkspaceCollection():
         workspace_system_settings_model['spelling_auto_correct'] = False
         workspace_system_settings_model['system_entities'] = workspace_system_settings_system_entities_model
         workspace_system_settings_model['off_topic'] = workspace_system_settings_off_topic_model
+        workspace_system_settings_model['foo'] = 'testString'
 
         webhook_header_model = {} # WebhookHeader
         webhook_header_model['name'] = 'testString'
@@ -10989,6 +10891,7 @@ class TestModel_WorkspaceSystemSettings():
         workspace_system_settings_model_json['spelling_auto_correct'] = False
         workspace_system_settings_model_json['system_entities'] = workspace_system_settings_system_entities_model
         workspace_system_settings_model_json['off_topic'] = workspace_system_settings_off_topic_model
+        workspace_system_settings_model_json['foo'] = 'testString'
 
         # Construct a model instance of WorkspaceSystemSettings by calling from_dict on the json representation
         workspace_system_settings_model = WorkspaceSystemSettings.from_dict(workspace_system_settings_model_json)
@@ -11004,6 +10907,16 @@ class TestModel_WorkspaceSystemSettings():
         # Convert model instance back to dict and verify no loss of data
         workspace_system_settings_model_json2 = workspace_system_settings_model.to_dict()
         assert workspace_system_settings_model_json2 == workspace_system_settings_model_json
+
+        # Test get_properties and set_properties methods.
+        workspace_system_settings_model.set_properties({})
+        actual_dict = workspace_system_settings_model.get_properties()
+        assert actual_dict == {}
+
+        expected_dict = {'foo': 'testString'}
+        workspace_system_settings_model.set_properties(expected_dict)
+        actual_dict = workspace_system_settings_model.get_properties()
+        assert actual_dict == expected_dict
 
 class TestModel_WorkspaceSystemSettingsDisambiguation():
     """
@@ -11127,6 +11040,46 @@ class TestModel_WorkspaceSystemSettingsTooling():
         workspace_system_settings_tooling_model_json2 = workspace_system_settings_tooling_model.to_dict()
         assert workspace_system_settings_tooling_model_json2 == workspace_system_settings_tooling_model_json
 
+class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio():
+    """
+    Test Class for DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio
+    """
+
+    def test_dialog_node_output_generic_dialog_node_output_response_type_audio_serialization(self):
+        """
+        Test serialization/deserialization for DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model['channel'] = 'chat'
+
+        # Construct a json representation of a DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio model
+        dialog_node_output_generic_dialog_node_output_response_type_audio_model_json = {}
+        dialog_node_output_generic_dialog_node_output_response_type_audio_model_json['response_type'] = 'audio'
+        dialog_node_output_generic_dialog_node_output_response_type_audio_model_json['source'] = 'testString'
+        dialog_node_output_generic_dialog_node_output_response_type_audio_model_json['title'] = 'testString'
+        dialog_node_output_generic_dialog_node_output_response_type_audio_model_json['description'] = 'testString'
+        dialog_node_output_generic_dialog_node_output_response_type_audio_model_json['channels'] = [response_generic_channel_model]
+        dialog_node_output_generic_dialog_node_output_response_type_audio_model_json['channel_options'] = { 'foo': 'bar' }
+        dialog_node_output_generic_dialog_node_output_response_type_audio_model_json['alt_text'] = 'testString'
+
+        # Construct a model instance of DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio by calling from_dict on the json representation
+        dialog_node_output_generic_dialog_node_output_response_type_audio_model = DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio.from_dict(dialog_node_output_generic_dialog_node_output_response_type_audio_model_json)
+        assert dialog_node_output_generic_dialog_node_output_response_type_audio_model != False
+
+        # Construct a model instance of DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio by calling from_dict on the json representation
+        dialog_node_output_generic_dialog_node_output_response_type_audio_model_dict = DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio.from_dict(dialog_node_output_generic_dialog_node_output_response_type_audio_model_json).__dict__
+        dialog_node_output_generic_dialog_node_output_response_type_audio_model2 = DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio(**dialog_node_output_generic_dialog_node_output_response_type_audio_model_dict)
+
+        # Verify the model instances are equivalent
+        assert dialog_node_output_generic_dialog_node_output_response_type_audio_model == dialog_node_output_generic_dialog_node_output_response_type_audio_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        dialog_node_output_generic_dialog_node_output_response_type_audio_model_json2 = dialog_node_output_generic_dialog_node_output_response_type_audio_model.to_dict()
+        assert dialog_node_output_generic_dialog_node_output_response_type_audio_model_json2 == dialog_node_output_generic_dialog_node_output_response_type_audio_model_json
+
 class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeChannelTransfer():
     """
     Test Class for DialogNodeOutputGenericDialogNodeOutputResponseTypeChannelTransfer
@@ -11217,6 +11170,45 @@ class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeConnectToAgen
         # Convert model instance back to dict and verify no loss of data
         dialog_node_output_generic_dialog_node_output_response_type_connect_to_agent_model_json2 = dialog_node_output_generic_dialog_node_output_response_type_connect_to_agent_model.to_dict()
         assert dialog_node_output_generic_dialog_node_output_response_type_connect_to_agent_model_json2 == dialog_node_output_generic_dialog_node_output_response_type_connect_to_agent_model_json
+
+class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeIframe():
+    """
+    Test Class for DialogNodeOutputGenericDialogNodeOutputResponseTypeIframe
+    """
+
+    def test_dialog_node_output_generic_dialog_node_output_response_type_iframe_serialization(self):
+        """
+        Test serialization/deserialization for DialogNodeOutputGenericDialogNodeOutputResponseTypeIframe
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model['channel'] = 'chat'
+
+        # Construct a json representation of a DialogNodeOutputGenericDialogNodeOutputResponseTypeIframe model
+        dialog_node_output_generic_dialog_node_output_response_type_iframe_model_json = {}
+        dialog_node_output_generic_dialog_node_output_response_type_iframe_model_json['response_type'] = 'iframe'
+        dialog_node_output_generic_dialog_node_output_response_type_iframe_model_json['source'] = 'testString'
+        dialog_node_output_generic_dialog_node_output_response_type_iframe_model_json['title'] = 'testString'
+        dialog_node_output_generic_dialog_node_output_response_type_iframe_model_json['description'] = 'testString'
+        dialog_node_output_generic_dialog_node_output_response_type_iframe_model_json['image_url'] = 'testString'
+        dialog_node_output_generic_dialog_node_output_response_type_iframe_model_json['channels'] = [response_generic_channel_model]
+
+        # Construct a model instance of DialogNodeOutputGenericDialogNodeOutputResponseTypeIframe by calling from_dict on the json representation
+        dialog_node_output_generic_dialog_node_output_response_type_iframe_model = DialogNodeOutputGenericDialogNodeOutputResponseTypeIframe.from_dict(dialog_node_output_generic_dialog_node_output_response_type_iframe_model_json)
+        assert dialog_node_output_generic_dialog_node_output_response_type_iframe_model != False
+
+        # Construct a model instance of DialogNodeOutputGenericDialogNodeOutputResponseTypeIframe by calling from_dict on the json representation
+        dialog_node_output_generic_dialog_node_output_response_type_iframe_model_dict = DialogNodeOutputGenericDialogNodeOutputResponseTypeIframe.from_dict(dialog_node_output_generic_dialog_node_output_response_type_iframe_model_json).__dict__
+        dialog_node_output_generic_dialog_node_output_response_type_iframe_model2 = DialogNodeOutputGenericDialogNodeOutputResponseTypeIframe(**dialog_node_output_generic_dialog_node_output_response_type_iframe_model_dict)
+
+        # Verify the model instances are equivalent
+        assert dialog_node_output_generic_dialog_node_output_response_type_iframe_model == dialog_node_output_generic_dialog_node_output_response_type_iframe_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        dialog_node_output_generic_dialog_node_output_response_type_iframe_model_json2 = dialog_node_output_generic_dialog_node_output_response_type_iframe_model.to_dict()
+        assert dialog_node_output_generic_dialog_node_output_response_type_iframe_model_json2 == dialog_node_output_generic_dialog_node_output_response_type_iframe_model_json
 
 class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeImage():
     """
@@ -11518,6 +11510,46 @@ class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeUserDefined()
         # Convert model instance back to dict and verify no loss of data
         dialog_node_output_generic_dialog_node_output_response_type_user_defined_model_json2 = dialog_node_output_generic_dialog_node_output_response_type_user_defined_model.to_dict()
         assert dialog_node_output_generic_dialog_node_output_response_type_user_defined_model_json2 == dialog_node_output_generic_dialog_node_output_response_type_user_defined_model_json
+
+class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeVideo():
+    """
+    Test Class for DialogNodeOutputGenericDialogNodeOutputResponseTypeVideo
+    """
+
+    def test_dialog_node_output_generic_dialog_node_output_response_type_video_serialization(self):
+        """
+        Test serialization/deserialization for DialogNodeOutputGenericDialogNodeOutputResponseTypeVideo
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model['channel'] = 'chat'
+
+        # Construct a json representation of a DialogNodeOutputGenericDialogNodeOutputResponseTypeVideo model
+        dialog_node_output_generic_dialog_node_output_response_type_video_model_json = {}
+        dialog_node_output_generic_dialog_node_output_response_type_video_model_json['response_type'] = 'video'
+        dialog_node_output_generic_dialog_node_output_response_type_video_model_json['source'] = 'testString'
+        dialog_node_output_generic_dialog_node_output_response_type_video_model_json['title'] = 'testString'
+        dialog_node_output_generic_dialog_node_output_response_type_video_model_json['description'] = 'testString'
+        dialog_node_output_generic_dialog_node_output_response_type_video_model_json['channels'] = [response_generic_channel_model]
+        dialog_node_output_generic_dialog_node_output_response_type_video_model_json['channel_options'] = { 'foo': 'bar' }
+        dialog_node_output_generic_dialog_node_output_response_type_video_model_json['alt_text'] = 'testString'
+
+        # Construct a model instance of DialogNodeOutputGenericDialogNodeOutputResponseTypeVideo by calling from_dict on the json representation
+        dialog_node_output_generic_dialog_node_output_response_type_video_model = DialogNodeOutputGenericDialogNodeOutputResponseTypeVideo.from_dict(dialog_node_output_generic_dialog_node_output_response_type_video_model_json)
+        assert dialog_node_output_generic_dialog_node_output_response_type_video_model != False
+
+        # Construct a model instance of DialogNodeOutputGenericDialogNodeOutputResponseTypeVideo by calling from_dict on the json representation
+        dialog_node_output_generic_dialog_node_output_response_type_video_model_dict = DialogNodeOutputGenericDialogNodeOutputResponseTypeVideo.from_dict(dialog_node_output_generic_dialog_node_output_response_type_video_model_json).__dict__
+        dialog_node_output_generic_dialog_node_output_response_type_video_model2 = DialogNodeOutputGenericDialogNodeOutputResponseTypeVideo(**dialog_node_output_generic_dialog_node_output_response_type_video_model_dict)
+
+        # Verify the model instances are equivalent
+        assert dialog_node_output_generic_dialog_node_output_response_type_video_model == dialog_node_output_generic_dialog_node_output_response_type_video_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        dialog_node_output_generic_dialog_node_output_response_type_video_model_json2 = dialog_node_output_generic_dialog_node_output_response_type_video_model.to_dict()
+        assert dialog_node_output_generic_dialog_node_output_response_type_video_model_json2 == dialog_node_output_generic_dialog_node_output_response_type_video_model_json
 
 class TestModel_RuntimeResponseGenericRuntimeResponseTypeAudio():
     """

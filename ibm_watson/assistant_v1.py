@@ -5600,7 +5600,10 @@ class DialogNodeOutputGeneric():
                 'DialogNodeOutputGenericDialogNodeOutputResponseTypeConnectToAgent',
                 'DialogNodeOutputGenericDialogNodeOutputResponseTypeSearchSkill',
                 'DialogNodeOutputGenericDialogNodeOutputResponseTypeChannelTransfer',
-                'DialogNodeOutputGenericDialogNodeOutputResponseTypeUserDefined'
+                'DialogNodeOutputGenericDialogNodeOutputResponseTypeUserDefined',
+                'DialogNodeOutputGenericDialogNodeOutputResponseTypeVideo',
+                'DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio',
+                'DialogNodeOutputGenericDialogNodeOutputResponseTypeIframe'
             ]))
         raise Exception(msg)
 
@@ -5621,7 +5624,10 @@ class DialogNodeOutputGeneric():
             'DialogNodeOutputGenericDialogNodeOutputResponseTypeConnectToAgent',
             'DialogNodeOutputGenericDialogNodeOutputResponseTypeSearchSkill',
             'DialogNodeOutputGenericDialogNodeOutputResponseTypeChannelTransfer',
-            'DialogNodeOutputGenericDialogNodeOutputResponseTypeUserDefined'
+            'DialogNodeOutputGenericDialogNodeOutputResponseTypeUserDefined',
+            'DialogNodeOutputGenericDialogNodeOutputResponseTypeVideo',
+            'DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio',
+            'DialogNodeOutputGenericDialogNodeOutputResponseTypeIframe'
         ]))
         raise Exception(msg)
 
@@ -5634,9 +5640,13 @@ class DialogNodeOutputGeneric():
     def _get_class_by_discriminator(cls, _dict: Dict) -> object:
         mapping = {}
         mapping[
+            'audio'] = 'DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio'
+        mapping[
             'channel_transfer'] = 'DialogNodeOutputGenericDialogNodeOutputResponseTypeChannelTransfer'
         mapping[
             'connect_to_agent'] = 'DialogNodeOutputGenericDialogNodeOutputResponseTypeConnectToAgent'
+        mapping[
+            'iframe'] = 'DialogNodeOutputGenericDialogNodeOutputResponseTypeIframe'
         mapping[
             'image'] = 'DialogNodeOutputGenericDialogNodeOutputResponseTypeImage'
         mapping[
@@ -5649,6 +5659,8 @@ class DialogNodeOutputGeneric():
             'text'] = 'DialogNodeOutputGenericDialogNodeOutputResponseTypeText'
         mapping[
             'user_defined'] = 'DialogNodeOutputGenericDialogNodeOutputResponseTypeUserDefined'
+        mapping[
+            'video'] = 'DialogNodeOutputGenericDialogNodeOutputResponseTypeVideo'
         disc_value = _dict.get('response_type')
         if disc_value is None:
             raise ValueError(
@@ -9963,6 +9975,13 @@ class WorkspaceSystemSettings():
           related to detection of irrelevant input.
     """
 
+    # The set of defined properties for the class
+    _properties = frozenset([
+        'tooling', 'disambiguation', 'human_agent_assist',
+        'spelling_suggestions', 'spelling_auto_correct', 'system_entities',
+        'off_topic'
+    ])
+
     def __init__(
             self,
             *,
@@ -9972,7 +9991,8 @@ class WorkspaceSystemSettings():
             spelling_suggestions: bool = None,
             spelling_auto_correct: bool = None,
             system_entities: 'WorkspaceSystemSettingsSystemEntities' = None,
-            off_topic: 'WorkspaceSystemSettingsOffTopic' = None) -> None:
+            off_topic: 'WorkspaceSystemSettingsOffTopic' = None,
+            **kwargs) -> None:
         """
         Initialize a WorkspaceSystemSettings object.
 
@@ -9994,6 +10014,7 @@ class WorkspaceSystemSettings():
                Workspace settings related to the behavior of system entities.
         :param WorkspaceSystemSettingsOffTopic off_topic: (optional) Workspace
                settings related to detection of irrelevant input.
+        :param **kwargs: (optional) Any additional properties.
         """
         self.tooling = tooling
         self.disambiguation = disambiguation
@@ -10002,6 +10023,8 @@ class WorkspaceSystemSettings():
         self.spelling_auto_correct = spelling_auto_correct
         self.system_entities = system_entities
         self.off_topic = off_topic
+        for _key, _value in kwargs.items():
+            setattr(self, _key, _value)
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'WorkspaceSystemSettings':
@@ -10027,6 +10050,8 @@ class WorkspaceSystemSettings():
         if 'off_topic' in _dict:
             args['off_topic'] = WorkspaceSystemSettingsOffTopic.from_dict(
                 _dict.get('off_topic'))
+        args.update(
+            {k: v for (k, v) in _dict.items() if k not in cls._properties})
         return cls(**args)
 
     @classmethod
@@ -10056,11 +10081,40 @@ class WorkspaceSystemSettings():
             _dict['system_entities'] = self.system_entities.to_dict()
         if hasattr(self, 'off_topic') and self.off_topic is not None:
             _dict['off_topic'] = self.off_topic.to_dict()
+        for _key in [
+                k for k in vars(self).keys()
+                if k not in WorkspaceSystemSettings._properties
+        ]:
+            if getattr(self, _key, None) is not None:
+                _dict[_key] = getattr(self, _key)
         return _dict
 
     def _to_dict(self):
         """Return a json dictionary representing this model."""
         return self.to_dict()
+
+    def get_properties(self) -> Dict:
+        """Return a dictionary of arbitrary properties from this instance of WorkspaceSystemSettings"""
+        _dict = {}
+
+        for _key in [
+                k for k in vars(self).keys()
+                if k not in WorkspaceSystemSettings._properties
+        ]:
+            _dict[_key] = getattr(self, _key)
+        return _dict
+
+    def set_properties(self, _dict: dict):
+        """Set a dictionary of arbitrary properties to this instance of WorkspaceSystemSettings"""
+        for _key in [
+                k for k in vars(self).keys()
+                if k not in WorkspaceSystemSettings._properties
+        ]:
+            delattr(self, _key)
+
+        for _key, _value in _dict.items():
+            if _key not in WorkspaceSystemSettings._properties:
+                setattr(self, _key, _value)
 
     def __str__(self) -> str:
         """Return a `str` version of this WorkspaceSystemSettings object."""
@@ -10386,6 +10440,143 @@ class WorkspaceSystemSettingsTooling():
         return not self == other
 
 
+class DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio(
+        DialogNodeOutputGeneric):
+    """
+    DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio.
+
+    :attr str response_type: The type of response returned by the dialog node. The
+          specified response type must be supported by the client application or channel.
+    :attr str source: The `https:` URL of the audio clip.
+    :attr str title: (optional) An optional title to show before the response.
+    :attr str description: (optional) An optional description to show with the
+          response.
+    :attr List[ResponseGenericChannel] channels: (optional) An array of objects
+          specifying channels for which the response is intended. If **channels** is
+          present, the response is intended for a built-in integration and should not be
+          handled by an API client.
+    :attr object channel_options: (optional) For internal use only.
+    :attr str alt_text: (optional) Descriptive text that can be used for screen
+          readers or other situations where the audio player cannot be seen.
+    """
+
+    def __init__(self,
+                 response_type: str,
+                 source: str,
+                 *,
+                 title: str = None,
+                 description: str = None,
+                 channels: List['ResponseGenericChannel'] = None,
+                 channel_options: object = None,
+                 alt_text: str = None) -> None:
+        """
+        Initialize a DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio object.
+
+        :param str response_type: The type of response returned by the dialog node.
+               The specified response type must be supported by the client application or
+               channel.
+        :param str source: The `https:` URL of the audio clip.
+        :param str title: (optional) An optional title to show before the response.
+        :param str description: (optional) An optional description to show with the
+               response.
+        :param List[ResponseGenericChannel] channels: (optional) An array of
+               objects specifying channels for which the response is intended. If
+               **channels** is present, the response is intended for a built-in
+               integration and should not be handled by an API client.
+        :param object channel_options: (optional) For internal use only.
+        :param str alt_text: (optional) Descriptive text that can be used for
+               screen readers or other situations where the audio player cannot be seen.
+        """
+        # pylint: disable=super-init-not-called
+        self.response_type = response_type
+        self.source = source
+        self.title = title
+        self.description = description
+        self.channels = channels
+        self.channel_options = channel_options
+        self.alt_text = alt_text
+
+    @classmethod
+    def from_dict(
+        cls, _dict: Dict
+    ) -> 'DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio':
+        """Initialize a DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio object from a json dictionary."""
+        args = {}
+        if 'response_type' in _dict:
+            args['response_type'] = _dict.get('response_type')
+        else:
+            raise ValueError(
+                'Required property \'response_type\' not present in DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio JSON'
+            )
+        if 'source' in _dict:
+            args['source'] = _dict.get('source')
+        else:
+            raise ValueError(
+                'Required property \'source\' not present in DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio JSON'
+            )
+        if 'title' in _dict:
+            args['title'] = _dict.get('title')
+        if 'description' in _dict:
+            args['description'] = _dict.get('description')
+        if 'channels' in _dict:
+            args['channels'] = [
+                ResponseGenericChannel.from_dict(x)
+                for x in _dict.get('channels')
+            ]
+        if 'channel_options' in _dict:
+            args['channel_options'] = _dict.get('channel_options')
+        if 'alt_text' in _dict:
+            args['alt_text'] = _dict.get('alt_text')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'response_type') and self.response_type is not None:
+            _dict['response_type'] = self.response_type
+        if hasattr(self, 'source') and self.source is not None:
+            _dict['source'] = self.source
+        if hasattr(self, 'title') and self.title is not None:
+            _dict['title'] = self.title
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
+        if hasattr(self, 'channels') and self.channels is not None:
+            _dict['channels'] = [x.to_dict() for x in self.channels]
+        if hasattr(self,
+                   'channel_options') and self.channel_options is not None:
+            _dict['channel_options'] = self.channel_options
+        if hasattr(self, 'alt_text') and self.alt_text is not None:
+            _dict['alt_text'] = self.alt_text
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(
+        self, other: 'DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio'
+    ) -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(
+        self, other: 'DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio'
+    ) -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class DialogNodeOutputGenericDialogNodeOutputResponseTypeChannelTransfer(
         DialogNodeOutputGeneric):
     """
@@ -10637,6 +10828,134 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeConnectToAgent(
     def __ne__(
         self,
         other: 'DialogNodeOutputGenericDialogNodeOutputResponseTypeConnectToAgent'
+    ) -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class DialogNodeOutputGenericDialogNodeOutputResponseTypeIframe(
+        DialogNodeOutputGeneric):
+    """
+    DialogNodeOutputGenericDialogNodeOutputResponseTypeIframe.
+
+    :attr str response_type: The type of response returned by the dialog node. The
+          specified response type must be supported by the client application or channel.
+    :attr str source: The `https:` URL of the embeddable content.
+    :attr str title: (optional) An optional title to show before the response.
+    :attr str description: (optional) An optional description to show with the
+          response.
+    :attr str image_url: (optional) The URL of an image that shows a preview of the
+          embedded content.
+    :attr List[ResponseGenericChannel] channels: (optional) An array of objects
+          specifying channels for which the response is intended. If **channels** is
+          present, the response is intended for a built-in integration and should not be
+          handled by an API client.
+    """
+
+    def __init__(self,
+                 response_type: str,
+                 source: str,
+                 *,
+                 title: str = None,
+                 description: str = None,
+                 image_url: str = None,
+                 channels: List['ResponseGenericChannel'] = None) -> None:
+        """
+        Initialize a DialogNodeOutputGenericDialogNodeOutputResponseTypeIframe object.
+
+        :param str response_type: The type of response returned by the dialog node.
+               The specified response type must be supported by the client application or
+               channel.
+        :param str source: The `https:` URL of the embeddable content.
+        :param str title: (optional) An optional title to show before the response.
+        :param str description: (optional) An optional description to show with the
+               response.
+        :param str image_url: (optional) The URL of an image that shows a preview
+               of the embedded content.
+        :param List[ResponseGenericChannel] channels: (optional) An array of
+               objects specifying channels for which the response is intended. If
+               **channels** is present, the response is intended for a built-in
+               integration and should not be handled by an API client.
+        """
+        # pylint: disable=super-init-not-called
+        self.response_type = response_type
+        self.source = source
+        self.title = title
+        self.description = description
+        self.image_url = image_url
+        self.channels = channels
+
+    @classmethod
+    def from_dict(
+        cls, _dict: Dict
+    ) -> 'DialogNodeOutputGenericDialogNodeOutputResponseTypeIframe':
+        """Initialize a DialogNodeOutputGenericDialogNodeOutputResponseTypeIframe object from a json dictionary."""
+        args = {}
+        if 'response_type' in _dict:
+            args['response_type'] = _dict.get('response_type')
+        else:
+            raise ValueError(
+                'Required property \'response_type\' not present in DialogNodeOutputGenericDialogNodeOutputResponseTypeIframe JSON'
+            )
+        if 'source' in _dict:
+            args['source'] = _dict.get('source')
+        else:
+            raise ValueError(
+                'Required property \'source\' not present in DialogNodeOutputGenericDialogNodeOutputResponseTypeIframe JSON'
+            )
+        if 'title' in _dict:
+            args['title'] = _dict.get('title')
+        if 'description' in _dict:
+            args['description'] = _dict.get('description')
+        if 'image_url' in _dict:
+            args['image_url'] = _dict.get('image_url')
+        if 'channels' in _dict:
+            args['channels'] = [
+                ResponseGenericChannel.from_dict(x)
+                for x in _dict.get('channels')
+            ]
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DialogNodeOutputGenericDialogNodeOutputResponseTypeIframe object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'response_type') and self.response_type is not None:
+            _dict['response_type'] = self.response_type
+        if hasattr(self, 'source') and self.source is not None:
+            _dict['source'] = self.source
+        if hasattr(self, 'title') and self.title is not None:
+            _dict['title'] = self.title
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
+        if hasattr(self, 'image_url') and self.image_url is not None:
+            _dict['image_url'] = self.image_url
+        if hasattr(self, 'channels') and self.channels is not None:
+            _dict['channels'] = [x.to_dict() for x in self.channels]
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this DialogNodeOutputGenericDialogNodeOutputResponseTypeIframe object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(
+        self, other: 'DialogNodeOutputGenericDialogNodeOutputResponseTypeIframe'
+    ) -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(
+        self, other: 'DialogNodeOutputGenericDialogNodeOutputResponseTypeIframe'
     ) -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
@@ -11401,6 +11720,143 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeUserDefined(
         return not self == other
 
 
+class DialogNodeOutputGenericDialogNodeOutputResponseTypeVideo(
+        DialogNodeOutputGeneric):
+    """
+    DialogNodeOutputGenericDialogNodeOutputResponseTypeVideo.
+
+    :attr str response_type: The type of response returned by the dialog node. The
+          specified response type must be supported by the client application or channel.
+    :attr str source: The `https:` URL of the video.
+    :attr str title: (optional) An optional title to show before the response.
+    :attr str description: (optional) An optional description to show with the
+          response.
+    :attr List[ResponseGenericChannel] channels: (optional) An array of objects
+          specifying channels for which the response is intended. If **channels** is
+          present, the response is intended for a built-in integration and should not be
+          handled by an API client.
+    :attr object channel_options: (optional) For internal use only.
+    :attr str alt_text: (optional) Descriptive text that can be used for screen
+          readers or other situations where the video cannot be seen.
+    """
+
+    def __init__(self,
+                 response_type: str,
+                 source: str,
+                 *,
+                 title: str = None,
+                 description: str = None,
+                 channels: List['ResponseGenericChannel'] = None,
+                 channel_options: object = None,
+                 alt_text: str = None) -> None:
+        """
+        Initialize a DialogNodeOutputGenericDialogNodeOutputResponseTypeVideo object.
+
+        :param str response_type: The type of response returned by the dialog node.
+               The specified response type must be supported by the client application or
+               channel.
+        :param str source: The `https:` URL of the video.
+        :param str title: (optional) An optional title to show before the response.
+        :param str description: (optional) An optional description to show with the
+               response.
+        :param List[ResponseGenericChannel] channels: (optional) An array of
+               objects specifying channels for which the response is intended. If
+               **channels** is present, the response is intended for a built-in
+               integration and should not be handled by an API client.
+        :param object channel_options: (optional) For internal use only.
+        :param str alt_text: (optional) Descriptive text that can be used for
+               screen readers or other situations where the video cannot be seen.
+        """
+        # pylint: disable=super-init-not-called
+        self.response_type = response_type
+        self.source = source
+        self.title = title
+        self.description = description
+        self.channels = channels
+        self.channel_options = channel_options
+        self.alt_text = alt_text
+
+    @classmethod
+    def from_dict(
+        cls, _dict: Dict
+    ) -> 'DialogNodeOutputGenericDialogNodeOutputResponseTypeVideo':
+        """Initialize a DialogNodeOutputGenericDialogNodeOutputResponseTypeVideo object from a json dictionary."""
+        args = {}
+        if 'response_type' in _dict:
+            args['response_type'] = _dict.get('response_type')
+        else:
+            raise ValueError(
+                'Required property \'response_type\' not present in DialogNodeOutputGenericDialogNodeOutputResponseTypeVideo JSON'
+            )
+        if 'source' in _dict:
+            args['source'] = _dict.get('source')
+        else:
+            raise ValueError(
+                'Required property \'source\' not present in DialogNodeOutputGenericDialogNodeOutputResponseTypeVideo JSON'
+            )
+        if 'title' in _dict:
+            args['title'] = _dict.get('title')
+        if 'description' in _dict:
+            args['description'] = _dict.get('description')
+        if 'channels' in _dict:
+            args['channels'] = [
+                ResponseGenericChannel.from_dict(x)
+                for x in _dict.get('channels')
+            ]
+        if 'channel_options' in _dict:
+            args['channel_options'] = _dict.get('channel_options')
+        if 'alt_text' in _dict:
+            args['alt_text'] = _dict.get('alt_text')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DialogNodeOutputGenericDialogNodeOutputResponseTypeVideo object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'response_type') and self.response_type is not None:
+            _dict['response_type'] = self.response_type
+        if hasattr(self, 'source') and self.source is not None:
+            _dict['source'] = self.source
+        if hasattr(self, 'title') and self.title is not None:
+            _dict['title'] = self.title
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
+        if hasattr(self, 'channels') and self.channels is not None:
+            _dict['channels'] = [x.to_dict() for x in self.channels]
+        if hasattr(self,
+                   'channel_options') and self.channel_options is not None:
+            _dict['channel_options'] = self.channel_options
+        if hasattr(self, 'alt_text') and self.alt_text is not None:
+            _dict['alt_text'] = self.alt_text
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this DialogNodeOutputGenericDialogNodeOutputResponseTypeVideo object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(
+        self, other: 'DialogNodeOutputGenericDialogNodeOutputResponseTypeVideo'
+    ) -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(
+        self, other: 'DialogNodeOutputGenericDialogNodeOutputResponseTypeVideo'
+    ) -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class RuntimeResponseGenericRuntimeResponseTypeAudio(RuntimeResponseGeneric):
     """
     RuntimeResponseGenericRuntimeResponseTypeAudio.
@@ -11410,7 +11866,7 @@ class RuntimeResponseGenericRuntimeResponseTypeAudio(RuntimeResponseGeneric):
     :attr str source: The `https:` URL of the audio clip.
     :attr str title: (optional) The title or introductory text to show before the
           response.
-    :attr str description: (optional) The description to show with the the response.
+    :attr str description: (optional) The description to show with the response.
     :attr List[ResponseGenericChannel] channels: (optional) An array of objects
           specifying channels for which the response is intended. If **channels** is
           present, the response is intended for a built-in integration and should not be
@@ -11438,7 +11894,7 @@ class RuntimeResponseGenericRuntimeResponseTypeAudio(RuntimeResponseGeneric):
         :param str source: The `https:` URL of the audio clip.
         :param str title: (optional) The title or introductory text to show before
                the response.
-        :param str description: (optional) The description to show with the the
+        :param str description: (optional) The description to show with the
                response.
         :param List[ResponseGenericChannel] channels: (optional) An array of
                objects specifying channels for which the response is intended. If
@@ -11829,7 +12285,7 @@ class RuntimeResponseGenericRuntimeResponseTypeIframe(RuntimeResponseGeneric):
     :attr str source: The `https:` URL of the embeddable content.
     :attr str title: (optional) The title or introductory text to show before the
           response.
-    :attr str description: (optional) The description to show with the the response.
+    :attr str description: (optional) The description to show with the response.
     :attr str image_url: (optional) The URL of an image that shows a preview of the
           embedded content.
     :attr List[ResponseGenericChannel] channels: (optional) An array of objects
@@ -11855,7 +12311,7 @@ class RuntimeResponseGenericRuntimeResponseTypeIframe(RuntimeResponseGeneric):
         :param str source: The `https:` URL of the embeddable content.
         :param str title: (optional) The title or introductory text to show before
                the response.
-        :param str description: (optional) The description to show with the the
+        :param str description: (optional) The description to show with the
                response.
         :param str image_url: (optional) The URL of an image that shows a preview
                of the embedded content.
@@ -11957,7 +12413,7 @@ class RuntimeResponseGenericRuntimeResponseTypeImage(RuntimeResponseGeneric):
     :attr str source: The `https:` URL of the image.
     :attr str title: (optional) The title or introductory text to show before the
           response.
-    :attr str description: (optional) The description to show with the the response.
+    :attr str description: (optional) The description to show with the response.
     :attr List[ResponseGenericChannel] channels: (optional) An array of objects
           specifying channels for which the response is intended. If **channels** is
           present, the response is intended for a built-in integration and should not be
@@ -11983,7 +12439,7 @@ class RuntimeResponseGenericRuntimeResponseTypeImage(RuntimeResponseGeneric):
         :param str source: The `https:` URL of the image.
         :param str title: (optional) The title or introductory text to show before
                the response.
-        :param str description: (optional) The description to show with the the
+        :param str description: (optional) The description to show with the
                response.
         :param List[ResponseGenericChannel] channels: (optional) An array of
                objects specifying channels for which the response is intended. If
@@ -12081,7 +12537,7 @@ class RuntimeResponseGenericRuntimeResponseTypeOption(RuntimeResponseGeneric):
     :attr str response_type: The type of response returned by the dialog node. The
           specified response type must be supported by the client application or channel.
     :attr str title: The title or introductory text to show before the response.
-    :attr str description: (optional) The description to show with the the response.
+    :attr str description: (optional) The description to show with the response.
     :attr str preference: (optional) The preferred type of control to display.
     :attr List[DialogNodeOutputOptionsElement] options: An array of objects
           describing the options from which the user can choose.
@@ -12109,7 +12565,7 @@ class RuntimeResponseGenericRuntimeResponseTypeOption(RuntimeResponseGeneric):
                response.
         :param List[DialogNodeOutputOptionsElement] options: An array of objects
                describing the options from which the user can choose.
-        :param str description: (optional) The description to show with the the
+        :param str description: (optional) The description to show with the
                response.
         :param str preference: (optional) The preferred type of control to display.
         :param List[ResponseGenericChannel] channels: (optional) An array of
@@ -12647,7 +13103,7 @@ class RuntimeResponseGenericRuntimeResponseTypeVideo(RuntimeResponseGeneric):
     :attr str source: The `https:` URL of the video.
     :attr str title: (optional) The title or introductory text to show before the
           response.
-    :attr str description: (optional) The description to show with the the response.
+    :attr str description: (optional) The description to show with the response.
     :attr List[ResponseGenericChannel] channels: (optional) An array of objects
           specifying channels for which the response is intended. If **channels** is
           present, the response is intended for a built-in integration and should not be
@@ -12675,7 +13131,7 @@ class RuntimeResponseGenericRuntimeResponseTypeVideo(RuntimeResponseGeneric):
         :param str source: The `https:` URL of the video.
         :param str title: (optional) The title or introductory text to show before
                the response.
-        :param str description: (optional) The description to show with the the
+        :param str description: (optional) The description to show with the
                response.
         :param List[ResponseGenericChannel] channels: (optional) An array of
                objects specifying channels for which the response is intended. If
