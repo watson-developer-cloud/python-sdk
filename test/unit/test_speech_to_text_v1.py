@@ -2516,7 +2516,7 @@ class TestAddGrammar():
         # Set up parameter values
         customization_id = 'testString'
         grammar_name = 'testString'
-        grammar_file = 'testString'
+        grammar_file = io.BytesIO(b'This is a mock file.').getvalue()
         content_type = 'application/srgs'
         allow_overwrite = False
 
@@ -2562,7 +2562,7 @@ class TestAddGrammar():
         # Set up parameter values
         customization_id = 'testString'
         grammar_name = 'testString'
-        grammar_file = 'testString'
+        grammar_file = io.BytesIO(b'This is a mock file.').getvalue()
         content_type = 'application/srgs'
 
         # Invoke method
@@ -2602,7 +2602,7 @@ class TestAddGrammar():
         # Set up parameter values
         customization_id = 'testString'
         grammar_name = 'testString'
-        grammar_file = 'testString'
+        grammar_file = io.BytesIO(b'This is a mock file.').getvalue()
         content_type = 'application/srgs'
 
         # Pass in all but one required param and check for a ValueError
