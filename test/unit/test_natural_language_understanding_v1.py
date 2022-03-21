@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2019, 2021.
+# (C) Copyright IBM Corp. 2019, 2022.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -36,10 +36,37 @@ version = 'testString'
 _service = NaturalLanguageUnderstandingV1(
     authenticator=NoAuthAuthenticator(),
     version=version
-    )
+)
 
 _base_url = 'https://api.us-south.natural-language-understanding.watson.cloud.ibm.com'
 _service.set_service_url(_base_url)
+
+
+def preprocess_url(operation_path: str):
+    """
+    Returns the request url associated with the specified operation path.
+    This will be base_url concatenated with a quoted version of operation_path.
+    The returned request URL is used to register the mock response so it needs
+    to match the request URL that is formed by the requests library.
+    """
+    # First, unquote the path since it might have some quoted/escaped characters in it
+    # due to how the generator inserts the operation paths into the unit test code.
+    operation_path = urllib.parse.unquote(operation_path)
+
+    # Next, quote the path using urllib so that we approximate what will
+    # happen during request processing.
+    operation_path = urllib.parse.quote(operation_path, safe='/')
+
+    # Finally, form the request URL from the base URL and operation path.
+    request_url = _base_url + operation_path
+
+    # If the request url does NOT end with a /, then just return it as-is.
+    # Otherwise, return a regular expression that matches one or more trailing /.
+    if re.fullmatch('.*/+', request_url) is None:
+        return request_url
+    else:
+        return re.compile(request_url.rstrip('/') + '/+')
+
 
 ##############################################################################
 # Start of Service: Analyze
@@ -51,24 +78,13 @@ class TestAnalyze():
     Test Class for analyze
     """
 
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     @responses.activate
     def test_analyze_all_params(self):
         """
         analyze()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/analyze')
+        url = preprocess_url('/v1/analyze')
         mock_response = '{"language": "language", "analyzed_text": "analyzed_text", "retrieved_url": "retrieved_url", "usage": {"features": 8, "text_characters": 15, "text_units": 10}, "concepts": [{"text": "text", "relevance": 9, "dbpedia_resource": "dbpedia_resource"}], "entities": [{"type": "type", "text": "text", "relevance": 9, "confidence": 10, "mentions": [{"text": "text", "location": [8], "confidence": 10}], "count": 5, "emotion": {"anger": 5, "disgust": 7, "fear": 4, "joy": 3, "sadness": 7}, "sentiment": {"score": 5}, "disambiguation": {"name": "name", "dbpedia_resource": "dbpedia_resource", "subtype": ["subtype"]}}], "keywords": [{"count": 5, "relevance": 9, "text": "text", "emotion": {"anger": 5, "disgust": 7, "fear": 4, "joy": 3, "sadness": 7}, "sentiment": {"score": 5}}], "categories": [{"label": "label", "score": 5, "explanation": {"relevant_text": [{"text": "text"}]}}], "classifications": [{"class_name": "class_name", "confidence": 10}], "emotion": {"document": {"emotion": {"anger": 5, "disgust": 7, "fear": 4, "joy": 3, "sadness": 7}}, "targets": [{"text": "text", "emotion": {"anger": 5, "disgust": 7, "fear": 4, "joy": 3, "sadness": 7}}]}, "metadata": {"authors": [{"name": "name"}], "publication_date": "publication_date", "title": "title", "image": "image", "feeds": [{"link": "link"}]}, "relations": [{"score": 5, "sentence": "sentence", "type": "type", "arguments": [{"entities": [{"text": "text", "type": "type"}], "location": [8], "text": "text"}]}], "semantic_roles": [{"sentence": "sentence", "subject": {"text": "text", "entities": [{"type": "type", "text": "text"}], "keywords": [{"text": "text"}]}, "action": {"text": "text", "normalized": "normalized", "verb": {"text": "text", "tense": "tense"}}, "object": {"text": "text", "keywords": [{"text": "text"}]}}], "sentiment": {"document": {"label": "label", "score": 5}, "targets": [{"text": "text", "score": 5}]}, "syntax": {"tokens": [{"text": "text", "part_of_speech": "ADJ", "location": [8], "lemma": "lemma"}], "sentences": [{"text": "text", "location": [8]}]}}'
         responses.add(responses.POST,
                       url,
@@ -102,9 +118,6 @@ class TestAnalyze():
         keywords_options_model['limit'] = 250
         keywords_options_model['sentiment'] = False
         keywords_options_model['emotion'] = False
-
-        # Construct a dict representation of a MetadataOptions model
-        metadata_options_model = {}
 
         # Construct a dict representation of a RelationsOptions model
         relations_options_model = {}
@@ -149,7 +162,7 @@ class TestAnalyze():
         features_model['emotion'] = emotion_options_model
         features_model['entities'] = entities_options_model
         features_model['keywords'] = keywords_options_model
-        features_model['metadata'] = metadata_options_model
+        features_model['metadata'] = {}
         features_model['relations'] = relations_options_model
         features_model['semantic_roles'] = semantic_roles_options_model
         features_model['sentiment'] = sentiment_options_model
@@ -200,6 +213,14 @@ class TestAnalyze():
         assert req_body['language'] == 'testString'
         assert req_body['limit_text_characters'] == 38
 
+    def test_analyze_all_params_with_retries(self):
+        # Enable retries and run test_analyze_all_params.
+        _service.enable_retries()
+        self.test_analyze_all_params()
+
+        # Disable retries and run test_analyze_all_params.
+        _service.disable_retries()
+        self.test_analyze_all_params()
 
     @responses.activate
     def test_analyze_value_error(self):
@@ -207,7 +228,7 @@ class TestAnalyze():
         test_analyze_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/analyze')
+        url = preprocess_url('/v1/analyze')
         mock_response = '{"language": "language", "analyzed_text": "analyzed_text", "retrieved_url": "retrieved_url", "usage": {"features": 8, "text_characters": 15, "text_units": 10}, "concepts": [{"text": "text", "relevance": 9, "dbpedia_resource": "dbpedia_resource"}], "entities": [{"type": "type", "text": "text", "relevance": 9, "confidence": 10, "mentions": [{"text": "text", "location": [8], "confidence": 10}], "count": 5, "emotion": {"anger": 5, "disgust": 7, "fear": 4, "joy": 3, "sadness": 7}, "sentiment": {"score": 5}, "disambiguation": {"name": "name", "dbpedia_resource": "dbpedia_resource", "subtype": ["subtype"]}}], "keywords": [{"count": 5, "relevance": 9, "text": "text", "emotion": {"anger": 5, "disgust": 7, "fear": 4, "joy": 3, "sadness": 7}, "sentiment": {"score": 5}}], "categories": [{"label": "label", "score": 5, "explanation": {"relevant_text": [{"text": "text"}]}}], "classifications": [{"class_name": "class_name", "confidence": 10}], "emotion": {"document": {"emotion": {"anger": 5, "disgust": 7, "fear": 4, "joy": 3, "sadness": 7}}, "targets": [{"text": "text", "emotion": {"anger": 5, "disgust": 7, "fear": 4, "joy": 3, "sadness": 7}}]}, "metadata": {"authors": [{"name": "name"}], "publication_date": "publication_date", "title": "title", "image": "image", "feeds": [{"link": "link"}]}, "relations": [{"score": 5, "sentence": "sentence", "type": "type", "arguments": [{"entities": [{"text": "text", "type": "type"}], "location": [8], "text": "text"}]}], "semantic_roles": [{"sentence": "sentence", "subject": {"text": "text", "entities": [{"type": "type", "text": "text"}], "keywords": [{"text": "text"}]}, "action": {"text": "text", "normalized": "normalized", "verb": {"text": "text", "tense": "tense"}}, "object": {"text": "text", "keywords": [{"text": "text"}]}}], "sentiment": {"document": {"label": "label", "score": 5}, "targets": [{"text": "text", "score": 5}]}, "syntax": {"tokens": [{"text": "text", "part_of_speech": "ADJ", "location": [8], "lemma": "lemma"}], "sentences": [{"text": "text", "location": [8]}]}}'
         responses.add(responses.POST,
                       url,
@@ -241,9 +262,6 @@ class TestAnalyze():
         keywords_options_model['limit'] = 250
         keywords_options_model['sentiment'] = False
         keywords_options_model['emotion'] = False
-
-        # Construct a dict representation of a MetadataOptions model
-        metadata_options_model = {}
 
         # Construct a dict representation of a RelationsOptions model
         relations_options_model = {}
@@ -288,7 +306,7 @@ class TestAnalyze():
         features_model['emotion'] = emotion_options_model
         features_model['entities'] = entities_options_model
         features_model['keywords'] = keywords_options_model
-        features_model['metadata'] = metadata_options_model
+        features_model['metadata'] = {}
         features_model['relations'] = relations_options_model
         features_model['semantic_roles'] = semantic_roles_options_model
         features_model['sentiment'] = sentiment_options_model
@@ -318,6 +336,14 @@ class TestAnalyze():
                 _service.analyze(**req_copy)
 
 
+    def test_analyze_value_error_with_retries(self):
+        # Enable retries and run test_analyze_value_error.
+        _service.enable_retries()
+        self.test_analyze_value_error()
+
+        # Disable retries and run test_analyze_value_error.
+        _service.disable_retries()
+        self.test_analyze_value_error()
 
 # endregion
 ##############################################################################
@@ -334,24 +360,13 @@ class TestListModels():
     Test Class for list_models
     """
 
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     @responses.activate
     def test_list_models_all_params(self):
         """
         list_models()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/models')
+        url = preprocess_url('/v1/models')
         mock_response = '{"models": [{"status": "starting", "model_id": "model_id", "language": "language", "description": "description", "workspace_id": "workspace_id", "model_version": "model_version", "version": "version", "version_description": "version_description", "created": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.GET,
                       url,
@@ -367,6 +382,14 @@ class TestListModels():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_list_models_all_params_with_retries(self):
+        # Enable retries and run test_list_models_all_params.
+        _service.enable_retries()
+        self.test_list_models_all_params()
+
+        # Disable retries and run test_list_models_all_params.
+        _service.disable_retries()
+        self.test_list_models_all_params()
 
     @responses.activate
     def test_list_models_value_error(self):
@@ -374,7 +397,7 @@ class TestListModels():
         test_list_models_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/models')
+        url = preprocess_url('/v1/models')
         mock_response = '{"models": [{"status": "starting", "model_id": "model_id", "language": "language", "description": "description", "workspace_id": "workspace_id", "model_version": "model_version", "version": "version", "version_description": "version_description", "created": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.GET,
                       url,
@@ -391,22 +414,19 @@ class TestListModels():
                 _service.list_models(**req_copy)
 
 
+    def test_list_models_value_error_with_retries(self):
+        # Enable retries and run test_list_models_value_error.
+        _service.enable_retries()
+        self.test_list_models_value_error()
+
+        # Disable retries and run test_list_models_value_error.
+        _service.disable_retries()
+        self.test_list_models_value_error()
 
 class TestDeleteModel():
     """
     Test Class for delete_model
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_delete_model_all_params(self):
@@ -414,7 +434,7 @@ class TestDeleteModel():
         delete_model()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/models/testString')
+        url = preprocess_url('/v1/models/testString')
         mock_response = '{"deleted": "deleted"}'
         responses.add(responses.DELETE,
                       url,
@@ -435,6 +455,14 @@ class TestDeleteModel():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_delete_model_all_params_with_retries(self):
+        # Enable retries and run test_delete_model_all_params.
+        _service.enable_retries()
+        self.test_delete_model_all_params()
+
+        # Disable retries and run test_delete_model_all_params.
+        _service.disable_retries()
+        self.test_delete_model_all_params()
 
     @responses.activate
     def test_delete_model_value_error(self):
@@ -442,7 +470,7 @@ class TestDeleteModel():
         test_delete_model_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/models/testString')
+        url = preprocess_url('/v1/models/testString')
         mock_response = '{"deleted": "deleted"}'
         responses.add(responses.DELETE,
                       url,
@@ -463,6 +491,14 @@ class TestDeleteModel():
                 _service.delete_model(**req_copy)
 
 
+    def test_delete_model_value_error_with_retries(self):
+        # Enable retries and run test_delete_model_value_error.
+        _service.enable_retries()
+        self.test_delete_model_value_error()
+
+        # Disable retries and run test_delete_model_value_error.
+        _service.disable_retries()
+        self.test_delete_model_value_error()
 
 # endregion
 ##############################################################################
@@ -479,24 +515,13 @@ class TestCreateSentimentModel():
     Test Class for create_sentiment_model
     """
 
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     @responses.activate
     def test_create_sentiment_model_all_params(self):
         """
         create_sentiment_model()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/models/sentiment')
+        url = preprocess_url('/v1/models/sentiment')
         mock_response = '{"features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z", "name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "notices": [{"message": "message"}], "workspace_id": "workspace_id", "version_description": "version_description"}'
         responses.add(responses.POST,
                       url,
@@ -529,6 +554,14 @@ class TestCreateSentimentModel():
         assert len(responses.calls) == 1
         assert response.status_code == 201
 
+    def test_create_sentiment_model_all_params_with_retries(self):
+        # Enable retries and run test_create_sentiment_model_all_params.
+        _service.enable_retries()
+        self.test_create_sentiment_model_all_params()
+
+        # Disable retries and run test_create_sentiment_model_all_params.
+        _service.disable_retries()
+        self.test_create_sentiment_model_all_params()
 
     @responses.activate
     def test_create_sentiment_model_required_params(self):
@@ -536,7 +569,7 @@ class TestCreateSentimentModel():
         test_create_sentiment_model_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/models/sentiment')
+        url = preprocess_url('/v1/models/sentiment')
         mock_response = '{"features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z", "name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "notices": [{"message": "message"}], "workspace_id": "workspace_id", "version_description": "version_description"}'
         responses.add(responses.POST,
                       url,
@@ -559,6 +592,14 @@ class TestCreateSentimentModel():
         assert len(responses.calls) == 1
         assert response.status_code == 201
 
+    def test_create_sentiment_model_required_params_with_retries(self):
+        # Enable retries and run test_create_sentiment_model_required_params.
+        _service.enable_retries()
+        self.test_create_sentiment_model_required_params()
+
+        # Disable retries and run test_create_sentiment_model_required_params.
+        _service.disable_retries()
+        self.test_create_sentiment_model_required_params()
 
     @responses.activate
     def test_create_sentiment_model_value_error(self):
@@ -566,7 +607,7 @@ class TestCreateSentimentModel():
         test_create_sentiment_model_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/models/sentiment')
+        url = preprocess_url('/v1/models/sentiment')
         mock_response = '{"features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z", "name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "notices": [{"message": "message"}], "workspace_id": "workspace_id", "version_description": "version_description"}'
         responses.add(responses.POST,
                       url,
@@ -589,22 +630,19 @@ class TestCreateSentimentModel():
                 _service.create_sentiment_model(**req_copy)
 
 
+    def test_create_sentiment_model_value_error_with_retries(self):
+        # Enable retries and run test_create_sentiment_model_value_error.
+        _service.enable_retries()
+        self.test_create_sentiment_model_value_error()
+
+        # Disable retries and run test_create_sentiment_model_value_error.
+        _service.disable_retries()
+        self.test_create_sentiment_model_value_error()
 
 class TestListSentimentModels():
     """
     Test Class for list_sentiment_models
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_list_sentiment_models_all_params(self):
@@ -612,7 +650,7 @@ class TestListSentimentModels():
         list_sentiment_models()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/models/sentiment')
+        url = preprocess_url('/v1/models/sentiment')
         mock_response = '{"models": [{"features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z", "name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "notices": [{"message": "message"}], "workspace_id": "workspace_id", "version_description": "version_description"}]}'
         responses.add(responses.GET,
                       url,
@@ -628,6 +666,14 @@ class TestListSentimentModels():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_list_sentiment_models_all_params_with_retries(self):
+        # Enable retries and run test_list_sentiment_models_all_params.
+        _service.enable_retries()
+        self.test_list_sentiment_models_all_params()
+
+        # Disable retries and run test_list_sentiment_models_all_params.
+        _service.disable_retries()
+        self.test_list_sentiment_models_all_params()
 
     @responses.activate
     def test_list_sentiment_models_value_error(self):
@@ -635,7 +681,7 @@ class TestListSentimentModels():
         test_list_sentiment_models_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/models/sentiment')
+        url = preprocess_url('/v1/models/sentiment')
         mock_response = '{"models": [{"features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z", "name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "notices": [{"message": "message"}], "workspace_id": "workspace_id", "version_description": "version_description"}]}'
         responses.add(responses.GET,
                       url,
@@ -652,22 +698,19 @@ class TestListSentimentModels():
                 _service.list_sentiment_models(**req_copy)
 
 
+    def test_list_sentiment_models_value_error_with_retries(self):
+        # Enable retries and run test_list_sentiment_models_value_error.
+        _service.enable_retries()
+        self.test_list_sentiment_models_value_error()
+
+        # Disable retries and run test_list_sentiment_models_value_error.
+        _service.disable_retries()
+        self.test_list_sentiment_models_value_error()
 
 class TestGetSentimentModel():
     """
     Test Class for get_sentiment_model
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_get_sentiment_model_all_params(self):
@@ -675,7 +718,7 @@ class TestGetSentimentModel():
         get_sentiment_model()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/models/sentiment/testString')
+        url = preprocess_url('/v1/models/sentiment/testString')
         mock_response = '{"features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z", "name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "notices": [{"message": "message"}], "workspace_id": "workspace_id", "version_description": "version_description"}'
         responses.add(responses.GET,
                       url,
@@ -696,6 +739,14 @@ class TestGetSentimentModel():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_get_sentiment_model_all_params_with_retries(self):
+        # Enable retries and run test_get_sentiment_model_all_params.
+        _service.enable_retries()
+        self.test_get_sentiment_model_all_params()
+
+        # Disable retries and run test_get_sentiment_model_all_params.
+        _service.disable_retries()
+        self.test_get_sentiment_model_all_params()
 
     @responses.activate
     def test_get_sentiment_model_value_error(self):
@@ -703,7 +754,7 @@ class TestGetSentimentModel():
         test_get_sentiment_model_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/models/sentiment/testString')
+        url = preprocess_url('/v1/models/sentiment/testString')
         mock_response = '{"features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z", "name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "notices": [{"message": "message"}], "workspace_id": "workspace_id", "version_description": "version_description"}'
         responses.add(responses.GET,
                       url,
@@ -724,22 +775,19 @@ class TestGetSentimentModel():
                 _service.get_sentiment_model(**req_copy)
 
 
+    def test_get_sentiment_model_value_error_with_retries(self):
+        # Enable retries and run test_get_sentiment_model_value_error.
+        _service.enable_retries()
+        self.test_get_sentiment_model_value_error()
+
+        # Disable retries and run test_get_sentiment_model_value_error.
+        _service.disable_retries()
+        self.test_get_sentiment_model_value_error()
 
 class TestUpdateSentimentModel():
     """
     Test Class for update_sentiment_model
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_update_sentiment_model_all_params(self):
@@ -747,7 +795,7 @@ class TestUpdateSentimentModel():
         update_sentiment_model()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/models/sentiment/testString')
+        url = preprocess_url('/v1/models/sentiment/testString')
         mock_response = '{"features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z", "name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "notices": [{"message": "message"}], "workspace_id": "workspace_id", "version_description": "version_description"}'
         responses.add(responses.PUT,
                       url,
@@ -782,6 +830,14 @@ class TestUpdateSentimentModel():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_update_sentiment_model_all_params_with_retries(self):
+        # Enable retries and run test_update_sentiment_model_all_params.
+        _service.enable_retries()
+        self.test_update_sentiment_model_all_params()
+
+        # Disable retries and run test_update_sentiment_model_all_params.
+        _service.disable_retries()
+        self.test_update_sentiment_model_all_params()
 
     @responses.activate
     def test_update_sentiment_model_required_params(self):
@@ -789,7 +845,7 @@ class TestUpdateSentimentModel():
         test_update_sentiment_model_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/models/sentiment/testString')
+        url = preprocess_url('/v1/models/sentiment/testString')
         mock_response = '{"features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z", "name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "notices": [{"message": "message"}], "workspace_id": "workspace_id", "version_description": "version_description"}'
         responses.add(responses.PUT,
                       url,
@@ -814,6 +870,14 @@ class TestUpdateSentimentModel():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_update_sentiment_model_required_params_with_retries(self):
+        # Enable retries and run test_update_sentiment_model_required_params.
+        _service.enable_retries()
+        self.test_update_sentiment_model_required_params()
+
+        # Disable retries and run test_update_sentiment_model_required_params.
+        _service.disable_retries()
+        self.test_update_sentiment_model_required_params()
 
     @responses.activate
     def test_update_sentiment_model_value_error(self):
@@ -821,7 +885,7 @@ class TestUpdateSentimentModel():
         test_update_sentiment_model_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/models/sentiment/testString')
+        url = preprocess_url('/v1/models/sentiment/testString')
         mock_response = '{"features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z", "name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "notices": [{"message": "message"}], "workspace_id": "workspace_id", "version_description": "version_description"}'
         responses.add(responses.PUT,
                       url,
@@ -846,22 +910,19 @@ class TestUpdateSentimentModel():
                 _service.update_sentiment_model(**req_copy)
 
 
+    def test_update_sentiment_model_value_error_with_retries(self):
+        # Enable retries and run test_update_sentiment_model_value_error.
+        _service.enable_retries()
+        self.test_update_sentiment_model_value_error()
+
+        # Disable retries and run test_update_sentiment_model_value_error.
+        _service.disable_retries()
+        self.test_update_sentiment_model_value_error()
 
 class TestDeleteSentimentModel():
     """
     Test Class for delete_sentiment_model
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_delete_sentiment_model_all_params(self):
@@ -869,7 +930,7 @@ class TestDeleteSentimentModel():
         delete_sentiment_model()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/models/sentiment/testString')
+        url = preprocess_url('/v1/models/sentiment/testString')
         mock_response = '{"deleted": "deleted"}'
         responses.add(responses.DELETE,
                       url,
@@ -890,6 +951,14 @@ class TestDeleteSentimentModel():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_delete_sentiment_model_all_params_with_retries(self):
+        # Enable retries and run test_delete_sentiment_model_all_params.
+        _service.enable_retries()
+        self.test_delete_sentiment_model_all_params()
+
+        # Disable retries and run test_delete_sentiment_model_all_params.
+        _service.disable_retries()
+        self.test_delete_sentiment_model_all_params()
 
     @responses.activate
     def test_delete_sentiment_model_value_error(self):
@@ -897,7 +966,7 @@ class TestDeleteSentimentModel():
         test_delete_sentiment_model_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/models/sentiment/testString')
+        url = preprocess_url('/v1/models/sentiment/testString')
         mock_response = '{"deleted": "deleted"}'
         responses.add(responses.DELETE,
                       url,
@@ -918,6 +987,14 @@ class TestDeleteSentimentModel():
                 _service.delete_sentiment_model(**req_copy)
 
 
+    def test_delete_sentiment_model_value_error_with_retries(self):
+        # Enable retries and run test_delete_sentiment_model_value_error.
+        _service.enable_retries()
+        self.test_delete_sentiment_model_value_error()
+
+        # Disable retries and run test_delete_sentiment_model_value_error.
+        _service.disable_retries()
+        self.test_delete_sentiment_model_value_error()
 
 # endregion
 ##############################################################################
@@ -934,24 +1011,13 @@ class TestCreateCategoriesModel():
     Test Class for create_categories_model
     """
 
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     @responses.activate
     def test_create_categories_model_all_params(self):
         """
         create_categories_model()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/models/categories')
+        url = preprocess_url('/v1/models/categories')
         mock_response = '{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
@@ -986,6 +1052,14 @@ class TestCreateCategoriesModel():
         assert len(responses.calls) == 1
         assert response.status_code == 201
 
+    def test_create_categories_model_all_params_with_retries(self):
+        # Enable retries and run test_create_categories_model_all_params.
+        _service.enable_retries()
+        self.test_create_categories_model_all_params()
+
+        # Disable retries and run test_create_categories_model_all_params.
+        _service.disable_retries()
+        self.test_create_categories_model_all_params()
 
     @responses.activate
     def test_create_categories_model_required_params(self):
@@ -993,7 +1067,7 @@ class TestCreateCategoriesModel():
         test_create_categories_model_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/models/categories')
+        url = preprocess_url('/v1/models/categories')
         mock_response = '{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
@@ -1016,6 +1090,14 @@ class TestCreateCategoriesModel():
         assert len(responses.calls) == 1
         assert response.status_code == 201
 
+    def test_create_categories_model_required_params_with_retries(self):
+        # Enable retries and run test_create_categories_model_required_params.
+        _service.enable_retries()
+        self.test_create_categories_model_required_params()
+
+        # Disable retries and run test_create_categories_model_required_params.
+        _service.disable_retries()
+        self.test_create_categories_model_required_params()
 
     @responses.activate
     def test_create_categories_model_value_error(self):
@@ -1023,7 +1105,7 @@ class TestCreateCategoriesModel():
         test_create_categories_model_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/models/categories')
+        url = preprocess_url('/v1/models/categories')
         mock_response = '{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
@@ -1046,22 +1128,19 @@ class TestCreateCategoriesModel():
                 _service.create_categories_model(**req_copy)
 
 
+    def test_create_categories_model_value_error_with_retries(self):
+        # Enable retries and run test_create_categories_model_value_error.
+        _service.enable_retries()
+        self.test_create_categories_model_value_error()
+
+        # Disable retries and run test_create_categories_model_value_error.
+        _service.disable_retries()
+        self.test_create_categories_model_value_error()
 
 class TestListCategoriesModels():
     """
     Test Class for list_categories_models
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_list_categories_models_all_params(self):
@@ -1069,7 +1148,7 @@ class TestListCategoriesModels():
         list_categories_models()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/models/categories')
+        url = preprocess_url('/v1/models/categories')
         mock_response = '{"models": [{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.GET,
                       url,
@@ -1085,6 +1164,14 @@ class TestListCategoriesModels():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_list_categories_models_all_params_with_retries(self):
+        # Enable retries and run test_list_categories_models_all_params.
+        _service.enable_retries()
+        self.test_list_categories_models_all_params()
+
+        # Disable retries and run test_list_categories_models_all_params.
+        _service.disable_retries()
+        self.test_list_categories_models_all_params()
 
     @responses.activate
     def test_list_categories_models_value_error(self):
@@ -1092,7 +1179,7 @@ class TestListCategoriesModels():
         test_list_categories_models_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/models/categories')
+        url = preprocess_url('/v1/models/categories')
         mock_response = '{"models": [{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.GET,
                       url,
@@ -1109,22 +1196,19 @@ class TestListCategoriesModels():
                 _service.list_categories_models(**req_copy)
 
 
+    def test_list_categories_models_value_error_with_retries(self):
+        # Enable retries and run test_list_categories_models_value_error.
+        _service.enable_retries()
+        self.test_list_categories_models_value_error()
+
+        # Disable retries and run test_list_categories_models_value_error.
+        _service.disable_retries()
+        self.test_list_categories_models_value_error()
 
 class TestGetCategoriesModel():
     """
     Test Class for get_categories_model
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_get_categories_model_all_params(self):
@@ -1132,7 +1216,7 @@ class TestGetCategoriesModel():
         get_categories_model()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/models/categories/testString')
+        url = preprocess_url('/v1/models/categories/testString')
         mock_response = '{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.GET,
                       url,
@@ -1153,6 +1237,14 @@ class TestGetCategoriesModel():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_get_categories_model_all_params_with_retries(self):
+        # Enable retries and run test_get_categories_model_all_params.
+        _service.enable_retries()
+        self.test_get_categories_model_all_params()
+
+        # Disable retries and run test_get_categories_model_all_params.
+        _service.disable_retries()
+        self.test_get_categories_model_all_params()
 
     @responses.activate
     def test_get_categories_model_value_error(self):
@@ -1160,7 +1252,7 @@ class TestGetCategoriesModel():
         test_get_categories_model_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/models/categories/testString')
+        url = preprocess_url('/v1/models/categories/testString')
         mock_response = '{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.GET,
                       url,
@@ -1181,22 +1273,19 @@ class TestGetCategoriesModel():
                 _service.get_categories_model(**req_copy)
 
 
+    def test_get_categories_model_value_error_with_retries(self):
+        # Enable retries and run test_get_categories_model_value_error.
+        _service.enable_retries()
+        self.test_get_categories_model_value_error()
+
+        # Disable retries and run test_get_categories_model_value_error.
+        _service.disable_retries()
+        self.test_get_categories_model_value_error()
 
 class TestUpdateCategoriesModel():
     """
     Test Class for update_categories_model
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_update_categories_model_all_params(self):
@@ -1204,7 +1293,7 @@ class TestUpdateCategoriesModel():
         update_categories_model()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/models/categories/testString')
+        url = preprocess_url('/v1/models/categories/testString')
         mock_response = '{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.PUT,
                       url,
@@ -1241,6 +1330,14 @@ class TestUpdateCategoriesModel():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_update_categories_model_all_params_with_retries(self):
+        # Enable retries and run test_update_categories_model_all_params.
+        _service.enable_retries()
+        self.test_update_categories_model_all_params()
+
+        # Disable retries and run test_update_categories_model_all_params.
+        _service.disable_retries()
+        self.test_update_categories_model_all_params()
 
     @responses.activate
     def test_update_categories_model_required_params(self):
@@ -1248,7 +1345,7 @@ class TestUpdateCategoriesModel():
         test_update_categories_model_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/models/categories/testString')
+        url = preprocess_url('/v1/models/categories/testString')
         mock_response = '{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.PUT,
                       url,
@@ -1273,6 +1370,14 @@ class TestUpdateCategoriesModel():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_update_categories_model_required_params_with_retries(self):
+        # Enable retries and run test_update_categories_model_required_params.
+        _service.enable_retries()
+        self.test_update_categories_model_required_params()
+
+        # Disable retries and run test_update_categories_model_required_params.
+        _service.disable_retries()
+        self.test_update_categories_model_required_params()
 
     @responses.activate
     def test_update_categories_model_value_error(self):
@@ -1280,7 +1385,7 @@ class TestUpdateCategoriesModel():
         test_update_categories_model_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/models/categories/testString')
+        url = preprocess_url('/v1/models/categories/testString')
         mock_response = '{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.PUT,
                       url,
@@ -1305,22 +1410,19 @@ class TestUpdateCategoriesModel():
                 _service.update_categories_model(**req_copy)
 
 
+    def test_update_categories_model_value_error_with_retries(self):
+        # Enable retries and run test_update_categories_model_value_error.
+        _service.enable_retries()
+        self.test_update_categories_model_value_error()
+
+        # Disable retries and run test_update_categories_model_value_error.
+        _service.disable_retries()
+        self.test_update_categories_model_value_error()
 
 class TestDeleteCategoriesModel():
     """
     Test Class for delete_categories_model
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_delete_categories_model_all_params(self):
@@ -1328,7 +1430,7 @@ class TestDeleteCategoriesModel():
         delete_categories_model()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/models/categories/testString')
+        url = preprocess_url('/v1/models/categories/testString')
         mock_response = '{"deleted": "deleted"}'
         responses.add(responses.DELETE,
                       url,
@@ -1349,6 +1451,14 @@ class TestDeleteCategoriesModel():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_delete_categories_model_all_params_with_retries(self):
+        # Enable retries and run test_delete_categories_model_all_params.
+        _service.enable_retries()
+        self.test_delete_categories_model_all_params()
+
+        # Disable retries and run test_delete_categories_model_all_params.
+        _service.disable_retries()
+        self.test_delete_categories_model_all_params()
 
     @responses.activate
     def test_delete_categories_model_value_error(self):
@@ -1356,7 +1466,7 @@ class TestDeleteCategoriesModel():
         test_delete_categories_model_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/models/categories/testString')
+        url = preprocess_url('/v1/models/categories/testString')
         mock_response = '{"deleted": "deleted"}'
         responses.add(responses.DELETE,
                       url,
@@ -1377,6 +1487,14 @@ class TestDeleteCategoriesModel():
                 _service.delete_categories_model(**req_copy)
 
 
+    def test_delete_categories_model_value_error_with_retries(self):
+        # Enable retries and run test_delete_categories_model_value_error.
+        _service.enable_retries()
+        self.test_delete_categories_model_value_error()
+
+        # Disable retries and run test_delete_categories_model_value_error.
+        _service.disable_retries()
+        self.test_delete_categories_model_value_error()
 
 # endregion
 ##############################################################################
@@ -1393,24 +1511,13 @@ class TestCreateClassificationsModel():
     Test Class for create_classifications_model
     """
 
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     @responses.activate
     def test_create_classifications_model_all_params(self):
         """
         create_classifications_model()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/models/classifications')
+        url = preprocess_url('/v1/models/classifications')
         mock_response = '{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
@@ -1445,6 +1552,14 @@ class TestCreateClassificationsModel():
         assert len(responses.calls) == 1
         assert response.status_code == 201
 
+    def test_create_classifications_model_all_params_with_retries(self):
+        # Enable retries and run test_create_classifications_model_all_params.
+        _service.enable_retries()
+        self.test_create_classifications_model_all_params()
+
+        # Disable retries and run test_create_classifications_model_all_params.
+        _service.disable_retries()
+        self.test_create_classifications_model_all_params()
 
     @responses.activate
     def test_create_classifications_model_required_params(self):
@@ -1452,7 +1567,7 @@ class TestCreateClassificationsModel():
         test_create_classifications_model_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/models/classifications')
+        url = preprocess_url('/v1/models/classifications')
         mock_response = '{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
@@ -1475,6 +1590,14 @@ class TestCreateClassificationsModel():
         assert len(responses.calls) == 1
         assert response.status_code == 201
 
+    def test_create_classifications_model_required_params_with_retries(self):
+        # Enable retries and run test_create_classifications_model_required_params.
+        _service.enable_retries()
+        self.test_create_classifications_model_required_params()
+
+        # Disable retries and run test_create_classifications_model_required_params.
+        _service.disable_retries()
+        self.test_create_classifications_model_required_params()
 
     @responses.activate
     def test_create_classifications_model_value_error(self):
@@ -1482,7 +1605,7 @@ class TestCreateClassificationsModel():
         test_create_classifications_model_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/models/classifications')
+        url = preprocess_url('/v1/models/classifications')
         mock_response = '{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
@@ -1505,22 +1628,19 @@ class TestCreateClassificationsModel():
                 _service.create_classifications_model(**req_copy)
 
 
+    def test_create_classifications_model_value_error_with_retries(self):
+        # Enable retries and run test_create_classifications_model_value_error.
+        _service.enable_retries()
+        self.test_create_classifications_model_value_error()
+
+        # Disable retries and run test_create_classifications_model_value_error.
+        _service.disable_retries()
+        self.test_create_classifications_model_value_error()
 
 class TestListClassificationsModels():
     """
     Test Class for list_classifications_models
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_list_classifications_models_all_params(self):
@@ -1528,7 +1648,7 @@ class TestListClassificationsModels():
         list_classifications_models()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/models/classifications')
+        url = preprocess_url('/v1/models/classifications')
         mock_response = '{"models": [{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.GET,
                       url,
@@ -1544,6 +1664,14 @@ class TestListClassificationsModels():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_list_classifications_models_all_params_with_retries(self):
+        # Enable retries and run test_list_classifications_models_all_params.
+        _service.enable_retries()
+        self.test_list_classifications_models_all_params()
+
+        # Disable retries and run test_list_classifications_models_all_params.
+        _service.disable_retries()
+        self.test_list_classifications_models_all_params()
 
     @responses.activate
     def test_list_classifications_models_value_error(self):
@@ -1551,7 +1679,7 @@ class TestListClassificationsModels():
         test_list_classifications_models_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/models/classifications')
+        url = preprocess_url('/v1/models/classifications')
         mock_response = '{"models": [{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.GET,
                       url,
@@ -1568,22 +1696,19 @@ class TestListClassificationsModels():
                 _service.list_classifications_models(**req_copy)
 
 
+    def test_list_classifications_models_value_error_with_retries(self):
+        # Enable retries and run test_list_classifications_models_value_error.
+        _service.enable_retries()
+        self.test_list_classifications_models_value_error()
+
+        # Disable retries and run test_list_classifications_models_value_error.
+        _service.disable_retries()
+        self.test_list_classifications_models_value_error()
 
 class TestGetClassificationsModel():
     """
     Test Class for get_classifications_model
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_get_classifications_model_all_params(self):
@@ -1591,7 +1716,7 @@ class TestGetClassificationsModel():
         get_classifications_model()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/models/classifications/testString')
+        url = preprocess_url('/v1/models/classifications/testString')
         mock_response = '{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.GET,
                       url,
@@ -1612,6 +1737,14 @@ class TestGetClassificationsModel():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_get_classifications_model_all_params_with_retries(self):
+        # Enable retries and run test_get_classifications_model_all_params.
+        _service.enable_retries()
+        self.test_get_classifications_model_all_params()
+
+        # Disable retries and run test_get_classifications_model_all_params.
+        _service.disable_retries()
+        self.test_get_classifications_model_all_params()
 
     @responses.activate
     def test_get_classifications_model_value_error(self):
@@ -1619,7 +1752,7 @@ class TestGetClassificationsModel():
         test_get_classifications_model_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/models/classifications/testString')
+        url = preprocess_url('/v1/models/classifications/testString')
         mock_response = '{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.GET,
                       url,
@@ -1640,22 +1773,19 @@ class TestGetClassificationsModel():
                 _service.get_classifications_model(**req_copy)
 
 
+    def test_get_classifications_model_value_error_with_retries(self):
+        # Enable retries and run test_get_classifications_model_value_error.
+        _service.enable_retries()
+        self.test_get_classifications_model_value_error()
+
+        # Disable retries and run test_get_classifications_model_value_error.
+        _service.disable_retries()
+        self.test_get_classifications_model_value_error()
 
 class TestUpdateClassificationsModel():
     """
     Test Class for update_classifications_model
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_update_classifications_model_all_params(self):
@@ -1663,7 +1793,7 @@ class TestUpdateClassificationsModel():
         update_classifications_model()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/models/classifications/testString')
+        url = preprocess_url('/v1/models/classifications/testString')
         mock_response = '{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.PUT,
                       url,
@@ -1700,6 +1830,14 @@ class TestUpdateClassificationsModel():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_update_classifications_model_all_params_with_retries(self):
+        # Enable retries and run test_update_classifications_model_all_params.
+        _service.enable_retries()
+        self.test_update_classifications_model_all_params()
+
+        # Disable retries and run test_update_classifications_model_all_params.
+        _service.disable_retries()
+        self.test_update_classifications_model_all_params()
 
     @responses.activate
     def test_update_classifications_model_required_params(self):
@@ -1707,7 +1845,7 @@ class TestUpdateClassificationsModel():
         test_update_classifications_model_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/models/classifications/testString')
+        url = preprocess_url('/v1/models/classifications/testString')
         mock_response = '{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.PUT,
                       url,
@@ -1732,6 +1870,14 @@ class TestUpdateClassificationsModel():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_update_classifications_model_required_params_with_retries(self):
+        # Enable retries and run test_update_classifications_model_required_params.
+        _service.enable_retries()
+        self.test_update_classifications_model_required_params()
+
+        # Disable retries and run test_update_classifications_model_required_params.
+        _service.disable_retries()
+        self.test_update_classifications_model_required_params()
 
     @responses.activate
     def test_update_classifications_model_value_error(self):
@@ -1739,7 +1885,7 @@ class TestUpdateClassificationsModel():
         test_update_classifications_model_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/models/classifications/testString')
+        url = preprocess_url('/v1/models/classifications/testString')
         mock_response = '{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.PUT,
                       url,
@@ -1764,22 +1910,19 @@ class TestUpdateClassificationsModel():
                 _service.update_classifications_model(**req_copy)
 
 
+    def test_update_classifications_model_value_error_with_retries(self):
+        # Enable retries and run test_update_classifications_model_value_error.
+        _service.enable_retries()
+        self.test_update_classifications_model_value_error()
+
+        # Disable retries and run test_update_classifications_model_value_error.
+        _service.disable_retries()
+        self.test_update_classifications_model_value_error()
 
 class TestDeleteClassificationsModel():
     """
     Test Class for delete_classifications_model
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_delete_classifications_model_all_params(self):
@@ -1787,7 +1930,7 @@ class TestDeleteClassificationsModel():
         delete_classifications_model()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/models/classifications/testString')
+        url = preprocess_url('/v1/models/classifications/testString')
         mock_response = '{"deleted": "deleted"}'
         responses.add(responses.DELETE,
                       url,
@@ -1808,6 +1951,14 @@ class TestDeleteClassificationsModel():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_delete_classifications_model_all_params_with_retries(self):
+        # Enable retries and run test_delete_classifications_model_all_params.
+        _service.enable_retries()
+        self.test_delete_classifications_model_all_params()
+
+        # Disable retries and run test_delete_classifications_model_all_params.
+        _service.disable_retries()
+        self.test_delete_classifications_model_all_params()
 
     @responses.activate
     def test_delete_classifications_model_value_error(self):
@@ -1815,7 +1966,7 @@ class TestDeleteClassificationsModel():
         test_delete_classifications_model_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/models/classifications/testString')
+        url = preprocess_url('/v1/models/classifications/testString')
         mock_response = '{"deleted": "deleted"}'
         responses.add(responses.DELETE,
                       url,
@@ -1836,6 +1987,14 @@ class TestDeleteClassificationsModel():
                 _service.delete_classifications_model(**req_copy)
 
 
+    def test_delete_classifications_model_value_error_with_retries(self):
+        # Enable retries and run test_delete_classifications_model_value_error.
+        _service.enable_retries()
+        self.test_delete_classifications_model_value_error()
+
+        # Disable retries and run test_delete_classifications_model_value_error.
+        _service.disable_retries()
+        self.test_delete_classifications_model_value_error()
 
 # endregion
 ##############################################################################
@@ -2138,10 +2297,10 @@ class TestModel_CategoriesModel():
         categories_model_model_json['features'] = ['testString']
         categories_model_model_json['status'] = 'starting'
         categories_model_model_json['model_id'] = 'testString'
-        categories_model_model_json['created'] = "2019-01-01T12:00:00Z"
+        categories_model_model_json['created'] = '2019-01-01T12:00:00Z'
         categories_model_model_json['notices'] = [notice_model]
-        categories_model_model_json['last_trained'] = "2019-01-01T12:00:00Z"
-        categories_model_model_json['last_deployed'] = "2019-01-01T12:00:00Z"
+        categories_model_model_json['last_trained'] = '2019-01-01T12:00:00Z'
+        categories_model_model_json['last_deployed'] = '2019-01-01T12:00:00Z'
 
         # Construct a model instance of CategoriesModel by calling from_dict on the json representation
         categories_model_model = CategoriesModel.from_dict(categories_model_model_json)
@@ -2184,10 +2343,10 @@ class TestModel_CategoriesModelList():
         categories_model_model['features'] = ['testString']
         categories_model_model['status'] = 'starting'
         categories_model_model['model_id'] = 'testString'
-        categories_model_model['created'] = "2019-01-01T12:00:00Z"
+        categories_model_model['created'] = '2019-01-01T12:00:00Z'
         categories_model_model['notices'] = [notice_model]
-        categories_model_model['last_trained'] = "2019-01-01T12:00:00Z"
-        categories_model_model['last_deployed'] = "2019-01-01T12:00:00Z"
+        categories_model_model['last_trained'] = '2019-01-01T12:00:00Z'
+        categories_model_model['last_deployed'] = '2019-01-01T12:00:00Z'
 
         # Construct a json representation of a CategoriesModelList model
         categories_model_list_model_json = {}
@@ -2368,10 +2527,10 @@ class TestModel_ClassificationsModel():
         classifications_model_model_json['features'] = ['testString']
         classifications_model_model_json['status'] = 'starting'
         classifications_model_model_json['model_id'] = 'testString'
-        classifications_model_model_json['created'] = "2019-01-01T12:00:00Z"
+        classifications_model_model_json['created'] = '2019-01-01T12:00:00Z'
         classifications_model_model_json['notices'] = [notice_model]
-        classifications_model_model_json['last_trained'] = "2019-01-01T12:00:00Z"
-        classifications_model_model_json['last_deployed'] = "2019-01-01T12:00:00Z"
+        classifications_model_model_json['last_trained'] = '2019-01-01T12:00:00Z'
+        classifications_model_model_json['last_deployed'] = '2019-01-01T12:00:00Z'
 
         # Construct a model instance of ClassificationsModel by calling from_dict on the json representation
         classifications_model_model = ClassificationsModel.from_dict(classifications_model_model_json)
@@ -2414,10 +2573,10 @@ class TestModel_ClassificationsModelList():
         classifications_model_model['features'] = ['testString']
         classifications_model_model['status'] = 'starting'
         classifications_model_model['model_id'] = 'testString'
-        classifications_model_model['created'] = "2019-01-01T12:00:00Z"
+        classifications_model_model['created'] = '2019-01-01T12:00:00Z'
         classifications_model_model['notices'] = [notice_model]
-        classifications_model_model['last_trained'] = "2019-01-01T12:00:00Z"
-        classifications_model_model['last_deployed'] = "2019-01-01T12:00:00Z"
+        classifications_model_model['last_trained'] = '2019-01-01T12:00:00Z'
+        classifications_model_model['last_deployed'] = '2019-01-01T12:00:00Z'
 
         # Construct a json representation of a ClassificationsModelList model
         classifications_model_list_model_json = {}
@@ -2980,8 +3139,6 @@ class TestModel_Features():
         keywords_options_model['sentiment'] = False
         keywords_options_model['emotion'] = False
 
-        metadata_options_model = {} # MetadataOptions
-
         relations_options_model = {} # RelationsOptions
         relations_options_model['model'] = 'testString'
 
@@ -3018,7 +3175,7 @@ class TestModel_Features():
         features_model_json['emotion'] = emotion_options_model
         features_model_json['entities'] = entities_options_model
         features_model_json['keywords'] = keywords_options_model
-        features_model_json['metadata'] = metadata_options_model
+        features_model_json['metadata'] = {}
         features_model_json['relations'] = relations_options_model
         features_model_json['semantic_roles'] = semantic_roles_options_model
         features_model_json['sentiment'] = sentiment_options_model
@@ -3208,7 +3365,7 @@ class TestModel_ListModelsResults():
         model_model['model_version'] = 'testString'
         model_model['version'] = 'testString'
         model_model['version_description'] = 'testString'
-        model_model['created'] = "2019-01-01T12:00:00Z"
+        model_model['created'] = '2019-01-01T12:00:00Z'
 
         # Construct a json representation of a ListModelsResults model
         list_models_results_model_json = {}
@@ -3248,9 +3405,9 @@ class TestModel_ListSentimentModelsResponse():
         sentiment_model_model['features'] = ['testString']
         sentiment_model_model['status'] = 'starting'
         sentiment_model_model['model_id'] = 'testString'
-        sentiment_model_model['created'] = "2019-01-01T12:00:00Z"
-        sentiment_model_model['last_trained'] = "2019-01-01T12:00:00Z"
-        sentiment_model_model['last_deployed'] = "2019-01-01T12:00:00Z"
+        sentiment_model_model['created'] = '2019-01-01T12:00:00Z'
+        sentiment_model_model['last_trained'] = '2019-01-01T12:00:00Z'
+        sentiment_model_model['last_deployed'] = '2019-01-01T12:00:00Z'
         sentiment_model_model['name'] = 'testString'
         sentiment_model_model['user_metadata'] = {}
         sentiment_model_model['language'] = 'testString'
@@ -3279,34 +3436,6 @@ class TestModel_ListSentimentModelsResponse():
         list_sentiment_models_response_model_json2 = list_sentiment_models_response_model.to_dict()
         assert list_sentiment_models_response_model_json2 == list_sentiment_models_response_model_json
 
-class TestModel_MetadataOptions():
-    """
-    Test Class for MetadataOptions
-    """
-
-    def test_metadata_options_serialization(self):
-        """
-        Test serialization/deserialization for MetadataOptions
-        """
-
-        # Construct a json representation of a MetadataOptions model
-        metadata_options_model_json = {}
-
-        # Construct a model instance of MetadataOptions by calling from_dict on the json representation
-        metadata_options_model = MetadataOptions.from_dict(metadata_options_model_json)
-        assert metadata_options_model != False
-
-        # Construct a model instance of MetadataOptions by calling from_dict on the json representation
-        metadata_options_model_dict = MetadataOptions.from_dict(metadata_options_model_json).__dict__
-        metadata_options_model2 = MetadataOptions(**metadata_options_model_dict)
-
-        # Verify the model instances are equivalent
-        assert metadata_options_model == metadata_options_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        metadata_options_model_json2 = metadata_options_model.to_dict()
-        assert metadata_options_model_json2 == metadata_options_model_json
-
 class TestModel_Model():
     """
     Test Class for Model
@@ -3327,7 +3456,7 @@ class TestModel_Model():
         model_model_json['model_version'] = 'testString'
         model_model_json['version'] = 'testString'
         model_model_json['version_description'] = 'testString'
-        model_model_json['created'] = "2019-01-01T12:00:00Z"
+        model_model_json['created'] = '2019-01-01T12:00:00Z'
 
         # Construct a model instance of Model by calling from_dict on the json representation
         model_model = Model.from_dict(model_model_json)
@@ -3853,9 +3982,9 @@ class TestModel_SentimentModel():
         sentiment_model_model_json['features'] = ['testString']
         sentiment_model_model_json['status'] = 'starting'
         sentiment_model_model_json['model_id'] = 'testString'
-        sentiment_model_model_json['created'] = "2019-01-01T12:00:00Z"
-        sentiment_model_model_json['last_trained'] = "2019-01-01T12:00:00Z"
-        sentiment_model_model_json['last_deployed'] = "2019-01-01T12:00:00Z"
+        sentiment_model_model_json['created'] = '2019-01-01T12:00:00Z'
+        sentiment_model_model_json['last_trained'] = '2019-01-01T12:00:00Z'
+        sentiment_model_model_json['last_deployed'] = '2019-01-01T12:00:00Z'
         sentiment_model_model_json['name'] = 'testString'
         sentiment_model_model_json['user_metadata'] = {}
         sentiment_model_model_json['language'] = 'testString'

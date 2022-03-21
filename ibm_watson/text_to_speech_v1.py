@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2015, 2021.
+# (C) Copyright IBM Corp. 2015, 2022.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 3.38.0-07189efd-20210827-205025
+# IBM OpenAPI SDK Code Generator Version: 3.46.0-a4e29da0-20220224-210428
 """
 The IBM Watson&trade; Text to Speech service provides APIs that use IBM's speech-synthesis
 capabilities to synthesize text into natural-sounding speech in a variety of languages,
@@ -30,13 +30,11 @@ phonetic translations for words. A sounds-like translation consists of one or mo
 that, when combined, sound like the word. A phonetic translation is based on the SSML
 phoneme format for representing a word. You can specify a phonetic translation in standard
 International Phonetic Alphabet (IPA) representation or in the proprietary IBM Symbolic
-Phonetic Representation (SPR).
+Phonetic Representation (SPR). For phonetic translation, the Arabic, Chinese, Dutch,
+Australian English, Korean, and Swedish voices support only IPA, not SPR.
 The service also offers a Tune by Example feature that lets you define custom prompts. You
 can also define speaker models to improve the quality of your custom prompts. The service
 support custom prompts only for US English custom models and voices.
-**IBM Cloud&reg;.** The Arabic, Chinese, Dutch, Australian English, and Korean languages
-and voices are supported only for IBM Cloud. For phonetic translation, they support only
-IPA, not SPR.
 
 API Version: 1.0.0
 See: https://cloud.ibm.com/docs/text-to-speech
@@ -73,7 +71,7 @@ class TextToSpeechV1(BaseService):
         Construct a new client for the Text to Speech service.
 
         :param Authenticator authenticator: The authenticator specifies the authentication mechanism.
-               Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
+               Get up to date information from https://github.com/IBM/python-sdk-core/blob/main/README.md
                about initializing the authenticator of your choice.
         """
         if not authenticator:
@@ -135,33 +133,12 @@ class TextToSpeechV1(BaseService):
         voices](#listvoices) method.
         **See also:** [Listing a specific
         voice](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-voices#listVoice).
-        ### Important voice updates for IBM Cloud
-         The service's voices underwent significant change on 2 December 2020.
-        * The Arabic, Chinese, Dutch, Australian English, and Korean voices are now neural
-        instead of concatenative.
-        * The `ar-AR_OmarVoice` voice is deprecated. Use `ar-MS_OmarVoice` voice instead.
-        * The `ar-AR` language identifier cannot be used to create a custom model. Use the
-        `ar-MS` identifier instead.
-        * The standard concatenative voices for the following languages are now
-        deprecated: Brazilian Portuguese, United Kingdom and United States English,
-        French, German, Italian, Japanese, and Spanish (all dialects).
-        * The features expressive SSML, voice transformation SSML, and use of the `volume`
-        attribute of the `<prosody>` element are deprecated and are not supported with any
-        of the service's neural voices.
-        * All of the service's voices are now customizable and generally available (GA)
-        for production use.
-        The deprecated voices and features will continue to function for at least one year
-        but might be removed at a future date. You are encouraged to migrate to the
-        equivalent neural voices at your earliest convenience. For more information about
-        all voice updates, see the [2 December 2020 service
-        update](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-release-notes#December2020)
-        in the release notes for IBM Cloud.
+        **Note:** The Arabic, Chinese, Czech, Dutch (Belgian and Netherlands), Australian
+        English, Korean, and Swedish languages and voices are supported only for IBM
+        Cloud; they are deprecated for IBM Cloud Pak for Data. Also, the `ar-AR_OmarVoice`
+        voice is deprecated; use the `ar-MS_OmarVoice` voice instead.
 
-        :param str voice: The voice for which information is to be returned. For
-               more information about specifying a voice, see **Important voice updates
-               for IBM Cloud** in the method description.
-               **IBM Cloud:** The Arabic, Chinese, Dutch, Australian English, and Korean
-               languages and voices are supported only for IBM Cloud.
+        :param str voice: The voice for which information is to be returned.
         :param str customization_id: (optional) The customization ID (GUID) of a
                custom model for which information is to be returned. You must make the
                request with credentials for the instance of the service that owns the
@@ -220,6 +197,10 @@ class TextToSpeechV1(BaseService):
         specify. The service returns the synthesized audio stream as an array of bytes.
         **See also:** [The HTTP
         interface](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-usingHTTP#usingHTTP).
+        **Note:** The Arabic, Chinese, Czech, Dutch (Belgian and Netherlands), Australian
+        English, Korean, and Swedish languages and voices are supported only for IBM
+        Cloud; they are deprecated for IBM Cloud Pak for Data. Also, the `ar-AR_OmarVoice`
+        voice is deprecated; use the `ar-MS_OmarVoice` voice instead.
         ### Audio formats (accept types)
          The service can return audio in the following formats (MIME types).
         * Where indicated, you can optionally specify the sampling rate (`rate`) of the
@@ -263,27 +244,6 @@ class TextToSpeechV1(BaseService):
         For more information about specifying an audio format, including additional
         details about some of the formats, see [Using audio
         formats](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-audio-formats).
-        ### Important voice updates for IBM Cloud
-         The service's voices underwent significant change on 2 December 2020.
-        * The Arabic, Chinese, Dutch, Australian English, and Korean voices are now neural
-        instead of concatenative.
-        * The `ar-AR_OmarVoice` voice is deprecated. Use `ar-MS_OmarVoice` voice instead.
-        * The `ar-AR` language identifier cannot be used to create a custom model. Use the
-        `ar-MS` identifier instead.
-        * The standard concatenative voices for the following languages are now
-        deprecated: Brazilian Portuguese, United Kingdom and United States English,
-        French, German, Italian, Japanese, and Spanish (all dialects).
-        * The features expressive SSML, voice transformation SSML, and use of the `volume`
-        attribute of the `<prosody>` element are deprecated and are not supported with any
-        of the service's neural voices.
-        * All of the service's voices are now customizable and generally available (GA)
-        for production use.
-        The deprecated voices and features will continue to function for at least one year
-        but might be removed at a future date. You are encouraged to migrate to the
-        equivalent neural voices at your earliest convenience. For more information about
-        all voice updates, see the [2 December 2020 service
-        update](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-release-notes#December2020)
-        in the release notes for IBM Cloud.
         ### Warning messages
          If a request includes invalid query parameters, the service returns a `Warnings`
         response header that provides messages about the invalid parameters. The warning
@@ -297,11 +257,17 @@ class TextToSpeechV1(BaseService):
                audio. You can use the `Accept` header or the `accept` parameter to specify
                the audio format. For more information about specifying an audio format,
                see **Audio formats (accept types)** in the method description.
-        :param str voice: (optional) The voice to use for synthesis. For more
-               information about specifying a voice, see **Important voice updates for IBM
-               Cloud** in the method description.
-               **IBM Cloud:** The Arabic, Chinese, Dutch, Australian English, and Korean
-               languages and voices are supported only for IBM Cloud.
+        :param str voice: (optional) The voice to use for synthesis. If you omit
+               the `voice` parameter, the service uses a default voice, which depends on
+               the version of the service that you are using:
+               * _For IBM Cloud,_ the service always uses the US English
+               `en-US_MichaelV3Voice` by default.
+               * _For IBM Cloud Pak for Data,_ the default voice depends on the voices
+               that you installed. If you installed the _enhanced neural voices_, the
+               service uses the US English `en-US_MichaelV3Voice` by default; if that
+               voice is not installed, you must specify a voice. If you installed the
+               _neural voices_, the service always uses the Australian English
+               `en-AU_MadisonVoice` by default.
                **See also:** See also [Using languages and
                voices](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-voices).
         :param str customization_id: (optional) The customization ID (GUID) of a
@@ -363,36 +329,15 @@ class TextToSpeechV1(BaseService):
         for a specific custom model to see the translation for that model.
         **See also:** [Querying a word from a
         language](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customWords#cuWordsQueryLanguage).
-        ### Important voice updates for IBM Cloud
-         The service's voices underwent significant change on 2 December 2020.
-        * The Arabic, Chinese, Dutch, Australian English, and Korean voices are now neural
-        instead of concatenative.
-        * The `ar-AR_OmarVoice` voice is deprecated. Use `ar-MS_OmarVoice` voice instead.
-        * The `ar-AR` language identifier cannot be used to create a custom model. Use the
-        `ar-MS` identifier instead.
-        * The standard concatenative voices for the following languages are now
-        deprecated: Brazilian Portuguese, United Kingdom and United States English,
-        French, German, Italian, Japanese, and Spanish (all dialects).
-        * The features expressive SSML, voice transformation SSML, and use of the `volume`
-        attribute of the `<prosody>` element are deprecated and are not supported with any
-        of the service's neural voices.
-        * All of the service's voices are now customizable and generally available (GA)
-        for production use.
-        The deprecated voices and features will continue to function for at least one year
-        but might be removed at a future date. You are encouraged to migrate to the
-        equivalent neural voices at your earliest convenience. For more information about
-        all voice updates, see the [2 December 2020 service
-        update](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-release-notes#December2020)
-        in the release notes for IBM Cloud.
+        **Note:** The Arabic, Chinese, Czech, Dutch (Belgian and Netherlands), Australian
+        English, Korean, and Swedish languages and voices are supported only for IBM
+        Cloud; they are deprecated for IBM Cloud Pak for Data. Also, the `ar-AR_OmarVoice`
+        voice is deprecated; use the `ar-MS_OmarVoice` voice instead.
 
         :param str text: The word for which the pronunciation is requested.
         :param str voice: (optional) A voice that specifies the language in which
                the pronunciation is to be returned. All voices for the same language (for
-               example, `en-US`) return the same translation. For more information about
-               specifying a voice, see **Important voice updates for IBM Cloud** in the
-               method description.
-               **IBM Cloud:** The Arabic, Chinese, Dutch, Australian English, and Korean
-               languages and voices are supported only for IBM Cloud.
+               example, `en-US`) return the same translation.
         :param str format: (optional) The phoneme format in which to return the
                pronunciation. The Arabic, Chinese, Dutch, Australian English, and Korean
                languages support only IPA. Omit the parameter to obtain the pronunciation
@@ -457,37 +402,22 @@ class TextToSpeechV1(BaseService):
         used to create it.
         **See also:** [Creating a custom
         model](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customModels#cuModelsCreate).
-        ### Important voice updates for IBM Cloud
-         The service's voices underwent significant change on 2 December 2020.
-        * The Arabic, Chinese, Dutch, Australian English, and Korean voices are now neural
-        instead of concatenative.
-        * The `ar-AR_OmarVoice` voice is deprecated. Use `ar-MS_OmarVoice` voice instead.
-        * The `ar-AR` language identifier cannot be used to create a custom model. Use the
-        `ar-MS` identifier instead.
-        * The standard concatenative voices for the following languages are now
-        deprecated: Brazilian Portuguese, United Kingdom and United States English,
-        French, German, Italian, Japanese, and Spanish (all dialects).
-        * The features expressive SSML, voice transformation SSML, and use of the `volume`
-        attribute of the `<prosody>` element are deprecated and are not supported with any
-        of the service's neural voices.
-        * All of the service's voices are now customizable and generally available (GA)
-        for production use.
-        The deprecated voices and features will continue to function for at least one year
-        but might be removed at a future date. You are encouraged to migrate to the
-        equivalent neural voices at your earliest convenience. For more information about
-        all voice updates, see the [2 December 2020 service
-        update](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-release-notes#December2020)
-        in the release notes for IBM Cloud.
+        **Note:** The Arabic, Chinese, Czech, Dutch (Belgian and Netherlands), Australian
+        English, Korean, and Swedish languages and voices are supported only for IBM
+        Cloud; they are deprecated for IBM Cloud Pak for Data. Also, the `ar-AR` language
+        identifier cannot be used to create a custom model; use the `ar-MS` identifier
+        instead.
 
         :param str name: The name of the new custom model.
         :param str language: (optional) The language of the new custom model. You
                create a custom model for a specific language, not for a specific voice. A
                custom model can be used with any voice for its specified language. Omit
-               the parameter to use the the default language, `en-US`. **Note:** The
-               `ar-AR` language identifier cannot be used to create a custom model. Use
-               the `ar-MS` identifier instead.
-               **IBM Cloud:** The Arabic, Chinese, Dutch, Australian English, and Korean
-               languages and voices are supported only for IBM Cloud.
+               the parameter to use the the default language, `en-US`.
+               **Important:** If you are using the service on IBM Cloud Pak for Data _and_
+               you install the neural voices, the `language`parameter is required. You
+               must specify the language for the custom model in the indicated format (for
+               example, `en-AU` for Australian English). The request fails if you do not
+               specify a language.
         :param str description: (optional) A description of the new custom model.
                Specifying a description is recommended.
         :param dict headers: A `dict` containing the request headers
@@ -1595,21 +1525,19 @@ class GetVoiceEnums:
 
     class Voice(str, Enum):
         """
-        The voice for which information is to be returned. For more information about
-        specifying a voice, see **Important voice updates for IBM Cloud** in the method
-        description.
-        **IBM Cloud:** The Arabic, Chinese, Dutch, Australian English, and Korean
-        languages and voices are supported only for IBM Cloud.
+        The voice for which information is to be returned.
         """
         AR_AR_OMARVOICE = 'ar-AR_OmarVoice'
         AR_MS_OMARVOICE = 'ar-MS_OmarVoice'
+        CS_CZ_ALENAVOICE = 'cs-CZ_AlenaVoice'
         DE_DE_BIRGITVOICE = 'de-DE_BirgitVoice'
         DE_DE_BIRGITV3VOICE = 'de-DE_BirgitV3Voice'
         DE_DE_DIETERVOICE = 'de-DE_DieterVoice'
         DE_DE_DIETERV3VOICE = 'de-DE_DieterV3Voice'
         DE_DE_ERIKAV3VOICE = 'de-DE_ErikaV3Voice'
-        EN_AU_CRAIGVOICE = 'en-AU-CraigVoice'
-        EN_AU_MADISONVOICE = 'en-AU-MadisonVoice'
+        EN_AU_CRAIGVOICE = 'en-AU_CraigVoice'
+        EN_AU_MADISONVOICE = 'en-AU_MadisonVoice'
+        EN_AU_STEVEVOICE = 'en-AU_SteveVoice'
         EN_GB_CHARLOTTEV3VOICE = 'en-GB_CharlotteV3Voice'
         EN_GB_JAMESV3VOICE = 'en-GB_JamesV3Voice'
         EN_GB_KATEVOICE = 'en-GB_KateVoice'
@@ -1645,10 +1573,12 @@ class GetVoiceEnums:
         KO_KR_YOUNGMIVOICE = 'ko-KR_YoungmiVoice'
         KO_KR_YUNAVOICE = 'ko-KR_YunaVoice'
         NL_BE_ADELEVOICE = 'nl-BE_AdeleVoice'
+        NL_BE_BRAMVOICE = 'nl-BE_BramVoice'
         NL_NL_EMMAVOICE = 'nl-NL_EmmaVoice'
         NL_NL_LIAMVOICE = 'nl-NL_LiamVoice'
         PT_BR_ISABELAVOICE = 'pt-BR_IsabelaVoice'
         PT_BR_ISABELAV3VOICE = 'pt-BR_IsabelaV3Voice'
+        SV_SE_INGRIDVOICE = 'sv-SE_IngridVoice'
         ZH_CN_LINAVOICE = 'zh-CN_LiNaVoice'
         ZH_CN_WANGWEIVOICE = 'zh-CN_WangWeiVoice'
         ZH_CN_ZHANGJINGVOICE = 'zh-CN_ZhangJingVoice'
@@ -1682,22 +1612,30 @@ class SynthesizeEnums:
 
     class Voice(str, Enum):
         """
-        The voice to use for synthesis. For more information about specifying a voice, see
-        **Important voice updates for IBM Cloud** in the method description.
-        **IBM Cloud:** The Arabic, Chinese, Dutch, Australian English, and Korean
-        languages and voices are supported only for IBM Cloud.
+        The voice to use for synthesis. If you omit the `voice` parameter, the service
+        uses a default voice, which depends on the version of the service that you are
+        using:
+        * _For IBM Cloud,_ the service always uses the US English `en-US_MichaelV3Voice`
+        by default.
+        * _For IBM Cloud Pak for Data,_ the default voice depends on the voices that you
+        installed. If you installed the _enhanced neural voices_, the service uses the US
+        English `en-US_MichaelV3Voice` by default; if that voice is not installed, you
+        must specify a voice. If you installed the _neural voices_, the service always
+        uses the Australian English `en-AU_MadisonVoice` by default.
         **See also:** See also [Using languages and
         voices](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-voices).
         """
         AR_AR_OMARVOICE = 'ar-AR_OmarVoice'
         AR_MS_OMARVOICE = 'ar-MS_OmarVoice'
+        CS_CZ_ALENAVOICE = 'cs-CZ_AlenaVoice'
         DE_DE_BIRGITVOICE = 'de-DE_BirgitVoice'
         DE_DE_BIRGITV3VOICE = 'de-DE_BirgitV3Voice'
         DE_DE_DIETERVOICE = 'de-DE_DieterVoice'
         DE_DE_DIETERV3VOICE = 'de-DE_DieterV3Voice'
         DE_DE_ERIKAV3VOICE = 'de-DE_ErikaV3Voice'
-        EN_AU_CRAIGVOICE = 'en-AU-CraigVoice'
-        EN_AU_MADISONVOICE = 'en-AU-MadisonVoice'
+        EN_AU_CRAIGVOICE = 'en-AU_CraigVoice'
+        EN_AU_MADISONVOICE = 'en-AU_MadisonVoice'
+        EN_AU_STEVEVOICE = 'en-AU_SteveVoice'
         EN_GB_CHARLOTTEV3VOICE = 'en-GB_CharlotteV3Voice'
         EN_GB_JAMESV3VOICE = 'en-GB_JamesV3Voice'
         EN_GB_KATEVOICE = 'en-GB_KateVoice'
@@ -1733,10 +1671,12 @@ class SynthesizeEnums:
         KO_KR_YOUNGMIVOICE = 'ko-KR_YoungmiVoice'
         KO_KR_YUNAVOICE = 'ko-KR_YunaVoice'
         NL_BE_ADELEVOICE = 'nl-BE_AdeleVoice'
+        NL_BE_BRAMVOICE = 'nl-BE_BramVoice'
         NL_NL_EMMAVOICE = 'nl-NL_EmmaVoice'
         NL_NL_LIAMVOICE = 'nl-NL_LiamVoice'
         PT_BR_ISABELAVOICE = 'pt-BR_IsabelaVoice'
         PT_BR_ISABELAV3VOICE = 'pt-BR_IsabelaV3Voice'
+        SV_SE_INGRIDVOICE = 'sv-SE_IngridVoice'
         ZH_CN_LINAVOICE = 'zh-CN_LiNaVoice'
         ZH_CN_WANGWEIVOICE = 'zh-CN_WangWeiVoice'
         ZH_CN_ZHANGJINGVOICE = 'zh-CN_ZhangJingVoice'
@@ -1751,20 +1691,19 @@ class GetPronunciationEnums:
         """
         A voice that specifies the language in which the pronunciation is to be returned.
         All voices for the same language (for example, `en-US`) return the same
-        translation. For more information about specifying a voice, see **Important voice
-        updates for IBM Cloud** in the method description.
-        **IBM Cloud:** The Arabic, Chinese, Dutch, Australian English, and Korean
-        languages and voices are supported only for IBM Cloud.
+        translation.
         """
         AR_AR_OMARVOICE = 'ar-AR_OmarVoice'
         AR_MS_OMARVOICE = 'ar-MS_OmarVoice'
+        CS_CZ_ALENAVOICE = 'cs-CZ_AlenaVoice'
         DE_DE_BIRGITVOICE = 'de-DE_BirgitVoice'
         DE_DE_BIRGITV3VOICE = 'de-DE_BirgitV3Voice'
         DE_DE_DIETERVOICE = 'de-DE_DieterVoice'
         DE_DE_DIETERV3VOICE = 'de-DE_DieterV3Voice'
         DE_DE_ERIKAV3VOICE = 'de-DE_ErikaV3Voice'
-        EN_AU_CRAIGVOICE = 'en-AU-CraigVoice'
-        EN_AU_MADISONVOICE = 'en-AU-MadisonVoice'
+        EN_AU_CRAIGVOICE = 'en-AU_CraigVoice'
+        EN_AU_MADISONVOICE = 'en-AU_MadisonVoice'
+        EN_AU_STEVEVOICE = 'en-AU_SteveVoice'
         EN_GB_CHARLOTTEV3VOICE = 'en-GB_CharlotteV3Voice'
         EN_GB_JAMESV3VOICE = 'en-GB_JamesV3Voice'
         EN_GB_KATEVOICE = 'en-GB_KateVoice'
@@ -1800,10 +1739,12 @@ class GetPronunciationEnums:
         KO_KR_YOUNGMIVOICE = 'ko-KR_YoungmiVoice'
         KO_KR_YUNAVOICE = 'ko-KR_YunaVoice'
         NL_BE_ADELEVOICE = 'nl-BE_AdeleVoice'
+        NL_BE_BRAMVOICE = 'nl-BE_BramVoice'
         NL_NL_EMMAVOICE = 'nl-NL_EmmaVoice'
         NL_NL_LIAMVOICE = 'nl-NL_LiamVoice'
         PT_BR_ISABELAVOICE = 'pt-BR_IsabelaVoice'
         PT_BR_ISABELAV3VOICE = 'pt-BR_IsabelaV3Voice'
+        SV_SE_INGRIDVOICE = 'sv-SE_IngridVoice'
         ZH_CN_LINAVOICE = 'zh-CN_LiNaVoice'
         ZH_CN_WANGWEIVOICE = 'zh-CN_WangWeiVoice'
         ZH_CN_ZHANGJINGVOICE = 'zh-CN_ZhangJingVoice'
@@ -1830,6 +1771,7 @@ class ListCustomModelsEnums:
         the requester.
         """
         AR_MS = 'ar-MS'
+        CS_CZ = 'cs-CZ'
         DE_DE = 'de-DE'
         EN_AU = 'en-AU'
         EN_GB = 'en-GB'
@@ -1845,6 +1787,7 @@ class ListCustomModelsEnums:
         NL_BE = 'nl-BE'
         NL_NL = 'nl-NL'
         PT_BR = 'pt-BR'
+        SV_SE = 'sv-SE'
         ZH_CN = 'zh-CN'
 
 

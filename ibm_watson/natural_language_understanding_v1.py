@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2017, 2021.
+# (C) Copyright IBM Corp. 2017, 2022.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 3.38.0-07189efd-20210827-205025
+# IBM OpenAPI SDK Code Generator Version: 3.46.0-a4e29da0-20220224-210428
 """
 Analyze various features of text content at scale. Provide text, raw HTML, or a public URL
 and IBM Watson Natural Language Understanding will give you results for the features you
@@ -65,7 +65,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
                Specify dates in YYYY-MM-DD format. The current version is `2021-08-01`.
 
         :param Authenticator authenticator: The authenticator specifies the authentication mechanism.
-               Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
+               Get up to date information from https://github.com/IBM/python-sdk-core/blob/main/README.md
                about initializing the authenticator of your choice.
         """
         if version is None:
@@ -2305,11 +2305,13 @@ class ClassificationsModelList():
 class ClassificationsOptions():
     """
     Returns text classifications for the content.
-    Supported languages: English only.
 
     :attr str model: (optional) Enter a [custom
           model](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-customizing)
-          ID of the classification model to be used.
+          ID of the classifications model to be used.
+          You can analyze tone by using a language-specific model ID. See [Tone analytics
+          (Classifications)](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-tone_analytics)
+          for more information.
     """
 
     def __init__(self, *, model: str = None) -> None:
@@ -2318,7 +2320,11 @@ class ClassificationsOptions():
 
         :param str model: (optional) Enter a [custom
                model](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-customizing)
-               ID of the classification model to be used.
+               ID of the classifications model to be used.
+               You can analyze tone by using a language-specific model ID. See [Tone
+               analytics
+               (Classifications)](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-tone_analytics)
+               for more information.
         """
         self.model = model
 
@@ -3442,7 +3448,6 @@ class Features():
 
     :attr ClassificationsOptions classifications: (optional) Returns text
           classifications for the content.
-          Supported languages: English only.
     :attr ConceptsOptions concepts: (optional) Returns high-level concepts in the
           content. For example, a research paper about deep learning might return the
           concept, "Artificial Intelligence" although the term is not mentioned.
@@ -3464,9 +3469,9 @@ class Features():
           content.
           Supported languages: English, French, German, Italian, Japanese, Korean,
           Portuguese, Russian, Spanish, Swedish.
-    :attr MetadataOptions metadata: (optional) Returns information from the
-          document, including author name, title, RSS/ATOM feeds, prominent page image,
-          and publication date. Supports URL and HTML input types only.
+    :attr dict metadata: (optional) Returns information from the document, including
+          author name, title, RSS/ATOM feeds, prominent page image, and publication date.
+          Supports URL and HTML input types only.
     :attr RelationsOptions relations: (optional) Recognizes when two entities are
           related and identifies the type of relation. For example, an `awardedTo`
           relation might connect the entities "Nobel Prize" and "Albert Einstein". For
@@ -3502,7 +3507,7 @@ class Features():
                  emotion: 'EmotionOptions' = None,
                  entities: 'EntitiesOptions' = None,
                  keywords: 'KeywordsOptions' = None,
-                 metadata: 'MetadataOptions' = None,
+                 metadata: dict = None,
                  relations: 'RelationsOptions' = None,
                  semantic_roles: 'SemanticRolesOptions' = None,
                  sentiment: 'SentimentOptions' = None,
@@ -3514,7 +3519,6 @@ class Features():
 
         :param ClassificationsOptions classifications: (optional) Returns text
                classifications for the content.
-               Supported languages: English only.
         :param ConceptsOptions concepts: (optional) Returns high-level concepts in
                the content. For example, a research paper about deep learning might return
                the concept, "Artificial Intelligence" although the term is not mentioned.
@@ -3537,9 +3541,9 @@ class Features():
                the content.
                Supported languages: English, French, German, Italian, Japanese, Korean,
                Portuguese, Russian, Spanish, Swedish.
-        :param MetadataOptions metadata: (optional) Returns information from the
-               document, including author name, title, RSS/ATOM feeds, prominent page
-               image, and publication date. Supports URL and HTML input types only.
+        :param dict metadata: (optional) Returns information from the document,
+               including author name, title, RSS/ATOM feeds, prominent page image, and
+               publication date. Supports URL and HTML input types only.
         :param RelationsOptions relations: (optional) Recognizes when two entities
                are related and identifies the type of relation. For example, an
                `awardedTo` relation might connect the entities "Nobel Prize" and "Albert
@@ -3596,7 +3600,7 @@ class Features():
         if 'keywords' in _dict:
             args['keywords'] = KeywordsOptions.from_dict(_dict.get('keywords'))
         if 'metadata' in _dict:
-            args['metadata'] = MetadataOptions.from_dict(_dict.get('metadata'))
+            args['metadata'] = _dict.get('metadata')
         if 'relations' in _dict:
             args['relations'] = RelationsOptions.from_dict(
                 _dict.get('relations'))
@@ -3636,7 +3640,7 @@ class Features():
         if hasattr(self, 'keywords') and self.keywords is not None:
             _dict['keywords'] = self.keywords.to_dict()
         if hasattr(self, 'metadata') and self.metadata is not None:
-            _dict['metadata'] = self.metadata.to_dict()
+            _dict['metadata'] = self.metadata
         if hasattr(self, 'relations') and self.relations is not None:
             _dict['relations'] = self.relations.to_dict()
         if hasattr(self, 'semantic_roles') and self.semantic_roles is not None:
@@ -4098,52 +4102,6 @@ class ListSentimentModelsResponse():
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'ListSentimentModelsResponse') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class MetadataOptions():
-    """
-    Returns information from the document, including author name, title, RSS/ATOM feeds,
-    prominent page image, and publication date. Supports URL and HTML input types only.
-
-    """
-
-    def __init__(self) -> None:
-        """
-        Initialize a MetadataOptions object.
-
-        """
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'MetadataOptions':
-        """Initialize a MetadataOptions object from a json dictionary."""
-        return cls(**_dict)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a MetadataOptions object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        return vars(self)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this MetadataOptions object."""
-        return json.dumps(self.to_dict(), indent=2)
-
-    def __eq__(self, other: 'MetadataOptions') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'MetadataOptions') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 

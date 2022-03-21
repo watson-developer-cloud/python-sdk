@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2016, 2021.
+# (C) Copyright IBM Corp. 2016, 2022.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -37,10 +37,37 @@ version = 'testString'
 _service = DiscoveryV1(
     authenticator=NoAuthAuthenticator(),
     version=version
-    )
+)
 
 _base_url = 'https://api.us-south.discovery.watson.cloud.ibm.com'
 _service.set_service_url(_base_url)
+
+
+def preprocess_url(operation_path: str):
+    """
+    Returns the request url associated with the specified operation path.
+    This will be base_url concatenated with a quoted version of operation_path.
+    The returned request URL is used to register the mock response so it needs
+    to match the request URL that is formed by the requests library.
+    """
+    # First, unquote the path since it might have some quoted/escaped characters in it
+    # due to how the generator inserts the operation paths into the unit test code.
+    operation_path = urllib.parse.unquote(operation_path)
+
+    # Next, quote the path using urllib so that we approximate what will
+    # happen during request processing.
+    operation_path = urllib.parse.quote(operation_path, safe='/')
+
+    # Finally, form the request URL from the base URL and operation path.
+    request_url = _base_url + operation_path
+
+    # If the request url does NOT end with a /, then just return it as-is.
+    # Otherwise, return a regular expression that matches one or more trailing /.
+    if re.fullmatch('.*/+', request_url) is None:
+        return request_url
+    else:
+        return re.compile(request_url.rstrip('/') + '/+')
+
 
 ##############################################################################
 # Start of Service: Environments
@@ -52,24 +79,13 @@ class TestCreateEnvironment():
     Test Class for create_environment
     """
 
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     @responses.activate
     def test_create_environment_all_params(self):
         """
         create_environment()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments')
+        url = preprocess_url('/v1/environments')
         mock_response = '{"environment_id": "environment_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "active", "read_only": false, "size": "LT", "requested_size": "requested_size", "index_capacity": {"documents": {"available": 9, "maximum_allowed": 15}, "disk_usage": {"used_bytes": 10, "maximum_allowed_bytes": 21}, "collections": {"available": 9, "maximum_allowed": 15}}, "search_status": {"scope": "scope", "status": "NO_DATA", "status_description": "status_description", "last_trained": "2019-01-01"}}'
         responses.add(responses.POST,
                       url,
@@ -99,6 +115,14 @@ class TestCreateEnvironment():
         assert req_body['description'] == 'testString'
         assert req_body['size'] == 'LT'
 
+    def test_create_environment_all_params_with_retries(self):
+        # Enable retries and run test_create_environment_all_params.
+        _service.enable_retries()
+        self.test_create_environment_all_params()
+
+        # Disable retries and run test_create_environment_all_params.
+        _service.disable_retries()
+        self.test_create_environment_all_params()
 
     @responses.activate
     def test_create_environment_value_error(self):
@@ -106,7 +130,7 @@ class TestCreateEnvironment():
         test_create_environment_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments')
+        url = preprocess_url('/v1/environments')
         mock_response = '{"environment_id": "environment_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "active", "read_only": false, "size": "LT", "requested_size": "requested_size", "index_capacity": {"documents": {"available": 9, "maximum_allowed": 15}, "disk_usage": {"used_bytes": 10, "maximum_allowed_bytes": 21}, "collections": {"available": 9, "maximum_allowed": 15}}, "search_status": {"scope": "scope", "status": "NO_DATA", "status_description": "status_description", "last_trained": "2019-01-01"}}'
         responses.add(responses.POST,
                       url,
@@ -129,22 +153,19 @@ class TestCreateEnvironment():
                 _service.create_environment(**req_copy)
 
 
+    def test_create_environment_value_error_with_retries(self):
+        # Enable retries and run test_create_environment_value_error.
+        _service.enable_retries()
+        self.test_create_environment_value_error()
+
+        # Disable retries and run test_create_environment_value_error.
+        _service.disable_retries()
+        self.test_create_environment_value_error()
 
 class TestListEnvironments():
     """
     Test Class for list_environments
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_list_environments_all_params(self):
@@ -152,7 +173,7 @@ class TestListEnvironments():
         list_environments()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments')
+        url = preprocess_url('/v1/environments')
         mock_response = '{"environments": [{"environment_id": "environment_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "active", "read_only": false, "size": "LT", "requested_size": "requested_size", "index_capacity": {"documents": {"available": 9, "maximum_allowed": 15}, "disk_usage": {"used_bytes": 10, "maximum_allowed_bytes": 21}, "collections": {"available": 9, "maximum_allowed": 15}}, "search_status": {"scope": "scope", "status": "NO_DATA", "status_description": "status_description", "last_trained": "2019-01-01"}}]}'
         responses.add(responses.GET,
                       url,
@@ -177,6 +198,14 @@ class TestListEnvironments():
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'name={}'.format(name) in query_string
 
+    def test_list_environments_all_params_with_retries(self):
+        # Enable retries and run test_list_environments_all_params.
+        _service.enable_retries()
+        self.test_list_environments_all_params()
+
+        # Disable retries and run test_list_environments_all_params.
+        _service.disable_retries()
+        self.test_list_environments_all_params()
 
     @responses.activate
     def test_list_environments_required_params(self):
@@ -184,7 +213,7 @@ class TestListEnvironments():
         test_list_environments_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments')
+        url = preprocess_url('/v1/environments')
         mock_response = '{"environments": [{"environment_id": "environment_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "active", "read_only": false, "size": "LT", "requested_size": "requested_size", "index_capacity": {"documents": {"available": 9, "maximum_allowed": 15}, "disk_usage": {"used_bytes": 10, "maximum_allowed_bytes": 21}, "collections": {"available": 9, "maximum_allowed": 15}}, "search_status": {"scope": "scope", "status": "NO_DATA", "status_description": "status_description", "last_trained": "2019-01-01"}}]}'
         responses.add(responses.GET,
                       url,
@@ -200,6 +229,14 @@ class TestListEnvironments():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_list_environments_required_params_with_retries(self):
+        # Enable retries and run test_list_environments_required_params.
+        _service.enable_retries()
+        self.test_list_environments_required_params()
+
+        # Disable retries and run test_list_environments_required_params.
+        _service.disable_retries()
+        self.test_list_environments_required_params()
 
     @responses.activate
     def test_list_environments_value_error(self):
@@ -207,7 +244,7 @@ class TestListEnvironments():
         test_list_environments_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments')
+        url = preprocess_url('/v1/environments')
         mock_response = '{"environments": [{"environment_id": "environment_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "active", "read_only": false, "size": "LT", "requested_size": "requested_size", "index_capacity": {"documents": {"available": 9, "maximum_allowed": 15}, "disk_usage": {"used_bytes": 10, "maximum_allowed_bytes": 21}, "collections": {"available": 9, "maximum_allowed": 15}}, "search_status": {"scope": "scope", "status": "NO_DATA", "status_description": "status_description", "last_trained": "2019-01-01"}}]}'
         responses.add(responses.GET,
                       url,
@@ -224,22 +261,19 @@ class TestListEnvironments():
                 _service.list_environments(**req_copy)
 
 
+    def test_list_environments_value_error_with_retries(self):
+        # Enable retries and run test_list_environments_value_error.
+        _service.enable_retries()
+        self.test_list_environments_value_error()
+
+        # Disable retries and run test_list_environments_value_error.
+        _service.disable_retries()
+        self.test_list_environments_value_error()
 
 class TestGetEnvironment():
     """
     Test Class for get_environment
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_get_environment_all_params(self):
@@ -247,7 +281,7 @@ class TestGetEnvironment():
         get_environment()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString')
+        url = preprocess_url('/v1/environments/testString')
         mock_response = '{"environment_id": "environment_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "active", "read_only": false, "size": "LT", "requested_size": "requested_size", "index_capacity": {"documents": {"available": 9, "maximum_allowed": 15}, "disk_usage": {"used_bytes": 10, "maximum_allowed_bytes": 21}, "collections": {"available": 9, "maximum_allowed": 15}}, "search_status": {"scope": "scope", "status": "NO_DATA", "status_description": "status_description", "last_trained": "2019-01-01"}}'
         responses.add(responses.GET,
                       url,
@@ -268,6 +302,14 @@ class TestGetEnvironment():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_get_environment_all_params_with_retries(self):
+        # Enable retries and run test_get_environment_all_params.
+        _service.enable_retries()
+        self.test_get_environment_all_params()
+
+        # Disable retries and run test_get_environment_all_params.
+        _service.disable_retries()
+        self.test_get_environment_all_params()
 
     @responses.activate
     def test_get_environment_value_error(self):
@@ -275,7 +317,7 @@ class TestGetEnvironment():
         test_get_environment_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString')
+        url = preprocess_url('/v1/environments/testString')
         mock_response = '{"environment_id": "environment_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "active", "read_only": false, "size": "LT", "requested_size": "requested_size", "index_capacity": {"documents": {"available": 9, "maximum_allowed": 15}, "disk_usage": {"used_bytes": 10, "maximum_allowed_bytes": 21}, "collections": {"available": 9, "maximum_allowed": 15}}, "search_status": {"scope": "scope", "status": "NO_DATA", "status_description": "status_description", "last_trained": "2019-01-01"}}'
         responses.add(responses.GET,
                       url,
@@ -296,22 +338,19 @@ class TestGetEnvironment():
                 _service.get_environment(**req_copy)
 
 
+    def test_get_environment_value_error_with_retries(self):
+        # Enable retries and run test_get_environment_value_error.
+        _service.enable_retries()
+        self.test_get_environment_value_error()
+
+        # Disable retries and run test_get_environment_value_error.
+        _service.disable_retries()
+        self.test_get_environment_value_error()
 
 class TestUpdateEnvironment():
     """
     Test Class for update_environment
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_update_environment_all_params(self):
@@ -319,7 +358,7 @@ class TestUpdateEnvironment():
         update_environment()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString')
+        url = preprocess_url('/v1/environments/testString')
         mock_response = '{"environment_id": "environment_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "active", "read_only": false, "size": "LT", "requested_size": "requested_size", "index_capacity": {"documents": {"available": 9, "maximum_allowed": 15}, "disk_usage": {"used_bytes": 10, "maximum_allowed_bytes": 21}, "collections": {"available": 9, "maximum_allowed": 15}}, "search_status": {"scope": "scope", "status": "NO_DATA", "status_description": "status_description", "last_trained": "2019-01-01"}}'
         responses.add(responses.PUT,
                       url,
@@ -351,6 +390,14 @@ class TestUpdateEnvironment():
         assert req_body['description'] == 'testString'
         assert req_body['size'] == 'S'
 
+    def test_update_environment_all_params_with_retries(self):
+        # Enable retries and run test_update_environment_all_params.
+        _service.enable_retries()
+        self.test_update_environment_all_params()
+
+        # Disable retries and run test_update_environment_all_params.
+        _service.disable_retries()
+        self.test_update_environment_all_params()
 
     @responses.activate
     def test_update_environment_value_error(self):
@@ -358,7 +405,7 @@ class TestUpdateEnvironment():
         test_update_environment_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString')
+        url = preprocess_url('/v1/environments/testString')
         mock_response = '{"environment_id": "environment_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "active", "read_only": false, "size": "LT", "requested_size": "requested_size", "index_capacity": {"documents": {"available": 9, "maximum_allowed": 15}, "disk_usage": {"used_bytes": 10, "maximum_allowed_bytes": 21}, "collections": {"available": 9, "maximum_allowed": 15}}, "search_status": {"scope": "scope", "status": "NO_DATA", "status_description": "status_description", "last_trained": "2019-01-01"}}'
         responses.add(responses.PUT,
                       url,
@@ -382,22 +429,19 @@ class TestUpdateEnvironment():
                 _service.update_environment(**req_copy)
 
 
+    def test_update_environment_value_error_with_retries(self):
+        # Enable retries and run test_update_environment_value_error.
+        _service.enable_retries()
+        self.test_update_environment_value_error()
+
+        # Disable retries and run test_update_environment_value_error.
+        _service.disable_retries()
+        self.test_update_environment_value_error()
 
 class TestDeleteEnvironment():
     """
     Test Class for delete_environment
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_delete_environment_all_params(self):
@@ -405,7 +449,7 @@ class TestDeleteEnvironment():
         delete_environment()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString')
+        url = preprocess_url('/v1/environments/testString')
         mock_response = '{"environment_id": "environment_id", "status": "deleted"}'
         responses.add(responses.DELETE,
                       url,
@@ -426,6 +470,14 @@ class TestDeleteEnvironment():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_delete_environment_all_params_with_retries(self):
+        # Enable retries and run test_delete_environment_all_params.
+        _service.enable_retries()
+        self.test_delete_environment_all_params()
+
+        # Disable retries and run test_delete_environment_all_params.
+        _service.disable_retries()
+        self.test_delete_environment_all_params()
 
     @responses.activate
     def test_delete_environment_value_error(self):
@@ -433,7 +485,7 @@ class TestDeleteEnvironment():
         test_delete_environment_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString')
+        url = preprocess_url('/v1/environments/testString')
         mock_response = '{"environment_id": "environment_id", "status": "deleted"}'
         responses.add(responses.DELETE,
                       url,
@@ -454,22 +506,19 @@ class TestDeleteEnvironment():
                 _service.delete_environment(**req_copy)
 
 
+    def test_delete_environment_value_error_with_retries(self):
+        # Enable retries and run test_delete_environment_value_error.
+        _service.enable_retries()
+        self.test_delete_environment_value_error()
+
+        # Disable retries and run test_delete_environment_value_error.
+        _service.disable_retries()
+        self.test_delete_environment_value_error()
 
 class TestListFields():
     """
     Test Class for list_fields
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_list_fields_all_params(self):
@@ -477,7 +526,7 @@ class TestListFields():
         list_fields()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/fields')
+        url = preprocess_url('/v1/environments/testString/fields')
         mock_response = '{"fields": [{"field": "field", "type": "nested"}]}'
         responses.add(responses.GET,
                       url,
@@ -504,6 +553,14 @@ class TestListFields():
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'collection_ids={}'.format(','.join(collection_ids)) in query_string
 
+    def test_list_fields_all_params_with_retries(self):
+        # Enable retries and run test_list_fields_all_params.
+        _service.enable_retries()
+        self.test_list_fields_all_params()
+
+        # Disable retries and run test_list_fields_all_params.
+        _service.disable_retries()
+        self.test_list_fields_all_params()
 
     @responses.activate
     def test_list_fields_value_error(self):
@@ -511,7 +568,7 @@ class TestListFields():
         test_list_fields_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/fields')
+        url = preprocess_url('/v1/environments/testString/fields')
         mock_response = '{"fields": [{"field": "field", "type": "nested"}]}'
         responses.add(responses.GET,
                       url,
@@ -534,6 +591,14 @@ class TestListFields():
                 _service.list_fields(**req_copy)
 
 
+    def test_list_fields_value_error_with_retries(self):
+        # Enable retries and run test_list_fields_value_error.
+        _service.enable_retries()
+        self.test_list_fields_value_error()
+
+        # Disable retries and run test_list_fields_value_error.
+        _service.disable_retries()
+        self.test_list_fields_value_error()
 
 # endregion
 ##############################################################################
@@ -550,24 +615,13 @@ class TestCreateConfiguration():
     Test Class for create_configuration
     """
 
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     @responses.activate
     def test_create_configuration_all_params(self):
         """
         create_configuration()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/configurations')
+        url = preprocess_url('/v1/environments/testString/configurations')
         mock_response = '{"configuration_id": "configuration_id", "name": "name", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "description": "description", "conversions": {"pdf": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}]}}, "word": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}], "styles": [{"level": 5, "names": ["names"]}]}}, "html": {"exclude_tags_completely": ["exclude_tags_completely"], "exclude_tags_keep_content": ["exclude_tags_keep_content"], "keep_content": {"xpaths": ["xpaths"]}, "exclude_content": {"xpaths": ["xpaths"]}, "keep_tag_attributes": ["keep_tag_attributes"], "exclude_tag_attributes": ["exclude_tag_attributes"]}, "segment": {"enabled": false, "selector_tags": ["selector_tags"], "annotated_fields": ["annotated_fields"]}, "json_normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "image_text_recognition": true}, "enrichments": [{"description": "description", "destination_field": "destination_field", "source_field": "source_field", "overwrite": false, "enrichment": "enrichment", "ignore_downstream_errors": false, "options": {"features": {"keywords": {"sentiment": false, "emotion": false, "limit": 5}, "entities": {"sentiment": false, "emotion": false, "limit": 5, "mentions": true, "mention_types": false, "sentence_locations": true, "model": "model"}, "sentiment": {"document": true, "targets": ["target"]}, "emotion": {"document": true, "targets": ["target"]}, "categories": {"mapKey": "anyValue"}, "semantic_roles": {"entities": true, "keywords": true, "limit": 5}, "relations": {"model": "model"}, "concepts": {"limit": 5}}, "language": "ar", "model": "model"}}], "normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "source": {"type": "box", "credential_id": "credential_id", "schedule": {"enabled": true, "time_zone": "America/New_York", "frequency": "daily"}, "options": {"folders": [{"owner_user_id": "owner_user_id", "folder_id": "folder_id", "limit": 5}], "objects": [{"name": "name", "limit": 5}], "site_collections": [{"site_collection_path": "site_collection_path", "limit": 5}], "urls": [{"url": "url", "limit_to_starting_hosts": true, "crawl_speed": "normal", "allow_untrusted_certificate": false, "maximum_hops": 12, "request_timeout": 15, "override_robots_txt": false, "blacklist": ["blacklist"]}], "buckets": [{"name": "name", "limit": 5}], "crawl_all_buckets": false}}}'
         responses.add(responses.POST,
                       url,
@@ -794,6 +848,14 @@ class TestCreateConfiguration():
         assert req_body['normalizations'] == [normalization_operation_model]
         assert req_body['source'] == source_model
 
+    def test_create_configuration_all_params_with_retries(self):
+        # Enable retries and run test_create_configuration_all_params.
+        _service.enable_retries()
+        self.test_create_configuration_all_params()
+
+        # Disable retries and run test_create_configuration_all_params.
+        _service.disable_retries()
+        self.test_create_configuration_all_params()
 
     @responses.activate
     def test_create_configuration_value_error(self):
@@ -801,7 +863,7 @@ class TestCreateConfiguration():
         test_create_configuration_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/configurations')
+        url = preprocess_url('/v1/environments/testString/configurations')
         mock_response = '{"configuration_id": "configuration_id", "name": "name", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "description": "description", "conversions": {"pdf": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}]}}, "word": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}], "styles": [{"level": 5, "names": ["names"]}]}}, "html": {"exclude_tags_completely": ["exclude_tags_completely"], "exclude_tags_keep_content": ["exclude_tags_keep_content"], "keep_content": {"xpaths": ["xpaths"]}, "exclude_content": {"xpaths": ["xpaths"]}, "keep_tag_attributes": ["keep_tag_attributes"], "exclude_tag_attributes": ["exclude_tag_attributes"]}, "segment": {"enabled": false, "selector_tags": ["selector_tags"], "annotated_fields": ["annotated_fields"]}, "json_normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "image_text_recognition": true}, "enrichments": [{"description": "description", "destination_field": "destination_field", "source_field": "source_field", "overwrite": false, "enrichment": "enrichment", "ignore_downstream_errors": false, "options": {"features": {"keywords": {"sentiment": false, "emotion": false, "limit": 5}, "entities": {"sentiment": false, "emotion": false, "limit": 5, "mentions": true, "mention_types": false, "sentence_locations": true, "model": "model"}, "sentiment": {"document": true, "targets": ["target"]}, "emotion": {"document": true, "targets": ["target"]}, "categories": {"mapKey": "anyValue"}, "semantic_roles": {"entities": true, "keywords": true, "limit": 5}, "relations": {"model": "model"}, "concepts": {"limit": 5}}, "language": "ar", "model": "model"}}], "normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "source": {"type": "box", "credential_id": "credential_id", "schedule": {"enabled": true, "time_zone": "America/New_York", "frequency": "daily"}, "options": {"folders": [{"owner_user_id": "owner_user_id", "folder_id": "folder_id", "limit": 5}], "objects": [{"name": "name", "limit": 5}], "site_collections": [{"site_collection_path": "site_collection_path", "limit": 5}], "urls": [{"url": "url", "limit_to_starting_hosts": true, "crawl_speed": "normal", "allow_untrusted_certificate": false, "maximum_hops": 12, "request_timeout": 15, "override_robots_txt": false, "blacklist": ["blacklist"]}], "buckets": [{"name": "name", "limit": 5}], "crawl_all_buckets": false}}}'
         responses.add(responses.POST,
                       url,
@@ -1015,22 +1077,19 @@ class TestCreateConfiguration():
                 _service.create_configuration(**req_copy)
 
 
+    def test_create_configuration_value_error_with_retries(self):
+        # Enable retries and run test_create_configuration_value_error.
+        _service.enable_retries()
+        self.test_create_configuration_value_error()
+
+        # Disable retries and run test_create_configuration_value_error.
+        _service.disable_retries()
+        self.test_create_configuration_value_error()
 
 class TestListConfigurations():
     """
     Test Class for list_configurations
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_list_configurations_all_params(self):
@@ -1038,7 +1097,7 @@ class TestListConfigurations():
         list_configurations()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/configurations')
+        url = preprocess_url('/v1/environments/testString/configurations')
         mock_response = '{"configurations": [{"configuration_id": "configuration_id", "name": "name", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "description": "description", "conversions": {"pdf": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}]}}, "word": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}], "styles": [{"level": 5, "names": ["names"]}]}}, "html": {"exclude_tags_completely": ["exclude_tags_completely"], "exclude_tags_keep_content": ["exclude_tags_keep_content"], "keep_content": {"xpaths": ["xpaths"]}, "exclude_content": {"xpaths": ["xpaths"]}, "keep_tag_attributes": ["keep_tag_attributes"], "exclude_tag_attributes": ["exclude_tag_attributes"]}, "segment": {"enabled": false, "selector_tags": ["selector_tags"], "annotated_fields": ["annotated_fields"]}, "json_normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "image_text_recognition": true}, "enrichments": [{"description": "description", "destination_field": "destination_field", "source_field": "source_field", "overwrite": false, "enrichment": "enrichment", "ignore_downstream_errors": false, "options": {"features": {"keywords": {"sentiment": false, "emotion": false, "limit": 5}, "entities": {"sentiment": false, "emotion": false, "limit": 5, "mentions": true, "mention_types": false, "sentence_locations": true, "model": "model"}, "sentiment": {"document": true, "targets": ["target"]}, "emotion": {"document": true, "targets": ["target"]}, "categories": {"mapKey": "anyValue"}, "semantic_roles": {"entities": true, "keywords": true, "limit": 5}, "relations": {"model": "model"}, "concepts": {"limit": 5}}, "language": "ar", "model": "model"}}], "normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "source": {"type": "box", "credential_id": "credential_id", "schedule": {"enabled": true, "time_zone": "America/New_York", "frequency": "daily"}, "options": {"folders": [{"owner_user_id": "owner_user_id", "folder_id": "folder_id", "limit": 5}], "objects": [{"name": "name", "limit": 5}], "site_collections": [{"site_collection_path": "site_collection_path", "limit": 5}], "urls": [{"url": "url", "limit_to_starting_hosts": true, "crawl_speed": "normal", "allow_untrusted_certificate": false, "maximum_hops": 12, "request_timeout": 15, "override_robots_txt": false, "blacklist": ["blacklist"]}], "buckets": [{"name": "name", "limit": 5}], "crawl_all_buckets": false}}}]}'
         responses.add(responses.GET,
                       url,
@@ -1065,6 +1124,14 @@ class TestListConfigurations():
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'name={}'.format(name) in query_string
 
+    def test_list_configurations_all_params_with_retries(self):
+        # Enable retries and run test_list_configurations_all_params.
+        _service.enable_retries()
+        self.test_list_configurations_all_params()
+
+        # Disable retries and run test_list_configurations_all_params.
+        _service.disable_retries()
+        self.test_list_configurations_all_params()
 
     @responses.activate
     def test_list_configurations_required_params(self):
@@ -1072,7 +1139,7 @@ class TestListConfigurations():
         test_list_configurations_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/configurations')
+        url = preprocess_url('/v1/environments/testString/configurations')
         mock_response = '{"configurations": [{"configuration_id": "configuration_id", "name": "name", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "description": "description", "conversions": {"pdf": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}]}}, "word": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}], "styles": [{"level": 5, "names": ["names"]}]}}, "html": {"exclude_tags_completely": ["exclude_tags_completely"], "exclude_tags_keep_content": ["exclude_tags_keep_content"], "keep_content": {"xpaths": ["xpaths"]}, "exclude_content": {"xpaths": ["xpaths"]}, "keep_tag_attributes": ["keep_tag_attributes"], "exclude_tag_attributes": ["exclude_tag_attributes"]}, "segment": {"enabled": false, "selector_tags": ["selector_tags"], "annotated_fields": ["annotated_fields"]}, "json_normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "image_text_recognition": true}, "enrichments": [{"description": "description", "destination_field": "destination_field", "source_field": "source_field", "overwrite": false, "enrichment": "enrichment", "ignore_downstream_errors": false, "options": {"features": {"keywords": {"sentiment": false, "emotion": false, "limit": 5}, "entities": {"sentiment": false, "emotion": false, "limit": 5, "mentions": true, "mention_types": false, "sentence_locations": true, "model": "model"}, "sentiment": {"document": true, "targets": ["target"]}, "emotion": {"document": true, "targets": ["target"]}, "categories": {"mapKey": "anyValue"}, "semantic_roles": {"entities": true, "keywords": true, "limit": 5}, "relations": {"model": "model"}, "concepts": {"limit": 5}}, "language": "ar", "model": "model"}}], "normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "source": {"type": "box", "credential_id": "credential_id", "schedule": {"enabled": true, "time_zone": "America/New_York", "frequency": "daily"}, "options": {"folders": [{"owner_user_id": "owner_user_id", "folder_id": "folder_id", "limit": 5}], "objects": [{"name": "name", "limit": 5}], "site_collections": [{"site_collection_path": "site_collection_path", "limit": 5}], "urls": [{"url": "url", "limit_to_starting_hosts": true, "crawl_speed": "normal", "allow_untrusted_certificate": false, "maximum_hops": 12, "request_timeout": 15, "override_robots_txt": false, "blacklist": ["blacklist"]}], "buckets": [{"name": "name", "limit": 5}], "crawl_all_buckets": false}}}]}'
         responses.add(responses.GET,
                       url,
@@ -1093,6 +1160,14 @@ class TestListConfigurations():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_list_configurations_required_params_with_retries(self):
+        # Enable retries and run test_list_configurations_required_params.
+        _service.enable_retries()
+        self.test_list_configurations_required_params()
+
+        # Disable retries and run test_list_configurations_required_params.
+        _service.disable_retries()
+        self.test_list_configurations_required_params()
 
     @responses.activate
     def test_list_configurations_value_error(self):
@@ -1100,7 +1175,7 @@ class TestListConfigurations():
         test_list_configurations_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/configurations')
+        url = preprocess_url('/v1/environments/testString/configurations')
         mock_response = '{"configurations": [{"configuration_id": "configuration_id", "name": "name", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "description": "description", "conversions": {"pdf": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}]}}, "word": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}], "styles": [{"level": 5, "names": ["names"]}]}}, "html": {"exclude_tags_completely": ["exclude_tags_completely"], "exclude_tags_keep_content": ["exclude_tags_keep_content"], "keep_content": {"xpaths": ["xpaths"]}, "exclude_content": {"xpaths": ["xpaths"]}, "keep_tag_attributes": ["keep_tag_attributes"], "exclude_tag_attributes": ["exclude_tag_attributes"]}, "segment": {"enabled": false, "selector_tags": ["selector_tags"], "annotated_fields": ["annotated_fields"]}, "json_normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "image_text_recognition": true}, "enrichments": [{"description": "description", "destination_field": "destination_field", "source_field": "source_field", "overwrite": false, "enrichment": "enrichment", "ignore_downstream_errors": false, "options": {"features": {"keywords": {"sentiment": false, "emotion": false, "limit": 5}, "entities": {"sentiment": false, "emotion": false, "limit": 5, "mentions": true, "mention_types": false, "sentence_locations": true, "model": "model"}, "sentiment": {"document": true, "targets": ["target"]}, "emotion": {"document": true, "targets": ["target"]}, "categories": {"mapKey": "anyValue"}, "semantic_roles": {"entities": true, "keywords": true, "limit": 5}, "relations": {"model": "model"}, "concepts": {"limit": 5}}, "language": "ar", "model": "model"}}], "normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "source": {"type": "box", "credential_id": "credential_id", "schedule": {"enabled": true, "time_zone": "America/New_York", "frequency": "daily"}, "options": {"folders": [{"owner_user_id": "owner_user_id", "folder_id": "folder_id", "limit": 5}], "objects": [{"name": "name", "limit": 5}], "site_collections": [{"site_collection_path": "site_collection_path", "limit": 5}], "urls": [{"url": "url", "limit_to_starting_hosts": true, "crawl_speed": "normal", "allow_untrusted_certificate": false, "maximum_hops": 12, "request_timeout": 15, "override_robots_txt": false, "blacklist": ["blacklist"]}], "buckets": [{"name": "name", "limit": 5}], "crawl_all_buckets": false}}}]}'
         responses.add(responses.GET,
                       url,
@@ -1121,22 +1196,19 @@ class TestListConfigurations():
                 _service.list_configurations(**req_copy)
 
 
+    def test_list_configurations_value_error_with_retries(self):
+        # Enable retries and run test_list_configurations_value_error.
+        _service.enable_retries()
+        self.test_list_configurations_value_error()
+
+        # Disable retries and run test_list_configurations_value_error.
+        _service.disable_retries()
+        self.test_list_configurations_value_error()
 
 class TestGetConfiguration():
     """
     Test Class for get_configuration
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_get_configuration_all_params(self):
@@ -1144,7 +1216,7 @@ class TestGetConfiguration():
         get_configuration()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/configurations/testString')
+        url = preprocess_url('/v1/environments/testString/configurations/testString')
         mock_response = '{"configuration_id": "configuration_id", "name": "name", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "description": "description", "conversions": {"pdf": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}]}}, "word": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}], "styles": [{"level": 5, "names": ["names"]}]}}, "html": {"exclude_tags_completely": ["exclude_tags_completely"], "exclude_tags_keep_content": ["exclude_tags_keep_content"], "keep_content": {"xpaths": ["xpaths"]}, "exclude_content": {"xpaths": ["xpaths"]}, "keep_tag_attributes": ["keep_tag_attributes"], "exclude_tag_attributes": ["exclude_tag_attributes"]}, "segment": {"enabled": false, "selector_tags": ["selector_tags"], "annotated_fields": ["annotated_fields"]}, "json_normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "image_text_recognition": true}, "enrichments": [{"description": "description", "destination_field": "destination_field", "source_field": "source_field", "overwrite": false, "enrichment": "enrichment", "ignore_downstream_errors": false, "options": {"features": {"keywords": {"sentiment": false, "emotion": false, "limit": 5}, "entities": {"sentiment": false, "emotion": false, "limit": 5, "mentions": true, "mention_types": false, "sentence_locations": true, "model": "model"}, "sentiment": {"document": true, "targets": ["target"]}, "emotion": {"document": true, "targets": ["target"]}, "categories": {"mapKey": "anyValue"}, "semantic_roles": {"entities": true, "keywords": true, "limit": 5}, "relations": {"model": "model"}, "concepts": {"limit": 5}}, "language": "ar", "model": "model"}}], "normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "source": {"type": "box", "credential_id": "credential_id", "schedule": {"enabled": true, "time_zone": "America/New_York", "frequency": "daily"}, "options": {"folders": [{"owner_user_id": "owner_user_id", "folder_id": "folder_id", "limit": 5}], "objects": [{"name": "name", "limit": 5}], "site_collections": [{"site_collection_path": "site_collection_path", "limit": 5}], "urls": [{"url": "url", "limit_to_starting_hosts": true, "crawl_speed": "normal", "allow_untrusted_certificate": false, "maximum_hops": 12, "request_timeout": 15, "override_robots_txt": false, "blacklist": ["blacklist"]}], "buckets": [{"name": "name", "limit": 5}], "crawl_all_buckets": false}}}'
         responses.add(responses.GET,
                       url,
@@ -1167,6 +1239,14 @@ class TestGetConfiguration():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_get_configuration_all_params_with_retries(self):
+        # Enable retries and run test_get_configuration_all_params.
+        _service.enable_retries()
+        self.test_get_configuration_all_params()
+
+        # Disable retries and run test_get_configuration_all_params.
+        _service.disable_retries()
+        self.test_get_configuration_all_params()
 
     @responses.activate
     def test_get_configuration_value_error(self):
@@ -1174,7 +1254,7 @@ class TestGetConfiguration():
         test_get_configuration_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/configurations/testString')
+        url = preprocess_url('/v1/environments/testString/configurations/testString')
         mock_response = '{"configuration_id": "configuration_id", "name": "name", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "description": "description", "conversions": {"pdf": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}]}}, "word": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}], "styles": [{"level": 5, "names": ["names"]}]}}, "html": {"exclude_tags_completely": ["exclude_tags_completely"], "exclude_tags_keep_content": ["exclude_tags_keep_content"], "keep_content": {"xpaths": ["xpaths"]}, "exclude_content": {"xpaths": ["xpaths"]}, "keep_tag_attributes": ["keep_tag_attributes"], "exclude_tag_attributes": ["exclude_tag_attributes"]}, "segment": {"enabled": false, "selector_tags": ["selector_tags"], "annotated_fields": ["annotated_fields"]}, "json_normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "image_text_recognition": true}, "enrichments": [{"description": "description", "destination_field": "destination_field", "source_field": "source_field", "overwrite": false, "enrichment": "enrichment", "ignore_downstream_errors": false, "options": {"features": {"keywords": {"sentiment": false, "emotion": false, "limit": 5}, "entities": {"sentiment": false, "emotion": false, "limit": 5, "mentions": true, "mention_types": false, "sentence_locations": true, "model": "model"}, "sentiment": {"document": true, "targets": ["target"]}, "emotion": {"document": true, "targets": ["target"]}, "categories": {"mapKey": "anyValue"}, "semantic_roles": {"entities": true, "keywords": true, "limit": 5}, "relations": {"model": "model"}, "concepts": {"limit": 5}}, "language": "ar", "model": "model"}}], "normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "source": {"type": "box", "credential_id": "credential_id", "schedule": {"enabled": true, "time_zone": "America/New_York", "frequency": "daily"}, "options": {"folders": [{"owner_user_id": "owner_user_id", "folder_id": "folder_id", "limit": 5}], "objects": [{"name": "name", "limit": 5}], "site_collections": [{"site_collection_path": "site_collection_path", "limit": 5}], "urls": [{"url": "url", "limit_to_starting_hosts": true, "crawl_speed": "normal", "allow_untrusted_certificate": false, "maximum_hops": 12, "request_timeout": 15, "override_robots_txt": false, "blacklist": ["blacklist"]}], "buckets": [{"name": "name", "limit": 5}], "crawl_all_buckets": false}}}'
         responses.add(responses.GET,
                       url,
@@ -1197,22 +1277,19 @@ class TestGetConfiguration():
                 _service.get_configuration(**req_copy)
 
 
+    def test_get_configuration_value_error_with_retries(self):
+        # Enable retries and run test_get_configuration_value_error.
+        _service.enable_retries()
+        self.test_get_configuration_value_error()
+
+        # Disable retries and run test_get_configuration_value_error.
+        _service.disable_retries()
+        self.test_get_configuration_value_error()
 
 class TestUpdateConfiguration():
     """
     Test Class for update_configuration
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_update_configuration_all_params(self):
@@ -1220,7 +1297,7 @@ class TestUpdateConfiguration():
         update_configuration()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/configurations/testString')
+        url = preprocess_url('/v1/environments/testString/configurations/testString')
         mock_response = '{"configuration_id": "configuration_id", "name": "name", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "description": "description", "conversions": {"pdf": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}]}}, "word": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}], "styles": [{"level": 5, "names": ["names"]}]}}, "html": {"exclude_tags_completely": ["exclude_tags_completely"], "exclude_tags_keep_content": ["exclude_tags_keep_content"], "keep_content": {"xpaths": ["xpaths"]}, "exclude_content": {"xpaths": ["xpaths"]}, "keep_tag_attributes": ["keep_tag_attributes"], "exclude_tag_attributes": ["exclude_tag_attributes"]}, "segment": {"enabled": false, "selector_tags": ["selector_tags"], "annotated_fields": ["annotated_fields"]}, "json_normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "image_text_recognition": true}, "enrichments": [{"description": "description", "destination_field": "destination_field", "source_field": "source_field", "overwrite": false, "enrichment": "enrichment", "ignore_downstream_errors": false, "options": {"features": {"keywords": {"sentiment": false, "emotion": false, "limit": 5}, "entities": {"sentiment": false, "emotion": false, "limit": 5, "mentions": true, "mention_types": false, "sentence_locations": true, "model": "model"}, "sentiment": {"document": true, "targets": ["target"]}, "emotion": {"document": true, "targets": ["target"]}, "categories": {"mapKey": "anyValue"}, "semantic_roles": {"entities": true, "keywords": true, "limit": 5}, "relations": {"model": "model"}, "concepts": {"limit": 5}}, "language": "ar", "model": "model"}}], "normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "source": {"type": "box", "credential_id": "credential_id", "schedule": {"enabled": true, "time_zone": "America/New_York", "frequency": "daily"}, "options": {"folders": [{"owner_user_id": "owner_user_id", "folder_id": "folder_id", "limit": 5}], "objects": [{"name": "name", "limit": 5}], "site_collections": [{"site_collection_path": "site_collection_path", "limit": 5}], "urls": [{"url": "url", "limit_to_starting_hosts": true, "crawl_speed": "normal", "allow_untrusted_certificate": false, "maximum_hops": 12, "request_timeout": 15, "override_robots_txt": false, "blacklist": ["blacklist"]}], "buckets": [{"name": "name", "limit": 5}], "crawl_all_buckets": false}}}'
         responses.add(responses.PUT,
                       url,
@@ -1449,6 +1526,14 @@ class TestUpdateConfiguration():
         assert req_body['normalizations'] == [normalization_operation_model]
         assert req_body['source'] == source_model
 
+    def test_update_configuration_all_params_with_retries(self):
+        # Enable retries and run test_update_configuration_all_params.
+        _service.enable_retries()
+        self.test_update_configuration_all_params()
+
+        # Disable retries and run test_update_configuration_all_params.
+        _service.disable_retries()
+        self.test_update_configuration_all_params()
 
     @responses.activate
     def test_update_configuration_value_error(self):
@@ -1456,7 +1541,7 @@ class TestUpdateConfiguration():
         test_update_configuration_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/configurations/testString')
+        url = preprocess_url('/v1/environments/testString/configurations/testString')
         mock_response = '{"configuration_id": "configuration_id", "name": "name", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "description": "description", "conversions": {"pdf": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}]}}, "word": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}], "styles": [{"level": 5, "names": ["names"]}]}}, "html": {"exclude_tags_completely": ["exclude_tags_completely"], "exclude_tags_keep_content": ["exclude_tags_keep_content"], "keep_content": {"xpaths": ["xpaths"]}, "exclude_content": {"xpaths": ["xpaths"]}, "keep_tag_attributes": ["keep_tag_attributes"], "exclude_tag_attributes": ["exclude_tag_attributes"]}, "segment": {"enabled": false, "selector_tags": ["selector_tags"], "annotated_fields": ["annotated_fields"]}, "json_normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "image_text_recognition": true}, "enrichments": [{"description": "description", "destination_field": "destination_field", "source_field": "source_field", "overwrite": false, "enrichment": "enrichment", "ignore_downstream_errors": false, "options": {"features": {"keywords": {"sentiment": false, "emotion": false, "limit": 5}, "entities": {"sentiment": false, "emotion": false, "limit": 5, "mentions": true, "mention_types": false, "sentence_locations": true, "model": "model"}, "sentiment": {"document": true, "targets": ["target"]}, "emotion": {"document": true, "targets": ["target"]}, "categories": {"mapKey": "anyValue"}, "semantic_roles": {"entities": true, "keywords": true, "limit": 5}, "relations": {"model": "model"}, "concepts": {"limit": 5}}, "language": "ar", "model": "model"}}], "normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "source": {"type": "box", "credential_id": "credential_id", "schedule": {"enabled": true, "time_zone": "America/New_York", "frequency": "daily"}, "options": {"folders": [{"owner_user_id": "owner_user_id", "folder_id": "folder_id", "limit": 5}], "objects": [{"name": "name", "limit": 5}], "site_collections": [{"site_collection_path": "site_collection_path", "limit": 5}], "urls": [{"url": "url", "limit_to_starting_hosts": true, "crawl_speed": "normal", "allow_untrusted_certificate": false, "maximum_hops": 12, "request_timeout": 15, "override_robots_txt": false, "blacklist": ["blacklist"]}], "buckets": [{"name": "name", "limit": 5}], "crawl_all_buckets": false}}}'
         responses.add(responses.PUT,
                       url,
@@ -1672,22 +1757,19 @@ class TestUpdateConfiguration():
                 _service.update_configuration(**req_copy)
 
 
+    def test_update_configuration_value_error_with_retries(self):
+        # Enable retries and run test_update_configuration_value_error.
+        _service.enable_retries()
+        self.test_update_configuration_value_error()
+
+        # Disable retries and run test_update_configuration_value_error.
+        _service.disable_retries()
+        self.test_update_configuration_value_error()
 
 class TestDeleteConfiguration():
     """
     Test Class for delete_configuration
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_delete_configuration_all_params(self):
@@ -1695,7 +1777,7 @@ class TestDeleteConfiguration():
         delete_configuration()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/configurations/testString')
+        url = preprocess_url('/v1/environments/testString/configurations/testString')
         mock_response = '{"configuration_id": "configuration_id", "status": "deleted", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}'
         responses.add(responses.DELETE,
                       url,
@@ -1718,6 +1800,14 @@ class TestDeleteConfiguration():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_delete_configuration_all_params_with_retries(self):
+        # Enable retries and run test_delete_configuration_all_params.
+        _service.enable_retries()
+        self.test_delete_configuration_all_params()
+
+        # Disable retries and run test_delete_configuration_all_params.
+        _service.disable_retries()
+        self.test_delete_configuration_all_params()
 
     @responses.activate
     def test_delete_configuration_value_error(self):
@@ -1725,7 +1815,7 @@ class TestDeleteConfiguration():
         test_delete_configuration_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/configurations/testString')
+        url = preprocess_url('/v1/environments/testString/configurations/testString')
         mock_response = '{"configuration_id": "configuration_id", "status": "deleted", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}'
         responses.add(responses.DELETE,
                       url,
@@ -1748,6 +1838,14 @@ class TestDeleteConfiguration():
                 _service.delete_configuration(**req_copy)
 
 
+    def test_delete_configuration_value_error_with_retries(self):
+        # Enable retries and run test_delete_configuration_value_error.
+        _service.enable_retries()
+        self.test_delete_configuration_value_error()
+
+        # Disable retries and run test_delete_configuration_value_error.
+        _service.disable_retries()
+        self.test_delete_configuration_value_error()
 
 # endregion
 ##############################################################################
@@ -1764,24 +1862,13 @@ class TestCreateCollection():
     Test Class for create_collection
     """
 
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     @responses.activate
     def test_create_collection_all_params(self):
         """
         create_collection()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections')
+        url = preprocess_url('/v1/environments/testString/collections')
         mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "active", "configuration_id": "configuration_id", "language": "language", "document_counts": {"available": 9, "processing": 10, "failed": 6, "pending": 7}, "disk_usage": {"used_bytes": 10}, "training_status": {"total_examples": 14, "available": false, "processing": true, "minimum_queries_added": false, "minimum_examples_added": true, "sufficient_label_diversity": true, "notices": 7, "successfully_trained": "2019-01-01T12:00:00.000Z", "data_updated": "2019-01-01T12:00:00.000Z"}, "crawl_status": {"source_crawl": {"status": "running", "next_crawl": "2019-01-01T12:00:00.000Z"}}, "smart_document_understanding": {"enabled": true, "total_annotated_pages": 21, "total_pages": 11, "total_documents": 15, "custom_fields": {"defined": 7, "maximum_allowed": 15}}}'
         responses.add(responses.POST,
                       url,
@@ -1816,6 +1903,14 @@ class TestCreateCollection():
         assert req_body['configuration_id'] == 'testString'
         assert req_body['language'] == 'en'
 
+    def test_create_collection_all_params_with_retries(self):
+        # Enable retries and run test_create_collection_all_params.
+        _service.enable_retries()
+        self.test_create_collection_all_params()
+
+        # Disable retries and run test_create_collection_all_params.
+        _service.disable_retries()
+        self.test_create_collection_all_params()
 
     @responses.activate
     def test_create_collection_value_error(self):
@@ -1823,7 +1918,7 @@ class TestCreateCollection():
         test_create_collection_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections')
+        url = preprocess_url('/v1/environments/testString/collections')
         mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "active", "configuration_id": "configuration_id", "language": "language", "document_counts": {"available": 9, "processing": 10, "failed": 6, "pending": 7}, "disk_usage": {"used_bytes": 10}, "training_status": {"total_examples": 14, "available": false, "processing": true, "minimum_queries_added": false, "minimum_examples_added": true, "sufficient_label_diversity": true, "notices": 7, "successfully_trained": "2019-01-01T12:00:00.000Z", "data_updated": "2019-01-01T12:00:00.000Z"}, "crawl_status": {"source_crawl": {"status": "running", "next_crawl": "2019-01-01T12:00:00.000Z"}}, "smart_document_understanding": {"enabled": true, "total_annotated_pages": 21, "total_pages": 11, "total_documents": 15, "custom_fields": {"defined": 7, "maximum_allowed": 15}}}'
         responses.add(responses.POST,
                       url,
@@ -1849,22 +1944,19 @@ class TestCreateCollection():
                 _service.create_collection(**req_copy)
 
 
+    def test_create_collection_value_error_with_retries(self):
+        # Enable retries and run test_create_collection_value_error.
+        _service.enable_retries()
+        self.test_create_collection_value_error()
+
+        # Disable retries and run test_create_collection_value_error.
+        _service.disable_retries()
+        self.test_create_collection_value_error()
 
 class TestListCollections():
     """
     Test Class for list_collections
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_list_collections_all_params(self):
@@ -1872,7 +1964,7 @@ class TestListCollections():
         list_collections()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections')
+        url = preprocess_url('/v1/environments/testString/collections')
         mock_response = '{"collections": [{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "active", "configuration_id": "configuration_id", "language": "language", "document_counts": {"available": 9, "processing": 10, "failed": 6, "pending": 7}, "disk_usage": {"used_bytes": 10}, "training_status": {"total_examples": 14, "available": false, "processing": true, "minimum_queries_added": false, "minimum_examples_added": true, "sufficient_label_diversity": true, "notices": 7, "successfully_trained": "2019-01-01T12:00:00.000Z", "data_updated": "2019-01-01T12:00:00.000Z"}, "crawl_status": {"source_crawl": {"status": "running", "next_crawl": "2019-01-01T12:00:00.000Z"}}, "smart_document_understanding": {"enabled": true, "total_annotated_pages": 21, "total_pages": 11, "total_documents": 15, "custom_fields": {"defined": 7, "maximum_allowed": 15}}}]}'
         responses.add(responses.GET,
                       url,
@@ -1899,6 +1991,14 @@ class TestListCollections():
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'name={}'.format(name) in query_string
 
+    def test_list_collections_all_params_with_retries(self):
+        # Enable retries and run test_list_collections_all_params.
+        _service.enable_retries()
+        self.test_list_collections_all_params()
+
+        # Disable retries and run test_list_collections_all_params.
+        _service.disable_retries()
+        self.test_list_collections_all_params()
 
     @responses.activate
     def test_list_collections_required_params(self):
@@ -1906,7 +2006,7 @@ class TestListCollections():
         test_list_collections_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections')
+        url = preprocess_url('/v1/environments/testString/collections')
         mock_response = '{"collections": [{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "active", "configuration_id": "configuration_id", "language": "language", "document_counts": {"available": 9, "processing": 10, "failed": 6, "pending": 7}, "disk_usage": {"used_bytes": 10}, "training_status": {"total_examples": 14, "available": false, "processing": true, "minimum_queries_added": false, "minimum_examples_added": true, "sufficient_label_diversity": true, "notices": 7, "successfully_trained": "2019-01-01T12:00:00.000Z", "data_updated": "2019-01-01T12:00:00.000Z"}, "crawl_status": {"source_crawl": {"status": "running", "next_crawl": "2019-01-01T12:00:00.000Z"}}, "smart_document_understanding": {"enabled": true, "total_annotated_pages": 21, "total_pages": 11, "total_documents": 15, "custom_fields": {"defined": 7, "maximum_allowed": 15}}}]}'
         responses.add(responses.GET,
                       url,
@@ -1927,6 +2027,14 @@ class TestListCollections():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_list_collections_required_params_with_retries(self):
+        # Enable retries and run test_list_collections_required_params.
+        _service.enable_retries()
+        self.test_list_collections_required_params()
+
+        # Disable retries and run test_list_collections_required_params.
+        _service.disable_retries()
+        self.test_list_collections_required_params()
 
     @responses.activate
     def test_list_collections_value_error(self):
@@ -1934,7 +2042,7 @@ class TestListCollections():
         test_list_collections_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections')
+        url = preprocess_url('/v1/environments/testString/collections')
         mock_response = '{"collections": [{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "active", "configuration_id": "configuration_id", "language": "language", "document_counts": {"available": 9, "processing": 10, "failed": 6, "pending": 7}, "disk_usage": {"used_bytes": 10}, "training_status": {"total_examples": 14, "available": false, "processing": true, "minimum_queries_added": false, "minimum_examples_added": true, "sufficient_label_diversity": true, "notices": 7, "successfully_trained": "2019-01-01T12:00:00.000Z", "data_updated": "2019-01-01T12:00:00.000Z"}, "crawl_status": {"source_crawl": {"status": "running", "next_crawl": "2019-01-01T12:00:00.000Z"}}, "smart_document_understanding": {"enabled": true, "total_annotated_pages": 21, "total_pages": 11, "total_documents": 15, "custom_fields": {"defined": 7, "maximum_allowed": 15}}}]}'
         responses.add(responses.GET,
                       url,
@@ -1955,22 +2063,19 @@ class TestListCollections():
                 _service.list_collections(**req_copy)
 
 
+    def test_list_collections_value_error_with_retries(self):
+        # Enable retries and run test_list_collections_value_error.
+        _service.enable_retries()
+        self.test_list_collections_value_error()
+
+        # Disable retries and run test_list_collections_value_error.
+        _service.disable_retries()
+        self.test_list_collections_value_error()
 
 class TestGetCollection():
     """
     Test Class for get_collection
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_get_collection_all_params(self):
@@ -1978,7 +2083,7 @@ class TestGetCollection():
         get_collection()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString')
+        url = preprocess_url('/v1/environments/testString/collections/testString')
         mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "active", "configuration_id": "configuration_id", "language": "language", "document_counts": {"available": 9, "processing": 10, "failed": 6, "pending": 7}, "disk_usage": {"used_bytes": 10}, "training_status": {"total_examples": 14, "available": false, "processing": true, "minimum_queries_added": false, "minimum_examples_added": true, "sufficient_label_diversity": true, "notices": 7, "successfully_trained": "2019-01-01T12:00:00.000Z", "data_updated": "2019-01-01T12:00:00.000Z"}, "crawl_status": {"source_crawl": {"status": "running", "next_crawl": "2019-01-01T12:00:00.000Z"}}, "smart_document_understanding": {"enabled": true, "total_annotated_pages": 21, "total_pages": 11, "total_documents": 15, "custom_fields": {"defined": 7, "maximum_allowed": 15}}}'
         responses.add(responses.GET,
                       url,
@@ -2001,6 +2106,14 @@ class TestGetCollection():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_get_collection_all_params_with_retries(self):
+        # Enable retries and run test_get_collection_all_params.
+        _service.enable_retries()
+        self.test_get_collection_all_params()
+
+        # Disable retries and run test_get_collection_all_params.
+        _service.disable_retries()
+        self.test_get_collection_all_params()
 
     @responses.activate
     def test_get_collection_value_error(self):
@@ -2008,7 +2121,7 @@ class TestGetCollection():
         test_get_collection_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString')
+        url = preprocess_url('/v1/environments/testString/collections/testString')
         mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "active", "configuration_id": "configuration_id", "language": "language", "document_counts": {"available": 9, "processing": 10, "failed": 6, "pending": 7}, "disk_usage": {"used_bytes": 10}, "training_status": {"total_examples": 14, "available": false, "processing": true, "minimum_queries_added": false, "minimum_examples_added": true, "sufficient_label_diversity": true, "notices": 7, "successfully_trained": "2019-01-01T12:00:00.000Z", "data_updated": "2019-01-01T12:00:00.000Z"}, "crawl_status": {"source_crawl": {"status": "running", "next_crawl": "2019-01-01T12:00:00.000Z"}}, "smart_document_understanding": {"enabled": true, "total_annotated_pages": 21, "total_pages": 11, "total_documents": 15, "custom_fields": {"defined": 7, "maximum_allowed": 15}}}'
         responses.add(responses.GET,
                       url,
@@ -2031,22 +2144,19 @@ class TestGetCollection():
                 _service.get_collection(**req_copy)
 
 
+    def test_get_collection_value_error_with_retries(self):
+        # Enable retries and run test_get_collection_value_error.
+        _service.enable_retries()
+        self.test_get_collection_value_error()
+
+        # Disable retries and run test_get_collection_value_error.
+        _service.disable_retries()
+        self.test_get_collection_value_error()
 
 class TestUpdateCollection():
     """
     Test Class for update_collection
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_update_collection_all_params(self):
@@ -2054,7 +2164,7 @@ class TestUpdateCollection():
         update_collection()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString')
+        url = preprocess_url('/v1/environments/testString/collections/testString')
         mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "active", "configuration_id": "configuration_id", "language": "language", "document_counts": {"available": 9, "processing": 10, "failed": 6, "pending": 7}, "disk_usage": {"used_bytes": 10}, "training_status": {"total_examples": 14, "available": false, "processing": true, "minimum_queries_added": false, "minimum_examples_added": true, "sufficient_label_diversity": true, "notices": 7, "successfully_trained": "2019-01-01T12:00:00.000Z", "data_updated": "2019-01-01T12:00:00.000Z"}, "crawl_status": {"source_crawl": {"status": "running", "next_crawl": "2019-01-01T12:00:00.000Z"}}, "smart_document_understanding": {"enabled": true, "total_annotated_pages": 21, "total_pages": 11, "total_documents": 15, "custom_fields": {"defined": 7, "maximum_allowed": 15}}}'
         responses.add(responses.PUT,
                       url,
@@ -2088,6 +2198,14 @@ class TestUpdateCollection():
         assert req_body['description'] == 'testString'
         assert req_body['configuration_id'] == 'testString'
 
+    def test_update_collection_all_params_with_retries(self):
+        # Enable retries and run test_update_collection_all_params.
+        _service.enable_retries()
+        self.test_update_collection_all_params()
+
+        # Disable retries and run test_update_collection_all_params.
+        _service.disable_retries()
+        self.test_update_collection_all_params()
 
     @responses.activate
     def test_update_collection_value_error(self):
@@ -2095,7 +2213,7 @@ class TestUpdateCollection():
         test_update_collection_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString')
+        url = preprocess_url('/v1/environments/testString/collections/testString')
         mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "active", "configuration_id": "configuration_id", "language": "language", "document_counts": {"available": 9, "processing": 10, "failed": 6, "pending": 7}, "disk_usage": {"used_bytes": 10}, "training_status": {"total_examples": 14, "available": false, "processing": true, "minimum_queries_added": false, "minimum_examples_added": true, "sufficient_label_diversity": true, "notices": 7, "successfully_trained": "2019-01-01T12:00:00.000Z", "data_updated": "2019-01-01T12:00:00.000Z"}, "crawl_status": {"source_crawl": {"status": "running", "next_crawl": "2019-01-01T12:00:00.000Z"}}, "smart_document_understanding": {"enabled": true, "total_annotated_pages": 21, "total_pages": 11, "total_documents": 15, "custom_fields": {"defined": 7, "maximum_allowed": 15}}}'
         responses.add(responses.PUT,
                       url,
@@ -2122,22 +2240,19 @@ class TestUpdateCollection():
                 _service.update_collection(**req_copy)
 
 
+    def test_update_collection_value_error_with_retries(self):
+        # Enable retries and run test_update_collection_value_error.
+        _service.enable_retries()
+        self.test_update_collection_value_error()
+
+        # Disable retries and run test_update_collection_value_error.
+        _service.disable_retries()
+        self.test_update_collection_value_error()
 
 class TestDeleteCollection():
     """
     Test Class for delete_collection
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_delete_collection_all_params(self):
@@ -2145,7 +2260,7 @@ class TestDeleteCollection():
         delete_collection()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString')
+        url = preprocess_url('/v1/environments/testString/collections/testString')
         mock_response = '{"collection_id": "collection_id", "status": "deleted"}'
         responses.add(responses.DELETE,
                       url,
@@ -2168,6 +2283,14 @@ class TestDeleteCollection():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_delete_collection_all_params_with_retries(self):
+        # Enable retries and run test_delete_collection_all_params.
+        _service.enable_retries()
+        self.test_delete_collection_all_params()
+
+        # Disable retries and run test_delete_collection_all_params.
+        _service.disable_retries()
+        self.test_delete_collection_all_params()
 
     @responses.activate
     def test_delete_collection_value_error(self):
@@ -2175,7 +2298,7 @@ class TestDeleteCollection():
         test_delete_collection_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString')
+        url = preprocess_url('/v1/environments/testString/collections/testString')
         mock_response = '{"collection_id": "collection_id", "status": "deleted"}'
         responses.add(responses.DELETE,
                       url,
@@ -2198,22 +2321,19 @@ class TestDeleteCollection():
                 _service.delete_collection(**req_copy)
 
 
+    def test_delete_collection_value_error_with_retries(self):
+        # Enable retries and run test_delete_collection_value_error.
+        _service.enable_retries()
+        self.test_delete_collection_value_error()
+
+        # Disable retries and run test_delete_collection_value_error.
+        _service.disable_retries()
+        self.test_delete_collection_value_error()
 
 class TestListCollectionFields():
     """
     Test Class for list_collection_fields
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_list_collection_fields_all_params(self):
@@ -2221,7 +2341,7 @@ class TestListCollectionFields():
         list_collection_fields()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/fields')
+        url = preprocess_url('/v1/environments/testString/collections/testString/fields')
         mock_response = '{"fields": [{"field": "field", "type": "nested"}]}'
         responses.add(responses.GET,
                       url,
@@ -2244,6 +2364,14 @@ class TestListCollectionFields():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_list_collection_fields_all_params_with_retries(self):
+        # Enable retries and run test_list_collection_fields_all_params.
+        _service.enable_retries()
+        self.test_list_collection_fields_all_params()
+
+        # Disable retries and run test_list_collection_fields_all_params.
+        _service.disable_retries()
+        self.test_list_collection_fields_all_params()
 
     @responses.activate
     def test_list_collection_fields_value_error(self):
@@ -2251,7 +2379,7 @@ class TestListCollectionFields():
         test_list_collection_fields_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/fields')
+        url = preprocess_url('/v1/environments/testString/collections/testString/fields')
         mock_response = '{"fields": [{"field": "field", "type": "nested"}]}'
         responses.add(responses.GET,
                       url,
@@ -2274,6 +2402,14 @@ class TestListCollectionFields():
                 _service.list_collection_fields(**req_copy)
 
 
+    def test_list_collection_fields_value_error_with_retries(self):
+        # Enable retries and run test_list_collection_fields_value_error.
+        _service.enable_retries()
+        self.test_list_collection_fields_value_error()
+
+        # Disable retries and run test_list_collection_fields_value_error.
+        _service.disable_retries()
+        self.test_list_collection_fields_value_error()
 
 # endregion
 ##############################################################################
@@ -2290,24 +2426,13 @@ class TestListExpansions():
     Test Class for list_expansions
     """
 
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     @responses.activate
     def test_list_expansions_all_params(self):
         """
         list_expansions()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/expansions')
+        url = preprocess_url('/v1/environments/testString/collections/testString/expansions')
         mock_response = '{"expansions": [{"input_terms": ["input_terms"], "expanded_terms": ["expanded_terms"]}]}'
         responses.add(responses.GET,
                       url,
@@ -2330,6 +2455,14 @@ class TestListExpansions():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_list_expansions_all_params_with_retries(self):
+        # Enable retries and run test_list_expansions_all_params.
+        _service.enable_retries()
+        self.test_list_expansions_all_params()
+
+        # Disable retries and run test_list_expansions_all_params.
+        _service.disable_retries()
+        self.test_list_expansions_all_params()
 
     @responses.activate
     def test_list_expansions_value_error(self):
@@ -2337,7 +2470,7 @@ class TestListExpansions():
         test_list_expansions_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/expansions')
+        url = preprocess_url('/v1/environments/testString/collections/testString/expansions')
         mock_response = '{"expansions": [{"input_terms": ["input_terms"], "expanded_terms": ["expanded_terms"]}]}'
         responses.add(responses.GET,
                       url,
@@ -2360,22 +2493,19 @@ class TestListExpansions():
                 _service.list_expansions(**req_copy)
 
 
+    def test_list_expansions_value_error_with_retries(self):
+        # Enable retries and run test_list_expansions_value_error.
+        _service.enable_retries()
+        self.test_list_expansions_value_error()
+
+        # Disable retries and run test_list_expansions_value_error.
+        _service.disable_retries()
+        self.test_list_expansions_value_error()
 
 class TestCreateExpansions():
     """
     Test Class for create_expansions
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_create_expansions_all_params(self):
@@ -2383,7 +2513,7 @@ class TestCreateExpansions():
         create_expansions()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/expansions')
+        url = preprocess_url('/v1/environments/testString/collections/testString/expansions')
         mock_response = '{"expansions": [{"input_terms": ["input_terms"], "expanded_terms": ["expanded_terms"]}]}'
         responses.add(responses.POST,
                       url,
@@ -2416,6 +2546,14 @@ class TestCreateExpansions():
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['expansions'] == [expansion_model]
 
+    def test_create_expansions_all_params_with_retries(self):
+        # Enable retries and run test_create_expansions_all_params.
+        _service.enable_retries()
+        self.test_create_expansions_all_params()
+
+        # Disable retries and run test_create_expansions_all_params.
+        _service.disable_retries()
+        self.test_create_expansions_all_params()
 
     @responses.activate
     def test_create_expansions_value_error(self):
@@ -2423,7 +2561,7 @@ class TestCreateExpansions():
         test_create_expansions_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/expansions')
+        url = preprocess_url('/v1/environments/testString/collections/testString/expansions')
         mock_response = '{"expansions": [{"input_terms": ["input_terms"], "expanded_terms": ["expanded_terms"]}]}'
         responses.add(responses.POST,
                       url,
@@ -2453,22 +2591,19 @@ class TestCreateExpansions():
                 _service.create_expansions(**req_copy)
 
 
+    def test_create_expansions_value_error_with_retries(self):
+        # Enable retries and run test_create_expansions_value_error.
+        _service.enable_retries()
+        self.test_create_expansions_value_error()
+
+        # Disable retries and run test_create_expansions_value_error.
+        _service.disable_retries()
+        self.test_create_expansions_value_error()
 
 class TestDeleteExpansions():
     """
     Test Class for delete_expansions
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_delete_expansions_all_params(self):
@@ -2476,7 +2611,7 @@ class TestDeleteExpansions():
         delete_expansions()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/expansions')
+        url = preprocess_url('/v1/environments/testString/collections/testString/expansions')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -2496,6 +2631,14 @@ class TestDeleteExpansions():
         assert len(responses.calls) == 1
         assert response.status_code == 204
 
+    def test_delete_expansions_all_params_with_retries(self):
+        # Enable retries and run test_delete_expansions_all_params.
+        _service.enable_retries()
+        self.test_delete_expansions_all_params()
+
+        # Disable retries and run test_delete_expansions_all_params.
+        _service.disable_retries()
+        self.test_delete_expansions_all_params()
 
     @responses.activate
     def test_delete_expansions_value_error(self):
@@ -2503,7 +2646,7 @@ class TestDeleteExpansions():
         test_delete_expansions_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/expansions')
+        url = preprocess_url('/v1/environments/testString/collections/testString/expansions')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -2523,22 +2666,19 @@ class TestDeleteExpansions():
                 _service.delete_expansions(**req_copy)
 
 
+    def test_delete_expansions_value_error_with_retries(self):
+        # Enable retries and run test_delete_expansions_value_error.
+        _service.enable_retries()
+        self.test_delete_expansions_value_error()
+
+        # Disable retries and run test_delete_expansions_value_error.
+        _service.disable_retries()
+        self.test_delete_expansions_value_error()
 
 class TestGetTokenizationDictionaryStatus():
     """
     Test Class for get_tokenization_dictionary_status
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_get_tokenization_dictionary_status_all_params(self):
@@ -2546,7 +2686,7 @@ class TestGetTokenizationDictionaryStatus():
         get_tokenization_dictionary_status()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/word_lists/tokenization_dictionary')
+        url = preprocess_url('/v1/environments/testString/collections/testString/word_lists/tokenization_dictionary')
         mock_response = '{"status": "active", "type": "type"}'
         responses.add(responses.GET,
                       url,
@@ -2569,6 +2709,14 @@ class TestGetTokenizationDictionaryStatus():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_get_tokenization_dictionary_status_all_params_with_retries(self):
+        # Enable retries and run test_get_tokenization_dictionary_status_all_params.
+        _service.enable_retries()
+        self.test_get_tokenization_dictionary_status_all_params()
+
+        # Disable retries and run test_get_tokenization_dictionary_status_all_params.
+        _service.disable_retries()
+        self.test_get_tokenization_dictionary_status_all_params()
 
     @responses.activate
     def test_get_tokenization_dictionary_status_value_error(self):
@@ -2576,7 +2724,7 @@ class TestGetTokenizationDictionaryStatus():
         test_get_tokenization_dictionary_status_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/word_lists/tokenization_dictionary')
+        url = preprocess_url('/v1/environments/testString/collections/testString/word_lists/tokenization_dictionary')
         mock_response = '{"status": "active", "type": "type"}'
         responses.add(responses.GET,
                       url,
@@ -2599,22 +2747,19 @@ class TestGetTokenizationDictionaryStatus():
                 _service.get_tokenization_dictionary_status(**req_copy)
 
 
+    def test_get_tokenization_dictionary_status_value_error_with_retries(self):
+        # Enable retries and run test_get_tokenization_dictionary_status_value_error.
+        _service.enable_retries()
+        self.test_get_tokenization_dictionary_status_value_error()
+
+        # Disable retries and run test_get_tokenization_dictionary_status_value_error.
+        _service.disable_retries()
+        self.test_get_tokenization_dictionary_status_value_error()
 
 class TestCreateTokenizationDictionary():
     """
     Test Class for create_tokenization_dictionary
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_create_tokenization_dictionary_all_params(self):
@@ -2622,7 +2767,7 @@ class TestCreateTokenizationDictionary():
         create_tokenization_dictionary()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/word_lists/tokenization_dictionary')
+        url = preprocess_url('/v1/environments/testString/collections/testString/word_lists/tokenization_dictionary')
         mock_response = '{"status": "active", "type": "type"}'
         responses.add(responses.POST,
                       url,
@@ -2657,6 +2802,14 @@ class TestCreateTokenizationDictionary():
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['tokenization_rules'] == [token_dict_rule_model]
 
+    def test_create_tokenization_dictionary_all_params_with_retries(self):
+        # Enable retries and run test_create_tokenization_dictionary_all_params.
+        _service.enable_retries()
+        self.test_create_tokenization_dictionary_all_params()
+
+        # Disable retries and run test_create_tokenization_dictionary_all_params.
+        _service.disable_retries()
+        self.test_create_tokenization_dictionary_all_params()
 
     @responses.activate
     def test_create_tokenization_dictionary_required_params(self):
@@ -2664,7 +2817,7 @@ class TestCreateTokenizationDictionary():
         test_create_tokenization_dictionary_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/word_lists/tokenization_dictionary')
+        url = preprocess_url('/v1/environments/testString/collections/testString/word_lists/tokenization_dictionary')
         mock_response = '{"status": "active", "type": "type"}'
         responses.add(responses.POST,
                       url,
@@ -2687,6 +2840,14 @@ class TestCreateTokenizationDictionary():
         assert len(responses.calls) == 1
         assert response.status_code == 202
 
+    def test_create_tokenization_dictionary_required_params_with_retries(self):
+        # Enable retries and run test_create_tokenization_dictionary_required_params.
+        _service.enable_retries()
+        self.test_create_tokenization_dictionary_required_params()
+
+        # Disable retries and run test_create_tokenization_dictionary_required_params.
+        _service.disable_retries()
+        self.test_create_tokenization_dictionary_required_params()
 
     @responses.activate
     def test_create_tokenization_dictionary_value_error(self):
@@ -2694,7 +2855,7 @@ class TestCreateTokenizationDictionary():
         test_create_tokenization_dictionary_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/word_lists/tokenization_dictionary')
+        url = preprocess_url('/v1/environments/testString/collections/testString/word_lists/tokenization_dictionary')
         mock_response = '{"status": "active", "type": "type"}'
         responses.add(responses.POST,
                       url,
@@ -2717,22 +2878,19 @@ class TestCreateTokenizationDictionary():
                 _service.create_tokenization_dictionary(**req_copy)
 
 
+    def test_create_tokenization_dictionary_value_error_with_retries(self):
+        # Enable retries and run test_create_tokenization_dictionary_value_error.
+        _service.enable_retries()
+        self.test_create_tokenization_dictionary_value_error()
+
+        # Disable retries and run test_create_tokenization_dictionary_value_error.
+        _service.disable_retries()
+        self.test_create_tokenization_dictionary_value_error()
 
 class TestDeleteTokenizationDictionary():
     """
     Test Class for delete_tokenization_dictionary
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_delete_tokenization_dictionary_all_params(self):
@@ -2740,7 +2898,7 @@ class TestDeleteTokenizationDictionary():
         delete_tokenization_dictionary()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/word_lists/tokenization_dictionary')
+        url = preprocess_url('/v1/environments/testString/collections/testString/word_lists/tokenization_dictionary')
         responses.add(responses.DELETE,
                       url,
                       status=200)
@@ -2760,6 +2918,14 @@ class TestDeleteTokenizationDictionary():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_delete_tokenization_dictionary_all_params_with_retries(self):
+        # Enable retries and run test_delete_tokenization_dictionary_all_params.
+        _service.enable_retries()
+        self.test_delete_tokenization_dictionary_all_params()
+
+        # Disable retries and run test_delete_tokenization_dictionary_all_params.
+        _service.disable_retries()
+        self.test_delete_tokenization_dictionary_all_params()
 
     @responses.activate
     def test_delete_tokenization_dictionary_value_error(self):
@@ -2767,7 +2933,7 @@ class TestDeleteTokenizationDictionary():
         test_delete_tokenization_dictionary_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/word_lists/tokenization_dictionary')
+        url = preprocess_url('/v1/environments/testString/collections/testString/word_lists/tokenization_dictionary')
         responses.add(responses.DELETE,
                       url,
                       status=200)
@@ -2787,22 +2953,19 @@ class TestDeleteTokenizationDictionary():
                 _service.delete_tokenization_dictionary(**req_copy)
 
 
+    def test_delete_tokenization_dictionary_value_error_with_retries(self):
+        # Enable retries and run test_delete_tokenization_dictionary_value_error.
+        _service.enable_retries()
+        self.test_delete_tokenization_dictionary_value_error()
+
+        # Disable retries and run test_delete_tokenization_dictionary_value_error.
+        _service.disable_retries()
+        self.test_delete_tokenization_dictionary_value_error()
 
 class TestGetStopwordListStatus():
     """
     Test Class for get_stopword_list_status
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_get_stopword_list_status_all_params(self):
@@ -2810,7 +2973,7 @@ class TestGetStopwordListStatus():
         get_stopword_list_status()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/word_lists/stopwords')
+        url = preprocess_url('/v1/environments/testString/collections/testString/word_lists/stopwords')
         mock_response = '{"status": "active", "type": "type"}'
         responses.add(responses.GET,
                       url,
@@ -2833,6 +2996,14 @@ class TestGetStopwordListStatus():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_get_stopword_list_status_all_params_with_retries(self):
+        # Enable retries and run test_get_stopword_list_status_all_params.
+        _service.enable_retries()
+        self.test_get_stopword_list_status_all_params()
+
+        # Disable retries and run test_get_stopword_list_status_all_params.
+        _service.disable_retries()
+        self.test_get_stopword_list_status_all_params()
 
     @responses.activate
     def test_get_stopword_list_status_value_error(self):
@@ -2840,7 +3011,7 @@ class TestGetStopwordListStatus():
         test_get_stopword_list_status_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/word_lists/stopwords')
+        url = preprocess_url('/v1/environments/testString/collections/testString/word_lists/stopwords')
         mock_response = '{"status": "active", "type": "type"}'
         responses.add(responses.GET,
                       url,
@@ -2863,22 +3034,19 @@ class TestGetStopwordListStatus():
                 _service.get_stopword_list_status(**req_copy)
 
 
+    def test_get_stopword_list_status_value_error_with_retries(self):
+        # Enable retries and run test_get_stopword_list_status_value_error.
+        _service.enable_retries()
+        self.test_get_stopword_list_status_value_error()
+
+        # Disable retries and run test_get_stopword_list_status_value_error.
+        _service.disable_retries()
+        self.test_get_stopword_list_status_value_error()
 
 class TestCreateStopwordList():
     """
     Test Class for create_stopword_list
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_create_stopword_list_all_params(self):
@@ -2886,7 +3054,7 @@ class TestCreateStopwordList():
         create_stopword_list()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/word_lists/stopwords')
+        url = preprocess_url('/v1/environments/testString/collections/testString/word_lists/stopwords')
         mock_response = '{"status": "active", "type": "type"}'
         responses.add(responses.POST,
                       url,
@@ -2913,6 +3081,14 @@ class TestCreateStopwordList():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_create_stopword_list_all_params_with_retries(self):
+        # Enable retries and run test_create_stopword_list_all_params.
+        _service.enable_retries()
+        self.test_create_stopword_list_all_params()
+
+        # Disable retries and run test_create_stopword_list_all_params.
+        _service.disable_retries()
+        self.test_create_stopword_list_all_params()
 
     @responses.activate
     def test_create_stopword_list_required_params(self):
@@ -2920,7 +3096,7 @@ class TestCreateStopwordList():
         test_create_stopword_list_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/word_lists/stopwords')
+        url = preprocess_url('/v1/environments/testString/collections/testString/word_lists/stopwords')
         mock_response = '{"status": "active", "type": "type"}'
         responses.add(responses.POST,
                       url,
@@ -2947,6 +3123,14 @@ class TestCreateStopwordList():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_create_stopword_list_required_params_with_retries(self):
+        # Enable retries and run test_create_stopword_list_required_params.
+        _service.enable_retries()
+        self.test_create_stopword_list_required_params()
+
+        # Disable retries and run test_create_stopword_list_required_params.
+        _service.disable_retries()
+        self.test_create_stopword_list_required_params()
 
     @responses.activate
     def test_create_stopword_list_value_error(self):
@@ -2954,7 +3138,7 @@ class TestCreateStopwordList():
         test_create_stopword_list_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/word_lists/stopwords')
+        url = preprocess_url('/v1/environments/testString/collections/testString/word_lists/stopwords')
         mock_response = '{"status": "active", "type": "type"}'
         responses.add(responses.POST,
                       url,
@@ -2980,22 +3164,19 @@ class TestCreateStopwordList():
                 _service.create_stopword_list(**req_copy)
 
 
+    def test_create_stopword_list_value_error_with_retries(self):
+        # Enable retries and run test_create_stopword_list_value_error.
+        _service.enable_retries()
+        self.test_create_stopword_list_value_error()
+
+        # Disable retries and run test_create_stopword_list_value_error.
+        _service.disable_retries()
+        self.test_create_stopword_list_value_error()
 
 class TestDeleteStopwordList():
     """
     Test Class for delete_stopword_list
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_delete_stopword_list_all_params(self):
@@ -3003,7 +3184,7 @@ class TestDeleteStopwordList():
         delete_stopword_list()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/word_lists/stopwords')
+        url = preprocess_url('/v1/environments/testString/collections/testString/word_lists/stopwords')
         responses.add(responses.DELETE,
                       url,
                       status=200)
@@ -3023,6 +3204,14 @@ class TestDeleteStopwordList():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_delete_stopword_list_all_params_with_retries(self):
+        # Enable retries and run test_delete_stopword_list_all_params.
+        _service.enable_retries()
+        self.test_delete_stopword_list_all_params()
+
+        # Disable retries and run test_delete_stopword_list_all_params.
+        _service.disable_retries()
+        self.test_delete_stopword_list_all_params()
 
     @responses.activate
     def test_delete_stopword_list_value_error(self):
@@ -3030,7 +3219,7 @@ class TestDeleteStopwordList():
         test_delete_stopword_list_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/word_lists/stopwords')
+        url = preprocess_url('/v1/environments/testString/collections/testString/word_lists/stopwords')
         responses.add(responses.DELETE,
                       url,
                       status=200)
@@ -3050,6 +3239,14 @@ class TestDeleteStopwordList():
                 _service.delete_stopword_list(**req_copy)
 
 
+    def test_delete_stopword_list_value_error_with_retries(self):
+        # Enable retries and run test_delete_stopword_list_value_error.
+        _service.enable_retries()
+        self.test_delete_stopword_list_value_error()
+
+        # Disable retries and run test_delete_stopword_list_value_error.
+        _service.disable_retries()
+        self.test_delete_stopword_list_value_error()
 
 # endregion
 ##############################################################################
@@ -3066,24 +3263,13 @@ class TestAddDocument():
     Test Class for add_document
     """
 
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     @responses.activate
     def test_add_document_all_params(self):
         """
         add_document()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/documents')
+        url = preprocess_url('/v1/environments/testString/collections/testString/documents')
         mock_response = '{"document_id": "document_id", "status": "processing", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}'
         responses.add(responses.POST,
                       url,
@@ -3114,6 +3300,14 @@ class TestAddDocument():
         assert len(responses.calls) == 1
         assert response.status_code == 202
 
+    def test_add_document_all_params_with_retries(self):
+        # Enable retries and run test_add_document_all_params.
+        _service.enable_retries()
+        self.test_add_document_all_params()
+
+        # Disable retries and run test_add_document_all_params.
+        _service.disable_retries()
+        self.test_add_document_all_params()
 
     @responses.activate
     def test_add_document_required_params(self):
@@ -3121,7 +3315,7 @@ class TestAddDocument():
         test_add_document_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/documents')
+        url = preprocess_url('/v1/environments/testString/collections/testString/documents')
         mock_response = '{"document_id": "document_id", "status": "processing", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}'
         responses.add(responses.POST,
                       url,
@@ -3144,6 +3338,14 @@ class TestAddDocument():
         assert len(responses.calls) == 1
         assert response.status_code == 202
 
+    def test_add_document_required_params_with_retries(self):
+        # Enable retries and run test_add_document_required_params.
+        _service.enable_retries()
+        self.test_add_document_required_params()
+
+        # Disable retries and run test_add_document_required_params.
+        _service.disable_retries()
+        self.test_add_document_required_params()
 
     @responses.activate
     def test_add_document_value_error(self):
@@ -3151,7 +3353,7 @@ class TestAddDocument():
         test_add_document_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/documents')
+        url = preprocess_url('/v1/environments/testString/collections/testString/documents')
         mock_response = '{"document_id": "document_id", "status": "processing", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}'
         responses.add(responses.POST,
                       url,
@@ -3174,22 +3376,19 @@ class TestAddDocument():
                 _service.add_document(**req_copy)
 
 
+    def test_add_document_value_error_with_retries(self):
+        # Enable retries and run test_add_document_value_error.
+        _service.enable_retries()
+        self.test_add_document_value_error()
+
+        # Disable retries and run test_add_document_value_error.
+        _service.disable_retries()
+        self.test_add_document_value_error()
 
 class TestGetDocumentStatus():
     """
     Test Class for get_document_status
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_get_document_status_all_params(self):
@@ -3197,7 +3396,7 @@ class TestGetDocumentStatus():
         get_document_status()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/documents/testString')
+        url = preprocess_url('/v1/environments/testString/collections/testString/documents/testString')
         mock_response = '{"document_id": "document_id", "configuration_id": "configuration_id", "status": "available", "status_description": "status_description", "filename": "filename", "file_type": "pdf", "sha1": "sha1", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}'
         responses.add(responses.GET,
                       url,
@@ -3222,6 +3421,14 @@ class TestGetDocumentStatus():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_get_document_status_all_params_with_retries(self):
+        # Enable retries and run test_get_document_status_all_params.
+        _service.enable_retries()
+        self.test_get_document_status_all_params()
+
+        # Disable retries and run test_get_document_status_all_params.
+        _service.disable_retries()
+        self.test_get_document_status_all_params()
 
     @responses.activate
     def test_get_document_status_value_error(self):
@@ -3229,7 +3436,7 @@ class TestGetDocumentStatus():
         test_get_document_status_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/documents/testString')
+        url = preprocess_url('/v1/environments/testString/collections/testString/documents/testString')
         mock_response = '{"document_id": "document_id", "configuration_id": "configuration_id", "status": "available", "status_description": "status_description", "filename": "filename", "file_type": "pdf", "sha1": "sha1", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}'
         responses.add(responses.GET,
                       url,
@@ -3254,22 +3461,19 @@ class TestGetDocumentStatus():
                 _service.get_document_status(**req_copy)
 
 
+    def test_get_document_status_value_error_with_retries(self):
+        # Enable retries and run test_get_document_status_value_error.
+        _service.enable_retries()
+        self.test_get_document_status_value_error()
+
+        # Disable retries and run test_get_document_status_value_error.
+        _service.disable_retries()
+        self.test_get_document_status_value_error()
 
 class TestUpdateDocument():
     """
     Test Class for update_document
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_update_document_all_params(self):
@@ -3277,7 +3481,7 @@ class TestUpdateDocument():
         update_document()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/documents/testString')
+        url = preprocess_url('/v1/environments/testString/collections/testString/documents/testString')
         mock_response = '{"document_id": "document_id", "status": "processing", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}'
         responses.add(responses.POST,
                       url,
@@ -3310,6 +3514,14 @@ class TestUpdateDocument():
         assert len(responses.calls) == 1
         assert response.status_code == 202
 
+    def test_update_document_all_params_with_retries(self):
+        # Enable retries and run test_update_document_all_params.
+        _service.enable_retries()
+        self.test_update_document_all_params()
+
+        # Disable retries and run test_update_document_all_params.
+        _service.disable_retries()
+        self.test_update_document_all_params()
 
     @responses.activate
     def test_update_document_required_params(self):
@@ -3317,7 +3529,7 @@ class TestUpdateDocument():
         test_update_document_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/documents/testString')
+        url = preprocess_url('/v1/environments/testString/collections/testString/documents/testString')
         mock_response = '{"document_id": "document_id", "status": "processing", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}'
         responses.add(responses.POST,
                       url,
@@ -3342,6 +3554,14 @@ class TestUpdateDocument():
         assert len(responses.calls) == 1
         assert response.status_code == 202
 
+    def test_update_document_required_params_with_retries(self):
+        # Enable retries and run test_update_document_required_params.
+        _service.enable_retries()
+        self.test_update_document_required_params()
+
+        # Disable retries and run test_update_document_required_params.
+        _service.disable_retries()
+        self.test_update_document_required_params()
 
     @responses.activate
     def test_update_document_value_error(self):
@@ -3349,7 +3569,7 @@ class TestUpdateDocument():
         test_update_document_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/documents/testString')
+        url = preprocess_url('/v1/environments/testString/collections/testString/documents/testString')
         mock_response = '{"document_id": "document_id", "status": "processing", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}'
         responses.add(responses.POST,
                       url,
@@ -3374,22 +3594,19 @@ class TestUpdateDocument():
                 _service.update_document(**req_copy)
 
 
+    def test_update_document_value_error_with_retries(self):
+        # Enable retries and run test_update_document_value_error.
+        _service.enable_retries()
+        self.test_update_document_value_error()
+
+        # Disable retries and run test_update_document_value_error.
+        _service.disable_retries()
+        self.test_update_document_value_error()
 
 class TestDeleteDocument():
     """
     Test Class for delete_document
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_delete_document_all_params(self):
@@ -3397,7 +3614,7 @@ class TestDeleteDocument():
         delete_document()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/documents/testString')
+        url = preprocess_url('/v1/environments/testString/collections/testString/documents/testString')
         mock_response = '{"document_id": "document_id", "status": "deleted"}'
         responses.add(responses.DELETE,
                       url,
@@ -3422,6 +3639,14 @@ class TestDeleteDocument():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_delete_document_all_params_with_retries(self):
+        # Enable retries and run test_delete_document_all_params.
+        _service.enable_retries()
+        self.test_delete_document_all_params()
+
+        # Disable retries and run test_delete_document_all_params.
+        _service.disable_retries()
+        self.test_delete_document_all_params()
 
     @responses.activate
     def test_delete_document_value_error(self):
@@ -3429,7 +3654,7 @@ class TestDeleteDocument():
         test_delete_document_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/documents/testString')
+        url = preprocess_url('/v1/environments/testString/collections/testString/documents/testString')
         mock_response = '{"document_id": "document_id", "status": "deleted"}'
         responses.add(responses.DELETE,
                       url,
@@ -3454,6 +3679,14 @@ class TestDeleteDocument():
                 _service.delete_document(**req_copy)
 
 
+    def test_delete_document_value_error_with_retries(self):
+        # Enable retries and run test_delete_document_value_error.
+        _service.enable_retries()
+        self.test_delete_document_value_error()
+
+        # Disable retries and run test_delete_document_value_error.
+        _service.disable_retries()
+        self.test_delete_document_value_error()
 
 # endregion
 ##############################################################################
@@ -3470,25 +3703,14 @@ class TestQuery():
     Test Class for query
     """
 
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     @responses.activate
     def test_query_all_params(self):
         """
         query()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/query')
-        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}}], "aggregations": [{"type": "histogram", "matching_results": 16, "field": "field", "interval": 8}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18, "session_token": "session_token", "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query"}'
+        url = preprocess_url('/v1/environments/testString/collections/testString/query')
+        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18, "session_token": "session_token", "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -3574,6 +3796,14 @@ class TestQuery():
         assert req_body['bias'] == 'testString'
         assert req_body['spelling_suggestions'] == False
 
+    def test_query_all_params_with_retries(self):
+        # Enable retries and run test_query_all_params.
+        _service.enable_retries()
+        self.test_query_all_params()
+
+        # Disable retries and run test_query_all_params.
+        _service.disable_retries()
+        self.test_query_all_params()
 
     @responses.activate
     def test_query_required_params(self):
@@ -3581,8 +3811,8 @@ class TestQuery():
         test_query_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/query')
-        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}}], "aggregations": [{"type": "histogram", "matching_results": 16, "field": "field", "interval": 8}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18, "session_token": "session_token", "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query"}'
+        url = preprocess_url('/v1/environments/testString/collections/testString/query')
+        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18, "session_token": "session_token", "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -3604,6 +3834,14 @@ class TestQuery():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_query_required_params_with_retries(self):
+        # Enable retries and run test_query_required_params.
+        _service.enable_retries()
+        self.test_query_required_params()
+
+        # Disable retries and run test_query_required_params.
+        _service.disable_retries()
+        self.test_query_required_params()
 
     @responses.activate
     def test_query_value_error(self):
@@ -3611,8 +3849,8 @@ class TestQuery():
         test_query_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/query')
-        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}}], "aggregations": [{"type": "histogram", "matching_results": 16, "field": "field", "interval": 8}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18, "session_token": "session_token", "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query"}'
+        url = preprocess_url('/v1/environments/testString/collections/testString/query')
+        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18, "session_token": "session_token", "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -3634,22 +3872,19 @@ class TestQuery():
                 _service.query(**req_copy)
 
 
+    def test_query_value_error_with_retries(self):
+        # Enable retries and run test_query_value_error.
+        _service.enable_retries()
+        self.test_query_value_error()
+
+        # Disable retries and run test_query_value_error.
+        _service.disable_retries()
+        self.test_query_value_error()
 
 class TestQueryNotices():
     """
     Test Class for query_notices
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_query_notices_all_params(self):
@@ -3657,8 +3892,8 @@ class TestQueryNotices():
         query_notices()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/notices')
-        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}, "code": 4, "filename": "filename", "file_type": "pdf", "sha1": "sha1", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}], "aggregations": [{"type": "histogram", "matching_results": 16, "field": "field", "interval": 8}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18}'
+        url = preprocess_url('/v1/environments/testString/collections/testString/notices')
+        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}, "code": 4, "filename": "filename", "file_type": "pdf", "sha1": "sha1", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -3734,6 +3969,14 @@ class TestQueryNotices():
         assert 'similar.document_ids={}'.format(','.join(similar_document_ids)) in query_string
         assert 'similar.fields={}'.format(','.join(similar_fields)) in query_string
 
+    def test_query_notices_all_params_with_retries(self):
+        # Enable retries and run test_query_notices_all_params.
+        _service.enable_retries()
+        self.test_query_notices_all_params()
+
+        # Disable retries and run test_query_notices_all_params.
+        _service.disable_retries()
+        self.test_query_notices_all_params()
 
     @responses.activate
     def test_query_notices_required_params(self):
@@ -3741,8 +3984,8 @@ class TestQueryNotices():
         test_query_notices_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/notices')
-        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}, "code": 4, "filename": "filename", "file_type": "pdf", "sha1": "sha1", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}], "aggregations": [{"type": "histogram", "matching_results": 16, "field": "field", "interval": 8}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18}'
+        url = preprocess_url('/v1/environments/testString/collections/testString/notices')
+        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}, "code": 4, "filename": "filename", "file_type": "pdf", "sha1": "sha1", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -3764,6 +4007,14 @@ class TestQueryNotices():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_query_notices_required_params_with_retries(self):
+        # Enable retries and run test_query_notices_required_params.
+        _service.enable_retries()
+        self.test_query_notices_required_params()
+
+        # Disable retries and run test_query_notices_required_params.
+        _service.disable_retries()
+        self.test_query_notices_required_params()
 
     @responses.activate
     def test_query_notices_value_error(self):
@@ -3771,8 +4022,8 @@ class TestQueryNotices():
         test_query_notices_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/notices')
-        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}, "code": 4, "filename": "filename", "file_type": "pdf", "sha1": "sha1", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}], "aggregations": [{"type": "histogram", "matching_results": 16, "field": "field", "interval": 8}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18}'
+        url = preprocess_url('/v1/environments/testString/collections/testString/notices')
+        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}, "code": 4, "filename": "filename", "file_type": "pdf", "sha1": "sha1", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -3794,22 +4045,19 @@ class TestQueryNotices():
                 _service.query_notices(**req_copy)
 
 
+    def test_query_notices_value_error_with_retries(self):
+        # Enable retries and run test_query_notices_value_error.
+        _service.enable_retries()
+        self.test_query_notices_value_error()
+
+        # Disable retries and run test_query_notices_value_error.
+        _service.disable_retries()
+        self.test_query_notices_value_error()
 
 class TestFederatedQuery():
     """
     Test Class for federated_query
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_federated_query_all_params(self):
@@ -3817,8 +4065,8 @@ class TestFederatedQuery():
         federated_query()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/query')
-        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}}], "aggregations": [{"type": "histogram", "matching_results": 16, "field": "field", "interval": 8}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18, "session_token": "session_token", "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query"}'
+        url = preprocess_url('/v1/environments/testString/query')
+        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18, "session_token": "session_token", "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -3902,6 +4150,14 @@ class TestFederatedQuery():
         assert req_body['similar.fields'] == 'testString'
         assert req_body['bias'] == 'testString'
 
+    def test_federated_query_all_params_with_retries(self):
+        # Enable retries and run test_federated_query_all_params.
+        _service.enable_retries()
+        self.test_federated_query_all_params()
+
+        # Disable retries and run test_federated_query_all_params.
+        _service.disable_retries()
+        self.test_federated_query_all_params()
 
     @responses.activate
     def test_federated_query_required_params(self):
@@ -3909,8 +4165,8 @@ class TestFederatedQuery():
         test_federated_query_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/query')
-        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}}], "aggregations": [{"type": "histogram", "matching_results": 16, "field": "field", "interval": 8}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18, "session_token": "session_token", "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query"}'
+        url = preprocess_url('/v1/environments/testString/query')
+        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18, "session_token": "session_token", "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -3992,6 +4248,14 @@ class TestFederatedQuery():
         assert req_body['similar.fields'] == 'testString'
         assert req_body['bias'] == 'testString'
 
+    def test_federated_query_required_params_with_retries(self):
+        # Enable retries and run test_federated_query_required_params.
+        _service.enable_retries()
+        self.test_federated_query_required_params()
+
+        # Disable retries and run test_federated_query_required_params.
+        _service.disable_retries()
+        self.test_federated_query_required_params()
 
     @responses.activate
     def test_federated_query_value_error(self):
@@ -3999,8 +4263,8 @@ class TestFederatedQuery():
         test_federated_query_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/query')
-        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}}], "aggregations": [{"type": "histogram", "matching_results": 16, "field": "field", "interval": 8}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18, "session_token": "session_token", "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query"}'
+        url = preprocess_url('/v1/environments/testString/query')
+        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18, "session_token": "session_token", "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -4041,22 +4305,19 @@ class TestFederatedQuery():
                 _service.federated_query(**req_copy)
 
 
+    def test_federated_query_value_error_with_retries(self):
+        # Enable retries and run test_federated_query_value_error.
+        _service.enable_retries()
+        self.test_federated_query_value_error()
+
+        # Disable retries and run test_federated_query_value_error.
+        _service.disable_retries()
+        self.test_federated_query_value_error()
 
 class TestFederatedQueryNotices():
     """
     Test Class for federated_query_notices
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_federated_query_notices_all_params(self):
@@ -4064,8 +4325,8 @@ class TestFederatedQueryNotices():
         federated_query_notices()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/notices')
-        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}, "code": 4, "filename": "filename", "file_type": "pdf", "sha1": "sha1", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}], "aggregations": [{"type": "histogram", "matching_results": 16, "field": "field", "interval": 8}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18}'
+        url = preprocess_url('/v1/environments/testString/notices')
+        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}, "code": 4, "filename": "filename", "file_type": "pdf", "sha1": "sha1", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -4130,6 +4391,14 @@ class TestFederatedQueryNotices():
         assert 'similar.document_ids={}'.format(','.join(similar_document_ids)) in query_string
         assert 'similar.fields={}'.format(','.join(similar_fields)) in query_string
 
+    def test_federated_query_notices_all_params_with_retries(self):
+        # Enable retries and run test_federated_query_notices_all_params.
+        _service.enable_retries()
+        self.test_federated_query_notices_all_params()
+
+        # Disable retries and run test_federated_query_notices_all_params.
+        _service.disable_retries()
+        self.test_federated_query_notices_all_params()
 
     @responses.activate
     def test_federated_query_notices_required_params(self):
@@ -4137,8 +4406,8 @@ class TestFederatedQueryNotices():
         test_federated_query_notices_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/notices')
-        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}, "code": 4, "filename": "filename", "file_type": "pdf", "sha1": "sha1", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}], "aggregations": [{"type": "histogram", "matching_results": 16, "field": "field", "interval": 8}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18}'
+        url = preprocess_url('/v1/environments/testString/notices')
+        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}, "code": 4, "filename": "filename", "file_type": "pdf", "sha1": "sha1", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -4164,6 +4433,14 @@ class TestFederatedQueryNotices():
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'collection_ids={}'.format(','.join(collection_ids)) in query_string
 
+    def test_federated_query_notices_required_params_with_retries(self):
+        # Enable retries and run test_federated_query_notices_required_params.
+        _service.enable_retries()
+        self.test_federated_query_notices_required_params()
+
+        # Disable retries and run test_federated_query_notices_required_params.
+        _service.disable_retries()
+        self.test_federated_query_notices_required_params()
 
     @responses.activate
     def test_federated_query_notices_value_error(self):
@@ -4171,8 +4448,8 @@ class TestFederatedQueryNotices():
         test_federated_query_notices_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/notices')
-        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}, "code": 4, "filename": "filename", "file_type": "pdf", "sha1": "sha1", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}], "aggregations": [{"type": "histogram", "matching_results": 16, "field": "field", "interval": 8}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18}'
+        url = preprocess_url('/v1/environments/testString/notices')
+        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}, "code": 4, "filename": "filename", "file_type": "pdf", "sha1": "sha1", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -4194,22 +4471,19 @@ class TestFederatedQueryNotices():
                 _service.federated_query_notices(**req_copy)
 
 
+    def test_federated_query_notices_value_error_with_retries(self):
+        # Enable retries and run test_federated_query_notices_value_error.
+        _service.enable_retries()
+        self.test_federated_query_notices_value_error()
+
+        # Disable retries and run test_federated_query_notices_value_error.
+        _service.disable_retries()
+        self.test_federated_query_notices_value_error()
 
 class TestGetAutocompletion():
     """
     Test Class for get_autocompletion
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_get_autocompletion_all_params(self):
@@ -4217,7 +4491,7 @@ class TestGetAutocompletion():
         get_autocompletion()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/autocompletion')
+        url = preprocess_url('/v1/environments/testString/collections/testString/autocompletion')
         mock_response = '{"completions": ["completions"]}'
         responses.add(responses.GET,
                       url,
@@ -4252,6 +4526,14 @@ class TestGetAutocompletion():
         assert 'field={}'.format(field) in query_string
         assert 'count={}'.format(count) in query_string
 
+    def test_get_autocompletion_all_params_with_retries(self):
+        # Enable retries and run test_get_autocompletion_all_params.
+        _service.enable_retries()
+        self.test_get_autocompletion_all_params()
+
+        # Disable retries and run test_get_autocompletion_all_params.
+        _service.disable_retries()
+        self.test_get_autocompletion_all_params()
 
     @responses.activate
     def test_get_autocompletion_required_params(self):
@@ -4259,7 +4541,7 @@ class TestGetAutocompletion():
         test_get_autocompletion_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/autocompletion')
+        url = preprocess_url('/v1/environments/testString/collections/testString/autocompletion')
         mock_response = '{"completions": ["completions"]}'
         responses.add(responses.GET,
                       url,
@@ -4288,6 +4570,14 @@ class TestGetAutocompletion():
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'prefix={}'.format(prefix) in query_string
 
+    def test_get_autocompletion_required_params_with_retries(self):
+        # Enable retries and run test_get_autocompletion_required_params.
+        _service.enable_retries()
+        self.test_get_autocompletion_required_params()
+
+        # Disable retries and run test_get_autocompletion_required_params.
+        _service.disable_retries()
+        self.test_get_autocompletion_required_params()
 
     @responses.activate
     def test_get_autocompletion_value_error(self):
@@ -4295,7 +4585,7 @@ class TestGetAutocompletion():
         test_get_autocompletion_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/autocompletion')
+        url = preprocess_url('/v1/environments/testString/collections/testString/autocompletion')
         mock_response = '{"completions": ["completions"]}'
         responses.add(responses.GET,
                       url,
@@ -4320,6 +4610,14 @@ class TestGetAutocompletion():
                 _service.get_autocompletion(**req_copy)
 
 
+    def test_get_autocompletion_value_error_with_retries(self):
+        # Enable retries and run test_get_autocompletion_value_error.
+        _service.enable_retries()
+        self.test_get_autocompletion_value_error()
+
+        # Disable retries and run test_get_autocompletion_value_error.
+        _service.disable_retries()
+        self.test_get_autocompletion_value_error()
 
 # endregion
 ##############################################################################
@@ -4336,24 +4634,13 @@ class TestListTrainingData():
     Test Class for list_training_data
     """
 
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     @responses.activate
     def test_list_training_data_all_params(self):
         """
         list_training_data()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/training_data')
+        url = preprocess_url('/v1/environments/testString/collections/testString/training_data')
         mock_response = '{"environment_id": "environment_id", "collection_id": "collection_id", "queries": [{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "examples": [{"document_id": "document_id", "cross_reference": "cross_reference", "relevance": 9}]}]}'
         responses.add(responses.GET,
                       url,
@@ -4376,6 +4663,14 @@ class TestListTrainingData():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_list_training_data_all_params_with_retries(self):
+        # Enable retries and run test_list_training_data_all_params.
+        _service.enable_retries()
+        self.test_list_training_data_all_params()
+
+        # Disable retries and run test_list_training_data_all_params.
+        _service.disable_retries()
+        self.test_list_training_data_all_params()
 
     @responses.activate
     def test_list_training_data_value_error(self):
@@ -4383,7 +4678,7 @@ class TestListTrainingData():
         test_list_training_data_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/training_data')
+        url = preprocess_url('/v1/environments/testString/collections/testString/training_data')
         mock_response = '{"environment_id": "environment_id", "collection_id": "collection_id", "queries": [{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "examples": [{"document_id": "document_id", "cross_reference": "cross_reference", "relevance": 9}]}]}'
         responses.add(responses.GET,
                       url,
@@ -4406,22 +4701,19 @@ class TestListTrainingData():
                 _service.list_training_data(**req_copy)
 
 
+    def test_list_training_data_value_error_with_retries(self):
+        # Enable retries and run test_list_training_data_value_error.
+        _service.enable_retries()
+        self.test_list_training_data_value_error()
+
+        # Disable retries and run test_list_training_data_value_error.
+        _service.disable_retries()
+        self.test_list_training_data_value_error()
 
 class TestAddTrainingData():
     """
     Test Class for add_training_data
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_add_training_data_all_params(self):
@@ -4429,7 +4721,7 @@ class TestAddTrainingData():
         add_training_data()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/training_data')
+        url = preprocess_url('/v1/environments/testString/collections/testString/training_data')
         mock_response = '{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "examples": [{"document_id": "document_id", "cross_reference": "cross_reference", "relevance": 9}]}'
         responses.add(responses.POST,
                       url,
@@ -4469,6 +4761,14 @@ class TestAddTrainingData():
         assert req_body['filter'] == 'testString'
         assert req_body['examples'] == [training_example_model]
 
+    def test_add_training_data_all_params_with_retries(self):
+        # Enable retries and run test_add_training_data_all_params.
+        _service.enable_retries()
+        self.test_add_training_data_all_params()
+
+        # Disable retries and run test_add_training_data_all_params.
+        _service.disable_retries()
+        self.test_add_training_data_all_params()
 
     @responses.activate
     def test_add_training_data_value_error(self):
@@ -4476,7 +4776,7 @@ class TestAddTrainingData():
         test_add_training_data_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/training_data')
+        url = preprocess_url('/v1/environments/testString/collections/testString/training_data')
         mock_response = '{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "examples": [{"document_id": "document_id", "cross_reference": "cross_reference", "relevance": 9}]}'
         responses.add(responses.POST,
                       url,
@@ -4508,22 +4808,19 @@ class TestAddTrainingData():
                 _service.add_training_data(**req_copy)
 
 
+    def test_add_training_data_value_error_with_retries(self):
+        # Enable retries and run test_add_training_data_value_error.
+        _service.enable_retries()
+        self.test_add_training_data_value_error()
+
+        # Disable retries and run test_add_training_data_value_error.
+        _service.disable_retries()
+        self.test_add_training_data_value_error()
 
 class TestDeleteAllTrainingData():
     """
     Test Class for delete_all_training_data
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_delete_all_training_data_all_params(self):
@@ -4531,7 +4828,7 @@ class TestDeleteAllTrainingData():
         delete_all_training_data()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/training_data')
+        url = preprocess_url('/v1/environments/testString/collections/testString/training_data')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -4551,6 +4848,14 @@ class TestDeleteAllTrainingData():
         assert len(responses.calls) == 1
         assert response.status_code == 204
 
+    def test_delete_all_training_data_all_params_with_retries(self):
+        # Enable retries and run test_delete_all_training_data_all_params.
+        _service.enable_retries()
+        self.test_delete_all_training_data_all_params()
+
+        # Disable retries and run test_delete_all_training_data_all_params.
+        _service.disable_retries()
+        self.test_delete_all_training_data_all_params()
 
     @responses.activate
     def test_delete_all_training_data_value_error(self):
@@ -4558,7 +4863,7 @@ class TestDeleteAllTrainingData():
         test_delete_all_training_data_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/training_data')
+        url = preprocess_url('/v1/environments/testString/collections/testString/training_data')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -4578,22 +4883,19 @@ class TestDeleteAllTrainingData():
                 _service.delete_all_training_data(**req_copy)
 
 
+    def test_delete_all_training_data_value_error_with_retries(self):
+        # Enable retries and run test_delete_all_training_data_value_error.
+        _service.enable_retries()
+        self.test_delete_all_training_data_value_error()
+
+        # Disable retries and run test_delete_all_training_data_value_error.
+        _service.disable_retries()
+        self.test_delete_all_training_data_value_error()
 
 class TestGetTrainingData():
     """
     Test Class for get_training_data
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_get_training_data_all_params(self):
@@ -4601,7 +4903,7 @@ class TestGetTrainingData():
         get_training_data()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/training_data/testString')
+        url = preprocess_url('/v1/environments/testString/collections/testString/training_data/testString')
         mock_response = '{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "examples": [{"document_id": "document_id", "cross_reference": "cross_reference", "relevance": 9}]}'
         responses.add(responses.GET,
                       url,
@@ -4626,6 +4928,14 @@ class TestGetTrainingData():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_get_training_data_all_params_with_retries(self):
+        # Enable retries and run test_get_training_data_all_params.
+        _service.enable_retries()
+        self.test_get_training_data_all_params()
+
+        # Disable retries and run test_get_training_data_all_params.
+        _service.disable_retries()
+        self.test_get_training_data_all_params()
 
     @responses.activate
     def test_get_training_data_value_error(self):
@@ -4633,7 +4943,7 @@ class TestGetTrainingData():
         test_get_training_data_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/training_data/testString')
+        url = preprocess_url('/v1/environments/testString/collections/testString/training_data/testString')
         mock_response = '{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "examples": [{"document_id": "document_id", "cross_reference": "cross_reference", "relevance": 9}]}'
         responses.add(responses.GET,
                       url,
@@ -4658,22 +4968,19 @@ class TestGetTrainingData():
                 _service.get_training_data(**req_copy)
 
 
+    def test_get_training_data_value_error_with_retries(self):
+        # Enable retries and run test_get_training_data_value_error.
+        _service.enable_retries()
+        self.test_get_training_data_value_error()
+
+        # Disable retries and run test_get_training_data_value_error.
+        _service.disable_retries()
+        self.test_get_training_data_value_error()
 
 class TestDeleteTrainingData():
     """
     Test Class for delete_training_data
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_delete_training_data_all_params(self):
@@ -4681,7 +4988,7 @@ class TestDeleteTrainingData():
         delete_training_data()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/training_data/testString')
+        url = preprocess_url('/v1/environments/testString/collections/testString/training_data/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -4703,6 +5010,14 @@ class TestDeleteTrainingData():
         assert len(responses.calls) == 1
         assert response.status_code == 204
 
+    def test_delete_training_data_all_params_with_retries(self):
+        # Enable retries and run test_delete_training_data_all_params.
+        _service.enable_retries()
+        self.test_delete_training_data_all_params()
+
+        # Disable retries and run test_delete_training_data_all_params.
+        _service.disable_retries()
+        self.test_delete_training_data_all_params()
 
     @responses.activate
     def test_delete_training_data_value_error(self):
@@ -4710,7 +5025,7 @@ class TestDeleteTrainingData():
         test_delete_training_data_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/training_data/testString')
+        url = preprocess_url('/v1/environments/testString/collections/testString/training_data/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -4732,22 +5047,19 @@ class TestDeleteTrainingData():
                 _service.delete_training_data(**req_copy)
 
 
+    def test_delete_training_data_value_error_with_retries(self):
+        # Enable retries and run test_delete_training_data_value_error.
+        _service.enable_retries()
+        self.test_delete_training_data_value_error()
+
+        # Disable retries and run test_delete_training_data_value_error.
+        _service.disable_retries()
+        self.test_delete_training_data_value_error()
 
 class TestListTrainingExamples():
     """
     Test Class for list_training_examples
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_list_training_examples_all_params(self):
@@ -4755,7 +5067,7 @@ class TestListTrainingExamples():
         list_training_examples()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/training_data/testString/examples')
+        url = preprocess_url('/v1/environments/testString/collections/testString/training_data/testString/examples')
         mock_response = '{"examples": [{"document_id": "document_id", "cross_reference": "cross_reference", "relevance": 9}]}'
         responses.add(responses.GET,
                       url,
@@ -4780,6 +5092,14 @@ class TestListTrainingExamples():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_list_training_examples_all_params_with_retries(self):
+        # Enable retries and run test_list_training_examples_all_params.
+        _service.enable_retries()
+        self.test_list_training_examples_all_params()
+
+        # Disable retries and run test_list_training_examples_all_params.
+        _service.disable_retries()
+        self.test_list_training_examples_all_params()
 
     @responses.activate
     def test_list_training_examples_value_error(self):
@@ -4787,7 +5107,7 @@ class TestListTrainingExamples():
         test_list_training_examples_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/training_data/testString/examples')
+        url = preprocess_url('/v1/environments/testString/collections/testString/training_data/testString/examples')
         mock_response = '{"examples": [{"document_id": "document_id", "cross_reference": "cross_reference", "relevance": 9}]}'
         responses.add(responses.GET,
                       url,
@@ -4812,22 +5132,19 @@ class TestListTrainingExamples():
                 _service.list_training_examples(**req_copy)
 
 
+    def test_list_training_examples_value_error_with_retries(self):
+        # Enable retries and run test_list_training_examples_value_error.
+        _service.enable_retries()
+        self.test_list_training_examples_value_error()
+
+        # Disable retries and run test_list_training_examples_value_error.
+        _service.disable_retries()
+        self.test_list_training_examples_value_error()
 
 class TestCreateTrainingExample():
     """
     Test Class for create_training_example
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_create_training_example_all_params(self):
@@ -4835,7 +5152,7 @@ class TestCreateTrainingExample():
         create_training_example()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/training_data/testString/examples')
+        url = preprocess_url('/v1/environments/testString/collections/testString/training_data/testString/examples')
         mock_response = '{"document_id": "document_id", "cross_reference": "cross_reference", "relevance": 9}'
         responses.add(responses.POST,
                       url,
@@ -4871,6 +5188,14 @@ class TestCreateTrainingExample():
         assert req_body['cross_reference'] == 'testString'
         assert req_body['relevance'] == 38
 
+    def test_create_training_example_all_params_with_retries(self):
+        # Enable retries and run test_create_training_example_all_params.
+        _service.enable_retries()
+        self.test_create_training_example_all_params()
+
+        # Disable retries and run test_create_training_example_all_params.
+        _service.disable_retries()
+        self.test_create_training_example_all_params()
 
     @responses.activate
     def test_create_training_example_value_error(self):
@@ -4878,7 +5203,7 @@ class TestCreateTrainingExample():
         test_create_training_example_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/training_data/testString/examples')
+        url = preprocess_url('/v1/environments/testString/collections/testString/training_data/testString/examples')
         mock_response = '{"document_id": "document_id", "cross_reference": "cross_reference", "relevance": 9}'
         responses.add(responses.POST,
                       url,
@@ -4906,22 +5231,19 @@ class TestCreateTrainingExample():
                 _service.create_training_example(**req_copy)
 
 
+    def test_create_training_example_value_error_with_retries(self):
+        # Enable retries and run test_create_training_example_value_error.
+        _service.enable_retries()
+        self.test_create_training_example_value_error()
+
+        # Disable retries and run test_create_training_example_value_error.
+        _service.disable_retries()
+        self.test_create_training_example_value_error()
 
 class TestDeleteTrainingExample():
     """
     Test Class for delete_training_example
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_delete_training_example_all_params(self):
@@ -4929,7 +5251,7 @@ class TestDeleteTrainingExample():
         delete_training_example()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/training_data/testString/examples/testString')
+        url = preprocess_url('/v1/environments/testString/collections/testString/training_data/testString/examples/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -4953,6 +5275,14 @@ class TestDeleteTrainingExample():
         assert len(responses.calls) == 1
         assert response.status_code == 204
 
+    def test_delete_training_example_all_params_with_retries(self):
+        # Enable retries and run test_delete_training_example_all_params.
+        _service.enable_retries()
+        self.test_delete_training_example_all_params()
+
+        # Disable retries and run test_delete_training_example_all_params.
+        _service.disable_retries()
+        self.test_delete_training_example_all_params()
 
     @responses.activate
     def test_delete_training_example_value_error(self):
@@ -4960,7 +5290,7 @@ class TestDeleteTrainingExample():
         test_delete_training_example_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/training_data/testString/examples/testString')
+        url = preprocess_url('/v1/environments/testString/collections/testString/training_data/testString/examples/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -4984,22 +5314,19 @@ class TestDeleteTrainingExample():
                 _service.delete_training_example(**req_copy)
 
 
+    def test_delete_training_example_value_error_with_retries(self):
+        # Enable retries and run test_delete_training_example_value_error.
+        _service.enable_retries()
+        self.test_delete_training_example_value_error()
+
+        # Disable retries and run test_delete_training_example_value_error.
+        _service.disable_retries()
+        self.test_delete_training_example_value_error()
 
 class TestUpdateTrainingExample():
     """
     Test Class for update_training_example
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_update_training_example_all_params(self):
@@ -5007,7 +5334,7 @@ class TestUpdateTrainingExample():
         update_training_example()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/training_data/testString/examples/testString')
+        url = preprocess_url('/v1/environments/testString/collections/testString/training_data/testString/examples/testString')
         mock_response = '{"document_id": "document_id", "cross_reference": "cross_reference", "relevance": 9}'
         responses.add(responses.PUT,
                       url,
@@ -5042,6 +5369,14 @@ class TestUpdateTrainingExample():
         assert req_body['cross_reference'] == 'testString'
         assert req_body['relevance'] == 38
 
+    def test_update_training_example_all_params_with_retries(self):
+        # Enable retries and run test_update_training_example_all_params.
+        _service.enable_retries()
+        self.test_update_training_example_all_params()
+
+        # Disable retries and run test_update_training_example_all_params.
+        _service.disable_retries()
+        self.test_update_training_example_all_params()
 
     @responses.activate
     def test_update_training_example_value_error(self):
@@ -5049,7 +5384,7 @@ class TestUpdateTrainingExample():
         test_update_training_example_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/training_data/testString/examples/testString')
+        url = preprocess_url('/v1/environments/testString/collections/testString/training_data/testString/examples/testString')
         mock_response = '{"document_id": "document_id", "cross_reference": "cross_reference", "relevance": 9}'
         responses.add(responses.PUT,
                       url,
@@ -5078,22 +5413,19 @@ class TestUpdateTrainingExample():
                 _service.update_training_example(**req_copy)
 
 
+    def test_update_training_example_value_error_with_retries(self):
+        # Enable retries and run test_update_training_example_value_error.
+        _service.enable_retries()
+        self.test_update_training_example_value_error()
+
+        # Disable retries and run test_update_training_example_value_error.
+        _service.disable_retries()
+        self.test_update_training_example_value_error()
 
 class TestGetTrainingExample():
     """
     Test Class for get_training_example
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_get_training_example_all_params(self):
@@ -5101,7 +5433,7 @@ class TestGetTrainingExample():
         get_training_example()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/training_data/testString/examples/testString')
+        url = preprocess_url('/v1/environments/testString/collections/testString/training_data/testString/examples/testString')
         mock_response = '{"document_id": "document_id", "cross_reference": "cross_reference", "relevance": 9}'
         responses.add(responses.GET,
                       url,
@@ -5128,6 +5460,14 @@ class TestGetTrainingExample():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_get_training_example_all_params_with_retries(self):
+        # Enable retries and run test_get_training_example_all_params.
+        _service.enable_retries()
+        self.test_get_training_example_all_params()
+
+        # Disable retries and run test_get_training_example_all_params.
+        _service.disable_retries()
+        self.test_get_training_example_all_params()
 
     @responses.activate
     def test_get_training_example_value_error(self):
@@ -5135,7 +5475,7 @@ class TestGetTrainingExample():
         test_get_training_example_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/training_data/testString/examples/testString')
+        url = preprocess_url('/v1/environments/testString/collections/testString/training_data/testString/examples/testString')
         mock_response = '{"document_id": "document_id", "cross_reference": "cross_reference", "relevance": 9}'
         responses.add(responses.GET,
                       url,
@@ -5162,6 +5502,14 @@ class TestGetTrainingExample():
                 _service.get_training_example(**req_copy)
 
 
+    def test_get_training_example_value_error_with_retries(self):
+        # Enable retries and run test_get_training_example_value_error.
+        _service.enable_retries()
+        self.test_get_training_example_value_error()
+
+        # Disable retries and run test_get_training_example_value_error.
+        _service.disable_retries()
+        self.test_get_training_example_value_error()
 
 # endregion
 ##############################################################################
@@ -5178,24 +5526,13 @@ class TestDeleteUserData():
     Test Class for delete_user_data
     """
 
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     @responses.activate
     def test_delete_user_data_all_params(self):
         """
         delete_user_data()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/user_data')
+        url = preprocess_url('/v1/user_data')
         responses.add(responses.DELETE,
                       url,
                       status=200)
@@ -5217,6 +5554,14 @@ class TestDeleteUserData():
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'customer_id={}'.format(customer_id) in query_string
 
+    def test_delete_user_data_all_params_with_retries(self):
+        # Enable retries and run test_delete_user_data_all_params.
+        _service.enable_retries()
+        self.test_delete_user_data_all_params()
+
+        # Disable retries and run test_delete_user_data_all_params.
+        _service.disable_retries()
+        self.test_delete_user_data_all_params()
 
     @responses.activate
     def test_delete_user_data_value_error(self):
@@ -5224,7 +5569,7 @@ class TestDeleteUserData():
         test_delete_user_data_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/user_data')
+        url = preprocess_url('/v1/user_data')
         responses.add(responses.DELETE,
                       url,
                       status=200)
@@ -5242,6 +5587,14 @@ class TestDeleteUserData():
                 _service.delete_user_data(**req_copy)
 
 
+    def test_delete_user_data_value_error_with_retries(self):
+        # Enable retries and run test_delete_user_data_value_error.
+        _service.enable_retries()
+        self.test_delete_user_data_value_error()
+
+        # Disable retries and run test_delete_user_data_value_error.
+        _service.disable_retries()
+        self.test_delete_user_data_value_error()
 
 # endregion
 ##############################################################################
@@ -5258,24 +5611,13 @@ class TestCreateEvent():
     Test Class for create_event
     """
 
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     @responses.activate
     def test_create_event_all_params(self):
         """
         create_event()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/events')
+        url = preprocess_url('/v1/events')
         mock_response = '{"type": "click", "data": {"environment_id": "environment_id", "session_token": "session_token", "client_timestamp": "2019-01-01T12:00:00.000Z", "display_rank": 12, "collection_id": "collection_id", "document_id": "document_id", "query_id": "query_id"}}'
         responses.add(responses.POST,
                       url,
@@ -5287,7 +5629,7 @@ class TestCreateEvent():
         event_data_model = {}
         event_data_model['environment_id'] = 'testString'
         event_data_model['session_token'] = 'testString'
-        event_data_model['client_timestamp'] = "2019-01-01T12:00:00Z"
+        event_data_model['client_timestamp'] = '2019-01-01T12:00:00Z'
         event_data_model['display_rank'] = 38
         event_data_model['collection_id'] = 'testString'
         event_data_model['document_id'] = 'testString'
@@ -5311,6 +5653,14 @@ class TestCreateEvent():
         assert req_body['type'] == 'click'
         assert req_body['data'] == event_data_model
 
+    def test_create_event_all_params_with_retries(self):
+        # Enable retries and run test_create_event_all_params.
+        _service.enable_retries()
+        self.test_create_event_all_params()
+
+        # Disable retries and run test_create_event_all_params.
+        _service.disable_retries()
+        self.test_create_event_all_params()
 
     @responses.activate
     def test_create_event_value_error(self):
@@ -5318,7 +5668,7 @@ class TestCreateEvent():
         test_create_event_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/events')
+        url = preprocess_url('/v1/events')
         mock_response = '{"type": "click", "data": {"environment_id": "environment_id", "session_token": "session_token", "client_timestamp": "2019-01-01T12:00:00.000Z", "display_rank": 12, "collection_id": "collection_id", "document_id": "document_id", "query_id": "query_id"}}'
         responses.add(responses.POST,
                       url,
@@ -5330,7 +5680,7 @@ class TestCreateEvent():
         event_data_model = {}
         event_data_model['environment_id'] = 'testString'
         event_data_model['session_token'] = 'testString'
-        event_data_model['client_timestamp'] = "2019-01-01T12:00:00Z"
+        event_data_model['client_timestamp'] = '2019-01-01T12:00:00Z'
         event_data_model['display_rank'] = 38
         event_data_model['collection_id'] = 'testString'
         event_data_model['document_id'] = 'testString'
@@ -5350,22 +5700,19 @@ class TestCreateEvent():
                 _service.create_event(**req_copy)
 
 
+    def test_create_event_value_error_with_retries(self):
+        # Enable retries and run test_create_event_value_error.
+        _service.enable_retries()
+        self.test_create_event_value_error()
+
+        # Disable retries and run test_create_event_value_error.
+        _service.disable_retries()
+        self.test_create_event_value_error()
 
 class TestQueryLog():
     """
     Test Class for query_log
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_query_log_all_params(self):
@@ -5373,7 +5720,7 @@ class TestQueryLog():
         query_log()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/logs')
+        url = preprocess_url('/v1/logs')
         mock_response = '{"matching_results": 16, "results": [{"environment_id": "environment_id", "customer_id": "customer_id", "document_type": "query", "natural_language_query": "natural_language_query", "document_results": {"results": [{"position": 8, "document_id": "document_id", "score": 5, "confidence": 10, "collection_id": "collection_id"}], "count": 5}, "created_timestamp": "2019-01-01T12:00:00.000Z", "client_timestamp": "2019-01-01T12:00:00.000Z", "query_id": "query_id", "session_token": "session_token", "collection_id": "collection_id", "display_rank": 12, "document_id": "document_id", "event_type": "click", "result_type": "document"}]}'
         responses.add(responses.GET,
                       url,
@@ -5410,6 +5757,14 @@ class TestQueryLog():
         assert 'offset={}'.format(offset) in query_string
         assert 'sort={}'.format(','.join(sort)) in query_string
 
+    def test_query_log_all_params_with_retries(self):
+        # Enable retries and run test_query_log_all_params.
+        _service.enable_retries()
+        self.test_query_log_all_params()
+
+        # Disable retries and run test_query_log_all_params.
+        _service.disable_retries()
+        self.test_query_log_all_params()
 
     @responses.activate
     def test_query_log_required_params(self):
@@ -5417,7 +5772,7 @@ class TestQueryLog():
         test_query_log_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/logs')
+        url = preprocess_url('/v1/logs')
         mock_response = '{"matching_results": 16, "results": [{"environment_id": "environment_id", "customer_id": "customer_id", "document_type": "query", "natural_language_query": "natural_language_query", "document_results": {"results": [{"position": 8, "document_id": "document_id", "score": 5, "confidence": 10, "collection_id": "collection_id"}], "count": 5}, "created_timestamp": "2019-01-01T12:00:00.000Z", "client_timestamp": "2019-01-01T12:00:00.000Z", "query_id": "query_id", "session_token": "session_token", "collection_id": "collection_id", "display_rank": 12, "document_id": "document_id", "event_type": "click", "result_type": "document"}]}'
         responses.add(responses.GET,
                       url,
@@ -5433,6 +5788,14 @@ class TestQueryLog():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_query_log_required_params_with_retries(self):
+        # Enable retries and run test_query_log_required_params.
+        _service.enable_retries()
+        self.test_query_log_required_params()
+
+        # Disable retries and run test_query_log_required_params.
+        _service.disable_retries()
+        self.test_query_log_required_params()
 
     @responses.activate
     def test_query_log_value_error(self):
@@ -5440,7 +5803,7 @@ class TestQueryLog():
         test_query_log_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/logs')
+        url = preprocess_url('/v1/logs')
         mock_response = '{"matching_results": 16, "results": [{"environment_id": "environment_id", "customer_id": "customer_id", "document_type": "query", "natural_language_query": "natural_language_query", "document_results": {"results": [{"position": 8, "document_id": "document_id", "score": 5, "confidence": 10, "collection_id": "collection_id"}], "count": 5}, "created_timestamp": "2019-01-01T12:00:00.000Z", "client_timestamp": "2019-01-01T12:00:00.000Z", "query_id": "query_id", "session_token": "session_token", "collection_id": "collection_id", "display_rank": 12, "document_id": "document_id", "event_type": "click", "result_type": "document"}]}'
         responses.add(responses.GET,
                       url,
@@ -5457,22 +5820,19 @@ class TestQueryLog():
                 _service.query_log(**req_copy)
 
 
+    def test_query_log_value_error_with_retries(self):
+        # Enable retries and run test_query_log_value_error.
+        _service.enable_retries()
+        self.test_query_log_value_error()
+
+        # Disable retries and run test_query_log_value_error.
+        _service.disable_retries()
+        self.test_query_log_value_error()
 
 class TestGetMetricsQuery():
     """
     Test Class for get_metrics_query
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_get_metrics_query_all_params(self):
@@ -5480,7 +5840,7 @@ class TestGetMetricsQuery():
         get_metrics_query()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/metrics/number_of_queries')
+        url = preprocess_url('/v1/metrics/number_of_queries')
         mock_response = '{"aggregations": [{"interval": "interval", "event_type": "event_type", "results": [{"key_as_string": "2019-01-01T12:00:00.000Z", "key": 3, "matching_results": 16, "event_rate": 10}]}]}'
         responses.add(responses.GET,
                       url,
@@ -5509,6 +5869,14 @@ class TestGetMetricsQuery():
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'result_type={}'.format(result_type) in query_string
 
+    def test_get_metrics_query_all_params_with_retries(self):
+        # Enable retries and run test_get_metrics_query_all_params.
+        _service.enable_retries()
+        self.test_get_metrics_query_all_params()
+
+        # Disable retries and run test_get_metrics_query_all_params.
+        _service.disable_retries()
+        self.test_get_metrics_query_all_params()
 
     @responses.activate
     def test_get_metrics_query_required_params(self):
@@ -5516,7 +5884,7 @@ class TestGetMetricsQuery():
         test_get_metrics_query_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/metrics/number_of_queries')
+        url = preprocess_url('/v1/metrics/number_of_queries')
         mock_response = '{"aggregations": [{"interval": "interval", "event_type": "event_type", "results": [{"key_as_string": "2019-01-01T12:00:00.000Z", "key": 3, "matching_results": 16, "event_rate": 10}]}]}'
         responses.add(responses.GET,
                       url,
@@ -5532,6 +5900,14 @@ class TestGetMetricsQuery():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_get_metrics_query_required_params_with_retries(self):
+        # Enable retries and run test_get_metrics_query_required_params.
+        _service.enable_retries()
+        self.test_get_metrics_query_required_params()
+
+        # Disable retries and run test_get_metrics_query_required_params.
+        _service.disable_retries()
+        self.test_get_metrics_query_required_params()
 
     @responses.activate
     def test_get_metrics_query_value_error(self):
@@ -5539,7 +5915,7 @@ class TestGetMetricsQuery():
         test_get_metrics_query_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/metrics/number_of_queries')
+        url = preprocess_url('/v1/metrics/number_of_queries')
         mock_response = '{"aggregations": [{"interval": "interval", "event_type": "event_type", "results": [{"key_as_string": "2019-01-01T12:00:00.000Z", "key": 3, "matching_results": 16, "event_rate": 10}]}]}'
         responses.add(responses.GET,
                       url,
@@ -5556,22 +5932,19 @@ class TestGetMetricsQuery():
                 _service.get_metrics_query(**req_copy)
 
 
+    def test_get_metrics_query_value_error_with_retries(self):
+        # Enable retries and run test_get_metrics_query_value_error.
+        _service.enable_retries()
+        self.test_get_metrics_query_value_error()
+
+        # Disable retries and run test_get_metrics_query_value_error.
+        _service.disable_retries()
+        self.test_get_metrics_query_value_error()
 
 class TestGetMetricsQueryEvent():
     """
     Test Class for get_metrics_query_event
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_get_metrics_query_event_all_params(self):
@@ -5579,7 +5952,7 @@ class TestGetMetricsQueryEvent():
         get_metrics_query_event()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/metrics/number_of_queries_with_event')
+        url = preprocess_url('/v1/metrics/number_of_queries_with_event')
         mock_response = '{"aggregations": [{"interval": "interval", "event_type": "event_type", "results": [{"key_as_string": "2019-01-01T12:00:00.000Z", "key": 3, "matching_results": 16, "event_rate": 10}]}]}'
         responses.add(responses.GET,
                       url,
@@ -5608,6 +5981,14 @@ class TestGetMetricsQueryEvent():
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'result_type={}'.format(result_type) in query_string
 
+    def test_get_metrics_query_event_all_params_with_retries(self):
+        # Enable retries and run test_get_metrics_query_event_all_params.
+        _service.enable_retries()
+        self.test_get_metrics_query_event_all_params()
+
+        # Disable retries and run test_get_metrics_query_event_all_params.
+        _service.disable_retries()
+        self.test_get_metrics_query_event_all_params()
 
     @responses.activate
     def test_get_metrics_query_event_required_params(self):
@@ -5615,7 +5996,7 @@ class TestGetMetricsQueryEvent():
         test_get_metrics_query_event_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/metrics/number_of_queries_with_event')
+        url = preprocess_url('/v1/metrics/number_of_queries_with_event')
         mock_response = '{"aggregations": [{"interval": "interval", "event_type": "event_type", "results": [{"key_as_string": "2019-01-01T12:00:00.000Z", "key": 3, "matching_results": 16, "event_rate": 10}]}]}'
         responses.add(responses.GET,
                       url,
@@ -5631,6 +6012,14 @@ class TestGetMetricsQueryEvent():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_get_metrics_query_event_required_params_with_retries(self):
+        # Enable retries and run test_get_metrics_query_event_required_params.
+        _service.enable_retries()
+        self.test_get_metrics_query_event_required_params()
+
+        # Disable retries and run test_get_metrics_query_event_required_params.
+        _service.disable_retries()
+        self.test_get_metrics_query_event_required_params()
 
     @responses.activate
     def test_get_metrics_query_event_value_error(self):
@@ -5638,7 +6027,7 @@ class TestGetMetricsQueryEvent():
         test_get_metrics_query_event_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/metrics/number_of_queries_with_event')
+        url = preprocess_url('/v1/metrics/number_of_queries_with_event')
         mock_response = '{"aggregations": [{"interval": "interval", "event_type": "event_type", "results": [{"key_as_string": "2019-01-01T12:00:00.000Z", "key": 3, "matching_results": 16, "event_rate": 10}]}]}'
         responses.add(responses.GET,
                       url,
@@ -5655,22 +6044,19 @@ class TestGetMetricsQueryEvent():
                 _service.get_metrics_query_event(**req_copy)
 
 
+    def test_get_metrics_query_event_value_error_with_retries(self):
+        # Enable retries and run test_get_metrics_query_event_value_error.
+        _service.enable_retries()
+        self.test_get_metrics_query_event_value_error()
+
+        # Disable retries and run test_get_metrics_query_event_value_error.
+        _service.disable_retries()
+        self.test_get_metrics_query_event_value_error()
 
 class TestGetMetricsQueryNoResults():
     """
     Test Class for get_metrics_query_no_results
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_get_metrics_query_no_results_all_params(self):
@@ -5678,7 +6064,7 @@ class TestGetMetricsQueryNoResults():
         get_metrics_query_no_results()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/metrics/number_of_queries_with_no_search_results')
+        url = preprocess_url('/v1/metrics/number_of_queries_with_no_search_results')
         mock_response = '{"aggregations": [{"interval": "interval", "event_type": "event_type", "results": [{"key_as_string": "2019-01-01T12:00:00.000Z", "key": 3, "matching_results": 16, "event_rate": 10}]}]}'
         responses.add(responses.GET,
                       url,
@@ -5707,6 +6093,14 @@ class TestGetMetricsQueryNoResults():
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'result_type={}'.format(result_type) in query_string
 
+    def test_get_metrics_query_no_results_all_params_with_retries(self):
+        # Enable retries and run test_get_metrics_query_no_results_all_params.
+        _service.enable_retries()
+        self.test_get_metrics_query_no_results_all_params()
+
+        # Disable retries and run test_get_metrics_query_no_results_all_params.
+        _service.disable_retries()
+        self.test_get_metrics_query_no_results_all_params()
 
     @responses.activate
     def test_get_metrics_query_no_results_required_params(self):
@@ -5714,7 +6108,7 @@ class TestGetMetricsQueryNoResults():
         test_get_metrics_query_no_results_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/metrics/number_of_queries_with_no_search_results')
+        url = preprocess_url('/v1/metrics/number_of_queries_with_no_search_results')
         mock_response = '{"aggregations": [{"interval": "interval", "event_type": "event_type", "results": [{"key_as_string": "2019-01-01T12:00:00.000Z", "key": 3, "matching_results": 16, "event_rate": 10}]}]}'
         responses.add(responses.GET,
                       url,
@@ -5730,6 +6124,14 @@ class TestGetMetricsQueryNoResults():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_get_metrics_query_no_results_required_params_with_retries(self):
+        # Enable retries and run test_get_metrics_query_no_results_required_params.
+        _service.enable_retries()
+        self.test_get_metrics_query_no_results_required_params()
+
+        # Disable retries and run test_get_metrics_query_no_results_required_params.
+        _service.disable_retries()
+        self.test_get_metrics_query_no_results_required_params()
 
     @responses.activate
     def test_get_metrics_query_no_results_value_error(self):
@@ -5737,7 +6139,7 @@ class TestGetMetricsQueryNoResults():
         test_get_metrics_query_no_results_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/metrics/number_of_queries_with_no_search_results')
+        url = preprocess_url('/v1/metrics/number_of_queries_with_no_search_results')
         mock_response = '{"aggregations": [{"interval": "interval", "event_type": "event_type", "results": [{"key_as_string": "2019-01-01T12:00:00.000Z", "key": 3, "matching_results": 16, "event_rate": 10}]}]}'
         responses.add(responses.GET,
                       url,
@@ -5754,22 +6156,19 @@ class TestGetMetricsQueryNoResults():
                 _service.get_metrics_query_no_results(**req_copy)
 
 
+    def test_get_metrics_query_no_results_value_error_with_retries(self):
+        # Enable retries and run test_get_metrics_query_no_results_value_error.
+        _service.enable_retries()
+        self.test_get_metrics_query_no_results_value_error()
+
+        # Disable retries and run test_get_metrics_query_no_results_value_error.
+        _service.disable_retries()
+        self.test_get_metrics_query_no_results_value_error()
 
 class TestGetMetricsEventRate():
     """
     Test Class for get_metrics_event_rate
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_get_metrics_event_rate_all_params(self):
@@ -5777,7 +6176,7 @@ class TestGetMetricsEventRate():
         get_metrics_event_rate()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/metrics/event_rate')
+        url = preprocess_url('/v1/metrics/event_rate')
         mock_response = '{"aggregations": [{"interval": "interval", "event_type": "event_type", "results": [{"key_as_string": "2019-01-01T12:00:00.000Z", "key": 3, "matching_results": 16, "event_rate": 10}]}]}'
         responses.add(responses.GET,
                       url,
@@ -5806,6 +6205,14 @@ class TestGetMetricsEventRate():
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'result_type={}'.format(result_type) in query_string
 
+    def test_get_metrics_event_rate_all_params_with_retries(self):
+        # Enable retries and run test_get_metrics_event_rate_all_params.
+        _service.enable_retries()
+        self.test_get_metrics_event_rate_all_params()
+
+        # Disable retries and run test_get_metrics_event_rate_all_params.
+        _service.disable_retries()
+        self.test_get_metrics_event_rate_all_params()
 
     @responses.activate
     def test_get_metrics_event_rate_required_params(self):
@@ -5813,7 +6220,7 @@ class TestGetMetricsEventRate():
         test_get_metrics_event_rate_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/metrics/event_rate')
+        url = preprocess_url('/v1/metrics/event_rate')
         mock_response = '{"aggregations": [{"interval": "interval", "event_type": "event_type", "results": [{"key_as_string": "2019-01-01T12:00:00.000Z", "key": 3, "matching_results": 16, "event_rate": 10}]}]}'
         responses.add(responses.GET,
                       url,
@@ -5829,6 +6236,14 @@ class TestGetMetricsEventRate():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_get_metrics_event_rate_required_params_with_retries(self):
+        # Enable retries and run test_get_metrics_event_rate_required_params.
+        _service.enable_retries()
+        self.test_get_metrics_event_rate_required_params()
+
+        # Disable retries and run test_get_metrics_event_rate_required_params.
+        _service.disable_retries()
+        self.test_get_metrics_event_rate_required_params()
 
     @responses.activate
     def test_get_metrics_event_rate_value_error(self):
@@ -5836,7 +6251,7 @@ class TestGetMetricsEventRate():
         test_get_metrics_event_rate_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/metrics/event_rate')
+        url = preprocess_url('/v1/metrics/event_rate')
         mock_response = '{"aggregations": [{"interval": "interval", "event_type": "event_type", "results": [{"key_as_string": "2019-01-01T12:00:00.000Z", "key": 3, "matching_results": 16, "event_rate": 10}]}]}'
         responses.add(responses.GET,
                       url,
@@ -5853,22 +6268,19 @@ class TestGetMetricsEventRate():
                 _service.get_metrics_event_rate(**req_copy)
 
 
+    def test_get_metrics_event_rate_value_error_with_retries(self):
+        # Enable retries and run test_get_metrics_event_rate_value_error.
+        _service.enable_retries()
+        self.test_get_metrics_event_rate_value_error()
+
+        # Disable retries and run test_get_metrics_event_rate_value_error.
+        _service.disable_retries()
+        self.test_get_metrics_event_rate_value_error()
 
 class TestGetMetricsQueryTokenEvent():
     """
     Test Class for get_metrics_query_token_event
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_get_metrics_query_token_event_all_params(self):
@@ -5876,7 +6288,7 @@ class TestGetMetricsQueryTokenEvent():
         get_metrics_query_token_event()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/metrics/top_query_tokens_with_event_rate')
+        url = preprocess_url('/v1/metrics/top_query_tokens_with_event_rate')
         mock_response = '{"aggregations": [{"event_type": "event_type", "results": [{"key": "key", "matching_results": 16, "event_rate": 10}]}]}'
         responses.add(responses.GET,
                       url,
@@ -5901,6 +6313,14 @@ class TestGetMetricsQueryTokenEvent():
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'count={}'.format(count) in query_string
 
+    def test_get_metrics_query_token_event_all_params_with_retries(self):
+        # Enable retries and run test_get_metrics_query_token_event_all_params.
+        _service.enable_retries()
+        self.test_get_metrics_query_token_event_all_params()
+
+        # Disable retries and run test_get_metrics_query_token_event_all_params.
+        _service.disable_retries()
+        self.test_get_metrics_query_token_event_all_params()
 
     @responses.activate
     def test_get_metrics_query_token_event_required_params(self):
@@ -5908,7 +6328,7 @@ class TestGetMetricsQueryTokenEvent():
         test_get_metrics_query_token_event_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/metrics/top_query_tokens_with_event_rate')
+        url = preprocess_url('/v1/metrics/top_query_tokens_with_event_rate')
         mock_response = '{"aggregations": [{"event_type": "event_type", "results": [{"key": "key", "matching_results": 16, "event_rate": 10}]}]}'
         responses.add(responses.GET,
                       url,
@@ -5924,6 +6344,14 @@ class TestGetMetricsQueryTokenEvent():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_get_metrics_query_token_event_required_params_with_retries(self):
+        # Enable retries and run test_get_metrics_query_token_event_required_params.
+        _service.enable_retries()
+        self.test_get_metrics_query_token_event_required_params()
+
+        # Disable retries and run test_get_metrics_query_token_event_required_params.
+        _service.disable_retries()
+        self.test_get_metrics_query_token_event_required_params()
 
     @responses.activate
     def test_get_metrics_query_token_event_value_error(self):
@@ -5931,7 +6359,7 @@ class TestGetMetricsQueryTokenEvent():
         test_get_metrics_query_token_event_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/metrics/top_query_tokens_with_event_rate')
+        url = preprocess_url('/v1/metrics/top_query_tokens_with_event_rate')
         mock_response = '{"aggregations": [{"event_type": "event_type", "results": [{"key": "key", "matching_results": 16, "event_rate": 10}]}]}'
         responses.add(responses.GET,
                       url,
@@ -5948,6 +6376,14 @@ class TestGetMetricsQueryTokenEvent():
                 _service.get_metrics_query_token_event(**req_copy)
 
 
+    def test_get_metrics_query_token_event_value_error_with_retries(self):
+        # Enable retries and run test_get_metrics_query_token_event_value_error.
+        _service.enable_retries()
+        self.test_get_metrics_query_token_event_value_error()
+
+        # Disable retries and run test_get_metrics_query_token_event_value_error.
+        _service.disable_retries()
+        self.test_get_metrics_query_token_event_value_error()
 
 # endregion
 ##############################################################################
@@ -5964,24 +6400,13 @@ class TestListCredentials():
     Test Class for list_credentials
     """
 
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     @responses.activate
     def test_list_credentials_all_params(self):
         """
         list_credentials()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/credentials')
+        url = preprocess_url('/v1/environments/testString/credentials')
         mock_response = '{"credentials": [{"credential_id": "credential_id", "source_type": "box", "credential_details": {"credential_type": "oauth2", "client_id": "client_id", "enterprise_id": "enterprise_id", "url": "url", "username": "username", "organization_url": "organization_url", "site_collection.path": "site_collection_path", "client_secret": "client_secret", "public_key_id": "public_key_id", "private_key": "private_key", "passphrase": "passphrase", "password": "password", "gateway_id": "gateway_id", "source_version": "online", "web_application_url": "web_application_url", "domain": "domain", "endpoint": "endpoint", "access_key_id": "access_key_id", "secret_access_key": "secret_access_key"}, "status": {"authenticated": false, "error_message": "error_message"}}]}'
         responses.add(responses.GET,
                       url,
@@ -6002,6 +6427,14 @@ class TestListCredentials():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_list_credentials_all_params_with_retries(self):
+        # Enable retries and run test_list_credentials_all_params.
+        _service.enable_retries()
+        self.test_list_credentials_all_params()
+
+        # Disable retries and run test_list_credentials_all_params.
+        _service.disable_retries()
+        self.test_list_credentials_all_params()
 
     @responses.activate
     def test_list_credentials_value_error(self):
@@ -6009,7 +6442,7 @@ class TestListCredentials():
         test_list_credentials_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/credentials')
+        url = preprocess_url('/v1/environments/testString/credentials')
         mock_response = '{"credentials": [{"credential_id": "credential_id", "source_type": "box", "credential_details": {"credential_type": "oauth2", "client_id": "client_id", "enterprise_id": "enterprise_id", "url": "url", "username": "username", "organization_url": "organization_url", "site_collection.path": "site_collection_path", "client_secret": "client_secret", "public_key_id": "public_key_id", "private_key": "private_key", "passphrase": "passphrase", "password": "password", "gateway_id": "gateway_id", "source_version": "online", "web_application_url": "web_application_url", "domain": "domain", "endpoint": "endpoint", "access_key_id": "access_key_id", "secret_access_key": "secret_access_key"}, "status": {"authenticated": false, "error_message": "error_message"}}]}'
         responses.add(responses.GET,
                       url,
@@ -6030,22 +6463,19 @@ class TestListCredentials():
                 _service.list_credentials(**req_copy)
 
 
+    def test_list_credentials_value_error_with_retries(self):
+        # Enable retries and run test_list_credentials_value_error.
+        _service.enable_retries()
+        self.test_list_credentials_value_error()
+
+        # Disable retries and run test_list_credentials_value_error.
+        _service.disable_retries()
+        self.test_list_credentials_value_error()
 
 class TestCreateCredentials():
     """
     Test Class for create_credentials
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_create_credentials_all_params(self):
@@ -6053,7 +6483,7 @@ class TestCreateCredentials():
         create_credentials()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/credentials')
+        url = preprocess_url('/v1/environments/testString/credentials')
         mock_response = '{"credential_id": "credential_id", "source_type": "box", "credential_details": {"credential_type": "oauth2", "client_id": "client_id", "enterprise_id": "enterprise_id", "url": "url", "username": "username", "organization_url": "organization_url", "site_collection.path": "site_collection_path", "client_secret": "client_secret", "public_key_id": "public_key_id", "private_key": "private_key", "passphrase": "passphrase", "password": "password", "gateway_id": "gateway_id", "source_version": "online", "web_application_url": "web_application_url", "domain": "domain", "endpoint": "endpoint", "access_key_id": "access_key_id", "secret_access_key": "secret_access_key"}, "status": {"authenticated": false, "error_message": "error_message"}}'
         responses.add(responses.POST,
                       url,
@@ -6112,6 +6542,14 @@ class TestCreateCredentials():
         assert req_body['credential_details'] == credential_details_model
         assert req_body['status'] == status_details_model
 
+    def test_create_credentials_all_params_with_retries(self):
+        # Enable retries and run test_create_credentials_all_params.
+        _service.enable_retries()
+        self.test_create_credentials_all_params()
+
+        # Disable retries and run test_create_credentials_all_params.
+        _service.disable_retries()
+        self.test_create_credentials_all_params()
 
     @responses.activate
     def test_create_credentials_value_error(self):
@@ -6119,7 +6557,7 @@ class TestCreateCredentials():
         test_create_credentials_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/credentials')
+        url = preprocess_url('/v1/environments/testString/credentials')
         mock_response = '{"credential_id": "credential_id", "source_type": "box", "credential_details": {"credential_type": "oauth2", "client_id": "client_id", "enterprise_id": "enterprise_id", "url": "url", "username": "username", "organization_url": "organization_url", "site_collection.path": "site_collection_path", "client_secret": "client_secret", "public_key_id": "public_key_id", "private_key": "private_key", "passphrase": "passphrase", "password": "password", "gateway_id": "gateway_id", "source_version": "online", "web_application_url": "web_application_url", "domain": "domain", "endpoint": "endpoint", "access_key_id": "access_key_id", "secret_access_key": "secret_access_key"}, "status": {"authenticated": false, "error_message": "error_message"}}'
         responses.add(responses.POST,
                       url,
@@ -6170,22 +6608,19 @@ class TestCreateCredentials():
                 _service.create_credentials(**req_copy)
 
 
+    def test_create_credentials_value_error_with_retries(self):
+        # Enable retries and run test_create_credentials_value_error.
+        _service.enable_retries()
+        self.test_create_credentials_value_error()
+
+        # Disable retries and run test_create_credentials_value_error.
+        _service.disable_retries()
+        self.test_create_credentials_value_error()
 
 class TestGetCredentials():
     """
     Test Class for get_credentials
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_get_credentials_all_params(self):
@@ -6193,7 +6628,7 @@ class TestGetCredentials():
         get_credentials()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/credentials/testString')
+        url = preprocess_url('/v1/environments/testString/credentials/testString')
         mock_response = '{"credential_id": "credential_id", "source_type": "box", "credential_details": {"credential_type": "oauth2", "client_id": "client_id", "enterprise_id": "enterprise_id", "url": "url", "username": "username", "organization_url": "organization_url", "site_collection.path": "site_collection_path", "client_secret": "client_secret", "public_key_id": "public_key_id", "private_key": "private_key", "passphrase": "passphrase", "password": "password", "gateway_id": "gateway_id", "source_version": "online", "web_application_url": "web_application_url", "domain": "domain", "endpoint": "endpoint", "access_key_id": "access_key_id", "secret_access_key": "secret_access_key"}, "status": {"authenticated": false, "error_message": "error_message"}}'
         responses.add(responses.GET,
                       url,
@@ -6216,6 +6651,14 @@ class TestGetCredentials():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_get_credentials_all_params_with_retries(self):
+        # Enable retries and run test_get_credentials_all_params.
+        _service.enable_retries()
+        self.test_get_credentials_all_params()
+
+        # Disable retries and run test_get_credentials_all_params.
+        _service.disable_retries()
+        self.test_get_credentials_all_params()
 
     @responses.activate
     def test_get_credentials_value_error(self):
@@ -6223,7 +6666,7 @@ class TestGetCredentials():
         test_get_credentials_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/credentials/testString')
+        url = preprocess_url('/v1/environments/testString/credentials/testString')
         mock_response = '{"credential_id": "credential_id", "source_type": "box", "credential_details": {"credential_type": "oauth2", "client_id": "client_id", "enterprise_id": "enterprise_id", "url": "url", "username": "username", "organization_url": "organization_url", "site_collection.path": "site_collection_path", "client_secret": "client_secret", "public_key_id": "public_key_id", "private_key": "private_key", "passphrase": "passphrase", "password": "password", "gateway_id": "gateway_id", "source_version": "online", "web_application_url": "web_application_url", "domain": "domain", "endpoint": "endpoint", "access_key_id": "access_key_id", "secret_access_key": "secret_access_key"}, "status": {"authenticated": false, "error_message": "error_message"}}'
         responses.add(responses.GET,
                       url,
@@ -6246,22 +6689,19 @@ class TestGetCredentials():
                 _service.get_credentials(**req_copy)
 
 
+    def test_get_credentials_value_error_with_retries(self):
+        # Enable retries and run test_get_credentials_value_error.
+        _service.enable_retries()
+        self.test_get_credentials_value_error()
+
+        # Disable retries and run test_get_credentials_value_error.
+        _service.disable_retries()
+        self.test_get_credentials_value_error()
 
 class TestUpdateCredentials():
     """
     Test Class for update_credentials
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_update_credentials_all_params(self):
@@ -6269,7 +6709,7 @@ class TestUpdateCredentials():
         update_credentials()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/credentials/testString')
+        url = preprocess_url('/v1/environments/testString/credentials/testString')
         mock_response = '{"credential_id": "credential_id", "source_type": "box", "credential_details": {"credential_type": "oauth2", "client_id": "client_id", "enterprise_id": "enterprise_id", "url": "url", "username": "username", "organization_url": "organization_url", "site_collection.path": "site_collection_path", "client_secret": "client_secret", "public_key_id": "public_key_id", "private_key": "private_key", "passphrase": "passphrase", "password": "password", "gateway_id": "gateway_id", "source_version": "online", "web_application_url": "web_application_url", "domain": "domain", "endpoint": "endpoint", "access_key_id": "access_key_id", "secret_access_key": "secret_access_key"}, "status": {"authenticated": false, "error_message": "error_message"}}'
         responses.add(responses.PUT,
                       url,
@@ -6330,6 +6770,14 @@ class TestUpdateCredentials():
         assert req_body['credential_details'] == credential_details_model
         assert req_body['status'] == status_details_model
 
+    def test_update_credentials_all_params_with_retries(self):
+        # Enable retries and run test_update_credentials_all_params.
+        _service.enable_retries()
+        self.test_update_credentials_all_params()
+
+        # Disable retries and run test_update_credentials_all_params.
+        _service.disable_retries()
+        self.test_update_credentials_all_params()
 
     @responses.activate
     def test_update_credentials_value_error(self):
@@ -6337,7 +6785,7 @@ class TestUpdateCredentials():
         test_update_credentials_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/credentials/testString')
+        url = preprocess_url('/v1/environments/testString/credentials/testString')
         mock_response = '{"credential_id": "credential_id", "source_type": "box", "credential_details": {"credential_type": "oauth2", "client_id": "client_id", "enterprise_id": "enterprise_id", "url": "url", "username": "username", "organization_url": "organization_url", "site_collection.path": "site_collection_path", "client_secret": "client_secret", "public_key_id": "public_key_id", "private_key": "private_key", "passphrase": "passphrase", "password": "password", "gateway_id": "gateway_id", "source_version": "online", "web_application_url": "web_application_url", "domain": "domain", "endpoint": "endpoint", "access_key_id": "access_key_id", "secret_access_key": "secret_access_key"}, "status": {"authenticated": false, "error_message": "error_message"}}'
         responses.add(responses.PUT,
                       url,
@@ -6390,22 +6838,19 @@ class TestUpdateCredentials():
                 _service.update_credentials(**req_copy)
 
 
+    def test_update_credentials_value_error_with_retries(self):
+        # Enable retries and run test_update_credentials_value_error.
+        _service.enable_retries()
+        self.test_update_credentials_value_error()
+
+        # Disable retries and run test_update_credentials_value_error.
+        _service.disable_retries()
+        self.test_update_credentials_value_error()
 
 class TestDeleteCredentials():
     """
     Test Class for delete_credentials
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_delete_credentials_all_params(self):
@@ -6413,7 +6858,7 @@ class TestDeleteCredentials():
         delete_credentials()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/credentials/testString')
+        url = preprocess_url('/v1/environments/testString/credentials/testString')
         mock_response = '{"credential_id": "credential_id", "status": "deleted"}'
         responses.add(responses.DELETE,
                       url,
@@ -6436,6 +6881,14 @@ class TestDeleteCredentials():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_delete_credentials_all_params_with_retries(self):
+        # Enable retries and run test_delete_credentials_all_params.
+        _service.enable_retries()
+        self.test_delete_credentials_all_params()
+
+        # Disable retries and run test_delete_credentials_all_params.
+        _service.disable_retries()
+        self.test_delete_credentials_all_params()
 
     @responses.activate
     def test_delete_credentials_value_error(self):
@@ -6443,7 +6896,7 @@ class TestDeleteCredentials():
         test_delete_credentials_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/credentials/testString')
+        url = preprocess_url('/v1/environments/testString/credentials/testString')
         mock_response = '{"credential_id": "credential_id", "status": "deleted"}'
         responses.add(responses.DELETE,
                       url,
@@ -6466,6 +6919,14 @@ class TestDeleteCredentials():
                 _service.delete_credentials(**req_copy)
 
 
+    def test_delete_credentials_value_error_with_retries(self):
+        # Enable retries and run test_delete_credentials_value_error.
+        _service.enable_retries()
+        self.test_delete_credentials_value_error()
+
+        # Disable retries and run test_delete_credentials_value_error.
+        _service.disable_retries()
+        self.test_delete_credentials_value_error()
 
 # endregion
 ##############################################################################
@@ -6482,24 +6943,13 @@ class TestListGateways():
     Test Class for list_gateways
     """
 
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     @responses.activate
     def test_list_gateways_all_params(self):
         """
         list_gateways()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/gateways')
+        url = preprocess_url('/v1/environments/testString/gateways')
         mock_response = '{"gateways": [{"gateway_id": "gateway_id", "name": "name", "status": "connected", "token": "token", "token_id": "token_id"}]}'
         responses.add(responses.GET,
                       url,
@@ -6520,6 +6970,14 @@ class TestListGateways():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_list_gateways_all_params_with_retries(self):
+        # Enable retries and run test_list_gateways_all_params.
+        _service.enable_retries()
+        self.test_list_gateways_all_params()
+
+        # Disable retries and run test_list_gateways_all_params.
+        _service.disable_retries()
+        self.test_list_gateways_all_params()
 
     @responses.activate
     def test_list_gateways_value_error(self):
@@ -6527,7 +6985,7 @@ class TestListGateways():
         test_list_gateways_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/gateways')
+        url = preprocess_url('/v1/environments/testString/gateways')
         mock_response = '{"gateways": [{"gateway_id": "gateway_id", "name": "name", "status": "connected", "token": "token", "token_id": "token_id"}]}'
         responses.add(responses.GET,
                       url,
@@ -6548,22 +7006,19 @@ class TestListGateways():
                 _service.list_gateways(**req_copy)
 
 
+    def test_list_gateways_value_error_with_retries(self):
+        # Enable retries and run test_list_gateways_value_error.
+        _service.enable_retries()
+        self.test_list_gateways_value_error()
+
+        # Disable retries and run test_list_gateways_value_error.
+        _service.disable_retries()
+        self.test_list_gateways_value_error()
 
 class TestCreateGateway():
     """
     Test Class for create_gateway
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_create_gateway_all_params(self):
@@ -6571,7 +7026,7 @@ class TestCreateGateway():
         create_gateway()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/gateways')
+        url = preprocess_url('/v1/environments/testString/gateways')
         mock_response = '{"gateway_id": "gateway_id", "name": "name", "status": "connected", "token": "token", "token_id": "token_id"}'
         responses.add(responses.POST,
                       url,
@@ -6597,6 +7052,14 @@ class TestCreateGateway():
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['name'] == 'testString'
 
+    def test_create_gateway_all_params_with_retries(self):
+        # Enable retries and run test_create_gateway_all_params.
+        _service.enable_retries()
+        self.test_create_gateway_all_params()
+
+        # Disable retries and run test_create_gateway_all_params.
+        _service.disable_retries()
+        self.test_create_gateway_all_params()
 
     @responses.activate
     def test_create_gateway_required_params(self):
@@ -6604,7 +7067,7 @@ class TestCreateGateway():
         test_create_gateway_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/gateways')
+        url = preprocess_url('/v1/environments/testString/gateways')
         mock_response = '{"gateway_id": "gateway_id", "name": "name", "status": "connected", "token": "token", "token_id": "token_id"}'
         responses.add(responses.POST,
                       url,
@@ -6625,6 +7088,14 @@ class TestCreateGateway():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_create_gateway_required_params_with_retries(self):
+        # Enable retries and run test_create_gateway_required_params.
+        _service.enable_retries()
+        self.test_create_gateway_required_params()
+
+        # Disable retries and run test_create_gateway_required_params.
+        _service.disable_retries()
+        self.test_create_gateway_required_params()
 
     @responses.activate
     def test_create_gateway_value_error(self):
@@ -6632,7 +7103,7 @@ class TestCreateGateway():
         test_create_gateway_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/gateways')
+        url = preprocess_url('/v1/environments/testString/gateways')
         mock_response = '{"gateway_id": "gateway_id", "name": "name", "status": "connected", "token": "token", "token_id": "token_id"}'
         responses.add(responses.POST,
                       url,
@@ -6653,22 +7124,19 @@ class TestCreateGateway():
                 _service.create_gateway(**req_copy)
 
 
+    def test_create_gateway_value_error_with_retries(self):
+        # Enable retries and run test_create_gateway_value_error.
+        _service.enable_retries()
+        self.test_create_gateway_value_error()
+
+        # Disable retries and run test_create_gateway_value_error.
+        _service.disable_retries()
+        self.test_create_gateway_value_error()
 
 class TestGetGateway():
     """
     Test Class for get_gateway
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_get_gateway_all_params(self):
@@ -6676,7 +7144,7 @@ class TestGetGateway():
         get_gateway()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/gateways/testString')
+        url = preprocess_url('/v1/environments/testString/gateways/testString')
         mock_response = '{"gateway_id": "gateway_id", "name": "name", "status": "connected", "token": "token", "token_id": "token_id"}'
         responses.add(responses.GET,
                       url,
@@ -6699,6 +7167,14 @@ class TestGetGateway():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_get_gateway_all_params_with_retries(self):
+        # Enable retries and run test_get_gateway_all_params.
+        _service.enable_retries()
+        self.test_get_gateway_all_params()
+
+        # Disable retries and run test_get_gateway_all_params.
+        _service.disable_retries()
+        self.test_get_gateway_all_params()
 
     @responses.activate
     def test_get_gateway_value_error(self):
@@ -6706,7 +7182,7 @@ class TestGetGateway():
         test_get_gateway_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/gateways/testString')
+        url = preprocess_url('/v1/environments/testString/gateways/testString')
         mock_response = '{"gateway_id": "gateway_id", "name": "name", "status": "connected", "token": "token", "token_id": "token_id"}'
         responses.add(responses.GET,
                       url,
@@ -6729,22 +7205,19 @@ class TestGetGateway():
                 _service.get_gateway(**req_copy)
 
 
+    def test_get_gateway_value_error_with_retries(self):
+        # Enable retries and run test_get_gateway_value_error.
+        _service.enable_retries()
+        self.test_get_gateway_value_error()
+
+        # Disable retries and run test_get_gateway_value_error.
+        _service.disable_retries()
+        self.test_get_gateway_value_error()
 
 class TestDeleteGateway():
     """
     Test Class for delete_gateway
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_delete_gateway_all_params(self):
@@ -6752,7 +7225,7 @@ class TestDeleteGateway():
         delete_gateway()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/gateways/testString')
+        url = preprocess_url('/v1/environments/testString/gateways/testString')
         mock_response = '{"gateway_id": "gateway_id", "status": "status"}'
         responses.add(responses.DELETE,
                       url,
@@ -6775,6 +7248,14 @@ class TestDeleteGateway():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_delete_gateway_all_params_with_retries(self):
+        # Enable retries and run test_delete_gateway_all_params.
+        _service.enable_retries()
+        self.test_delete_gateway_all_params()
+
+        # Disable retries and run test_delete_gateway_all_params.
+        _service.disable_retries()
+        self.test_delete_gateway_all_params()
 
     @responses.activate
     def test_delete_gateway_value_error(self):
@@ -6782,7 +7263,7 @@ class TestDeleteGateway():
         test_delete_gateway_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/environments/testString/gateways/testString')
+        url = preprocess_url('/v1/environments/testString/gateways/testString')
         mock_response = '{"gateway_id": "gateway_id", "status": "status"}'
         responses.add(responses.DELETE,
                       url,
@@ -6805,6 +7286,14 @@ class TestDeleteGateway():
                 _service.delete_gateway(**req_copy)
 
 
+    def test_delete_gateway_value_error_with_retries(self):
+        # Enable retries and run test_delete_gateway_value_error.
+        _service.enable_retries()
+        self.test_delete_gateway_value_error()
+
+        # Disable retries and run test_delete_gateway_value_error.
+        _service.disable_retries()
+        self.test_delete_gateway_value_error()
 
 # endregion
 ##############################################################################
@@ -6816,36 +7305,6 @@ class TestDeleteGateway():
 # Start of Model Tests
 ##############################################################################
 # region
-class TestModel_AggregationResult():
-    """
-    Test Class for AggregationResult
-    """
-
-    def test_aggregation_result_serialization(self):
-        """
-        Test serialization/deserialization for AggregationResult
-        """
-
-        # Construct a json representation of a AggregationResult model
-        aggregation_result_model_json = {}
-        aggregation_result_model_json['key'] = 'testString'
-        aggregation_result_model_json['matching_results'] = 38
-
-        # Construct a model instance of AggregationResult by calling from_dict on the json representation
-        aggregation_result_model = AggregationResult.from_dict(aggregation_result_model_json)
-        assert aggregation_result_model != False
-
-        # Construct a model instance of AggregationResult by calling from_dict on the json representation
-        aggregation_result_model_dict = AggregationResult.from_dict(aggregation_result_model_json).__dict__
-        aggregation_result_model2 = AggregationResult(**aggregation_result_model_dict)
-
-        # Verify the model instances are equivalent
-        assert aggregation_result_model == aggregation_result_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        aggregation_result_model_json2 = aggregation_result_model.to_dict()
-        assert aggregation_result_model_json2 == aggregation_result_model_json
-
 class TestModel_Collection():
     """
     Test Class for Collection
@@ -6875,12 +7334,12 @@ class TestModel_Collection():
         training_status_model['minimum_examples_added'] = False
         training_status_model['sufficient_label_diversity'] = False
         training_status_model['notices'] = 0
-        training_status_model['successfully_trained'] = "2019-01-01T12:00:00Z"
-        training_status_model['data_updated'] = "2019-01-01T12:00:00Z"
+        training_status_model['successfully_trained'] = '2019-01-01T12:00:00Z'
+        training_status_model['data_updated'] = '2019-01-01T12:00:00Z'
 
         source_status_model = {} # SourceStatus
         source_status_model['status'] = 'complete'
-        source_status_model['next_crawl'] = "2019-01-01T12:00:00Z"
+        source_status_model['next_crawl'] = '2019-01-01T12:00:00Z'
 
         collection_crawl_status_model = {} # CollectionCrawlStatus
         collection_crawl_status_model['source_crawl'] = source_status_model
@@ -6901,8 +7360,8 @@ class TestModel_Collection():
         collection_model_json['collection_id'] = 'testString'
         collection_model_json['name'] = 'testString'
         collection_model_json['description'] = 'testString'
-        collection_model_json['created'] = "2019-01-01T12:00:00Z"
-        collection_model_json['updated'] = "2019-01-01T12:00:00Z"
+        collection_model_json['created'] = '2019-01-01T12:00:00Z'
+        collection_model_json['updated'] = '2019-01-01T12:00:00Z'
         collection_model_json['status'] = 'active'
         collection_model_json['configuration_id'] = 'testString'
         collection_model_json['language'] = 'testString'
@@ -6941,7 +7400,7 @@ class TestModel_CollectionCrawlStatus():
 
         source_status_model = {} # SourceStatus
         source_status_model['status'] = 'running'
-        source_status_model['next_crawl'] = "2019-01-01T12:00:00Z"
+        source_status_model['next_crawl'] = '2019-01-01T12:00:00Z'
 
         # Construct a json representation of a CollectionCrawlStatus model
         collection_crawl_status_model_json = {}
@@ -7223,8 +7682,8 @@ class TestModel_Configuration():
         configuration_model_json = {}
         configuration_model_json['configuration_id'] = 'testString'
         configuration_model_json['name'] = 'testString'
-        configuration_model_json['created'] = "2019-01-01T12:00:00Z"
-        configuration_model_json['updated'] = "2019-01-01T12:00:00Z"
+        configuration_model_json['created'] = '2019-01-01T12:00:00Z'
+        configuration_model_json['updated'] = '2019-01-01T12:00:00Z'
         configuration_model_json['description'] = 'testString'
         configuration_model_json['conversions'] = conversions_model
         configuration_model_json['enrichments'] = [enrichment_model]
@@ -7343,7 +7802,7 @@ class TestModel_CreateEventResponse():
         event_data_model = {} # EventData
         event_data_model['environment_id'] = 'testString'
         event_data_model['session_token'] = 'testString'
-        event_data_model['client_timestamp'] = "2019-01-01T12:00:00Z"
+        event_data_model['client_timestamp'] = '2019-01-01T12:00:00Z'
         event_data_model['display_rank'] = 38
         event_data_model['collection_id'] = 'testString'
         event_data_model['document_id'] = 'testString'
@@ -7581,7 +8040,7 @@ class TestModel_DeleteConfigurationResponse():
 
         notice_model = {} # Notice
         notice_model['notice_id'] = 'configuration_in_use'
-        notice_model['created'] = "2016-09-28T12:34:00Z"
+        notice_model['created'] = '2016-09-28T12:34:00Z'
         notice_model['document_id'] = 'testString'
         notice_model['query_id'] = 'testString'
         notice_model['severity'] = 'warning'
@@ -7743,7 +8202,7 @@ class TestModel_DocumentAccepted():
 
         notice_model = {} # Notice
         notice_model['notice_id'] = 'testString'
-        notice_model['created'] = "2019-01-01T12:00:00Z"
+        notice_model['created'] = '2019-01-01T12:00:00Z'
         notice_model['document_id'] = 'testString'
         notice_model['query_id'] = 'testString'
         notice_model['severity'] = 'warning'
@@ -7817,7 +8276,7 @@ class TestModel_DocumentStatus():
 
         notice_model = {} # Notice
         notice_model['notice_id'] = 'index_342'
-        notice_model['created'] = "2019-01-01T12:00:00Z"
+        notice_model['created'] = '2019-01-01T12:00:00Z'
         notice_model['document_id'] = 'f1360220-ea2d-4271-9d62-89a910b13c37'
         notice_model['query_id'] = 'testString'
         notice_model['severity'] = 'warning'
@@ -8044,15 +8503,15 @@ class TestModel_Environment():
         search_status_model['scope'] = 'testString'
         search_status_model['status'] = 'NO_DATA'
         search_status_model['status_description'] = 'testString'
-        search_status_model['last_trained'] = "2019-01-01"
+        search_status_model['last_trained'] = '2019-01-01'
 
         # Construct a json representation of a Environment model
         environment_model_json = {}
         environment_model_json['environment_id'] = 'testString'
         environment_model_json['name'] = 'testString'
         environment_model_json['description'] = 'testString'
-        environment_model_json['created'] = "2019-01-01T12:00:00Z"
-        environment_model_json['updated'] = "2019-01-01T12:00:00Z"
+        environment_model_json['created'] = '2019-01-01T12:00:00Z'
+        environment_model_json['updated'] = '2019-01-01T12:00:00Z'
         environment_model_json['status'] = 'active'
         environment_model_json['read_only'] = True
         environment_model_json['size'] = 'LT'
@@ -8119,7 +8578,7 @@ class TestModel_EventData():
         event_data_model_json = {}
         event_data_model_json['environment_id'] = 'testString'
         event_data_model_json['session_token'] = 'testString'
-        event_data_model_json['client_timestamp'] = "2019-01-01T12:00:00Z"
+        event_data_model_json['client_timestamp'] = '2019-01-01T12:00:00Z'
         event_data_model_json['display_rank'] = 38
         event_data_model_json['collection_id'] = 'testString'
         event_data_model_json['document_id'] = 'testString'
@@ -8518,12 +8977,12 @@ class TestModel_ListCollectionsResponse():
         training_status_model['minimum_examples_added'] = True
         training_status_model['sufficient_label_diversity'] = True
         training_status_model['notices'] = 38
-        training_status_model['successfully_trained'] = "2019-01-01T12:00:00Z"
-        training_status_model['data_updated'] = "2019-01-01T12:00:00Z"
+        training_status_model['successfully_trained'] = '2019-01-01T12:00:00Z'
+        training_status_model['data_updated'] = '2019-01-01T12:00:00Z'
 
         source_status_model = {} # SourceStatus
         source_status_model['status'] = 'running'
-        source_status_model['next_crawl'] = "2019-01-01T12:00:00Z"
+        source_status_model['next_crawl'] = '2019-01-01T12:00:00Z'
 
         collection_crawl_status_model = {} # CollectionCrawlStatus
         collection_crawl_status_model['source_crawl'] = source_status_model
@@ -8543,8 +9002,8 @@ class TestModel_ListCollectionsResponse():
         collection_model['collection_id'] = 'f1360220-ea2d-4271-9d62-89a910b13c37'
         collection_model['name'] = 'example'
         collection_model['description'] = 'this is a demo collection'
-        collection_model['created'] = "2015-08-24T18:42:25.324000Z"
-        collection_model['updated'] = "2015-08-24T18:42:25.324000Z"
+        collection_model['created'] = '2015-08-24T18:42:25.324000Z'
+        collection_model['updated'] = '2015-08-24T18:42:25.324000Z'
         collection_model['status'] = 'active'
         collection_model['configuration_id'] = '6963be41-2dea-4f79-8f52-127c63c479b0'
         collection_model['language'] = 'en'
@@ -8745,8 +9204,8 @@ class TestModel_ListConfigurationsResponse():
         configuration_model = {} # Configuration
         configuration_model['configuration_id'] = 'testString'
         configuration_model['name'] = 'testString'
-        configuration_model['created'] = "2019-01-01T12:00:00Z"
-        configuration_model['updated'] = "2019-01-01T12:00:00Z"
+        configuration_model['created'] = '2019-01-01T12:00:00Z'
+        configuration_model['updated'] = '2019-01-01T12:00:00Z'
         configuration_model['description'] = 'testString'
         configuration_model['conversions'] = conversions_model
         configuration_model['enrichments'] = [enrichment_model]
@@ -8805,14 +9264,14 @@ class TestModel_ListEnvironmentsResponse():
         search_status_model['scope'] = 'testString'
         search_status_model['status'] = 'NO_DATA'
         search_status_model['status_description'] = 'testString'
-        search_status_model['last_trained'] = "2019-01-01"
+        search_status_model['last_trained'] = '2019-01-01'
 
         environment_model = {} # Environment
         environment_model['environment_id'] = 'ecbda78e-fb06-40b1-a43f-a039fac0adc6'
         environment_model['name'] = 'byod_environment'
         environment_model['description'] = 'Private Data Environment'
-        environment_model['created'] = "2017-07-14T12:54:40.985000Z"
-        environment_model['updated'] = "2017-07-14T12:54:40.985000Z"
+        environment_model['created'] = '2017-07-14T12:54:40.985000Z'
+        environment_model['updated'] = '2017-07-14T12:54:40.985000Z'
         environment_model['status'] = 'active'
         environment_model['read_only'] = False
         environment_model['size'] = 'LT'
@@ -8868,8 +9327,8 @@ class TestModel_LogQueryResponse():
         log_query_response_result_model['document_type'] = 'query'
         log_query_response_result_model['natural_language_query'] = 'testString'
         log_query_response_result_model['document_results'] = log_query_response_result_documents_model
-        log_query_response_result_model['created_timestamp'] = "2019-01-01T12:00:00Z"
-        log_query_response_result_model['client_timestamp'] = "2019-01-01T12:00:00Z"
+        log_query_response_result_model['created_timestamp'] = '2019-01-01T12:00:00Z'
+        log_query_response_result_model['client_timestamp'] = '2019-01-01T12:00:00Z'
         log_query_response_result_model['query_id'] = 'testString'
         log_query_response_result_model['session_token'] = 'testString'
         log_query_response_result_model['collection_id'] = 'testString'
@@ -8928,8 +9387,8 @@ class TestModel_LogQueryResponseResult():
         log_query_response_result_model_json['document_type'] = 'query'
         log_query_response_result_model_json['natural_language_query'] = 'testString'
         log_query_response_result_model_json['document_results'] = log_query_response_result_documents_model
-        log_query_response_result_model_json['created_timestamp'] = "2019-01-01T12:00:00Z"
-        log_query_response_result_model_json['client_timestamp'] = "2019-01-01T12:00:00Z"
+        log_query_response_result_model_json['created_timestamp'] = '2019-01-01T12:00:00Z'
+        log_query_response_result_model_json['client_timestamp'] = '2019-01-01T12:00:00Z'
         log_query_response_result_model_json['query_id'] = 'testString'
         log_query_response_result_model_json['session_token'] = 'testString'
         log_query_response_result_model_json['collection_id'] = 'testString'
@@ -9038,7 +9497,7 @@ class TestModel_MetricAggregation():
         # Construct dict forms of any model objects needed in order to build this model.
 
         metric_aggregation_result_model = {} # MetricAggregationResult
-        metric_aggregation_result_model['key_as_string'] = "2019-01-01T12:00:00Z"
+        metric_aggregation_result_model['key_as_string'] = '2019-01-01T12:00:00Z'
         metric_aggregation_result_model['key'] = 26
         metric_aggregation_result_model['matching_results'] = 38
         metric_aggregation_result_model['event_rate'] = 72.5
@@ -9076,7 +9535,7 @@ class TestModel_MetricAggregationResult():
 
         # Construct a json representation of a MetricAggregationResult model
         metric_aggregation_result_model_json = {}
-        metric_aggregation_result_model_json['key_as_string'] = "2019-01-01T12:00:00Z"
+        metric_aggregation_result_model_json['key_as_string'] = '2019-01-01T12:00:00Z'
         metric_aggregation_result_model_json['key'] = 26
         metric_aggregation_result_model_json['matching_results'] = 38
         metric_aggregation_result_model_json['event_rate'] = 72.5
@@ -9109,7 +9568,7 @@ class TestModel_MetricResponse():
         # Construct dict forms of any model objects needed in order to build this model.
 
         metric_aggregation_result_model = {} # MetricAggregationResult
-        metric_aggregation_result_model['key_as_string'] = "2019-01-01T12:00:00Z"
+        metric_aggregation_result_model['key_as_string'] = '2019-01-01T12:00:00Z'
         metric_aggregation_result_model['key'] = 26
         metric_aggregation_result_model['matching_results'] = 38
         metric_aggregation_result_model['event_rate'] = 72.5
@@ -9576,7 +10035,7 @@ class TestModel_Notice():
         # Construct a json representation of a Notice model
         notice_model_json = {}
         notice_model_json['notice_id'] = 'testString'
-        notice_model_json['created'] = "2019-01-01T12:00:00Z"
+        notice_model_json['created'] = '2019-01-01T12:00:00Z'
         notice_model_json['document_id'] = 'testString'
         notice_model_json['query_id'] = 'testString'
         notice_model_json['severity'] = 'warning'
@@ -9692,7 +10151,6 @@ class TestModel_QueryAggregation():
         # Construct a json representation of a QueryAggregation model
         query_aggregation_model_json = {}
         query_aggregation_model_json['type'] = 'testString'
-        query_aggregation_model_json['matching_results'] = 38
 
         # Construct a model instance of QueryAggregation by calling from_dict on the json representation
         query_aggregation_model = QueryAggregation.from_dict(query_aggregation_model_json)
@@ -9708,6 +10166,44 @@ class TestModel_QueryAggregation():
         # Convert model instance back to dict and verify no loss of data
         query_aggregation_model_json2 = query_aggregation_model.to_dict()
         assert query_aggregation_model_json2 == query_aggregation_model_json
+
+class TestModel_QueryHistogramAggregationResult():
+    """
+    Test Class for QueryHistogramAggregationResult
+    """
+
+    def test_query_histogram_aggregation_result_serialization(self):
+        """
+        Test serialization/deserialization for QueryHistogramAggregationResult
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        query_aggregation_model = {} # QueryFilterAggregation
+        query_aggregation_model['type'] = 'filter'
+        query_aggregation_model['match'] = 'testString'
+        query_aggregation_model['matching_results'] = 26
+
+        # Construct a json representation of a QueryHistogramAggregationResult model
+        query_histogram_aggregation_result_model_json = {}
+        query_histogram_aggregation_result_model_json['key'] = 26
+        query_histogram_aggregation_result_model_json['matching_results'] = 38
+        query_histogram_aggregation_result_model_json['aggregations'] = [query_aggregation_model]
+
+        # Construct a model instance of QueryHistogramAggregationResult by calling from_dict on the json representation
+        query_histogram_aggregation_result_model = QueryHistogramAggregationResult.from_dict(query_histogram_aggregation_result_model_json)
+        assert query_histogram_aggregation_result_model != False
+
+        # Construct a model instance of QueryHistogramAggregationResult by calling from_dict on the json representation
+        query_histogram_aggregation_result_model_dict = QueryHistogramAggregationResult.from_dict(query_histogram_aggregation_result_model_json).__dict__
+        query_histogram_aggregation_result_model2 = QueryHistogramAggregationResult(**query_histogram_aggregation_result_model_dict)
+
+        # Verify the model instances are equivalent
+        assert query_histogram_aggregation_result_model == query_histogram_aggregation_result_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        query_histogram_aggregation_result_model_json2 = query_histogram_aggregation_result_model.to_dict()
+        assert query_histogram_aggregation_result_model_json2 == query_histogram_aggregation_result_model_json
 
 class TestModel_QueryNoticesResponse():
     """
@@ -9727,7 +10223,7 @@ class TestModel_QueryNoticesResponse():
 
         notice_model = {} # Notice
         notice_model['notice_id'] = 'xpath_not_found'
-        notice_model['created'] = "2016-09-20T17:26:17Z"
+        notice_model['created'] = '2016-09-20T17:26:17Z'
         notice_model['document_id'] = '030ba125-29db-43f2-8552-f941ae30a7a8'
         notice_model['query_id'] = 'testString'
         notice_model['severity'] = 'warning'
@@ -9746,11 +10242,10 @@ class TestModel_QueryNoticesResponse():
         query_notices_result_model['notices'] = [notice_model]
         query_notices_result_model['score'] = { 'foo': 'bar' }
 
-        query_aggregation_model = {} # Histogram
-        query_aggregation_model['type'] = 'histogram'
-        query_aggregation_model['matching_results'] = 38
-        query_aggregation_model['field'] = 'testString'
-        query_aggregation_model['interval'] = 38
+        query_aggregation_model = {} # QueryFilterAggregation
+        query_aggregation_model['type'] = 'filter'
+        query_aggregation_model['match'] = 'testString'
+        query_aggregation_model['matching_results'] = 26
 
         query_passages_model = {} # QueryPassages
         query_passages_model['document_id'] = 'testString'
@@ -9801,7 +10296,7 @@ class TestModel_QueryNoticesResult():
 
         notice_model = {} # Notice
         notice_model['notice_id'] = 'testString'
-        notice_model['created'] = "2019-01-01T12:00:00Z"
+        notice_model['created'] = '2019-01-01T12:00:00Z'
         notice_model['document_id'] = 'testString'
         notice_model['query_id'] = 'testString'
         notice_model['severity'] = 'warning'
@@ -9903,11 +10398,10 @@ class TestModel_QueryResponse():
         query_result_model['result_metadata'] = query_result_metadata_model
         query_result_model['score'] = { 'foo': 'bar' }
 
-        query_aggregation_model = {} # Histogram
-        query_aggregation_model['type'] = 'histogram'
-        query_aggregation_model['matching_results'] = 38
-        query_aggregation_model['field'] = 'testString'
-        query_aggregation_model['interval'] = 38
+        query_aggregation_model = {} # QueryFilterAggregation
+        query_aggregation_model['type'] = 'filter'
+        query_aggregation_model['match'] = 'testString'
+        query_aggregation_model['matching_results'] = 26
 
         query_passages_model = {} # QueryPassages
         query_passages_model['document_id'] = 'testString'
@@ -10025,6 +10519,116 @@ class TestModel_QueryResultMetadata():
         query_result_metadata_model_json2 = query_result_metadata_model.to_dict()
         assert query_result_metadata_model_json2 == query_result_metadata_model_json
 
+class TestModel_QueryTermAggregationResult():
+    """
+    Test Class for QueryTermAggregationResult
+    """
+
+    def test_query_term_aggregation_result_serialization(self):
+        """
+        Test serialization/deserialization for QueryTermAggregationResult
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        query_aggregation_model = {} # QueryFilterAggregation
+        query_aggregation_model['type'] = 'filter'
+        query_aggregation_model['match'] = 'testString'
+        query_aggregation_model['matching_results'] = 26
+
+        # Construct a json representation of a QueryTermAggregationResult model
+        query_term_aggregation_result_model_json = {}
+        query_term_aggregation_result_model_json['key'] = 'testString'
+        query_term_aggregation_result_model_json['matching_results'] = 38
+        query_term_aggregation_result_model_json['relevancy'] = 72.5
+        query_term_aggregation_result_model_json['total_matching_documents'] = 38
+        query_term_aggregation_result_model_json['estimated_matching_documents'] = 38
+        query_term_aggregation_result_model_json['aggregations'] = [query_aggregation_model]
+
+        # Construct a model instance of QueryTermAggregationResult by calling from_dict on the json representation
+        query_term_aggregation_result_model = QueryTermAggregationResult.from_dict(query_term_aggregation_result_model_json)
+        assert query_term_aggregation_result_model != False
+
+        # Construct a model instance of QueryTermAggregationResult by calling from_dict on the json representation
+        query_term_aggregation_result_model_dict = QueryTermAggregationResult.from_dict(query_term_aggregation_result_model_json).__dict__
+        query_term_aggregation_result_model2 = QueryTermAggregationResult(**query_term_aggregation_result_model_dict)
+
+        # Verify the model instances are equivalent
+        assert query_term_aggregation_result_model == query_term_aggregation_result_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        query_term_aggregation_result_model_json2 = query_term_aggregation_result_model.to_dict()
+        assert query_term_aggregation_result_model_json2 == query_term_aggregation_result_model_json
+
+class TestModel_QueryTimesliceAggregationResult():
+    """
+    Test Class for QueryTimesliceAggregationResult
+    """
+
+    def test_query_timeslice_aggregation_result_serialization(self):
+        """
+        Test serialization/deserialization for QueryTimesliceAggregationResult
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        query_aggregation_model = {} # QueryFilterAggregation
+        query_aggregation_model['type'] = 'filter'
+        query_aggregation_model['match'] = 'testString'
+        query_aggregation_model['matching_results'] = 26
+
+        # Construct a json representation of a QueryTimesliceAggregationResult model
+        query_timeslice_aggregation_result_model_json = {}
+        query_timeslice_aggregation_result_model_json['key_as_string'] = 'testString'
+        query_timeslice_aggregation_result_model_json['key'] = 26
+        query_timeslice_aggregation_result_model_json['matching_results'] = 26
+        query_timeslice_aggregation_result_model_json['aggregations'] = [query_aggregation_model]
+
+        # Construct a model instance of QueryTimesliceAggregationResult by calling from_dict on the json representation
+        query_timeslice_aggregation_result_model = QueryTimesliceAggregationResult.from_dict(query_timeslice_aggregation_result_model_json)
+        assert query_timeslice_aggregation_result_model != False
+
+        # Construct a model instance of QueryTimesliceAggregationResult by calling from_dict on the json representation
+        query_timeslice_aggregation_result_model_dict = QueryTimesliceAggregationResult.from_dict(query_timeslice_aggregation_result_model_json).__dict__
+        query_timeslice_aggregation_result_model2 = QueryTimesliceAggregationResult(**query_timeslice_aggregation_result_model_dict)
+
+        # Verify the model instances are equivalent
+        assert query_timeslice_aggregation_result_model == query_timeslice_aggregation_result_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        query_timeslice_aggregation_result_model_json2 = query_timeslice_aggregation_result_model.to_dict()
+        assert query_timeslice_aggregation_result_model_json2 == query_timeslice_aggregation_result_model_json
+
+class TestModel_QueryTopHitsAggregationResult():
+    """
+    Test Class for QueryTopHitsAggregationResult
+    """
+
+    def test_query_top_hits_aggregation_result_serialization(self):
+        """
+        Test serialization/deserialization for QueryTopHitsAggregationResult
+        """
+
+        # Construct a json representation of a QueryTopHitsAggregationResult model
+        query_top_hits_aggregation_result_model_json = {}
+        query_top_hits_aggregation_result_model_json['matching_results'] = 38
+        query_top_hits_aggregation_result_model_json['hits'] = [{}]
+
+        # Construct a model instance of QueryTopHitsAggregationResult by calling from_dict on the json representation
+        query_top_hits_aggregation_result_model = QueryTopHitsAggregationResult.from_dict(query_top_hits_aggregation_result_model_json)
+        assert query_top_hits_aggregation_result_model != False
+
+        # Construct a model instance of QueryTopHitsAggregationResult by calling from_dict on the json representation
+        query_top_hits_aggregation_result_model_dict = QueryTopHitsAggregationResult.from_dict(query_top_hits_aggregation_result_model_json).__dict__
+        query_top_hits_aggregation_result_model2 = QueryTopHitsAggregationResult(**query_top_hits_aggregation_result_model_dict)
+
+        # Verify the model instances are equivalent
+        assert query_top_hits_aggregation_result_model == query_top_hits_aggregation_result_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        query_top_hits_aggregation_result_model_json2 = query_top_hits_aggregation_result_model.to_dict()
+        assert query_top_hits_aggregation_result_model_json2 == query_top_hits_aggregation_result_model_json
+
 class TestModel_RetrievalDetails():
     """
     Test Class for RetrievalDetails
@@ -10138,7 +10742,7 @@ class TestModel_SearchStatus():
         search_status_model_json['scope'] = 'testString'
         search_status_model_json['status'] = 'NO_DATA'
         search_status_model_json['status_description'] = 'testString'
-        search_status_model_json['last_trained'] = "2019-01-01"
+        search_status_model_json['last_trained'] = '2019-01-01'
 
         # Construct a model instance of SearchStatus by calling from_dict on the json representation
         search_status_model = SearchStatus.from_dict(search_status_model_json)
@@ -10524,7 +11128,7 @@ class TestModel_SourceStatus():
         # Construct a json representation of a SourceStatus model
         source_status_model_json = {}
         source_status_model_json['status'] = 'running'
-        source_status_model_json['next_crawl'] = "2019-01-01T12:00:00Z"
+        source_status_model_json['next_crawl'] = '2019-01-01T12:00:00Z'
 
         # Construct a model instance of SourceStatus by calling from_dict on the json representation
         source_status_model = SourceStatus.from_dict(source_status_model_json)
@@ -10632,49 +11236,6 @@ class TestModel_TokenDictStatusResponse():
         # Convert model instance back to dict and verify no loss of data
         token_dict_status_response_model_json2 = token_dict_status_response_model.to_dict()
         assert token_dict_status_response_model_json2 == token_dict_status_response_model_json
-
-class TestModel_TopHitsResults():
-    """
-    Test Class for TopHitsResults
-    """
-
-    def test_top_hits_results_serialization(self):
-        """
-        Test serialization/deserialization for TopHitsResults
-        """
-
-        # Construct dict forms of any model objects needed in order to build this model.
-
-        query_result_metadata_model = {} # QueryResultMetadata
-        query_result_metadata_model['score'] = 72.5
-        query_result_metadata_model['confidence'] = 72.5
-
-        query_result_model = {} # QueryResult
-        query_result_model['id'] = 'testString'
-        query_result_model['metadata'] = {}
-        query_result_model['collection_id'] = 'testString'
-        query_result_model['result_metadata'] = query_result_metadata_model
-        query_result_model['foo'] = { 'foo': 'bar' }
-
-        # Construct a json representation of a TopHitsResults model
-        top_hits_results_model_json = {}
-        top_hits_results_model_json['matching_results'] = 38
-        top_hits_results_model_json['hits'] = [query_result_model]
-
-        # Construct a model instance of TopHitsResults by calling from_dict on the json representation
-        top_hits_results_model = TopHitsResults.from_dict(top_hits_results_model_json)
-        assert top_hits_results_model != False
-
-        # Construct a model instance of TopHitsResults by calling from_dict on the json representation
-        top_hits_results_model_dict = TopHitsResults.from_dict(top_hits_results_model_json).__dict__
-        top_hits_results_model2 = TopHitsResults(**top_hits_results_model_dict)
-
-        # Verify the model instances are equivalent
-        assert top_hits_results_model == top_hits_results_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        top_hits_results_model_json2 = top_hits_results_model.to_dict()
-        assert top_hits_results_model_json2 == top_hits_results_model_json
 
 class TestModel_TrainingDataSet():
     """
@@ -10845,8 +11406,8 @@ class TestModel_TrainingStatus():
         training_status_model_json['minimum_examples_added'] = True
         training_status_model_json['sufficient_label_diversity'] = True
         training_status_model_json['notices'] = 38
-        training_status_model_json['successfully_trained'] = "2019-01-01T12:00:00Z"
-        training_status_model_json['data_updated'] = "2019-01-01T12:00:00Z"
+        training_status_model_json['successfully_trained'] = '2019-01-01T12:00:00Z'
+        training_status_model_json['data_updated'] = '2019-01-01T12:00:00Z'
 
         # Construct a model instance of TrainingStatus by calling from_dict on the json representation
         training_status_model = TrainingStatus.from_dict(training_status_model_json)
@@ -11013,245 +11574,232 @@ class TestModel_XPathPatterns():
         x_path_patterns_model_json2 = x_path_patterns_model.to_dict()
         assert x_path_patterns_model_json2 == x_path_patterns_model_json
 
-class TestModel_Calculation():
+class TestModel_QueryCalculationAggregation():
     """
-    Test Class for Calculation
+    Test Class for QueryCalculationAggregation
     """
 
-    def test_calculation_serialization(self):
+    def test_query_calculation_aggregation_serialization(self):
         """
-        Test serialization/deserialization for Calculation
+        Test serialization/deserialization for QueryCalculationAggregation
         """
 
-        # Construct a json representation of a Calculation model
-        calculation_model_json = {}
-        calculation_model_json['type'] = 'unique_count'
-        calculation_model_json['matching_results'] = 38
-        calculation_model_json['field'] = 'testString'
-        calculation_model_json['value'] = 72.5
+        # Construct a json representation of a QueryCalculationAggregation model
+        query_calculation_aggregation_model_json = {}
+        query_calculation_aggregation_model_json['type'] = 'unique_count'
+        query_calculation_aggregation_model_json['field'] = 'testString'
+        query_calculation_aggregation_model_json['value'] = 72.5
 
-        # Construct a model instance of Calculation by calling from_dict on the json representation
-        calculation_model = Calculation.from_dict(calculation_model_json)
-        assert calculation_model != False
+        # Construct a model instance of QueryCalculationAggregation by calling from_dict on the json representation
+        query_calculation_aggregation_model = QueryCalculationAggregation.from_dict(query_calculation_aggregation_model_json)
+        assert query_calculation_aggregation_model != False
 
-        # Construct a model instance of Calculation by calling from_dict on the json representation
-        calculation_model_dict = Calculation.from_dict(calculation_model_json).__dict__
-        calculation_model2 = Calculation(**calculation_model_dict)
+        # Construct a model instance of QueryCalculationAggregation by calling from_dict on the json representation
+        query_calculation_aggregation_model_dict = QueryCalculationAggregation.from_dict(query_calculation_aggregation_model_json).__dict__
+        query_calculation_aggregation_model2 = QueryCalculationAggregation(**query_calculation_aggregation_model_dict)
 
         # Verify the model instances are equivalent
-        assert calculation_model == calculation_model2
+        assert query_calculation_aggregation_model == query_calculation_aggregation_model2
 
         # Convert model instance back to dict and verify no loss of data
-        calculation_model_json2 = calculation_model.to_dict()
-        assert calculation_model_json2 == calculation_model_json
+        query_calculation_aggregation_model_json2 = query_calculation_aggregation_model.to_dict()
+        assert query_calculation_aggregation_model_json2 == query_calculation_aggregation_model_json
 
-class TestModel_Filter():
+class TestModel_QueryFilterAggregation():
     """
-    Test Class for Filter
+    Test Class for QueryFilterAggregation
     """
 
-    def test_filter_serialization(self):
+    def test_query_filter_aggregation_serialization(self):
         """
-        Test serialization/deserialization for Filter
+        Test serialization/deserialization for QueryFilterAggregation
         """
 
-        # Construct a json representation of a Filter model
-        filter_model_json = {}
-        filter_model_json['type'] = 'filter'
-        filter_model_json['matching_results'] = 38
-        filter_model_json['match'] = 'testString'
+        # Construct a json representation of a QueryFilterAggregation model
+        query_filter_aggregation_model_json = {}
+        query_filter_aggregation_model_json['type'] = 'filter'
+        query_filter_aggregation_model_json['match'] = 'testString'
+        query_filter_aggregation_model_json['matching_results'] = 26
 
-        # Construct a model instance of Filter by calling from_dict on the json representation
-        filter_model = Filter.from_dict(filter_model_json)
-        assert filter_model != False
+        # Construct a model instance of QueryFilterAggregation by calling from_dict on the json representation
+        query_filter_aggregation_model = QueryFilterAggregation.from_dict(query_filter_aggregation_model_json)
+        assert query_filter_aggregation_model != False
 
-        # Construct a model instance of Filter by calling from_dict on the json representation
-        filter_model_dict = Filter.from_dict(filter_model_json).__dict__
-        filter_model2 = Filter(**filter_model_dict)
+        # Construct a model instance of QueryFilterAggregation by calling from_dict on the json representation
+        query_filter_aggregation_model_dict = QueryFilterAggregation.from_dict(query_filter_aggregation_model_json).__dict__
+        query_filter_aggregation_model2 = QueryFilterAggregation(**query_filter_aggregation_model_dict)
 
         # Verify the model instances are equivalent
-        assert filter_model == filter_model2
+        assert query_filter_aggregation_model == query_filter_aggregation_model2
 
         # Convert model instance back to dict and verify no loss of data
-        filter_model_json2 = filter_model.to_dict()
-        assert filter_model_json2 == filter_model_json
+        query_filter_aggregation_model_json2 = query_filter_aggregation_model.to_dict()
+        assert query_filter_aggregation_model_json2 == query_filter_aggregation_model_json
 
-class TestModel_Histogram():
+class TestModel_QueryHistogramAggregation():
     """
-    Test Class for Histogram
+    Test Class for QueryHistogramAggregation
     """
 
-    def test_histogram_serialization(self):
+    def test_query_histogram_aggregation_serialization(self):
         """
-        Test serialization/deserialization for Histogram
+        Test serialization/deserialization for QueryHistogramAggregation
         """
 
-        # Construct a json representation of a Histogram model
-        histogram_model_json = {}
-        histogram_model_json['type'] = 'histogram'
-        histogram_model_json['matching_results'] = 38
-        histogram_model_json['field'] = 'testString'
-        histogram_model_json['interval'] = 38
+        # Construct a json representation of a QueryHistogramAggregation model
+        query_histogram_aggregation_model_json = {}
+        query_histogram_aggregation_model_json['type'] = 'histogram'
+        query_histogram_aggregation_model_json['field'] = 'testString'
+        query_histogram_aggregation_model_json['interval'] = 38
+        query_histogram_aggregation_model_json['name'] = 'testString'
 
-        # Construct a model instance of Histogram by calling from_dict on the json representation
-        histogram_model = Histogram.from_dict(histogram_model_json)
-        assert histogram_model != False
+        # Construct a model instance of QueryHistogramAggregation by calling from_dict on the json representation
+        query_histogram_aggregation_model = QueryHistogramAggregation.from_dict(query_histogram_aggregation_model_json)
+        assert query_histogram_aggregation_model != False
 
-        # Construct a model instance of Histogram by calling from_dict on the json representation
-        histogram_model_dict = Histogram.from_dict(histogram_model_json).__dict__
-        histogram_model2 = Histogram(**histogram_model_dict)
+        # Construct a model instance of QueryHistogramAggregation by calling from_dict on the json representation
+        query_histogram_aggregation_model_dict = QueryHistogramAggregation.from_dict(query_histogram_aggregation_model_json).__dict__
+        query_histogram_aggregation_model2 = QueryHistogramAggregation(**query_histogram_aggregation_model_dict)
 
         # Verify the model instances are equivalent
-        assert histogram_model == histogram_model2
+        assert query_histogram_aggregation_model == query_histogram_aggregation_model2
 
         # Convert model instance back to dict and verify no loss of data
-        histogram_model_json2 = histogram_model.to_dict()
-        assert histogram_model_json2 == histogram_model_json
+        query_histogram_aggregation_model_json2 = query_histogram_aggregation_model.to_dict()
+        assert query_histogram_aggregation_model_json2 == query_histogram_aggregation_model_json
 
-class TestModel_Nested():
+class TestModel_QueryNestedAggregation():
     """
-    Test Class for Nested
+    Test Class for QueryNestedAggregation
     """
 
-    def test_nested_serialization(self):
+    def test_query_nested_aggregation_serialization(self):
         """
-        Test serialization/deserialization for Nested
+        Test serialization/deserialization for QueryNestedAggregation
         """
 
-        # Construct a json representation of a Nested model
-        nested_model_json = {}
-        nested_model_json['type'] = 'nested'
-        nested_model_json['matching_results'] = 38
-        nested_model_json['path'] = 'testString'
+        # Construct a json representation of a QueryNestedAggregation model
+        query_nested_aggregation_model_json = {}
+        query_nested_aggregation_model_json['type'] = 'nested'
+        query_nested_aggregation_model_json['path'] = 'testString'
+        query_nested_aggregation_model_json['matching_results'] = 26
 
-        # Construct a model instance of Nested by calling from_dict on the json representation
-        nested_model = Nested.from_dict(nested_model_json)
-        assert nested_model != False
+        # Construct a model instance of QueryNestedAggregation by calling from_dict on the json representation
+        query_nested_aggregation_model = QueryNestedAggregation.from_dict(query_nested_aggregation_model_json)
+        assert query_nested_aggregation_model != False
 
-        # Construct a model instance of Nested by calling from_dict on the json representation
-        nested_model_dict = Nested.from_dict(nested_model_json).__dict__
-        nested_model2 = Nested(**nested_model_dict)
+        # Construct a model instance of QueryNestedAggregation by calling from_dict on the json representation
+        query_nested_aggregation_model_dict = QueryNestedAggregation.from_dict(query_nested_aggregation_model_json).__dict__
+        query_nested_aggregation_model2 = QueryNestedAggregation(**query_nested_aggregation_model_dict)
 
         # Verify the model instances are equivalent
-        assert nested_model == nested_model2
+        assert query_nested_aggregation_model == query_nested_aggregation_model2
 
         # Convert model instance back to dict and verify no loss of data
-        nested_model_json2 = nested_model.to_dict()
-        assert nested_model_json2 == nested_model_json
+        query_nested_aggregation_model_json2 = query_nested_aggregation_model.to_dict()
+        assert query_nested_aggregation_model_json2 == query_nested_aggregation_model_json
 
-class TestModel_Term():
+class TestModel_QueryTermAggregation():
     """
-    Test Class for Term
+    Test Class for QueryTermAggregation
     """
 
-    def test_term_serialization(self):
+    def test_query_term_aggregation_serialization(self):
         """
-        Test serialization/deserialization for Term
+        Test serialization/deserialization for QueryTermAggregation
         """
 
-        # Construct a json representation of a Term model
-        term_model_json = {}
-        term_model_json['type'] = 'term'
-        term_model_json['matching_results'] = 38
-        term_model_json['field'] = 'testString'
-        term_model_json['count'] = 38
+        # Construct a json representation of a QueryTermAggregation model
+        query_term_aggregation_model_json = {}
+        query_term_aggregation_model_json['type'] = 'term'
+        query_term_aggregation_model_json['field'] = 'testString'
+        query_term_aggregation_model_json['count'] = 38
+        query_term_aggregation_model_json['name'] = 'testString'
 
-        # Construct a model instance of Term by calling from_dict on the json representation
-        term_model = Term.from_dict(term_model_json)
-        assert term_model != False
+        # Construct a model instance of QueryTermAggregation by calling from_dict on the json representation
+        query_term_aggregation_model = QueryTermAggregation.from_dict(query_term_aggregation_model_json)
+        assert query_term_aggregation_model != False
 
-        # Construct a model instance of Term by calling from_dict on the json representation
-        term_model_dict = Term.from_dict(term_model_json).__dict__
-        term_model2 = Term(**term_model_dict)
+        # Construct a model instance of QueryTermAggregation by calling from_dict on the json representation
+        query_term_aggregation_model_dict = QueryTermAggregation.from_dict(query_term_aggregation_model_json).__dict__
+        query_term_aggregation_model2 = QueryTermAggregation(**query_term_aggregation_model_dict)
 
         # Verify the model instances are equivalent
-        assert term_model == term_model2
+        assert query_term_aggregation_model == query_term_aggregation_model2
 
         # Convert model instance back to dict and verify no loss of data
-        term_model_json2 = term_model.to_dict()
-        assert term_model_json2 == term_model_json
+        query_term_aggregation_model_json2 = query_term_aggregation_model.to_dict()
+        assert query_term_aggregation_model_json2 == query_term_aggregation_model_json
 
-class TestModel_Timeslice():
+class TestModel_QueryTimesliceAggregation():
     """
-    Test Class for Timeslice
+    Test Class for QueryTimesliceAggregation
     """
 
-    def test_timeslice_serialization(self):
+    def test_query_timeslice_aggregation_serialization(self):
         """
-        Test serialization/deserialization for Timeslice
+        Test serialization/deserialization for QueryTimesliceAggregation
         """
 
-        # Construct a json representation of a Timeslice model
-        timeslice_model_json = {}
-        timeslice_model_json['type'] = 'timeslice'
-        timeslice_model_json['matching_results'] = 38
-        timeslice_model_json['field'] = 'testString'
-        timeslice_model_json['interval'] = 'testString'
-        timeslice_model_json['anomaly'] = True
+        # Construct a json representation of a QueryTimesliceAggregation model
+        query_timeslice_aggregation_model_json = {}
+        query_timeslice_aggregation_model_json['type'] = 'timeslice'
+        query_timeslice_aggregation_model_json['field'] = 'testString'
+        query_timeslice_aggregation_model_json['interval'] = 'testString'
+        query_timeslice_aggregation_model_json['name'] = 'testString'
 
-        # Construct a model instance of Timeslice by calling from_dict on the json representation
-        timeslice_model = Timeslice.from_dict(timeslice_model_json)
-        assert timeslice_model != False
+        # Construct a model instance of QueryTimesliceAggregation by calling from_dict on the json representation
+        query_timeslice_aggregation_model = QueryTimesliceAggregation.from_dict(query_timeslice_aggregation_model_json)
+        assert query_timeslice_aggregation_model != False
 
-        # Construct a model instance of Timeslice by calling from_dict on the json representation
-        timeslice_model_dict = Timeslice.from_dict(timeslice_model_json).__dict__
-        timeslice_model2 = Timeslice(**timeslice_model_dict)
+        # Construct a model instance of QueryTimesliceAggregation by calling from_dict on the json representation
+        query_timeslice_aggregation_model_dict = QueryTimesliceAggregation.from_dict(query_timeslice_aggregation_model_json).__dict__
+        query_timeslice_aggregation_model2 = QueryTimesliceAggregation(**query_timeslice_aggregation_model_dict)
 
         # Verify the model instances are equivalent
-        assert timeslice_model == timeslice_model2
+        assert query_timeslice_aggregation_model == query_timeslice_aggregation_model2
 
         # Convert model instance back to dict and verify no loss of data
-        timeslice_model_json2 = timeslice_model.to_dict()
-        assert timeslice_model_json2 == timeslice_model_json
+        query_timeslice_aggregation_model_json2 = query_timeslice_aggregation_model.to_dict()
+        assert query_timeslice_aggregation_model_json2 == query_timeslice_aggregation_model_json
 
-class TestModel_TopHits():
+class TestModel_QueryTopHitsAggregation():
     """
-    Test Class for TopHits
+    Test Class for QueryTopHitsAggregation
     """
 
-    def test_top_hits_serialization(self):
+    def test_query_top_hits_aggregation_serialization(self):
         """
-        Test serialization/deserialization for TopHits
+        Test serialization/deserialization for QueryTopHitsAggregation
         """
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        query_result_metadata_model = {} # QueryResultMetadata
-        query_result_metadata_model['score'] = 72.5
-        query_result_metadata_model['confidence'] = 72.5
+        query_top_hits_aggregation_result_model = {} # QueryTopHitsAggregationResult
+        query_top_hits_aggregation_result_model['matching_results'] = 38
+        query_top_hits_aggregation_result_model['hits'] = [{}]
 
-        query_result_model = {} # QueryResult
-        query_result_model['id'] = 'testString'
-        query_result_model['metadata'] = {}
-        query_result_model['collection_id'] = 'testString'
-        query_result_model['result_metadata'] = query_result_metadata_model
-        query_result_model['foo'] = { 'foo': 'bar' }
+        # Construct a json representation of a QueryTopHitsAggregation model
+        query_top_hits_aggregation_model_json = {}
+        query_top_hits_aggregation_model_json['type'] = 'top_hits'
+        query_top_hits_aggregation_model_json['size'] = 38
+        query_top_hits_aggregation_model_json['name'] = 'testString'
+        query_top_hits_aggregation_model_json['hits'] = query_top_hits_aggregation_result_model
 
-        top_hits_results_model = {} # TopHitsResults
-        top_hits_results_model['matching_results'] = 38
-        top_hits_results_model['hits'] = [query_result_model]
+        # Construct a model instance of QueryTopHitsAggregation by calling from_dict on the json representation
+        query_top_hits_aggregation_model = QueryTopHitsAggregation.from_dict(query_top_hits_aggregation_model_json)
+        assert query_top_hits_aggregation_model != False
 
-        # Construct a json representation of a TopHits model
-        top_hits_model_json = {}
-        top_hits_model_json['type'] = 'top_hits'
-        top_hits_model_json['matching_results'] = 38
-        top_hits_model_json['size'] = 38
-        top_hits_model_json['hits'] = top_hits_results_model
-
-        # Construct a model instance of TopHits by calling from_dict on the json representation
-        top_hits_model = TopHits.from_dict(top_hits_model_json)
-        assert top_hits_model != False
-
-        # Construct a model instance of TopHits by calling from_dict on the json representation
-        top_hits_model_dict = TopHits.from_dict(top_hits_model_json).__dict__
-        top_hits_model2 = TopHits(**top_hits_model_dict)
+        # Construct a model instance of QueryTopHitsAggregation by calling from_dict on the json representation
+        query_top_hits_aggregation_model_dict = QueryTopHitsAggregation.from_dict(query_top_hits_aggregation_model_json).__dict__
+        query_top_hits_aggregation_model2 = QueryTopHitsAggregation(**query_top_hits_aggregation_model_dict)
 
         # Verify the model instances are equivalent
-        assert top_hits_model == top_hits_model2
+        assert query_top_hits_aggregation_model == query_top_hits_aggregation_model2
 
         # Convert model instance back to dict and verify no loss of data
-        top_hits_model_json2 = top_hits_model.to_dict()
-        assert top_hits_model_json2 == top_hits_model_json
+        query_top_hits_aggregation_model_json2 = query_top_hits_aggregation_model.to_dict()
+        assert query_top_hits_aggregation_model_json2 == query_top_hits_aggregation_model_json
 
 
 # endregion
