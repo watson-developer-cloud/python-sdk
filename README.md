@@ -7,34 +7,35 @@
 [![CLA assistant](https://cla-assistant.io/readme/badge/watson-developer-cloud/python-sdk)](https://cla-assistant.io/watson-developer-cloud/python-sdk)
 
 ## Deprecated builds
+
 [![Build Status](https://travis-ci.org/watson-developer-cloud/python-sdk.svg?branch=master)](https://travis-ci.org/watson-developer-cloud/python-sdk)
 
 Python client library to quickly get started with the various [Watson APIs][wdc] services.
 
 ## Announcements
-### Natural Language Classifier deprecation
+
+### Tone Analyzer Deprecation
+
+As of this major release, 6.0.0, the Tone Analyzer api has been removed in preparation for deprecation. If you wish to continue using this sdk to make calls to Tone Analyzer until its final deprecation, you will have to use a previous version.
+
+On 24 February 2022, IBM announced the deprecation of the Tone Analyzer service. The service will no longer be available as of 24 February 2023. As of 24 February 2022, you will not be able to create new instances. Existing instances will be supported until 24 February 2023.
+
+As an alternative, we encourage you to consider migrating to the Natural Language Understanding service on IBM Cloud. With Natural Language Understanding, tone analysis is done by using a pre-built classifications model, which provides an easy way to detect language tones in written text. For more information, see [Migrating from Watson Tone Analyzer Customer Engagement endpoint to Natural Language Understanding](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-tone_analytics).
+
+### Natural Language Classifier Deprecation
+
+As of this major release, 6.0.0, the NLC api has been removed in preparation for deprecation. If you wish to continue using this sdk to make calls to NLC until its final deprecation, you will have to use a previous version.
+
 On 9 August 2021, IBM announced the deprecation of the Natural Language Classifier service. The service will no longer be available from 8 August 2022. As of 9 September 2021, you will not be able to create new instances. Existing instances will be supported until 8 August 2022. Any instance that still exists on that date will be deleted.
 
 As an alternative, we encourage you to consider migrating to the Natural Language Understanding service on IBM Cloud that uses deep learning to extract data and insights from text such as keywords, categories, sentiment, emotion, and syntax, along with advanced multi-label text classification capabilities, to provide even richer insights for your business or industry. For more information, see [Migrating to Natural Language Understanding](https://cloud.ibm.com/docs/natural-language-classifier?topic=natural-language-classifier-migrating).
 
-### Updating endpoint URLs from watsonplatform.net
-Watson API endpoint URLs at watsonplatform.net are changing and will not work after 26 May 2021. Update your calls to use the newer endpoint URLs. For more information, see https://cloud.ibm.com/docs/watson?topic=watson-endpoint-change.
-
-### Personality Insights deprecation
-IBM Watson™ Personality Insights is discontinued. For a period of one year from 1 December 2020, you will still be able to use Watson Personality Insights. However, as of 1 December 2021, the offering will no longer be available.
-
-As an alternative, we encourage you to consider migrating to IBM Watson™ [Natural Language Understanding](https://cloud.ibm.com/docs/natural-language-understanding), a service on IBM Cloud® that uses deep learning to extract data and insights from text such as keywords, categories, sentiment, emotion, and syntax to provide insights for your business or industry. For more information, see About Natural Language Understanding.
-
-### Visual Recognition deprecation
-IBM Watson™ Visual Recognition is discontinued. Existing instances are supported until 1 December 2021, but as of 7 January 2021, you can't create instances. Any instance that is provisioned on 1 December 2021 will be deleted.
-
-### Compare and Comply deprecation
-IBM Watson™ Compare and Comply is discontinued. Existing instances are supported until 30 November 2021, but as of 1 December 2020, you can't create instances. Any instance that exists on 30 November 2021 will be deleted. Consider migrating to Watson Discovery Premium on IBM Cloud for your Compare and Comply use cases. To start the migration process, visit https://ibm.biz/contact-wdc-premium.
-
 ## Before you begin
-* You need an [IBM Cloud][ibm-cloud-onboarding] account. We now only support `python 3.5` and above
+
+- You need an [IBM Cloud][ibm-cloud-onboarding] account. We now only support `python 3.5` and above
 
 ## Installation
+
 To install, use `pip` or `easy_install`:
 
 ```bash
@@ -63,9 +64,11 @@ sudo -H pip install --ignore-installed six ibm-watson
 For more details see [#225](https://github.com/watson-developer-cloud/python-sdk/issues/225)
 
 c) In case you run into problems installing the SDK in DSX, try
+
 ```
 !pip install --upgrade pip
 ```
+
 Restarting the kernel
 
 For more details see [#405](https://github.com/watson-developer-cloud/python-sdk/issues/405)
@@ -86,6 +89,7 @@ Watson services are migrating to token-based Identity and Access Management (IAM
 - In other instances, you authenticate by providing the **[username and password](#username-and-password)** for the service instance.
 
 ### Getting credentials
+
 To find out which authentication to use, view the service credentials. You find the service credentials for authentication the same way for all Watson services:
 
 1. Go to the IBM Cloud [Dashboard](https://cloud.ibm.com/) page.
@@ -126,7 +130,8 @@ export IBM_CREDENTIALS_FILE="<path>"
 where `<path>` is something like `/home/user/Downloads/<file_name>.env`.
 
 #### Environment Variables
-Simply set the environment variables using <service name>_<variable name> syntax. For example, using your favourite terminal, you can set environment variables for Assistant service instance:
+
+Simply set the environment variables using <service name>\_<variable name> syntax. For example, using your favourite terminal, you can set environment variables for Assistant service instance:
 
 ```bash
 export ASSISTANT_APIKEY="<your apikey>"
@@ -139,8 +144,8 @@ The credentials will be loaded from the environment automatically
 assistant = AssistantV1(version='2018-08-01')
 ```
 
-
 #### Manually
+
 If you'd prefer to set authentication values manually in your code, the SDK supports that as well. The way you'll do this depends on what type of credentials your service instance gives you.
 
 ### IAM
@@ -154,6 +159,7 @@ You supply either an IAM service **API key** or a **bearer token**:
 - Use a server-side to generate access tokens using your IAM API key for untrusted environments like client-side scripts. The generated access tokens will be valid for one hour and can be refreshed.
 
 #### Supplying the API key
+
 ```python
 from ibm_watson import DiscoveryV1
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
@@ -167,6 +173,7 @@ discovery.set_service_url('<url_as_per_region>')
 ```
 
 #### Generating bearer tokens using API key
+
 ```python
 from ibm_watson import IAMTokenManager
 
@@ -176,6 +183,7 @@ token = iam_token_manager.get_token()
 ```
 
 ##### Supplying the bearer token
+
 ```python
 from ibm_watson import DiscoveryV1
 from ibm_cloud_sdk_core.authenticators import BearerTokenAuthenticator
@@ -188,6 +196,7 @@ discovery.set_service_url('<url_as_per_region>')
 ```
 
 ### Username and password
+
 ```python
 from ibm_watson import DiscoveryV1
 from ibm_cloud_sdk_core.authenticators import BasicAuthenticator
@@ -198,6 +207,7 @@ discovery.set_service_url('<url_as_per_region>')
 ```
 
 ### No Authentication
+
 ```python
 from ibm_watson import DiscoveryV1
 from ibm_cloud_sdk_core.authenticators import NoAuthAuthenticator
@@ -216,10 +226,13 @@ Tested on Python 3.5, 3.6, and 3.7.
 If you have issues with the APIs or have a question about the Watson services, see [Stack Overflow](https://stackoverflow.com/questions/tagged/ibm-watson+python).
 
 ## Changes for v1.0
+
 Version 1.0 focuses on the move to programmatically-generated code for many of the services. See the [changelog](https://github.com/watson-developer-cloud/python-sdk/wiki/Changelog) for the details.
 
 ## Changes for v2.0
+
 `DetailedResponse` which contains the result, headers and HTTP status code is now the default response for all methods.
+
 ```python
 from ibm_watson import AssistantV1
 
@@ -234,14 +247,17 @@ print(response.get_result())
 print(response.get_headers())
 print(response.get_status_code())
 ```
+
 See the [changelog](https://github.com/watson-developer-cloud/python-sdk/wiki/Changelog) for the details.
 
 ## Changes for v3.0
+
 The SDK is generated using OpenAPI Specification(OAS3). Changes are basic reordering of parameters in function calls.
 
 The package is renamed to ibm_watson. See the [changelog](https://github.com/watson-developer-cloud/python-sdk/wiki/Changelog) for the details.
 
 ## Changes for v4.0
+
 Authenticator variable indicates the type of authentication to be used.
 
 ```python
@@ -254,12 +270,15 @@ assistant = AssistantV1(
     authenticator=authenticator)
 assistant.set_service_url('<url as per region>')
 ```
+
 For more information, follow the [MIGRATION-V4](https://github.com/watson-developer-cloud/python-sdk/blob/master/MIGRATION-V4.md)
 
 ## Migration
+
 To move from v3.x to v4.0, refer to the [MIGRATION-V4](https://github.com/watson-developer-cloud/python-sdk/blob/master/MIGRATION-V4.md).
 
 ## Configuring the http client (Supported from v1.1.0)
+
 To set client configs like timeout use the `set_http_config()` function and pass it a dictionary of configs. See this [documentation](https://2.python-requests.org/en/master/api/#requests.request) for more information about the options. All options shown except `method`, `url`, `headers`, `params`, `data`, and `auth` are configurable via `set_http_config()`. For example for a Assistant service instance
 
 ```python
@@ -279,9 +298,11 @@ print(json.dumps(response, indent=2))
 ```
 
 ### Use behind a corporate proxy
+
 To use the SDK with any proxies you may have they can be set as shown below. For documentation on proxies see [here](https://2.python-requests.org/en/latest/user/advanced/#proxies)
 
 See this example configuration:
+
 ```python
 from ibm_watson import AssistantV1
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
@@ -299,7 +320,9 @@ assistant.set_http_config({'proxies': {
 ```
 
 ### Sending custom certificates
+
 To send custom certificates as a security measure in your request, use the cert property of the HTTPS Agent.
+
 ```python
 from ibm_watson import AssistantV1
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
@@ -314,6 +337,7 @@ assistant.set_http_config({'cert': ('path_to_cert_file','path_to_key_file')})
 ```
 
 ## Disable SSL certificate verification
+
 For ICP(IBM Cloud Private), you can disable the SSL certificate verification by:
 
 ```python
@@ -327,6 +351,7 @@ export <service name>_DISABLE_SSL=True
 ```
 
 ## Setting the service url
+
 To set the base service to be used when contacting the service
 
 ```python
@@ -340,14 +365,18 @@ export <service name>_URL="<your url>"
 ```
 
 ## Sending request headers
+
 Custom headers can be passed in any request in the form of a `dict` as:
+
 ```python
 headers = {
     'Custom-Header': 'custom_value'
 }
 ```
+
 For example, to send a header called `Custom-Header` to a call in Watson Assistant, pass
 the headers parameter as:
+
 ```python
 from ibm_watson import AssistantV1
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
@@ -362,7 +391,9 @@ response = assistant.list_workspaces(headers={'Custom-Header': 'custom_value'}).
 ```
 
 ## Parsing HTTP response information
+
 If you would like access to some HTTP response information along with the response model, you can set the `set_detailed_response()` to `True`. Since Python SDK `v2.0`, it is set to `True`
+
 ```python
 from ibm_watson import AssistantV1
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
@@ -379,6 +410,7 @@ print(response)
 ```
 
 This would give an output of `DetailedResponse` having the structure:
+
 ```python
 {
     'result': <response returned by service>,
@@ -386,12 +418,15 @@ This would give an output of `DetailedResponse` having the structure:
     'status_code': <http status code>
 }
 ```
+
 You can use the `get_result()`, `get_headers()` and get_status_code() to return the result, headers and status code respectively.
 
 ## Getting the transaction ID
+
 Every SDK call returns a response with a transaction ID in the `X-Global-Transaction-Id` header. Together the service instance region, this ID helps support teams troubleshoot issues from relevant logs.
 
 ### Suceess
+
 ```python
 from ibm_watson import AssistantV1
 
@@ -401,6 +436,7 @@ print(response_headers.get('X-Global-Transaction-Id'))
 ```
 
 ### Failure
+
 ```python
 from ibm_watson import AssistantV1, ApiException
 
@@ -423,6 +459,7 @@ service.my_service_call(headers={'X-Global-Transaction-Id': '<my-unique-transact
 ```
 
 ## Using Websockets
+
 The Text to Speech service supports synthesizing text to spoken audio using web sockets with the `synthesize_using_websocket`. The Speech to Text service supports recognizing speech to text using web sockets with the `recognize_using_websocket`. These methods need a custom callback class to listen to events. Below is an example of `synthesize_using_websocket`. Note: The service accepts one request per connection.
 
 ```py
@@ -447,10 +484,13 @@ service.synthesize_using_websocket('I like to pet dogs',
 ```
 
 ## Cloud Pak for Data
+
 If your service instance is of CP4D, below are two ways of initializing the assistant service.
 
 ### 1) Supplying the username, password and authentication url
+
 The SDK will manage the token for the user
+
 ```python
 from ibm_watson import AssistantV1
 from ibm_cloud_sdk_core.authenticators import CloudPakForDataAuthenticator
@@ -469,6 +509,7 @@ assistant.set_disable_ssl_verification(True) # MAKE SURE SSL VERIFICATION IS DIS
 ```
 
 ### 2) Supplying the access token
+
 ```python
 from ibm_watson import AssistantV1
 from ibm_cloud_sdk_core.authenticators import BearerTokenAuthenticator
@@ -490,6 +531,7 @@ logging.basicConfig(level=logging.DEBUG)
 ```
 
 This would show output of the form:
+
 ```
 DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): iam.cloud.ibm.com:443
 DEBUG:urllib3.connectionpool:https://iam.cloud.ibm.com:443 "POST /identity/token HTTP/1.1" 200 1809
@@ -502,6 +544,7 @@ DEBUG:urllib3.connectionpool:https://gateway.watsonplatform.net:443 "DELETE /ass
 ```
 
 ### Low level request and response dump
+
 To get low level information of the requests/ responses:
 
 ```python
@@ -511,26 +554,25 @@ HTTPConnection.debuglevel = 1
 
 ## Dependencies
 
-* [requests]
-* `python_dateutil` >= 2.5.3
-* [responses] for testing
-* Following for web sockets support in speech to text
-   * `websocket-client` 0.48.0
-* `ibm_cloud_sdk_core` == 1.0.0
+- [requests]
+- `python_dateutil` >= 2.5.3
+- [responses] for testing
+- Following for web sockets support in speech to text
+  - `websocket-client` 0.48.0
+- `ibm_cloud_sdk_core` == 1.0.0
 
 ## Contributing
 
-See [CONTRIBUTING.md][CONTRIBUTING].
+See [CONTRIBUTING.md][contributing].
 
 ## Featured Projects
 
 Here are some projects that have been using the SDK:
 
-* [NLC ICD-10 Classifier](https://github.com/IBM/nlc-icd10-classifier)
-* [Cognitive Moderator Service](https://github.com/IBM/cognitive-moderator-service)
+- [NLC ICD-10 Classifier](https://github.com/IBM/nlc-icd10-classifier)
+- [Cognitive Moderator Service](https://github.com/IBM/cognitive-moderator-service)
 
 We'd love to highlight cool open-source projects that use this SDK! If you'd like to get your project added to the list, feel free to make an issue linking us to it.
-
 
 ## License
 
@@ -542,7 +584,7 @@ This library is licensed under the [Apache 2.0 license][license].
 [responses]: https://github.com/getsentry/responses
 [requests]: http://docs.python-requests.org/en/latest/
 [examples]: https://github.com/watson-developer-cloud/python-sdk/tree/master/examples
-[CONTRIBUTING]: https://github.com/watson-developer-cloud/python-sdk/blob/master/CONTRIBUTING.md
+[contributing]: https://github.com/watson-developer-cloud/python-sdk/blob/master/CONTRIBUTING.md
 [license]: http://www.apache.org/licenses/LICENSE-2.0
 [vcap_services]: https://cloud.ibm.com/docs/watson?topic=watson-vcapServices
 [ibm-cloud-onboarding]: https://cloud.ibm.com/registration?target=/developer/watson&cm_sp=WatsonPlatform-WatsonServices-_-OnPageNavLink-IBMWatson_SDKs-_-Python
