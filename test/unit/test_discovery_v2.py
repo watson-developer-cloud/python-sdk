@@ -12,7 +12,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 """
 Unit Tests for DiscoveryV2
 """
@@ -33,10 +32,7 @@ from ibm_watson.discovery_v2 import *
 
 version = 'testString'
 
-_service = DiscoveryV2(
-    authenticator=NoAuthAuthenticator(),
-    version=version
-)
+_service = DiscoveryV2(authenticator=NoAuthAuthenticator(), version=version)
 
 _base_url = 'https://api.us-south.discovery.watson.cloud.ibm.com'
 _service.set_service_url(_base_url)
@@ -73,11 +69,11 @@ def preprocess_url(operation_path: str):
 ##############################################################################
 # region
 
+
 class TestListProjects():
     """
     Test Class for list_projects
     """
-
     @responses.activate
     def test_list_projects_all_params(self):
         """
@@ -94,7 +90,6 @@ class TestListProjects():
 
         # Invoke method
         response = _service.list_projects()
-
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -124,10 +119,12 @@ class TestListProjects():
                       status=200)
 
         # Pass in all but one required param and check for a ValueError
-        req_param_dict = {
-        }
+        req_param_dict = {}
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.list_projects(**req_copy)
 
@@ -140,11 +137,11 @@ class TestListProjects():
         _service.disable_retries()
         self.test_list_projects_value_error()
 
+
 class TestCreateProject():
     """
     Test Class for create_project
     """
-
     @responses.activate
     def test_create_project_all_params(self):
         """
@@ -182,10 +179,13 @@ class TestCreateProject():
         # Construct a dict representation of a DefaultQueryParams model
         default_query_params_model = {}
         default_query_params_model['collection_ids'] = ['testString']
-        default_query_params_model['passages'] = default_query_params_passages_model
-        default_query_params_model['table_results'] = default_query_params_table_results_model
+        default_query_params_model[
+            'passages'] = default_query_params_passages_model
+        default_query_params_model[
+            'table_results'] = default_query_params_table_results_model
         default_query_params_model['aggregation'] = 'testString'
-        default_query_params_model['suggested_refinements'] = default_query_params_suggested_refinements_model
+        default_query_params_model[
+            'suggested_refinements'] = default_query_params_suggested_refinements_model
         default_query_params_model['spelling_suggestions'] = True
         default_query_params_model['highlight'] = True
         default_query_params_model['count'] = 38
@@ -202,8 +202,7 @@ class TestCreateProject():
             name,
             type,
             default_query_parameters=default_query_parameters,
-            headers={}
-        )
+            headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -212,7 +211,8 @@ class TestCreateProject():
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['name'] == 'testString'
         assert req_body['type'] == 'document_retrieval'
-        assert req_body['default_query_parameters'] == default_query_params_model
+        assert req_body[
+            'default_query_parameters'] == default_query_params_model
 
     def test_create_project_all_params_with_retries(self):
         # Enable retries and run test_create_project_all_params.
@@ -260,10 +260,13 @@ class TestCreateProject():
         # Construct a dict representation of a DefaultQueryParams model
         default_query_params_model = {}
         default_query_params_model['collection_ids'] = ['testString']
-        default_query_params_model['passages'] = default_query_params_passages_model
-        default_query_params_model['table_results'] = default_query_params_table_results_model
+        default_query_params_model[
+            'passages'] = default_query_params_passages_model
+        default_query_params_model[
+            'table_results'] = default_query_params_table_results_model
         default_query_params_model['aggregation'] = 'testString'
-        default_query_params_model['suggested_refinements'] = default_query_params_suggested_refinements_model
+        default_query_params_model[
+            'suggested_refinements'] = default_query_params_suggested_refinements_model
         default_query_params_model['spelling_suggestions'] = True
         default_query_params_model['highlight'] = True
         default_query_params_model['count'] = 38
@@ -281,7 +284,10 @@ class TestCreateProject():
             "type": type,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.create_project(**req_copy)
 
@@ -294,11 +300,11 @@ class TestCreateProject():
         _service.disable_retries()
         self.test_create_project_value_error()
 
+
 class TestGetProject():
     """
     Test Class for get_project
     """
-
     @responses.activate
     def test_get_project_all_params(self):
         """
@@ -317,10 +323,7 @@ class TestGetProject():
         project_id = 'testString'
 
         # Invoke method
-        response = _service.get_project(
-            project_id,
-            headers={}
-        )
+        response = _service.get_project(project_id, headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -357,7 +360,10 @@ class TestGetProject():
             "project_id": project_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.get_project(**req_copy)
 
@@ -370,11 +376,11 @@ class TestGetProject():
         _service.disable_retries()
         self.test_get_project_value_error()
 
+
 class TestUpdateProject():
     """
     Test Class for update_project
     """
-
     @responses.activate
     def test_update_project_all_params(self):
         """
@@ -394,11 +400,7 @@ class TestUpdateProject():
         name = 'testString'
 
         # Invoke method
-        response = _service.update_project(
-            project_id,
-            name=name,
-            headers={}
-        )
+        response = _service.update_project(project_id, name=name, headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -434,10 +436,7 @@ class TestUpdateProject():
         project_id = 'testString'
 
         # Invoke method
-        response = _service.update_project(
-            project_id,
-            headers={}
-        )
+        response = _service.update_project(project_id, headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -474,7 +473,10 @@ class TestUpdateProject():
             "project_id": project_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.update_project(**req_copy)
 
@@ -487,11 +489,11 @@ class TestUpdateProject():
         _service.disable_retries()
         self.test_update_project_value_error()
 
+
 class TestDeleteProject():
     """
     Test Class for delete_project
     """
-
     @responses.activate
     def test_delete_project_all_params(self):
         """
@@ -499,18 +501,13 @@ class TestDeleteProject():
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        responses.add(responses.DELETE, url, status=204)
 
         # Set up parameter values
         project_id = 'testString'
 
         # Invoke method
-        response = _service.delete_project(
-            project_id,
-            headers={}
-        )
+        response = _service.delete_project(project_id, headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -532,9 +529,7 @@ class TestDeleteProject():
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        responses.add(responses.DELETE, url, status=204)
 
         # Set up parameter values
         project_id = 'testString'
@@ -544,7 +539,10 @@ class TestDeleteProject():
             "project_id": project_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.delete_project(**req_copy)
 
@@ -557,11 +555,11 @@ class TestDeleteProject():
         _service.disable_retries()
         self.test_delete_project_value_error()
 
+
 class TestListFields():
     """
     Test Class for list_fields
     """
-
     @responses.activate
     def test_list_fields_all_params(self):
         """
@@ -581,19 +579,18 @@ class TestListFields():
         collection_ids = ['testString']
 
         # Invoke method
-        response = _service.list_fields(
-            project_id,
-            collection_ids=collection_ids,
-            headers={}
-        )
+        response = _service.list_fields(project_id,
+                                        collection_ids=collection_ids,
+                                        headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
-        assert 'collection_ids={}'.format(','.join(collection_ids)) in query_string
+        assert 'collection_ids={}'.format(
+            ','.join(collection_ids)) in query_string
 
     def test_list_fields_all_params_with_retries(self):
         # Enable retries and run test_list_fields_all_params.
@@ -622,10 +619,7 @@ class TestListFields():
         project_id = 'testString'
 
         # Invoke method
-        response = _service.list_fields(
-            project_id,
-            headers={}
-        )
+        response = _service.list_fields(project_id, headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -662,7 +656,10 @@ class TestListFields():
             "project_id": project_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.list_fields(**req_copy)
 
@@ -675,6 +672,7 @@ class TestListFields():
         _service.disable_retries()
         self.test_list_fields_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: Projects
@@ -685,11 +683,11 @@ class TestListFields():
 ##############################################################################
 # region
 
+
 class TestListCollections():
     """
     Test Class for list_collections
     """
-
     @responses.activate
     def test_list_collections_all_params(self):
         """
@@ -708,10 +706,7 @@ class TestListCollections():
         project_id = 'testString'
 
         # Invoke method
-        response = _service.list_collections(
-            project_id,
-            headers={}
-        )
+        response = _service.list_collections(project_id, headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -748,7 +743,10 @@ class TestListCollections():
             "project_id": project_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.list_collections(**req_copy)
 
@@ -761,11 +759,11 @@ class TestListCollections():
         _service.disable_retries()
         self.test_list_collections_value_error()
 
+
 class TestCreateCollection():
     """
     Test Class for create_collection
     """
-
     @responses.activate
     def test_create_collection_all_params(self):
         """
@@ -788,7 +786,8 @@ class TestCreateCollection():
         # Construct a dict representation of a CollectionDetailsSmartDocumentUnderstanding model
         collection_details_smart_document_understanding_model = {}
         collection_details_smart_document_understanding_model['enabled'] = True
-        collection_details_smart_document_understanding_model['model'] = 'custom'
+        collection_details_smart_document_understanding_model[
+            'model'] = 'custom'
 
         # Set up parameter values
         project_id = 'testString'
@@ -806,8 +805,7 @@ class TestCreateCollection():
             language=language,
             enrichments=enrichments,
             smart_document_understanding=smart_document_understanding,
-            headers={}
-        )
+            headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -818,7 +816,8 @@ class TestCreateCollection():
         assert req_body['description'] == 'testString'
         assert req_body['language'] == 'en'
         assert req_body['enrichments'] == [collection_enrichment_model]
-        assert req_body['smart_document_understanding'] == collection_details_smart_document_understanding_model
+        assert req_body[
+            'smart_document_understanding'] == collection_details_smart_document_understanding_model
 
     def test_create_collection_all_params_with_retries(self):
         # Enable retries and run test_create_collection_all_params.
@@ -851,7 +850,8 @@ class TestCreateCollection():
         # Construct a dict representation of a CollectionDetailsSmartDocumentUnderstanding model
         collection_details_smart_document_understanding_model = {}
         collection_details_smart_document_understanding_model['enabled'] = True
-        collection_details_smart_document_understanding_model['model'] = 'custom'
+        collection_details_smart_document_understanding_model[
+            'model'] = 'custom'
 
         # Set up parameter values
         project_id = 'testString'
@@ -867,7 +867,10 @@ class TestCreateCollection():
             "name": name,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.create_collection(**req_copy)
 
@@ -880,11 +883,11 @@ class TestCreateCollection():
         _service.disable_retries()
         self.test_create_collection_value_error()
 
+
 class TestGetCollection():
     """
     Test Class for get_collection
     """
-
     @responses.activate
     def test_get_collection_all_params(self):
         """
@@ -904,11 +907,9 @@ class TestGetCollection():
         collection_id = 'testString'
 
         # Invoke method
-        response = _service.get_collection(
-            project_id,
-            collection_id,
-            headers={}
-        )
+        response = _service.get_collection(project_id,
+                                           collection_id,
+                                           headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -947,7 +948,10 @@ class TestGetCollection():
             "collection_id": collection_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.get_collection(**req_copy)
 
@@ -960,11 +964,11 @@ class TestGetCollection():
         _service.disable_retries()
         self.test_get_collection_value_error()
 
+
 class TestUpdateCollection():
     """
     Test Class for update_collection
     """
-
     @responses.activate
     def test_update_collection_all_params(self):
         """
@@ -992,14 +996,12 @@ class TestUpdateCollection():
         enrichments = [collection_enrichment_model]
 
         # Invoke method
-        response = _service.update_collection(
-            project_id,
-            collection_id,
-            name=name,
-            description=description,
-            enrichments=enrichments,
-            headers={}
-        )
+        response = _service.update_collection(project_id,
+                                              collection_id,
+                                              name=name,
+                                              description=description,
+                                              enrichments=enrichments,
+                                              headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -1051,7 +1053,10 @@ class TestUpdateCollection():
             "collection_id": collection_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.update_collection(**req_copy)
 
@@ -1064,11 +1069,11 @@ class TestUpdateCollection():
         _service.disable_retries()
         self.test_update_collection_value_error()
 
+
 class TestDeleteCollection():
     """
     Test Class for delete_collection
     """
-
     @responses.activate
     def test_delete_collection_all_params(self):
         """
@@ -1076,20 +1081,16 @@ class TestDeleteCollection():
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        responses.add(responses.DELETE, url, status=204)
 
         # Set up parameter values
         project_id = 'testString'
         collection_id = 'testString'
 
         # Invoke method
-        response = _service.delete_collection(
-            project_id,
-            collection_id,
-            headers={}
-        )
+        response = _service.delete_collection(project_id,
+                                              collection_id,
+                                              headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -1111,9 +1112,7 @@ class TestDeleteCollection():
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        responses.add(responses.DELETE, url, status=204)
 
         # Set up parameter values
         project_id = 'testString'
@@ -1125,7 +1124,10 @@ class TestDeleteCollection():
             "collection_id": collection_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.delete_collection(**req_copy)
 
@@ -1138,6 +1140,7 @@ class TestDeleteCollection():
         _service.disable_retries()
         self.test_delete_collection_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: Collections
@@ -1148,18 +1151,19 @@ class TestDeleteCollection():
 ##############################################################################
 # region
 
+
 class TestListDocuments():
     """
     Test Class for list_documents
     """
-
     @responses.activate
     def test_list_documents_all_params(self):
         """
         list_documents()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/collections/testString/documents')
+        url = preprocess_url(
+            '/v2/projects/testString/collections/testString/documents')
         mock_response = '{"matching_results": 16, "documents": [{"document_id": "document_id", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "available", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}], "children": {"have_notices": true, "count": 5}, "filename": "filename", "file_type": "file_type", "sha256": "sha256"}]}'
         responses.add(responses.GET,
                       url,
@@ -1187,20 +1191,22 @@ class TestListDocuments():
             is_parent=is_parent,
             parent_document_id=parent_document_id,
             sha256=sha256,
-            headers={}
-        )
+            headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'count={}'.format(count) in query_string
         assert 'status={}'.format(status) in query_string
-        assert 'has_notices={}'.format('true' if has_notices else 'false') in query_string
-        assert 'is_parent={}'.format('true' if is_parent else 'false') in query_string
-        assert 'parent_document_id={}'.format(parent_document_id) in query_string
+        assert 'has_notices={}'.format(
+            'true' if has_notices else 'false') in query_string
+        assert 'is_parent={}'.format(
+            'true' if is_parent else 'false') in query_string
+        assert 'parent_document_id={}'.format(
+            parent_document_id) in query_string
         assert 'sha256={}'.format(sha256) in query_string
 
     def test_list_documents_all_params_with_retries(self):
@@ -1218,7 +1224,8 @@ class TestListDocuments():
         test_list_documents_required_params()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/collections/testString/documents')
+        url = preprocess_url(
+            '/v2/projects/testString/collections/testString/documents')
         mock_response = '{"matching_results": 16, "documents": [{"document_id": "document_id", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "available", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}], "children": {"have_notices": true, "count": 5}, "filename": "filename", "file_type": "file_type", "sha256": "sha256"}]}'
         responses.add(responses.GET,
                       url,
@@ -1231,11 +1238,9 @@ class TestListDocuments():
         collection_id = 'testString'
 
         # Invoke method
-        response = _service.list_documents(
-            project_id,
-            collection_id,
-            headers={}
-        )
+        response = _service.list_documents(project_id,
+                                           collection_id,
+                                           headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -1256,7 +1261,8 @@ class TestListDocuments():
         test_list_documents_value_error()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/collections/testString/documents')
+        url = preprocess_url(
+            '/v2/projects/testString/collections/testString/documents')
         mock_response = '{"matching_results": 16, "documents": [{"document_id": "document_id", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "available", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}], "children": {"have_notices": true, "count": 5}, "filename": "filename", "file_type": "file_type", "sha256": "sha256"}]}'
         responses.add(responses.GET,
                       url,
@@ -1274,7 +1280,10 @@ class TestListDocuments():
             "collection_id": collection_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.list_documents(**req_copy)
 
@@ -1287,18 +1296,19 @@ class TestListDocuments():
         _service.disable_retries()
         self.test_list_documents_value_error()
 
+
 class TestAddDocument():
     """
     Test Class for add_document
     """
-
     @responses.activate
     def test_add_document_all_params(self):
         """
         add_document()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/collections/testString/documents')
+        url = preprocess_url(
+            '/v2/projects/testString/collections/testString/documents')
         mock_response = '{"document_id": "document_id", "status": "processing"}'
         responses.add(responses.POST,
                       url,
@@ -1324,8 +1334,7 @@ class TestAddDocument():
             file_content_type=file_content_type,
             metadata=metadata,
             x_watson_discovery_force=x_watson_discovery_force,
-            headers={}
-        )
+            headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -1346,7 +1355,8 @@ class TestAddDocument():
         test_add_document_required_params()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/collections/testString/documents')
+        url = preprocess_url(
+            '/v2/projects/testString/collections/testString/documents')
         mock_response = '{"document_id": "document_id", "status": "processing"}'
         responses.add(responses.POST,
                       url,
@@ -1359,11 +1369,7 @@ class TestAddDocument():
         collection_id = 'testString'
 
         # Invoke method
-        response = _service.add_document(
-            project_id,
-            collection_id,
-            headers={}
-        )
+        response = _service.add_document(project_id, collection_id, headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -1384,7 +1390,8 @@ class TestAddDocument():
         test_add_document_value_error()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/collections/testString/documents')
+        url = preprocess_url(
+            '/v2/projects/testString/collections/testString/documents')
         mock_response = '{"document_id": "document_id", "status": "processing"}'
         responses.add(responses.POST,
                       url,
@@ -1402,7 +1409,10 @@ class TestAddDocument():
             "collection_id": collection_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.add_document(**req_copy)
 
@@ -1415,18 +1425,20 @@ class TestAddDocument():
         _service.disable_retries()
         self.test_add_document_value_error()
 
+
 class TestGetDocument():
     """
     Test Class for get_document
     """
-
     @responses.activate
     def test_get_document_all_params(self):
         """
         get_document()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/collections/testString/documents/testString')
+        url = preprocess_url(
+            '/v2/projects/testString/collections/testString/documents/testString'
+        )
         mock_response = '{"document_id": "document_id", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "available", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}], "children": {"have_notices": true, "count": 5}, "filename": "filename", "file_type": "file_type", "sha256": "sha256"}'
         responses.add(responses.GET,
                       url,
@@ -1440,12 +1452,10 @@ class TestGetDocument():
         document_id = 'testString'
 
         # Invoke method
-        response = _service.get_document(
-            project_id,
-            collection_id,
-            document_id,
-            headers={}
-        )
+        response = _service.get_document(project_id,
+                                         collection_id,
+                                         document_id,
+                                         headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -1466,7 +1476,9 @@ class TestGetDocument():
         test_get_document_value_error()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/collections/testString/documents/testString')
+        url = preprocess_url(
+            '/v2/projects/testString/collections/testString/documents/testString'
+        )
         mock_response = '{"document_id": "document_id", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "available", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}], "children": {"have_notices": true, "count": 5}, "filename": "filename", "file_type": "file_type", "sha256": "sha256"}'
         responses.add(responses.GET,
                       url,
@@ -1486,7 +1498,10 @@ class TestGetDocument():
             "document_id": document_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.get_document(**req_copy)
 
@@ -1499,18 +1514,20 @@ class TestGetDocument():
         _service.disable_retries()
         self.test_get_document_value_error()
 
+
 class TestUpdateDocument():
     """
     Test Class for update_document
     """
-
     @responses.activate
     def test_update_document_all_params(self):
         """
         update_document()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/collections/testString/documents/testString')
+        url = preprocess_url(
+            '/v2/projects/testString/collections/testString/documents/testString'
+        )
         mock_response = '{"document_id": "document_id", "status": "processing"}'
         responses.add(responses.POST,
                       url,
@@ -1538,8 +1555,7 @@ class TestUpdateDocument():
             file_content_type=file_content_type,
             metadata=metadata,
             x_watson_discovery_force=x_watson_discovery_force,
-            headers={}
-        )
+            headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -1560,7 +1576,9 @@ class TestUpdateDocument():
         test_update_document_required_params()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/collections/testString/documents/testString')
+        url = preprocess_url(
+            '/v2/projects/testString/collections/testString/documents/testString'
+        )
         mock_response = '{"document_id": "document_id", "status": "processing"}'
         responses.add(responses.POST,
                       url,
@@ -1574,12 +1592,10 @@ class TestUpdateDocument():
         document_id = 'testString'
 
         # Invoke method
-        response = _service.update_document(
-            project_id,
-            collection_id,
-            document_id,
-            headers={}
-        )
+        response = _service.update_document(project_id,
+                                            collection_id,
+                                            document_id,
+                                            headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -1600,7 +1616,9 @@ class TestUpdateDocument():
         test_update_document_value_error()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/collections/testString/documents/testString')
+        url = preprocess_url(
+            '/v2/projects/testString/collections/testString/documents/testString'
+        )
         mock_response = '{"document_id": "document_id", "status": "processing"}'
         responses.add(responses.POST,
                       url,
@@ -1620,7 +1638,10 @@ class TestUpdateDocument():
             "document_id": document_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.update_document(**req_copy)
 
@@ -1633,18 +1654,20 @@ class TestUpdateDocument():
         _service.disable_retries()
         self.test_update_document_value_error()
 
+
 class TestDeleteDocument():
     """
     Test Class for delete_document
     """
-
     @responses.activate
     def test_delete_document_all_params(self):
         """
         delete_document()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/collections/testString/documents/testString')
+        url = preprocess_url(
+            '/v2/projects/testString/collections/testString/documents/testString'
+        )
         mock_response = '{"document_id": "document_id", "status": "deleted"}'
         responses.add(responses.DELETE,
                       url,
@@ -1664,8 +1687,7 @@ class TestDeleteDocument():
             collection_id,
             document_id,
             x_watson_discovery_force=x_watson_discovery_force,
-            headers={}
-        )
+            headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -1686,7 +1708,9 @@ class TestDeleteDocument():
         test_delete_document_required_params()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/collections/testString/documents/testString')
+        url = preprocess_url(
+            '/v2/projects/testString/collections/testString/documents/testString'
+        )
         mock_response = '{"document_id": "document_id", "status": "deleted"}'
         responses.add(responses.DELETE,
                       url,
@@ -1700,12 +1724,10 @@ class TestDeleteDocument():
         document_id = 'testString'
 
         # Invoke method
-        response = _service.delete_document(
-            project_id,
-            collection_id,
-            document_id,
-            headers={}
-        )
+        response = _service.delete_document(project_id,
+                                            collection_id,
+                                            document_id,
+                                            headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -1726,7 +1748,9 @@ class TestDeleteDocument():
         test_delete_document_value_error()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/collections/testString/documents/testString')
+        url = preprocess_url(
+            '/v2/projects/testString/collections/testString/documents/testString'
+        )
         mock_response = '{"document_id": "document_id", "status": "deleted"}'
         responses.add(responses.DELETE,
                       url,
@@ -1746,7 +1770,10 @@ class TestDeleteDocument():
             "document_id": document_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.delete_document(**req_copy)
 
@@ -1759,6 +1786,7 @@ class TestDeleteDocument():
         _service.disable_retries()
         self.test_delete_document_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: Documents
@@ -1769,11 +1797,11 @@ class TestDeleteDocument():
 ##############################################################################
 # region
 
+
 class TestQuery():
     """
     Test Class for query
     """
-
     @responses.activate
     def test_query_all_params(self):
         """
@@ -1851,8 +1879,7 @@ class TestQuery():
             suggested_refinements=suggested_refinements,
             passages=passages,
             similar=similar,
-            headers={}
-        )
+            headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -1871,7 +1898,8 @@ class TestQuery():
         assert req_body['highlight'] == True
         assert req_body['spelling_suggestions'] == True
         assert req_body['table_results'] == query_large_table_results_model
-        assert req_body['suggested_refinements'] == query_large_suggested_refinements_model
+        assert req_body[
+            'suggested_refinements'] == query_large_suggested_refinements_model
         assert req_body['passages'] == query_large_passages_model
         assert req_body['similar'] == query_large_similar_model
 
@@ -1902,10 +1930,7 @@ class TestQuery():
         project_id = 'testString'
 
         # Invoke method
-        response = _service.query(
-            project_id,
-            headers={}
-        )
+        response = _service.query(project_id, headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -1942,7 +1967,10 @@ class TestQuery():
             "project_id": project_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.query(**req_copy)
 
@@ -1955,11 +1983,11 @@ class TestQuery():
         _service.disable_retries()
         self.test_query_value_error()
 
+
 class TestGetAutocompletion():
     """
     Test Class for get_autocompletion
     """
-
     @responses.activate
     def test_get_autocompletion_all_params(self):
         """
@@ -1982,23 +2010,22 @@ class TestGetAutocompletion():
         count = 38
 
         # Invoke method
-        response = _service.get_autocompletion(
-            project_id,
-            prefix,
-            collection_ids=collection_ids,
-            field=field,
-            count=count,
-            headers={}
-        )
+        response = _service.get_autocompletion(project_id,
+                                               prefix,
+                                               collection_ids=collection_ids,
+                                               field=field,
+                                               count=count,
+                                               headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'prefix={}'.format(prefix) in query_string
-        assert 'collection_ids={}'.format(','.join(collection_ids)) in query_string
+        assert 'collection_ids={}'.format(
+            ','.join(collection_ids)) in query_string
         assert 'field={}'.format(field) in query_string
         assert 'count={}'.format(count) in query_string
 
@@ -2030,17 +2057,13 @@ class TestGetAutocompletion():
         prefix = 'testString'
 
         # Invoke method
-        response = _service.get_autocompletion(
-            project_id,
-            prefix,
-            headers={}
-        )
+        response = _service.get_autocompletion(project_id, prefix, headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'prefix={}'.format(prefix) in query_string
 
@@ -2077,7 +2100,10 @@ class TestGetAutocompletion():
             "prefix": prefix,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.get_autocompletion(**req_copy)
 
@@ -2090,18 +2116,19 @@ class TestGetAutocompletion():
         _service.disable_retries()
         self.test_get_autocompletion_value_error()
 
+
 class TestQueryCollectionNotices():
     """
     Test Class for query_collection_notices
     """
-
     @responses.activate
     def test_query_collection_notices_all_params(self):
         """
         query_collection_notices()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/collections/testString/notices')
+        url = preprocess_url(
+            '/v2/projects/testString/collections/testString/notices')
         mock_response = '{"matching_results": 16, "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}'
         responses.add(responses.GET,
                       url,
@@ -2127,18 +2154,18 @@ class TestQueryCollectionNotices():
             natural_language_query=natural_language_query,
             count=count,
             offset=offset,
-            headers={}
-        )
+            headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'filter={}'.format(filter) in query_string
         assert 'query={}'.format(query) in query_string
-        assert 'natural_language_query={}'.format(natural_language_query) in query_string
+        assert 'natural_language_query={}'.format(
+            natural_language_query) in query_string
         assert 'count={}'.format(count) in query_string
         assert 'offset={}'.format(offset) in query_string
 
@@ -2157,7 +2184,8 @@ class TestQueryCollectionNotices():
         test_query_collection_notices_required_params()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/collections/testString/notices')
+        url = preprocess_url(
+            '/v2/projects/testString/collections/testString/notices')
         mock_response = '{"matching_results": 16, "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}'
         responses.add(responses.GET,
                       url,
@@ -2170,11 +2198,9 @@ class TestQueryCollectionNotices():
         collection_id = 'testString'
 
         # Invoke method
-        response = _service.query_collection_notices(
-            project_id,
-            collection_id,
-            headers={}
-        )
+        response = _service.query_collection_notices(project_id,
+                                                     collection_id,
+                                                     headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -2195,7 +2221,8 @@ class TestQueryCollectionNotices():
         test_query_collection_notices_value_error()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/collections/testString/notices')
+        url = preprocess_url(
+            '/v2/projects/testString/collections/testString/notices')
         mock_response = '{"matching_results": 16, "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}'
         responses.add(responses.GET,
                       url,
@@ -2213,7 +2240,10 @@ class TestQueryCollectionNotices():
             "collection_id": collection_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.query_collection_notices(**req_copy)
 
@@ -2226,11 +2256,11 @@ class TestQueryCollectionNotices():
         _service.disable_retries()
         self.test_query_collection_notices_value_error()
 
+
 class TestQueryNotices():
     """
     Test Class for query_notices
     """
-
     @responses.activate
     def test_query_notices_all_params(self):
         """
@@ -2261,18 +2291,18 @@ class TestQueryNotices():
             natural_language_query=natural_language_query,
             count=count,
             offset=offset,
-            headers={}
-        )
+            headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'filter={}'.format(filter) in query_string
         assert 'query={}'.format(query) in query_string
-        assert 'natural_language_query={}'.format(natural_language_query) in query_string
+        assert 'natural_language_query={}'.format(
+            natural_language_query) in query_string
         assert 'count={}'.format(count) in query_string
         assert 'offset={}'.format(offset) in query_string
 
@@ -2303,10 +2333,7 @@ class TestQueryNotices():
         project_id = 'testString'
 
         # Invoke method
-        response = _service.query_notices(
-            project_id,
-            headers={}
-        )
+        response = _service.query_notices(project_id, headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -2343,7 +2370,10 @@ class TestQueryNotices():
             "project_id": project_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.query_notices(**req_copy)
 
@@ -2356,6 +2386,7 @@ class TestQueryNotices():
         _service.disable_retries()
         self.test_query_notices_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: Queries
@@ -2366,18 +2397,19 @@ class TestQueryNotices():
 ##############################################################################
 # region
 
+
 class TestGetStopwordList():
     """
     Test Class for get_stopword_list
     """
-
     @responses.activate
     def test_get_stopword_list_all_params(self):
         """
         get_stopword_list()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/collections/testString/stopwords')
+        url = preprocess_url(
+            '/v2/projects/testString/collections/testString/stopwords')
         mock_response = '{"stopwords": ["stopwords"]}'
         responses.add(responses.GET,
                       url,
@@ -2390,11 +2422,9 @@ class TestGetStopwordList():
         collection_id = 'testString'
 
         # Invoke method
-        response = _service.get_stopword_list(
-            project_id,
-            collection_id,
-            headers={}
-        )
+        response = _service.get_stopword_list(project_id,
+                                              collection_id,
+                                              headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -2415,7 +2445,8 @@ class TestGetStopwordList():
         test_get_stopword_list_value_error()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/collections/testString/stopwords')
+        url = preprocess_url(
+            '/v2/projects/testString/collections/testString/stopwords')
         mock_response = '{"stopwords": ["stopwords"]}'
         responses.add(responses.GET,
                       url,
@@ -2433,7 +2464,10 @@ class TestGetStopwordList():
             "collection_id": collection_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.get_stopword_list(**req_copy)
 
@@ -2446,18 +2480,19 @@ class TestGetStopwordList():
         _service.disable_retries()
         self.test_get_stopword_list_value_error()
 
+
 class TestCreateStopwordList():
     """
     Test Class for create_stopword_list
     """
-
     @responses.activate
     def test_create_stopword_list_all_params(self):
         """
         create_stopword_list()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/collections/testString/stopwords')
+        url = preprocess_url(
+            '/v2/projects/testString/collections/testString/stopwords')
         mock_response = '{"stopwords": ["stopwords"]}'
         responses.add(responses.POST,
                       url,
@@ -2471,12 +2506,10 @@ class TestCreateStopwordList():
         stopwords = ['testString']
 
         # Invoke method
-        response = _service.create_stopword_list(
-            project_id,
-            collection_id,
-            stopwords=stopwords,
-            headers={}
-        )
+        response = _service.create_stopword_list(project_id,
+                                                 collection_id,
+                                                 stopwords=stopwords,
+                                                 headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -2500,7 +2533,8 @@ class TestCreateStopwordList():
         test_create_stopword_list_required_params()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/collections/testString/stopwords')
+        url = preprocess_url(
+            '/v2/projects/testString/collections/testString/stopwords')
         mock_response = '{"stopwords": ["stopwords"]}'
         responses.add(responses.POST,
                       url,
@@ -2513,11 +2547,9 @@ class TestCreateStopwordList():
         collection_id = 'testString'
 
         # Invoke method
-        response = _service.create_stopword_list(
-            project_id,
-            collection_id,
-            headers={}
-        )
+        response = _service.create_stopword_list(project_id,
+                                                 collection_id,
+                                                 headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -2538,7 +2570,8 @@ class TestCreateStopwordList():
         test_create_stopword_list_value_error()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/collections/testString/stopwords')
+        url = preprocess_url(
+            '/v2/projects/testString/collections/testString/stopwords')
         mock_response = '{"stopwords": ["stopwords"]}'
         responses.add(responses.POST,
                       url,
@@ -2556,7 +2589,10 @@ class TestCreateStopwordList():
             "collection_id": collection_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.create_stopword_list(**req_copy)
 
@@ -2569,32 +2605,29 @@ class TestCreateStopwordList():
         _service.disable_retries()
         self.test_create_stopword_list_value_error()
 
+
 class TestDeleteStopwordList():
     """
     Test Class for delete_stopword_list
     """
-
     @responses.activate
     def test_delete_stopword_list_all_params(self):
         """
         delete_stopword_list()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/collections/testString/stopwords')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        url = preprocess_url(
+            '/v2/projects/testString/collections/testString/stopwords')
+        responses.add(responses.DELETE, url, status=204)
 
         # Set up parameter values
         project_id = 'testString'
         collection_id = 'testString'
 
         # Invoke method
-        response = _service.delete_stopword_list(
-            project_id,
-            collection_id,
-            headers={}
-        )
+        response = _service.delete_stopword_list(project_id,
+                                                 collection_id,
+                                                 headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -2615,10 +2648,9 @@ class TestDeleteStopwordList():
         test_delete_stopword_list_value_error()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/collections/testString/stopwords')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        url = preprocess_url(
+            '/v2/projects/testString/collections/testString/stopwords')
+        responses.add(responses.DELETE, url, status=204)
 
         # Set up parameter values
         project_id = 'testString'
@@ -2630,7 +2662,10 @@ class TestDeleteStopwordList():
             "collection_id": collection_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.delete_stopword_list(**req_copy)
 
@@ -2643,18 +2678,19 @@ class TestDeleteStopwordList():
         _service.disable_retries()
         self.test_delete_stopword_list_value_error()
 
+
 class TestListExpansions():
     """
     Test Class for list_expansions
     """
-
     @responses.activate
     def test_list_expansions_all_params(self):
         """
         list_expansions()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/collections/testString/expansions')
+        url = preprocess_url(
+            '/v2/projects/testString/collections/testString/expansions')
         mock_response = '{"expansions": [{"input_terms": ["input_terms"], "expanded_terms": ["expanded_terms"]}]}'
         responses.add(responses.GET,
                       url,
@@ -2667,11 +2703,9 @@ class TestListExpansions():
         collection_id = 'testString'
 
         # Invoke method
-        response = _service.list_expansions(
-            project_id,
-            collection_id,
-            headers={}
-        )
+        response = _service.list_expansions(project_id,
+                                            collection_id,
+                                            headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -2692,7 +2726,8 @@ class TestListExpansions():
         test_list_expansions_value_error()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/collections/testString/expansions')
+        url = preprocess_url(
+            '/v2/projects/testString/collections/testString/expansions')
         mock_response = '{"expansions": [{"input_terms": ["input_terms"], "expanded_terms": ["expanded_terms"]}]}'
         responses.add(responses.GET,
                       url,
@@ -2710,7 +2745,10 @@ class TestListExpansions():
             "collection_id": collection_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.list_expansions(**req_copy)
 
@@ -2723,18 +2761,19 @@ class TestListExpansions():
         _service.disable_retries()
         self.test_list_expansions_value_error()
 
+
 class TestCreateExpansions():
     """
     Test Class for create_expansions
     """
-
     @responses.activate
     def test_create_expansions_all_params(self):
         """
         create_expansions()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/collections/testString/expansions')
+        url = preprocess_url(
+            '/v2/projects/testString/collections/testString/expansions')
         mock_response = '{"expansions": [{"input_terms": ["input_terms"], "expanded_terms": ["expanded_terms"]}]}'
         responses.add(responses.POST,
                       url,
@@ -2753,12 +2792,10 @@ class TestCreateExpansions():
         expansions = [expansion_model]
 
         # Invoke method
-        response = _service.create_expansions(
-            project_id,
-            collection_id,
-            expansions,
-            headers={}
-        )
+        response = _service.create_expansions(project_id,
+                                              collection_id,
+                                              expansions,
+                                              headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -2782,7 +2819,8 @@ class TestCreateExpansions():
         test_create_expansions_value_error()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/collections/testString/expansions')
+        url = preprocess_url(
+            '/v2/projects/testString/collections/testString/expansions')
         mock_response = '{"expansions": [{"input_terms": ["input_terms"], "expanded_terms": ["expanded_terms"]}]}'
         responses.add(responses.POST,
                       url,
@@ -2807,7 +2845,10 @@ class TestCreateExpansions():
             "expansions": expansions,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.create_expansions(**req_copy)
 
@@ -2820,32 +2861,29 @@ class TestCreateExpansions():
         _service.disable_retries()
         self.test_create_expansions_value_error()
 
+
 class TestDeleteExpansions():
     """
     Test Class for delete_expansions
     """
-
     @responses.activate
     def test_delete_expansions_all_params(self):
         """
         delete_expansions()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/collections/testString/expansions')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        url = preprocess_url(
+            '/v2/projects/testString/collections/testString/expansions')
+        responses.add(responses.DELETE, url, status=204)
 
         # Set up parameter values
         project_id = 'testString'
         collection_id = 'testString'
 
         # Invoke method
-        response = _service.delete_expansions(
-            project_id,
-            collection_id,
-            headers={}
-        )
+        response = _service.delete_expansions(project_id,
+                                              collection_id,
+                                              headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -2866,10 +2904,9 @@ class TestDeleteExpansions():
         test_delete_expansions_value_error()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/collections/testString/expansions')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        url = preprocess_url(
+            '/v2/projects/testString/collections/testString/expansions')
+        responses.add(responses.DELETE, url, status=204)
 
         # Set up parameter values
         project_id = 'testString'
@@ -2881,7 +2918,10 @@ class TestDeleteExpansions():
             "collection_id": collection_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.delete_expansions(**req_copy)
 
@@ -2894,6 +2934,7 @@ class TestDeleteExpansions():
         _service.disable_retries()
         self.test_delete_expansions_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: QueryModifications
@@ -2904,11 +2945,11 @@ class TestDeleteExpansions():
 ##############################################################################
 # region
 
+
 class TestGetComponentSettings():
     """
     Test Class for get_component_settings
     """
-
     @responses.activate
     def test_get_component_settings_all_params(self):
         """
@@ -2927,10 +2968,7 @@ class TestGetComponentSettings():
         project_id = 'testString'
 
         # Invoke method
-        response = _service.get_component_settings(
-            project_id,
-            headers={}
-        )
+        response = _service.get_component_settings(project_id, headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -2967,7 +3005,10 @@ class TestGetComponentSettings():
             "project_id": project_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.get_component_settings(**req_copy)
 
@@ -2980,6 +3021,7 @@ class TestGetComponentSettings():
         _service.disable_retries()
         self.test_get_component_settings_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: ComponentSettings
@@ -2990,11 +3032,11 @@ class TestGetComponentSettings():
 ##############################################################################
 # region
 
+
 class TestListTrainingQueries():
     """
     Test Class for list_training_queries
     """
-
     @responses.activate
     def test_list_training_queries_all_params(self):
         """
@@ -3013,10 +3055,7 @@ class TestListTrainingQueries():
         project_id = 'testString'
 
         # Invoke method
-        response = _service.list_training_queries(
-            project_id,
-            headers={}
-        )
+        response = _service.list_training_queries(project_id, headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -3053,7 +3092,10 @@ class TestListTrainingQueries():
             "project_id": project_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.list_training_queries(**req_copy)
 
@@ -3066,11 +3108,11 @@ class TestListTrainingQueries():
         _service.disable_retries()
         self.test_list_training_queries_value_error()
 
+
 class TestDeleteTrainingQueries():
     """
     Test Class for delete_training_queries
     """
-
     @responses.activate
     def test_delete_training_queries_all_params(self):
         """
@@ -3078,18 +3120,13 @@ class TestDeleteTrainingQueries():
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/training_data/queries')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        responses.add(responses.DELETE, url, status=204)
 
         # Set up parameter values
         project_id = 'testString'
 
         # Invoke method
-        response = _service.delete_training_queries(
-            project_id,
-            headers={}
-        )
+        response = _service.delete_training_queries(project_id, headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -3111,9 +3148,7 @@ class TestDeleteTrainingQueries():
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/training_data/queries')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        responses.add(responses.DELETE, url, status=204)
 
         # Set up parameter values
         project_id = 'testString'
@@ -3123,7 +3158,10 @@ class TestDeleteTrainingQueries():
             "project_id": project_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.delete_training_queries(**req_copy)
 
@@ -3136,11 +3174,11 @@ class TestDeleteTrainingQueries():
         _service.disable_retries()
         self.test_delete_training_queries_value_error()
 
+
 class TestCreateTrainingQuery():
     """
     Test Class for create_training_query
     """
-
     @responses.activate
     def test_create_training_query_all_params(self):
         """
@@ -3168,13 +3206,11 @@ class TestCreateTrainingQuery():
         filter = 'testString'
 
         # Invoke method
-        response = _service.create_training_query(
-            project_id,
-            natural_language_query,
-            examples,
-            filter=filter,
-            headers={}
-        )
+        response = _service.create_training_query(project_id,
+                                                  natural_language_query,
+                                                  examples,
+                                                  filter=filter,
+                                                  headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -3227,7 +3263,10 @@ class TestCreateTrainingQuery():
             "examples": examples,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.create_training_query(**req_copy)
 
@@ -3240,18 +3279,19 @@ class TestCreateTrainingQuery():
         _service.disable_retries()
         self.test_create_training_query_value_error()
 
+
 class TestGetTrainingQuery():
     """
     Test Class for get_training_query
     """
-
     @responses.activate
     def test_get_training_query_all_params(self):
         """
         get_training_query()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/training_data/queries/testString')
+        url = preprocess_url(
+            '/v2/projects/testString/training_data/queries/testString')
         mock_response = '{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"document_id": "document_id", "collection_id": "collection_id", "relevance": 9, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.GET,
                       url,
@@ -3264,11 +3304,9 @@ class TestGetTrainingQuery():
         query_id = 'testString'
 
         # Invoke method
-        response = _service.get_training_query(
-            project_id,
-            query_id,
-            headers={}
-        )
+        response = _service.get_training_query(project_id,
+                                               query_id,
+                                               headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -3289,7 +3327,8 @@ class TestGetTrainingQuery():
         test_get_training_query_value_error()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/training_data/queries/testString')
+        url = preprocess_url(
+            '/v2/projects/testString/training_data/queries/testString')
         mock_response = '{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"document_id": "document_id", "collection_id": "collection_id", "relevance": 9, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.GET,
                       url,
@@ -3307,7 +3346,10 @@ class TestGetTrainingQuery():
             "query_id": query_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.get_training_query(**req_copy)
 
@@ -3320,18 +3362,19 @@ class TestGetTrainingQuery():
         _service.disable_retries()
         self.test_get_training_query_value_error()
 
+
 class TestUpdateTrainingQuery():
     """
     Test Class for update_training_query
     """
-
     @responses.activate
     def test_update_training_query_all_params(self):
         """
         update_training_query()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/training_data/queries/testString')
+        url = preprocess_url(
+            '/v2/projects/testString/training_data/queries/testString')
         mock_response = '{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"document_id": "document_id", "collection_id": "collection_id", "relevance": 9, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.POST,
                       url,
@@ -3353,14 +3396,12 @@ class TestUpdateTrainingQuery():
         filter = 'testString'
 
         # Invoke method
-        response = _service.update_training_query(
-            project_id,
-            query_id,
-            natural_language_query,
-            examples,
-            filter=filter,
-            headers={}
-        )
+        response = _service.update_training_query(project_id,
+                                                  query_id,
+                                                  natural_language_query,
+                                                  examples,
+                                                  filter=filter,
+                                                  headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -3386,7 +3427,8 @@ class TestUpdateTrainingQuery():
         test_update_training_query_value_error()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/training_data/queries/testString')
+        url = preprocess_url(
+            '/v2/projects/testString/training_data/queries/testString')
         mock_response = '{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"document_id": "document_id", "collection_id": "collection_id", "relevance": 9, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.POST,
                       url,
@@ -3415,7 +3457,10 @@ class TestUpdateTrainingQuery():
             "examples": examples,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.update_training_query(**req_copy)
 
@@ -3428,32 +3473,29 @@ class TestUpdateTrainingQuery():
         _service.disable_retries()
         self.test_update_training_query_value_error()
 
+
 class TestDeleteTrainingQuery():
     """
     Test Class for delete_training_query
     """
-
     @responses.activate
     def test_delete_training_query_all_params(self):
         """
         delete_training_query()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/training_data/queries/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        url = preprocess_url(
+            '/v2/projects/testString/training_data/queries/testString')
+        responses.add(responses.DELETE, url, status=204)
 
         # Set up parameter values
         project_id = 'testString'
         query_id = 'testString'
 
         # Invoke method
-        response = _service.delete_training_query(
-            project_id,
-            query_id,
-            headers={}
-        )
+        response = _service.delete_training_query(project_id,
+                                                  query_id,
+                                                  headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -3474,10 +3516,9 @@ class TestDeleteTrainingQuery():
         test_delete_training_query_value_error()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/training_data/queries/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        url = preprocess_url(
+            '/v2/projects/testString/training_data/queries/testString')
+        responses.add(responses.DELETE, url, status=204)
 
         # Set up parameter values
         project_id = 'testString'
@@ -3489,7 +3530,10 @@ class TestDeleteTrainingQuery():
             "query_id": query_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.delete_training_query(**req_copy)
 
@@ -3502,6 +3546,7 @@ class TestDeleteTrainingQuery():
         _service.disable_retries()
         self.test_delete_training_query_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: TrainingData
@@ -3512,11 +3557,11 @@ class TestDeleteTrainingQuery():
 ##############################################################################
 # region
 
+
 class TestListEnrichments():
     """
     Test Class for list_enrichments
     """
-
     @responses.activate
     def test_list_enrichments_all_params(self):
         """
@@ -3535,10 +3580,7 @@ class TestListEnrichments():
         project_id = 'testString'
 
         # Invoke method
-        response = _service.list_enrichments(
-            project_id,
-            headers={}
-        )
+        response = _service.list_enrichments(project_id, headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -3575,7 +3617,10 @@ class TestListEnrichments():
             "project_id": project_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.list_enrichments(**req_copy)
 
@@ -3588,11 +3633,11 @@ class TestListEnrichments():
         _service.disable_retries()
         self.test_list_enrichments_value_error()
 
+
 class TestCreateEnrichment():
     """
     Test Class for create_enrichment
     """
-
     @responses.activate
     def test_create_enrichment_all_params(self):
         """
@@ -3631,12 +3676,10 @@ class TestCreateEnrichment():
         file = io.BytesIO(b'This is a mock file.').getvalue()
 
         # Invoke method
-        response = _service.create_enrichment(
-            project_id,
-            enrichment,
-            file=file,
-            headers={}
-        )
+        response = _service.create_enrichment(project_id,
+                                              enrichment,
+                                              file=file,
+                                              headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -3688,11 +3731,9 @@ class TestCreateEnrichment():
         enrichment = create_enrichment_model
 
         # Invoke method
-        response = _service.create_enrichment(
-            project_id,
-            enrichment,
-            headers={}
-        )
+        response = _service.create_enrichment(project_id,
+                                              enrichment,
+                                              headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -3749,7 +3790,10 @@ class TestCreateEnrichment():
             "enrichment": enrichment,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.create_enrichment(**req_copy)
 
@@ -3762,11 +3806,11 @@ class TestCreateEnrichment():
         _service.disable_retries()
         self.test_create_enrichment_value_error()
 
+
 class TestGetEnrichment():
     """
     Test Class for get_enrichment
     """
-
     @responses.activate
     def test_get_enrichment_all_params(self):
         """
@@ -3786,11 +3830,9 @@ class TestGetEnrichment():
         enrichment_id = 'testString'
 
         # Invoke method
-        response = _service.get_enrichment(
-            project_id,
-            enrichment_id,
-            headers={}
-        )
+        response = _service.get_enrichment(project_id,
+                                           enrichment_id,
+                                           headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -3829,7 +3871,10 @@ class TestGetEnrichment():
             "enrichment_id": enrichment_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.get_enrichment(**req_copy)
 
@@ -3842,11 +3887,11 @@ class TestGetEnrichment():
         _service.disable_retries()
         self.test_get_enrichment_value_error()
 
+
 class TestUpdateEnrichment():
     """
     Test Class for update_enrichment
     """
-
     @responses.activate
     def test_update_enrichment_all_params(self):
         """
@@ -3868,13 +3913,11 @@ class TestUpdateEnrichment():
         description = 'testString'
 
         # Invoke method
-        response = _service.update_enrichment(
-            project_id,
-            enrichment_id,
-            name,
-            description=description,
-            headers={}
-        )
+        response = _service.update_enrichment(project_id,
+                                              enrichment_id,
+                                              name,
+                                              description=description,
+                                              headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -3920,7 +3963,10 @@ class TestUpdateEnrichment():
             "name": name,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.update_enrichment(**req_copy)
 
@@ -3933,11 +3979,11 @@ class TestUpdateEnrichment():
         _service.disable_retries()
         self.test_update_enrichment_value_error()
 
+
 class TestDeleteEnrichment():
     """
     Test Class for delete_enrichment
     """
-
     @responses.activate
     def test_delete_enrichment_all_params(self):
         """
@@ -3945,20 +3991,16 @@ class TestDeleteEnrichment():
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/enrichments/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        responses.add(responses.DELETE, url, status=204)
 
         # Set up parameter values
         project_id = 'testString'
         enrichment_id = 'testString'
 
         # Invoke method
-        response = _service.delete_enrichment(
-            project_id,
-            enrichment_id,
-            headers={}
-        )
+        response = _service.delete_enrichment(project_id,
+                                              enrichment_id,
+                                              headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -3980,9 +4022,7 @@ class TestDeleteEnrichment():
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/enrichments/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        responses.add(responses.DELETE, url, status=204)
 
         # Set up parameter values
         project_id = 'testString'
@@ -3994,7 +4034,10 @@ class TestDeleteEnrichment():
             "enrichment_id": enrichment_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.delete_enrichment(**req_copy)
 
@@ -4007,6 +4050,7 @@ class TestDeleteEnrichment():
         _service.disable_retries()
         self.test_delete_enrichment_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: Enrichments
@@ -4017,11 +4061,11 @@ class TestDeleteEnrichment():
 ##############################################################################
 # region
 
+
 class TestListDocumentClassifiers():
     """
     Test Class for list_document_classifiers
     """
-
     @responses.activate
     def test_list_document_classifiers_all_params(self):
         """
@@ -4040,10 +4084,7 @@ class TestListDocumentClassifiers():
         project_id = 'testString'
 
         # Invoke method
-        response = _service.list_document_classifiers(
-            project_id,
-            headers={}
-        )
+        response = _service.list_document_classifiers(project_id, headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -4080,7 +4121,10 @@ class TestListDocumentClassifiers():
             "project_id": project_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.list_document_classifiers(**req_copy)
 
@@ -4093,11 +4137,11 @@ class TestListDocumentClassifiers():
         _service.disable_retries()
         self.test_list_document_classifiers_value_error()
 
+
 class TestCreateDocumentClassifier():
     """
     Test Class for create_document_classifier
     """
-
     @responses.activate
     def test_create_document_classifier_all_params(self):
         """
@@ -4127,8 +4171,11 @@ class TestCreateDocumentClassifier():
         create_document_classifier_model['description'] = 'testString'
         create_document_classifier_model['language'] = 'en'
         create_document_classifier_model['answer_field'] = 'testString'
-        create_document_classifier_model['enrichments'] = [document_classifier_enrichment_model]
-        create_document_classifier_model['federated_classification'] = classifier_federated_model_model
+        create_document_classifier_model['enrichments'] = [
+            document_classifier_enrichment_model
+        ]
+        create_document_classifier_model[
+            'federated_classification'] = classifier_federated_model_model
 
         # Set up parameter values
         project_id = 'testString'
@@ -4137,13 +4184,11 @@ class TestCreateDocumentClassifier():
         test_data = io.BytesIO(b'This is a mock file.').getvalue()
 
         # Invoke method
-        response = _service.create_document_classifier(
-            project_id,
-            training_data,
-            classifier,
-            test_data=test_data,
-            headers={}
-        )
+        response = _service.create_document_classifier(project_id,
+                                                       training_data,
+                                                       classifier,
+                                                       test_data=test_data,
+                                                       headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -4187,8 +4232,11 @@ class TestCreateDocumentClassifier():
         create_document_classifier_model['description'] = 'testString'
         create_document_classifier_model['language'] = 'en'
         create_document_classifier_model['answer_field'] = 'testString'
-        create_document_classifier_model['enrichments'] = [document_classifier_enrichment_model]
-        create_document_classifier_model['federated_classification'] = classifier_federated_model_model
+        create_document_classifier_model['enrichments'] = [
+            document_classifier_enrichment_model
+        ]
+        create_document_classifier_model[
+            'federated_classification'] = classifier_federated_model_model
 
         # Set up parameter values
         project_id = 'testString'
@@ -4196,12 +4244,10 @@ class TestCreateDocumentClassifier():
         classifier = create_document_classifier_model
 
         # Invoke method
-        response = _service.create_document_classifier(
-            project_id,
-            training_data,
-            classifier,
-            headers={}
-        )
+        response = _service.create_document_classifier(project_id,
+                                                       training_data,
+                                                       classifier,
+                                                       headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -4245,8 +4291,11 @@ class TestCreateDocumentClassifier():
         create_document_classifier_model['description'] = 'testString'
         create_document_classifier_model['language'] = 'en'
         create_document_classifier_model['answer_field'] = 'testString'
-        create_document_classifier_model['enrichments'] = [document_classifier_enrichment_model]
-        create_document_classifier_model['federated_classification'] = classifier_federated_model_model
+        create_document_classifier_model['enrichments'] = [
+            document_classifier_enrichment_model
+        ]
+        create_document_classifier_model[
+            'federated_classification'] = classifier_federated_model_model
 
         # Set up parameter values
         project_id = 'testString'
@@ -4260,7 +4309,10 @@ class TestCreateDocumentClassifier():
             "classifier": classifier,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.create_document_classifier(**req_copy)
 
@@ -4273,18 +4325,19 @@ class TestCreateDocumentClassifier():
         _service.disable_retries()
         self.test_create_document_classifier_value_error()
 
+
 class TestGetDocumentClassifier():
     """
     Test Class for get_document_classifier
     """
-
     @responses.activate
     def test_get_document_classifier_all_params(self):
         """
         get_document_classifier()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/document_classifiers/testString')
+        url = preprocess_url(
+            '/v2/projects/testString/document_classifiers/testString')
         mock_response = '{"classifier_id": "classifier_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}], "recognized_fields": ["recognized_fields"], "answer_field": "answer_field", "training_data_file": "training_data_file", "test_data_file": "test_data_file", "federated_classification": {"field": "field"}}'
         responses.add(responses.GET,
                       url,
@@ -4297,11 +4350,9 @@ class TestGetDocumentClassifier():
         classifier_id = 'testString'
 
         # Invoke method
-        response = _service.get_document_classifier(
-            project_id,
-            classifier_id,
-            headers={}
-        )
+        response = _service.get_document_classifier(project_id,
+                                                    classifier_id,
+                                                    headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -4322,7 +4373,8 @@ class TestGetDocumentClassifier():
         test_get_document_classifier_value_error()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/document_classifiers/testString')
+        url = preprocess_url(
+            '/v2/projects/testString/document_classifiers/testString')
         mock_response = '{"classifier_id": "classifier_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}], "recognized_fields": ["recognized_fields"], "answer_field": "answer_field", "training_data_file": "training_data_file", "test_data_file": "test_data_file", "federated_classification": {"field": "field"}}'
         responses.add(responses.GET,
                       url,
@@ -4340,7 +4392,10 @@ class TestGetDocumentClassifier():
             "classifier_id": classifier_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.get_document_classifier(**req_copy)
 
@@ -4353,18 +4408,19 @@ class TestGetDocumentClassifier():
         _service.disable_retries()
         self.test_get_document_classifier_value_error()
 
+
 class TestUpdateDocumentClassifier():
     """
     Test Class for update_document_classifier
     """
-
     @responses.activate
     def test_update_document_classifier_all_params(self):
         """
         update_document_classifier()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/document_classifiers/testString')
+        url = preprocess_url(
+            '/v2/projects/testString/document_classifiers/testString')
         mock_response = '{"classifier_id": "classifier_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}], "recognized_fields": ["recognized_fields"], "answer_field": "answer_field", "training_data_file": "training_data_file", "test_data_file": "test_data_file", "federated_classification": {"field": "field"}}'
         responses.add(responses.POST,
                       url,
@@ -4391,8 +4447,7 @@ class TestUpdateDocumentClassifier():
             classifier,
             training_data=training_data,
             test_data=test_data,
-            headers={}
-        )
+            headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -4413,7 +4468,8 @@ class TestUpdateDocumentClassifier():
         test_update_document_classifier_required_params()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/document_classifiers/testString')
+        url = preprocess_url(
+            '/v2/projects/testString/document_classifiers/testString')
         mock_response = '{"classifier_id": "classifier_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}], "recognized_fields": ["recognized_fields"], "answer_field": "answer_field", "training_data_file": "training_data_file", "test_data_file": "test_data_file", "federated_classification": {"field": "field"}}'
         responses.add(responses.POST,
                       url,
@@ -4432,12 +4488,10 @@ class TestUpdateDocumentClassifier():
         classifier = update_document_classifier_model
 
         # Invoke method
-        response = _service.update_document_classifier(
-            project_id,
-            classifier_id,
-            classifier,
-            headers={}
-        )
+        response = _service.update_document_classifier(project_id,
+                                                       classifier_id,
+                                                       classifier,
+                                                       headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -4458,7 +4512,8 @@ class TestUpdateDocumentClassifier():
         test_update_document_classifier_value_error()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/document_classifiers/testString')
+        url = preprocess_url(
+            '/v2/projects/testString/document_classifiers/testString')
         mock_response = '{"classifier_id": "classifier_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}], "recognized_fields": ["recognized_fields"], "answer_field": "answer_field", "training_data_file": "training_data_file", "test_data_file": "test_data_file", "federated_classification": {"field": "field"}}'
         responses.add(responses.POST,
                       url,
@@ -4483,7 +4538,10 @@ class TestUpdateDocumentClassifier():
             "classifier": classifier,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.update_document_classifier(**req_copy)
 
@@ -4496,32 +4554,29 @@ class TestUpdateDocumentClassifier():
         _service.disable_retries()
         self.test_update_document_classifier_value_error()
 
+
 class TestDeleteDocumentClassifier():
     """
     Test Class for delete_document_classifier
     """
-
     @responses.activate
     def test_delete_document_classifier_all_params(self):
         """
         delete_document_classifier()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/document_classifiers/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        url = preprocess_url(
+            '/v2/projects/testString/document_classifiers/testString')
+        responses.add(responses.DELETE, url, status=204)
 
         # Set up parameter values
         project_id = 'testString'
         classifier_id = 'testString'
 
         # Invoke method
-        response = _service.delete_document_classifier(
-            project_id,
-            classifier_id,
-            headers={}
-        )
+        response = _service.delete_document_classifier(project_id,
+                                                       classifier_id,
+                                                       headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -4542,10 +4597,9 @@ class TestDeleteDocumentClassifier():
         test_delete_document_classifier_value_error()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/document_classifiers/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        url = preprocess_url(
+            '/v2/projects/testString/document_classifiers/testString')
+        responses.add(responses.DELETE, url, status=204)
 
         # Set up parameter values
         project_id = 'testString'
@@ -4557,7 +4611,10 @@ class TestDeleteDocumentClassifier():
             "classifier_id": classifier_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.delete_document_classifier(**req_copy)
 
@@ -4570,6 +4627,7 @@ class TestDeleteDocumentClassifier():
         _service.disable_retries()
         self.test_delete_document_classifier_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: DocumentClassifiers
@@ -4580,18 +4638,19 @@ class TestDeleteDocumentClassifier():
 ##############################################################################
 # region
 
+
 class TestListDocumentClassifierModels():
     """
     Test Class for list_document_classifier_models
     """
-
     @responses.activate
     def test_list_document_classifier_models_all_params(self):
         """
         list_document_classifier_models()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/document_classifiers/testString/models')
+        url = preprocess_url(
+            '/v2/projects/testString/document_classifiers/testString/models')
         mock_response = '{"models": [{"model_id": "model_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "training_data_file": "training_data_file", "test_data_file": "test_data_file", "status": "training", "evaluation": {"micro_average": {"precision": 0, "recall": 0, "f1": 0}, "macro_average": {"precision": 0, "recall": 0, "f1": 0}, "per_class": [{"name": "name", "precision": 0, "recall": 0, "f1": 0}]}, "enrichment_id": "enrichment_id", "deployed_at": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.GET,
                       url,
@@ -4604,11 +4663,9 @@ class TestListDocumentClassifierModels():
         classifier_id = 'testString'
 
         # Invoke method
-        response = _service.list_document_classifier_models(
-            project_id,
-            classifier_id,
-            headers={}
-        )
+        response = _service.list_document_classifier_models(project_id,
+                                                            classifier_id,
+                                                            headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -4629,7 +4686,8 @@ class TestListDocumentClassifierModels():
         test_list_document_classifier_models_value_error()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/document_classifiers/testString/models')
+        url = preprocess_url(
+            '/v2/projects/testString/document_classifiers/testString/models')
         mock_response = '{"models": [{"model_id": "model_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "training_data_file": "training_data_file", "test_data_file": "test_data_file", "status": "training", "evaluation": {"micro_average": {"precision": 0, "recall": 0, "f1": 0}, "macro_average": {"precision": 0, "recall": 0, "f1": 0}, "per_class": [{"name": "name", "precision": 0, "recall": 0, "f1": 0}]}, "enrichment_id": "enrichment_id", "deployed_at": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.GET,
                       url,
@@ -4647,7 +4705,10 @@ class TestListDocumentClassifierModels():
             "classifier_id": classifier_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.list_document_classifier_models(**req_copy)
 
@@ -4660,18 +4721,19 @@ class TestListDocumentClassifierModels():
         _service.disable_retries()
         self.test_list_document_classifier_models_value_error()
 
+
 class TestCreateDocumentClassifierModel():
     """
     Test Class for create_document_classifier_model
     """
-
     @responses.activate
     def test_create_document_classifier_model_all_params(self):
         """
         create_document_classifier_model()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/document_classifiers/testString/models')
+        url = preprocess_url(
+            '/v2/projects/testString/document_classifiers/testString/models')
         mock_response = '{"model_id": "model_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "training_data_file": "training_data_file", "test_data_file": "test_data_file", "status": "training", "evaluation": {"micro_average": {"precision": 0, "recall": 0, "f1": 0}, "macro_average": {"precision": 0, "recall": 0, "f1": 0}, "per_class": [{"name": "name", "precision": 0, "recall": 0, "f1": 0}]}, "enrichment_id": "enrichment_id", "deployed_at": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
@@ -4701,8 +4763,7 @@ class TestCreateDocumentClassifierModel():
             l2_regularization_strengths=l2_regularization_strengths,
             training_max_steps=training_max_steps,
             improvement_ratio=improvement_ratio,
-            headers={}
-        )
+            headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -4732,7 +4793,8 @@ class TestCreateDocumentClassifierModel():
         test_create_document_classifier_model_value_error()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/document_classifiers/testString/models')
+        url = preprocess_url(
+            '/v2/projects/testString/document_classifiers/testString/models')
         mock_response = '{"model_id": "model_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "training_data_file": "training_data_file", "test_data_file": "test_data_file", "status": "training", "evaluation": {"micro_average": {"precision": 0, "recall": 0, "f1": 0}, "macro_average": {"precision": 0, "recall": 0, "f1": 0}, "per_class": [{"name": "name", "precision": 0, "recall": 0, "f1": 0}]}, "enrichment_id": "enrichment_id", "deployed_at": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
@@ -4758,7 +4820,10 @@ class TestCreateDocumentClassifierModel():
             "name": name,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.create_document_classifier_model(**req_copy)
 
@@ -4771,18 +4836,20 @@ class TestCreateDocumentClassifierModel():
         _service.disable_retries()
         self.test_create_document_classifier_model_value_error()
 
+
 class TestGetDocumentClassifierModel():
     """
     Test Class for get_document_classifier_model
     """
-
     @responses.activate
     def test_get_document_classifier_model_all_params(self):
         """
         get_document_classifier_model()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/document_classifiers/testString/models/testString')
+        url = preprocess_url(
+            '/v2/projects/testString/document_classifiers/testString/models/testString'
+        )
         mock_response = '{"model_id": "model_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "training_data_file": "training_data_file", "test_data_file": "test_data_file", "status": "training", "evaluation": {"micro_average": {"precision": 0, "recall": 0, "f1": 0}, "macro_average": {"precision": 0, "recall": 0, "f1": 0}, "per_class": [{"name": "name", "precision": 0, "recall": 0, "f1": 0}]}, "enrichment_id": "enrichment_id", "deployed_at": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.GET,
                       url,
@@ -4796,12 +4863,10 @@ class TestGetDocumentClassifierModel():
         model_id = 'testString'
 
         # Invoke method
-        response = _service.get_document_classifier_model(
-            project_id,
-            classifier_id,
-            model_id,
-            headers={}
-        )
+        response = _service.get_document_classifier_model(project_id,
+                                                          classifier_id,
+                                                          model_id,
+                                                          headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -4822,7 +4887,9 @@ class TestGetDocumentClassifierModel():
         test_get_document_classifier_model_value_error()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/document_classifiers/testString/models/testString')
+        url = preprocess_url(
+            '/v2/projects/testString/document_classifiers/testString/models/testString'
+        )
         mock_response = '{"model_id": "model_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "training_data_file": "training_data_file", "test_data_file": "test_data_file", "status": "training", "evaluation": {"micro_average": {"precision": 0, "recall": 0, "f1": 0}, "macro_average": {"precision": 0, "recall": 0, "f1": 0}, "per_class": [{"name": "name", "precision": 0, "recall": 0, "f1": 0}]}, "enrichment_id": "enrichment_id", "deployed_at": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.GET,
                       url,
@@ -4842,7 +4909,10 @@ class TestGetDocumentClassifierModel():
             "model_id": model_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.get_document_classifier_model(**req_copy)
 
@@ -4855,18 +4925,20 @@ class TestGetDocumentClassifierModel():
         _service.disable_retries()
         self.test_get_document_classifier_model_value_error()
 
+
 class TestUpdateDocumentClassifierModel():
     """
     Test Class for update_document_classifier_model
     """
-
     @responses.activate
     def test_update_document_classifier_model_all_params(self):
         """
         update_document_classifier_model()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/document_classifiers/testString/models/testString')
+        url = preprocess_url(
+            '/v2/projects/testString/document_classifiers/testString/models/testString'
+        )
         mock_response = '{"model_id": "model_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "training_data_file": "training_data_file", "test_data_file": "test_data_file", "status": "training", "evaluation": {"micro_average": {"precision": 0, "recall": 0, "f1": 0}, "macro_average": {"precision": 0, "recall": 0, "f1": 0}, "per_class": [{"name": "name", "precision": 0, "recall": 0, "f1": 0}]}, "enrichment_id": "enrichment_id", "deployed_at": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
@@ -4888,8 +4960,7 @@ class TestUpdateDocumentClassifierModel():
             model_id,
             name=name,
             description=description,
-            headers={}
-        )
+            headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -4914,7 +4985,9 @@ class TestUpdateDocumentClassifierModel():
         test_update_document_classifier_model_value_error()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/document_classifiers/testString/models/testString')
+        url = preprocess_url(
+            '/v2/projects/testString/document_classifiers/testString/models/testString'
+        )
         mock_response = '{"model_id": "model_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "training_data_file": "training_data_file", "test_data_file": "test_data_file", "status": "training", "evaluation": {"micro_average": {"precision": 0, "recall": 0, "f1": 0}, "macro_average": {"precision": 0, "recall": 0, "f1": 0}, "per_class": [{"name": "name", "precision": 0, "recall": 0, "f1": 0}]}, "enrichment_id": "enrichment_id", "deployed_at": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
@@ -4936,7 +5009,10 @@ class TestUpdateDocumentClassifierModel():
             "model_id": model_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.update_document_classifier_model(**req_copy)
 
@@ -4949,21 +5025,21 @@ class TestUpdateDocumentClassifierModel():
         _service.disable_retries()
         self.test_update_document_classifier_model_value_error()
 
+
 class TestDeleteDocumentClassifierModel():
     """
     Test Class for delete_document_classifier_model
     """
-
     @responses.activate
     def test_delete_document_classifier_model_all_params(self):
         """
         delete_document_classifier_model()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/document_classifiers/testString/models/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        url = preprocess_url(
+            '/v2/projects/testString/document_classifiers/testString/models/testString'
+        )
+        responses.add(responses.DELETE, url, status=204)
 
         # Set up parameter values
         project_id = 'testString'
@@ -4971,12 +5047,10 @@ class TestDeleteDocumentClassifierModel():
         model_id = 'testString'
 
         # Invoke method
-        response = _service.delete_document_classifier_model(
-            project_id,
-            classifier_id,
-            model_id,
-            headers={}
-        )
+        response = _service.delete_document_classifier_model(project_id,
+                                                             classifier_id,
+                                                             model_id,
+                                                             headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -4997,10 +5071,10 @@ class TestDeleteDocumentClassifierModel():
         test_delete_document_classifier_model_value_error()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/document_classifiers/testString/models/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        url = preprocess_url(
+            '/v2/projects/testString/document_classifiers/testString/models/testString'
+        )
+        responses.add(responses.DELETE, url, status=204)
 
         # Set up parameter values
         project_id = 'testString'
@@ -5014,7 +5088,10 @@ class TestDeleteDocumentClassifierModel():
             "model_id": model_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.delete_document_classifier_model(**req_copy)
 
@@ -5027,6 +5104,7 @@ class TestDeleteDocumentClassifierModel():
         _service.disable_retries()
         self.test_delete_document_classifier_model_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: DocumentClassifierModels
@@ -5037,18 +5115,19 @@ class TestDeleteDocumentClassifierModel():
 ##############################################################################
 # region
 
+
 class TestAnalyzeDocument():
     """
     Test Class for analyze_document
     """
-
     @responses.activate
     def test_analyze_document_all_params(self):
         """
         analyze_document()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/collections/testString/analyze')
+        url = preprocess_url(
+            '/v2/projects/testString/collections/testString/analyze')
         mock_response = '{"notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}], "result": {"metadata": {"mapKey": "anyValue"}}}'
         responses.add(responses.POST,
                       url,
@@ -5072,8 +5151,7 @@ class TestAnalyzeDocument():
             filename=filename,
             file_content_type=file_content_type,
             metadata=metadata,
-            headers={}
-        )
+            headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -5094,7 +5172,8 @@ class TestAnalyzeDocument():
         test_analyze_document_required_params()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/collections/testString/analyze')
+        url = preprocess_url(
+            '/v2/projects/testString/collections/testString/analyze')
         mock_response = '{"notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}], "result": {"metadata": {"mapKey": "anyValue"}}}'
         responses.add(responses.POST,
                       url,
@@ -5107,11 +5186,9 @@ class TestAnalyzeDocument():
         collection_id = 'testString'
 
         # Invoke method
-        response = _service.analyze_document(
-            project_id,
-            collection_id,
-            headers={}
-        )
+        response = _service.analyze_document(project_id,
+                                             collection_id,
+                                             headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -5132,7 +5209,8 @@ class TestAnalyzeDocument():
         test_analyze_document_value_error()
         """
         # Set up mock
-        url = preprocess_url('/v2/projects/testString/collections/testString/analyze')
+        url = preprocess_url(
+            '/v2/projects/testString/collections/testString/analyze')
         mock_response = '{"notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}], "result": {"metadata": {"mapKey": "anyValue"}}}'
         responses.add(responses.POST,
                       url,
@@ -5150,7 +5228,10 @@ class TestAnalyzeDocument():
             "collection_id": collection_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.analyze_document(**req_copy)
 
@@ -5163,6 +5244,7 @@ class TestAnalyzeDocument():
         _service.disable_retries()
         self.test_analyze_document_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: Analyze
@@ -5173,11 +5255,11 @@ class TestAnalyzeDocument():
 ##############################################################################
 # region
 
+
 class TestDeleteUserData():
     """
     Test Class for delete_user_data
     """
-
     @responses.activate
     def test_delete_user_data_all_params(self):
         """
@@ -5185,24 +5267,19 @@ class TestDeleteUserData():
         """
         # Set up mock
         url = preprocess_url('/v2/user_data')
-        responses.add(responses.DELETE,
-                      url,
-                      status=200)
+        responses.add(responses.DELETE, url, status=200)
 
         # Set up parameter values
         customer_id = 'testString'
 
         # Invoke method
-        response = _service.delete_user_data(
-            customer_id,
-            headers={}
-        )
+        response = _service.delete_user_data(customer_id, headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'customer_id={}'.format(customer_id) in query_string
 
@@ -5222,9 +5299,7 @@ class TestDeleteUserData():
         """
         # Set up mock
         url = preprocess_url('/v2/user_data')
-        responses.add(responses.DELETE,
-                      url,
-                      status=200)
+        responses.add(responses.DELETE, url, status=200)
 
         # Set up parameter values
         customer_id = 'testString'
@@ -5234,7 +5309,10 @@ class TestDeleteUserData():
             "customer_id": customer_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {
+                key: val if key is not param else None
+                for (key, val) in req_param_dict.items()
+            }
             with pytest.raises(ValueError):
                 _service.delete_user_data(**req_copy)
 
@@ -5246,6 +5324,7 @@ class TestDeleteUserData():
         # Disable retries and run test_delete_user_data_value_error.
         _service.disable_retries()
         self.test_delete_user_data_value_error()
+
 
 # endregion
 ##############################################################################
@@ -5261,7 +5340,6 @@ class TestModel_AnalyzedDocument():
     """
     Test Class for AnalyzedDocument
     """
-
     def test_analyzed_document_serialization(self):
         """
         Test serialization/deserialization for AnalyzedDocument
@@ -5269,7 +5347,7 @@ class TestModel_AnalyzedDocument():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        notice_model = {} # Notice
+        notice_model = {}  # Notice
         notice_model['notice_id'] = 'testString'
         notice_model['created'] = '2019-01-01T12:00:00Z'
         notice_model['document_id'] = 'testString'
@@ -5279,7 +5357,7 @@ class TestModel_AnalyzedDocument():
         notice_model['step'] = 'testString'
         notice_model['description'] = 'testString'
 
-        analyzed_result_model = {} # AnalyzedResult
+        analyzed_result_model = {}  # AnalyzedResult
         analyzed_result_model['metadata'] = {'key1': 'testString'}
         analyzed_result_model['foo'] = {'foo': 'bar'}
 
@@ -5289,12 +5367,15 @@ class TestModel_AnalyzedDocument():
         analyzed_document_model_json['result'] = analyzed_result_model
 
         # Construct a model instance of AnalyzedDocument by calling from_dict on the json representation
-        analyzed_document_model = AnalyzedDocument.from_dict(analyzed_document_model_json)
+        analyzed_document_model = AnalyzedDocument.from_dict(
+            analyzed_document_model_json)
         assert analyzed_document_model != False
 
         # Construct a model instance of AnalyzedDocument by calling from_dict on the json representation
-        analyzed_document_model_dict = AnalyzedDocument.from_dict(analyzed_document_model_json).__dict__
-        analyzed_document_model2 = AnalyzedDocument(**analyzed_document_model_dict)
+        analyzed_document_model_dict = AnalyzedDocument.from_dict(
+            analyzed_document_model_json).__dict__
+        analyzed_document_model2 = AnalyzedDocument(
+            **analyzed_document_model_dict)
 
         # Verify the model instances are equivalent
         assert analyzed_document_model == analyzed_document_model2
@@ -5303,11 +5384,11 @@ class TestModel_AnalyzedDocument():
         analyzed_document_model_json2 = analyzed_document_model.to_dict()
         assert analyzed_document_model_json2 == analyzed_document_model_json
 
+
 class TestModel_AnalyzedResult():
     """
     Test Class for AnalyzedResult
     """
-
     def test_analyzed_result_serialization(self):
         """
         Test serialization/deserialization for AnalyzedResult
@@ -5319,11 +5400,13 @@ class TestModel_AnalyzedResult():
         analyzed_result_model_json['foo'] = {'foo': 'bar'}
 
         # Construct a model instance of AnalyzedResult by calling from_dict on the json representation
-        analyzed_result_model = AnalyzedResult.from_dict(analyzed_result_model_json)
+        analyzed_result_model = AnalyzedResult.from_dict(
+            analyzed_result_model_json)
         assert analyzed_result_model != False
 
         # Construct a model instance of AnalyzedResult by calling from_dict on the json representation
-        analyzed_result_model_dict = AnalyzedResult.from_dict(analyzed_result_model_json).__dict__
+        analyzed_result_model_dict = AnalyzedResult.from_dict(
+            analyzed_result_model_json).__dict__
         analyzed_result_model2 = AnalyzedResult(**analyzed_result_model_dict)
 
         # Verify the model instances are equivalent
@@ -5343,11 +5426,11 @@ class TestModel_AnalyzedResult():
         actual_dict = analyzed_result_model.get_properties()
         assert actual_dict == expected_dict
 
+
 class TestModel_ClassifierFederatedModel():
     """
     Test Class for ClassifierFederatedModel
     """
-
     def test_classifier_federated_model_serialization(self):
         """
         Test serialization/deserialization for ClassifierFederatedModel
@@ -5358,25 +5441,29 @@ class TestModel_ClassifierFederatedModel():
         classifier_federated_model_model_json['field'] = 'testString'
 
         # Construct a model instance of ClassifierFederatedModel by calling from_dict on the json representation
-        classifier_federated_model_model = ClassifierFederatedModel.from_dict(classifier_federated_model_model_json)
+        classifier_federated_model_model = ClassifierFederatedModel.from_dict(
+            classifier_federated_model_model_json)
         assert classifier_federated_model_model != False
 
         # Construct a model instance of ClassifierFederatedModel by calling from_dict on the json representation
-        classifier_federated_model_model_dict = ClassifierFederatedModel.from_dict(classifier_federated_model_model_json).__dict__
-        classifier_federated_model_model2 = ClassifierFederatedModel(**classifier_federated_model_model_dict)
+        classifier_federated_model_model_dict = ClassifierFederatedModel.from_dict(
+            classifier_federated_model_model_json).__dict__
+        classifier_federated_model_model2 = ClassifierFederatedModel(
+            **classifier_federated_model_model_dict)
 
         # Verify the model instances are equivalent
         assert classifier_federated_model_model == classifier_federated_model_model2
 
         # Convert model instance back to dict and verify no loss of data
-        classifier_federated_model_model_json2 = classifier_federated_model_model.to_dict()
+        classifier_federated_model_model_json2 = classifier_federated_model_model.to_dict(
+        )
         assert classifier_federated_model_model_json2 == classifier_federated_model_model_json
+
 
 class TestModel_ClassifierModelEvaluation():
     """
     Test Class for ClassifierModelEvaluation
     """
-
     def test_classifier_model_evaluation_serialization(self):
         """
         Test serialization/deserialization for ClassifierModelEvaluation
@@ -5384,17 +5471,19 @@ class TestModel_ClassifierModelEvaluation():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        model_evaluation_micro_average_model = {} # ModelEvaluationMicroAverage
+        model_evaluation_micro_average_model = {
+        }  # ModelEvaluationMicroAverage
         model_evaluation_micro_average_model['precision'] = 0
         model_evaluation_micro_average_model['recall'] = 0
         model_evaluation_micro_average_model['f1'] = 0
 
-        model_evaluation_macro_average_model = {} # ModelEvaluationMacroAverage
+        model_evaluation_macro_average_model = {
+        }  # ModelEvaluationMacroAverage
         model_evaluation_macro_average_model['precision'] = 0
         model_evaluation_macro_average_model['recall'] = 0
         model_evaluation_macro_average_model['f1'] = 0
 
-        per_class_model_evaluation_model = {} # PerClassModelEvaluation
+        per_class_model_evaluation_model = {}  # PerClassModelEvaluation
         per_class_model_evaluation_model['name'] = 'testString'
         per_class_model_evaluation_model['precision'] = 0
         per_class_model_evaluation_model['recall'] = 0
@@ -5402,30 +5491,38 @@ class TestModel_ClassifierModelEvaluation():
 
         # Construct a json representation of a ClassifierModelEvaluation model
         classifier_model_evaluation_model_json = {}
-        classifier_model_evaluation_model_json['micro_average'] = model_evaluation_micro_average_model
-        classifier_model_evaluation_model_json['macro_average'] = model_evaluation_macro_average_model
-        classifier_model_evaluation_model_json['per_class'] = [per_class_model_evaluation_model]
+        classifier_model_evaluation_model_json[
+            'micro_average'] = model_evaluation_micro_average_model
+        classifier_model_evaluation_model_json[
+            'macro_average'] = model_evaluation_macro_average_model
+        classifier_model_evaluation_model_json['per_class'] = [
+            per_class_model_evaluation_model
+        ]
 
         # Construct a model instance of ClassifierModelEvaluation by calling from_dict on the json representation
-        classifier_model_evaluation_model = ClassifierModelEvaluation.from_dict(classifier_model_evaluation_model_json)
+        classifier_model_evaluation_model = ClassifierModelEvaluation.from_dict(
+            classifier_model_evaluation_model_json)
         assert classifier_model_evaluation_model != False
 
         # Construct a model instance of ClassifierModelEvaluation by calling from_dict on the json representation
-        classifier_model_evaluation_model_dict = ClassifierModelEvaluation.from_dict(classifier_model_evaluation_model_json).__dict__
-        classifier_model_evaluation_model2 = ClassifierModelEvaluation(**classifier_model_evaluation_model_dict)
+        classifier_model_evaluation_model_dict = ClassifierModelEvaluation.from_dict(
+            classifier_model_evaluation_model_json).__dict__
+        classifier_model_evaluation_model2 = ClassifierModelEvaluation(
+            **classifier_model_evaluation_model_dict)
 
         # Verify the model instances are equivalent
         assert classifier_model_evaluation_model == classifier_model_evaluation_model2
 
         # Convert model instance back to dict and verify no loss of data
-        classifier_model_evaluation_model_json2 = classifier_model_evaluation_model.to_dict()
+        classifier_model_evaluation_model_json2 = classifier_model_evaluation_model.to_dict(
+        )
         assert classifier_model_evaluation_model_json2 == classifier_model_evaluation_model_json
+
 
 class TestModel_Collection():
     """
     Test Class for Collection
     """
-
     def test_collection_serialization(self):
         """
         Test serialization/deserialization for Collection
@@ -5441,7 +5538,8 @@ class TestModel_Collection():
         assert collection_model != False
 
         # Construct a model instance of Collection by calling from_dict on the json representation
-        collection_model_dict = Collection.from_dict(collection_model_json).__dict__
+        collection_model_dict = Collection.from_dict(
+            collection_model_json).__dict__
         collection_model2 = Collection(**collection_model_dict)
 
         # Verify the model instances are equivalent
@@ -5451,11 +5549,11 @@ class TestModel_Collection():
         collection_model_json2 = collection_model.to_dict()
         assert collection_model_json2 == collection_model_json
 
+
 class TestModel_CollectionDetails():
     """
     Test Class for CollectionDetails
     """
-
     def test_collection_details_serialization(self):
         """
         Test serialization/deserialization for CollectionDetails
@@ -5463,13 +5561,15 @@ class TestModel_CollectionDetails():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        collection_enrichment_model = {} # CollectionEnrichment
+        collection_enrichment_model = {}  # CollectionEnrichment
         collection_enrichment_model['enrichment_id'] = 'testString'
         collection_enrichment_model['fields'] = ['testString']
 
-        collection_details_smart_document_understanding_model = {} # CollectionDetailsSmartDocumentUnderstanding
+        collection_details_smart_document_understanding_model = {
+        }  # CollectionDetailsSmartDocumentUnderstanding
         collection_details_smart_document_understanding_model['enabled'] = True
-        collection_details_smart_document_understanding_model['model'] = 'custom'
+        collection_details_smart_document_understanding_model[
+            'model'] = 'custom'
 
         # Construct a json representation of a CollectionDetails model
         collection_details_model_json = {}
@@ -5478,16 +5578,22 @@ class TestModel_CollectionDetails():
         collection_details_model_json['description'] = 'testString'
         collection_details_model_json['created'] = '2019-01-01T12:00:00Z'
         collection_details_model_json['language'] = 'en'
-        collection_details_model_json['enrichments'] = [collection_enrichment_model]
-        collection_details_model_json['smart_document_understanding'] = collection_details_smart_document_understanding_model
+        collection_details_model_json['enrichments'] = [
+            collection_enrichment_model
+        ]
+        collection_details_model_json[
+            'smart_document_understanding'] = collection_details_smart_document_understanding_model
 
         # Construct a model instance of CollectionDetails by calling from_dict on the json representation
-        collection_details_model = CollectionDetails.from_dict(collection_details_model_json)
+        collection_details_model = CollectionDetails.from_dict(
+            collection_details_model_json)
         assert collection_details_model != False
 
         # Construct a model instance of CollectionDetails by calling from_dict on the json representation
-        collection_details_model_dict = CollectionDetails.from_dict(collection_details_model_json).__dict__
-        collection_details_model2 = CollectionDetails(**collection_details_model_dict)
+        collection_details_model_dict = CollectionDetails.from_dict(
+            collection_details_model_json).__dict__
+        collection_details_model2 = CollectionDetails(
+            **collection_details_model_dict)
 
         # Verify the model instances are equivalent
         assert collection_details_model == collection_details_model2
@@ -5496,41 +5602,49 @@ class TestModel_CollectionDetails():
         collection_details_model_json2 = collection_details_model.to_dict()
         assert collection_details_model_json2 == collection_details_model_json
 
+
 class TestModel_CollectionDetailsSmartDocumentUnderstanding():
     """
     Test Class for CollectionDetailsSmartDocumentUnderstanding
     """
-
-    def test_collection_details_smart_document_understanding_serialization(self):
+    def test_collection_details_smart_document_understanding_serialization(
+            self):
         """
         Test serialization/deserialization for CollectionDetailsSmartDocumentUnderstanding
         """
 
         # Construct a json representation of a CollectionDetailsSmartDocumentUnderstanding model
         collection_details_smart_document_understanding_model_json = {}
-        collection_details_smart_document_understanding_model_json['enabled'] = True
-        collection_details_smart_document_understanding_model_json['model'] = 'custom'
+        collection_details_smart_document_understanding_model_json[
+            'enabled'] = True
+        collection_details_smart_document_understanding_model_json[
+            'model'] = 'custom'
 
         # Construct a model instance of CollectionDetailsSmartDocumentUnderstanding by calling from_dict on the json representation
-        collection_details_smart_document_understanding_model = CollectionDetailsSmartDocumentUnderstanding.from_dict(collection_details_smart_document_understanding_model_json)
+        collection_details_smart_document_understanding_model = CollectionDetailsSmartDocumentUnderstanding.from_dict(
+            collection_details_smart_document_understanding_model_json)
         assert collection_details_smart_document_understanding_model != False
 
         # Construct a model instance of CollectionDetailsSmartDocumentUnderstanding by calling from_dict on the json representation
-        collection_details_smart_document_understanding_model_dict = CollectionDetailsSmartDocumentUnderstanding.from_dict(collection_details_smart_document_understanding_model_json).__dict__
-        collection_details_smart_document_understanding_model2 = CollectionDetailsSmartDocumentUnderstanding(**collection_details_smart_document_understanding_model_dict)
+        collection_details_smart_document_understanding_model_dict = CollectionDetailsSmartDocumentUnderstanding.from_dict(
+            collection_details_smart_document_understanding_model_json
+        ).__dict__
+        collection_details_smart_document_understanding_model2 = CollectionDetailsSmartDocumentUnderstanding(
+            **collection_details_smart_document_understanding_model_dict)
 
         # Verify the model instances are equivalent
         assert collection_details_smart_document_understanding_model == collection_details_smart_document_understanding_model2
 
         # Convert model instance back to dict and verify no loss of data
-        collection_details_smart_document_understanding_model_json2 = collection_details_smart_document_understanding_model.to_dict()
+        collection_details_smart_document_understanding_model_json2 = collection_details_smart_document_understanding_model.to_dict(
+        )
         assert collection_details_smart_document_understanding_model_json2 == collection_details_smart_document_understanding_model_json
+
 
 class TestModel_CollectionEnrichment():
     """
     Test Class for CollectionEnrichment
     """
-
     def test_collection_enrichment_serialization(self):
         """
         Test serialization/deserialization for CollectionEnrichment
@@ -5542,25 +5656,29 @@ class TestModel_CollectionEnrichment():
         collection_enrichment_model_json['fields'] = ['testString']
 
         # Construct a model instance of CollectionEnrichment by calling from_dict on the json representation
-        collection_enrichment_model = CollectionEnrichment.from_dict(collection_enrichment_model_json)
+        collection_enrichment_model = CollectionEnrichment.from_dict(
+            collection_enrichment_model_json)
         assert collection_enrichment_model != False
 
         # Construct a model instance of CollectionEnrichment by calling from_dict on the json representation
-        collection_enrichment_model_dict = CollectionEnrichment.from_dict(collection_enrichment_model_json).__dict__
-        collection_enrichment_model2 = CollectionEnrichment(**collection_enrichment_model_dict)
+        collection_enrichment_model_dict = CollectionEnrichment.from_dict(
+            collection_enrichment_model_json).__dict__
+        collection_enrichment_model2 = CollectionEnrichment(
+            **collection_enrichment_model_dict)
 
         # Verify the model instances are equivalent
         assert collection_enrichment_model == collection_enrichment_model2
 
         # Convert model instance back to dict and verify no loss of data
-        collection_enrichment_model_json2 = collection_enrichment_model.to_dict()
+        collection_enrichment_model_json2 = collection_enrichment_model.to_dict(
+        )
         assert collection_enrichment_model_json2 == collection_enrichment_model_json
+
 
 class TestModel_Completions():
     """
     Test Class for Completions
     """
-
     def test_completions_serialization(self):
         """
         Test serialization/deserialization for Completions
@@ -5575,7 +5693,8 @@ class TestModel_Completions():
         assert completions_model != False
 
         # Construct a model instance of Completions by calling from_dict on the json representation
-        completions_model_dict = Completions.from_dict(completions_model_json).__dict__
+        completions_model_dict = Completions.from_dict(
+            completions_model_json).__dict__
         completions_model2 = Completions(**completions_model_dict)
 
         # Verify the model instances are equivalent
@@ -5585,11 +5704,11 @@ class TestModel_Completions():
         completions_model_json2 = completions_model.to_dict()
         assert completions_model_json2 == completions_model_json
 
+
 class TestModel_ComponentSettingsAggregation():
     """
     Test Class for ComponentSettingsAggregation
     """
-
     def test_component_settings_aggregation_serialization(self):
         """
         Test serialization/deserialization for ComponentSettingsAggregation
@@ -5599,29 +5718,35 @@ class TestModel_ComponentSettingsAggregation():
         component_settings_aggregation_model_json = {}
         component_settings_aggregation_model_json['name'] = 'testString'
         component_settings_aggregation_model_json['label'] = 'testString'
-        component_settings_aggregation_model_json['multiple_selections_allowed'] = True
-        component_settings_aggregation_model_json['visualization_type'] = 'auto'
+        component_settings_aggregation_model_json[
+            'multiple_selections_allowed'] = True
+        component_settings_aggregation_model_json[
+            'visualization_type'] = 'auto'
 
         # Construct a model instance of ComponentSettingsAggregation by calling from_dict on the json representation
-        component_settings_aggregation_model = ComponentSettingsAggregation.from_dict(component_settings_aggregation_model_json)
+        component_settings_aggregation_model = ComponentSettingsAggregation.from_dict(
+            component_settings_aggregation_model_json)
         assert component_settings_aggregation_model != False
 
         # Construct a model instance of ComponentSettingsAggregation by calling from_dict on the json representation
-        component_settings_aggregation_model_dict = ComponentSettingsAggregation.from_dict(component_settings_aggregation_model_json).__dict__
-        component_settings_aggregation_model2 = ComponentSettingsAggregation(**component_settings_aggregation_model_dict)
+        component_settings_aggregation_model_dict = ComponentSettingsAggregation.from_dict(
+            component_settings_aggregation_model_json).__dict__
+        component_settings_aggregation_model2 = ComponentSettingsAggregation(
+            **component_settings_aggregation_model_dict)
 
         # Verify the model instances are equivalent
         assert component_settings_aggregation_model == component_settings_aggregation_model2
 
         # Convert model instance back to dict and verify no loss of data
-        component_settings_aggregation_model_json2 = component_settings_aggregation_model.to_dict()
+        component_settings_aggregation_model_json2 = component_settings_aggregation_model.to_dict(
+        )
         assert component_settings_aggregation_model_json2 == component_settings_aggregation_model_json
+
 
 class TestModel_ComponentSettingsFieldsShown():
     """
     Test Class for ComponentSettingsFieldsShown
     """
-
     def test_component_settings_fields_shown_serialization(self):
         """
         Test serialization/deserialization for ComponentSettingsFieldsShown
@@ -5629,38 +5754,46 @@ class TestModel_ComponentSettingsFieldsShown():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        component_settings_fields_shown_body_model = {} # ComponentSettingsFieldsShownBody
+        component_settings_fields_shown_body_model = {
+        }  # ComponentSettingsFieldsShownBody
         component_settings_fields_shown_body_model['use_passage'] = True
         component_settings_fields_shown_body_model['field'] = 'testString'
 
-        component_settings_fields_shown_title_model = {} # ComponentSettingsFieldsShownTitle
+        component_settings_fields_shown_title_model = {
+        }  # ComponentSettingsFieldsShownTitle
         component_settings_fields_shown_title_model['field'] = 'testString'
 
         # Construct a json representation of a ComponentSettingsFieldsShown model
         component_settings_fields_shown_model_json = {}
-        component_settings_fields_shown_model_json['body'] = component_settings_fields_shown_body_model
-        component_settings_fields_shown_model_json['title'] = component_settings_fields_shown_title_model
+        component_settings_fields_shown_model_json[
+            'body'] = component_settings_fields_shown_body_model
+        component_settings_fields_shown_model_json[
+            'title'] = component_settings_fields_shown_title_model
 
         # Construct a model instance of ComponentSettingsFieldsShown by calling from_dict on the json representation
-        component_settings_fields_shown_model = ComponentSettingsFieldsShown.from_dict(component_settings_fields_shown_model_json)
+        component_settings_fields_shown_model = ComponentSettingsFieldsShown.from_dict(
+            component_settings_fields_shown_model_json)
         assert component_settings_fields_shown_model != False
 
         # Construct a model instance of ComponentSettingsFieldsShown by calling from_dict on the json representation
-        component_settings_fields_shown_model_dict = ComponentSettingsFieldsShown.from_dict(component_settings_fields_shown_model_json).__dict__
-        component_settings_fields_shown_model2 = ComponentSettingsFieldsShown(**component_settings_fields_shown_model_dict)
+        component_settings_fields_shown_model_dict = ComponentSettingsFieldsShown.from_dict(
+            component_settings_fields_shown_model_json).__dict__
+        component_settings_fields_shown_model2 = ComponentSettingsFieldsShown(
+            **component_settings_fields_shown_model_dict)
 
         # Verify the model instances are equivalent
         assert component_settings_fields_shown_model == component_settings_fields_shown_model2
 
         # Convert model instance back to dict and verify no loss of data
-        component_settings_fields_shown_model_json2 = component_settings_fields_shown_model.to_dict()
+        component_settings_fields_shown_model_json2 = component_settings_fields_shown_model.to_dict(
+        )
         assert component_settings_fields_shown_model_json2 == component_settings_fields_shown_model_json
+
 
 class TestModel_ComponentSettingsFieldsShownBody():
     """
     Test Class for ComponentSettingsFieldsShownBody
     """
-
     def test_component_settings_fields_shown_body_serialization(self):
         """
         Test serialization/deserialization for ComponentSettingsFieldsShownBody
@@ -5672,25 +5805,29 @@ class TestModel_ComponentSettingsFieldsShownBody():
         component_settings_fields_shown_body_model_json['field'] = 'testString'
 
         # Construct a model instance of ComponentSettingsFieldsShownBody by calling from_dict on the json representation
-        component_settings_fields_shown_body_model = ComponentSettingsFieldsShownBody.from_dict(component_settings_fields_shown_body_model_json)
+        component_settings_fields_shown_body_model = ComponentSettingsFieldsShownBody.from_dict(
+            component_settings_fields_shown_body_model_json)
         assert component_settings_fields_shown_body_model != False
 
         # Construct a model instance of ComponentSettingsFieldsShownBody by calling from_dict on the json representation
-        component_settings_fields_shown_body_model_dict = ComponentSettingsFieldsShownBody.from_dict(component_settings_fields_shown_body_model_json).__dict__
-        component_settings_fields_shown_body_model2 = ComponentSettingsFieldsShownBody(**component_settings_fields_shown_body_model_dict)
+        component_settings_fields_shown_body_model_dict = ComponentSettingsFieldsShownBody.from_dict(
+            component_settings_fields_shown_body_model_json).__dict__
+        component_settings_fields_shown_body_model2 = ComponentSettingsFieldsShownBody(
+            **component_settings_fields_shown_body_model_dict)
 
         # Verify the model instances are equivalent
         assert component_settings_fields_shown_body_model == component_settings_fields_shown_body_model2
 
         # Convert model instance back to dict and verify no loss of data
-        component_settings_fields_shown_body_model_json2 = component_settings_fields_shown_body_model.to_dict()
+        component_settings_fields_shown_body_model_json2 = component_settings_fields_shown_body_model.to_dict(
+        )
         assert component_settings_fields_shown_body_model_json2 == component_settings_fields_shown_body_model_json
+
 
 class TestModel_ComponentSettingsFieldsShownTitle():
     """
     Test Class for ComponentSettingsFieldsShownTitle
     """
-
     def test_component_settings_fields_shown_title_serialization(self):
         """
         Test serialization/deserialization for ComponentSettingsFieldsShownTitle
@@ -5698,28 +5835,33 @@ class TestModel_ComponentSettingsFieldsShownTitle():
 
         # Construct a json representation of a ComponentSettingsFieldsShownTitle model
         component_settings_fields_shown_title_model_json = {}
-        component_settings_fields_shown_title_model_json['field'] = 'testString'
+        component_settings_fields_shown_title_model_json[
+            'field'] = 'testString'
 
         # Construct a model instance of ComponentSettingsFieldsShownTitle by calling from_dict on the json representation
-        component_settings_fields_shown_title_model = ComponentSettingsFieldsShownTitle.from_dict(component_settings_fields_shown_title_model_json)
+        component_settings_fields_shown_title_model = ComponentSettingsFieldsShownTitle.from_dict(
+            component_settings_fields_shown_title_model_json)
         assert component_settings_fields_shown_title_model != False
 
         # Construct a model instance of ComponentSettingsFieldsShownTitle by calling from_dict on the json representation
-        component_settings_fields_shown_title_model_dict = ComponentSettingsFieldsShownTitle.from_dict(component_settings_fields_shown_title_model_json).__dict__
-        component_settings_fields_shown_title_model2 = ComponentSettingsFieldsShownTitle(**component_settings_fields_shown_title_model_dict)
+        component_settings_fields_shown_title_model_dict = ComponentSettingsFieldsShownTitle.from_dict(
+            component_settings_fields_shown_title_model_json).__dict__
+        component_settings_fields_shown_title_model2 = ComponentSettingsFieldsShownTitle(
+            **component_settings_fields_shown_title_model_dict)
 
         # Verify the model instances are equivalent
         assert component_settings_fields_shown_title_model == component_settings_fields_shown_title_model2
 
         # Convert model instance back to dict and verify no loss of data
-        component_settings_fields_shown_title_model_json2 = component_settings_fields_shown_title_model.to_dict()
+        component_settings_fields_shown_title_model_json2 = component_settings_fields_shown_title_model.to_dict(
+        )
         assert component_settings_fields_shown_title_model_json2 == component_settings_fields_shown_title_model_json
+
 
 class TestModel_ComponentSettingsResponse():
     """
     Test Class for ComponentSettingsResponse
     """
-
     def test_component_settings_response_serialization(self):
         """
         Test serialization/deserialization for ComponentSettingsResponse
@@ -5727,51 +5869,65 @@ class TestModel_ComponentSettingsResponse():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        component_settings_fields_shown_body_model = {} # ComponentSettingsFieldsShownBody
+        component_settings_fields_shown_body_model = {
+        }  # ComponentSettingsFieldsShownBody
         component_settings_fields_shown_body_model['use_passage'] = True
         component_settings_fields_shown_body_model['field'] = 'testString'
 
-        component_settings_fields_shown_title_model = {} # ComponentSettingsFieldsShownTitle
+        component_settings_fields_shown_title_model = {
+        }  # ComponentSettingsFieldsShownTitle
         component_settings_fields_shown_title_model['field'] = 'testString'
 
-        component_settings_fields_shown_model = {} # ComponentSettingsFieldsShown
-        component_settings_fields_shown_model['body'] = component_settings_fields_shown_body_model
-        component_settings_fields_shown_model['title'] = component_settings_fields_shown_title_model
+        component_settings_fields_shown_model = {
+        }  # ComponentSettingsFieldsShown
+        component_settings_fields_shown_model[
+            'body'] = component_settings_fields_shown_body_model
+        component_settings_fields_shown_model[
+            'title'] = component_settings_fields_shown_title_model
 
-        component_settings_aggregation_model = {} # ComponentSettingsAggregation
+        component_settings_aggregation_model = {
+        }  # ComponentSettingsAggregation
         component_settings_aggregation_model['name'] = 'testString'
         component_settings_aggregation_model['label'] = 'testString'
-        component_settings_aggregation_model['multiple_selections_allowed'] = True
+        component_settings_aggregation_model[
+            'multiple_selections_allowed'] = True
         component_settings_aggregation_model['visualization_type'] = 'auto'
 
         # Construct a json representation of a ComponentSettingsResponse model
         component_settings_response_model_json = {}
-        component_settings_response_model_json['fields_shown'] = component_settings_fields_shown_model
+        component_settings_response_model_json[
+            'fields_shown'] = component_settings_fields_shown_model
         component_settings_response_model_json['autocomplete'] = True
         component_settings_response_model_json['structured_search'] = True
         component_settings_response_model_json['results_per_page'] = 38
-        component_settings_response_model_json['aggregations'] = [component_settings_aggregation_model]
+        component_settings_response_model_json['aggregations'] = [
+            component_settings_aggregation_model
+        ]
 
         # Construct a model instance of ComponentSettingsResponse by calling from_dict on the json representation
-        component_settings_response_model = ComponentSettingsResponse.from_dict(component_settings_response_model_json)
+        component_settings_response_model = ComponentSettingsResponse.from_dict(
+            component_settings_response_model_json)
         assert component_settings_response_model != False
 
         # Construct a model instance of ComponentSettingsResponse by calling from_dict on the json representation
-        component_settings_response_model_dict = ComponentSettingsResponse.from_dict(component_settings_response_model_json).__dict__
-        component_settings_response_model2 = ComponentSettingsResponse(**component_settings_response_model_dict)
+        component_settings_response_model_dict = ComponentSettingsResponse.from_dict(
+            component_settings_response_model_json).__dict__
+        component_settings_response_model2 = ComponentSettingsResponse(
+            **component_settings_response_model_dict)
 
         # Verify the model instances are equivalent
         assert component_settings_response_model == component_settings_response_model2
 
         # Convert model instance back to dict and verify no loss of data
-        component_settings_response_model_json2 = component_settings_response_model.to_dict()
+        component_settings_response_model_json2 = component_settings_response_model.to_dict(
+        )
         assert component_settings_response_model_json2 == component_settings_response_model_json
+
 
 class TestModel_CreateDocumentClassifier():
     """
     Test Class for CreateDocumentClassifier
     """
-
     def test_create_document_classifier_serialization(self):
         """
         Test serialization/deserialization for CreateDocumentClassifier
@@ -5779,11 +5935,12 @@ class TestModel_CreateDocumentClassifier():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        document_classifier_enrichment_model = {} # DocumentClassifierEnrichment
+        document_classifier_enrichment_model = {
+        }  # DocumentClassifierEnrichment
         document_classifier_enrichment_model['enrichment_id'] = 'testString'
         document_classifier_enrichment_model['fields'] = ['testString']
 
-        classifier_federated_model_model = {} # ClassifierFederatedModel
+        classifier_federated_model_model = {}  # ClassifierFederatedModel
         classifier_federated_model_model['field'] = 'testString'
 
         # Construct a json representation of a CreateDocumentClassifier model
@@ -5792,29 +5949,36 @@ class TestModel_CreateDocumentClassifier():
         create_document_classifier_model_json['description'] = 'testString'
         create_document_classifier_model_json['language'] = 'en'
         create_document_classifier_model_json['answer_field'] = 'testString'
-        create_document_classifier_model_json['enrichments'] = [document_classifier_enrichment_model]
-        create_document_classifier_model_json['federated_classification'] = classifier_federated_model_model
+        create_document_classifier_model_json['enrichments'] = [
+            document_classifier_enrichment_model
+        ]
+        create_document_classifier_model_json[
+            'federated_classification'] = classifier_federated_model_model
 
         # Construct a model instance of CreateDocumentClassifier by calling from_dict on the json representation
-        create_document_classifier_model = CreateDocumentClassifier.from_dict(create_document_classifier_model_json)
+        create_document_classifier_model = CreateDocumentClassifier.from_dict(
+            create_document_classifier_model_json)
         assert create_document_classifier_model != False
 
         # Construct a model instance of CreateDocumentClassifier by calling from_dict on the json representation
-        create_document_classifier_model_dict = CreateDocumentClassifier.from_dict(create_document_classifier_model_json).__dict__
-        create_document_classifier_model2 = CreateDocumentClassifier(**create_document_classifier_model_dict)
+        create_document_classifier_model_dict = CreateDocumentClassifier.from_dict(
+            create_document_classifier_model_json).__dict__
+        create_document_classifier_model2 = CreateDocumentClassifier(
+            **create_document_classifier_model_dict)
 
         # Verify the model instances are equivalent
         assert create_document_classifier_model == create_document_classifier_model2
 
         # Convert model instance back to dict and verify no loss of data
-        create_document_classifier_model_json2 = create_document_classifier_model.to_dict()
+        create_document_classifier_model_json2 = create_document_classifier_model.to_dict(
+        )
         assert create_document_classifier_model_json2 == create_document_classifier_model_json
+
 
 class TestModel_CreateEnrichment():
     """
     Test Class for CreateEnrichment
     """
-
     def test_create_enrichment_serialization(self):
         """
         Test serialization/deserialization for CreateEnrichment
@@ -5822,7 +5986,7 @@ class TestModel_CreateEnrichment():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        enrichment_options_model = {} # EnrichmentOptions
+        enrichment_options_model = {}  # EnrichmentOptions
         enrichment_options_model['languages'] = ['testString']
         enrichment_options_model['entity_type'] = 'testString'
         enrichment_options_model['regular_expression'] = 'testString'
@@ -5840,12 +6004,15 @@ class TestModel_CreateEnrichment():
         create_enrichment_model_json['options'] = enrichment_options_model
 
         # Construct a model instance of CreateEnrichment by calling from_dict on the json representation
-        create_enrichment_model = CreateEnrichment.from_dict(create_enrichment_model_json)
+        create_enrichment_model = CreateEnrichment.from_dict(
+            create_enrichment_model_json)
         assert create_enrichment_model != False
 
         # Construct a model instance of CreateEnrichment by calling from_dict on the json representation
-        create_enrichment_model_dict = CreateEnrichment.from_dict(create_enrichment_model_json).__dict__
-        create_enrichment_model2 = CreateEnrichment(**create_enrichment_model_dict)
+        create_enrichment_model_dict = CreateEnrichment.from_dict(
+            create_enrichment_model_json).__dict__
+        create_enrichment_model2 = CreateEnrichment(
+            **create_enrichment_model_dict)
 
         # Verify the model instances are equivalent
         assert create_enrichment_model == create_enrichment_model2
@@ -5854,11 +6021,11 @@ class TestModel_CreateEnrichment():
         create_enrichment_model_json2 = create_enrichment_model.to_dict()
         assert create_enrichment_model_json2 == create_enrichment_model_json
 
+
 class TestModel_DefaultQueryParams():
     """
     Test Class for DefaultQueryParams
     """
-
     def test_default_query_params_serialization(self):
         """
         Test serialization/deserialization for DefaultQueryParams
@@ -5866,7 +6033,7 @@ class TestModel_DefaultQueryParams():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        default_query_params_passages_model = {} # DefaultQueryParamsPassages
+        default_query_params_passages_model = {}  # DefaultQueryParamsPassages
         default_query_params_passages_model['enabled'] = True
         default_query_params_passages_model['count'] = 38
         default_query_params_passages_model['fields'] = ['testString']
@@ -5874,22 +6041,27 @@ class TestModel_DefaultQueryParams():
         default_query_params_passages_model['per_document'] = True
         default_query_params_passages_model['max_per_document'] = 38
 
-        default_query_params_table_results_model = {} # DefaultQueryParamsTableResults
+        default_query_params_table_results_model = {
+        }  # DefaultQueryParamsTableResults
         default_query_params_table_results_model['enabled'] = True
         default_query_params_table_results_model['count'] = 38
         default_query_params_table_results_model['per_document'] = 38
 
-        default_query_params_suggested_refinements_model = {} # DefaultQueryParamsSuggestedRefinements
+        default_query_params_suggested_refinements_model = {
+        }  # DefaultQueryParamsSuggestedRefinements
         default_query_params_suggested_refinements_model['enabled'] = True
         default_query_params_suggested_refinements_model['count'] = 38
 
         # Construct a json representation of a DefaultQueryParams model
         default_query_params_model_json = {}
         default_query_params_model_json['collection_ids'] = ['testString']
-        default_query_params_model_json['passages'] = default_query_params_passages_model
-        default_query_params_model_json['table_results'] = default_query_params_table_results_model
+        default_query_params_model_json[
+            'passages'] = default_query_params_passages_model
+        default_query_params_model_json[
+            'table_results'] = default_query_params_table_results_model
         default_query_params_model_json['aggregation'] = 'testString'
-        default_query_params_model_json['suggested_refinements'] = default_query_params_suggested_refinements_model
+        default_query_params_model_json[
+            'suggested_refinements'] = default_query_params_suggested_refinements_model
         default_query_params_model_json['spelling_suggestions'] = True
         default_query_params_model_json['highlight'] = True
         default_query_params_model_json['count'] = 38
@@ -5897,12 +6069,15 @@ class TestModel_DefaultQueryParams():
         default_query_params_model_json['return'] = ['testString']
 
         # Construct a model instance of DefaultQueryParams by calling from_dict on the json representation
-        default_query_params_model = DefaultQueryParams.from_dict(default_query_params_model_json)
+        default_query_params_model = DefaultQueryParams.from_dict(
+            default_query_params_model_json)
         assert default_query_params_model != False
 
         # Construct a model instance of DefaultQueryParams by calling from_dict on the json representation
-        default_query_params_model_dict = DefaultQueryParams.from_dict(default_query_params_model_json).__dict__
-        default_query_params_model2 = DefaultQueryParams(**default_query_params_model_dict)
+        default_query_params_model_dict = DefaultQueryParams.from_dict(
+            default_query_params_model_json).__dict__
+        default_query_params_model2 = DefaultQueryParams(
+            **default_query_params_model_dict)
 
         # Verify the model instances are equivalent
         assert default_query_params_model == default_query_params_model2
@@ -5911,11 +6086,11 @@ class TestModel_DefaultQueryParams():
         default_query_params_model_json2 = default_query_params_model.to_dict()
         assert default_query_params_model_json2 == default_query_params_model_json
 
+
 class TestModel_DefaultQueryParamsPassages():
     """
     Test Class for DefaultQueryParamsPassages
     """
-
     def test_default_query_params_passages_serialization(self):
         """
         Test serialization/deserialization for DefaultQueryParamsPassages
@@ -5931,25 +6106,29 @@ class TestModel_DefaultQueryParamsPassages():
         default_query_params_passages_model_json['max_per_document'] = 38
 
         # Construct a model instance of DefaultQueryParamsPassages by calling from_dict on the json representation
-        default_query_params_passages_model = DefaultQueryParamsPassages.from_dict(default_query_params_passages_model_json)
+        default_query_params_passages_model = DefaultQueryParamsPassages.from_dict(
+            default_query_params_passages_model_json)
         assert default_query_params_passages_model != False
 
         # Construct a model instance of DefaultQueryParamsPassages by calling from_dict on the json representation
-        default_query_params_passages_model_dict = DefaultQueryParamsPassages.from_dict(default_query_params_passages_model_json).__dict__
-        default_query_params_passages_model2 = DefaultQueryParamsPassages(**default_query_params_passages_model_dict)
+        default_query_params_passages_model_dict = DefaultQueryParamsPassages.from_dict(
+            default_query_params_passages_model_json).__dict__
+        default_query_params_passages_model2 = DefaultQueryParamsPassages(
+            **default_query_params_passages_model_dict)
 
         # Verify the model instances are equivalent
         assert default_query_params_passages_model == default_query_params_passages_model2
 
         # Convert model instance back to dict and verify no loss of data
-        default_query_params_passages_model_json2 = default_query_params_passages_model.to_dict()
+        default_query_params_passages_model_json2 = default_query_params_passages_model.to_dict(
+        )
         assert default_query_params_passages_model_json2 == default_query_params_passages_model_json
+
 
 class TestModel_DefaultQueryParamsSuggestedRefinements():
     """
     Test Class for DefaultQueryParamsSuggestedRefinements
     """
-
     def test_default_query_params_suggested_refinements_serialization(self):
         """
         Test serialization/deserialization for DefaultQueryParamsSuggestedRefinements
@@ -5961,25 +6140,29 @@ class TestModel_DefaultQueryParamsSuggestedRefinements():
         default_query_params_suggested_refinements_model_json['count'] = 38
 
         # Construct a model instance of DefaultQueryParamsSuggestedRefinements by calling from_dict on the json representation
-        default_query_params_suggested_refinements_model = DefaultQueryParamsSuggestedRefinements.from_dict(default_query_params_suggested_refinements_model_json)
+        default_query_params_suggested_refinements_model = DefaultQueryParamsSuggestedRefinements.from_dict(
+            default_query_params_suggested_refinements_model_json)
         assert default_query_params_suggested_refinements_model != False
 
         # Construct a model instance of DefaultQueryParamsSuggestedRefinements by calling from_dict on the json representation
-        default_query_params_suggested_refinements_model_dict = DefaultQueryParamsSuggestedRefinements.from_dict(default_query_params_suggested_refinements_model_json).__dict__
-        default_query_params_suggested_refinements_model2 = DefaultQueryParamsSuggestedRefinements(**default_query_params_suggested_refinements_model_dict)
+        default_query_params_suggested_refinements_model_dict = DefaultQueryParamsSuggestedRefinements.from_dict(
+            default_query_params_suggested_refinements_model_json).__dict__
+        default_query_params_suggested_refinements_model2 = DefaultQueryParamsSuggestedRefinements(
+            **default_query_params_suggested_refinements_model_dict)
 
         # Verify the model instances are equivalent
         assert default_query_params_suggested_refinements_model == default_query_params_suggested_refinements_model2
 
         # Convert model instance back to dict and verify no loss of data
-        default_query_params_suggested_refinements_model_json2 = default_query_params_suggested_refinements_model.to_dict()
+        default_query_params_suggested_refinements_model_json2 = default_query_params_suggested_refinements_model.to_dict(
+        )
         assert default_query_params_suggested_refinements_model_json2 == default_query_params_suggested_refinements_model_json
+
 
 class TestModel_DefaultQueryParamsTableResults():
     """
     Test Class for DefaultQueryParamsTableResults
     """
-
     def test_default_query_params_table_results_serialization(self):
         """
         Test serialization/deserialization for DefaultQueryParamsTableResults
@@ -5992,25 +6175,29 @@ class TestModel_DefaultQueryParamsTableResults():
         default_query_params_table_results_model_json['per_document'] = 38
 
         # Construct a model instance of DefaultQueryParamsTableResults by calling from_dict on the json representation
-        default_query_params_table_results_model = DefaultQueryParamsTableResults.from_dict(default_query_params_table_results_model_json)
+        default_query_params_table_results_model = DefaultQueryParamsTableResults.from_dict(
+            default_query_params_table_results_model_json)
         assert default_query_params_table_results_model != False
 
         # Construct a model instance of DefaultQueryParamsTableResults by calling from_dict on the json representation
-        default_query_params_table_results_model_dict = DefaultQueryParamsTableResults.from_dict(default_query_params_table_results_model_json).__dict__
-        default_query_params_table_results_model2 = DefaultQueryParamsTableResults(**default_query_params_table_results_model_dict)
+        default_query_params_table_results_model_dict = DefaultQueryParamsTableResults.from_dict(
+            default_query_params_table_results_model_json).__dict__
+        default_query_params_table_results_model2 = DefaultQueryParamsTableResults(
+            **default_query_params_table_results_model_dict)
 
         # Verify the model instances are equivalent
         assert default_query_params_table_results_model == default_query_params_table_results_model2
 
         # Convert model instance back to dict and verify no loss of data
-        default_query_params_table_results_model_json2 = default_query_params_table_results_model.to_dict()
+        default_query_params_table_results_model_json2 = default_query_params_table_results_model.to_dict(
+        )
         assert default_query_params_table_results_model_json2 == default_query_params_table_results_model_json
+
 
 class TestModel_DeleteDocumentResponse():
     """
     Test Class for DeleteDocumentResponse
     """
-
     def test_delete_document_response_serialization(self):
         """
         Test serialization/deserialization for DeleteDocumentResponse
@@ -6022,25 +6209,29 @@ class TestModel_DeleteDocumentResponse():
         delete_document_response_model_json['status'] = 'deleted'
 
         # Construct a model instance of DeleteDocumentResponse by calling from_dict on the json representation
-        delete_document_response_model = DeleteDocumentResponse.from_dict(delete_document_response_model_json)
+        delete_document_response_model = DeleteDocumentResponse.from_dict(
+            delete_document_response_model_json)
         assert delete_document_response_model != False
 
         # Construct a model instance of DeleteDocumentResponse by calling from_dict on the json representation
-        delete_document_response_model_dict = DeleteDocumentResponse.from_dict(delete_document_response_model_json).__dict__
-        delete_document_response_model2 = DeleteDocumentResponse(**delete_document_response_model_dict)
+        delete_document_response_model_dict = DeleteDocumentResponse.from_dict(
+            delete_document_response_model_json).__dict__
+        delete_document_response_model2 = DeleteDocumentResponse(
+            **delete_document_response_model_dict)
 
         # Verify the model instances are equivalent
         assert delete_document_response_model == delete_document_response_model2
 
         # Convert model instance back to dict and verify no loss of data
-        delete_document_response_model_json2 = delete_document_response_model.to_dict()
+        delete_document_response_model_json2 = delete_document_response_model.to_dict(
+        )
         assert delete_document_response_model_json2 == delete_document_response_model_json
+
 
 class TestModel_DocumentAccepted():
     """
     Test Class for DocumentAccepted
     """
-
     def test_document_accepted_serialization(self):
         """
         Test serialization/deserialization for DocumentAccepted
@@ -6052,12 +6243,15 @@ class TestModel_DocumentAccepted():
         document_accepted_model_json['status'] = 'processing'
 
         # Construct a model instance of DocumentAccepted by calling from_dict on the json representation
-        document_accepted_model = DocumentAccepted.from_dict(document_accepted_model_json)
+        document_accepted_model = DocumentAccepted.from_dict(
+            document_accepted_model_json)
         assert document_accepted_model != False
 
         # Construct a model instance of DocumentAccepted by calling from_dict on the json representation
-        document_accepted_model_dict = DocumentAccepted.from_dict(document_accepted_model_json).__dict__
-        document_accepted_model2 = DocumentAccepted(**document_accepted_model_dict)
+        document_accepted_model_dict = DocumentAccepted.from_dict(
+            document_accepted_model_json).__dict__
+        document_accepted_model2 = DocumentAccepted(
+            **document_accepted_model_dict)
 
         # Verify the model instances are equivalent
         assert document_accepted_model == document_accepted_model2
@@ -6066,11 +6260,11 @@ class TestModel_DocumentAccepted():
         document_accepted_model_json2 = document_accepted_model.to_dict()
         assert document_accepted_model_json2 == document_accepted_model_json
 
+
 class TestModel_DocumentAttribute():
     """
     Test Class for DocumentAttribute
     """
-
     def test_document_attribute_serialization(self):
         """
         Test serialization/deserialization for DocumentAttribute
@@ -6078,7 +6272,7 @@ class TestModel_DocumentAttribute():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        table_element_location_model = {} # TableElementLocation
+        table_element_location_model = {}  # TableElementLocation
         table_element_location_model['begin'] = 26
         table_element_location_model['end'] = 26
 
@@ -6086,15 +6280,19 @@ class TestModel_DocumentAttribute():
         document_attribute_model_json = {}
         document_attribute_model_json['type'] = 'testString'
         document_attribute_model_json['text'] = 'testString'
-        document_attribute_model_json['location'] = table_element_location_model
+        document_attribute_model_json[
+            'location'] = table_element_location_model
 
         # Construct a model instance of DocumentAttribute by calling from_dict on the json representation
-        document_attribute_model = DocumentAttribute.from_dict(document_attribute_model_json)
+        document_attribute_model = DocumentAttribute.from_dict(
+            document_attribute_model_json)
         assert document_attribute_model != False
 
         # Construct a model instance of DocumentAttribute by calling from_dict on the json representation
-        document_attribute_model_dict = DocumentAttribute.from_dict(document_attribute_model_json).__dict__
-        document_attribute_model2 = DocumentAttribute(**document_attribute_model_dict)
+        document_attribute_model_dict = DocumentAttribute.from_dict(
+            document_attribute_model_json).__dict__
+        document_attribute_model2 = DocumentAttribute(
+            **document_attribute_model_dict)
 
         # Verify the model instances are equivalent
         assert document_attribute_model == document_attribute_model2
@@ -6103,11 +6301,11 @@ class TestModel_DocumentAttribute():
         document_attribute_model_json2 = document_attribute_model.to_dict()
         assert document_attribute_model_json2 == document_attribute_model_json
 
+
 class TestModel_DocumentClassifier():
     """
     Test Class for DocumentClassifier
     """
-
     def test_document_classifier_serialization(self):
         """
         Test serialization/deserialization for DocumentClassifier
@@ -6115,11 +6313,12 @@ class TestModel_DocumentClassifier():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        document_classifier_enrichment_model = {} # DocumentClassifierEnrichment
+        document_classifier_enrichment_model = {
+        }  # DocumentClassifierEnrichment
         document_classifier_enrichment_model['enrichment_id'] = 'testString'
         document_classifier_enrichment_model['fields'] = ['testString']
 
-        classifier_federated_model_model = {} # ClassifierFederatedModel
+        classifier_federated_model_model = {}  # ClassifierFederatedModel
         classifier_federated_model_model['field'] = 'testString'
 
         # Construct a json representation of a DocumentClassifier model
@@ -6129,20 +6328,26 @@ class TestModel_DocumentClassifier():
         document_classifier_model_json['description'] = 'testString'
         document_classifier_model_json['created'] = '2019-01-01T12:00:00Z'
         document_classifier_model_json['language'] = 'en'
-        document_classifier_model_json['enrichments'] = [document_classifier_enrichment_model]
+        document_classifier_model_json['enrichments'] = [
+            document_classifier_enrichment_model
+        ]
         document_classifier_model_json['recognized_fields'] = ['testString']
         document_classifier_model_json['answer_field'] = 'testString'
         document_classifier_model_json['training_data_file'] = 'testString'
         document_classifier_model_json['test_data_file'] = 'testString'
-        document_classifier_model_json['federated_classification'] = classifier_federated_model_model
+        document_classifier_model_json[
+            'federated_classification'] = classifier_federated_model_model
 
         # Construct a model instance of DocumentClassifier by calling from_dict on the json representation
-        document_classifier_model = DocumentClassifier.from_dict(document_classifier_model_json)
+        document_classifier_model = DocumentClassifier.from_dict(
+            document_classifier_model_json)
         assert document_classifier_model != False
 
         # Construct a model instance of DocumentClassifier by calling from_dict on the json representation
-        document_classifier_model_dict = DocumentClassifier.from_dict(document_classifier_model_json).__dict__
-        document_classifier_model2 = DocumentClassifier(**document_classifier_model_dict)
+        document_classifier_model_dict = DocumentClassifier.from_dict(
+            document_classifier_model_json).__dict__
+        document_classifier_model2 = DocumentClassifier(
+            **document_classifier_model_dict)
 
         # Verify the model instances are equivalent
         assert document_classifier_model == document_classifier_model2
@@ -6151,11 +6356,11 @@ class TestModel_DocumentClassifier():
         document_classifier_model_json2 = document_classifier_model.to_dict()
         assert document_classifier_model_json2 == document_classifier_model_json
 
+
 class TestModel_DocumentClassifierEnrichment():
     """
     Test Class for DocumentClassifierEnrichment
     """
-
     def test_document_classifier_enrichment_serialization(self):
         """
         Test serialization/deserialization for DocumentClassifierEnrichment
@@ -6163,29 +6368,34 @@ class TestModel_DocumentClassifierEnrichment():
 
         # Construct a json representation of a DocumentClassifierEnrichment model
         document_classifier_enrichment_model_json = {}
-        document_classifier_enrichment_model_json['enrichment_id'] = 'testString'
+        document_classifier_enrichment_model_json[
+            'enrichment_id'] = 'testString'
         document_classifier_enrichment_model_json['fields'] = ['testString']
 
         # Construct a model instance of DocumentClassifierEnrichment by calling from_dict on the json representation
-        document_classifier_enrichment_model = DocumentClassifierEnrichment.from_dict(document_classifier_enrichment_model_json)
+        document_classifier_enrichment_model = DocumentClassifierEnrichment.from_dict(
+            document_classifier_enrichment_model_json)
         assert document_classifier_enrichment_model != False
 
         # Construct a model instance of DocumentClassifierEnrichment by calling from_dict on the json representation
-        document_classifier_enrichment_model_dict = DocumentClassifierEnrichment.from_dict(document_classifier_enrichment_model_json).__dict__
-        document_classifier_enrichment_model2 = DocumentClassifierEnrichment(**document_classifier_enrichment_model_dict)
+        document_classifier_enrichment_model_dict = DocumentClassifierEnrichment.from_dict(
+            document_classifier_enrichment_model_json).__dict__
+        document_classifier_enrichment_model2 = DocumentClassifierEnrichment(
+            **document_classifier_enrichment_model_dict)
 
         # Verify the model instances are equivalent
         assert document_classifier_enrichment_model == document_classifier_enrichment_model2
 
         # Convert model instance back to dict and verify no loss of data
-        document_classifier_enrichment_model_json2 = document_classifier_enrichment_model.to_dict()
+        document_classifier_enrichment_model_json2 = document_classifier_enrichment_model.to_dict(
+        )
         assert document_classifier_enrichment_model_json2 == document_classifier_enrichment_model_json
+
 
 class TestModel_DocumentClassifierModel():
     """
     Test Class for DocumentClassifierModel
     """
-
     def test_document_classifier_model_serialization(self):
         """
         Test serialization/deserialization for DocumentClassifierModel
@@ -6193,61 +6403,76 @@ class TestModel_DocumentClassifierModel():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        model_evaluation_micro_average_model = {} # ModelEvaluationMicroAverage
+        model_evaluation_micro_average_model = {
+        }  # ModelEvaluationMicroAverage
         model_evaluation_micro_average_model['precision'] = 0
         model_evaluation_micro_average_model['recall'] = 0
         model_evaluation_micro_average_model['f1'] = 0
 
-        model_evaluation_macro_average_model = {} # ModelEvaluationMacroAverage
+        model_evaluation_macro_average_model = {
+        }  # ModelEvaluationMacroAverage
         model_evaluation_macro_average_model['precision'] = 0
         model_evaluation_macro_average_model['recall'] = 0
         model_evaluation_macro_average_model['f1'] = 0
 
-        per_class_model_evaluation_model = {} # PerClassModelEvaluation
+        per_class_model_evaluation_model = {}  # PerClassModelEvaluation
         per_class_model_evaluation_model['name'] = 'testString'
         per_class_model_evaluation_model['precision'] = 0
         per_class_model_evaluation_model['recall'] = 0
         per_class_model_evaluation_model['f1'] = 0
 
-        classifier_model_evaluation_model = {} # ClassifierModelEvaluation
-        classifier_model_evaluation_model['micro_average'] = model_evaluation_micro_average_model
-        classifier_model_evaluation_model['macro_average'] = model_evaluation_macro_average_model
-        classifier_model_evaluation_model['per_class'] = [per_class_model_evaluation_model]
+        classifier_model_evaluation_model = {}  # ClassifierModelEvaluation
+        classifier_model_evaluation_model[
+            'micro_average'] = model_evaluation_micro_average_model
+        classifier_model_evaluation_model[
+            'macro_average'] = model_evaluation_macro_average_model
+        classifier_model_evaluation_model['per_class'] = [
+            per_class_model_evaluation_model
+        ]
 
         # Construct a json representation of a DocumentClassifierModel model
         document_classifier_model_model_json = {}
         document_classifier_model_model_json['model_id'] = 'testString'
         document_classifier_model_model_json['name'] = 'testString'
         document_classifier_model_model_json['description'] = 'testString'
-        document_classifier_model_model_json['created'] = '2019-01-01T12:00:00Z'
-        document_classifier_model_model_json['updated'] = '2019-01-01T12:00:00Z'
-        document_classifier_model_model_json['training_data_file'] = 'testString'
+        document_classifier_model_model_json[
+            'created'] = '2019-01-01T12:00:00Z'
+        document_classifier_model_model_json[
+            'updated'] = '2019-01-01T12:00:00Z'
+        document_classifier_model_model_json[
+            'training_data_file'] = 'testString'
         document_classifier_model_model_json['test_data_file'] = 'testString'
         document_classifier_model_model_json['status'] = 'training'
-        document_classifier_model_model_json['evaluation'] = classifier_model_evaluation_model
+        document_classifier_model_model_json[
+            'evaluation'] = classifier_model_evaluation_model
         document_classifier_model_model_json['enrichment_id'] = 'testString'
-        document_classifier_model_model_json['deployed_at'] = '2019-01-01T12:00:00Z'
+        document_classifier_model_model_json[
+            'deployed_at'] = '2019-01-01T12:00:00Z'
 
         # Construct a model instance of DocumentClassifierModel by calling from_dict on the json representation
-        document_classifier_model_model = DocumentClassifierModel.from_dict(document_classifier_model_model_json)
+        document_classifier_model_model = DocumentClassifierModel.from_dict(
+            document_classifier_model_model_json)
         assert document_classifier_model_model != False
 
         # Construct a model instance of DocumentClassifierModel by calling from_dict on the json representation
-        document_classifier_model_model_dict = DocumentClassifierModel.from_dict(document_classifier_model_model_json).__dict__
-        document_classifier_model_model2 = DocumentClassifierModel(**document_classifier_model_model_dict)
+        document_classifier_model_model_dict = DocumentClassifierModel.from_dict(
+            document_classifier_model_model_json).__dict__
+        document_classifier_model_model2 = DocumentClassifierModel(
+            **document_classifier_model_model_dict)
 
         # Verify the model instances are equivalent
         assert document_classifier_model_model == document_classifier_model_model2
 
         # Convert model instance back to dict and verify no loss of data
-        document_classifier_model_model_json2 = document_classifier_model_model.to_dict()
+        document_classifier_model_model_json2 = document_classifier_model_model.to_dict(
+        )
         assert document_classifier_model_model_json2 == document_classifier_model_model_json
+
 
 class TestModel_DocumentClassifierModels():
     """
     Test Class for DocumentClassifierModels
     """
-
     def test_document_classifier_models_serialization(self):
         """
         Test serialization/deserialization for DocumentClassifierModels
@@ -6255,28 +6480,34 @@ class TestModel_DocumentClassifierModels():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        model_evaluation_micro_average_model = {} # ModelEvaluationMicroAverage
+        model_evaluation_micro_average_model = {
+        }  # ModelEvaluationMicroAverage
         model_evaluation_micro_average_model['precision'] = 0
         model_evaluation_micro_average_model['recall'] = 0
         model_evaluation_micro_average_model['f1'] = 0
 
-        model_evaluation_macro_average_model = {} # ModelEvaluationMacroAverage
+        model_evaluation_macro_average_model = {
+        }  # ModelEvaluationMacroAverage
         model_evaluation_macro_average_model['precision'] = 0
         model_evaluation_macro_average_model['recall'] = 0
         model_evaluation_macro_average_model['f1'] = 0
 
-        per_class_model_evaluation_model = {} # PerClassModelEvaluation
+        per_class_model_evaluation_model = {}  # PerClassModelEvaluation
         per_class_model_evaluation_model['name'] = 'testString'
         per_class_model_evaluation_model['precision'] = 0
         per_class_model_evaluation_model['recall'] = 0
         per_class_model_evaluation_model['f1'] = 0
 
-        classifier_model_evaluation_model = {} # ClassifierModelEvaluation
-        classifier_model_evaluation_model['micro_average'] = model_evaluation_micro_average_model
-        classifier_model_evaluation_model['macro_average'] = model_evaluation_macro_average_model
-        classifier_model_evaluation_model['per_class'] = [per_class_model_evaluation_model]
+        classifier_model_evaluation_model = {}  # ClassifierModelEvaluation
+        classifier_model_evaluation_model[
+            'micro_average'] = model_evaluation_micro_average_model
+        classifier_model_evaluation_model[
+            'macro_average'] = model_evaluation_macro_average_model
+        classifier_model_evaluation_model['per_class'] = [
+            per_class_model_evaluation_model
+        ]
 
-        document_classifier_model_model = {} # DocumentClassifierModel
+        document_classifier_model_model = {}  # DocumentClassifierModel
         document_classifier_model_model['model_id'] = 'testString'
         document_classifier_model_model['name'] = 'testString'
         document_classifier_model_model['description'] = 'testString'
@@ -6285,34 +6516,41 @@ class TestModel_DocumentClassifierModels():
         document_classifier_model_model['training_data_file'] = 'testString'
         document_classifier_model_model['test_data_file'] = 'testString'
         document_classifier_model_model['status'] = 'training'
-        document_classifier_model_model['evaluation'] = classifier_model_evaluation_model
+        document_classifier_model_model[
+            'evaluation'] = classifier_model_evaluation_model
         document_classifier_model_model['enrichment_id'] = 'testString'
         document_classifier_model_model['deployed_at'] = '2019-01-01T12:00:00Z'
 
         # Construct a json representation of a DocumentClassifierModels model
         document_classifier_models_model_json = {}
-        document_classifier_models_model_json['models'] = [document_classifier_model_model]
+        document_classifier_models_model_json['models'] = [
+            document_classifier_model_model
+        ]
 
         # Construct a model instance of DocumentClassifierModels by calling from_dict on the json representation
-        document_classifier_models_model = DocumentClassifierModels.from_dict(document_classifier_models_model_json)
+        document_classifier_models_model = DocumentClassifierModels.from_dict(
+            document_classifier_models_model_json)
         assert document_classifier_models_model != False
 
         # Construct a model instance of DocumentClassifierModels by calling from_dict on the json representation
-        document_classifier_models_model_dict = DocumentClassifierModels.from_dict(document_classifier_models_model_json).__dict__
-        document_classifier_models_model2 = DocumentClassifierModels(**document_classifier_models_model_dict)
+        document_classifier_models_model_dict = DocumentClassifierModels.from_dict(
+            document_classifier_models_model_json).__dict__
+        document_classifier_models_model2 = DocumentClassifierModels(
+            **document_classifier_models_model_dict)
 
         # Verify the model instances are equivalent
         assert document_classifier_models_model == document_classifier_models_model2
 
         # Convert model instance back to dict and verify no loss of data
-        document_classifier_models_model_json2 = document_classifier_models_model.to_dict()
+        document_classifier_models_model_json2 = document_classifier_models_model.to_dict(
+        )
         assert document_classifier_models_model_json2 == document_classifier_models_model_json
+
 
 class TestModel_DocumentClassifiers():
     """
     Test Class for DocumentClassifiers
     """
-
     def test_document_classifiers_serialization(self):
         """
         Test serialization/deserialization for DocumentClassifiers
@@ -6320,37 +6558,46 @@ class TestModel_DocumentClassifiers():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        document_classifier_enrichment_model = {} # DocumentClassifierEnrichment
+        document_classifier_enrichment_model = {
+        }  # DocumentClassifierEnrichment
         document_classifier_enrichment_model['enrichment_id'] = 'testString'
         document_classifier_enrichment_model['fields'] = ['testString']
 
-        classifier_federated_model_model = {} # ClassifierFederatedModel
+        classifier_federated_model_model = {}  # ClassifierFederatedModel
         classifier_federated_model_model['field'] = 'testString'
 
-        document_classifier_model = {} # DocumentClassifier
+        document_classifier_model = {}  # DocumentClassifier
         document_classifier_model['classifier_id'] = 'testString'
         document_classifier_model['name'] = 'testString'
         document_classifier_model['description'] = 'testString'
         document_classifier_model['created'] = '2019-01-01T12:00:00Z'
         document_classifier_model['language'] = 'en'
-        document_classifier_model['enrichments'] = [document_classifier_enrichment_model]
+        document_classifier_model['enrichments'] = [
+            document_classifier_enrichment_model
+        ]
         document_classifier_model['recognized_fields'] = ['testString']
         document_classifier_model['answer_field'] = 'testString'
         document_classifier_model['training_data_file'] = 'testString'
         document_classifier_model['test_data_file'] = 'testString'
-        document_classifier_model['federated_classification'] = classifier_federated_model_model
+        document_classifier_model[
+            'federated_classification'] = classifier_federated_model_model
 
         # Construct a json representation of a DocumentClassifiers model
         document_classifiers_model_json = {}
-        document_classifiers_model_json['classifiers'] = [document_classifier_model]
+        document_classifiers_model_json['classifiers'] = [
+            document_classifier_model
+        ]
 
         # Construct a model instance of DocumentClassifiers by calling from_dict on the json representation
-        document_classifiers_model = DocumentClassifiers.from_dict(document_classifiers_model_json)
+        document_classifiers_model = DocumentClassifiers.from_dict(
+            document_classifiers_model_json)
         assert document_classifiers_model != False
 
         # Construct a model instance of DocumentClassifiers by calling from_dict on the json representation
-        document_classifiers_model_dict = DocumentClassifiers.from_dict(document_classifiers_model_json).__dict__
-        document_classifiers_model2 = DocumentClassifiers(**document_classifiers_model_dict)
+        document_classifiers_model_dict = DocumentClassifiers.from_dict(
+            document_classifiers_model_json).__dict__
+        document_classifiers_model2 = DocumentClassifiers(
+            **document_classifiers_model_dict)
 
         # Verify the model instances are equivalent
         assert document_classifiers_model == document_classifiers_model2
@@ -6359,11 +6606,11 @@ class TestModel_DocumentClassifiers():
         document_classifiers_model_json2 = document_classifiers_model.to_dict()
         assert document_classifiers_model_json2 == document_classifiers_model_json
 
+
 class TestModel_DocumentDetails():
     """
     Test Class for DocumentDetails
     """
-
     def test_document_details_serialization(self):
         """
         Test serialization/deserialization for DocumentDetails
@@ -6371,7 +6618,7 @@ class TestModel_DocumentDetails():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        notice_model = {} # Notice
+        notice_model = {}  # Notice
         notice_model['notice_id'] = 'testString'
         notice_model['created'] = '2019-01-01T12:00:00Z'
         notice_model['document_id'] = 'testString'
@@ -6381,7 +6628,7 @@ class TestModel_DocumentDetails():
         notice_model['step'] = 'testString'
         notice_model['description'] = 'testString'
 
-        document_details_children_model = {} # DocumentDetailsChildren
+        document_details_children_model = {}  # DocumentDetailsChildren
         document_details_children_model['have_notices'] = True
         document_details_children_model['count'] = 38
 
@@ -6392,18 +6639,22 @@ class TestModel_DocumentDetails():
         document_details_model_json['updated'] = '2019-01-01T12:00:00Z'
         document_details_model_json['status'] = 'available'
         document_details_model_json['notices'] = [notice_model]
-        document_details_model_json['children'] = document_details_children_model
+        document_details_model_json[
+            'children'] = document_details_children_model
         document_details_model_json['filename'] = 'testString'
         document_details_model_json['file_type'] = 'testString'
         document_details_model_json['sha256'] = 'testString'
 
         # Construct a model instance of DocumentDetails by calling from_dict on the json representation
-        document_details_model = DocumentDetails.from_dict(document_details_model_json)
+        document_details_model = DocumentDetails.from_dict(
+            document_details_model_json)
         assert document_details_model != False
 
         # Construct a model instance of DocumentDetails by calling from_dict on the json representation
-        document_details_model_dict = DocumentDetails.from_dict(document_details_model_json).__dict__
-        document_details_model2 = DocumentDetails(**document_details_model_dict)
+        document_details_model_dict = DocumentDetails.from_dict(
+            document_details_model_json).__dict__
+        document_details_model2 = DocumentDetails(
+            **document_details_model_dict)
 
         # Verify the model instances are equivalent
         assert document_details_model == document_details_model2
@@ -6412,11 +6663,11 @@ class TestModel_DocumentDetails():
         document_details_model_json2 = document_details_model.to_dict()
         assert document_details_model_json2 == document_details_model_json
 
+
 class TestModel_DocumentDetailsChildren():
     """
     Test Class for DocumentDetailsChildren
     """
-
     def test_document_details_children_serialization(self):
         """
         Test serialization/deserialization for DocumentDetailsChildren
@@ -6428,25 +6679,29 @@ class TestModel_DocumentDetailsChildren():
         document_details_children_model_json['count'] = 38
 
         # Construct a model instance of DocumentDetailsChildren by calling from_dict on the json representation
-        document_details_children_model = DocumentDetailsChildren.from_dict(document_details_children_model_json)
+        document_details_children_model = DocumentDetailsChildren.from_dict(
+            document_details_children_model_json)
         assert document_details_children_model != False
 
         # Construct a model instance of DocumentDetailsChildren by calling from_dict on the json representation
-        document_details_children_model_dict = DocumentDetailsChildren.from_dict(document_details_children_model_json).__dict__
-        document_details_children_model2 = DocumentDetailsChildren(**document_details_children_model_dict)
+        document_details_children_model_dict = DocumentDetailsChildren.from_dict(
+            document_details_children_model_json).__dict__
+        document_details_children_model2 = DocumentDetailsChildren(
+            **document_details_children_model_dict)
 
         # Verify the model instances are equivalent
         assert document_details_children_model == document_details_children_model2
 
         # Convert model instance back to dict and verify no loss of data
-        document_details_children_model_json2 = document_details_children_model.to_dict()
+        document_details_children_model_json2 = document_details_children_model.to_dict(
+        )
         assert document_details_children_model_json2 == document_details_children_model_json
+
 
 class TestModel_Enrichment():
     """
     Test Class for Enrichment
     """
-
     def test_enrichment_serialization(self):
         """
         Test serialization/deserialization for Enrichment
@@ -6454,7 +6709,7 @@ class TestModel_Enrichment():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        enrichment_options_model = {} # EnrichmentOptions
+        enrichment_options_model = {}  # EnrichmentOptions
         enrichment_options_model['languages'] = ['testString']
         enrichment_options_model['entity_type'] = 'testString'
         enrichment_options_model['regular_expression'] = 'testString'
@@ -6477,7 +6732,8 @@ class TestModel_Enrichment():
         assert enrichment_model != False
 
         # Construct a model instance of Enrichment by calling from_dict on the json representation
-        enrichment_model_dict = Enrichment.from_dict(enrichment_model_json).__dict__
+        enrichment_model_dict = Enrichment.from_dict(
+            enrichment_model_json).__dict__
         enrichment_model2 = Enrichment(**enrichment_model_dict)
 
         # Verify the model instances are equivalent
@@ -6487,11 +6743,11 @@ class TestModel_Enrichment():
         enrichment_model_json2 = enrichment_model.to_dict()
         assert enrichment_model_json2 == enrichment_model_json
 
+
 class TestModel_EnrichmentOptions():
     """
     Test Class for EnrichmentOptions
     """
-
     def test_enrichment_options_serialization(self):
         """
         Test serialization/deserialization for EnrichmentOptions
@@ -6509,12 +6765,15 @@ class TestModel_EnrichmentOptions():
         enrichment_options_model_json['top_k'] = 38
 
         # Construct a model instance of EnrichmentOptions by calling from_dict on the json representation
-        enrichment_options_model = EnrichmentOptions.from_dict(enrichment_options_model_json)
+        enrichment_options_model = EnrichmentOptions.from_dict(
+            enrichment_options_model_json)
         assert enrichment_options_model != False
 
         # Construct a model instance of EnrichmentOptions by calling from_dict on the json representation
-        enrichment_options_model_dict = EnrichmentOptions.from_dict(enrichment_options_model_json).__dict__
-        enrichment_options_model2 = EnrichmentOptions(**enrichment_options_model_dict)
+        enrichment_options_model_dict = EnrichmentOptions.from_dict(
+            enrichment_options_model_json).__dict__
+        enrichment_options_model2 = EnrichmentOptions(
+            **enrichment_options_model_dict)
 
         # Verify the model instances are equivalent
         assert enrichment_options_model == enrichment_options_model2
@@ -6523,11 +6782,11 @@ class TestModel_EnrichmentOptions():
         enrichment_options_model_json2 = enrichment_options_model.to_dict()
         assert enrichment_options_model_json2 == enrichment_options_model_json
 
+
 class TestModel_Enrichments():
     """
     Test Class for Enrichments
     """
-
     def test_enrichments_serialization(self):
         """
         Test serialization/deserialization for Enrichments
@@ -6535,7 +6794,7 @@ class TestModel_Enrichments():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        enrichment_options_model = {} # EnrichmentOptions
+        enrichment_options_model = {}  # EnrichmentOptions
         enrichment_options_model['languages'] = ['testString']
         enrichment_options_model['entity_type'] = 'testString'
         enrichment_options_model['regular_expression'] = 'testString'
@@ -6545,7 +6804,7 @@ class TestModel_Enrichments():
         enrichment_options_model['confidence_threshold'] = 0
         enrichment_options_model['top_k'] = 38
 
-        enrichment_model = {} # Enrichment
+        enrichment_model = {}  # Enrichment
         enrichment_model['enrichment_id'] = 'testString'
         enrichment_model['name'] = 'testString'
         enrichment_model['description'] = 'testString'
@@ -6561,7 +6820,8 @@ class TestModel_Enrichments():
         assert enrichments_model != False
 
         # Construct a model instance of Enrichments by calling from_dict on the json representation
-        enrichments_model_dict = Enrichments.from_dict(enrichments_model_json).__dict__
+        enrichments_model_dict = Enrichments.from_dict(
+            enrichments_model_json).__dict__
         enrichments_model2 = Enrichments(**enrichments_model_dict)
 
         # Verify the model instances are equivalent
@@ -6571,11 +6831,11 @@ class TestModel_Enrichments():
         enrichments_model_json2 = enrichments_model.to_dict()
         assert enrichments_model_json2 == enrichments_model_json
 
+
 class TestModel_Expansion():
     """
     Test Class for Expansion
     """
-
     def test_expansion_serialization(self):
         """
         Test serialization/deserialization for Expansion
@@ -6591,7 +6851,8 @@ class TestModel_Expansion():
         assert expansion_model != False
 
         # Construct a model instance of Expansion by calling from_dict on the json representation
-        expansion_model_dict = Expansion.from_dict(expansion_model_json).__dict__
+        expansion_model_dict = Expansion.from_dict(
+            expansion_model_json).__dict__
         expansion_model2 = Expansion(**expansion_model_dict)
 
         # Verify the model instances are equivalent
@@ -6601,11 +6862,11 @@ class TestModel_Expansion():
         expansion_model_json2 = expansion_model.to_dict()
         assert expansion_model_json2 == expansion_model_json
 
+
 class TestModel_Expansions():
     """
     Test Class for Expansions
     """
-
     def test_expansions_serialization(self):
         """
         Test serialization/deserialization for Expansions
@@ -6613,7 +6874,7 @@ class TestModel_Expansions():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        expansion_model = {} # Expansion
+        expansion_model = {}  # Expansion
         expansion_model['input_terms'] = ['testString']
         expansion_model['expanded_terms'] = ['testString']
 
@@ -6626,7 +6887,8 @@ class TestModel_Expansions():
         assert expansions_model != False
 
         # Construct a model instance of Expansions by calling from_dict on the json representation
-        expansions_model_dict = Expansions.from_dict(expansions_model_json).__dict__
+        expansions_model_dict = Expansions.from_dict(
+            expansions_model_json).__dict__
         expansions_model2 = Expansions(**expansions_model_dict)
 
         # Verify the model instances are equivalent
@@ -6636,11 +6898,11 @@ class TestModel_Expansions():
         expansions_model_json2 = expansions_model.to_dict()
         assert expansions_model_json2 == expansions_model_json
 
+
 class TestModel_Field():
     """
     Test Class for Field
     """
-
     def test_field_serialization(self):
         """
         Test serialization/deserialization for Field
@@ -6667,11 +6929,11 @@ class TestModel_Field():
         field_model_json2 = field_model.to_dict()
         assert field_model_json2 == field_model_json
 
+
 class TestModel_ListCollectionsResponse():
     """
     Test Class for ListCollectionsResponse
     """
-
     def test_list_collections_response_serialization(self):
         """
         Test serialization/deserialization for ListCollectionsResponse
@@ -6679,34 +6941,41 @@ class TestModel_ListCollectionsResponse():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        collection_model = {} # Collection
-        collection_model['collection_id'] = 'f1360220-ea2d-4271-9d62-89a910b13c37'
+        collection_model = {}  # Collection
+        collection_model[
+            'collection_id'] = 'f1360220-ea2d-4271-9d62-89a910b13c37'
         collection_model['name'] = 'example'
 
         # Construct a json representation of a ListCollectionsResponse model
         list_collections_response_model_json = {}
-        list_collections_response_model_json['collections'] = [collection_model]
+        list_collections_response_model_json['collections'] = [
+            collection_model
+        ]
 
         # Construct a model instance of ListCollectionsResponse by calling from_dict on the json representation
-        list_collections_response_model = ListCollectionsResponse.from_dict(list_collections_response_model_json)
+        list_collections_response_model = ListCollectionsResponse.from_dict(
+            list_collections_response_model_json)
         assert list_collections_response_model != False
 
         # Construct a model instance of ListCollectionsResponse by calling from_dict on the json representation
-        list_collections_response_model_dict = ListCollectionsResponse.from_dict(list_collections_response_model_json).__dict__
-        list_collections_response_model2 = ListCollectionsResponse(**list_collections_response_model_dict)
+        list_collections_response_model_dict = ListCollectionsResponse.from_dict(
+            list_collections_response_model_json).__dict__
+        list_collections_response_model2 = ListCollectionsResponse(
+            **list_collections_response_model_dict)
 
         # Verify the model instances are equivalent
         assert list_collections_response_model == list_collections_response_model2
 
         # Convert model instance back to dict and verify no loss of data
-        list_collections_response_model_json2 = list_collections_response_model.to_dict()
+        list_collections_response_model_json2 = list_collections_response_model.to_dict(
+        )
         assert list_collections_response_model_json2 == list_collections_response_model_json
+
 
 class TestModel_ListDocumentsResponse():
     """
     Test Class for ListDocumentsResponse
     """
-
     def test_list_documents_response_serialization(self):
         """
         Test serialization/deserialization for ListDocumentsResponse
@@ -6714,7 +6983,7 @@ class TestModel_ListDocumentsResponse():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        notice_model = {} # Notice
+        notice_model = {}  # Notice
         notice_model['notice_id'] = 'testString'
         notice_model['created'] = '2019-01-01T12:00:00Z'
         notice_model['document_id'] = 'testString'
@@ -6724,12 +6993,13 @@ class TestModel_ListDocumentsResponse():
         notice_model['step'] = 'testString'
         notice_model['description'] = 'testString'
 
-        document_details_children_model = {} # DocumentDetailsChildren
+        document_details_children_model = {}  # DocumentDetailsChildren
         document_details_children_model['have_notices'] = True
         document_details_children_model['count'] = 38
 
-        document_details_model = {} # DocumentDetails
-        document_details_model['document_id'] = '4ffcfd8052005b99469e632506763bac_0'
+        document_details_model = {}  # DocumentDetails
+        document_details_model[
+            'document_id'] = '4ffcfd8052005b99469e632506763bac_0'
         document_details_model['created'] = '2019-01-01T12:00:00Z'
         document_details_model['updated'] = '2019-01-01T12:00:00Z'
         document_details_model['status'] = 'available'
@@ -6742,28 +7012,34 @@ class TestModel_ListDocumentsResponse():
         # Construct a json representation of a ListDocumentsResponse model
         list_documents_response_model_json = {}
         list_documents_response_model_json['matching_results'] = 38
-        list_documents_response_model_json['documents'] = [document_details_model]
+        list_documents_response_model_json['documents'] = [
+            document_details_model
+        ]
 
         # Construct a model instance of ListDocumentsResponse by calling from_dict on the json representation
-        list_documents_response_model = ListDocumentsResponse.from_dict(list_documents_response_model_json)
+        list_documents_response_model = ListDocumentsResponse.from_dict(
+            list_documents_response_model_json)
         assert list_documents_response_model != False
 
         # Construct a model instance of ListDocumentsResponse by calling from_dict on the json representation
-        list_documents_response_model_dict = ListDocumentsResponse.from_dict(list_documents_response_model_json).__dict__
-        list_documents_response_model2 = ListDocumentsResponse(**list_documents_response_model_dict)
+        list_documents_response_model_dict = ListDocumentsResponse.from_dict(
+            list_documents_response_model_json).__dict__
+        list_documents_response_model2 = ListDocumentsResponse(
+            **list_documents_response_model_dict)
 
         # Verify the model instances are equivalent
         assert list_documents_response_model == list_documents_response_model2
 
         # Convert model instance back to dict and verify no loss of data
-        list_documents_response_model_json2 = list_documents_response_model.to_dict()
+        list_documents_response_model_json2 = list_documents_response_model.to_dict(
+        )
         assert list_documents_response_model_json2 == list_documents_response_model_json
+
 
 class TestModel_ListFieldsResponse():
     """
     Test Class for ListFieldsResponse
     """
-
     def test_list_fields_response_serialization(self):
         """
         Test serialization/deserialization for ListFieldsResponse
@@ -6771,7 +7047,7 @@ class TestModel_ListFieldsResponse():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        field_model = {} # Field
+        field_model = {}  # Field
         field_model['field'] = 'testString'
         field_model['type'] = 'nested'
         field_model['collection_id'] = 'testString'
@@ -6781,12 +7057,15 @@ class TestModel_ListFieldsResponse():
         list_fields_response_model_json['fields'] = [field_model]
 
         # Construct a model instance of ListFieldsResponse by calling from_dict on the json representation
-        list_fields_response_model = ListFieldsResponse.from_dict(list_fields_response_model_json)
+        list_fields_response_model = ListFieldsResponse.from_dict(
+            list_fields_response_model_json)
         assert list_fields_response_model != False
 
         # Construct a model instance of ListFieldsResponse by calling from_dict on the json representation
-        list_fields_response_model_dict = ListFieldsResponse.from_dict(list_fields_response_model_json).__dict__
-        list_fields_response_model2 = ListFieldsResponse(**list_fields_response_model_dict)
+        list_fields_response_model_dict = ListFieldsResponse.from_dict(
+            list_fields_response_model_json).__dict__
+        list_fields_response_model2 = ListFieldsResponse(
+            **list_fields_response_model_dict)
 
         # Verify the model instances are equivalent
         assert list_fields_response_model == list_fields_response_model2
@@ -6795,11 +7074,11 @@ class TestModel_ListFieldsResponse():
         list_fields_response_model_json2 = list_fields_response_model.to_dict()
         assert list_fields_response_model_json2 == list_fields_response_model_json
 
+
 class TestModel_ListProjectsResponse():
     """
     Test Class for ListProjectsResponse
     """
-
     def test_list_projects_response_serialization(self):
         """
         Test serialization/deserialization for ListProjectsResponse
@@ -6807,48 +7086,64 @@ class TestModel_ListProjectsResponse():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        project_list_details_relevancy_training_status_model = {} # ProjectListDetailsRelevancyTrainingStatus
-        project_list_details_relevancy_training_status_model['data_updated'] = 'testString'
-        project_list_details_relevancy_training_status_model['total_examples'] = 38
-        project_list_details_relevancy_training_status_model['sufficient_label_diversity'] = True
-        project_list_details_relevancy_training_status_model['processing'] = True
-        project_list_details_relevancy_training_status_model['minimum_examples_added'] = True
-        project_list_details_relevancy_training_status_model['successfully_trained'] = 'testString'
-        project_list_details_relevancy_training_status_model['available'] = True
+        project_list_details_relevancy_training_status_model = {
+        }  # ProjectListDetailsRelevancyTrainingStatus
+        project_list_details_relevancy_training_status_model[
+            'data_updated'] = 'testString'
+        project_list_details_relevancy_training_status_model[
+            'total_examples'] = 38
+        project_list_details_relevancy_training_status_model[
+            'sufficient_label_diversity'] = True
+        project_list_details_relevancy_training_status_model[
+            'processing'] = True
+        project_list_details_relevancy_training_status_model[
+            'minimum_examples_added'] = True
+        project_list_details_relevancy_training_status_model[
+            'successfully_trained'] = 'testString'
+        project_list_details_relevancy_training_status_model[
+            'available'] = True
         project_list_details_relevancy_training_status_model['notices'] = 38
-        project_list_details_relevancy_training_status_model['minimum_queries_added'] = True
+        project_list_details_relevancy_training_status_model[
+            'minimum_queries_added'] = True
 
-        project_list_details_model = {} # ProjectListDetails
+        project_list_details_model = {}  # ProjectListDetails
         project_list_details_model['project_id'] = 'testString'
         project_list_details_model['name'] = 'testString'
         project_list_details_model['type'] = 'document_retrieval'
-        project_list_details_model['relevancy_training_status'] = project_list_details_relevancy_training_status_model
+        project_list_details_model[
+            'relevancy_training_status'] = project_list_details_relevancy_training_status_model
         project_list_details_model['collection_count'] = 38
 
         # Construct a json representation of a ListProjectsResponse model
         list_projects_response_model_json = {}
-        list_projects_response_model_json['projects'] = [project_list_details_model]
+        list_projects_response_model_json['projects'] = [
+            project_list_details_model
+        ]
 
         # Construct a model instance of ListProjectsResponse by calling from_dict on the json representation
-        list_projects_response_model = ListProjectsResponse.from_dict(list_projects_response_model_json)
+        list_projects_response_model = ListProjectsResponse.from_dict(
+            list_projects_response_model_json)
         assert list_projects_response_model != False
 
         # Construct a model instance of ListProjectsResponse by calling from_dict on the json representation
-        list_projects_response_model_dict = ListProjectsResponse.from_dict(list_projects_response_model_json).__dict__
-        list_projects_response_model2 = ListProjectsResponse(**list_projects_response_model_dict)
+        list_projects_response_model_dict = ListProjectsResponse.from_dict(
+            list_projects_response_model_json).__dict__
+        list_projects_response_model2 = ListProjectsResponse(
+            **list_projects_response_model_dict)
 
         # Verify the model instances are equivalent
         assert list_projects_response_model == list_projects_response_model2
 
         # Convert model instance back to dict and verify no loss of data
-        list_projects_response_model_json2 = list_projects_response_model.to_dict()
+        list_projects_response_model_json2 = list_projects_response_model.to_dict(
+        )
         assert list_projects_response_model_json2 == list_projects_response_model_json
+
 
 class TestModel_ModelEvaluationMacroAverage():
     """
     Test Class for ModelEvaluationMacroAverage
     """
-
     def test_model_evaluation_macro_average_serialization(self):
         """
         Test serialization/deserialization for ModelEvaluationMacroAverage
@@ -6861,25 +7156,29 @@ class TestModel_ModelEvaluationMacroAverage():
         model_evaluation_macro_average_model_json['f1'] = 0
 
         # Construct a model instance of ModelEvaluationMacroAverage by calling from_dict on the json representation
-        model_evaluation_macro_average_model = ModelEvaluationMacroAverage.from_dict(model_evaluation_macro_average_model_json)
+        model_evaluation_macro_average_model = ModelEvaluationMacroAverage.from_dict(
+            model_evaluation_macro_average_model_json)
         assert model_evaluation_macro_average_model != False
 
         # Construct a model instance of ModelEvaluationMacroAverage by calling from_dict on the json representation
-        model_evaluation_macro_average_model_dict = ModelEvaluationMacroAverage.from_dict(model_evaluation_macro_average_model_json).__dict__
-        model_evaluation_macro_average_model2 = ModelEvaluationMacroAverage(**model_evaluation_macro_average_model_dict)
+        model_evaluation_macro_average_model_dict = ModelEvaluationMacroAverage.from_dict(
+            model_evaluation_macro_average_model_json).__dict__
+        model_evaluation_macro_average_model2 = ModelEvaluationMacroAverage(
+            **model_evaluation_macro_average_model_dict)
 
         # Verify the model instances are equivalent
         assert model_evaluation_macro_average_model == model_evaluation_macro_average_model2
 
         # Convert model instance back to dict and verify no loss of data
-        model_evaluation_macro_average_model_json2 = model_evaluation_macro_average_model.to_dict()
+        model_evaluation_macro_average_model_json2 = model_evaluation_macro_average_model.to_dict(
+        )
         assert model_evaluation_macro_average_model_json2 == model_evaluation_macro_average_model_json
+
 
 class TestModel_ModelEvaluationMicroAverage():
     """
     Test Class for ModelEvaluationMicroAverage
     """
-
     def test_model_evaluation_micro_average_serialization(self):
         """
         Test serialization/deserialization for ModelEvaluationMicroAverage
@@ -6892,25 +7191,29 @@ class TestModel_ModelEvaluationMicroAverage():
         model_evaluation_micro_average_model_json['f1'] = 0
 
         # Construct a model instance of ModelEvaluationMicroAverage by calling from_dict on the json representation
-        model_evaluation_micro_average_model = ModelEvaluationMicroAverage.from_dict(model_evaluation_micro_average_model_json)
+        model_evaluation_micro_average_model = ModelEvaluationMicroAverage.from_dict(
+            model_evaluation_micro_average_model_json)
         assert model_evaluation_micro_average_model != False
 
         # Construct a model instance of ModelEvaluationMicroAverage by calling from_dict on the json representation
-        model_evaluation_micro_average_model_dict = ModelEvaluationMicroAverage.from_dict(model_evaluation_micro_average_model_json).__dict__
-        model_evaluation_micro_average_model2 = ModelEvaluationMicroAverage(**model_evaluation_micro_average_model_dict)
+        model_evaluation_micro_average_model_dict = ModelEvaluationMicroAverage.from_dict(
+            model_evaluation_micro_average_model_json).__dict__
+        model_evaluation_micro_average_model2 = ModelEvaluationMicroAverage(
+            **model_evaluation_micro_average_model_dict)
 
         # Verify the model instances are equivalent
         assert model_evaluation_micro_average_model == model_evaluation_micro_average_model2
 
         # Convert model instance back to dict and verify no loss of data
-        model_evaluation_micro_average_model_json2 = model_evaluation_micro_average_model.to_dict()
+        model_evaluation_micro_average_model_json2 = model_evaluation_micro_average_model.to_dict(
+        )
         assert model_evaluation_micro_average_model_json2 == model_evaluation_micro_average_model_json
+
 
 class TestModel_Notice():
     """
     Test Class for Notice
     """
-
     def test_notice_serialization(self):
         """
         Test serialization/deserialization for Notice
@@ -6942,11 +7245,11 @@ class TestModel_Notice():
         notice_model_json2 = notice_model.to_dict()
         assert notice_model_json2 == notice_model_json
 
+
 class TestModel_PerClassModelEvaluation():
     """
     Test Class for PerClassModelEvaluation
     """
-
     def test_per_class_model_evaluation_serialization(self):
         """
         Test serialization/deserialization for PerClassModelEvaluation
@@ -6960,25 +7263,29 @@ class TestModel_PerClassModelEvaluation():
         per_class_model_evaluation_model_json['f1'] = 0
 
         # Construct a model instance of PerClassModelEvaluation by calling from_dict on the json representation
-        per_class_model_evaluation_model = PerClassModelEvaluation.from_dict(per_class_model_evaluation_model_json)
+        per_class_model_evaluation_model = PerClassModelEvaluation.from_dict(
+            per_class_model_evaluation_model_json)
         assert per_class_model_evaluation_model != False
 
         # Construct a model instance of PerClassModelEvaluation by calling from_dict on the json representation
-        per_class_model_evaluation_model_dict = PerClassModelEvaluation.from_dict(per_class_model_evaluation_model_json).__dict__
-        per_class_model_evaluation_model2 = PerClassModelEvaluation(**per_class_model_evaluation_model_dict)
+        per_class_model_evaluation_model_dict = PerClassModelEvaluation.from_dict(
+            per_class_model_evaluation_model_json).__dict__
+        per_class_model_evaluation_model2 = PerClassModelEvaluation(
+            **per_class_model_evaluation_model_dict)
 
         # Verify the model instances are equivalent
         assert per_class_model_evaluation_model == per_class_model_evaluation_model2
 
         # Convert model instance back to dict and verify no loss of data
-        per_class_model_evaluation_model_json2 = per_class_model_evaluation_model.to_dict()
+        per_class_model_evaluation_model_json2 = per_class_model_evaluation_model.to_dict(
+        )
         assert per_class_model_evaluation_model_json2 == per_class_model_evaluation_model_json
+
 
 class TestModel_ProjectDetails():
     """
     Test Class for ProjectDetails
     """
-
     def test_project_details_serialization(self):
         """
         Test serialization/deserialization for ProjectDetails
@@ -6986,18 +7293,27 @@ class TestModel_ProjectDetails():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        project_list_details_relevancy_training_status_model = {} # ProjectListDetailsRelevancyTrainingStatus
-        project_list_details_relevancy_training_status_model['data_updated'] = 'testString'
-        project_list_details_relevancy_training_status_model['total_examples'] = 38
-        project_list_details_relevancy_training_status_model['sufficient_label_diversity'] = True
-        project_list_details_relevancy_training_status_model['processing'] = True
-        project_list_details_relevancy_training_status_model['minimum_examples_added'] = True
-        project_list_details_relevancy_training_status_model['successfully_trained'] = 'testString'
-        project_list_details_relevancy_training_status_model['available'] = True
+        project_list_details_relevancy_training_status_model = {
+        }  # ProjectListDetailsRelevancyTrainingStatus
+        project_list_details_relevancy_training_status_model[
+            'data_updated'] = 'testString'
+        project_list_details_relevancy_training_status_model[
+            'total_examples'] = 38
+        project_list_details_relevancy_training_status_model[
+            'sufficient_label_diversity'] = True
+        project_list_details_relevancy_training_status_model[
+            'processing'] = True
+        project_list_details_relevancy_training_status_model[
+            'minimum_examples_added'] = True
+        project_list_details_relevancy_training_status_model[
+            'successfully_trained'] = 'testString'
+        project_list_details_relevancy_training_status_model[
+            'available'] = True
         project_list_details_relevancy_training_status_model['notices'] = 38
-        project_list_details_relevancy_training_status_model['minimum_queries_added'] = True
+        project_list_details_relevancy_training_status_model[
+            'minimum_queries_added'] = True
 
-        default_query_params_passages_model = {} # DefaultQueryParamsPassages
+        default_query_params_passages_model = {}  # DefaultQueryParamsPassages
         default_query_params_passages_model['enabled'] = True
         default_query_params_passages_model['count'] = 38
         default_query_params_passages_model['fields'] = ['testString']
@@ -7005,21 +7321,26 @@ class TestModel_ProjectDetails():
         default_query_params_passages_model['per_document'] = True
         default_query_params_passages_model['max_per_document'] = 38
 
-        default_query_params_table_results_model = {} # DefaultQueryParamsTableResults
+        default_query_params_table_results_model = {
+        }  # DefaultQueryParamsTableResults
         default_query_params_table_results_model['enabled'] = True
         default_query_params_table_results_model['count'] = 38
         default_query_params_table_results_model['per_document'] = 38
 
-        default_query_params_suggested_refinements_model = {} # DefaultQueryParamsSuggestedRefinements
+        default_query_params_suggested_refinements_model = {
+        }  # DefaultQueryParamsSuggestedRefinements
         default_query_params_suggested_refinements_model['enabled'] = True
         default_query_params_suggested_refinements_model['count'] = 38
 
-        default_query_params_model = {} # DefaultQueryParams
+        default_query_params_model = {}  # DefaultQueryParams
         default_query_params_model['collection_ids'] = ['testString']
-        default_query_params_model['passages'] = default_query_params_passages_model
-        default_query_params_model['table_results'] = default_query_params_table_results_model
+        default_query_params_model[
+            'passages'] = default_query_params_passages_model
+        default_query_params_model[
+            'table_results'] = default_query_params_table_results_model
         default_query_params_model['aggregation'] = 'testString'
-        default_query_params_model['suggested_refinements'] = default_query_params_suggested_refinements_model
+        default_query_params_model[
+            'suggested_refinements'] = default_query_params_suggested_refinements_model
         default_query_params_model['spelling_suggestions'] = True
         default_query_params_model['highlight'] = True
         default_query_params_model['count'] = 38
@@ -7031,16 +7352,20 @@ class TestModel_ProjectDetails():
         project_details_model_json['project_id'] = 'testString'
         project_details_model_json['name'] = 'testString'
         project_details_model_json['type'] = 'document_retrieval'
-        project_details_model_json['relevancy_training_status'] = project_list_details_relevancy_training_status_model
+        project_details_model_json[
+            'relevancy_training_status'] = project_list_details_relevancy_training_status_model
         project_details_model_json['collection_count'] = 38
-        project_details_model_json['default_query_parameters'] = default_query_params_model
+        project_details_model_json[
+            'default_query_parameters'] = default_query_params_model
 
         # Construct a model instance of ProjectDetails by calling from_dict on the json representation
-        project_details_model = ProjectDetails.from_dict(project_details_model_json)
+        project_details_model = ProjectDetails.from_dict(
+            project_details_model_json)
         assert project_details_model != False
 
         # Construct a model instance of ProjectDetails by calling from_dict on the json representation
-        project_details_model_dict = ProjectDetails.from_dict(project_details_model_json).__dict__
+        project_details_model_dict = ProjectDetails.from_dict(
+            project_details_model_json).__dict__
         project_details_model2 = ProjectDetails(**project_details_model_dict)
 
         # Verify the model instances are equivalent
@@ -7050,11 +7375,11 @@ class TestModel_ProjectDetails():
         project_details_model_json2 = project_details_model.to_dict()
         assert project_details_model_json2 == project_details_model_json
 
+
 class TestModel_ProjectListDetails():
     """
     Test Class for ProjectListDetails
     """
-
     def test_project_list_details_serialization(self):
         """
         Test serialization/deserialization for ProjectListDetails
@@ -7062,32 +7387,45 @@ class TestModel_ProjectListDetails():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        project_list_details_relevancy_training_status_model = {} # ProjectListDetailsRelevancyTrainingStatus
-        project_list_details_relevancy_training_status_model['data_updated'] = 'testString'
-        project_list_details_relevancy_training_status_model['total_examples'] = 38
-        project_list_details_relevancy_training_status_model['sufficient_label_diversity'] = True
-        project_list_details_relevancy_training_status_model['processing'] = True
-        project_list_details_relevancy_training_status_model['minimum_examples_added'] = True
-        project_list_details_relevancy_training_status_model['successfully_trained'] = 'testString'
-        project_list_details_relevancy_training_status_model['available'] = True
+        project_list_details_relevancy_training_status_model = {
+        }  # ProjectListDetailsRelevancyTrainingStatus
+        project_list_details_relevancy_training_status_model[
+            'data_updated'] = 'testString'
+        project_list_details_relevancy_training_status_model[
+            'total_examples'] = 38
+        project_list_details_relevancy_training_status_model[
+            'sufficient_label_diversity'] = True
+        project_list_details_relevancy_training_status_model[
+            'processing'] = True
+        project_list_details_relevancy_training_status_model[
+            'minimum_examples_added'] = True
+        project_list_details_relevancy_training_status_model[
+            'successfully_trained'] = 'testString'
+        project_list_details_relevancy_training_status_model[
+            'available'] = True
         project_list_details_relevancy_training_status_model['notices'] = 38
-        project_list_details_relevancy_training_status_model['minimum_queries_added'] = True
+        project_list_details_relevancy_training_status_model[
+            'minimum_queries_added'] = True
 
         # Construct a json representation of a ProjectListDetails model
         project_list_details_model_json = {}
         project_list_details_model_json['project_id'] = 'testString'
         project_list_details_model_json['name'] = 'testString'
         project_list_details_model_json['type'] = 'document_retrieval'
-        project_list_details_model_json['relevancy_training_status'] = project_list_details_relevancy_training_status_model
+        project_list_details_model_json[
+            'relevancy_training_status'] = project_list_details_relevancy_training_status_model
         project_list_details_model_json['collection_count'] = 38
 
         # Construct a model instance of ProjectListDetails by calling from_dict on the json representation
-        project_list_details_model = ProjectListDetails.from_dict(project_list_details_model_json)
+        project_list_details_model = ProjectListDetails.from_dict(
+            project_list_details_model_json)
         assert project_list_details_model != False
 
         # Construct a model instance of ProjectListDetails by calling from_dict on the json representation
-        project_list_details_model_dict = ProjectListDetails.from_dict(project_list_details_model_json).__dict__
-        project_list_details_model2 = ProjectListDetails(**project_list_details_model_dict)
+        project_list_details_model_dict = ProjectListDetails.from_dict(
+            project_list_details_model_json).__dict__
+        project_list_details_model2 = ProjectListDetails(
+            **project_list_details_model_dict)
 
         # Verify the model instances are equivalent
         assert project_list_details_model == project_list_details_model2
@@ -7096,48 +7434,62 @@ class TestModel_ProjectListDetails():
         project_list_details_model_json2 = project_list_details_model.to_dict()
         assert project_list_details_model_json2 == project_list_details_model_json
 
+
 class TestModel_ProjectListDetailsRelevancyTrainingStatus():
     """
     Test Class for ProjectListDetailsRelevancyTrainingStatus
     """
-
-    def test_project_list_details_relevancy_training_status_serialization(self):
+    def test_project_list_details_relevancy_training_status_serialization(
+            self):
         """
         Test serialization/deserialization for ProjectListDetailsRelevancyTrainingStatus
         """
 
         # Construct a json representation of a ProjectListDetailsRelevancyTrainingStatus model
         project_list_details_relevancy_training_status_model_json = {}
-        project_list_details_relevancy_training_status_model_json['data_updated'] = 'testString'
-        project_list_details_relevancy_training_status_model_json['total_examples'] = 38
-        project_list_details_relevancy_training_status_model_json['sufficient_label_diversity'] = True
-        project_list_details_relevancy_training_status_model_json['processing'] = True
-        project_list_details_relevancy_training_status_model_json['minimum_examples_added'] = True
-        project_list_details_relevancy_training_status_model_json['successfully_trained'] = 'testString'
-        project_list_details_relevancy_training_status_model_json['available'] = True
-        project_list_details_relevancy_training_status_model_json['notices'] = 38
-        project_list_details_relevancy_training_status_model_json['minimum_queries_added'] = True
+        project_list_details_relevancy_training_status_model_json[
+            'data_updated'] = 'testString'
+        project_list_details_relevancy_training_status_model_json[
+            'total_examples'] = 38
+        project_list_details_relevancy_training_status_model_json[
+            'sufficient_label_diversity'] = True
+        project_list_details_relevancy_training_status_model_json[
+            'processing'] = True
+        project_list_details_relevancy_training_status_model_json[
+            'minimum_examples_added'] = True
+        project_list_details_relevancy_training_status_model_json[
+            'successfully_trained'] = 'testString'
+        project_list_details_relevancy_training_status_model_json[
+            'available'] = True
+        project_list_details_relevancy_training_status_model_json[
+            'notices'] = 38
+        project_list_details_relevancy_training_status_model_json[
+            'minimum_queries_added'] = True
 
         # Construct a model instance of ProjectListDetailsRelevancyTrainingStatus by calling from_dict on the json representation
-        project_list_details_relevancy_training_status_model = ProjectListDetailsRelevancyTrainingStatus.from_dict(project_list_details_relevancy_training_status_model_json)
+        project_list_details_relevancy_training_status_model = ProjectListDetailsRelevancyTrainingStatus.from_dict(
+            project_list_details_relevancy_training_status_model_json)
         assert project_list_details_relevancy_training_status_model != False
 
         # Construct a model instance of ProjectListDetailsRelevancyTrainingStatus by calling from_dict on the json representation
-        project_list_details_relevancy_training_status_model_dict = ProjectListDetailsRelevancyTrainingStatus.from_dict(project_list_details_relevancy_training_status_model_json).__dict__
-        project_list_details_relevancy_training_status_model2 = ProjectListDetailsRelevancyTrainingStatus(**project_list_details_relevancy_training_status_model_dict)
+        project_list_details_relevancy_training_status_model_dict = ProjectListDetailsRelevancyTrainingStatus.from_dict(
+            project_list_details_relevancy_training_status_model_json).__dict__
+        project_list_details_relevancy_training_status_model2 = ProjectListDetailsRelevancyTrainingStatus(
+            **project_list_details_relevancy_training_status_model_dict)
 
         # Verify the model instances are equivalent
         assert project_list_details_relevancy_training_status_model == project_list_details_relevancy_training_status_model2
 
         # Convert model instance back to dict and verify no loss of data
-        project_list_details_relevancy_training_status_model_json2 = project_list_details_relevancy_training_status_model.to_dict()
+        project_list_details_relevancy_training_status_model_json2 = project_list_details_relevancy_training_status_model.to_dict(
+        )
         assert project_list_details_relevancy_training_status_model_json2 == project_list_details_relevancy_training_status_model_json
+
 
 class TestModel_QueryAggregation():
     """
     Test Class for QueryAggregation
     """
-
     def test_query_aggregation_serialization(self):
         """
         Test serialization/deserialization for QueryAggregation
@@ -7148,12 +7500,14 @@ class TestModel_QueryAggregation():
         query_aggregation_model_json['type'] = 'testString'
 
         # Construct a model instance of QueryAggregation by calling from_dict on the json representation
-        query_aggregation_model = QueryAggregation.from_dict(query_aggregation_model_json)
+        query_aggregation_model = QueryAggregation.from_dict(
+            query_aggregation_model_json)
         assert query_aggregation_model != False
 
         # Construct a copy of the model instance by calling from_dict on the output of to_dict
         query_aggregation_model_json2 = query_aggregation_model.to_dict()
-        query_aggregation_model2 = QueryAggregation.from_dict(query_aggregation_model_json2)
+        query_aggregation_model2 = QueryAggregation.from_dict(
+            query_aggregation_model_json2)
 
         # Verify the model instances are equivalent
         assert query_aggregation_model == query_aggregation_model2
@@ -7162,11 +7516,11 @@ class TestModel_QueryAggregation():
         query_aggregation_model_json2 = query_aggregation_model.to_dict()
         assert query_aggregation_model_json2 == query_aggregation_model_json
 
+
 class TestModel_QueryGroupByAggregationResult():
     """
     Test Class for QueryGroupByAggregationResult
     """
-
     def test_query_group_by_aggregation_result_serialization(self):
         """
         Test serialization/deserialization for QueryGroupByAggregationResult
@@ -7174,7 +7528,7 @@ class TestModel_QueryGroupByAggregationResult():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        query_aggregation_model = {} # QueryFilterAggregation
+        query_aggregation_model = {}  # QueryFilterAggregation
         query_aggregation_model['type'] = 'filter'
         query_aggregation_model['match'] = 'testString'
         query_aggregation_model['matching_results'] = 26
@@ -7184,30 +7538,38 @@ class TestModel_QueryGroupByAggregationResult():
         query_group_by_aggregation_result_model_json['key'] = 'testString'
         query_group_by_aggregation_result_model_json['matching_results'] = 38
         query_group_by_aggregation_result_model_json['relevancy'] = 72.5
-        query_group_by_aggregation_result_model_json['total_matching_documents'] = 38
-        query_group_by_aggregation_result_model_json['estimated_matching_documents'] = 38
-        query_group_by_aggregation_result_model_json['aggregations'] = [query_aggregation_model]
+        query_group_by_aggregation_result_model_json[
+            'total_matching_documents'] = 38
+        query_group_by_aggregation_result_model_json[
+            'estimated_matching_documents'] = 38
+        query_group_by_aggregation_result_model_json['aggregations'] = [
+            query_aggregation_model
+        ]
 
         # Construct a model instance of QueryGroupByAggregationResult by calling from_dict on the json representation
-        query_group_by_aggregation_result_model = QueryGroupByAggregationResult.from_dict(query_group_by_aggregation_result_model_json)
+        query_group_by_aggregation_result_model = QueryGroupByAggregationResult.from_dict(
+            query_group_by_aggregation_result_model_json)
         assert query_group_by_aggregation_result_model != False
 
         # Construct a model instance of QueryGroupByAggregationResult by calling from_dict on the json representation
-        query_group_by_aggregation_result_model_dict = QueryGroupByAggregationResult.from_dict(query_group_by_aggregation_result_model_json).__dict__
-        query_group_by_aggregation_result_model2 = QueryGroupByAggregationResult(**query_group_by_aggregation_result_model_dict)
+        query_group_by_aggregation_result_model_dict = QueryGroupByAggregationResult.from_dict(
+            query_group_by_aggregation_result_model_json).__dict__
+        query_group_by_aggregation_result_model2 = QueryGroupByAggregationResult(
+            **query_group_by_aggregation_result_model_dict)
 
         # Verify the model instances are equivalent
         assert query_group_by_aggregation_result_model == query_group_by_aggregation_result_model2
 
         # Convert model instance back to dict and verify no loss of data
-        query_group_by_aggregation_result_model_json2 = query_group_by_aggregation_result_model.to_dict()
+        query_group_by_aggregation_result_model_json2 = query_group_by_aggregation_result_model.to_dict(
+        )
         assert query_group_by_aggregation_result_model_json2 == query_group_by_aggregation_result_model_json
+
 
 class TestModel_QueryHistogramAggregationResult():
     """
     Test Class for QueryHistogramAggregationResult
     """
-
     def test_query_histogram_aggregation_result_serialization(self):
         """
         Test serialization/deserialization for QueryHistogramAggregationResult
@@ -7215,7 +7577,7 @@ class TestModel_QueryHistogramAggregationResult():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        query_aggregation_model = {} # QueryFilterAggregation
+        query_aggregation_model = {}  # QueryFilterAggregation
         query_aggregation_model['type'] = 'filter'
         query_aggregation_model['match'] = 'testString'
         query_aggregation_model['matching_results'] = 26
@@ -7224,28 +7586,34 @@ class TestModel_QueryHistogramAggregationResult():
         query_histogram_aggregation_result_model_json = {}
         query_histogram_aggregation_result_model_json['key'] = 26
         query_histogram_aggregation_result_model_json['matching_results'] = 38
-        query_histogram_aggregation_result_model_json['aggregations'] = [query_aggregation_model]
+        query_histogram_aggregation_result_model_json['aggregations'] = [
+            query_aggregation_model
+        ]
 
         # Construct a model instance of QueryHistogramAggregationResult by calling from_dict on the json representation
-        query_histogram_aggregation_result_model = QueryHistogramAggregationResult.from_dict(query_histogram_aggregation_result_model_json)
+        query_histogram_aggregation_result_model = QueryHistogramAggregationResult.from_dict(
+            query_histogram_aggregation_result_model_json)
         assert query_histogram_aggregation_result_model != False
 
         # Construct a model instance of QueryHistogramAggregationResult by calling from_dict on the json representation
-        query_histogram_aggregation_result_model_dict = QueryHistogramAggregationResult.from_dict(query_histogram_aggregation_result_model_json).__dict__
-        query_histogram_aggregation_result_model2 = QueryHistogramAggregationResult(**query_histogram_aggregation_result_model_dict)
+        query_histogram_aggregation_result_model_dict = QueryHistogramAggregationResult.from_dict(
+            query_histogram_aggregation_result_model_json).__dict__
+        query_histogram_aggregation_result_model2 = QueryHistogramAggregationResult(
+            **query_histogram_aggregation_result_model_dict)
 
         # Verify the model instances are equivalent
         assert query_histogram_aggregation_result_model == query_histogram_aggregation_result_model2
 
         # Convert model instance back to dict and verify no loss of data
-        query_histogram_aggregation_result_model_json2 = query_histogram_aggregation_result_model.to_dict()
+        query_histogram_aggregation_result_model_json2 = query_histogram_aggregation_result_model.to_dict(
+        )
         assert query_histogram_aggregation_result_model_json2 == query_histogram_aggregation_result_model_json
+
 
 class TestModel_QueryLargePassages():
     """
     Test Class for QueryLargePassages
     """
-
     def test_query_large_passages_serialization(self):
         """
         Test serialization/deserialization for QueryLargePassages
@@ -7263,12 +7631,15 @@ class TestModel_QueryLargePassages():
         query_large_passages_model_json['max_answers_per_passage'] = 38
 
         # Construct a model instance of QueryLargePassages by calling from_dict on the json representation
-        query_large_passages_model = QueryLargePassages.from_dict(query_large_passages_model_json)
+        query_large_passages_model = QueryLargePassages.from_dict(
+            query_large_passages_model_json)
         assert query_large_passages_model != False
 
         # Construct a model instance of QueryLargePassages by calling from_dict on the json representation
-        query_large_passages_model_dict = QueryLargePassages.from_dict(query_large_passages_model_json).__dict__
-        query_large_passages_model2 = QueryLargePassages(**query_large_passages_model_dict)
+        query_large_passages_model_dict = QueryLargePassages.from_dict(
+            query_large_passages_model_json).__dict__
+        query_large_passages_model2 = QueryLargePassages(
+            **query_large_passages_model_dict)
 
         # Verify the model instances are equivalent
         assert query_large_passages_model == query_large_passages_model2
@@ -7277,11 +7648,11 @@ class TestModel_QueryLargePassages():
         query_large_passages_model_json2 = query_large_passages_model.to_dict()
         assert query_large_passages_model_json2 == query_large_passages_model_json
 
+
 class TestModel_QueryLargeSimilar():
     """
     Test Class for QueryLargeSimilar
     """
-
     def test_query_large_similar_serialization(self):
         """
         Test serialization/deserialization for QueryLargeSimilar
@@ -7294,12 +7665,15 @@ class TestModel_QueryLargeSimilar():
         query_large_similar_model_json['fields'] = ['testString']
 
         # Construct a model instance of QueryLargeSimilar by calling from_dict on the json representation
-        query_large_similar_model = QueryLargeSimilar.from_dict(query_large_similar_model_json)
+        query_large_similar_model = QueryLargeSimilar.from_dict(
+            query_large_similar_model_json)
         assert query_large_similar_model != False
 
         # Construct a model instance of QueryLargeSimilar by calling from_dict on the json representation
-        query_large_similar_model_dict = QueryLargeSimilar.from_dict(query_large_similar_model_json).__dict__
-        query_large_similar_model2 = QueryLargeSimilar(**query_large_similar_model_dict)
+        query_large_similar_model_dict = QueryLargeSimilar.from_dict(
+            query_large_similar_model_json).__dict__
+        query_large_similar_model2 = QueryLargeSimilar(
+            **query_large_similar_model_dict)
 
         # Verify the model instances are equivalent
         assert query_large_similar_model == query_large_similar_model2
@@ -7308,11 +7682,11 @@ class TestModel_QueryLargeSimilar():
         query_large_similar_model_json2 = query_large_similar_model.to_dict()
         assert query_large_similar_model_json2 == query_large_similar_model_json
 
+
 class TestModel_QueryLargeSuggestedRefinements():
     """
     Test Class for QueryLargeSuggestedRefinements
     """
-
     def test_query_large_suggested_refinements_serialization(self):
         """
         Test serialization/deserialization for QueryLargeSuggestedRefinements
@@ -7324,25 +7698,29 @@ class TestModel_QueryLargeSuggestedRefinements():
         query_large_suggested_refinements_model_json['count'] = 1
 
         # Construct a model instance of QueryLargeSuggestedRefinements by calling from_dict on the json representation
-        query_large_suggested_refinements_model = QueryLargeSuggestedRefinements.from_dict(query_large_suggested_refinements_model_json)
+        query_large_suggested_refinements_model = QueryLargeSuggestedRefinements.from_dict(
+            query_large_suggested_refinements_model_json)
         assert query_large_suggested_refinements_model != False
 
         # Construct a model instance of QueryLargeSuggestedRefinements by calling from_dict on the json representation
-        query_large_suggested_refinements_model_dict = QueryLargeSuggestedRefinements.from_dict(query_large_suggested_refinements_model_json).__dict__
-        query_large_suggested_refinements_model2 = QueryLargeSuggestedRefinements(**query_large_suggested_refinements_model_dict)
+        query_large_suggested_refinements_model_dict = QueryLargeSuggestedRefinements.from_dict(
+            query_large_suggested_refinements_model_json).__dict__
+        query_large_suggested_refinements_model2 = QueryLargeSuggestedRefinements(
+            **query_large_suggested_refinements_model_dict)
 
         # Verify the model instances are equivalent
         assert query_large_suggested_refinements_model == query_large_suggested_refinements_model2
 
         # Convert model instance back to dict and verify no loss of data
-        query_large_suggested_refinements_model_json2 = query_large_suggested_refinements_model.to_dict()
+        query_large_suggested_refinements_model_json2 = query_large_suggested_refinements_model.to_dict(
+        )
         assert query_large_suggested_refinements_model_json2 == query_large_suggested_refinements_model_json
+
 
 class TestModel_QueryLargeTableResults():
     """
     Test Class for QueryLargeTableResults
     """
-
     def test_query_large_table_results_serialization(self):
         """
         Test serialization/deserialization for QueryLargeTableResults
@@ -7354,25 +7732,29 @@ class TestModel_QueryLargeTableResults():
         query_large_table_results_model_json['count'] = 38
 
         # Construct a model instance of QueryLargeTableResults by calling from_dict on the json representation
-        query_large_table_results_model = QueryLargeTableResults.from_dict(query_large_table_results_model_json)
+        query_large_table_results_model = QueryLargeTableResults.from_dict(
+            query_large_table_results_model_json)
         assert query_large_table_results_model != False
 
         # Construct a model instance of QueryLargeTableResults by calling from_dict on the json representation
-        query_large_table_results_model_dict = QueryLargeTableResults.from_dict(query_large_table_results_model_json).__dict__
-        query_large_table_results_model2 = QueryLargeTableResults(**query_large_table_results_model_dict)
+        query_large_table_results_model_dict = QueryLargeTableResults.from_dict(
+            query_large_table_results_model_json).__dict__
+        query_large_table_results_model2 = QueryLargeTableResults(
+            **query_large_table_results_model_dict)
 
         # Verify the model instances are equivalent
         assert query_large_table_results_model == query_large_table_results_model2
 
         # Convert model instance back to dict and verify no loss of data
-        query_large_table_results_model_json2 = query_large_table_results_model.to_dict()
+        query_large_table_results_model_json2 = query_large_table_results_model.to_dict(
+        )
         assert query_large_table_results_model_json2 == query_large_table_results_model_json
+
 
 class TestModel_QueryNoticesResponse():
     """
     Test Class for QueryNoticesResponse
     """
-
     def test_query_notices_response_serialization(self):
         """
         Test serialization/deserialization for QueryNoticesResponse
@@ -7380,7 +7762,7 @@ class TestModel_QueryNoticesResponse():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        notice_model = {} # Notice
+        notice_model = {}  # Notice
         notice_model['notice_id'] = 'testString'
         notice_model['created'] = '2019-01-01T12:00:00Z'
         notice_model['document_id'] = 'testString'
@@ -7396,25 +7778,29 @@ class TestModel_QueryNoticesResponse():
         query_notices_response_model_json['notices'] = [notice_model]
 
         # Construct a model instance of QueryNoticesResponse by calling from_dict on the json representation
-        query_notices_response_model = QueryNoticesResponse.from_dict(query_notices_response_model_json)
+        query_notices_response_model = QueryNoticesResponse.from_dict(
+            query_notices_response_model_json)
         assert query_notices_response_model != False
 
         # Construct a model instance of QueryNoticesResponse by calling from_dict on the json representation
-        query_notices_response_model_dict = QueryNoticesResponse.from_dict(query_notices_response_model_json).__dict__
-        query_notices_response_model2 = QueryNoticesResponse(**query_notices_response_model_dict)
+        query_notices_response_model_dict = QueryNoticesResponse.from_dict(
+            query_notices_response_model_json).__dict__
+        query_notices_response_model2 = QueryNoticesResponse(
+            **query_notices_response_model_dict)
 
         # Verify the model instances are equivalent
         assert query_notices_response_model == query_notices_response_model2
 
         # Convert model instance back to dict and verify no loss of data
-        query_notices_response_model_json2 = query_notices_response_model.to_dict()
+        query_notices_response_model_json2 = query_notices_response_model.to_dict(
+        )
         assert query_notices_response_model_json2 == query_notices_response_model_json
+
 
 class TestModel_QueryResponse():
     """
     Test Class for QueryResponse
     """
-
     def test_query_response_serialization(self):
         """
         Test serialization/deserialization for QueryResponse
@@ -7422,18 +7808,18 @@ class TestModel_QueryResponse():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        query_result_metadata_model = {} # QueryResultMetadata
+        query_result_metadata_model = {}  # QueryResultMetadata
         query_result_metadata_model['document_retrieval_source'] = 'search'
         query_result_metadata_model['collection_id'] = 'testString'
         query_result_metadata_model['confidence'] = 72.5
 
-        result_passage_answer_model = {} # ResultPassageAnswer
+        result_passage_answer_model = {}  # ResultPassageAnswer
         result_passage_answer_model['answer_text'] = 'testString'
         result_passage_answer_model['start_offset'] = 38
         result_passage_answer_model['end_offset'] = 38
         result_passage_answer_model['confidence'] = 0
 
-        query_result_passage_model = {} # QueryResultPassage
+        query_result_passage_model = {}  # QueryResultPassage
         query_result_passage_model['passage_text'] = 'testString'
         query_result_passage_model['start_offset'] = 38
         query_result_passage_model['end_offset'] = 38
@@ -7441,33 +7827,33 @@ class TestModel_QueryResponse():
         query_result_passage_model['confidence'] = 0
         query_result_passage_model['answers'] = [result_passage_answer_model]
 
-        query_result_model = {} # QueryResult
+        query_result_model = {}  # QueryResult
         query_result_model['document_id'] = 'testString'
         query_result_model['metadata'] = {'key1': 'testString'}
         query_result_model['result_metadata'] = query_result_metadata_model
         query_result_model['document_passages'] = [query_result_passage_model]
         query_result_model['id'] = {'foo': 'bar'}
 
-        query_aggregation_model = {} # QueryFilterAggregation
+        query_aggregation_model = {}  # QueryFilterAggregation
         query_aggregation_model['type'] = 'filter'
         query_aggregation_model['match'] = 'testString'
         query_aggregation_model['matching_results'] = 26
 
-        retrieval_details_model = {} # RetrievalDetails
+        retrieval_details_model = {}  # RetrievalDetails
         retrieval_details_model['document_retrieval_strategy'] = 'untrained'
 
-        query_suggested_refinement_model = {} # QuerySuggestedRefinement
+        query_suggested_refinement_model = {}  # QuerySuggestedRefinement
         query_suggested_refinement_model['text'] = 'testString'
 
-        table_element_location_model = {} # TableElementLocation
+        table_element_location_model = {}  # TableElementLocation
         table_element_location_model['begin'] = 26
         table_element_location_model['end'] = 26
 
-        table_text_location_model = {} # TableTextLocation
+        table_text_location_model = {}  # TableTextLocation
         table_text_location_model['text'] = 'testString'
         table_text_location_model['location'] = table_element_location_model
 
-        table_headers_model = {} # TableHeaders
+        table_headers_model = {}  # TableHeaders
         table_headers_model['cell_id'] = 'testString'
         table_headers_model['location'] = {'foo': 'bar'}
         table_headers_model['text'] = 'testString'
@@ -7476,7 +7862,7 @@ class TestModel_QueryResponse():
         table_headers_model['column_index_begin'] = 26
         table_headers_model['column_index_end'] = 26
 
-        table_row_headers_model = {} # TableRowHeaders
+        table_row_headers_model = {}  # TableRowHeaders
         table_row_headers_model['cell_id'] = 'testString'
         table_row_headers_model['location'] = table_element_location_model
         table_row_headers_model['text'] = 'testString'
@@ -7486,7 +7872,7 @@ class TestModel_QueryResponse():
         table_row_headers_model['column_index_begin'] = 26
         table_row_headers_model['column_index_end'] = 26
 
-        table_column_headers_model = {} # TableColumnHeaders
+        table_column_headers_model = {}  # TableColumnHeaders
         table_column_headers_model['cell_id'] = 'testString'
         table_column_headers_model['location'] = {'foo': 'bar'}
         table_column_headers_model['text'] = 'testString'
@@ -7496,44 +7882,48 @@ class TestModel_QueryResponse():
         table_column_headers_model['column_index_begin'] = 26
         table_column_headers_model['column_index_end'] = 26
 
-        table_cell_key_model = {} # TableCellKey
+        table_cell_key_model = {}  # TableCellKey
         table_cell_key_model['cell_id'] = 'testString'
         table_cell_key_model['location'] = table_element_location_model
         table_cell_key_model['text'] = 'testString'
 
-        table_cell_values_model = {} # TableCellValues
+        table_cell_values_model = {}  # TableCellValues
         table_cell_values_model['cell_id'] = 'testString'
         table_cell_values_model['location'] = table_element_location_model
         table_cell_values_model['text'] = 'testString'
 
-        table_key_value_pairs_model = {} # TableKeyValuePairs
+        table_key_value_pairs_model = {}  # TableKeyValuePairs
         table_key_value_pairs_model['key'] = table_cell_key_model
         table_key_value_pairs_model['value'] = [table_cell_values_model]
 
-        table_row_header_ids_model = {} # TableRowHeaderIds
+        table_row_header_ids_model = {}  # TableRowHeaderIds
         table_row_header_ids_model['id'] = 'testString'
 
-        table_row_header_texts_model = {} # TableRowHeaderTexts
+        table_row_header_texts_model = {}  # TableRowHeaderTexts
         table_row_header_texts_model['text'] = 'testString'
 
-        table_row_header_texts_normalized_model = {} # TableRowHeaderTextsNormalized
-        table_row_header_texts_normalized_model['text_normalized'] = 'testString'
+        table_row_header_texts_normalized_model = {
+        }  # TableRowHeaderTextsNormalized
+        table_row_header_texts_normalized_model[
+            'text_normalized'] = 'testString'
 
-        table_column_header_ids_model = {} # TableColumnHeaderIds
+        table_column_header_ids_model = {}  # TableColumnHeaderIds
         table_column_header_ids_model['id'] = 'testString'
 
-        table_column_header_texts_model = {} # TableColumnHeaderTexts
+        table_column_header_texts_model = {}  # TableColumnHeaderTexts
         table_column_header_texts_model['text'] = 'testString'
 
-        table_column_header_texts_normalized_model = {} # TableColumnHeaderTextsNormalized
-        table_column_header_texts_normalized_model['text_normalized'] = 'testString'
+        table_column_header_texts_normalized_model = {
+        }  # TableColumnHeaderTextsNormalized
+        table_column_header_texts_normalized_model[
+            'text_normalized'] = 'testString'
 
-        document_attribute_model = {} # DocumentAttribute
+        document_attribute_model = {}  # DocumentAttribute
         document_attribute_model['type'] = 'testString'
         document_attribute_model['text'] = 'testString'
         document_attribute_model['location'] = table_element_location_model
 
-        table_body_cells_model = {} # TableBodyCells
+        table_body_cells_model = {}  # TableBodyCells
         table_body_cells_model['cell_id'] = 'testString'
         table_body_cells_model['location'] = table_element_location_model
         table_body_cells_model['text'] = 'testString'
@@ -7542,26 +7932,40 @@ class TestModel_QueryResponse():
         table_body_cells_model['column_index_begin'] = 26
         table_body_cells_model['column_index_end'] = 26
         table_body_cells_model['row_header_ids'] = [table_row_header_ids_model]
-        table_body_cells_model['row_header_texts'] = [table_row_header_texts_model]
-        table_body_cells_model['row_header_texts_normalized'] = [table_row_header_texts_normalized_model]
-        table_body_cells_model['column_header_ids'] = [table_column_header_ids_model]
-        table_body_cells_model['column_header_texts'] = [table_column_header_texts_model]
-        table_body_cells_model['column_header_texts_normalized'] = [table_column_header_texts_normalized_model]
+        table_body_cells_model['row_header_texts'] = [
+            table_row_header_texts_model
+        ]
+        table_body_cells_model['row_header_texts_normalized'] = [
+            table_row_header_texts_normalized_model
+        ]
+        table_body_cells_model['column_header_ids'] = [
+            table_column_header_ids_model
+        ]
+        table_body_cells_model['column_header_texts'] = [
+            table_column_header_texts_model
+        ]
+        table_body_cells_model['column_header_texts_normalized'] = [
+            table_column_header_texts_normalized_model
+        ]
         table_body_cells_model['attributes'] = [document_attribute_model]
 
-        table_result_table_model = {} # TableResultTable
+        table_result_table_model = {}  # TableResultTable
         table_result_table_model['location'] = table_element_location_model
         table_result_table_model['text'] = 'testString'
         table_result_table_model['section_title'] = table_text_location_model
         table_result_table_model['title'] = table_text_location_model
         table_result_table_model['table_headers'] = [table_headers_model]
         table_result_table_model['row_headers'] = [table_row_headers_model]
-        table_result_table_model['column_headers'] = [table_column_headers_model]
-        table_result_table_model['key_value_pairs'] = [table_key_value_pairs_model]
+        table_result_table_model['column_headers'] = [
+            table_column_headers_model
+        ]
+        table_result_table_model['key_value_pairs'] = [
+            table_key_value_pairs_model
+        ]
         table_result_table_model['body_cells'] = [table_body_cells_model]
         table_result_table_model['contexts'] = [table_text_location_model]
 
-        query_table_result_model = {} # QueryTableResult
+        query_table_result_model = {}  # QueryTableResult
         query_table_result_model['table_id'] = 'testString'
         query_table_result_model['source_document_id'] = 'testString'
         query_table_result_model['collection_id'] = 'testString'
@@ -7569,7 +7973,7 @@ class TestModel_QueryResponse():
         query_table_result_model['table_html_offset'] = 38
         query_table_result_model['table'] = table_result_table_model
 
-        query_response_passage_model = {} # QueryResponsePassage
+        query_response_passage_model = {}  # QueryResponsePassage
         query_response_passage_model['passage_text'] = 'testString'
         query_response_passage_model['passage_score'] = 72.5
         query_response_passage_model['document_id'] = 'testString'
@@ -7585,18 +7989,23 @@ class TestModel_QueryResponse():
         query_response_model_json['matching_results'] = 38
         query_response_model_json['results'] = [query_result_model]
         query_response_model_json['aggregations'] = [query_aggregation_model]
-        query_response_model_json['retrieval_details'] = retrieval_details_model
+        query_response_model_json[
+            'retrieval_details'] = retrieval_details_model
         query_response_model_json['suggested_query'] = 'testString'
-        query_response_model_json['suggested_refinements'] = [query_suggested_refinement_model]
+        query_response_model_json['suggested_refinements'] = [
+            query_suggested_refinement_model
+        ]
         query_response_model_json['table_results'] = [query_table_result_model]
         query_response_model_json['passages'] = [query_response_passage_model]
 
         # Construct a model instance of QueryResponse by calling from_dict on the json representation
-        query_response_model = QueryResponse.from_dict(query_response_model_json)
+        query_response_model = QueryResponse.from_dict(
+            query_response_model_json)
         assert query_response_model != False
 
         # Construct a model instance of QueryResponse by calling from_dict on the json representation
-        query_response_model_dict = QueryResponse.from_dict(query_response_model_json).__dict__
+        query_response_model_dict = QueryResponse.from_dict(
+            query_response_model_json).__dict__
         query_response_model2 = QueryResponse(**query_response_model_dict)
 
         # Verify the model instances are equivalent
@@ -7606,11 +8015,11 @@ class TestModel_QueryResponse():
         query_response_model_json2 = query_response_model.to_dict()
         assert query_response_model_json2 == query_response_model_json
 
+
 class TestModel_QueryResponsePassage():
     """
     Test Class for QueryResponsePassage
     """
-
     def test_query_response_passage_serialization(self):
         """
         Test serialization/deserialization for QueryResponsePassage
@@ -7618,7 +8027,7 @@ class TestModel_QueryResponsePassage():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        result_passage_answer_model = {} # ResultPassageAnswer
+        result_passage_answer_model = {}  # ResultPassageAnswer
         result_passage_answer_model['answer_text'] = 'testString'
         result_passage_answer_model['start_offset'] = 38
         result_passage_answer_model['end_offset'] = 38
@@ -7634,28 +8043,34 @@ class TestModel_QueryResponsePassage():
         query_response_passage_model_json['end_offset'] = 38
         query_response_passage_model_json['field'] = 'testString'
         query_response_passage_model_json['confidence'] = 0
-        query_response_passage_model_json['answers'] = [result_passage_answer_model]
+        query_response_passage_model_json['answers'] = [
+            result_passage_answer_model
+        ]
 
         # Construct a model instance of QueryResponsePassage by calling from_dict on the json representation
-        query_response_passage_model = QueryResponsePassage.from_dict(query_response_passage_model_json)
+        query_response_passage_model = QueryResponsePassage.from_dict(
+            query_response_passage_model_json)
         assert query_response_passage_model != False
 
         # Construct a model instance of QueryResponsePassage by calling from_dict on the json representation
-        query_response_passage_model_dict = QueryResponsePassage.from_dict(query_response_passage_model_json).__dict__
-        query_response_passage_model2 = QueryResponsePassage(**query_response_passage_model_dict)
+        query_response_passage_model_dict = QueryResponsePassage.from_dict(
+            query_response_passage_model_json).__dict__
+        query_response_passage_model2 = QueryResponsePassage(
+            **query_response_passage_model_dict)
 
         # Verify the model instances are equivalent
         assert query_response_passage_model == query_response_passage_model2
 
         # Convert model instance back to dict and verify no loss of data
-        query_response_passage_model_json2 = query_response_passage_model.to_dict()
+        query_response_passage_model_json2 = query_response_passage_model.to_dict(
+        )
         assert query_response_passage_model_json2 == query_response_passage_model_json
+
 
 class TestModel_QueryResult():
     """
     Test Class for QueryResult
     """
-
     def test_query_result_serialization(self):
         """
         Test serialization/deserialization for QueryResult
@@ -7663,18 +8078,18 @@ class TestModel_QueryResult():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        query_result_metadata_model = {} # QueryResultMetadata
+        query_result_metadata_model = {}  # QueryResultMetadata
         query_result_metadata_model['document_retrieval_source'] = 'search'
         query_result_metadata_model['collection_id'] = 'testString'
         query_result_metadata_model['confidence'] = 72.5
 
-        result_passage_answer_model = {} # ResultPassageAnswer
+        result_passage_answer_model = {}  # ResultPassageAnswer
         result_passage_answer_model['answer_text'] = 'testString'
         result_passage_answer_model['start_offset'] = 38
         result_passage_answer_model['end_offset'] = 38
         result_passage_answer_model['confidence'] = 0
 
-        query_result_passage_model = {} # QueryResultPassage
+        query_result_passage_model = {}  # QueryResultPassage
         query_result_passage_model['passage_text'] = 'testString'
         query_result_passage_model['start_offset'] = 38
         query_result_passage_model['end_offset'] = 38
@@ -7686,8 +8101,11 @@ class TestModel_QueryResult():
         query_result_model_json = {}
         query_result_model_json['document_id'] = 'testString'
         query_result_model_json['metadata'] = {'key1': 'testString'}
-        query_result_model_json['result_metadata'] = query_result_metadata_model
-        query_result_model_json['document_passages'] = [query_result_passage_model]
+        query_result_model_json[
+            'result_metadata'] = query_result_metadata_model
+        query_result_model_json['document_passages'] = [
+            query_result_passage_model
+        ]
         query_result_model_json['foo'] = {'foo': 'bar'}
 
         # Construct a model instance of QueryResult by calling from_dict on the json representation
@@ -7695,7 +8113,8 @@ class TestModel_QueryResult():
         assert query_result_model != False
 
         # Construct a model instance of QueryResult by calling from_dict on the json representation
-        query_result_model_dict = QueryResult.from_dict(query_result_model_json).__dict__
+        query_result_model_dict = QueryResult.from_dict(
+            query_result_model_json).__dict__
         query_result_model2 = QueryResult(**query_result_model_dict)
 
         # Verify the model instances are equivalent
@@ -7715,11 +8134,11 @@ class TestModel_QueryResult():
         actual_dict = query_result_model.get_properties()
         assert actual_dict == expected_dict
 
+
 class TestModel_QueryResultMetadata():
     """
     Test Class for QueryResultMetadata
     """
-
     def test_query_result_metadata_serialization(self):
         """
         Test serialization/deserialization for QueryResultMetadata
@@ -7727,30 +8146,35 @@ class TestModel_QueryResultMetadata():
 
         # Construct a json representation of a QueryResultMetadata model
         query_result_metadata_model_json = {}
-        query_result_metadata_model_json['document_retrieval_source'] = 'search'
+        query_result_metadata_model_json[
+            'document_retrieval_source'] = 'search'
         query_result_metadata_model_json['collection_id'] = 'testString'
         query_result_metadata_model_json['confidence'] = 72.5
 
         # Construct a model instance of QueryResultMetadata by calling from_dict on the json representation
-        query_result_metadata_model = QueryResultMetadata.from_dict(query_result_metadata_model_json)
+        query_result_metadata_model = QueryResultMetadata.from_dict(
+            query_result_metadata_model_json)
         assert query_result_metadata_model != False
 
         # Construct a model instance of QueryResultMetadata by calling from_dict on the json representation
-        query_result_metadata_model_dict = QueryResultMetadata.from_dict(query_result_metadata_model_json).__dict__
-        query_result_metadata_model2 = QueryResultMetadata(**query_result_metadata_model_dict)
+        query_result_metadata_model_dict = QueryResultMetadata.from_dict(
+            query_result_metadata_model_json).__dict__
+        query_result_metadata_model2 = QueryResultMetadata(
+            **query_result_metadata_model_dict)
 
         # Verify the model instances are equivalent
         assert query_result_metadata_model == query_result_metadata_model2
 
         # Convert model instance back to dict and verify no loss of data
-        query_result_metadata_model_json2 = query_result_metadata_model.to_dict()
+        query_result_metadata_model_json2 = query_result_metadata_model.to_dict(
+        )
         assert query_result_metadata_model_json2 == query_result_metadata_model_json
+
 
 class TestModel_QueryResultPassage():
     """
     Test Class for QueryResultPassage
     """
-
     def test_query_result_passage_serialization(self):
         """
         Test serialization/deserialization for QueryResultPassage
@@ -7758,7 +8182,7 @@ class TestModel_QueryResultPassage():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        result_passage_answer_model = {} # ResultPassageAnswer
+        result_passage_answer_model = {}  # ResultPassageAnswer
         result_passage_answer_model['answer_text'] = 'testString'
         result_passage_answer_model['start_offset'] = 38
         result_passage_answer_model['end_offset'] = 38
@@ -7771,15 +8195,20 @@ class TestModel_QueryResultPassage():
         query_result_passage_model_json['end_offset'] = 38
         query_result_passage_model_json['field'] = 'testString'
         query_result_passage_model_json['confidence'] = 0
-        query_result_passage_model_json['answers'] = [result_passage_answer_model]
+        query_result_passage_model_json['answers'] = [
+            result_passage_answer_model
+        ]
 
         # Construct a model instance of QueryResultPassage by calling from_dict on the json representation
-        query_result_passage_model = QueryResultPassage.from_dict(query_result_passage_model_json)
+        query_result_passage_model = QueryResultPassage.from_dict(
+            query_result_passage_model_json)
         assert query_result_passage_model != False
 
         # Construct a model instance of QueryResultPassage by calling from_dict on the json representation
-        query_result_passage_model_dict = QueryResultPassage.from_dict(query_result_passage_model_json).__dict__
-        query_result_passage_model2 = QueryResultPassage(**query_result_passage_model_dict)
+        query_result_passage_model_dict = QueryResultPassage.from_dict(
+            query_result_passage_model_json).__dict__
+        query_result_passage_model2 = QueryResultPassage(
+            **query_result_passage_model_dict)
 
         # Verify the model instances are equivalent
         assert query_result_passage_model == query_result_passage_model2
@@ -7788,11 +8217,11 @@ class TestModel_QueryResultPassage():
         query_result_passage_model_json2 = query_result_passage_model.to_dict()
         assert query_result_passage_model_json2 == query_result_passage_model_json
 
+
 class TestModel_QuerySuggestedRefinement():
     """
     Test Class for QuerySuggestedRefinement
     """
-
     def test_query_suggested_refinement_serialization(self):
         """
         Test serialization/deserialization for QuerySuggestedRefinement
@@ -7803,25 +8232,29 @@ class TestModel_QuerySuggestedRefinement():
         query_suggested_refinement_model_json['text'] = 'testString'
 
         # Construct a model instance of QuerySuggestedRefinement by calling from_dict on the json representation
-        query_suggested_refinement_model = QuerySuggestedRefinement.from_dict(query_suggested_refinement_model_json)
+        query_suggested_refinement_model = QuerySuggestedRefinement.from_dict(
+            query_suggested_refinement_model_json)
         assert query_suggested_refinement_model != False
 
         # Construct a model instance of QuerySuggestedRefinement by calling from_dict on the json representation
-        query_suggested_refinement_model_dict = QuerySuggestedRefinement.from_dict(query_suggested_refinement_model_json).__dict__
-        query_suggested_refinement_model2 = QuerySuggestedRefinement(**query_suggested_refinement_model_dict)
+        query_suggested_refinement_model_dict = QuerySuggestedRefinement.from_dict(
+            query_suggested_refinement_model_json).__dict__
+        query_suggested_refinement_model2 = QuerySuggestedRefinement(
+            **query_suggested_refinement_model_dict)
 
         # Verify the model instances are equivalent
         assert query_suggested_refinement_model == query_suggested_refinement_model2
 
         # Convert model instance back to dict and verify no loss of data
-        query_suggested_refinement_model_json2 = query_suggested_refinement_model.to_dict()
+        query_suggested_refinement_model_json2 = query_suggested_refinement_model.to_dict(
+        )
         assert query_suggested_refinement_model_json2 == query_suggested_refinement_model_json
+
 
 class TestModel_QueryTableResult():
     """
     Test Class for QueryTableResult
     """
-
     def test_query_table_result_serialization(self):
         """
         Test serialization/deserialization for QueryTableResult
@@ -7829,15 +8262,15 @@ class TestModel_QueryTableResult():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        table_element_location_model = {} # TableElementLocation
+        table_element_location_model = {}  # TableElementLocation
         table_element_location_model['begin'] = 26
         table_element_location_model['end'] = 26
 
-        table_text_location_model = {} # TableTextLocation
+        table_text_location_model = {}  # TableTextLocation
         table_text_location_model['text'] = 'testString'
         table_text_location_model['location'] = table_element_location_model
 
-        table_headers_model = {} # TableHeaders
+        table_headers_model = {}  # TableHeaders
         table_headers_model['cell_id'] = 'testString'
         table_headers_model['location'] = {'foo': 'bar'}
         table_headers_model['text'] = 'testString'
@@ -7846,7 +8279,7 @@ class TestModel_QueryTableResult():
         table_headers_model['column_index_begin'] = 26
         table_headers_model['column_index_end'] = 26
 
-        table_row_headers_model = {} # TableRowHeaders
+        table_row_headers_model = {}  # TableRowHeaders
         table_row_headers_model['cell_id'] = 'testString'
         table_row_headers_model['location'] = table_element_location_model
         table_row_headers_model['text'] = 'testString'
@@ -7856,7 +8289,7 @@ class TestModel_QueryTableResult():
         table_row_headers_model['column_index_begin'] = 26
         table_row_headers_model['column_index_end'] = 26
 
-        table_column_headers_model = {} # TableColumnHeaders
+        table_column_headers_model = {}  # TableColumnHeaders
         table_column_headers_model['cell_id'] = 'testString'
         table_column_headers_model['location'] = {'foo': 'bar'}
         table_column_headers_model['text'] = 'testString'
@@ -7866,44 +8299,48 @@ class TestModel_QueryTableResult():
         table_column_headers_model['column_index_begin'] = 26
         table_column_headers_model['column_index_end'] = 26
 
-        table_cell_key_model = {} # TableCellKey
+        table_cell_key_model = {}  # TableCellKey
         table_cell_key_model['cell_id'] = 'testString'
         table_cell_key_model['location'] = table_element_location_model
         table_cell_key_model['text'] = 'testString'
 
-        table_cell_values_model = {} # TableCellValues
+        table_cell_values_model = {}  # TableCellValues
         table_cell_values_model['cell_id'] = 'testString'
         table_cell_values_model['location'] = table_element_location_model
         table_cell_values_model['text'] = 'testString'
 
-        table_key_value_pairs_model = {} # TableKeyValuePairs
+        table_key_value_pairs_model = {}  # TableKeyValuePairs
         table_key_value_pairs_model['key'] = table_cell_key_model
         table_key_value_pairs_model['value'] = [table_cell_values_model]
 
-        table_row_header_ids_model = {} # TableRowHeaderIds
+        table_row_header_ids_model = {}  # TableRowHeaderIds
         table_row_header_ids_model['id'] = 'testString'
 
-        table_row_header_texts_model = {} # TableRowHeaderTexts
+        table_row_header_texts_model = {}  # TableRowHeaderTexts
         table_row_header_texts_model['text'] = 'testString'
 
-        table_row_header_texts_normalized_model = {} # TableRowHeaderTextsNormalized
-        table_row_header_texts_normalized_model['text_normalized'] = 'testString'
+        table_row_header_texts_normalized_model = {
+        }  # TableRowHeaderTextsNormalized
+        table_row_header_texts_normalized_model[
+            'text_normalized'] = 'testString'
 
-        table_column_header_ids_model = {} # TableColumnHeaderIds
+        table_column_header_ids_model = {}  # TableColumnHeaderIds
         table_column_header_ids_model['id'] = 'testString'
 
-        table_column_header_texts_model = {} # TableColumnHeaderTexts
+        table_column_header_texts_model = {}  # TableColumnHeaderTexts
         table_column_header_texts_model['text'] = 'testString'
 
-        table_column_header_texts_normalized_model = {} # TableColumnHeaderTextsNormalized
-        table_column_header_texts_normalized_model['text_normalized'] = 'testString'
+        table_column_header_texts_normalized_model = {
+        }  # TableColumnHeaderTextsNormalized
+        table_column_header_texts_normalized_model[
+            'text_normalized'] = 'testString'
 
-        document_attribute_model = {} # DocumentAttribute
+        document_attribute_model = {}  # DocumentAttribute
         document_attribute_model['type'] = 'testString'
         document_attribute_model['text'] = 'testString'
         document_attribute_model['location'] = table_element_location_model
 
-        table_body_cells_model = {} # TableBodyCells
+        table_body_cells_model = {}  # TableBodyCells
         table_body_cells_model['cell_id'] = 'testString'
         table_body_cells_model['location'] = table_element_location_model
         table_body_cells_model['text'] = 'testString'
@@ -7912,22 +8349,36 @@ class TestModel_QueryTableResult():
         table_body_cells_model['column_index_begin'] = 26
         table_body_cells_model['column_index_end'] = 26
         table_body_cells_model['row_header_ids'] = [table_row_header_ids_model]
-        table_body_cells_model['row_header_texts'] = [table_row_header_texts_model]
-        table_body_cells_model['row_header_texts_normalized'] = [table_row_header_texts_normalized_model]
-        table_body_cells_model['column_header_ids'] = [table_column_header_ids_model]
-        table_body_cells_model['column_header_texts'] = [table_column_header_texts_model]
-        table_body_cells_model['column_header_texts_normalized'] = [table_column_header_texts_normalized_model]
+        table_body_cells_model['row_header_texts'] = [
+            table_row_header_texts_model
+        ]
+        table_body_cells_model['row_header_texts_normalized'] = [
+            table_row_header_texts_normalized_model
+        ]
+        table_body_cells_model['column_header_ids'] = [
+            table_column_header_ids_model
+        ]
+        table_body_cells_model['column_header_texts'] = [
+            table_column_header_texts_model
+        ]
+        table_body_cells_model['column_header_texts_normalized'] = [
+            table_column_header_texts_normalized_model
+        ]
         table_body_cells_model['attributes'] = [document_attribute_model]
 
-        table_result_table_model = {} # TableResultTable
+        table_result_table_model = {}  # TableResultTable
         table_result_table_model['location'] = table_element_location_model
         table_result_table_model['text'] = 'testString'
         table_result_table_model['section_title'] = table_text_location_model
         table_result_table_model['title'] = table_text_location_model
         table_result_table_model['table_headers'] = [table_headers_model]
         table_result_table_model['row_headers'] = [table_row_headers_model]
-        table_result_table_model['column_headers'] = [table_column_headers_model]
-        table_result_table_model['key_value_pairs'] = [table_key_value_pairs_model]
+        table_result_table_model['column_headers'] = [
+            table_column_headers_model
+        ]
+        table_result_table_model['key_value_pairs'] = [
+            table_key_value_pairs_model
+        ]
         table_result_table_model['body_cells'] = [table_body_cells_model]
         table_result_table_model['contexts'] = [table_text_location_model]
 
@@ -7941,12 +8392,15 @@ class TestModel_QueryTableResult():
         query_table_result_model_json['table'] = table_result_table_model
 
         # Construct a model instance of QueryTableResult by calling from_dict on the json representation
-        query_table_result_model = QueryTableResult.from_dict(query_table_result_model_json)
+        query_table_result_model = QueryTableResult.from_dict(
+            query_table_result_model_json)
         assert query_table_result_model != False
 
         # Construct a model instance of QueryTableResult by calling from_dict on the json representation
-        query_table_result_model_dict = QueryTableResult.from_dict(query_table_result_model_json).__dict__
-        query_table_result_model2 = QueryTableResult(**query_table_result_model_dict)
+        query_table_result_model_dict = QueryTableResult.from_dict(
+            query_table_result_model_json).__dict__
+        query_table_result_model2 = QueryTableResult(
+            **query_table_result_model_dict)
 
         # Verify the model instances are equivalent
         assert query_table_result_model == query_table_result_model2
@@ -7955,11 +8409,11 @@ class TestModel_QueryTableResult():
         query_table_result_model_json2 = query_table_result_model.to_dict()
         assert query_table_result_model_json2 == query_table_result_model_json
 
+
 class TestModel_QueryTermAggregationResult():
     """
     Test Class for QueryTermAggregationResult
     """
-
     def test_query_term_aggregation_result_serialization(self):
         """
         Test serialization/deserialization for QueryTermAggregationResult
@@ -7967,7 +8421,7 @@ class TestModel_QueryTermAggregationResult():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        query_aggregation_model = {} # QueryFilterAggregation
+        query_aggregation_model = {}  # QueryFilterAggregation
         query_aggregation_model['type'] = 'filter'
         query_aggregation_model['match'] = 'testString'
         query_aggregation_model['matching_results'] = 26
@@ -7977,30 +8431,38 @@ class TestModel_QueryTermAggregationResult():
         query_term_aggregation_result_model_json['key'] = 'testString'
         query_term_aggregation_result_model_json['matching_results'] = 38
         query_term_aggregation_result_model_json['relevancy'] = 72.5
-        query_term_aggregation_result_model_json['total_matching_documents'] = 38
-        query_term_aggregation_result_model_json['estimated_matching_documents'] = 38
-        query_term_aggregation_result_model_json['aggregations'] = [query_aggregation_model]
+        query_term_aggregation_result_model_json[
+            'total_matching_documents'] = 38
+        query_term_aggregation_result_model_json[
+            'estimated_matching_documents'] = 38
+        query_term_aggregation_result_model_json['aggregations'] = [
+            query_aggregation_model
+        ]
 
         # Construct a model instance of QueryTermAggregationResult by calling from_dict on the json representation
-        query_term_aggregation_result_model = QueryTermAggregationResult.from_dict(query_term_aggregation_result_model_json)
+        query_term_aggregation_result_model = QueryTermAggregationResult.from_dict(
+            query_term_aggregation_result_model_json)
         assert query_term_aggregation_result_model != False
 
         # Construct a model instance of QueryTermAggregationResult by calling from_dict on the json representation
-        query_term_aggregation_result_model_dict = QueryTermAggregationResult.from_dict(query_term_aggregation_result_model_json).__dict__
-        query_term_aggregation_result_model2 = QueryTermAggregationResult(**query_term_aggregation_result_model_dict)
+        query_term_aggregation_result_model_dict = QueryTermAggregationResult.from_dict(
+            query_term_aggregation_result_model_json).__dict__
+        query_term_aggregation_result_model2 = QueryTermAggregationResult(
+            **query_term_aggregation_result_model_dict)
 
         # Verify the model instances are equivalent
         assert query_term_aggregation_result_model == query_term_aggregation_result_model2
 
         # Convert model instance back to dict and verify no loss of data
-        query_term_aggregation_result_model_json2 = query_term_aggregation_result_model.to_dict()
+        query_term_aggregation_result_model_json2 = query_term_aggregation_result_model.to_dict(
+        )
         assert query_term_aggregation_result_model_json2 == query_term_aggregation_result_model_json
+
 
 class TestModel_QueryTimesliceAggregationResult():
     """
     Test Class for QueryTimesliceAggregationResult
     """
-
     def test_query_timeslice_aggregation_result_serialization(self):
         """
         Test serialization/deserialization for QueryTimesliceAggregationResult
@@ -8008,38 +8470,45 @@ class TestModel_QueryTimesliceAggregationResult():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        query_aggregation_model = {} # QueryFilterAggregation
+        query_aggregation_model = {}  # QueryFilterAggregation
         query_aggregation_model['type'] = 'filter'
         query_aggregation_model['match'] = 'testString'
         query_aggregation_model['matching_results'] = 26
 
         # Construct a json representation of a QueryTimesliceAggregationResult model
         query_timeslice_aggregation_result_model_json = {}
-        query_timeslice_aggregation_result_model_json['key_as_string'] = 'testString'
+        query_timeslice_aggregation_result_model_json[
+            'key_as_string'] = 'testString'
         query_timeslice_aggregation_result_model_json['key'] = 26
         query_timeslice_aggregation_result_model_json['matching_results'] = 26
-        query_timeslice_aggregation_result_model_json['aggregations'] = [query_aggregation_model]
+        query_timeslice_aggregation_result_model_json['aggregations'] = [
+            query_aggregation_model
+        ]
 
         # Construct a model instance of QueryTimesliceAggregationResult by calling from_dict on the json representation
-        query_timeslice_aggregation_result_model = QueryTimesliceAggregationResult.from_dict(query_timeslice_aggregation_result_model_json)
+        query_timeslice_aggregation_result_model = QueryTimesliceAggregationResult.from_dict(
+            query_timeslice_aggregation_result_model_json)
         assert query_timeslice_aggregation_result_model != False
 
         # Construct a model instance of QueryTimesliceAggregationResult by calling from_dict on the json representation
-        query_timeslice_aggregation_result_model_dict = QueryTimesliceAggregationResult.from_dict(query_timeslice_aggregation_result_model_json).__dict__
-        query_timeslice_aggregation_result_model2 = QueryTimesliceAggregationResult(**query_timeslice_aggregation_result_model_dict)
+        query_timeslice_aggregation_result_model_dict = QueryTimesliceAggregationResult.from_dict(
+            query_timeslice_aggregation_result_model_json).__dict__
+        query_timeslice_aggregation_result_model2 = QueryTimesliceAggregationResult(
+            **query_timeslice_aggregation_result_model_dict)
 
         # Verify the model instances are equivalent
         assert query_timeslice_aggregation_result_model == query_timeslice_aggregation_result_model2
 
         # Convert model instance back to dict and verify no loss of data
-        query_timeslice_aggregation_result_model_json2 = query_timeslice_aggregation_result_model.to_dict()
+        query_timeslice_aggregation_result_model_json2 = query_timeslice_aggregation_result_model.to_dict(
+        )
         assert query_timeslice_aggregation_result_model_json2 == query_timeslice_aggregation_result_model_json
+
 
 class TestModel_QueryTopHitsAggregationResult():
     """
     Test Class for QueryTopHitsAggregationResult
     """
-
     def test_query_top_hits_aggregation_result_serialization(self):
         """
         Test serialization/deserialization for QueryTopHitsAggregationResult
@@ -8048,28 +8517,35 @@ class TestModel_QueryTopHitsAggregationResult():
         # Construct a json representation of a QueryTopHitsAggregationResult model
         query_top_hits_aggregation_result_model_json = {}
         query_top_hits_aggregation_result_model_json['matching_results'] = 38
-        query_top_hits_aggregation_result_model_json['hits'] = [{'key1': 'testString'}]
+        query_top_hits_aggregation_result_model_json['hits'] = [{
+            'key1':
+            'testString'
+        }]
 
         # Construct a model instance of QueryTopHitsAggregationResult by calling from_dict on the json representation
-        query_top_hits_aggregation_result_model = QueryTopHitsAggregationResult.from_dict(query_top_hits_aggregation_result_model_json)
+        query_top_hits_aggregation_result_model = QueryTopHitsAggregationResult.from_dict(
+            query_top_hits_aggregation_result_model_json)
         assert query_top_hits_aggregation_result_model != False
 
         # Construct a model instance of QueryTopHitsAggregationResult by calling from_dict on the json representation
-        query_top_hits_aggregation_result_model_dict = QueryTopHitsAggregationResult.from_dict(query_top_hits_aggregation_result_model_json).__dict__
-        query_top_hits_aggregation_result_model2 = QueryTopHitsAggregationResult(**query_top_hits_aggregation_result_model_dict)
+        query_top_hits_aggregation_result_model_dict = QueryTopHitsAggregationResult.from_dict(
+            query_top_hits_aggregation_result_model_json).__dict__
+        query_top_hits_aggregation_result_model2 = QueryTopHitsAggregationResult(
+            **query_top_hits_aggregation_result_model_dict)
 
         # Verify the model instances are equivalent
         assert query_top_hits_aggregation_result_model == query_top_hits_aggregation_result_model2
 
         # Convert model instance back to dict and verify no loss of data
-        query_top_hits_aggregation_result_model_json2 = query_top_hits_aggregation_result_model.to_dict()
+        query_top_hits_aggregation_result_model_json2 = query_top_hits_aggregation_result_model.to_dict(
+        )
         assert query_top_hits_aggregation_result_model_json2 == query_top_hits_aggregation_result_model_json
+
 
 class TestModel_ResultPassageAnswer():
     """
     Test Class for ResultPassageAnswer
     """
-
     def test_result_passage_answer_serialization(self):
         """
         Test serialization/deserialization for ResultPassageAnswer
@@ -8083,25 +8559,29 @@ class TestModel_ResultPassageAnswer():
         result_passage_answer_model_json['confidence'] = 0
 
         # Construct a model instance of ResultPassageAnswer by calling from_dict on the json representation
-        result_passage_answer_model = ResultPassageAnswer.from_dict(result_passage_answer_model_json)
+        result_passage_answer_model = ResultPassageAnswer.from_dict(
+            result_passage_answer_model_json)
         assert result_passage_answer_model != False
 
         # Construct a model instance of ResultPassageAnswer by calling from_dict on the json representation
-        result_passage_answer_model_dict = ResultPassageAnswer.from_dict(result_passage_answer_model_json).__dict__
-        result_passage_answer_model2 = ResultPassageAnswer(**result_passage_answer_model_dict)
+        result_passage_answer_model_dict = ResultPassageAnswer.from_dict(
+            result_passage_answer_model_json).__dict__
+        result_passage_answer_model2 = ResultPassageAnswer(
+            **result_passage_answer_model_dict)
 
         # Verify the model instances are equivalent
         assert result_passage_answer_model == result_passage_answer_model2
 
         # Convert model instance back to dict and verify no loss of data
-        result_passage_answer_model_json2 = result_passage_answer_model.to_dict()
+        result_passage_answer_model_json2 = result_passage_answer_model.to_dict(
+        )
         assert result_passage_answer_model_json2 == result_passage_answer_model_json
+
 
 class TestModel_RetrievalDetails():
     """
     Test Class for RetrievalDetails
     """
-
     def test_retrieval_details_serialization(self):
         """
         Test serialization/deserialization for RetrievalDetails
@@ -8109,15 +8589,19 @@ class TestModel_RetrievalDetails():
 
         # Construct a json representation of a RetrievalDetails model
         retrieval_details_model_json = {}
-        retrieval_details_model_json['document_retrieval_strategy'] = 'untrained'
+        retrieval_details_model_json[
+            'document_retrieval_strategy'] = 'untrained'
 
         # Construct a model instance of RetrievalDetails by calling from_dict on the json representation
-        retrieval_details_model = RetrievalDetails.from_dict(retrieval_details_model_json)
+        retrieval_details_model = RetrievalDetails.from_dict(
+            retrieval_details_model_json)
         assert retrieval_details_model != False
 
         # Construct a model instance of RetrievalDetails by calling from_dict on the json representation
-        retrieval_details_model_dict = RetrievalDetails.from_dict(retrieval_details_model_json).__dict__
-        retrieval_details_model2 = RetrievalDetails(**retrieval_details_model_dict)
+        retrieval_details_model_dict = RetrievalDetails.from_dict(
+            retrieval_details_model_json).__dict__
+        retrieval_details_model2 = RetrievalDetails(
+            **retrieval_details_model_dict)
 
         # Verify the model instances are equivalent
         assert retrieval_details_model == retrieval_details_model2
@@ -8126,11 +8610,11 @@ class TestModel_RetrievalDetails():
         retrieval_details_model_json2 = retrieval_details_model.to_dict()
         assert retrieval_details_model_json2 == retrieval_details_model_json
 
+
 class TestModel_StopWordList():
     """
     Test Class for StopWordList
     """
-
     def test_stop_word_list_serialization(self):
         """
         Test serialization/deserialization for StopWordList
@@ -8141,11 +8625,13 @@ class TestModel_StopWordList():
         stop_word_list_model_json['stopwords'] = ['testString']
 
         # Construct a model instance of StopWordList by calling from_dict on the json representation
-        stop_word_list_model = StopWordList.from_dict(stop_word_list_model_json)
+        stop_word_list_model = StopWordList.from_dict(
+            stop_word_list_model_json)
         assert stop_word_list_model != False
 
         # Construct a model instance of StopWordList by calling from_dict on the json representation
-        stop_word_list_model_dict = StopWordList.from_dict(stop_word_list_model_json).__dict__
+        stop_word_list_model_dict = StopWordList.from_dict(
+            stop_word_list_model_json).__dict__
         stop_word_list_model2 = StopWordList(**stop_word_list_model_dict)
 
         # Verify the model instances are equivalent
@@ -8155,11 +8641,11 @@ class TestModel_StopWordList():
         stop_word_list_model_json2 = stop_word_list_model.to_dict()
         assert stop_word_list_model_json2 == stop_word_list_model_json
 
+
 class TestModel_TableBodyCells():
     """
     Test Class for TableBodyCells
     """
-
     def test_table_body_cells_serialization(self):
         """
         Test serialization/deserialization for TableBodyCells
@@ -8167,29 +8653,33 @@ class TestModel_TableBodyCells():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        table_element_location_model = {} # TableElementLocation
+        table_element_location_model = {}  # TableElementLocation
         table_element_location_model['begin'] = 26
         table_element_location_model['end'] = 26
 
-        table_row_header_ids_model = {} # TableRowHeaderIds
+        table_row_header_ids_model = {}  # TableRowHeaderIds
         table_row_header_ids_model['id'] = 'testString'
 
-        table_row_header_texts_model = {} # TableRowHeaderTexts
+        table_row_header_texts_model = {}  # TableRowHeaderTexts
         table_row_header_texts_model['text'] = 'testString'
 
-        table_row_header_texts_normalized_model = {} # TableRowHeaderTextsNormalized
-        table_row_header_texts_normalized_model['text_normalized'] = 'testString'
+        table_row_header_texts_normalized_model = {
+        }  # TableRowHeaderTextsNormalized
+        table_row_header_texts_normalized_model[
+            'text_normalized'] = 'testString'
 
-        table_column_header_ids_model = {} # TableColumnHeaderIds
+        table_column_header_ids_model = {}  # TableColumnHeaderIds
         table_column_header_ids_model['id'] = 'testString'
 
-        table_column_header_texts_model = {} # TableColumnHeaderTexts
+        table_column_header_texts_model = {}  # TableColumnHeaderTexts
         table_column_header_texts_model['text'] = 'testString'
 
-        table_column_header_texts_normalized_model = {} # TableColumnHeaderTextsNormalized
-        table_column_header_texts_normalized_model['text_normalized'] = 'testString'
+        table_column_header_texts_normalized_model = {
+        }  # TableColumnHeaderTextsNormalized
+        table_column_header_texts_normalized_model[
+            'text_normalized'] = 'testString'
 
-        document_attribute_model = {} # DocumentAttribute
+        document_attribute_model = {}  # DocumentAttribute
         document_attribute_model['type'] = 'testString'
         document_attribute_model['text'] = 'testString'
         document_attribute_model['location'] = table_element_location_model
@@ -8203,20 +8693,34 @@ class TestModel_TableBodyCells():
         table_body_cells_model_json['row_index_end'] = 26
         table_body_cells_model_json['column_index_begin'] = 26
         table_body_cells_model_json['column_index_end'] = 26
-        table_body_cells_model_json['row_header_ids'] = [table_row_header_ids_model]
-        table_body_cells_model_json['row_header_texts'] = [table_row_header_texts_model]
-        table_body_cells_model_json['row_header_texts_normalized'] = [table_row_header_texts_normalized_model]
-        table_body_cells_model_json['column_header_ids'] = [table_column_header_ids_model]
-        table_body_cells_model_json['column_header_texts'] = [table_column_header_texts_model]
-        table_body_cells_model_json['column_header_texts_normalized'] = [table_column_header_texts_normalized_model]
+        table_body_cells_model_json['row_header_ids'] = [
+            table_row_header_ids_model
+        ]
+        table_body_cells_model_json['row_header_texts'] = [
+            table_row_header_texts_model
+        ]
+        table_body_cells_model_json['row_header_texts_normalized'] = [
+            table_row_header_texts_normalized_model
+        ]
+        table_body_cells_model_json['column_header_ids'] = [
+            table_column_header_ids_model
+        ]
+        table_body_cells_model_json['column_header_texts'] = [
+            table_column_header_texts_model
+        ]
+        table_body_cells_model_json['column_header_texts_normalized'] = [
+            table_column_header_texts_normalized_model
+        ]
         table_body_cells_model_json['attributes'] = [document_attribute_model]
 
         # Construct a model instance of TableBodyCells by calling from_dict on the json representation
-        table_body_cells_model = TableBodyCells.from_dict(table_body_cells_model_json)
+        table_body_cells_model = TableBodyCells.from_dict(
+            table_body_cells_model_json)
         assert table_body_cells_model != False
 
         # Construct a model instance of TableBodyCells by calling from_dict on the json representation
-        table_body_cells_model_dict = TableBodyCells.from_dict(table_body_cells_model_json).__dict__
+        table_body_cells_model_dict = TableBodyCells.from_dict(
+            table_body_cells_model_json).__dict__
         table_body_cells_model2 = TableBodyCells(**table_body_cells_model_dict)
 
         # Verify the model instances are equivalent
@@ -8226,11 +8730,11 @@ class TestModel_TableBodyCells():
         table_body_cells_model_json2 = table_body_cells_model.to_dict()
         assert table_body_cells_model_json2 == table_body_cells_model_json
 
+
 class TestModel_TableCellKey():
     """
     Test Class for TableCellKey
     """
-
     def test_table_cell_key_serialization(self):
         """
         Test serialization/deserialization for TableCellKey
@@ -8238,7 +8742,7 @@ class TestModel_TableCellKey():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        table_element_location_model = {} # TableElementLocation
+        table_element_location_model = {}  # TableElementLocation
         table_element_location_model['begin'] = 26
         table_element_location_model['end'] = 26
 
@@ -8249,11 +8753,13 @@ class TestModel_TableCellKey():
         table_cell_key_model_json['text'] = 'testString'
 
         # Construct a model instance of TableCellKey by calling from_dict on the json representation
-        table_cell_key_model = TableCellKey.from_dict(table_cell_key_model_json)
+        table_cell_key_model = TableCellKey.from_dict(
+            table_cell_key_model_json)
         assert table_cell_key_model != False
 
         # Construct a model instance of TableCellKey by calling from_dict on the json representation
-        table_cell_key_model_dict = TableCellKey.from_dict(table_cell_key_model_json).__dict__
+        table_cell_key_model_dict = TableCellKey.from_dict(
+            table_cell_key_model_json).__dict__
         table_cell_key_model2 = TableCellKey(**table_cell_key_model_dict)
 
         # Verify the model instances are equivalent
@@ -8263,11 +8769,11 @@ class TestModel_TableCellKey():
         table_cell_key_model_json2 = table_cell_key_model.to_dict()
         assert table_cell_key_model_json2 == table_cell_key_model_json
 
+
 class TestModel_TableCellValues():
     """
     Test Class for TableCellValues
     """
-
     def test_table_cell_values_serialization(self):
         """
         Test serialization/deserialization for TableCellValues
@@ -8275,7 +8781,7 @@ class TestModel_TableCellValues():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        table_element_location_model = {} # TableElementLocation
+        table_element_location_model = {}  # TableElementLocation
         table_element_location_model['begin'] = 26
         table_element_location_model['end'] = 26
 
@@ -8286,12 +8792,15 @@ class TestModel_TableCellValues():
         table_cell_values_model_json['text'] = 'testString'
 
         # Construct a model instance of TableCellValues by calling from_dict on the json representation
-        table_cell_values_model = TableCellValues.from_dict(table_cell_values_model_json)
+        table_cell_values_model = TableCellValues.from_dict(
+            table_cell_values_model_json)
         assert table_cell_values_model != False
 
         # Construct a model instance of TableCellValues by calling from_dict on the json representation
-        table_cell_values_model_dict = TableCellValues.from_dict(table_cell_values_model_json).__dict__
-        table_cell_values_model2 = TableCellValues(**table_cell_values_model_dict)
+        table_cell_values_model_dict = TableCellValues.from_dict(
+            table_cell_values_model_json).__dict__
+        table_cell_values_model2 = TableCellValues(
+            **table_cell_values_model_dict)
 
         # Verify the model instances are equivalent
         assert table_cell_values_model == table_cell_values_model2
@@ -8300,11 +8809,11 @@ class TestModel_TableCellValues():
         table_cell_values_model_json2 = table_cell_values_model.to_dict()
         assert table_cell_values_model_json2 == table_cell_values_model_json
 
+
 class TestModel_TableColumnHeaderIds():
     """
     Test Class for TableColumnHeaderIds
     """
-
     def test_table_column_header_ids_serialization(self):
         """
         Test serialization/deserialization for TableColumnHeaderIds
@@ -8315,25 +8824,29 @@ class TestModel_TableColumnHeaderIds():
         table_column_header_ids_model_json['id'] = 'testString'
 
         # Construct a model instance of TableColumnHeaderIds by calling from_dict on the json representation
-        table_column_header_ids_model = TableColumnHeaderIds.from_dict(table_column_header_ids_model_json)
+        table_column_header_ids_model = TableColumnHeaderIds.from_dict(
+            table_column_header_ids_model_json)
         assert table_column_header_ids_model != False
 
         # Construct a model instance of TableColumnHeaderIds by calling from_dict on the json representation
-        table_column_header_ids_model_dict = TableColumnHeaderIds.from_dict(table_column_header_ids_model_json).__dict__
-        table_column_header_ids_model2 = TableColumnHeaderIds(**table_column_header_ids_model_dict)
+        table_column_header_ids_model_dict = TableColumnHeaderIds.from_dict(
+            table_column_header_ids_model_json).__dict__
+        table_column_header_ids_model2 = TableColumnHeaderIds(
+            **table_column_header_ids_model_dict)
 
         # Verify the model instances are equivalent
         assert table_column_header_ids_model == table_column_header_ids_model2
 
         # Convert model instance back to dict and verify no loss of data
-        table_column_header_ids_model_json2 = table_column_header_ids_model.to_dict()
+        table_column_header_ids_model_json2 = table_column_header_ids_model.to_dict(
+        )
         assert table_column_header_ids_model_json2 == table_column_header_ids_model_json
+
 
 class TestModel_TableColumnHeaderTexts():
     """
     Test Class for TableColumnHeaderTexts
     """
-
     def test_table_column_header_texts_serialization(self):
         """
         Test serialization/deserialization for TableColumnHeaderTexts
@@ -8344,25 +8857,29 @@ class TestModel_TableColumnHeaderTexts():
         table_column_header_texts_model_json['text'] = 'testString'
 
         # Construct a model instance of TableColumnHeaderTexts by calling from_dict on the json representation
-        table_column_header_texts_model = TableColumnHeaderTexts.from_dict(table_column_header_texts_model_json)
+        table_column_header_texts_model = TableColumnHeaderTexts.from_dict(
+            table_column_header_texts_model_json)
         assert table_column_header_texts_model != False
 
         # Construct a model instance of TableColumnHeaderTexts by calling from_dict on the json representation
-        table_column_header_texts_model_dict = TableColumnHeaderTexts.from_dict(table_column_header_texts_model_json).__dict__
-        table_column_header_texts_model2 = TableColumnHeaderTexts(**table_column_header_texts_model_dict)
+        table_column_header_texts_model_dict = TableColumnHeaderTexts.from_dict(
+            table_column_header_texts_model_json).__dict__
+        table_column_header_texts_model2 = TableColumnHeaderTexts(
+            **table_column_header_texts_model_dict)
 
         # Verify the model instances are equivalent
         assert table_column_header_texts_model == table_column_header_texts_model2
 
         # Convert model instance back to dict and verify no loss of data
-        table_column_header_texts_model_json2 = table_column_header_texts_model.to_dict()
+        table_column_header_texts_model_json2 = table_column_header_texts_model.to_dict(
+        )
         assert table_column_header_texts_model_json2 == table_column_header_texts_model_json
+
 
 class TestModel_TableColumnHeaderTextsNormalized():
     """
     Test Class for TableColumnHeaderTextsNormalized
     """
-
     def test_table_column_header_texts_normalized_serialization(self):
         """
         Test serialization/deserialization for TableColumnHeaderTextsNormalized
@@ -8370,28 +8887,33 @@ class TestModel_TableColumnHeaderTextsNormalized():
 
         # Construct a json representation of a TableColumnHeaderTextsNormalized model
         table_column_header_texts_normalized_model_json = {}
-        table_column_header_texts_normalized_model_json['text_normalized'] = 'testString'
+        table_column_header_texts_normalized_model_json[
+            'text_normalized'] = 'testString'
 
         # Construct a model instance of TableColumnHeaderTextsNormalized by calling from_dict on the json representation
-        table_column_header_texts_normalized_model = TableColumnHeaderTextsNormalized.from_dict(table_column_header_texts_normalized_model_json)
+        table_column_header_texts_normalized_model = TableColumnHeaderTextsNormalized.from_dict(
+            table_column_header_texts_normalized_model_json)
         assert table_column_header_texts_normalized_model != False
 
         # Construct a model instance of TableColumnHeaderTextsNormalized by calling from_dict on the json representation
-        table_column_header_texts_normalized_model_dict = TableColumnHeaderTextsNormalized.from_dict(table_column_header_texts_normalized_model_json).__dict__
-        table_column_header_texts_normalized_model2 = TableColumnHeaderTextsNormalized(**table_column_header_texts_normalized_model_dict)
+        table_column_header_texts_normalized_model_dict = TableColumnHeaderTextsNormalized.from_dict(
+            table_column_header_texts_normalized_model_json).__dict__
+        table_column_header_texts_normalized_model2 = TableColumnHeaderTextsNormalized(
+            **table_column_header_texts_normalized_model_dict)
 
         # Verify the model instances are equivalent
         assert table_column_header_texts_normalized_model == table_column_header_texts_normalized_model2
 
         # Convert model instance back to dict and verify no loss of data
-        table_column_header_texts_normalized_model_json2 = table_column_header_texts_normalized_model.to_dict()
+        table_column_header_texts_normalized_model_json2 = table_column_header_texts_normalized_model.to_dict(
+        )
         assert table_column_header_texts_normalized_model_json2 == table_column_header_texts_normalized_model_json
+
 
 class TestModel_TableColumnHeaders():
     """
     Test Class for TableColumnHeaders
     """
-
     def test_table_column_headers_serialization(self):
         """
         Test serialization/deserialization for TableColumnHeaders
@@ -8409,12 +8931,15 @@ class TestModel_TableColumnHeaders():
         table_column_headers_model_json['column_index_end'] = 26
 
         # Construct a model instance of TableColumnHeaders by calling from_dict on the json representation
-        table_column_headers_model = TableColumnHeaders.from_dict(table_column_headers_model_json)
+        table_column_headers_model = TableColumnHeaders.from_dict(
+            table_column_headers_model_json)
         assert table_column_headers_model != False
 
         # Construct a model instance of TableColumnHeaders by calling from_dict on the json representation
-        table_column_headers_model_dict = TableColumnHeaders.from_dict(table_column_headers_model_json).__dict__
-        table_column_headers_model2 = TableColumnHeaders(**table_column_headers_model_dict)
+        table_column_headers_model_dict = TableColumnHeaders.from_dict(
+            table_column_headers_model_json).__dict__
+        table_column_headers_model2 = TableColumnHeaders(
+            **table_column_headers_model_dict)
 
         # Verify the model instances are equivalent
         assert table_column_headers_model == table_column_headers_model2
@@ -8423,11 +8948,11 @@ class TestModel_TableColumnHeaders():
         table_column_headers_model_json2 = table_column_headers_model.to_dict()
         assert table_column_headers_model_json2 == table_column_headers_model_json
 
+
 class TestModel_TableElementLocation():
     """
     Test Class for TableElementLocation
     """
-
     def test_table_element_location_serialization(self):
         """
         Test serialization/deserialization for TableElementLocation
@@ -8439,25 +8964,29 @@ class TestModel_TableElementLocation():
         table_element_location_model_json['end'] = 26
 
         # Construct a model instance of TableElementLocation by calling from_dict on the json representation
-        table_element_location_model = TableElementLocation.from_dict(table_element_location_model_json)
+        table_element_location_model = TableElementLocation.from_dict(
+            table_element_location_model_json)
         assert table_element_location_model != False
 
         # Construct a model instance of TableElementLocation by calling from_dict on the json representation
-        table_element_location_model_dict = TableElementLocation.from_dict(table_element_location_model_json).__dict__
-        table_element_location_model2 = TableElementLocation(**table_element_location_model_dict)
+        table_element_location_model_dict = TableElementLocation.from_dict(
+            table_element_location_model_json).__dict__
+        table_element_location_model2 = TableElementLocation(
+            **table_element_location_model_dict)
 
         # Verify the model instances are equivalent
         assert table_element_location_model == table_element_location_model2
 
         # Convert model instance back to dict and verify no loss of data
-        table_element_location_model_json2 = table_element_location_model.to_dict()
+        table_element_location_model_json2 = table_element_location_model.to_dict(
+        )
         assert table_element_location_model_json2 == table_element_location_model_json
+
 
 class TestModel_TableHeaders():
     """
     Test Class for TableHeaders
     """
-
     def test_table_headers_serialization(self):
         """
         Test serialization/deserialization for TableHeaders
@@ -8478,7 +9007,8 @@ class TestModel_TableHeaders():
         assert table_headers_model != False
 
         # Construct a model instance of TableHeaders by calling from_dict on the json representation
-        table_headers_model_dict = TableHeaders.from_dict(table_headers_model_json).__dict__
+        table_headers_model_dict = TableHeaders.from_dict(
+            table_headers_model_json).__dict__
         table_headers_model2 = TableHeaders(**table_headers_model_dict)
 
         # Verify the model instances are equivalent
@@ -8488,11 +9018,11 @@ class TestModel_TableHeaders():
         table_headers_model_json2 = table_headers_model.to_dict()
         assert table_headers_model_json2 == table_headers_model_json
 
+
 class TestModel_TableKeyValuePairs():
     """
     Test Class for TableKeyValuePairs
     """
-
     def test_table_key_value_pairs_serialization(self):
         """
         Test serialization/deserialization for TableKeyValuePairs
@@ -8500,16 +9030,16 @@ class TestModel_TableKeyValuePairs():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        table_element_location_model = {} # TableElementLocation
+        table_element_location_model = {}  # TableElementLocation
         table_element_location_model['begin'] = 26
         table_element_location_model['end'] = 26
 
-        table_cell_key_model = {} # TableCellKey
+        table_cell_key_model = {}  # TableCellKey
         table_cell_key_model['cell_id'] = 'testString'
         table_cell_key_model['location'] = table_element_location_model
         table_cell_key_model['text'] = 'testString'
 
-        table_cell_values_model = {} # TableCellValues
+        table_cell_values_model = {}  # TableCellValues
         table_cell_values_model['cell_id'] = 'testString'
         table_cell_values_model['location'] = table_element_location_model
         table_cell_values_model['text'] = 'testString'
@@ -8520,25 +9050,29 @@ class TestModel_TableKeyValuePairs():
         table_key_value_pairs_model_json['value'] = [table_cell_values_model]
 
         # Construct a model instance of TableKeyValuePairs by calling from_dict on the json representation
-        table_key_value_pairs_model = TableKeyValuePairs.from_dict(table_key_value_pairs_model_json)
+        table_key_value_pairs_model = TableKeyValuePairs.from_dict(
+            table_key_value_pairs_model_json)
         assert table_key_value_pairs_model != False
 
         # Construct a model instance of TableKeyValuePairs by calling from_dict on the json representation
-        table_key_value_pairs_model_dict = TableKeyValuePairs.from_dict(table_key_value_pairs_model_json).__dict__
-        table_key_value_pairs_model2 = TableKeyValuePairs(**table_key_value_pairs_model_dict)
+        table_key_value_pairs_model_dict = TableKeyValuePairs.from_dict(
+            table_key_value_pairs_model_json).__dict__
+        table_key_value_pairs_model2 = TableKeyValuePairs(
+            **table_key_value_pairs_model_dict)
 
         # Verify the model instances are equivalent
         assert table_key_value_pairs_model == table_key_value_pairs_model2
 
         # Convert model instance back to dict and verify no loss of data
-        table_key_value_pairs_model_json2 = table_key_value_pairs_model.to_dict()
+        table_key_value_pairs_model_json2 = table_key_value_pairs_model.to_dict(
+        )
         assert table_key_value_pairs_model_json2 == table_key_value_pairs_model_json
+
 
 class TestModel_TableResultTable():
     """
     Test Class for TableResultTable
     """
-
     def test_table_result_table_serialization(self):
         """
         Test serialization/deserialization for TableResultTable
@@ -8546,15 +9080,15 @@ class TestModel_TableResultTable():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        table_element_location_model = {} # TableElementLocation
+        table_element_location_model = {}  # TableElementLocation
         table_element_location_model['begin'] = 26
         table_element_location_model['end'] = 26
 
-        table_text_location_model = {} # TableTextLocation
+        table_text_location_model = {}  # TableTextLocation
         table_text_location_model['text'] = 'testString'
         table_text_location_model['location'] = table_element_location_model
 
-        table_headers_model = {} # TableHeaders
+        table_headers_model = {}  # TableHeaders
         table_headers_model['cell_id'] = 'testString'
         table_headers_model['location'] = {'foo': 'bar'}
         table_headers_model['text'] = 'testString'
@@ -8563,7 +9097,7 @@ class TestModel_TableResultTable():
         table_headers_model['column_index_begin'] = 26
         table_headers_model['column_index_end'] = 26
 
-        table_row_headers_model = {} # TableRowHeaders
+        table_row_headers_model = {}  # TableRowHeaders
         table_row_headers_model['cell_id'] = 'testString'
         table_row_headers_model['location'] = table_element_location_model
         table_row_headers_model['text'] = 'testString'
@@ -8573,7 +9107,7 @@ class TestModel_TableResultTable():
         table_row_headers_model['column_index_begin'] = 26
         table_row_headers_model['column_index_end'] = 26
 
-        table_column_headers_model = {} # TableColumnHeaders
+        table_column_headers_model = {}  # TableColumnHeaders
         table_column_headers_model['cell_id'] = 'testString'
         table_column_headers_model['location'] = {'foo': 'bar'}
         table_column_headers_model['text'] = 'testString'
@@ -8583,44 +9117,48 @@ class TestModel_TableResultTable():
         table_column_headers_model['column_index_begin'] = 26
         table_column_headers_model['column_index_end'] = 26
 
-        table_cell_key_model = {} # TableCellKey
+        table_cell_key_model = {}  # TableCellKey
         table_cell_key_model['cell_id'] = 'testString'
         table_cell_key_model['location'] = table_element_location_model
         table_cell_key_model['text'] = 'testString'
 
-        table_cell_values_model = {} # TableCellValues
+        table_cell_values_model = {}  # TableCellValues
         table_cell_values_model['cell_id'] = 'testString'
         table_cell_values_model['location'] = table_element_location_model
         table_cell_values_model['text'] = 'testString'
 
-        table_key_value_pairs_model = {} # TableKeyValuePairs
+        table_key_value_pairs_model = {}  # TableKeyValuePairs
         table_key_value_pairs_model['key'] = table_cell_key_model
         table_key_value_pairs_model['value'] = [table_cell_values_model]
 
-        table_row_header_ids_model = {} # TableRowHeaderIds
+        table_row_header_ids_model = {}  # TableRowHeaderIds
         table_row_header_ids_model['id'] = 'testString'
 
-        table_row_header_texts_model = {} # TableRowHeaderTexts
+        table_row_header_texts_model = {}  # TableRowHeaderTexts
         table_row_header_texts_model['text'] = 'testString'
 
-        table_row_header_texts_normalized_model = {} # TableRowHeaderTextsNormalized
-        table_row_header_texts_normalized_model['text_normalized'] = 'testString'
+        table_row_header_texts_normalized_model = {
+        }  # TableRowHeaderTextsNormalized
+        table_row_header_texts_normalized_model[
+            'text_normalized'] = 'testString'
 
-        table_column_header_ids_model = {} # TableColumnHeaderIds
+        table_column_header_ids_model = {}  # TableColumnHeaderIds
         table_column_header_ids_model['id'] = 'testString'
 
-        table_column_header_texts_model = {} # TableColumnHeaderTexts
+        table_column_header_texts_model = {}  # TableColumnHeaderTexts
         table_column_header_texts_model['text'] = 'testString'
 
-        table_column_header_texts_normalized_model = {} # TableColumnHeaderTextsNormalized
-        table_column_header_texts_normalized_model['text_normalized'] = 'testString'
+        table_column_header_texts_normalized_model = {
+        }  # TableColumnHeaderTextsNormalized
+        table_column_header_texts_normalized_model[
+            'text_normalized'] = 'testString'
 
-        document_attribute_model = {} # DocumentAttribute
+        document_attribute_model = {}  # DocumentAttribute
         document_attribute_model['type'] = 'testString'
         document_attribute_model['text'] = 'testString'
         document_attribute_model['location'] = table_element_location_model
 
-        table_body_cells_model = {} # TableBodyCells
+        table_body_cells_model = {}  # TableBodyCells
         table_body_cells_model['cell_id'] = 'testString'
         table_body_cells_model['location'] = table_element_location_model
         table_body_cells_model['text'] = 'testString'
@@ -8629,33 +9167,54 @@ class TestModel_TableResultTable():
         table_body_cells_model['column_index_begin'] = 26
         table_body_cells_model['column_index_end'] = 26
         table_body_cells_model['row_header_ids'] = [table_row_header_ids_model]
-        table_body_cells_model['row_header_texts'] = [table_row_header_texts_model]
-        table_body_cells_model['row_header_texts_normalized'] = [table_row_header_texts_normalized_model]
-        table_body_cells_model['column_header_ids'] = [table_column_header_ids_model]
-        table_body_cells_model['column_header_texts'] = [table_column_header_texts_model]
-        table_body_cells_model['column_header_texts_normalized'] = [table_column_header_texts_normalized_model]
+        table_body_cells_model['row_header_texts'] = [
+            table_row_header_texts_model
+        ]
+        table_body_cells_model['row_header_texts_normalized'] = [
+            table_row_header_texts_normalized_model
+        ]
+        table_body_cells_model['column_header_ids'] = [
+            table_column_header_ids_model
+        ]
+        table_body_cells_model['column_header_texts'] = [
+            table_column_header_texts_model
+        ]
+        table_body_cells_model['column_header_texts_normalized'] = [
+            table_column_header_texts_normalized_model
+        ]
         table_body_cells_model['attributes'] = [document_attribute_model]
 
         # Construct a json representation of a TableResultTable model
         table_result_table_model_json = {}
-        table_result_table_model_json['location'] = table_element_location_model
+        table_result_table_model_json[
+            'location'] = table_element_location_model
         table_result_table_model_json['text'] = 'testString'
-        table_result_table_model_json['section_title'] = table_text_location_model
+        table_result_table_model_json[
+            'section_title'] = table_text_location_model
         table_result_table_model_json['title'] = table_text_location_model
         table_result_table_model_json['table_headers'] = [table_headers_model]
-        table_result_table_model_json['row_headers'] = [table_row_headers_model]
-        table_result_table_model_json['column_headers'] = [table_column_headers_model]
-        table_result_table_model_json['key_value_pairs'] = [table_key_value_pairs_model]
+        table_result_table_model_json['row_headers'] = [
+            table_row_headers_model
+        ]
+        table_result_table_model_json['column_headers'] = [
+            table_column_headers_model
+        ]
+        table_result_table_model_json['key_value_pairs'] = [
+            table_key_value_pairs_model
+        ]
         table_result_table_model_json['body_cells'] = [table_body_cells_model]
         table_result_table_model_json['contexts'] = [table_text_location_model]
 
         # Construct a model instance of TableResultTable by calling from_dict on the json representation
-        table_result_table_model = TableResultTable.from_dict(table_result_table_model_json)
+        table_result_table_model = TableResultTable.from_dict(
+            table_result_table_model_json)
         assert table_result_table_model != False
 
         # Construct a model instance of TableResultTable by calling from_dict on the json representation
-        table_result_table_model_dict = TableResultTable.from_dict(table_result_table_model_json).__dict__
-        table_result_table_model2 = TableResultTable(**table_result_table_model_dict)
+        table_result_table_model_dict = TableResultTable.from_dict(
+            table_result_table_model_json).__dict__
+        table_result_table_model2 = TableResultTable(
+            **table_result_table_model_dict)
 
         # Verify the model instances are equivalent
         assert table_result_table_model == table_result_table_model2
@@ -8664,11 +9223,11 @@ class TestModel_TableResultTable():
         table_result_table_model_json2 = table_result_table_model.to_dict()
         assert table_result_table_model_json2 == table_result_table_model_json
 
+
 class TestModel_TableRowHeaderIds():
     """
     Test Class for TableRowHeaderIds
     """
-
     def test_table_row_header_ids_serialization(self):
         """
         Test serialization/deserialization for TableRowHeaderIds
@@ -8679,12 +9238,15 @@ class TestModel_TableRowHeaderIds():
         table_row_header_ids_model_json['id'] = 'testString'
 
         # Construct a model instance of TableRowHeaderIds by calling from_dict on the json representation
-        table_row_header_ids_model = TableRowHeaderIds.from_dict(table_row_header_ids_model_json)
+        table_row_header_ids_model = TableRowHeaderIds.from_dict(
+            table_row_header_ids_model_json)
         assert table_row_header_ids_model != False
 
         # Construct a model instance of TableRowHeaderIds by calling from_dict on the json representation
-        table_row_header_ids_model_dict = TableRowHeaderIds.from_dict(table_row_header_ids_model_json).__dict__
-        table_row_header_ids_model2 = TableRowHeaderIds(**table_row_header_ids_model_dict)
+        table_row_header_ids_model_dict = TableRowHeaderIds.from_dict(
+            table_row_header_ids_model_json).__dict__
+        table_row_header_ids_model2 = TableRowHeaderIds(
+            **table_row_header_ids_model_dict)
 
         # Verify the model instances are equivalent
         assert table_row_header_ids_model == table_row_header_ids_model2
@@ -8693,11 +9255,11 @@ class TestModel_TableRowHeaderIds():
         table_row_header_ids_model_json2 = table_row_header_ids_model.to_dict()
         assert table_row_header_ids_model_json2 == table_row_header_ids_model_json
 
+
 class TestModel_TableRowHeaderTexts():
     """
     Test Class for TableRowHeaderTexts
     """
-
     def test_table_row_header_texts_serialization(self):
         """
         Test serialization/deserialization for TableRowHeaderTexts
@@ -8708,25 +9270,29 @@ class TestModel_TableRowHeaderTexts():
         table_row_header_texts_model_json['text'] = 'testString'
 
         # Construct a model instance of TableRowHeaderTexts by calling from_dict on the json representation
-        table_row_header_texts_model = TableRowHeaderTexts.from_dict(table_row_header_texts_model_json)
+        table_row_header_texts_model = TableRowHeaderTexts.from_dict(
+            table_row_header_texts_model_json)
         assert table_row_header_texts_model != False
 
         # Construct a model instance of TableRowHeaderTexts by calling from_dict on the json representation
-        table_row_header_texts_model_dict = TableRowHeaderTexts.from_dict(table_row_header_texts_model_json).__dict__
-        table_row_header_texts_model2 = TableRowHeaderTexts(**table_row_header_texts_model_dict)
+        table_row_header_texts_model_dict = TableRowHeaderTexts.from_dict(
+            table_row_header_texts_model_json).__dict__
+        table_row_header_texts_model2 = TableRowHeaderTexts(
+            **table_row_header_texts_model_dict)
 
         # Verify the model instances are equivalent
         assert table_row_header_texts_model == table_row_header_texts_model2
 
         # Convert model instance back to dict and verify no loss of data
-        table_row_header_texts_model_json2 = table_row_header_texts_model.to_dict()
+        table_row_header_texts_model_json2 = table_row_header_texts_model.to_dict(
+        )
         assert table_row_header_texts_model_json2 == table_row_header_texts_model_json
+
 
 class TestModel_TableRowHeaderTextsNormalized():
     """
     Test Class for TableRowHeaderTextsNormalized
     """
-
     def test_table_row_header_texts_normalized_serialization(self):
         """
         Test serialization/deserialization for TableRowHeaderTextsNormalized
@@ -8734,28 +9300,33 @@ class TestModel_TableRowHeaderTextsNormalized():
 
         # Construct a json representation of a TableRowHeaderTextsNormalized model
         table_row_header_texts_normalized_model_json = {}
-        table_row_header_texts_normalized_model_json['text_normalized'] = 'testString'
+        table_row_header_texts_normalized_model_json[
+            'text_normalized'] = 'testString'
 
         # Construct a model instance of TableRowHeaderTextsNormalized by calling from_dict on the json representation
-        table_row_header_texts_normalized_model = TableRowHeaderTextsNormalized.from_dict(table_row_header_texts_normalized_model_json)
+        table_row_header_texts_normalized_model = TableRowHeaderTextsNormalized.from_dict(
+            table_row_header_texts_normalized_model_json)
         assert table_row_header_texts_normalized_model != False
 
         # Construct a model instance of TableRowHeaderTextsNormalized by calling from_dict on the json representation
-        table_row_header_texts_normalized_model_dict = TableRowHeaderTextsNormalized.from_dict(table_row_header_texts_normalized_model_json).__dict__
-        table_row_header_texts_normalized_model2 = TableRowHeaderTextsNormalized(**table_row_header_texts_normalized_model_dict)
+        table_row_header_texts_normalized_model_dict = TableRowHeaderTextsNormalized.from_dict(
+            table_row_header_texts_normalized_model_json).__dict__
+        table_row_header_texts_normalized_model2 = TableRowHeaderTextsNormalized(
+            **table_row_header_texts_normalized_model_dict)
 
         # Verify the model instances are equivalent
         assert table_row_header_texts_normalized_model == table_row_header_texts_normalized_model2
 
         # Convert model instance back to dict and verify no loss of data
-        table_row_header_texts_normalized_model_json2 = table_row_header_texts_normalized_model.to_dict()
+        table_row_header_texts_normalized_model_json2 = table_row_header_texts_normalized_model.to_dict(
+        )
         assert table_row_header_texts_normalized_model_json2 == table_row_header_texts_normalized_model_json
+
 
 class TestModel_TableRowHeaders():
     """
     Test Class for TableRowHeaders
     """
-
     def test_table_row_headers_serialization(self):
         """
         Test serialization/deserialization for TableRowHeaders
@@ -8763,7 +9334,7 @@ class TestModel_TableRowHeaders():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        table_element_location_model = {} # TableElementLocation
+        table_element_location_model = {}  # TableElementLocation
         table_element_location_model['begin'] = 26
         table_element_location_model['end'] = 26
 
@@ -8779,12 +9350,15 @@ class TestModel_TableRowHeaders():
         table_row_headers_model_json['column_index_end'] = 26
 
         # Construct a model instance of TableRowHeaders by calling from_dict on the json representation
-        table_row_headers_model = TableRowHeaders.from_dict(table_row_headers_model_json)
+        table_row_headers_model = TableRowHeaders.from_dict(
+            table_row_headers_model_json)
         assert table_row_headers_model != False
 
         # Construct a model instance of TableRowHeaders by calling from_dict on the json representation
-        table_row_headers_model_dict = TableRowHeaders.from_dict(table_row_headers_model_json).__dict__
-        table_row_headers_model2 = TableRowHeaders(**table_row_headers_model_dict)
+        table_row_headers_model_dict = TableRowHeaders.from_dict(
+            table_row_headers_model_json).__dict__
+        table_row_headers_model2 = TableRowHeaders(
+            **table_row_headers_model_dict)
 
         # Verify the model instances are equivalent
         assert table_row_headers_model == table_row_headers_model2
@@ -8793,11 +9367,11 @@ class TestModel_TableRowHeaders():
         table_row_headers_model_json2 = table_row_headers_model.to_dict()
         assert table_row_headers_model_json2 == table_row_headers_model_json
 
+
 class TestModel_TableTextLocation():
     """
     Test Class for TableTextLocation
     """
-
     def test_table_text_location_serialization(self):
         """
         Test serialization/deserialization for TableTextLocation
@@ -8805,22 +9379,26 @@ class TestModel_TableTextLocation():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        table_element_location_model = {} # TableElementLocation
+        table_element_location_model = {}  # TableElementLocation
         table_element_location_model['begin'] = 26
         table_element_location_model['end'] = 26
 
         # Construct a json representation of a TableTextLocation model
         table_text_location_model_json = {}
         table_text_location_model_json['text'] = 'testString'
-        table_text_location_model_json['location'] = table_element_location_model
+        table_text_location_model_json[
+            'location'] = table_element_location_model
 
         # Construct a model instance of TableTextLocation by calling from_dict on the json representation
-        table_text_location_model = TableTextLocation.from_dict(table_text_location_model_json)
+        table_text_location_model = TableTextLocation.from_dict(
+            table_text_location_model_json)
         assert table_text_location_model != False
 
         # Construct a model instance of TableTextLocation by calling from_dict on the json representation
-        table_text_location_model_dict = TableTextLocation.from_dict(table_text_location_model_json).__dict__
-        table_text_location_model2 = TableTextLocation(**table_text_location_model_dict)
+        table_text_location_model_dict = TableTextLocation.from_dict(
+            table_text_location_model_json).__dict__
+        table_text_location_model2 = TableTextLocation(
+            **table_text_location_model_dict)
 
         # Verify the model instances are equivalent
         assert table_text_location_model == table_text_location_model2
@@ -8829,11 +9407,11 @@ class TestModel_TableTextLocation():
         table_text_location_model_json2 = table_text_location_model.to_dict()
         assert table_text_location_model_json2 == table_text_location_model_json
 
+
 class TestModel_TrainingExample():
     """
     Test Class for TrainingExample
     """
-
     def test_training_example_serialization(self):
         """
         Test serialization/deserialization for TrainingExample
@@ -8848,12 +9426,15 @@ class TestModel_TrainingExample():
         training_example_model_json['updated'] = '2019-01-01T12:00:00Z'
 
         # Construct a model instance of TrainingExample by calling from_dict on the json representation
-        training_example_model = TrainingExample.from_dict(training_example_model_json)
+        training_example_model = TrainingExample.from_dict(
+            training_example_model_json)
         assert training_example_model != False
 
         # Construct a model instance of TrainingExample by calling from_dict on the json representation
-        training_example_model_dict = TrainingExample.from_dict(training_example_model_json).__dict__
-        training_example_model2 = TrainingExample(**training_example_model_dict)
+        training_example_model_dict = TrainingExample.from_dict(
+            training_example_model_json).__dict__
+        training_example_model2 = TrainingExample(
+            **training_example_model_dict)
 
         # Verify the model instances are equivalent
         assert training_example_model == training_example_model2
@@ -8862,11 +9443,11 @@ class TestModel_TrainingExample():
         training_example_model_json2 = training_example_model.to_dict()
         assert training_example_model_json2 == training_example_model_json
 
+
 class TestModel_TrainingQuery():
     """
     Test Class for TrainingQuery
     """
-
     def test_training_query_serialization(self):
         """
         Test serialization/deserialization for TrainingQuery
@@ -8874,7 +9455,7 @@ class TestModel_TrainingQuery():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        training_example_model = {} # TrainingExample
+        training_example_model = {}  # TrainingExample
         training_example_model['document_id'] = 'testString'
         training_example_model['collection_id'] = 'testString'
         training_example_model['relevance'] = 38
@@ -8891,11 +9472,13 @@ class TestModel_TrainingQuery():
         training_query_model_json['examples'] = [training_example_model]
 
         # Construct a model instance of TrainingQuery by calling from_dict on the json representation
-        training_query_model = TrainingQuery.from_dict(training_query_model_json)
+        training_query_model = TrainingQuery.from_dict(
+            training_query_model_json)
         assert training_query_model != False
 
         # Construct a model instance of TrainingQuery by calling from_dict on the json representation
-        training_query_model_dict = TrainingQuery.from_dict(training_query_model_json).__dict__
+        training_query_model_dict = TrainingQuery.from_dict(
+            training_query_model_json).__dict__
         training_query_model2 = TrainingQuery(**training_query_model_dict)
 
         # Verify the model instances are equivalent
@@ -8905,11 +9488,11 @@ class TestModel_TrainingQuery():
         training_query_model_json2 = training_query_model.to_dict()
         assert training_query_model_json2 == training_query_model_json
 
+
 class TestModel_TrainingQuerySet():
     """
     Test Class for TrainingQuerySet
     """
-
     def test_training_query_set_serialization(self):
         """
         Test serialization/deserialization for TrainingQuerySet
@@ -8917,14 +9500,14 @@ class TestModel_TrainingQuerySet():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        training_example_model = {} # TrainingExample
+        training_example_model = {}  # TrainingExample
         training_example_model['document_id'] = 'testString'
         training_example_model['collection_id'] = 'testString'
         training_example_model['relevance'] = 38
         training_example_model['created'] = '2019-01-01T12:00:00Z'
         training_example_model['updated'] = '2019-01-01T12:00:00Z'
 
-        training_query_model = {} # TrainingQuery
+        training_query_model = {}  # TrainingQuery
         training_query_model['query_id'] = 'testString'
         training_query_model['natural_language_query'] = 'testString'
         training_query_model['filter'] = 'testString'
@@ -8937,12 +9520,15 @@ class TestModel_TrainingQuerySet():
         training_query_set_model_json['queries'] = [training_query_model]
 
         # Construct a model instance of TrainingQuerySet by calling from_dict on the json representation
-        training_query_set_model = TrainingQuerySet.from_dict(training_query_set_model_json)
+        training_query_set_model = TrainingQuerySet.from_dict(
+            training_query_set_model_json)
         assert training_query_set_model != False
 
         # Construct a model instance of TrainingQuerySet by calling from_dict on the json representation
-        training_query_set_model_dict = TrainingQuerySet.from_dict(training_query_set_model_json).__dict__
-        training_query_set_model2 = TrainingQuerySet(**training_query_set_model_dict)
+        training_query_set_model_dict = TrainingQuerySet.from_dict(
+            training_query_set_model_json).__dict__
+        training_query_set_model2 = TrainingQuerySet(
+            **training_query_set_model_dict)
 
         # Verify the model instances are equivalent
         assert training_query_set_model == training_query_set_model2
@@ -8951,11 +9537,11 @@ class TestModel_TrainingQuerySet():
         training_query_set_model_json2 = training_query_set_model.to_dict()
         assert training_query_set_model_json2 == training_query_set_model_json
 
+
 class TestModel_UpdateDocumentClassifier():
     """
     Test Class for UpdateDocumentClassifier
     """
-
     def test_update_document_classifier_serialization(self):
         """
         Test serialization/deserialization for UpdateDocumentClassifier
@@ -8967,25 +9553,29 @@ class TestModel_UpdateDocumentClassifier():
         update_document_classifier_model_json['description'] = 'testString'
 
         # Construct a model instance of UpdateDocumentClassifier by calling from_dict on the json representation
-        update_document_classifier_model = UpdateDocumentClassifier.from_dict(update_document_classifier_model_json)
+        update_document_classifier_model = UpdateDocumentClassifier.from_dict(
+            update_document_classifier_model_json)
         assert update_document_classifier_model != False
 
         # Construct a model instance of UpdateDocumentClassifier by calling from_dict on the json representation
-        update_document_classifier_model_dict = UpdateDocumentClassifier.from_dict(update_document_classifier_model_json).__dict__
-        update_document_classifier_model2 = UpdateDocumentClassifier(**update_document_classifier_model_dict)
+        update_document_classifier_model_dict = UpdateDocumentClassifier.from_dict(
+            update_document_classifier_model_json).__dict__
+        update_document_classifier_model2 = UpdateDocumentClassifier(
+            **update_document_classifier_model_dict)
 
         # Verify the model instances are equivalent
         assert update_document_classifier_model == update_document_classifier_model2
 
         # Convert model instance back to dict and verify no loss of data
-        update_document_classifier_model_json2 = update_document_classifier_model.to_dict()
+        update_document_classifier_model_json2 = update_document_classifier_model.to_dict(
+        )
         assert update_document_classifier_model_json2 == update_document_classifier_model_json
+
 
 class TestModel_QueryCalculationAggregation():
     """
     Test Class for QueryCalculationAggregation
     """
-
     def test_query_calculation_aggregation_serialization(self):
         """
         Test serialization/deserialization for QueryCalculationAggregation
@@ -8998,25 +9588,29 @@ class TestModel_QueryCalculationAggregation():
         query_calculation_aggregation_model_json['value'] = 72.5
 
         # Construct a model instance of QueryCalculationAggregation by calling from_dict on the json representation
-        query_calculation_aggregation_model = QueryCalculationAggregation.from_dict(query_calculation_aggregation_model_json)
+        query_calculation_aggregation_model = QueryCalculationAggregation.from_dict(
+            query_calculation_aggregation_model_json)
         assert query_calculation_aggregation_model != False
 
         # Construct a model instance of QueryCalculationAggregation by calling from_dict on the json representation
-        query_calculation_aggregation_model_dict = QueryCalculationAggregation.from_dict(query_calculation_aggregation_model_json).__dict__
-        query_calculation_aggregation_model2 = QueryCalculationAggregation(**query_calculation_aggregation_model_dict)
+        query_calculation_aggregation_model_dict = QueryCalculationAggregation.from_dict(
+            query_calculation_aggregation_model_json).__dict__
+        query_calculation_aggregation_model2 = QueryCalculationAggregation(
+            **query_calculation_aggregation_model_dict)
 
         # Verify the model instances are equivalent
         assert query_calculation_aggregation_model == query_calculation_aggregation_model2
 
         # Convert model instance back to dict and verify no loss of data
-        query_calculation_aggregation_model_json2 = query_calculation_aggregation_model.to_dict()
+        query_calculation_aggregation_model_json2 = query_calculation_aggregation_model.to_dict(
+        )
         assert query_calculation_aggregation_model_json2 == query_calculation_aggregation_model_json
+
 
 class TestModel_QueryFilterAggregation():
     """
     Test Class for QueryFilterAggregation
     """
-
     def test_query_filter_aggregation_serialization(self):
         """
         Test serialization/deserialization for QueryFilterAggregation
@@ -9029,25 +9623,29 @@ class TestModel_QueryFilterAggregation():
         query_filter_aggregation_model_json['matching_results'] = 26
 
         # Construct a model instance of QueryFilterAggregation by calling from_dict on the json representation
-        query_filter_aggregation_model = QueryFilterAggregation.from_dict(query_filter_aggregation_model_json)
+        query_filter_aggregation_model = QueryFilterAggregation.from_dict(
+            query_filter_aggregation_model_json)
         assert query_filter_aggregation_model != False
 
         # Construct a model instance of QueryFilterAggregation by calling from_dict on the json representation
-        query_filter_aggregation_model_dict = QueryFilterAggregation.from_dict(query_filter_aggregation_model_json).__dict__
-        query_filter_aggregation_model2 = QueryFilterAggregation(**query_filter_aggregation_model_dict)
+        query_filter_aggregation_model_dict = QueryFilterAggregation.from_dict(
+            query_filter_aggregation_model_json).__dict__
+        query_filter_aggregation_model2 = QueryFilterAggregation(
+            **query_filter_aggregation_model_dict)
 
         # Verify the model instances are equivalent
         assert query_filter_aggregation_model == query_filter_aggregation_model2
 
         # Convert model instance back to dict and verify no loss of data
-        query_filter_aggregation_model_json2 = query_filter_aggregation_model.to_dict()
+        query_filter_aggregation_model_json2 = query_filter_aggregation_model.to_dict(
+        )
         assert query_filter_aggregation_model_json2 == query_filter_aggregation_model_json
+
 
 class TestModel_QueryGroupByAggregation():
     """
     Test Class for QueryGroupByAggregation
     """
-
     def test_query_group_by_aggregation_serialization(self):
         """
         Test serialization/deserialization for QueryGroupByAggregation
@@ -9058,25 +9656,29 @@ class TestModel_QueryGroupByAggregation():
         query_group_by_aggregation_model_json['type'] = 'group_by'
 
         # Construct a model instance of QueryGroupByAggregation by calling from_dict on the json representation
-        query_group_by_aggregation_model = QueryGroupByAggregation.from_dict(query_group_by_aggregation_model_json)
+        query_group_by_aggregation_model = QueryGroupByAggregation.from_dict(
+            query_group_by_aggregation_model_json)
         assert query_group_by_aggregation_model != False
 
         # Construct a model instance of QueryGroupByAggregation by calling from_dict on the json representation
-        query_group_by_aggregation_model_dict = QueryGroupByAggregation.from_dict(query_group_by_aggregation_model_json).__dict__
-        query_group_by_aggregation_model2 = QueryGroupByAggregation(**query_group_by_aggregation_model_dict)
+        query_group_by_aggregation_model_dict = QueryGroupByAggregation.from_dict(
+            query_group_by_aggregation_model_json).__dict__
+        query_group_by_aggregation_model2 = QueryGroupByAggregation(
+            **query_group_by_aggregation_model_dict)
 
         # Verify the model instances are equivalent
         assert query_group_by_aggregation_model == query_group_by_aggregation_model2
 
         # Convert model instance back to dict and verify no loss of data
-        query_group_by_aggregation_model_json2 = query_group_by_aggregation_model.to_dict()
+        query_group_by_aggregation_model_json2 = query_group_by_aggregation_model.to_dict(
+        )
         assert query_group_by_aggregation_model_json2 == query_group_by_aggregation_model_json
+
 
 class TestModel_QueryHistogramAggregation():
     """
     Test Class for QueryHistogramAggregation
     """
-
     def test_query_histogram_aggregation_serialization(self):
         """
         Test serialization/deserialization for QueryHistogramAggregation
@@ -9090,25 +9692,29 @@ class TestModel_QueryHistogramAggregation():
         query_histogram_aggregation_model_json['name'] = 'testString'
 
         # Construct a model instance of QueryHistogramAggregation by calling from_dict on the json representation
-        query_histogram_aggregation_model = QueryHistogramAggregation.from_dict(query_histogram_aggregation_model_json)
+        query_histogram_aggregation_model = QueryHistogramAggregation.from_dict(
+            query_histogram_aggregation_model_json)
         assert query_histogram_aggregation_model != False
 
         # Construct a model instance of QueryHistogramAggregation by calling from_dict on the json representation
-        query_histogram_aggregation_model_dict = QueryHistogramAggregation.from_dict(query_histogram_aggregation_model_json).__dict__
-        query_histogram_aggregation_model2 = QueryHistogramAggregation(**query_histogram_aggregation_model_dict)
+        query_histogram_aggregation_model_dict = QueryHistogramAggregation.from_dict(
+            query_histogram_aggregation_model_json).__dict__
+        query_histogram_aggregation_model2 = QueryHistogramAggregation(
+            **query_histogram_aggregation_model_dict)
 
         # Verify the model instances are equivalent
         assert query_histogram_aggregation_model == query_histogram_aggregation_model2
 
         # Convert model instance back to dict and verify no loss of data
-        query_histogram_aggregation_model_json2 = query_histogram_aggregation_model.to_dict()
+        query_histogram_aggregation_model_json2 = query_histogram_aggregation_model.to_dict(
+        )
         assert query_histogram_aggregation_model_json2 == query_histogram_aggregation_model_json
+
 
 class TestModel_QueryNestedAggregation():
     """
     Test Class for QueryNestedAggregation
     """
-
     def test_query_nested_aggregation_serialization(self):
         """
         Test serialization/deserialization for QueryNestedAggregation
@@ -9121,25 +9727,29 @@ class TestModel_QueryNestedAggregation():
         query_nested_aggregation_model_json['matching_results'] = 26
 
         # Construct a model instance of QueryNestedAggregation by calling from_dict on the json representation
-        query_nested_aggregation_model = QueryNestedAggregation.from_dict(query_nested_aggregation_model_json)
+        query_nested_aggregation_model = QueryNestedAggregation.from_dict(
+            query_nested_aggregation_model_json)
         assert query_nested_aggregation_model != False
 
         # Construct a model instance of QueryNestedAggregation by calling from_dict on the json representation
-        query_nested_aggregation_model_dict = QueryNestedAggregation.from_dict(query_nested_aggregation_model_json).__dict__
-        query_nested_aggregation_model2 = QueryNestedAggregation(**query_nested_aggregation_model_dict)
+        query_nested_aggregation_model_dict = QueryNestedAggregation.from_dict(
+            query_nested_aggregation_model_json).__dict__
+        query_nested_aggregation_model2 = QueryNestedAggregation(
+            **query_nested_aggregation_model_dict)
 
         # Verify the model instances are equivalent
         assert query_nested_aggregation_model == query_nested_aggregation_model2
 
         # Convert model instance back to dict and verify no loss of data
-        query_nested_aggregation_model_json2 = query_nested_aggregation_model.to_dict()
+        query_nested_aggregation_model_json2 = query_nested_aggregation_model.to_dict(
+        )
         assert query_nested_aggregation_model_json2 == query_nested_aggregation_model_json
+
 
 class TestModel_QueryTermAggregation():
     """
     Test Class for QueryTermAggregation
     """
-
     def test_query_term_aggregation_serialization(self):
         """
         Test serialization/deserialization for QueryTermAggregation
@@ -9153,25 +9763,29 @@ class TestModel_QueryTermAggregation():
         query_term_aggregation_model_json['name'] = 'testString'
 
         # Construct a model instance of QueryTermAggregation by calling from_dict on the json representation
-        query_term_aggregation_model = QueryTermAggregation.from_dict(query_term_aggregation_model_json)
+        query_term_aggregation_model = QueryTermAggregation.from_dict(
+            query_term_aggregation_model_json)
         assert query_term_aggregation_model != False
 
         # Construct a model instance of QueryTermAggregation by calling from_dict on the json representation
-        query_term_aggregation_model_dict = QueryTermAggregation.from_dict(query_term_aggregation_model_json).__dict__
-        query_term_aggregation_model2 = QueryTermAggregation(**query_term_aggregation_model_dict)
+        query_term_aggregation_model_dict = QueryTermAggregation.from_dict(
+            query_term_aggregation_model_json).__dict__
+        query_term_aggregation_model2 = QueryTermAggregation(
+            **query_term_aggregation_model_dict)
 
         # Verify the model instances are equivalent
         assert query_term_aggregation_model == query_term_aggregation_model2
 
         # Convert model instance back to dict and verify no loss of data
-        query_term_aggregation_model_json2 = query_term_aggregation_model.to_dict()
+        query_term_aggregation_model_json2 = query_term_aggregation_model.to_dict(
+        )
         assert query_term_aggregation_model_json2 == query_term_aggregation_model_json
+
 
 class TestModel_QueryTimesliceAggregation():
     """
     Test Class for QueryTimesliceAggregation
     """
-
     def test_query_timeslice_aggregation_serialization(self):
         """
         Test serialization/deserialization for QueryTimesliceAggregation
@@ -9185,25 +9799,29 @@ class TestModel_QueryTimesliceAggregation():
         query_timeslice_aggregation_model_json['name'] = 'testString'
 
         # Construct a model instance of QueryTimesliceAggregation by calling from_dict on the json representation
-        query_timeslice_aggregation_model = QueryTimesliceAggregation.from_dict(query_timeslice_aggregation_model_json)
+        query_timeslice_aggregation_model = QueryTimesliceAggregation.from_dict(
+            query_timeslice_aggregation_model_json)
         assert query_timeslice_aggregation_model != False
 
         # Construct a model instance of QueryTimesliceAggregation by calling from_dict on the json representation
-        query_timeslice_aggregation_model_dict = QueryTimesliceAggregation.from_dict(query_timeslice_aggregation_model_json).__dict__
-        query_timeslice_aggregation_model2 = QueryTimesliceAggregation(**query_timeslice_aggregation_model_dict)
+        query_timeslice_aggregation_model_dict = QueryTimesliceAggregation.from_dict(
+            query_timeslice_aggregation_model_json).__dict__
+        query_timeslice_aggregation_model2 = QueryTimesliceAggregation(
+            **query_timeslice_aggregation_model_dict)
 
         # Verify the model instances are equivalent
         assert query_timeslice_aggregation_model == query_timeslice_aggregation_model2
 
         # Convert model instance back to dict and verify no loss of data
-        query_timeslice_aggregation_model_json2 = query_timeslice_aggregation_model.to_dict()
+        query_timeslice_aggregation_model_json2 = query_timeslice_aggregation_model.to_dict(
+        )
         assert query_timeslice_aggregation_model_json2 == query_timeslice_aggregation_model_json
+
 
 class TestModel_QueryTopHitsAggregation():
     """
     Test Class for QueryTopHitsAggregation
     """
-
     def test_query_top_hits_aggregation_serialization(self):
         """
         Test serialization/deserialization for QueryTopHitsAggregation
@@ -9211,30 +9829,38 @@ class TestModel_QueryTopHitsAggregation():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        query_top_hits_aggregation_result_model = {} # QueryTopHitsAggregationResult
+        query_top_hits_aggregation_result_model = {
+        }  # QueryTopHitsAggregationResult
         query_top_hits_aggregation_result_model['matching_results'] = 38
-        query_top_hits_aggregation_result_model['hits'] = [{'key1': 'testString'}]
+        query_top_hits_aggregation_result_model['hits'] = [{
+            'key1': 'testString'
+        }]
 
         # Construct a json representation of a QueryTopHitsAggregation model
         query_top_hits_aggregation_model_json = {}
         query_top_hits_aggregation_model_json['type'] = 'top_hits'
         query_top_hits_aggregation_model_json['size'] = 38
         query_top_hits_aggregation_model_json['name'] = 'testString'
-        query_top_hits_aggregation_model_json['hits'] = query_top_hits_aggregation_result_model
+        query_top_hits_aggregation_model_json[
+            'hits'] = query_top_hits_aggregation_result_model
 
         # Construct a model instance of QueryTopHitsAggregation by calling from_dict on the json representation
-        query_top_hits_aggregation_model = QueryTopHitsAggregation.from_dict(query_top_hits_aggregation_model_json)
+        query_top_hits_aggregation_model = QueryTopHitsAggregation.from_dict(
+            query_top_hits_aggregation_model_json)
         assert query_top_hits_aggregation_model != False
 
         # Construct a model instance of QueryTopHitsAggregation by calling from_dict on the json representation
-        query_top_hits_aggregation_model_dict = QueryTopHitsAggregation.from_dict(query_top_hits_aggregation_model_json).__dict__
-        query_top_hits_aggregation_model2 = QueryTopHitsAggregation(**query_top_hits_aggregation_model_dict)
+        query_top_hits_aggregation_model_dict = QueryTopHitsAggregation.from_dict(
+            query_top_hits_aggregation_model_json).__dict__
+        query_top_hits_aggregation_model2 = QueryTopHitsAggregation(
+            **query_top_hits_aggregation_model_dict)
 
         # Verify the model instances are equivalent
         assert query_top_hits_aggregation_model == query_top_hits_aggregation_model2
 
         # Convert model instance back to dict and verify no loss of data
-        query_top_hits_aggregation_model_json2 = query_top_hits_aggregation_model.to_dict()
+        query_top_hits_aggregation_model_json2 = query_top_hits_aggregation_model.to_dict(
+        )
         assert query_top_hits_aggregation_model_json2 == query_top_hits_aggregation_model_json
 
 
