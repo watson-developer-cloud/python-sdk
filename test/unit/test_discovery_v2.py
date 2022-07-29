@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2021.
+# (C) Copyright IBM Corp. 2022.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -36,2616 +36,37 @@ version = 'testString'
 _service = DiscoveryV2(
     authenticator=NoAuthAuthenticator(),
     version=version
-    )
+)
 
 _base_url = 'https://api.us-south.discovery.watson.cloud.ibm.com'
 _service.set_service_url(_base_url)
 
-##############################################################################
-# Start of Service: Collections
-##############################################################################
-# region
 
-class TestListCollections():
+def preprocess_url(operation_path: str):
     """
-    Test Class for list_collections
+    Returns the request url associated with the specified operation path.
+    This will be base_url concatenated with a quoted version of operation_path.
+    The returned request URL is used to register the mock response so it needs
+    to match the request URL that is formed by the requests library.
     """
+    # First, unquote the path since it might have some quoted/escaped characters in it
+    # due to how the generator inserts the operation paths into the unit test code.
+    operation_path = urllib.parse.unquote(operation_path)
+
+    # Next, quote the path using urllib so that we approximate what will
+    # happen during request processing.
+    operation_path = urllib.parse.quote(operation_path, safe='/')
+
+    # Finally, form the request URL from the base URL and operation path.
+    request_url = _base_url + operation_path
+
+    # If the request url does NOT end with a /, then just return it as-is.
+    # Otherwise, return a regular expression that matches one or more trailing /.
+    if re.fullmatch('.*/+', request_url) is None:
+        return request_url
+    else:
+        return re.compile(request_url.rstrip('/') + '/+')
 
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
-    @responses.activate
-    def test_list_collections_all_params(self):
-        """
-        list_collections()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections')
-        mock_response = '{"collections": [{"collection_id": "collection_id", "name": "name"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        project_id = 'testString'
-
-        # Invoke method
-        response = _service.list_collections(
-            project_id,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-    @responses.activate
-    def test_list_collections_value_error(self):
-        """
-        test_list_collections_value_error()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections')
-        mock_response = '{"collections": [{"collection_id": "collection_id", "name": "name"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        project_id = 'testString'
-
-        # Pass in all but one required param and check for a ValueError
-        req_param_dict = {
-            "project_id": project_id,
-        }
-        for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
-            with pytest.raises(ValueError):
-                _service.list_collections(**req_copy)
-
-
-
-class TestCreateCollection():
-    """
-    Test Class for create_collection
-    """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
-    @responses.activate
-    def test_create_collection_all_params(self):
-        """
-        create_collection()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections')
-        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Construct a dict representation of a CollectionEnrichment model
-        collection_enrichment_model = {}
-        collection_enrichment_model['enrichment_id'] = 'testString'
-        collection_enrichment_model['fields'] = ['testString']
-
-        # Set up parameter values
-        project_id = 'testString'
-        name = 'testString'
-        description = 'testString'
-        language = 'en'
-        enrichments = [collection_enrichment_model]
-
-        # Invoke method
-        response = _service.create_collection(
-            project_id,
-            name,
-            description=description,
-            language=language,
-            enrichments=enrichments,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-        # Validate body params
-        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
-        assert req_body['name'] == 'testString'
-        assert req_body['description'] == 'testString'
-        assert req_body['language'] == 'en'
-        assert req_body['enrichments'] == [collection_enrichment_model]
-
-
-    @responses.activate
-    def test_create_collection_value_error(self):
-        """
-        test_create_collection_value_error()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections')
-        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Construct a dict representation of a CollectionEnrichment model
-        collection_enrichment_model = {}
-        collection_enrichment_model['enrichment_id'] = 'testString'
-        collection_enrichment_model['fields'] = ['testString']
-
-        # Set up parameter values
-        project_id = 'testString'
-        name = 'testString'
-        description = 'testString'
-        language = 'en'
-        enrichments = [collection_enrichment_model]
-
-        # Pass in all but one required param and check for a ValueError
-        req_param_dict = {
-            "project_id": project_id,
-            "name": name,
-        }
-        for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
-            with pytest.raises(ValueError):
-                _service.create_collection(**req_copy)
-
-
-
-class TestGetCollection():
-    """
-    Test Class for get_collection
-    """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
-    @responses.activate
-    def test_get_collection_all_params(self):
-        """
-        get_collection()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections/testString')
-        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        project_id = 'testString'
-        collection_id = 'testString'
-
-        # Invoke method
-        response = _service.get_collection(
-            project_id,
-            collection_id,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-    @responses.activate
-    def test_get_collection_value_error(self):
-        """
-        test_get_collection_value_error()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections/testString')
-        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        project_id = 'testString'
-        collection_id = 'testString'
-
-        # Pass in all but one required param and check for a ValueError
-        req_param_dict = {
-            "project_id": project_id,
-            "collection_id": collection_id,
-        }
-        for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
-            with pytest.raises(ValueError):
-                _service.get_collection(**req_copy)
-
-
-
-class TestUpdateCollection():
-    """
-    Test Class for update_collection
-    """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
-    @responses.activate
-    def test_update_collection_all_params(self):
-        """
-        update_collection()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections/testString')
-        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Construct a dict representation of a CollectionEnrichment model
-        collection_enrichment_model = {}
-        collection_enrichment_model['enrichment_id'] = 'testString'
-        collection_enrichment_model['fields'] = ['testString']
-
-        # Set up parameter values
-        project_id = 'testString'
-        collection_id = 'testString'
-        name = 'testString'
-        description = 'testString'
-        enrichments = [collection_enrichment_model]
-
-        # Invoke method
-        response = _service.update_collection(
-            project_id,
-            collection_id,
-            name=name,
-            description=description,
-            enrichments=enrichments,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-        # Validate body params
-        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
-        assert req_body['name'] == 'testString'
-        assert req_body['description'] == 'testString'
-        assert req_body['enrichments'] == [collection_enrichment_model]
-
-
-    @responses.activate
-    def test_update_collection_value_error(self):
-        """
-        test_update_collection_value_error()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections/testString')
-        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Construct a dict representation of a CollectionEnrichment model
-        collection_enrichment_model = {}
-        collection_enrichment_model['enrichment_id'] = 'testString'
-        collection_enrichment_model['fields'] = ['testString']
-
-        # Set up parameter values
-        project_id = 'testString'
-        collection_id = 'testString'
-        name = 'testString'
-        description = 'testString'
-        enrichments = [collection_enrichment_model]
-
-        # Pass in all but one required param and check for a ValueError
-        req_param_dict = {
-            "project_id": project_id,
-            "collection_id": collection_id,
-        }
-        for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
-            with pytest.raises(ValueError):
-                _service.update_collection(**req_copy)
-
-
-
-class TestDeleteCollection():
-    """
-    Test Class for delete_collection
-    """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
-    @responses.activate
-    def test_delete_collection_all_params(self):
-        """
-        delete_collection()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
-
-        # Set up parameter values
-        project_id = 'testString'
-        collection_id = 'testString'
-
-        # Invoke method
-        response = _service.delete_collection(
-            project_id,
-            collection_id,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 204
-
-
-    @responses.activate
-    def test_delete_collection_value_error(self):
-        """
-        test_delete_collection_value_error()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
-
-        # Set up parameter values
-        project_id = 'testString'
-        collection_id = 'testString'
-
-        # Pass in all but one required param and check for a ValueError
-        req_param_dict = {
-            "project_id": project_id,
-            "collection_id": collection_id,
-        }
-        for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
-            with pytest.raises(ValueError):
-                _service.delete_collection(**req_copy)
-
-
-
-# endregion
-##############################################################################
-# End of Service: Collections
-##############################################################################
-
-##############################################################################
-# Start of Service: Queries
-##############################################################################
-# region
-
-class TestQuery():
-    """
-    Test Class for query
-    """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
-    @responses.activate
-    def test_query_all_params(self):
-        """
-        query()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/query')
-        mock_response = '{"matching_results": 16, "results": [{"document_id": "document_id", "metadata": {"mapKey": "anyValue"}, "result_metadata": {"document_retrieval_source": "search", "collection_id": "collection_id", "confidence": 10}, "document_passages": [{"passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field", "confidence": 0, "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query", "suggested_refinements": [{"text": "text"}], "table_results": [{"table_id": "table_id", "source_document_id": "source_document_id", "collection_id": "collection_id", "table_html": "table_html", "table_html_offset": 17, "table": {"location": {"begin": 5, "end": 3}, "text": "text", "section_title": {"text": "text", "location": {"begin": 5, "end": 3}}, "title": {"text": "text", "location": {"begin": 5, "end": 3}}, "table_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "row_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "column_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "key_value_pairs": [{"key": {"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}, "value": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}]}], "body_cells": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16, "row_header_ids": [{"id": "id"}], "row_header_texts": [{"text": "text"}], "row_header_texts_normalized": [{"text_normalized": "text_normalized"}], "column_header_ids": [{"id": "id"}], "column_header_texts": [{"text": "text"}], "column_header_texts_normalized": [{"text_normalized": "text_normalized"}], "attributes": [{"type": "type", "text": "text", "location": {"begin": 5, "end": 3}}]}], "contexts": [{"text": "text", "location": {"begin": 5, "end": 3}}]}}], "passages": [{"passage_text": "passage_text", "passage_score": 13, "document_id": "document_id", "collection_id": "collection_id", "start_offset": 12, "end_offset": 10, "field": "field", "confidence": 0, "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Construct a dict representation of a QueryLargeTableResults model
-        query_large_table_results_model = {}
-        query_large_table_results_model['enabled'] = True
-        query_large_table_results_model['count'] = 38
-
-        # Construct a dict representation of a QueryLargeSuggestedRefinements model
-        query_large_suggested_refinements_model = {}
-        query_large_suggested_refinements_model['enabled'] = True
-        query_large_suggested_refinements_model['count'] = 1
-
-        # Construct a dict representation of a QueryLargePassages model
-        query_large_passages_model = {}
-        query_large_passages_model['enabled'] = True
-        query_large_passages_model['per_document'] = True
-        query_large_passages_model['max_per_document'] = 38
-        query_large_passages_model['fields'] = ['testString']
-        query_large_passages_model['count'] = 400
-        query_large_passages_model['characters'] = 50
-        query_large_passages_model['find_answers'] = False
-        query_large_passages_model['max_answers_per_passage'] = 38
-
-        # Set up parameter values
-        project_id = 'testString'
-        collection_ids = ['testString']
-        filter = 'testString'
-        query = 'testString'
-        natural_language_query = 'testString'
-        aggregation = 'testString'
-        count = 38
-        return_ = ['testString']
-        offset = 38
-        sort = 'testString'
-        highlight = True
-        spelling_suggestions = True
-        table_results = query_large_table_results_model
-        suggested_refinements = query_large_suggested_refinements_model
-        passages = query_large_passages_model
-
-        # Invoke method
-        response = _service.query(
-            project_id,
-            collection_ids=collection_ids,
-            filter=filter,
-            query=query,
-            natural_language_query=natural_language_query,
-            aggregation=aggregation,
-            count=count,
-            return_=return_,
-            offset=offset,
-            sort=sort,
-            highlight=highlight,
-            spelling_suggestions=spelling_suggestions,
-            table_results=table_results,
-            suggested_refinements=suggested_refinements,
-            passages=passages,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-        # Validate body params
-        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
-        assert req_body['collection_ids'] == ['testString']
-        assert req_body['filter'] == 'testString'
-        assert req_body['query'] == 'testString'
-        assert req_body['natural_language_query'] == 'testString'
-        assert req_body['aggregation'] == 'testString'
-        assert req_body['count'] == 38
-        assert req_body['return'] == ['testString']
-        assert req_body['offset'] == 38
-        assert req_body['sort'] == 'testString'
-        assert req_body['highlight'] == True
-        assert req_body['spelling_suggestions'] == True
-        assert req_body['table_results'] == query_large_table_results_model
-        assert req_body['suggested_refinements'] == query_large_suggested_refinements_model
-        assert req_body['passages'] == query_large_passages_model
-
-
-    @responses.activate
-    def test_query_required_params(self):
-        """
-        test_query_required_params()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/query')
-        mock_response = '{"matching_results": 16, "results": [{"document_id": "document_id", "metadata": {"mapKey": "anyValue"}, "result_metadata": {"document_retrieval_source": "search", "collection_id": "collection_id", "confidence": 10}, "document_passages": [{"passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field", "confidence": 0, "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query", "suggested_refinements": [{"text": "text"}], "table_results": [{"table_id": "table_id", "source_document_id": "source_document_id", "collection_id": "collection_id", "table_html": "table_html", "table_html_offset": 17, "table": {"location": {"begin": 5, "end": 3}, "text": "text", "section_title": {"text": "text", "location": {"begin": 5, "end": 3}}, "title": {"text": "text", "location": {"begin": 5, "end": 3}}, "table_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "row_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "column_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "key_value_pairs": [{"key": {"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}, "value": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}]}], "body_cells": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16, "row_header_ids": [{"id": "id"}], "row_header_texts": [{"text": "text"}], "row_header_texts_normalized": [{"text_normalized": "text_normalized"}], "column_header_ids": [{"id": "id"}], "column_header_texts": [{"text": "text"}], "column_header_texts_normalized": [{"text_normalized": "text_normalized"}], "attributes": [{"type": "type", "text": "text", "location": {"begin": 5, "end": 3}}]}], "contexts": [{"text": "text", "location": {"begin": 5, "end": 3}}]}}], "passages": [{"passage_text": "passage_text", "passage_score": 13, "document_id": "document_id", "collection_id": "collection_id", "start_offset": 12, "end_offset": 10, "field": "field", "confidence": 0, "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        project_id = 'testString'
-
-        # Invoke method
-        response = _service.query(
-            project_id,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-    @responses.activate
-    def test_query_value_error(self):
-        """
-        test_query_value_error()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/query')
-        mock_response = '{"matching_results": 16, "results": [{"document_id": "document_id", "metadata": {"mapKey": "anyValue"}, "result_metadata": {"document_retrieval_source": "search", "collection_id": "collection_id", "confidence": 10}, "document_passages": [{"passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field", "confidence": 0, "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query", "suggested_refinements": [{"text": "text"}], "table_results": [{"table_id": "table_id", "source_document_id": "source_document_id", "collection_id": "collection_id", "table_html": "table_html", "table_html_offset": 17, "table": {"location": {"begin": 5, "end": 3}, "text": "text", "section_title": {"text": "text", "location": {"begin": 5, "end": 3}}, "title": {"text": "text", "location": {"begin": 5, "end": 3}}, "table_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "row_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "column_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "key_value_pairs": [{"key": {"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}, "value": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}]}], "body_cells": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16, "row_header_ids": [{"id": "id"}], "row_header_texts": [{"text": "text"}], "row_header_texts_normalized": [{"text_normalized": "text_normalized"}], "column_header_ids": [{"id": "id"}], "column_header_texts": [{"text": "text"}], "column_header_texts_normalized": [{"text_normalized": "text_normalized"}], "attributes": [{"type": "type", "text": "text", "location": {"begin": 5, "end": 3}}]}], "contexts": [{"text": "text", "location": {"begin": 5, "end": 3}}]}}], "passages": [{"passage_text": "passage_text", "passage_score": 13, "document_id": "document_id", "collection_id": "collection_id", "start_offset": 12, "end_offset": 10, "field": "field", "confidence": 0, "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        project_id = 'testString'
-
-        # Pass in all but one required param and check for a ValueError
-        req_param_dict = {
-            "project_id": project_id,
-        }
-        for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
-            with pytest.raises(ValueError):
-                _service.query(**req_copy)
-
-
-
-class TestGetAutocompletion():
-    """
-    Test Class for get_autocompletion
-    """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
-    @responses.activate
-    def test_get_autocompletion_all_params(self):
-        """
-        get_autocompletion()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/autocompletion')
-        mock_response = '{"completions": ["completions"]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        project_id = 'testString'
-        prefix = 'testString'
-        collection_ids = ['testString']
-        field = 'testString'
-        count = 38
-
-        # Invoke method
-        response = _service.get_autocompletion(
-            project_id,
-            prefix,
-            collection_ids=collection_ids,
-            field=field,
-            count=count,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-        # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
-        query_string = urllib.parse.unquote_plus(query_string)
-        assert 'prefix={}'.format(prefix) in query_string
-        assert 'collection_ids={}'.format(','.join(collection_ids)) in query_string
-        assert 'field={}'.format(field) in query_string
-        assert 'count={}'.format(count) in query_string
-
-
-    @responses.activate
-    def test_get_autocompletion_required_params(self):
-        """
-        test_get_autocompletion_required_params()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/autocompletion')
-        mock_response = '{"completions": ["completions"]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        project_id = 'testString'
-        prefix = 'testString'
-
-        # Invoke method
-        response = _service.get_autocompletion(
-            project_id,
-            prefix,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-        # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
-        query_string = urllib.parse.unquote_plus(query_string)
-        assert 'prefix={}'.format(prefix) in query_string
-
-
-    @responses.activate
-    def test_get_autocompletion_value_error(self):
-        """
-        test_get_autocompletion_value_error()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/autocompletion')
-        mock_response = '{"completions": ["completions"]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        project_id = 'testString'
-        prefix = 'testString'
-
-        # Pass in all but one required param and check for a ValueError
-        req_param_dict = {
-            "project_id": project_id,
-            "prefix": prefix,
-        }
-        for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
-            with pytest.raises(ValueError):
-                _service.get_autocompletion(**req_copy)
-
-
-
-class TestQueryCollectionNotices():
-    """
-    Test Class for query_collection_notices
-    """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
-    @responses.activate
-    def test_query_collection_notices_all_params(self):
-        """
-        query_collection_notices()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections/testString/notices')
-        mock_response = '{"matching_results": 16, "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        project_id = 'testString'
-        collection_id = 'testString'
-        filter = 'testString'
-        query = 'testString'
-        natural_language_query = 'testString'
-        count = 38
-        offset = 38
-
-        # Invoke method
-        response = _service.query_collection_notices(
-            project_id,
-            collection_id,
-            filter=filter,
-            query=query,
-            natural_language_query=natural_language_query,
-            count=count,
-            offset=offset,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-        # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
-        query_string = urllib.parse.unquote_plus(query_string)
-        assert 'filter={}'.format(filter) in query_string
-        assert 'query={}'.format(query) in query_string
-        assert 'natural_language_query={}'.format(natural_language_query) in query_string
-        assert 'count={}'.format(count) in query_string
-        assert 'offset={}'.format(offset) in query_string
-
-
-    @responses.activate
-    def test_query_collection_notices_required_params(self):
-        """
-        test_query_collection_notices_required_params()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections/testString/notices')
-        mock_response = '{"matching_results": 16, "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        project_id = 'testString'
-        collection_id = 'testString'
-
-        # Invoke method
-        response = _service.query_collection_notices(
-            project_id,
-            collection_id,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-    @responses.activate
-    def test_query_collection_notices_value_error(self):
-        """
-        test_query_collection_notices_value_error()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections/testString/notices')
-        mock_response = '{"matching_results": 16, "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        project_id = 'testString'
-        collection_id = 'testString'
-
-        # Pass in all but one required param and check for a ValueError
-        req_param_dict = {
-            "project_id": project_id,
-            "collection_id": collection_id,
-        }
-        for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
-            with pytest.raises(ValueError):
-                _service.query_collection_notices(**req_copy)
-
-
-
-class TestQueryNotices():
-    """
-    Test Class for query_notices
-    """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
-    @responses.activate
-    def test_query_notices_all_params(self):
-        """
-        query_notices()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/notices')
-        mock_response = '{"matching_results": 16, "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        project_id = 'testString'
-        filter = 'testString'
-        query = 'testString'
-        natural_language_query = 'testString'
-        count = 38
-        offset = 38
-
-        # Invoke method
-        response = _service.query_notices(
-            project_id,
-            filter=filter,
-            query=query,
-            natural_language_query=natural_language_query,
-            count=count,
-            offset=offset,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-        # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
-        query_string = urllib.parse.unquote_plus(query_string)
-        assert 'filter={}'.format(filter) in query_string
-        assert 'query={}'.format(query) in query_string
-        assert 'natural_language_query={}'.format(natural_language_query) in query_string
-        assert 'count={}'.format(count) in query_string
-        assert 'offset={}'.format(offset) in query_string
-
-
-    @responses.activate
-    def test_query_notices_required_params(self):
-        """
-        test_query_notices_required_params()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/notices')
-        mock_response = '{"matching_results": 16, "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        project_id = 'testString'
-
-        # Invoke method
-        response = _service.query_notices(
-            project_id,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-    @responses.activate
-    def test_query_notices_value_error(self):
-        """
-        test_query_notices_value_error()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/notices')
-        mock_response = '{"matching_results": 16, "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        project_id = 'testString'
-
-        # Pass in all but one required param and check for a ValueError
-        req_param_dict = {
-            "project_id": project_id,
-        }
-        for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
-            with pytest.raises(ValueError):
-                _service.query_notices(**req_copy)
-
-
-
-class TestListFields():
-    """
-    Test Class for list_fields
-    """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
-    @responses.activate
-    def test_list_fields_all_params(self):
-        """
-        list_fields()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/fields')
-        mock_response = '{"fields": [{"field": "field", "type": "nested", "collection_id": "collection_id"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        project_id = 'testString'
-        collection_ids = ['testString']
-
-        # Invoke method
-        response = _service.list_fields(
-            project_id,
-            collection_ids=collection_ids,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-        # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
-        query_string = urllib.parse.unquote_plus(query_string)
-        assert 'collection_ids={}'.format(','.join(collection_ids)) in query_string
-
-
-    @responses.activate
-    def test_list_fields_required_params(self):
-        """
-        test_list_fields_required_params()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/fields')
-        mock_response = '{"fields": [{"field": "field", "type": "nested", "collection_id": "collection_id"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        project_id = 'testString'
-
-        # Invoke method
-        response = _service.list_fields(
-            project_id,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-    @responses.activate
-    def test_list_fields_value_error(self):
-        """
-        test_list_fields_value_error()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/fields')
-        mock_response = '{"fields": [{"field": "field", "type": "nested", "collection_id": "collection_id"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        project_id = 'testString'
-
-        # Pass in all but one required param and check for a ValueError
-        req_param_dict = {
-            "project_id": project_id,
-        }
-        for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
-            with pytest.raises(ValueError):
-                _service.list_fields(**req_copy)
-
-
-
-# endregion
-##############################################################################
-# End of Service: Queries
-##############################################################################
-
-##############################################################################
-# Start of Service: ComponentSettings
-##############################################################################
-# region
-
-class TestGetComponentSettings():
-    """
-    Test Class for get_component_settings
-    """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
-    @responses.activate
-    def test_get_component_settings_all_params(self):
-        """
-        get_component_settings()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/component_settings')
-        mock_response = '{"fields_shown": {"body": {"use_passage": false, "field": "field"}, "title": {"field": "field"}}, "autocomplete": true, "structured_search": false, "results_per_page": 16, "aggregations": [{"name": "name", "label": "label", "multiple_selections_allowed": false, "visualization_type": "auto"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        project_id = 'testString'
-
-        # Invoke method
-        response = _service.get_component_settings(
-            project_id,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-    @responses.activate
-    def test_get_component_settings_value_error(self):
-        """
-        test_get_component_settings_value_error()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/component_settings')
-        mock_response = '{"fields_shown": {"body": {"use_passage": false, "field": "field"}, "title": {"field": "field"}}, "autocomplete": true, "structured_search": false, "results_per_page": 16, "aggregations": [{"name": "name", "label": "label", "multiple_selections_allowed": false, "visualization_type": "auto"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        project_id = 'testString'
-
-        # Pass in all but one required param and check for a ValueError
-        req_param_dict = {
-            "project_id": project_id,
-        }
-        for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
-            with pytest.raises(ValueError):
-                _service.get_component_settings(**req_copy)
-
-
-
-# endregion
-##############################################################################
-# End of Service: ComponentSettings
-##############################################################################
-
-##############################################################################
-# Start of Service: Documents
-##############################################################################
-# region
-
-class TestAddDocument():
-    """
-    Test Class for add_document
-    """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
-    @responses.activate
-    def test_add_document_all_params(self):
-        """
-        add_document()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections/testString/documents')
-        mock_response = '{"document_id": "document_id", "status": "processing"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=202)
-
-        # Set up parameter values
-        project_id = 'testString'
-        collection_id = 'testString'
-        file = io.BytesIO(b'This is a mock file.').getvalue()
-        filename = 'testString'
-        file_content_type = 'application/json'
-        metadata = 'testString'
-        x_watson_discovery_force = False
-
-        # Invoke method
-        response = _service.add_document(
-            project_id,
-            collection_id,
-            file=file,
-            filename=filename,
-            file_content_type=file_content_type,
-            metadata=metadata,
-            x_watson_discovery_force=x_watson_discovery_force,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 202
-
-
-    @responses.activate
-    def test_add_document_required_params(self):
-        """
-        test_add_document_required_params()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections/testString/documents')
-        mock_response = '{"document_id": "document_id", "status": "processing"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=202)
-
-        # Set up parameter values
-        project_id = 'testString'
-        collection_id = 'testString'
-
-        # Invoke method
-        response = _service.add_document(
-            project_id,
-            collection_id,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 202
-
-
-    @responses.activate
-    def test_add_document_value_error(self):
-        """
-        test_add_document_value_error()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections/testString/documents')
-        mock_response = '{"document_id": "document_id", "status": "processing"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=202)
-
-        # Set up parameter values
-        project_id = 'testString'
-        collection_id = 'testString'
-
-        # Pass in all but one required param and check for a ValueError
-        req_param_dict = {
-            "project_id": project_id,
-            "collection_id": collection_id,
-        }
-        for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
-            with pytest.raises(ValueError):
-                _service.add_document(**req_copy)
-
-
-
-class TestUpdateDocument():
-    """
-    Test Class for update_document
-    """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
-    @responses.activate
-    def test_update_document_all_params(self):
-        """
-        update_document()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections/testString/documents/testString')
-        mock_response = '{"document_id": "document_id", "status": "processing"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=202)
-
-        # Set up parameter values
-        project_id = 'testString'
-        collection_id = 'testString'
-        document_id = 'testString'
-        file = io.BytesIO(b'This is a mock file.').getvalue()
-        filename = 'testString'
-        file_content_type = 'application/json'
-        metadata = 'testString'
-        x_watson_discovery_force = False
-
-        # Invoke method
-        response = _service.update_document(
-            project_id,
-            collection_id,
-            document_id,
-            file=file,
-            filename=filename,
-            file_content_type=file_content_type,
-            metadata=metadata,
-            x_watson_discovery_force=x_watson_discovery_force,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 202
-
-
-    @responses.activate
-    def test_update_document_required_params(self):
-        """
-        test_update_document_required_params()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections/testString/documents/testString')
-        mock_response = '{"document_id": "document_id", "status": "processing"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=202)
-
-        # Set up parameter values
-        project_id = 'testString'
-        collection_id = 'testString'
-        document_id = 'testString'
-
-        # Invoke method
-        response = _service.update_document(
-            project_id,
-            collection_id,
-            document_id,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 202
-
-
-    @responses.activate
-    def test_update_document_value_error(self):
-        """
-        test_update_document_value_error()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections/testString/documents/testString')
-        mock_response = '{"document_id": "document_id", "status": "processing"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=202)
-
-        # Set up parameter values
-        project_id = 'testString'
-        collection_id = 'testString'
-        document_id = 'testString'
-
-        # Pass in all but one required param and check for a ValueError
-        req_param_dict = {
-            "project_id": project_id,
-            "collection_id": collection_id,
-            "document_id": document_id,
-        }
-        for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
-            with pytest.raises(ValueError):
-                _service.update_document(**req_copy)
-
-
-
-class TestDeleteDocument():
-    """
-    Test Class for delete_document
-    """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
-    @responses.activate
-    def test_delete_document_all_params(self):
-        """
-        delete_document()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections/testString/documents/testString')
-        mock_response = '{"document_id": "document_id", "status": "deleted"}'
-        responses.add(responses.DELETE,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        project_id = 'testString'
-        collection_id = 'testString'
-        document_id = 'testString'
-        x_watson_discovery_force = False
-
-        # Invoke method
-        response = _service.delete_document(
-            project_id,
-            collection_id,
-            document_id,
-            x_watson_discovery_force=x_watson_discovery_force,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-    @responses.activate
-    def test_delete_document_required_params(self):
-        """
-        test_delete_document_required_params()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections/testString/documents/testString')
-        mock_response = '{"document_id": "document_id", "status": "deleted"}'
-        responses.add(responses.DELETE,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        project_id = 'testString'
-        collection_id = 'testString'
-        document_id = 'testString'
-
-        # Invoke method
-        response = _service.delete_document(
-            project_id,
-            collection_id,
-            document_id,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-    @responses.activate
-    def test_delete_document_value_error(self):
-        """
-        test_delete_document_value_error()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections/testString/documents/testString')
-        mock_response = '{"document_id": "document_id", "status": "deleted"}'
-        responses.add(responses.DELETE,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        project_id = 'testString'
-        collection_id = 'testString'
-        document_id = 'testString'
-
-        # Pass in all but one required param and check for a ValueError
-        req_param_dict = {
-            "project_id": project_id,
-            "collection_id": collection_id,
-            "document_id": document_id,
-        }
-        for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
-            with pytest.raises(ValueError):
-                _service.delete_document(**req_copy)
-
-
-
-# endregion
-##############################################################################
-# End of Service: Documents
-##############################################################################
-
-##############################################################################
-# Start of Service: TrainingData
-##############################################################################
-# region
-
-class TestListTrainingQueries():
-    """
-    Test Class for list_training_queries
-    """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
-    @responses.activate
-    def test_list_training_queries_all_params(self):
-        """
-        list_training_queries()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/training_data/queries')
-        mock_response = '{"queries": [{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"document_id": "document_id", "collection_id": "collection_id", "relevance": 9, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        project_id = 'testString'
-
-        # Invoke method
-        response = _service.list_training_queries(
-            project_id,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-    @responses.activate
-    def test_list_training_queries_value_error(self):
-        """
-        test_list_training_queries_value_error()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/training_data/queries')
-        mock_response = '{"queries": [{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"document_id": "document_id", "collection_id": "collection_id", "relevance": 9, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        project_id = 'testString'
-
-        # Pass in all but one required param and check for a ValueError
-        req_param_dict = {
-            "project_id": project_id,
-        }
-        for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
-            with pytest.raises(ValueError):
-                _service.list_training_queries(**req_copy)
-
-
-
-class TestDeleteTrainingQueries():
-    """
-    Test Class for delete_training_queries
-    """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
-    @responses.activate
-    def test_delete_training_queries_all_params(self):
-        """
-        delete_training_queries()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/training_data/queries')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
-
-        # Set up parameter values
-        project_id = 'testString'
-
-        # Invoke method
-        response = _service.delete_training_queries(
-            project_id,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 204
-
-
-    @responses.activate
-    def test_delete_training_queries_value_error(self):
-        """
-        test_delete_training_queries_value_error()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/training_data/queries')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
-
-        # Set up parameter values
-        project_id = 'testString'
-
-        # Pass in all but one required param and check for a ValueError
-        req_param_dict = {
-            "project_id": project_id,
-        }
-        for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
-            with pytest.raises(ValueError):
-                _service.delete_training_queries(**req_copy)
-
-
-
-class TestCreateTrainingQuery():
-    """
-    Test Class for create_training_query
-    """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
-    @responses.activate
-    def test_create_training_query_all_params(self):
-        """
-        create_training_query()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/training_data/queries')
-        mock_response = '{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"document_id": "document_id", "collection_id": "collection_id", "relevance": 9, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
-
-        # Construct a dict representation of a TrainingExample model
-        training_example_model = {}
-        training_example_model['document_id'] = 'testString'
-        training_example_model['collection_id'] = 'testString'
-        training_example_model['relevance'] = 38
-
-        # Set up parameter values
-        project_id = 'testString'
-        natural_language_query = 'testString'
-        examples = [training_example_model]
-        filter = 'testString'
-
-        # Invoke method
-        response = _service.create_training_query(
-            project_id,
-            natural_language_query,
-            examples,
-            filter=filter,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 201
-        # Validate body params
-        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
-        assert req_body['natural_language_query'] == 'testString'
-        assert req_body['examples'] == [training_example_model]
-        assert req_body['filter'] == 'testString'
-
-
-    @responses.activate
-    def test_create_training_query_value_error(self):
-        """
-        test_create_training_query_value_error()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/training_data/queries')
-        mock_response = '{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"document_id": "document_id", "collection_id": "collection_id", "relevance": 9, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
-
-        # Construct a dict representation of a TrainingExample model
-        training_example_model = {}
-        training_example_model['document_id'] = 'testString'
-        training_example_model['collection_id'] = 'testString'
-        training_example_model['relevance'] = 38
-
-        # Set up parameter values
-        project_id = 'testString'
-        natural_language_query = 'testString'
-        examples = [training_example_model]
-        filter = 'testString'
-
-        # Pass in all but one required param and check for a ValueError
-        req_param_dict = {
-            "project_id": project_id,
-            "natural_language_query": natural_language_query,
-            "examples": examples,
-        }
-        for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
-            with pytest.raises(ValueError):
-                _service.create_training_query(**req_copy)
-
-
-
-class TestGetTrainingQuery():
-    """
-    Test Class for get_training_query
-    """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
-    @responses.activate
-    def test_get_training_query_all_params(self):
-        """
-        get_training_query()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/training_data/queries/testString')
-        mock_response = '{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"document_id": "document_id", "collection_id": "collection_id", "relevance": 9, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        project_id = 'testString'
-        query_id = 'testString'
-
-        # Invoke method
-        response = _service.get_training_query(
-            project_id,
-            query_id,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-    @responses.activate
-    def test_get_training_query_value_error(self):
-        """
-        test_get_training_query_value_error()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/training_data/queries/testString')
-        mock_response = '{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"document_id": "document_id", "collection_id": "collection_id", "relevance": 9, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        project_id = 'testString'
-        query_id = 'testString'
-
-        # Pass in all but one required param and check for a ValueError
-        req_param_dict = {
-            "project_id": project_id,
-            "query_id": query_id,
-        }
-        for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
-            with pytest.raises(ValueError):
-                _service.get_training_query(**req_copy)
-
-
-
-class TestUpdateTrainingQuery():
-    """
-    Test Class for update_training_query
-    """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
-    @responses.activate
-    def test_update_training_query_all_params(self):
-        """
-        update_training_query()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/training_data/queries/testString')
-        mock_response = '{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"document_id": "document_id", "collection_id": "collection_id", "relevance": 9, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
-
-        # Construct a dict representation of a TrainingExample model
-        training_example_model = {}
-        training_example_model['document_id'] = 'testString'
-        training_example_model['collection_id'] = 'testString'
-        training_example_model['relevance'] = 38
-
-        # Set up parameter values
-        project_id = 'testString'
-        query_id = 'testString'
-        natural_language_query = 'testString'
-        examples = [training_example_model]
-        filter = 'testString'
-
-        # Invoke method
-        response = _service.update_training_query(
-            project_id,
-            query_id,
-            natural_language_query,
-            examples,
-            filter=filter,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 201
-        # Validate body params
-        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
-        assert req_body['natural_language_query'] == 'testString'
-        assert req_body['examples'] == [training_example_model]
-        assert req_body['filter'] == 'testString'
-
-
-    @responses.activate
-    def test_update_training_query_value_error(self):
-        """
-        test_update_training_query_value_error()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/training_data/queries/testString')
-        mock_response = '{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"document_id": "document_id", "collection_id": "collection_id", "relevance": 9, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
-
-        # Construct a dict representation of a TrainingExample model
-        training_example_model = {}
-        training_example_model['document_id'] = 'testString'
-        training_example_model['collection_id'] = 'testString'
-        training_example_model['relevance'] = 38
-
-        # Set up parameter values
-        project_id = 'testString'
-        query_id = 'testString'
-        natural_language_query = 'testString'
-        examples = [training_example_model]
-        filter = 'testString'
-
-        # Pass in all but one required param and check for a ValueError
-        req_param_dict = {
-            "project_id": project_id,
-            "query_id": query_id,
-            "natural_language_query": natural_language_query,
-            "examples": examples,
-        }
-        for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
-            with pytest.raises(ValueError):
-                _service.update_training_query(**req_copy)
-
-
-
-class TestDeleteTrainingQuery():
-    """
-    Test Class for delete_training_query
-    """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
-    @responses.activate
-    def test_delete_training_query_all_params(self):
-        """
-        delete_training_query()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/training_data/queries/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
-
-        # Set up parameter values
-        project_id = 'testString'
-        query_id = 'testString'
-
-        # Invoke method
-        response = _service.delete_training_query(
-            project_id,
-            query_id,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 204
-
-
-    @responses.activate
-    def test_delete_training_query_value_error(self):
-        """
-        test_delete_training_query_value_error()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/training_data/queries/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
-
-        # Set up parameter values
-        project_id = 'testString'
-        query_id = 'testString'
-
-        # Pass in all but one required param and check for a ValueError
-        req_param_dict = {
-            "project_id": project_id,
-            "query_id": query_id,
-        }
-        for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
-            with pytest.raises(ValueError):
-                _service.delete_training_query(**req_copy)
-
-
-
-# endregion
-##############################################################################
-# End of Service: TrainingData
-##############################################################################
-
-##############################################################################
-# Start of Service: Analyze
-##############################################################################
-# region
-
-class TestAnalyzeDocument():
-    """
-    Test Class for analyze_document
-    """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
-    @responses.activate
-    def test_analyze_document_all_params(self):
-        """
-        analyze_document()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections/testString/analyze')
-        mock_response = '{"notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}], "result": {"metadata": {"mapKey": "anyValue"}}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        project_id = 'testString'
-        collection_id = 'testString'
-        file = io.BytesIO(b'This is a mock file.').getvalue()
-        filename = 'testString'
-        file_content_type = 'application/json'
-        metadata = 'testString'
-
-        # Invoke method
-        response = _service.analyze_document(
-            project_id,
-            collection_id,
-            file=file,
-            filename=filename,
-            file_content_type=file_content_type,
-            metadata=metadata,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-    @responses.activate
-    def test_analyze_document_required_params(self):
-        """
-        test_analyze_document_required_params()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections/testString/analyze')
-        mock_response = '{"notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}], "result": {"metadata": {"mapKey": "anyValue"}}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        project_id = 'testString'
-        collection_id = 'testString'
-
-        # Invoke method
-        response = _service.analyze_document(
-            project_id,
-            collection_id,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-    @responses.activate
-    def test_analyze_document_value_error(self):
-        """
-        test_analyze_document_value_error()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections/testString/analyze')
-        mock_response = '{"notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}], "result": {"metadata": {"mapKey": "anyValue"}}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        project_id = 'testString'
-        collection_id = 'testString'
-
-        # Pass in all but one required param and check for a ValueError
-        req_param_dict = {
-            "project_id": project_id,
-            "collection_id": collection_id,
-        }
-        for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
-            with pytest.raises(ValueError):
-                _service.analyze_document(**req_copy)
-
-
-
-# endregion
-##############################################################################
-# End of Service: Analyze
-##############################################################################
-
-##############################################################################
-# Start of Service: Enrichments
-##############################################################################
-# region
-
-class TestListEnrichments():
-    """
-    Test Class for list_enrichments
-    """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
-    @responses.activate
-    def test_list_enrichments_all_params(self):
-        """
-        list_enrichments()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/enrichments')
-        mock_response = '{"enrichments": [{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field"}}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        project_id = 'testString'
-
-        # Invoke method
-        response = _service.list_enrichments(
-            project_id,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-    @responses.activate
-    def test_list_enrichments_value_error(self):
-        """
-        test_list_enrichments_value_error()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/enrichments')
-        mock_response = '{"enrichments": [{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field"}}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        project_id = 'testString'
-
-        # Pass in all but one required param and check for a ValueError
-        req_param_dict = {
-            "project_id": project_id,
-        }
-        for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
-            with pytest.raises(ValueError):
-                _service.list_enrichments(**req_copy)
-
-
-
-class TestCreateEnrichment():
-    """
-    Test Class for create_enrichment
-    """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
-    @responses.activate
-    def test_create_enrichment_all_params(self):
-        """
-        create_enrichment()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/enrichments')
-        mock_response = '{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field"}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
-
-        # Construct a dict representation of a EnrichmentOptions model
-        enrichment_options_model = {}
-        enrichment_options_model['languages'] = ['testString']
-        enrichment_options_model['entity_type'] = 'testString'
-        enrichment_options_model['regular_expression'] = 'testString'
-        enrichment_options_model['result_field'] = 'testString'
-
-        # Construct a dict representation of a CreateEnrichment model
-        create_enrichment_model = {}
-        create_enrichment_model['name'] = 'testString'
-        create_enrichment_model['description'] = 'testString'
-        create_enrichment_model['type'] = 'dictionary'
-        create_enrichment_model['options'] = enrichment_options_model
-
-        # Set up parameter values
-        project_id = 'testString'
-        enrichment = create_enrichment_model
-        file = io.BytesIO(b'This is a mock file.').getvalue()
-
-        # Invoke method
-        response = _service.create_enrichment(
-            project_id,
-            enrichment,
-            file=file,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 201
-
-
-    @responses.activate
-    def test_create_enrichment_required_params(self):
-        """
-        test_create_enrichment_required_params()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/enrichments')
-        mock_response = '{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field"}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
-
-        # Construct a dict representation of a EnrichmentOptions model
-        enrichment_options_model = {}
-        enrichment_options_model['languages'] = ['testString']
-        enrichment_options_model['entity_type'] = 'testString'
-        enrichment_options_model['regular_expression'] = 'testString'
-        enrichment_options_model['result_field'] = 'testString'
-
-        # Construct a dict representation of a CreateEnrichment model
-        create_enrichment_model = {}
-        create_enrichment_model['name'] = 'testString'
-        create_enrichment_model['description'] = 'testString'
-        create_enrichment_model['type'] = 'dictionary'
-        create_enrichment_model['options'] = enrichment_options_model
-
-        # Set up parameter values
-        project_id = 'testString'
-        enrichment = create_enrichment_model
-
-        # Invoke method
-        response = _service.create_enrichment(
-            project_id,
-            enrichment,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 201
-
-
-    @responses.activate
-    def test_create_enrichment_value_error(self):
-        """
-        test_create_enrichment_value_error()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/enrichments')
-        mock_response = '{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field"}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
-
-        # Construct a dict representation of a EnrichmentOptions model
-        enrichment_options_model = {}
-        enrichment_options_model['languages'] = ['testString']
-        enrichment_options_model['entity_type'] = 'testString'
-        enrichment_options_model['regular_expression'] = 'testString'
-        enrichment_options_model['result_field'] = 'testString'
-
-        # Construct a dict representation of a CreateEnrichment model
-        create_enrichment_model = {}
-        create_enrichment_model['name'] = 'testString'
-        create_enrichment_model['description'] = 'testString'
-        create_enrichment_model['type'] = 'dictionary'
-        create_enrichment_model['options'] = enrichment_options_model
-
-        # Set up parameter values
-        project_id = 'testString'
-        enrichment = create_enrichment_model
-
-        # Pass in all but one required param and check for a ValueError
-        req_param_dict = {
-            "project_id": project_id,
-            "enrichment": enrichment,
-        }
-        for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
-            with pytest.raises(ValueError):
-                _service.create_enrichment(**req_copy)
-
-
-
-class TestGetEnrichment():
-    """
-    Test Class for get_enrichment
-    """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
-    @responses.activate
-    def test_get_enrichment_all_params(self):
-        """
-        get_enrichment()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/enrichments/testString')
-        mock_response = '{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        project_id = 'testString'
-        enrichment_id = 'testString'
-
-        # Invoke method
-        response = _service.get_enrichment(
-            project_id,
-            enrichment_id,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-    @responses.activate
-    def test_get_enrichment_value_error(self):
-        """
-        test_get_enrichment_value_error()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/enrichments/testString')
-        mock_response = '{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        project_id = 'testString'
-        enrichment_id = 'testString'
-
-        # Pass in all but one required param and check for a ValueError
-        req_param_dict = {
-            "project_id": project_id,
-            "enrichment_id": enrichment_id,
-        }
-        for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
-            with pytest.raises(ValueError):
-                _service.get_enrichment(**req_copy)
-
-
-
-class TestUpdateEnrichment():
-    """
-    Test Class for update_enrichment
-    """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
-    @responses.activate
-    def test_update_enrichment_all_params(self):
-        """
-        update_enrichment()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/enrichments/testString')
-        mock_response = '{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field"}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        project_id = 'testString'
-        enrichment_id = 'testString'
-        name = 'testString'
-        description = 'testString'
-
-        # Invoke method
-        response = _service.update_enrichment(
-            project_id,
-            enrichment_id,
-            name,
-            description=description,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-        # Validate body params
-        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
-        assert req_body['name'] == 'testString'
-        assert req_body['description'] == 'testString'
-
-
-    @responses.activate
-    def test_update_enrichment_value_error(self):
-        """
-        test_update_enrichment_value_error()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/enrichments/testString')
-        mock_response = '{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field"}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        project_id = 'testString'
-        enrichment_id = 'testString'
-        name = 'testString'
-        description = 'testString'
-
-        # Pass in all but one required param and check for a ValueError
-        req_param_dict = {
-            "project_id": project_id,
-            "enrichment_id": enrichment_id,
-            "name": name,
-        }
-        for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
-            with pytest.raises(ValueError):
-                _service.update_enrichment(**req_copy)
-
-
-
-class TestDeleteEnrichment():
-    """
-    Test Class for delete_enrichment
-    """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
-    @responses.activate
-    def test_delete_enrichment_all_params(self):
-        """
-        delete_enrichment()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/enrichments/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
-
-        # Set up parameter values
-        project_id = 'testString'
-        enrichment_id = 'testString'
-
-        # Invoke method
-        response = _service.delete_enrichment(
-            project_id,
-            enrichment_id,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 204
-
-
-    @responses.activate
-    def test_delete_enrichment_value_error(self):
-        """
-        test_delete_enrichment_value_error()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString/enrichments/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
-
-        # Set up parameter values
-        project_id = 'testString'
-        enrichment_id = 'testString'
-
-        # Pass in all but one required param and check for a ValueError
-        req_param_dict = {
-            "project_id": project_id,
-            "enrichment_id": enrichment_id,
-        }
-        for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
-            with pytest.raises(ValueError):
-                _service.delete_enrichment(**req_copy)
-
-
-
-# endregion
-##############################################################################
-# End of Service: Enrichments
-##############################################################################
 
 ##############################################################################
 # Start of Service: Projects
@@ -2657,24 +78,13 @@ class TestListProjects():
     Test Class for list_projects
     """
 
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     @responses.activate
     def test_list_projects_all_params(self):
         """
         list_projects()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects')
+        url = preprocess_url('/v2/projects')
         mock_response = '{"projects": [{"project_id": "project_id", "name": "name", "type": "document_retrieval", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16}]}'
         responses.add(responses.GET,
                       url,
@@ -2690,6 +100,14 @@ class TestListProjects():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_list_projects_all_params_with_retries(self):
+        # Enable retries and run test_list_projects_all_params.
+        _service.enable_retries()
+        self.test_list_projects_all_params()
+
+        # Disable retries and run test_list_projects_all_params.
+        _service.disable_retries()
+        self.test_list_projects_all_params()
 
     @responses.activate
     def test_list_projects_value_error(self):
@@ -2697,7 +115,7 @@ class TestListProjects():
         test_list_projects_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects')
+        url = preprocess_url('/v2/projects')
         mock_response = '{"projects": [{"project_id": "project_id", "name": "name", "type": "document_retrieval", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16}]}'
         responses.add(responses.GET,
                       url,
@@ -2713,23 +131,19 @@ class TestListProjects():
             with pytest.raises(ValueError):
                 _service.list_projects(**req_copy)
 
+    def test_list_projects_value_error_with_retries(self):
+        # Enable retries and run test_list_projects_value_error.
+        _service.enable_retries()
+        self.test_list_projects_value_error()
 
+        # Disable retries and run test_list_projects_value_error.
+        _service.disable_retries()
+        self.test_list_projects_value_error()
 
 class TestCreateProject():
     """
     Test Class for create_project
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_create_project_all_params(self):
@@ -2737,13 +151,13 @@ class TestCreateProject():
         create_project()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects')
+        url = preprocess_url('/v2/projects')
         mock_response = '{"project_id": "project_id", "name": "name", "type": "document_retrieval", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16, "default_query_parameters": {"collection_ids": ["collection_ids"], "passages": {"enabled": false, "count": 5, "fields": ["fields"], "characters": 10, "per_document": true, "max_per_document": 16}, "table_results": {"enabled": false, "count": 5, "per_document": 12}, "aggregation": "aggregation", "suggested_refinements": {"enabled": false, "count": 5}, "spelling_suggestions": true, "highlight": false, "count": 5, "sort": "sort", "return": ["return_"]}}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
                       content_type='application/json',
-                      status=200)
+                      status=201)
 
         # Construct a dict representation of a DefaultQueryParamsPassages model
         default_query_params_passages_model = {}
@@ -2793,13 +207,21 @@ class TestCreateProject():
 
         # Check for correct operation
         assert len(responses.calls) == 1
-        assert response.status_code == 200
+        assert response.status_code == 201
         # Validate body params
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['name'] == 'testString'
         assert req_body['type'] == 'document_retrieval'
         assert req_body['default_query_parameters'] == default_query_params_model
 
+    def test_create_project_all_params_with_retries(self):
+        # Enable retries and run test_create_project_all_params.
+        _service.enable_retries()
+        self.test_create_project_all_params()
+
+        # Disable retries and run test_create_project_all_params.
+        _service.disable_retries()
+        self.test_create_project_all_params()
 
     @responses.activate
     def test_create_project_value_error(self):
@@ -2807,13 +229,13 @@ class TestCreateProject():
         test_create_project_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects')
+        url = preprocess_url('/v2/projects')
         mock_response = '{"project_id": "project_id", "name": "name", "type": "document_retrieval", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16, "default_query_parameters": {"collection_ids": ["collection_ids"], "passages": {"enabled": false, "count": 5, "fields": ["fields"], "characters": 10, "per_document": true, "max_per_document": 16}, "table_results": {"enabled": false, "count": 5, "per_document": 12}, "aggregation": "aggregation", "suggested_refinements": {"enabled": false, "count": 5}, "spelling_suggestions": true, "highlight": false, "count": 5, "sort": "sort", "return": ["return_"]}}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
                       content_type='application/json',
-                      status=200)
+                      status=201)
 
         # Construct a dict representation of a DefaultQueryParamsPassages model
         default_query_params_passages_model = {}
@@ -2863,23 +285,19 @@ class TestCreateProject():
             with pytest.raises(ValueError):
                 _service.create_project(**req_copy)
 
+    def test_create_project_value_error_with_retries(self):
+        # Enable retries and run test_create_project_value_error.
+        _service.enable_retries()
+        self.test_create_project_value_error()
 
+        # Disable retries and run test_create_project_value_error.
+        _service.disable_retries()
+        self.test_create_project_value_error()
 
 class TestGetProject():
     """
     Test Class for get_project
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_get_project_all_params(self):
@@ -2887,7 +305,7 @@ class TestGetProject():
         get_project()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString')
+        url = preprocess_url('/v2/projects/testString')
         mock_response = '{"project_id": "project_id", "name": "name", "type": "document_retrieval", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16, "default_query_parameters": {"collection_ids": ["collection_ids"], "passages": {"enabled": false, "count": 5, "fields": ["fields"], "characters": 10, "per_document": true, "max_per_document": 16}, "table_results": {"enabled": false, "count": 5, "per_document": 12}, "aggregation": "aggregation", "suggested_refinements": {"enabled": false, "count": 5}, "spelling_suggestions": true, "highlight": false, "count": 5, "sort": "sort", "return": ["return_"]}}'
         responses.add(responses.GET,
                       url,
@@ -2908,6 +326,14 @@ class TestGetProject():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_get_project_all_params_with_retries(self):
+        # Enable retries and run test_get_project_all_params.
+        _service.enable_retries()
+        self.test_get_project_all_params()
+
+        # Disable retries and run test_get_project_all_params.
+        _service.disable_retries()
+        self.test_get_project_all_params()
 
     @responses.activate
     def test_get_project_value_error(self):
@@ -2915,7 +341,7 @@ class TestGetProject():
         test_get_project_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString')
+        url = preprocess_url('/v2/projects/testString')
         mock_response = '{"project_id": "project_id", "name": "name", "type": "document_retrieval", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16, "default_query_parameters": {"collection_ids": ["collection_ids"], "passages": {"enabled": false, "count": 5, "fields": ["fields"], "characters": 10, "per_document": true, "max_per_document": 16}, "table_results": {"enabled": false, "count": 5, "per_document": 12}, "aggregation": "aggregation", "suggested_refinements": {"enabled": false, "count": 5}, "spelling_suggestions": true, "highlight": false, "count": 5, "sort": "sort", "return": ["return_"]}}'
         responses.add(responses.GET,
                       url,
@@ -2935,23 +361,19 @@ class TestGetProject():
             with pytest.raises(ValueError):
                 _service.get_project(**req_copy)
 
+    def test_get_project_value_error_with_retries(self):
+        # Enable retries and run test_get_project_value_error.
+        _service.enable_retries()
+        self.test_get_project_value_error()
 
+        # Disable retries and run test_get_project_value_error.
+        _service.disable_retries()
+        self.test_get_project_value_error()
 
 class TestUpdateProject():
     """
     Test Class for update_project
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_update_project_all_params(self):
@@ -2959,7 +381,7 @@ class TestUpdateProject():
         update_project()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString')
+        url = preprocess_url('/v2/projects/testString')
         mock_response = '{"project_id": "project_id", "name": "name", "type": "document_retrieval", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16, "default_query_parameters": {"collection_ids": ["collection_ids"], "passages": {"enabled": false, "count": 5, "fields": ["fields"], "characters": 10, "per_document": true, "max_per_document": 16}, "table_results": {"enabled": false, "count": 5, "per_document": 12}, "aggregation": "aggregation", "suggested_refinements": {"enabled": false, "count": 5}, "spelling_suggestions": true, "highlight": false, "count": 5, "sort": "sort", "return": ["return_"]}}'
         responses.add(responses.POST,
                       url,
@@ -2985,6 +407,14 @@ class TestUpdateProject():
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['name'] == 'testString'
 
+    def test_update_project_all_params_with_retries(self):
+        # Enable retries and run test_update_project_all_params.
+        _service.enable_retries()
+        self.test_update_project_all_params()
+
+        # Disable retries and run test_update_project_all_params.
+        _service.disable_retries()
+        self.test_update_project_all_params()
 
     @responses.activate
     def test_update_project_required_params(self):
@@ -2992,7 +422,7 @@ class TestUpdateProject():
         test_update_project_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString')
+        url = preprocess_url('/v2/projects/testString')
         mock_response = '{"project_id": "project_id", "name": "name", "type": "document_retrieval", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16, "default_query_parameters": {"collection_ids": ["collection_ids"], "passages": {"enabled": false, "count": 5, "fields": ["fields"], "characters": 10, "per_document": true, "max_per_document": 16}, "table_results": {"enabled": false, "count": 5, "per_document": 12}, "aggregation": "aggregation", "suggested_refinements": {"enabled": false, "count": 5}, "spelling_suggestions": true, "highlight": false, "count": 5, "sort": "sort", "return": ["return_"]}}'
         responses.add(responses.POST,
                       url,
@@ -3013,6 +443,14 @@ class TestUpdateProject():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_update_project_required_params_with_retries(self):
+        # Enable retries and run test_update_project_required_params.
+        _service.enable_retries()
+        self.test_update_project_required_params()
+
+        # Disable retries and run test_update_project_required_params.
+        _service.disable_retries()
+        self.test_update_project_required_params()
 
     @responses.activate
     def test_update_project_value_error(self):
@@ -3020,7 +458,7 @@ class TestUpdateProject():
         test_update_project_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString')
+        url = preprocess_url('/v2/projects/testString')
         mock_response = '{"project_id": "project_id", "name": "name", "type": "document_retrieval", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16, "default_query_parameters": {"collection_ids": ["collection_ids"], "passages": {"enabled": false, "count": 5, "fields": ["fields"], "characters": 10, "per_document": true, "max_per_document": 16}, "table_results": {"enabled": false, "count": 5, "per_document": 12}, "aggregation": "aggregation", "suggested_refinements": {"enabled": false, "count": 5}, "spelling_suggestions": true, "highlight": false, "count": 5, "sort": "sort", "return": ["return_"]}}'
         responses.add(responses.POST,
                       url,
@@ -3040,23 +478,19 @@ class TestUpdateProject():
             with pytest.raises(ValueError):
                 _service.update_project(**req_copy)
 
+    def test_update_project_value_error_with_retries(self):
+        # Enable retries and run test_update_project_value_error.
+        _service.enable_retries()
+        self.test_update_project_value_error()
 
+        # Disable retries and run test_update_project_value_error.
+        _service.disable_retries()
+        self.test_update_project_value_error()
 
 class TestDeleteProject():
     """
     Test Class for delete_project
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_delete_project_all_params(self):
@@ -3064,7 +498,7 @@ class TestDeleteProject():
         delete_project()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString')
+        url = preprocess_url('/v2/projects/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -3082,6 +516,14 @@ class TestDeleteProject():
         assert len(responses.calls) == 1
         assert response.status_code == 204
 
+    def test_delete_project_all_params_with_retries(self):
+        # Enable retries and run test_delete_project_all_params.
+        _service.enable_retries()
+        self.test_delete_project_all_params()
+
+        # Disable retries and run test_delete_project_all_params.
+        _service.disable_retries()
+        self.test_delete_project_all_params()
 
     @responses.activate
     def test_delete_project_value_error(self):
@@ -3089,7 +531,7 @@ class TestDeleteProject():
         test_delete_project_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/projects/testString')
+        url = preprocess_url('/v2/projects/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -3106,11 +548,4624 @@ class TestDeleteProject():
             with pytest.raises(ValueError):
                 _service.delete_project(**req_copy)
 
+    def test_delete_project_value_error_with_retries(self):
+        # Enable retries and run test_delete_project_value_error.
+        _service.enable_retries()
+        self.test_delete_project_value_error()
 
+        # Disable retries and run test_delete_project_value_error.
+        _service.disable_retries()
+        self.test_delete_project_value_error()
+
+class TestListFields():
+    """
+    Test Class for list_fields
+    """
+
+    @responses.activate
+    def test_list_fields_all_params(self):
+        """
+        list_fields()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/fields')
+        mock_response = '{"fields": [{"field": "field", "type": "nested", "collection_id": "collection_id"}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_ids = ['testString']
+
+        # Invoke method
+        response = _service.list_fields(
+            project_id,
+            collection_ids=collection_ids,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate query params
+        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = urllib.parse.unquote_plus(query_string)
+        assert 'collection_ids={}'.format(','.join(collection_ids)) in query_string
+
+    def test_list_fields_all_params_with_retries(self):
+        # Enable retries and run test_list_fields_all_params.
+        _service.enable_retries()
+        self.test_list_fields_all_params()
+
+        # Disable retries and run test_list_fields_all_params.
+        _service.disable_retries()
+        self.test_list_fields_all_params()
+
+    @responses.activate
+    def test_list_fields_required_params(self):
+        """
+        test_list_fields_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/fields')
+        mock_response = '{"fields": [{"field": "field", "type": "nested", "collection_id": "collection_id"}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+
+        # Invoke method
+        response = _service.list_fields(
+            project_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_list_fields_required_params_with_retries(self):
+        # Enable retries and run test_list_fields_required_params.
+        _service.enable_retries()
+        self.test_list_fields_required_params()
+
+        # Disable retries and run test_list_fields_required_params.
+        _service.disable_retries()
+        self.test_list_fields_required_params()
+
+    @responses.activate
+    def test_list_fields_value_error(self):
+        """
+        test_list_fields_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/fields')
+        mock_response = '{"fields": [{"field": "field", "type": "nested", "collection_id": "collection_id"}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "project_id": project_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.list_fields(**req_copy)
+
+    def test_list_fields_value_error_with_retries(self):
+        # Enable retries and run test_list_fields_value_error.
+        _service.enable_retries()
+        self.test_list_fields_value_error()
+
+        # Disable retries and run test_list_fields_value_error.
+        _service.disable_retries()
+        self.test_list_fields_value_error()
 
 # endregion
 ##############################################################################
 # End of Service: Projects
+##############################################################################
+
+##############################################################################
+# Start of Service: Collections
+##############################################################################
+# region
+
+class TestListCollections():
+    """
+    Test Class for list_collections
+    """
+
+    @responses.activate
+    def test_list_collections_all_params(self):
+        """
+        list_collections()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections')
+        mock_response = '{"collections": [{"collection_id": "collection_id", "name": "name"}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+
+        # Invoke method
+        response = _service.list_collections(
+            project_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_list_collections_all_params_with_retries(self):
+        # Enable retries and run test_list_collections_all_params.
+        _service.enable_retries()
+        self.test_list_collections_all_params()
+
+        # Disable retries and run test_list_collections_all_params.
+        _service.disable_retries()
+        self.test_list_collections_all_params()
+
+    @responses.activate
+    def test_list_collections_value_error(self):
+        """
+        test_list_collections_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections')
+        mock_response = '{"collections": [{"collection_id": "collection_id", "name": "name"}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "project_id": project_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.list_collections(**req_copy)
+
+    def test_list_collections_value_error_with_retries(self):
+        # Enable retries and run test_list_collections_value_error.
+        _service.enable_retries()
+        self.test_list_collections_value_error()
+
+        # Disable retries and run test_list_collections_value_error.
+        _service.disable_retries()
+        self.test_list_collections_value_error()
+
+class TestCreateCollection():
+    """
+    Test Class for create_collection
+    """
+
+    @responses.activate
+    def test_create_collection_all_params(self):
+        """
+        create_collection()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections')
+        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}], "smart_document_understanding": {"enabled": false, "model": "custom"}}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=201)
+
+        # Construct a dict representation of a CollectionEnrichment model
+        collection_enrichment_model = {}
+        collection_enrichment_model['enrichment_id'] = 'testString'
+        collection_enrichment_model['fields'] = ['testString']
+
+        # Construct a dict representation of a CollectionDetailsSmartDocumentUnderstanding model
+        collection_details_smart_document_understanding_model = {}
+        collection_details_smart_document_understanding_model['enabled'] = True
+        collection_details_smart_document_understanding_model['model'] = 'custom'
+
+        # Set up parameter values
+        project_id = 'testString'
+        name = 'testString'
+        description = 'testString'
+        language = 'en'
+        enrichments = [collection_enrichment_model]
+        smart_document_understanding = collection_details_smart_document_understanding_model
+
+        # Invoke method
+        response = _service.create_collection(
+            project_id,
+            name,
+            description=description,
+            language=language,
+            enrichments=enrichments,
+            smart_document_understanding=smart_document_understanding,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 201
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['name'] == 'testString'
+        assert req_body['description'] == 'testString'
+        assert req_body['language'] == 'en'
+        assert req_body['enrichments'] == [collection_enrichment_model]
+        assert req_body['smart_document_understanding'] == collection_details_smart_document_understanding_model
+
+    def test_create_collection_all_params_with_retries(self):
+        # Enable retries and run test_create_collection_all_params.
+        _service.enable_retries()
+        self.test_create_collection_all_params()
+
+        # Disable retries and run test_create_collection_all_params.
+        _service.disable_retries()
+        self.test_create_collection_all_params()
+
+    @responses.activate
+    def test_create_collection_value_error(self):
+        """
+        test_create_collection_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections')
+        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}], "smart_document_understanding": {"enabled": false, "model": "custom"}}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=201)
+
+        # Construct a dict representation of a CollectionEnrichment model
+        collection_enrichment_model = {}
+        collection_enrichment_model['enrichment_id'] = 'testString'
+        collection_enrichment_model['fields'] = ['testString']
+
+        # Construct a dict representation of a CollectionDetailsSmartDocumentUnderstanding model
+        collection_details_smart_document_understanding_model = {}
+        collection_details_smart_document_understanding_model['enabled'] = True
+        collection_details_smart_document_understanding_model['model'] = 'custom'
+
+        # Set up parameter values
+        project_id = 'testString'
+        name = 'testString'
+        description = 'testString'
+        language = 'en'
+        enrichments = [collection_enrichment_model]
+        smart_document_understanding = collection_details_smart_document_understanding_model
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "project_id": project_id,
+            "name": name,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.create_collection(**req_copy)
+
+    def test_create_collection_value_error_with_retries(self):
+        # Enable retries and run test_create_collection_value_error.
+        _service.enable_retries()
+        self.test_create_collection_value_error()
+
+        # Disable retries and run test_create_collection_value_error.
+        _service.disable_retries()
+        self.test_create_collection_value_error()
+
+class TestGetCollection():
+    """
+    Test Class for get_collection
+    """
+
+    @responses.activate
+    def test_get_collection_all_params(self):
+        """
+        get_collection()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections/testString')
+        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}], "smart_document_understanding": {"enabled": false, "model": "custom"}}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_id = 'testString'
+
+        # Invoke method
+        response = _service.get_collection(
+            project_id,
+            collection_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_get_collection_all_params_with_retries(self):
+        # Enable retries and run test_get_collection_all_params.
+        _service.enable_retries()
+        self.test_get_collection_all_params()
+
+        # Disable retries and run test_get_collection_all_params.
+        _service.disable_retries()
+        self.test_get_collection_all_params()
+
+    @responses.activate
+    def test_get_collection_value_error(self):
+        """
+        test_get_collection_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections/testString')
+        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}], "smart_document_understanding": {"enabled": false, "model": "custom"}}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "project_id": project_id,
+            "collection_id": collection_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.get_collection(**req_copy)
+
+    def test_get_collection_value_error_with_retries(self):
+        # Enable retries and run test_get_collection_value_error.
+        _service.enable_retries()
+        self.test_get_collection_value_error()
+
+        # Disable retries and run test_get_collection_value_error.
+        _service.disable_retries()
+        self.test_get_collection_value_error()
+
+class TestUpdateCollection():
+    """
+    Test Class for update_collection
+    """
+
+    @responses.activate
+    def test_update_collection_all_params(self):
+        """
+        update_collection()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections/testString')
+        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}], "smart_document_understanding": {"enabled": false, "model": "custom"}}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Construct a dict representation of a CollectionEnrichment model
+        collection_enrichment_model = {}
+        collection_enrichment_model['enrichment_id'] = 'testString'
+        collection_enrichment_model['fields'] = ['testString']
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_id = 'testString'
+        name = 'testString'
+        description = 'testString'
+        enrichments = [collection_enrichment_model]
+
+        # Invoke method
+        response = _service.update_collection(
+            project_id,
+            collection_id,
+            name=name,
+            description=description,
+            enrichments=enrichments,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['name'] == 'testString'
+        assert req_body['description'] == 'testString'
+        assert req_body['enrichments'] == [collection_enrichment_model]
+
+    def test_update_collection_all_params_with_retries(self):
+        # Enable retries and run test_update_collection_all_params.
+        _service.enable_retries()
+        self.test_update_collection_all_params()
+
+        # Disable retries and run test_update_collection_all_params.
+        _service.disable_retries()
+        self.test_update_collection_all_params()
+
+    @responses.activate
+    def test_update_collection_value_error(self):
+        """
+        test_update_collection_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections/testString')
+        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}], "smart_document_understanding": {"enabled": false, "model": "custom"}}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Construct a dict representation of a CollectionEnrichment model
+        collection_enrichment_model = {}
+        collection_enrichment_model['enrichment_id'] = 'testString'
+        collection_enrichment_model['fields'] = ['testString']
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_id = 'testString'
+        name = 'testString'
+        description = 'testString'
+        enrichments = [collection_enrichment_model]
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "project_id": project_id,
+            "collection_id": collection_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.update_collection(**req_copy)
+
+    def test_update_collection_value_error_with_retries(self):
+        # Enable retries and run test_update_collection_value_error.
+        _service.enable_retries()
+        self.test_update_collection_value_error()
+
+        # Disable retries and run test_update_collection_value_error.
+        _service.disable_retries()
+        self.test_update_collection_value_error()
+
+class TestDeleteCollection():
+    """
+    Test Class for delete_collection
+    """
+
+    @responses.activate
+    def test_delete_collection_all_params(self):
+        """
+        delete_collection()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections/testString')
+        responses.add(responses.DELETE,
+                      url,
+                      status=204)
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_id = 'testString'
+
+        # Invoke method
+        response = _service.delete_collection(
+            project_id,
+            collection_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 204
+
+    def test_delete_collection_all_params_with_retries(self):
+        # Enable retries and run test_delete_collection_all_params.
+        _service.enable_retries()
+        self.test_delete_collection_all_params()
+
+        # Disable retries and run test_delete_collection_all_params.
+        _service.disable_retries()
+        self.test_delete_collection_all_params()
+
+    @responses.activate
+    def test_delete_collection_value_error(self):
+        """
+        test_delete_collection_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections/testString')
+        responses.add(responses.DELETE,
+                      url,
+                      status=204)
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "project_id": project_id,
+            "collection_id": collection_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.delete_collection(**req_copy)
+
+    def test_delete_collection_value_error_with_retries(self):
+        # Enable retries and run test_delete_collection_value_error.
+        _service.enable_retries()
+        self.test_delete_collection_value_error()
+
+        # Disable retries and run test_delete_collection_value_error.
+        _service.disable_retries()
+        self.test_delete_collection_value_error()
+
+# endregion
+##############################################################################
+# End of Service: Collections
+##############################################################################
+
+##############################################################################
+# Start of Service: Documents
+##############################################################################
+# region
+
+class TestListDocuments():
+    """
+    Test Class for list_documents
+    """
+
+    @responses.activate
+    def test_list_documents_all_params(self):
+        """
+        list_documents()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections/testString/documents')
+        mock_response = '{"matching_results": 16, "documents": [{"document_id": "document_id", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "available", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}], "children": {"have_notices": true, "count": 5}, "filename": "filename", "file_type": "file_type", "sha256": "sha256"}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_id = 'testString'
+        count = 38
+        status = 'testString'
+        has_notices = True
+        is_parent = True
+        parent_document_id = 'testString'
+        sha256 = 'testString'
+
+        # Invoke method
+        response = _service.list_documents(
+            project_id,
+            collection_id,
+            count=count,
+            status=status,
+            has_notices=has_notices,
+            is_parent=is_parent,
+            parent_document_id=parent_document_id,
+            sha256=sha256,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate query params
+        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = urllib.parse.unquote_plus(query_string)
+        assert 'count={}'.format(count) in query_string
+        assert 'status={}'.format(status) in query_string
+        assert 'has_notices={}'.format('true' if has_notices else 'false') in query_string
+        assert 'is_parent={}'.format('true' if is_parent else 'false') in query_string
+        assert 'parent_document_id={}'.format(parent_document_id) in query_string
+        assert 'sha256={}'.format(sha256) in query_string
+
+    def test_list_documents_all_params_with_retries(self):
+        # Enable retries and run test_list_documents_all_params.
+        _service.enable_retries()
+        self.test_list_documents_all_params()
+
+        # Disable retries and run test_list_documents_all_params.
+        _service.disable_retries()
+        self.test_list_documents_all_params()
+
+    @responses.activate
+    def test_list_documents_required_params(self):
+        """
+        test_list_documents_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections/testString/documents')
+        mock_response = '{"matching_results": 16, "documents": [{"document_id": "document_id", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "available", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}], "children": {"have_notices": true, "count": 5}, "filename": "filename", "file_type": "file_type", "sha256": "sha256"}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_id = 'testString'
+
+        # Invoke method
+        response = _service.list_documents(
+            project_id,
+            collection_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_list_documents_required_params_with_retries(self):
+        # Enable retries and run test_list_documents_required_params.
+        _service.enable_retries()
+        self.test_list_documents_required_params()
+
+        # Disable retries and run test_list_documents_required_params.
+        _service.disable_retries()
+        self.test_list_documents_required_params()
+
+    @responses.activate
+    def test_list_documents_value_error(self):
+        """
+        test_list_documents_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections/testString/documents')
+        mock_response = '{"matching_results": 16, "documents": [{"document_id": "document_id", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "available", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}], "children": {"have_notices": true, "count": 5}, "filename": "filename", "file_type": "file_type", "sha256": "sha256"}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "project_id": project_id,
+            "collection_id": collection_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.list_documents(**req_copy)
+
+    def test_list_documents_value_error_with_retries(self):
+        # Enable retries and run test_list_documents_value_error.
+        _service.enable_retries()
+        self.test_list_documents_value_error()
+
+        # Disable retries and run test_list_documents_value_error.
+        _service.disable_retries()
+        self.test_list_documents_value_error()
+
+class TestAddDocument():
+    """
+    Test Class for add_document
+    """
+
+    @responses.activate
+    def test_add_document_all_params(self):
+        """
+        add_document()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections/testString/documents')
+        mock_response = '{"document_id": "document_id", "status": "processing"}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=202)
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_id = 'testString'
+        file = io.BytesIO(b'This is a mock file.').getvalue()
+        filename = 'testString'
+        file_content_type = 'application/json'
+        metadata = 'testString'
+        x_watson_discovery_force = False
+
+        # Invoke method
+        response = _service.add_document(
+            project_id,
+            collection_id,
+            file=file,
+            filename=filename,
+            file_content_type=file_content_type,
+            metadata=metadata,
+            x_watson_discovery_force=x_watson_discovery_force,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 202
+
+    def test_add_document_all_params_with_retries(self):
+        # Enable retries and run test_add_document_all_params.
+        _service.enable_retries()
+        self.test_add_document_all_params()
+
+        # Disable retries and run test_add_document_all_params.
+        _service.disable_retries()
+        self.test_add_document_all_params()
+
+    @responses.activate
+    def test_add_document_required_params(self):
+        """
+        test_add_document_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections/testString/documents')
+        mock_response = '{"document_id": "document_id", "status": "processing"}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=202)
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_id = 'testString'
+
+        # Invoke method
+        response = _service.add_document(
+            project_id,
+            collection_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 202
+
+    def test_add_document_required_params_with_retries(self):
+        # Enable retries and run test_add_document_required_params.
+        _service.enable_retries()
+        self.test_add_document_required_params()
+
+        # Disable retries and run test_add_document_required_params.
+        _service.disable_retries()
+        self.test_add_document_required_params()
+
+    @responses.activate
+    def test_add_document_value_error(self):
+        """
+        test_add_document_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections/testString/documents')
+        mock_response = '{"document_id": "document_id", "status": "processing"}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=202)
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "project_id": project_id,
+            "collection_id": collection_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.add_document(**req_copy)
+
+    def test_add_document_value_error_with_retries(self):
+        # Enable retries and run test_add_document_value_error.
+        _service.enable_retries()
+        self.test_add_document_value_error()
+
+        # Disable retries and run test_add_document_value_error.
+        _service.disable_retries()
+        self.test_add_document_value_error()
+
+class TestGetDocument():
+    """
+    Test Class for get_document
+    """
+
+    @responses.activate
+    def test_get_document_all_params(self):
+        """
+        get_document()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections/testString/documents/testString')
+        mock_response = '{"document_id": "document_id", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "available", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}], "children": {"have_notices": true, "count": 5}, "filename": "filename", "file_type": "file_type", "sha256": "sha256"}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_id = 'testString'
+        document_id = 'testString'
+
+        # Invoke method
+        response = _service.get_document(
+            project_id,
+            collection_id,
+            document_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_get_document_all_params_with_retries(self):
+        # Enable retries and run test_get_document_all_params.
+        _service.enable_retries()
+        self.test_get_document_all_params()
+
+        # Disable retries and run test_get_document_all_params.
+        _service.disable_retries()
+        self.test_get_document_all_params()
+
+    @responses.activate
+    def test_get_document_value_error(self):
+        """
+        test_get_document_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections/testString/documents/testString')
+        mock_response = '{"document_id": "document_id", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "available", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}], "children": {"have_notices": true, "count": 5}, "filename": "filename", "file_type": "file_type", "sha256": "sha256"}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_id = 'testString'
+        document_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "project_id": project_id,
+            "collection_id": collection_id,
+            "document_id": document_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.get_document(**req_copy)
+
+    def test_get_document_value_error_with_retries(self):
+        # Enable retries and run test_get_document_value_error.
+        _service.enable_retries()
+        self.test_get_document_value_error()
+
+        # Disable retries and run test_get_document_value_error.
+        _service.disable_retries()
+        self.test_get_document_value_error()
+
+class TestUpdateDocument():
+    """
+    Test Class for update_document
+    """
+
+    @responses.activate
+    def test_update_document_all_params(self):
+        """
+        update_document()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections/testString/documents/testString')
+        mock_response = '{"document_id": "document_id", "status": "processing"}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=202)
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_id = 'testString'
+        document_id = 'testString'
+        file = io.BytesIO(b'This is a mock file.').getvalue()
+        filename = 'testString'
+        file_content_type = 'application/json'
+        metadata = 'testString'
+        x_watson_discovery_force = False
+
+        # Invoke method
+        response = _service.update_document(
+            project_id,
+            collection_id,
+            document_id,
+            file=file,
+            filename=filename,
+            file_content_type=file_content_type,
+            metadata=metadata,
+            x_watson_discovery_force=x_watson_discovery_force,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 202
+
+    def test_update_document_all_params_with_retries(self):
+        # Enable retries and run test_update_document_all_params.
+        _service.enable_retries()
+        self.test_update_document_all_params()
+
+        # Disable retries and run test_update_document_all_params.
+        _service.disable_retries()
+        self.test_update_document_all_params()
+
+    @responses.activate
+    def test_update_document_required_params(self):
+        """
+        test_update_document_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections/testString/documents/testString')
+        mock_response = '{"document_id": "document_id", "status": "processing"}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=202)
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_id = 'testString'
+        document_id = 'testString'
+
+        # Invoke method
+        response = _service.update_document(
+            project_id,
+            collection_id,
+            document_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 202
+
+    def test_update_document_required_params_with_retries(self):
+        # Enable retries and run test_update_document_required_params.
+        _service.enable_retries()
+        self.test_update_document_required_params()
+
+        # Disable retries and run test_update_document_required_params.
+        _service.disable_retries()
+        self.test_update_document_required_params()
+
+    @responses.activate
+    def test_update_document_value_error(self):
+        """
+        test_update_document_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections/testString/documents/testString')
+        mock_response = '{"document_id": "document_id", "status": "processing"}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=202)
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_id = 'testString'
+        document_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "project_id": project_id,
+            "collection_id": collection_id,
+            "document_id": document_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.update_document(**req_copy)
+
+    def test_update_document_value_error_with_retries(self):
+        # Enable retries and run test_update_document_value_error.
+        _service.enable_retries()
+        self.test_update_document_value_error()
+
+        # Disable retries and run test_update_document_value_error.
+        _service.disable_retries()
+        self.test_update_document_value_error()
+
+class TestDeleteDocument():
+    """
+    Test Class for delete_document
+    """
+
+    @responses.activate
+    def test_delete_document_all_params(self):
+        """
+        delete_document()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections/testString/documents/testString')
+        mock_response = '{"document_id": "document_id", "status": "deleted"}'
+        responses.add(responses.DELETE,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_id = 'testString'
+        document_id = 'testString'
+        x_watson_discovery_force = False
+
+        # Invoke method
+        response = _service.delete_document(
+            project_id,
+            collection_id,
+            document_id,
+            x_watson_discovery_force=x_watson_discovery_force,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_delete_document_all_params_with_retries(self):
+        # Enable retries and run test_delete_document_all_params.
+        _service.enable_retries()
+        self.test_delete_document_all_params()
+
+        # Disable retries and run test_delete_document_all_params.
+        _service.disable_retries()
+        self.test_delete_document_all_params()
+
+    @responses.activate
+    def test_delete_document_required_params(self):
+        """
+        test_delete_document_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections/testString/documents/testString')
+        mock_response = '{"document_id": "document_id", "status": "deleted"}'
+        responses.add(responses.DELETE,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_id = 'testString'
+        document_id = 'testString'
+
+        # Invoke method
+        response = _service.delete_document(
+            project_id,
+            collection_id,
+            document_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_delete_document_required_params_with_retries(self):
+        # Enable retries and run test_delete_document_required_params.
+        _service.enable_retries()
+        self.test_delete_document_required_params()
+
+        # Disable retries and run test_delete_document_required_params.
+        _service.disable_retries()
+        self.test_delete_document_required_params()
+
+    @responses.activate
+    def test_delete_document_value_error(self):
+        """
+        test_delete_document_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections/testString/documents/testString')
+        mock_response = '{"document_id": "document_id", "status": "deleted"}'
+        responses.add(responses.DELETE,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_id = 'testString'
+        document_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "project_id": project_id,
+            "collection_id": collection_id,
+            "document_id": document_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.delete_document(**req_copy)
+
+    def test_delete_document_value_error_with_retries(self):
+        # Enable retries and run test_delete_document_value_error.
+        _service.enable_retries()
+        self.test_delete_document_value_error()
+
+        # Disable retries and run test_delete_document_value_error.
+        _service.disable_retries()
+        self.test_delete_document_value_error()
+
+# endregion
+##############################################################################
+# End of Service: Documents
+##############################################################################
+
+##############################################################################
+# Start of Service: Queries
+##############################################################################
+# region
+
+class TestQuery():
+    """
+    Test Class for query
+    """
+
+    @responses.activate
+    def test_query_all_params(self):
+        """
+        query()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/query')
+        mock_response = '{"matching_results": 16, "results": [{"document_id": "document_id", "metadata": {"mapKey": "anyValue"}, "result_metadata": {"document_retrieval_source": "search", "collection_id": "collection_id", "confidence": 10}, "document_passages": [{"passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field", "confidence": 0, "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query", "suggested_refinements": [{"text": "text"}], "table_results": [{"table_id": "table_id", "source_document_id": "source_document_id", "collection_id": "collection_id", "table_html": "table_html", "table_html_offset": 17, "table": {"location": {"begin": 5, "end": 3}, "text": "text", "section_title": {"text": "text", "location": {"begin": 5, "end": 3}}, "title": {"text": "text", "location": {"begin": 5, "end": 3}}, "table_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "row_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "column_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "key_value_pairs": [{"key": {"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}, "value": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}]}], "body_cells": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16, "row_header_ids": [{"id": "id"}], "row_header_texts": [{"text": "text"}], "row_header_texts_normalized": [{"text_normalized": "text_normalized"}], "column_header_ids": [{"id": "id"}], "column_header_texts": [{"text": "text"}], "column_header_texts_normalized": [{"text_normalized": "text_normalized"}], "attributes": [{"type": "type", "text": "text", "location": {"begin": 5, "end": 3}}]}], "contexts": [{"text": "text", "location": {"begin": 5, "end": 3}}]}}], "passages": [{"passage_text": "passage_text", "passage_score": 13, "document_id": "document_id", "collection_id": "collection_id", "start_offset": 12, "end_offset": 10, "field": "field", "confidence": 0, "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Construct a dict representation of a QueryLargeTableResults model
+        query_large_table_results_model = {}
+        query_large_table_results_model['enabled'] = True
+        query_large_table_results_model['count'] = 38
+
+        # Construct a dict representation of a QueryLargeSuggestedRefinements model
+        query_large_suggested_refinements_model = {}
+        query_large_suggested_refinements_model['enabled'] = True
+        query_large_suggested_refinements_model['count'] = 1
+
+        # Construct a dict representation of a QueryLargePassages model
+        query_large_passages_model = {}
+        query_large_passages_model['enabled'] = True
+        query_large_passages_model['per_document'] = True
+        query_large_passages_model['max_per_document'] = 38
+        query_large_passages_model['fields'] = ['testString']
+        query_large_passages_model['count'] = 400
+        query_large_passages_model['characters'] = 50
+        query_large_passages_model['find_answers'] = False
+        query_large_passages_model['max_answers_per_passage'] = 38
+
+        # Construct a dict representation of a QueryLargeSimilar model
+        query_large_similar_model = {}
+        query_large_similar_model['enabled'] = False
+        query_large_similar_model['document_ids'] = ['testString']
+        query_large_similar_model['fields'] = ['testString']
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_ids = ['testString']
+        filter = 'testString'
+        query = 'testString'
+        natural_language_query = 'testString'
+        aggregation = 'testString'
+        count = 38
+        return_ = ['testString']
+        offset = 38
+        sort = 'testString'
+        highlight = True
+        spelling_suggestions = True
+        table_results = query_large_table_results_model
+        suggested_refinements = query_large_suggested_refinements_model
+        passages = query_large_passages_model
+        similar = query_large_similar_model
+
+        # Invoke method
+        response = _service.query(
+            project_id,
+            collection_ids=collection_ids,
+            filter=filter,
+            query=query,
+            natural_language_query=natural_language_query,
+            aggregation=aggregation,
+            count=count,
+            return_=return_,
+            offset=offset,
+            sort=sort,
+            highlight=highlight,
+            spelling_suggestions=spelling_suggestions,
+            table_results=table_results,
+            suggested_refinements=suggested_refinements,
+            passages=passages,
+            similar=similar,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['collection_ids'] == ['testString']
+        assert req_body['filter'] == 'testString'
+        assert req_body['query'] == 'testString'
+        assert req_body['natural_language_query'] == 'testString'
+        assert req_body['aggregation'] == 'testString'
+        assert req_body['count'] == 38
+        assert req_body['return'] == ['testString']
+        assert req_body['offset'] == 38
+        assert req_body['sort'] == 'testString'
+        assert req_body['highlight'] == True
+        assert req_body['spelling_suggestions'] == True
+        assert req_body['table_results'] == query_large_table_results_model
+        assert req_body['suggested_refinements'] == query_large_suggested_refinements_model
+        assert req_body['passages'] == query_large_passages_model
+        assert req_body['similar'] == query_large_similar_model
+
+    def test_query_all_params_with_retries(self):
+        # Enable retries and run test_query_all_params.
+        _service.enable_retries()
+        self.test_query_all_params()
+
+        # Disable retries and run test_query_all_params.
+        _service.disable_retries()
+        self.test_query_all_params()
+
+    @responses.activate
+    def test_query_required_params(self):
+        """
+        test_query_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/query')
+        mock_response = '{"matching_results": 16, "results": [{"document_id": "document_id", "metadata": {"mapKey": "anyValue"}, "result_metadata": {"document_retrieval_source": "search", "collection_id": "collection_id", "confidence": 10}, "document_passages": [{"passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field", "confidence": 0, "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query", "suggested_refinements": [{"text": "text"}], "table_results": [{"table_id": "table_id", "source_document_id": "source_document_id", "collection_id": "collection_id", "table_html": "table_html", "table_html_offset": 17, "table": {"location": {"begin": 5, "end": 3}, "text": "text", "section_title": {"text": "text", "location": {"begin": 5, "end": 3}}, "title": {"text": "text", "location": {"begin": 5, "end": 3}}, "table_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "row_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "column_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "key_value_pairs": [{"key": {"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}, "value": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}]}], "body_cells": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16, "row_header_ids": [{"id": "id"}], "row_header_texts": [{"text": "text"}], "row_header_texts_normalized": [{"text_normalized": "text_normalized"}], "column_header_ids": [{"id": "id"}], "column_header_texts": [{"text": "text"}], "column_header_texts_normalized": [{"text_normalized": "text_normalized"}], "attributes": [{"type": "type", "text": "text", "location": {"begin": 5, "end": 3}}]}], "contexts": [{"text": "text", "location": {"begin": 5, "end": 3}}]}}], "passages": [{"passage_text": "passage_text", "passage_score": 13, "document_id": "document_id", "collection_id": "collection_id", "start_offset": 12, "end_offset": 10, "field": "field", "confidence": 0, "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+
+        # Invoke method
+        response = _service.query(
+            project_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_query_required_params_with_retries(self):
+        # Enable retries and run test_query_required_params.
+        _service.enable_retries()
+        self.test_query_required_params()
+
+        # Disable retries and run test_query_required_params.
+        _service.disable_retries()
+        self.test_query_required_params()
+
+    @responses.activate
+    def test_query_value_error(self):
+        """
+        test_query_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/query')
+        mock_response = '{"matching_results": 16, "results": [{"document_id": "document_id", "metadata": {"mapKey": "anyValue"}, "result_metadata": {"document_retrieval_source": "search", "collection_id": "collection_id", "confidence": 10}, "document_passages": [{"passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field", "confidence": 0, "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query", "suggested_refinements": [{"text": "text"}], "table_results": [{"table_id": "table_id", "source_document_id": "source_document_id", "collection_id": "collection_id", "table_html": "table_html", "table_html_offset": 17, "table": {"location": {"begin": 5, "end": 3}, "text": "text", "section_title": {"text": "text", "location": {"begin": 5, "end": 3}}, "title": {"text": "text", "location": {"begin": 5, "end": 3}}, "table_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "row_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "column_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "key_value_pairs": [{"key": {"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}, "value": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}]}], "body_cells": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16, "row_header_ids": [{"id": "id"}], "row_header_texts": [{"text": "text"}], "row_header_texts_normalized": [{"text_normalized": "text_normalized"}], "column_header_ids": [{"id": "id"}], "column_header_texts": [{"text": "text"}], "column_header_texts_normalized": [{"text_normalized": "text_normalized"}], "attributes": [{"type": "type", "text": "text", "location": {"begin": 5, "end": 3}}]}], "contexts": [{"text": "text", "location": {"begin": 5, "end": 3}}]}}], "passages": [{"passage_text": "passage_text", "passage_score": 13, "document_id": "document_id", "collection_id": "collection_id", "start_offset": 12, "end_offset": 10, "field": "field", "confidence": 0, "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "project_id": project_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.query(**req_copy)
+
+    def test_query_value_error_with_retries(self):
+        # Enable retries and run test_query_value_error.
+        _service.enable_retries()
+        self.test_query_value_error()
+
+        # Disable retries and run test_query_value_error.
+        _service.disable_retries()
+        self.test_query_value_error()
+
+class TestGetAutocompletion():
+    """
+    Test Class for get_autocompletion
+    """
+
+    @responses.activate
+    def test_get_autocompletion_all_params(self):
+        """
+        get_autocompletion()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/autocompletion')
+        mock_response = '{"completions": ["completions"]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+        prefix = 'testString'
+        collection_ids = ['testString']
+        field = 'testString'
+        count = 38
+
+        # Invoke method
+        response = _service.get_autocompletion(
+            project_id,
+            prefix,
+            collection_ids=collection_ids,
+            field=field,
+            count=count,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate query params
+        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = urllib.parse.unquote_plus(query_string)
+        assert 'prefix={}'.format(prefix) in query_string
+        assert 'collection_ids={}'.format(','.join(collection_ids)) in query_string
+        assert 'field={}'.format(field) in query_string
+        assert 'count={}'.format(count) in query_string
+
+    def test_get_autocompletion_all_params_with_retries(self):
+        # Enable retries and run test_get_autocompletion_all_params.
+        _service.enable_retries()
+        self.test_get_autocompletion_all_params()
+
+        # Disable retries and run test_get_autocompletion_all_params.
+        _service.disable_retries()
+        self.test_get_autocompletion_all_params()
+
+    @responses.activate
+    def test_get_autocompletion_required_params(self):
+        """
+        test_get_autocompletion_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/autocompletion')
+        mock_response = '{"completions": ["completions"]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+        prefix = 'testString'
+
+        # Invoke method
+        response = _service.get_autocompletion(
+            project_id,
+            prefix,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate query params
+        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = urllib.parse.unquote_plus(query_string)
+        assert 'prefix={}'.format(prefix) in query_string
+
+    def test_get_autocompletion_required_params_with_retries(self):
+        # Enable retries and run test_get_autocompletion_required_params.
+        _service.enable_retries()
+        self.test_get_autocompletion_required_params()
+
+        # Disable retries and run test_get_autocompletion_required_params.
+        _service.disable_retries()
+        self.test_get_autocompletion_required_params()
+
+    @responses.activate
+    def test_get_autocompletion_value_error(self):
+        """
+        test_get_autocompletion_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/autocompletion')
+        mock_response = '{"completions": ["completions"]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+        prefix = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "project_id": project_id,
+            "prefix": prefix,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.get_autocompletion(**req_copy)
+
+    def test_get_autocompletion_value_error_with_retries(self):
+        # Enable retries and run test_get_autocompletion_value_error.
+        _service.enable_retries()
+        self.test_get_autocompletion_value_error()
+
+        # Disable retries and run test_get_autocompletion_value_error.
+        _service.disable_retries()
+        self.test_get_autocompletion_value_error()
+
+class TestQueryCollectionNotices():
+    """
+    Test Class for query_collection_notices
+    """
+
+    @responses.activate
+    def test_query_collection_notices_all_params(self):
+        """
+        query_collection_notices()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections/testString/notices')
+        mock_response = '{"matching_results": 16, "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_id = 'testString'
+        filter = 'testString'
+        query = 'testString'
+        natural_language_query = 'testString'
+        count = 38
+        offset = 38
+
+        # Invoke method
+        response = _service.query_collection_notices(
+            project_id,
+            collection_id,
+            filter=filter,
+            query=query,
+            natural_language_query=natural_language_query,
+            count=count,
+            offset=offset,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate query params
+        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = urllib.parse.unquote_plus(query_string)
+        assert 'filter={}'.format(filter) in query_string
+        assert 'query={}'.format(query) in query_string
+        assert 'natural_language_query={}'.format(natural_language_query) in query_string
+        assert 'count={}'.format(count) in query_string
+        assert 'offset={}'.format(offset) in query_string
+
+    def test_query_collection_notices_all_params_with_retries(self):
+        # Enable retries and run test_query_collection_notices_all_params.
+        _service.enable_retries()
+        self.test_query_collection_notices_all_params()
+
+        # Disable retries and run test_query_collection_notices_all_params.
+        _service.disable_retries()
+        self.test_query_collection_notices_all_params()
+
+    @responses.activate
+    def test_query_collection_notices_required_params(self):
+        """
+        test_query_collection_notices_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections/testString/notices')
+        mock_response = '{"matching_results": 16, "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_id = 'testString'
+
+        # Invoke method
+        response = _service.query_collection_notices(
+            project_id,
+            collection_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_query_collection_notices_required_params_with_retries(self):
+        # Enable retries and run test_query_collection_notices_required_params.
+        _service.enable_retries()
+        self.test_query_collection_notices_required_params()
+
+        # Disable retries and run test_query_collection_notices_required_params.
+        _service.disable_retries()
+        self.test_query_collection_notices_required_params()
+
+    @responses.activate
+    def test_query_collection_notices_value_error(self):
+        """
+        test_query_collection_notices_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections/testString/notices')
+        mock_response = '{"matching_results": 16, "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "project_id": project_id,
+            "collection_id": collection_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.query_collection_notices(**req_copy)
+
+    def test_query_collection_notices_value_error_with_retries(self):
+        # Enable retries and run test_query_collection_notices_value_error.
+        _service.enable_retries()
+        self.test_query_collection_notices_value_error()
+
+        # Disable retries and run test_query_collection_notices_value_error.
+        _service.disable_retries()
+        self.test_query_collection_notices_value_error()
+
+class TestQueryNotices():
+    """
+    Test Class for query_notices
+    """
+
+    @responses.activate
+    def test_query_notices_all_params(self):
+        """
+        query_notices()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/notices')
+        mock_response = '{"matching_results": 16, "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+        filter = 'testString'
+        query = 'testString'
+        natural_language_query = 'testString'
+        count = 38
+        offset = 38
+
+        # Invoke method
+        response = _service.query_notices(
+            project_id,
+            filter=filter,
+            query=query,
+            natural_language_query=natural_language_query,
+            count=count,
+            offset=offset,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate query params
+        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = urllib.parse.unquote_plus(query_string)
+        assert 'filter={}'.format(filter) in query_string
+        assert 'query={}'.format(query) in query_string
+        assert 'natural_language_query={}'.format(natural_language_query) in query_string
+        assert 'count={}'.format(count) in query_string
+        assert 'offset={}'.format(offset) in query_string
+
+    def test_query_notices_all_params_with_retries(self):
+        # Enable retries and run test_query_notices_all_params.
+        _service.enable_retries()
+        self.test_query_notices_all_params()
+
+        # Disable retries and run test_query_notices_all_params.
+        _service.disable_retries()
+        self.test_query_notices_all_params()
+
+    @responses.activate
+    def test_query_notices_required_params(self):
+        """
+        test_query_notices_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/notices')
+        mock_response = '{"matching_results": 16, "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+
+        # Invoke method
+        response = _service.query_notices(
+            project_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_query_notices_required_params_with_retries(self):
+        # Enable retries and run test_query_notices_required_params.
+        _service.enable_retries()
+        self.test_query_notices_required_params()
+
+        # Disable retries and run test_query_notices_required_params.
+        _service.disable_retries()
+        self.test_query_notices_required_params()
+
+    @responses.activate
+    def test_query_notices_value_error(self):
+        """
+        test_query_notices_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/notices')
+        mock_response = '{"matching_results": 16, "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "project_id": project_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.query_notices(**req_copy)
+
+    def test_query_notices_value_error_with_retries(self):
+        # Enable retries and run test_query_notices_value_error.
+        _service.enable_retries()
+        self.test_query_notices_value_error()
+
+        # Disable retries and run test_query_notices_value_error.
+        _service.disable_retries()
+        self.test_query_notices_value_error()
+
+# endregion
+##############################################################################
+# End of Service: Queries
+##############################################################################
+
+##############################################################################
+# Start of Service: QueryModifications
+##############################################################################
+# region
+
+class TestGetStopwordList():
+    """
+    Test Class for get_stopword_list
+    """
+
+    @responses.activate
+    def test_get_stopword_list_all_params(self):
+        """
+        get_stopword_list()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections/testString/stopwords')
+        mock_response = '{"stopwords": ["stopwords"]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_id = 'testString'
+
+        # Invoke method
+        response = _service.get_stopword_list(
+            project_id,
+            collection_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_get_stopword_list_all_params_with_retries(self):
+        # Enable retries and run test_get_stopword_list_all_params.
+        _service.enable_retries()
+        self.test_get_stopword_list_all_params()
+
+        # Disable retries and run test_get_stopword_list_all_params.
+        _service.disable_retries()
+        self.test_get_stopword_list_all_params()
+
+    @responses.activate
+    def test_get_stopword_list_value_error(self):
+        """
+        test_get_stopword_list_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections/testString/stopwords')
+        mock_response = '{"stopwords": ["stopwords"]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "project_id": project_id,
+            "collection_id": collection_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.get_stopword_list(**req_copy)
+
+    def test_get_stopword_list_value_error_with_retries(self):
+        # Enable retries and run test_get_stopword_list_value_error.
+        _service.enable_retries()
+        self.test_get_stopword_list_value_error()
+
+        # Disable retries and run test_get_stopword_list_value_error.
+        _service.disable_retries()
+        self.test_get_stopword_list_value_error()
+
+class TestCreateStopwordList():
+    """
+    Test Class for create_stopword_list
+    """
+
+    @responses.activate
+    def test_create_stopword_list_all_params(self):
+        """
+        create_stopword_list()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections/testString/stopwords')
+        mock_response = '{"stopwords": ["stopwords"]}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_id = 'testString'
+        stopwords = ['testString']
+
+        # Invoke method
+        response = _service.create_stopword_list(
+            project_id,
+            collection_id,
+            stopwords=stopwords,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['stopwords'] == ['testString']
+
+    def test_create_stopword_list_all_params_with_retries(self):
+        # Enable retries and run test_create_stopword_list_all_params.
+        _service.enable_retries()
+        self.test_create_stopword_list_all_params()
+
+        # Disable retries and run test_create_stopword_list_all_params.
+        _service.disable_retries()
+        self.test_create_stopword_list_all_params()
+
+    @responses.activate
+    def test_create_stopword_list_required_params(self):
+        """
+        test_create_stopword_list_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections/testString/stopwords')
+        mock_response = '{"stopwords": ["stopwords"]}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_id = 'testString'
+
+        # Invoke method
+        response = _service.create_stopword_list(
+            project_id,
+            collection_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_create_stopword_list_required_params_with_retries(self):
+        # Enable retries and run test_create_stopword_list_required_params.
+        _service.enable_retries()
+        self.test_create_stopword_list_required_params()
+
+        # Disable retries and run test_create_stopword_list_required_params.
+        _service.disable_retries()
+        self.test_create_stopword_list_required_params()
+
+    @responses.activate
+    def test_create_stopword_list_value_error(self):
+        """
+        test_create_stopword_list_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections/testString/stopwords')
+        mock_response = '{"stopwords": ["stopwords"]}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "project_id": project_id,
+            "collection_id": collection_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.create_stopword_list(**req_copy)
+
+    def test_create_stopword_list_value_error_with_retries(self):
+        # Enable retries and run test_create_stopword_list_value_error.
+        _service.enable_retries()
+        self.test_create_stopword_list_value_error()
+
+        # Disable retries and run test_create_stopword_list_value_error.
+        _service.disable_retries()
+        self.test_create_stopword_list_value_error()
+
+class TestDeleteStopwordList():
+    """
+    Test Class for delete_stopword_list
+    """
+
+    @responses.activate
+    def test_delete_stopword_list_all_params(self):
+        """
+        delete_stopword_list()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections/testString/stopwords')
+        responses.add(responses.DELETE,
+                      url,
+                      status=204)
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_id = 'testString'
+
+        # Invoke method
+        response = _service.delete_stopword_list(
+            project_id,
+            collection_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 204
+
+    def test_delete_stopword_list_all_params_with_retries(self):
+        # Enable retries and run test_delete_stopword_list_all_params.
+        _service.enable_retries()
+        self.test_delete_stopword_list_all_params()
+
+        # Disable retries and run test_delete_stopword_list_all_params.
+        _service.disable_retries()
+        self.test_delete_stopword_list_all_params()
+
+    @responses.activate
+    def test_delete_stopword_list_value_error(self):
+        """
+        test_delete_stopword_list_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections/testString/stopwords')
+        responses.add(responses.DELETE,
+                      url,
+                      status=204)
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "project_id": project_id,
+            "collection_id": collection_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.delete_stopword_list(**req_copy)
+
+    def test_delete_stopword_list_value_error_with_retries(self):
+        # Enable retries and run test_delete_stopword_list_value_error.
+        _service.enable_retries()
+        self.test_delete_stopword_list_value_error()
+
+        # Disable retries and run test_delete_stopword_list_value_error.
+        _service.disable_retries()
+        self.test_delete_stopword_list_value_error()
+
+class TestListExpansions():
+    """
+    Test Class for list_expansions
+    """
+
+    @responses.activate
+    def test_list_expansions_all_params(self):
+        """
+        list_expansions()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections/testString/expansions')
+        mock_response = '{"expansions": [{"input_terms": ["input_terms"], "expanded_terms": ["expanded_terms"]}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_id = 'testString'
+
+        # Invoke method
+        response = _service.list_expansions(
+            project_id,
+            collection_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_list_expansions_all_params_with_retries(self):
+        # Enable retries and run test_list_expansions_all_params.
+        _service.enable_retries()
+        self.test_list_expansions_all_params()
+
+        # Disable retries and run test_list_expansions_all_params.
+        _service.disable_retries()
+        self.test_list_expansions_all_params()
+
+    @responses.activate
+    def test_list_expansions_value_error(self):
+        """
+        test_list_expansions_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections/testString/expansions')
+        mock_response = '{"expansions": [{"input_terms": ["input_terms"], "expanded_terms": ["expanded_terms"]}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "project_id": project_id,
+            "collection_id": collection_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.list_expansions(**req_copy)
+
+    def test_list_expansions_value_error_with_retries(self):
+        # Enable retries and run test_list_expansions_value_error.
+        _service.enable_retries()
+        self.test_list_expansions_value_error()
+
+        # Disable retries and run test_list_expansions_value_error.
+        _service.disable_retries()
+        self.test_list_expansions_value_error()
+
+class TestCreateExpansions():
+    """
+    Test Class for create_expansions
+    """
+
+    @responses.activate
+    def test_create_expansions_all_params(self):
+        """
+        create_expansions()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections/testString/expansions')
+        mock_response = '{"expansions": [{"input_terms": ["input_terms"], "expanded_terms": ["expanded_terms"]}]}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Construct a dict representation of a Expansion model
+        expansion_model = {}
+        expansion_model['input_terms'] = ['testString']
+        expansion_model['expanded_terms'] = ['testString']
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_id = 'testString'
+        expansions = [expansion_model]
+
+        # Invoke method
+        response = _service.create_expansions(
+            project_id,
+            collection_id,
+            expansions,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['expansions'] == [expansion_model]
+
+    def test_create_expansions_all_params_with_retries(self):
+        # Enable retries and run test_create_expansions_all_params.
+        _service.enable_retries()
+        self.test_create_expansions_all_params()
+
+        # Disable retries and run test_create_expansions_all_params.
+        _service.disable_retries()
+        self.test_create_expansions_all_params()
+
+    @responses.activate
+    def test_create_expansions_value_error(self):
+        """
+        test_create_expansions_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections/testString/expansions')
+        mock_response = '{"expansions": [{"input_terms": ["input_terms"], "expanded_terms": ["expanded_terms"]}]}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Construct a dict representation of a Expansion model
+        expansion_model = {}
+        expansion_model['input_terms'] = ['testString']
+        expansion_model['expanded_terms'] = ['testString']
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_id = 'testString'
+        expansions = [expansion_model]
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "project_id": project_id,
+            "collection_id": collection_id,
+            "expansions": expansions,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.create_expansions(**req_copy)
+
+    def test_create_expansions_value_error_with_retries(self):
+        # Enable retries and run test_create_expansions_value_error.
+        _service.enable_retries()
+        self.test_create_expansions_value_error()
+
+        # Disable retries and run test_create_expansions_value_error.
+        _service.disable_retries()
+        self.test_create_expansions_value_error()
+
+class TestDeleteExpansions():
+    """
+    Test Class for delete_expansions
+    """
+
+    @responses.activate
+    def test_delete_expansions_all_params(self):
+        """
+        delete_expansions()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections/testString/expansions')
+        responses.add(responses.DELETE,
+                      url,
+                      status=204)
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_id = 'testString'
+
+        # Invoke method
+        response = _service.delete_expansions(
+            project_id,
+            collection_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 204
+
+    def test_delete_expansions_all_params_with_retries(self):
+        # Enable retries and run test_delete_expansions_all_params.
+        _service.enable_retries()
+        self.test_delete_expansions_all_params()
+
+        # Disable retries and run test_delete_expansions_all_params.
+        _service.disable_retries()
+        self.test_delete_expansions_all_params()
+
+    @responses.activate
+    def test_delete_expansions_value_error(self):
+        """
+        test_delete_expansions_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections/testString/expansions')
+        responses.add(responses.DELETE,
+                      url,
+                      status=204)
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "project_id": project_id,
+            "collection_id": collection_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.delete_expansions(**req_copy)
+
+    def test_delete_expansions_value_error_with_retries(self):
+        # Enable retries and run test_delete_expansions_value_error.
+        _service.enable_retries()
+        self.test_delete_expansions_value_error()
+
+        # Disable retries and run test_delete_expansions_value_error.
+        _service.disable_retries()
+        self.test_delete_expansions_value_error()
+
+# endregion
+##############################################################################
+# End of Service: QueryModifications
+##############################################################################
+
+##############################################################################
+# Start of Service: ComponentSettings
+##############################################################################
+# region
+
+class TestGetComponentSettings():
+    """
+    Test Class for get_component_settings
+    """
+
+    @responses.activate
+    def test_get_component_settings_all_params(self):
+        """
+        get_component_settings()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/component_settings')
+        mock_response = '{"fields_shown": {"body": {"use_passage": false, "field": "field"}, "title": {"field": "field"}}, "autocomplete": true, "structured_search": false, "results_per_page": 16, "aggregations": [{"name": "name", "label": "label", "multiple_selections_allowed": false, "visualization_type": "auto"}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+
+        # Invoke method
+        response = _service.get_component_settings(
+            project_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_get_component_settings_all_params_with_retries(self):
+        # Enable retries and run test_get_component_settings_all_params.
+        _service.enable_retries()
+        self.test_get_component_settings_all_params()
+
+        # Disable retries and run test_get_component_settings_all_params.
+        _service.disable_retries()
+        self.test_get_component_settings_all_params()
+
+    @responses.activate
+    def test_get_component_settings_value_error(self):
+        """
+        test_get_component_settings_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/component_settings')
+        mock_response = '{"fields_shown": {"body": {"use_passage": false, "field": "field"}, "title": {"field": "field"}}, "autocomplete": true, "structured_search": false, "results_per_page": 16, "aggregations": [{"name": "name", "label": "label", "multiple_selections_allowed": false, "visualization_type": "auto"}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "project_id": project_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.get_component_settings(**req_copy)
+
+    def test_get_component_settings_value_error_with_retries(self):
+        # Enable retries and run test_get_component_settings_value_error.
+        _service.enable_retries()
+        self.test_get_component_settings_value_error()
+
+        # Disable retries and run test_get_component_settings_value_error.
+        _service.disable_retries()
+        self.test_get_component_settings_value_error()
+
+# endregion
+##############################################################################
+# End of Service: ComponentSettings
+##############################################################################
+
+##############################################################################
+# Start of Service: TrainingData
+##############################################################################
+# region
+
+class TestListTrainingQueries():
+    """
+    Test Class for list_training_queries
+    """
+
+    @responses.activate
+    def test_list_training_queries_all_params(self):
+        """
+        list_training_queries()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/training_data/queries')
+        mock_response = '{"queries": [{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"document_id": "document_id", "collection_id": "collection_id", "relevance": 9, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+
+        # Invoke method
+        response = _service.list_training_queries(
+            project_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_list_training_queries_all_params_with_retries(self):
+        # Enable retries and run test_list_training_queries_all_params.
+        _service.enable_retries()
+        self.test_list_training_queries_all_params()
+
+        # Disable retries and run test_list_training_queries_all_params.
+        _service.disable_retries()
+        self.test_list_training_queries_all_params()
+
+    @responses.activate
+    def test_list_training_queries_value_error(self):
+        """
+        test_list_training_queries_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/training_data/queries')
+        mock_response = '{"queries": [{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"document_id": "document_id", "collection_id": "collection_id", "relevance": 9, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "project_id": project_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.list_training_queries(**req_copy)
+
+    def test_list_training_queries_value_error_with_retries(self):
+        # Enable retries and run test_list_training_queries_value_error.
+        _service.enable_retries()
+        self.test_list_training_queries_value_error()
+
+        # Disable retries and run test_list_training_queries_value_error.
+        _service.disable_retries()
+        self.test_list_training_queries_value_error()
+
+class TestDeleteTrainingQueries():
+    """
+    Test Class for delete_training_queries
+    """
+
+    @responses.activate
+    def test_delete_training_queries_all_params(self):
+        """
+        delete_training_queries()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/training_data/queries')
+        responses.add(responses.DELETE,
+                      url,
+                      status=204)
+
+        # Set up parameter values
+        project_id = 'testString'
+
+        # Invoke method
+        response = _service.delete_training_queries(
+            project_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 204
+
+    def test_delete_training_queries_all_params_with_retries(self):
+        # Enable retries and run test_delete_training_queries_all_params.
+        _service.enable_retries()
+        self.test_delete_training_queries_all_params()
+
+        # Disable retries and run test_delete_training_queries_all_params.
+        _service.disable_retries()
+        self.test_delete_training_queries_all_params()
+
+    @responses.activate
+    def test_delete_training_queries_value_error(self):
+        """
+        test_delete_training_queries_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/training_data/queries')
+        responses.add(responses.DELETE,
+                      url,
+                      status=204)
+
+        # Set up parameter values
+        project_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "project_id": project_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.delete_training_queries(**req_copy)
+
+    def test_delete_training_queries_value_error_with_retries(self):
+        # Enable retries and run test_delete_training_queries_value_error.
+        _service.enable_retries()
+        self.test_delete_training_queries_value_error()
+
+        # Disable retries and run test_delete_training_queries_value_error.
+        _service.disable_retries()
+        self.test_delete_training_queries_value_error()
+
+class TestCreateTrainingQuery():
+    """
+    Test Class for create_training_query
+    """
+
+    @responses.activate
+    def test_create_training_query_all_params(self):
+        """
+        create_training_query()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/training_data/queries')
+        mock_response = '{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"document_id": "document_id", "collection_id": "collection_id", "relevance": 9, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=201)
+
+        # Construct a dict representation of a TrainingExample model
+        training_example_model = {}
+        training_example_model['document_id'] = 'testString'
+        training_example_model['collection_id'] = 'testString'
+        training_example_model['relevance'] = 38
+
+        # Set up parameter values
+        project_id = 'testString'
+        natural_language_query = 'testString'
+        examples = [training_example_model]
+        filter = 'testString'
+
+        # Invoke method
+        response = _service.create_training_query(
+            project_id,
+            natural_language_query,
+            examples,
+            filter=filter,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 201
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['natural_language_query'] == 'testString'
+        assert req_body['examples'] == [training_example_model]
+        assert req_body['filter'] == 'testString'
+
+    def test_create_training_query_all_params_with_retries(self):
+        # Enable retries and run test_create_training_query_all_params.
+        _service.enable_retries()
+        self.test_create_training_query_all_params()
+
+        # Disable retries and run test_create_training_query_all_params.
+        _service.disable_retries()
+        self.test_create_training_query_all_params()
+
+    @responses.activate
+    def test_create_training_query_value_error(self):
+        """
+        test_create_training_query_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/training_data/queries')
+        mock_response = '{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"document_id": "document_id", "collection_id": "collection_id", "relevance": 9, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=201)
+
+        # Construct a dict representation of a TrainingExample model
+        training_example_model = {}
+        training_example_model['document_id'] = 'testString'
+        training_example_model['collection_id'] = 'testString'
+        training_example_model['relevance'] = 38
+
+        # Set up parameter values
+        project_id = 'testString'
+        natural_language_query = 'testString'
+        examples = [training_example_model]
+        filter = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "project_id": project_id,
+            "natural_language_query": natural_language_query,
+            "examples": examples,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.create_training_query(**req_copy)
+
+    def test_create_training_query_value_error_with_retries(self):
+        # Enable retries and run test_create_training_query_value_error.
+        _service.enable_retries()
+        self.test_create_training_query_value_error()
+
+        # Disable retries and run test_create_training_query_value_error.
+        _service.disable_retries()
+        self.test_create_training_query_value_error()
+
+class TestGetTrainingQuery():
+    """
+    Test Class for get_training_query
+    """
+
+    @responses.activate
+    def test_get_training_query_all_params(self):
+        """
+        get_training_query()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/training_data/queries/testString')
+        mock_response = '{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"document_id": "document_id", "collection_id": "collection_id", "relevance": 9, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+        query_id = 'testString'
+
+        # Invoke method
+        response = _service.get_training_query(
+            project_id,
+            query_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_get_training_query_all_params_with_retries(self):
+        # Enable retries and run test_get_training_query_all_params.
+        _service.enable_retries()
+        self.test_get_training_query_all_params()
+
+        # Disable retries and run test_get_training_query_all_params.
+        _service.disable_retries()
+        self.test_get_training_query_all_params()
+
+    @responses.activate
+    def test_get_training_query_value_error(self):
+        """
+        test_get_training_query_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/training_data/queries/testString')
+        mock_response = '{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"document_id": "document_id", "collection_id": "collection_id", "relevance": 9, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+        query_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "project_id": project_id,
+            "query_id": query_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.get_training_query(**req_copy)
+
+    def test_get_training_query_value_error_with_retries(self):
+        # Enable retries and run test_get_training_query_value_error.
+        _service.enable_retries()
+        self.test_get_training_query_value_error()
+
+        # Disable retries and run test_get_training_query_value_error.
+        _service.disable_retries()
+        self.test_get_training_query_value_error()
+
+class TestUpdateTrainingQuery():
+    """
+    Test Class for update_training_query
+    """
+
+    @responses.activate
+    def test_update_training_query_all_params(self):
+        """
+        update_training_query()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/training_data/queries/testString')
+        mock_response = '{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"document_id": "document_id", "collection_id": "collection_id", "relevance": 9, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=201)
+
+        # Construct a dict representation of a TrainingExample model
+        training_example_model = {}
+        training_example_model['document_id'] = 'testString'
+        training_example_model['collection_id'] = 'testString'
+        training_example_model['relevance'] = 38
+
+        # Set up parameter values
+        project_id = 'testString'
+        query_id = 'testString'
+        natural_language_query = 'testString'
+        examples = [training_example_model]
+        filter = 'testString'
+
+        # Invoke method
+        response = _service.update_training_query(
+            project_id,
+            query_id,
+            natural_language_query,
+            examples,
+            filter=filter,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 201
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['natural_language_query'] == 'testString'
+        assert req_body['examples'] == [training_example_model]
+        assert req_body['filter'] == 'testString'
+
+    def test_update_training_query_all_params_with_retries(self):
+        # Enable retries and run test_update_training_query_all_params.
+        _service.enable_retries()
+        self.test_update_training_query_all_params()
+
+        # Disable retries and run test_update_training_query_all_params.
+        _service.disable_retries()
+        self.test_update_training_query_all_params()
+
+    @responses.activate
+    def test_update_training_query_value_error(self):
+        """
+        test_update_training_query_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/training_data/queries/testString')
+        mock_response = '{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"document_id": "document_id", "collection_id": "collection_id", "relevance": 9, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=201)
+
+        # Construct a dict representation of a TrainingExample model
+        training_example_model = {}
+        training_example_model['document_id'] = 'testString'
+        training_example_model['collection_id'] = 'testString'
+        training_example_model['relevance'] = 38
+
+        # Set up parameter values
+        project_id = 'testString'
+        query_id = 'testString'
+        natural_language_query = 'testString'
+        examples = [training_example_model]
+        filter = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "project_id": project_id,
+            "query_id": query_id,
+            "natural_language_query": natural_language_query,
+            "examples": examples,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.update_training_query(**req_copy)
+
+    def test_update_training_query_value_error_with_retries(self):
+        # Enable retries and run test_update_training_query_value_error.
+        _service.enable_retries()
+        self.test_update_training_query_value_error()
+
+        # Disable retries and run test_update_training_query_value_error.
+        _service.disable_retries()
+        self.test_update_training_query_value_error()
+
+class TestDeleteTrainingQuery():
+    """
+    Test Class for delete_training_query
+    """
+
+    @responses.activate
+    def test_delete_training_query_all_params(self):
+        """
+        delete_training_query()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/training_data/queries/testString')
+        responses.add(responses.DELETE,
+                      url,
+                      status=204)
+
+        # Set up parameter values
+        project_id = 'testString'
+        query_id = 'testString'
+
+        # Invoke method
+        response = _service.delete_training_query(
+            project_id,
+            query_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 204
+
+    def test_delete_training_query_all_params_with_retries(self):
+        # Enable retries and run test_delete_training_query_all_params.
+        _service.enable_retries()
+        self.test_delete_training_query_all_params()
+
+        # Disable retries and run test_delete_training_query_all_params.
+        _service.disable_retries()
+        self.test_delete_training_query_all_params()
+
+    @responses.activate
+    def test_delete_training_query_value_error(self):
+        """
+        test_delete_training_query_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/training_data/queries/testString')
+        responses.add(responses.DELETE,
+                      url,
+                      status=204)
+
+        # Set up parameter values
+        project_id = 'testString'
+        query_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "project_id": project_id,
+            "query_id": query_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.delete_training_query(**req_copy)
+
+    def test_delete_training_query_value_error_with_retries(self):
+        # Enable retries and run test_delete_training_query_value_error.
+        _service.enable_retries()
+        self.test_delete_training_query_value_error()
+
+        # Disable retries and run test_delete_training_query_value_error.
+        _service.disable_retries()
+        self.test_delete_training_query_value_error()
+
+# endregion
+##############################################################################
+# End of Service: TrainingData
+##############################################################################
+
+##############################################################################
+# Start of Service: Enrichments
+##############################################################################
+# region
+
+class TestListEnrichments():
+    """
+    Test Class for list_enrichments
+    """
+
+    @responses.activate
+    def test_list_enrichments_all_params(self):
+        """
+        list_enrichments()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/enrichments')
+        mock_response = '{"enrichments": [{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field", "classifier_id": "classifier_id", "model_id": "model_id", "confidence_threshold": 0, "top_k": 5}}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+
+        # Invoke method
+        response = _service.list_enrichments(
+            project_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_list_enrichments_all_params_with_retries(self):
+        # Enable retries and run test_list_enrichments_all_params.
+        _service.enable_retries()
+        self.test_list_enrichments_all_params()
+
+        # Disable retries and run test_list_enrichments_all_params.
+        _service.disable_retries()
+        self.test_list_enrichments_all_params()
+
+    @responses.activate
+    def test_list_enrichments_value_error(self):
+        """
+        test_list_enrichments_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/enrichments')
+        mock_response = '{"enrichments": [{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field", "classifier_id": "classifier_id", "model_id": "model_id", "confidence_threshold": 0, "top_k": 5}}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "project_id": project_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.list_enrichments(**req_copy)
+
+    def test_list_enrichments_value_error_with_retries(self):
+        # Enable retries and run test_list_enrichments_value_error.
+        _service.enable_retries()
+        self.test_list_enrichments_value_error()
+
+        # Disable retries and run test_list_enrichments_value_error.
+        _service.disable_retries()
+        self.test_list_enrichments_value_error()
+
+class TestCreateEnrichment():
+    """
+    Test Class for create_enrichment
+    """
+
+    @responses.activate
+    def test_create_enrichment_all_params(self):
+        """
+        create_enrichment()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/enrichments')
+        mock_response = '{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field", "classifier_id": "classifier_id", "model_id": "model_id", "confidence_threshold": 0, "top_k": 5}}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=201)
+
+        # Construct a dict representation of a EnrichmentOptions model
+        enrichment_options_model = {}
+        enrichment_options_model['languages'] = ['testString']
+        enrichment_options_model['entity_type'] = 'testString'
+        enrichment_options_model['regular_expression'] = 'testString'
+        enrichment_options_model['result_field'] = 'testString'
+        enrichment_options_model['classifier_id'] = 'testString'
+        enrichment_options_model['model_id'] = 'testString'
+        enrichment_options_model['confidence_threshold'] = 0
+        enrichment_options_model['top_k'] = 38
+
+        # Construct a dict representation of a CreateEnrichment model
+        create_enrichment_model = {}
+        create_enrichment_model['name'] = 'testString'
+        create_enrichment_model['description'] = 'testString'
+        create_enrichment_model['type'] = 'classifier'
+        create_enrichment_model['options'] = enrichment_options_model
+
+        # Set up parameter values
+        project_id = 'testString'
+        enrichment = create_enrichment_model
+        file = io.BytesIO(b'This is a mock file.').getvalue()
+
+        # Invoke method
+        response = _service.create_enrichment(
+            project_id,
+            enrichment,
+            file=file,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 201
+
+    def test_create_enrichment_all_params_with_retries(self):
+        # Enable retries and run test_create_enrichment_all_params.
+        _service.enable_retries()
+        self.test_create_enrichment_all_params()
+
+        # Disable retries and run test_create_enrichment_all_params.
+        _service.disable_retries()
+        self.test_create_enrichment_all_params()
+
+    @responses.activate
+    def test_create_enrichment_required_params(self):
+        """
+        test_create_enrichment_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/enrichments')
+        mock_response = '{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field", "classifier_id": "classifier_id", "model_id": "model_id", "confidence_threshold": 0, "top_k": 5}}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=201)
+
+        # Construct a dict representation of a EnrichmentOptions model
+        enrichment_options_model = {}
+        enrichment_options_model['languages'] = ['testString']
+        enrichment_options_model['entity_type'] = 'testString'
+        enrichment_options_model['regular_expression'] = 'testString'
+        enrichment_options_model['result_field'] = 'testString'
+        enrichment_options_model['classifier_id'] = 'testString'
+        enrichment_options_model['model_id'] = 'testString'
+        enrichment_options_model['confidence_threshold'] = 0
+        enrichment_options_model['top_k'] = 38
+
+        # Construct a dict representation of a CreateEnrichment model
+        create_enrichment_model = {}
+        create_enrichment_model['name'] = 'testString'
+        create_enrichment_model['description'] = 'testString'
+        create_enrichment_model['type'] = 'classifier'
+        create_enrichment_model['options'] = enrichment_options_model
+
+        # Set up parameter values
+        project_id = 'testString'
+        enrichment = create_enrichment_model
+
+        # Invoke method
+        response = _service.create_enrichment(
+            project_id,
+            enrichment,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 201
+
+    def test_create_enrichment_required_params_with_retries(self):
+        # Enable retries and run test_create_enrichment_required_params.
+        _service.enable_retries()
+        self.test_create_enrichment_required_params()
+
+        # Disable retries and run test_create_enrichment_required_params.
+        _service.disable_retries()
+        self.test_create_enrichment_required_params()
+
+    @responses.activate
+    def test_create_enrichment_value_error(self):
+        """
+        test_create_enrichment_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/enrichments')
+        mock_response = '{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field", "classifier_id": "classifier_id", "model_id": "model_id", "confidence_threshold": 0, "top_k": 5}}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=201)
+
+        # Construct a dict representation of a EnrichmentOptions model
+        enrichment_options_model = {}
+        enrichment_options_model['languages'] = ['testString']
+        enrichment_options_model['entity_type'] = 'testString'
+        enrichment_options_model['regular_expression'] = 'testString'
+        enrichment_options_model['result_field'] = 'testString'
+        enrichment_options_model['classifier_id'] = 'testString'
+        enrichment_options_model['model_id'] = 'testString'
+        enrichment_options_model['confidence_threshold'] = 0
+        enrichment_options_model['top_k'] = 38
+
+        # Construct a dict representation of a CreateEnrichment model
+        create_enrichment_model = {}
+        create_enrichment_model['name'] = 'testString'
+        create_enrichment_model['description'] = 'testString'
+        create_enrichment_model['type'] = 'classifier'
+        create_enrichment_model['options'] = enrichment_options_model
+
+        # Set up parameter values
+        project_id = 'testString'
+        enrichment = create_enrichment_model
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "project_id": project_id,
+            "enrichment": enrichment,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.create_enrichment(**req_copy)
+
+    def test_create_enrichment_value_error_with_retries(self):
+        # Enable retries and run test_create_enrichment_value_error.
+        _service.enable_retries()
+        self.test_create_enrichment_value_error()
+
+        # Disable retries and run test_create_enrichment_value_error.
+        _service.disable_retries()
+        self.test_create_enrichment_value_error()
+
+class TestGetEnrichment():
+    """
+    Test Class for get_enrichment
+    """
+
+    @responses.activate
+    def test_get_enrichment_all_params(self):
+        """
+        get_enrichment()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/enrichments/testString')
+        mock_response = '{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field", "classifier_id": "classifier_id", "model_id": "model_id", "confidence_threshold": 0, "top_k": 5}}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+        enrichment_id = 'testString'
+
+        # Invoke method
+        response = _service.get_enrichment(
+            project_id,
+            enrichment_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_get_enrichment_all_params_with_retries(self):
+        # Enable retries and run test_get_enrichment_all_params.
+        _service.enable_retries()
+        self.test_get_enrichment_all_params()
+
+        # Disable retries and run test_get_enrichment_all_params.
+        _service.disable_retries()
+        self.test_get_enrichment_all_params()
+
+    @responses.activate
+    def test_get_enrichment_value_error(self):
+        """
+        test_get_enrichment_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/enrichments/testString')
+        mock_response = '{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field", "classifier_id": "classifier_id", "model_id": "model_id", "confidence_threshold": 0, "top_k": 5}}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+        enrichment_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "project_id": project_id,
+            "enrichment_id": enrichment_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.get_enrichment(**req_copy)
+
+    def test_get_enrichment_value_error_with_retries(self):
+        # Enable retries and run test_get_enrichment_value_error.
+        _service.enable_retries()
+        self.test_get_enrichment_value_error()
+
+        # Disable retries and run test_get_enrichment_value_error.
+        _service.disable_retries()
+        self.test_get_enrichment_value_error()
+
+class TestUpdateEnrichment():
+    """
+    Test Class for update_enrichment
+    """
+
+    @responses.activate
+    def test_update_enrichment_all_params(self):
+        """
+        update_enrichment()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/enrichments/testString')
+        mock_response = '{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field", "classifier_id": "classifier_id", "model_id": "model_id", "confidence_threshold": 0, "top_k": 5}}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+        enrichment_id = 'testString'
+        name = 'testString'
+        description = 'testString'
+
+        # Invoke method
+        response = _service.update_enrichment(
+            project_id,
+            enrichment_id,
+            name,
+            description=description,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['name'] == 'testString'
+        assert req_body['description'] == 'testString'
+
+    def test_update_enrichment_all_params_with_retries(self):
+        # Enable retries and run test_update_enrichment_all_params.
+        _service.enable_retries()
+        self.test_update_enrichment_all_params()
+
+        # Disable retries and run test_update_enrichment_all_params.
+        _service.disable_retries()
+        self.test_update_enrichment_all_params()
+
+    @responses.activate
+    def test_update_enrichment_value_error(self):
+        """
+        test_update_enrichment_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/enrichments/testString')
+        mock_response = '{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field", "classifier_id": "classifier_id", "model_id": "model_id", "confidence_threshold": 0, "top_k": 5}}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+        enrichment_id = 'testString'
+        name = 'testString'
+        description = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "project_id": project_id,
+            "enrichment_id": enrichment_id,
+            "name": name,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.update_enrichment(**req_copy)
+
+    def test_update_enrichment_value_error_with_retries(self):
+        # Enable retries and run test_update_enrichment_value_error.
+        _service.enable_retries()
+        self.test_update_enrichment_value_error()
+
+        # Disable retries and run test_update_enrichment_value_error.
+        _service.disable_retries()
+        self.test_update_enrichment_value_error()
+
+class TestDeleteEnrichment():
+    """
+    Test Class for delete_enrichment
+    """
+
+    @responses.activate
+    def test_delete_enrichment_all_params(self):
+        """
+        delete_enrichment()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/enrichments/testString')
+        responses.add(responses.DELETE,
+                      url,
+                      status=204)
+
+        # Set up parameter values
+        project_id = 'testString'
+        enrichment_id = 'testString'
+
+        # Invoke method
+        response = _service.delete_enrichment(
+            project_id,
+            enrichment_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 204
+
+    def test_delete_enrichment_all_params_with_retries(self):
+        # Enable retries and run test_delete_enrichment_all_params.
+        _service.enable_retries()
+        self.test_delete_enrichment_all_params()
+
+        # Disable retries and run test_delete_enrichment_all_params.
+        _service.disable_retries()
+        self.test_delete_enrichment_all_params()
+
+    @responses.activate
+    def test_delete_enrichment_value_error(self):
+        """
+        test_delete_enrichment_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/enrichments/testString')
+        responses.add(responses.DELETE,
+                      url,
+                      status=204)
+
+        # Set up parameter values
+        project_id = 'testString'
+        enrichment_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "project_id": project_id,
+            "enrichment_id": enrichment_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.delete_enrichment(**req_copy)
+
+    def test_delete_enrichment_value_error_with_retries(self):
+        # Enable retries and run test_delete_enrichment_value_error.
+        _service.enable_retries()
+        self.test_delete_enrichment_value_error()
+
+        # Disable retries and run test_delete_enrichment_value_error.
+        _service.disable_retries()
+        self.test_delete_enrichment_value_error()
+
+# endregion
+##############################################################################
+# End of Service: Enrichments
+##############################################################################
+
+##############################################################################
+# Start of Service: DocumentClassifiers
+##############################################################################
+# region
+
+class TestListDocumentClassifiers():
+    """
+    Test Class for list_document_classifiers
+    """
+
+    @responses.activate
+    def test_list_document_classifiers_all_params(self):
+        """
+        list_document_classifiers()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/document_classifiers')
+        mock_response = '{"classifiers": [{"classifier_id": "classifier_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}], "recognized_fields": ["recognized_fields"], "answer_field": "answer_field", "training_data_file": "training_data_file", "test_data_file": "test_data_file", "federated_classification": {"field": "field"}}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+
+        # Invoke method
+        response = _service.list_document_classifiers(
+            project_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_list_document_classifiers_all_params_with_retries(self):
+        # Enable retries and run test_list_document_classifiers_all_params.
+        _service.enable_retries()
+        self.test_list_document_classifiers_all_params()
+
+        # Disable retries and run test_list_document_classifiers_all_params.
+        _service.disable_retries()
+        self.test_list_document_classifiers_all_params()
+
+    @responses.activate
+    def test_list_document_classifiers_value_error(self):
+        """
+        test_list_document_classifiers_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/document_classifiers')
+        mock_response = '{"classifiers": [{"classifier_id": "classifier_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}], "recognized_fields": ["recognized_fields"], "answer_field": "answer_field", "training_data_file": "training_data_file", "test_data_file": "test_data_file", "federated_classification": {"field": "field"}}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "project_id": project_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.list_document_classifiers(**req_copy)
+
+    def test_list_document_classifiers_value_error_with_retries(self):
+        # Enable retries and run test_list_document_classifiers_value_error.
+        _service.enable_retries()
+        self.test_list_document_classifiers_value_error()
+
+        # Disable retries and run test_list_document_classifiers_value_error.
+        _service.disable_retries()
+        self.test_list_document_classifiers_value_error()
+
+class TestCreateDocumentClassifier():
+    """
+    Test Class for create_document_classifier
+    """
+
+    @responses.activate
+    def test_create_document_classifier_all_params(self):
+        """
+        create_document_classifier()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/document_classifiers')
+        mock_response = '{"classifier_id": "classifier_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}], "recognized_fields": ["recognized_fields"], "answer_field": "answer_field", "training_data_file": "training_data_file", "test_data_file": "test_data_file", "federated_classification": {"field": "field"}}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=201)
+
+        # Construct a dict representation of a DocumentClassifierEnrichment model
+        document_classifier_enrichment_model = {}
+        document_classifier_enrichment_model['enrichment_id'] = 'testString'
+        document_classifier_enrichment_model['fields'] = ['testString']
+
+        # Construct a dict representation of a ClassifierFederatedModel model
+        classifier_federated_model_model = {}
+        classifier_federated_model_model['field'] = 'testString'
+
+        # Construct a dict representation of a CreateDocumentClassifier model
+        create_document_classifier_model = {}
+        create_document_classifier_model['name'] = 'testString'
+        create_document_classifier_model['description'] = 'testString'
+        create_document_classifier_model['language'] = 'en'
+        create_document_classifier_model['answer_field'] = 'testString'
+        create_document_classifier_model['enrichments'] = [document_classifier_enrichment_model]
+        create_document_classifier_model['federated_classification'] = classifier_federated_model_model
+
+        # Set up parameter values
+        project_id = 'testString'
+        training_data = io.BytesIO(b'This is a mock file.').getvalue()
+        classifier = create_document_classifier_model
+        test_data = io.BytesIO(b'This is a mock file.').getvalue()
+
+        # Invoke method
+        response = _service.create_document_classifier(
+            project_id,
+            training_data,
+            classifier,
+            test_data=test_data,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 201
+
+    def test_create_document_classifier_all_params_with_retries(self):
+        # Enable retries and run test_create_document_classifier_all_params.
+        _service.enable_retries()
+        self.test_create_document_classifier_all_params()
+
+        # Disable retries and run test_create_document_classifier_all_params.
+        _service.disable_retries()
+        self.test_create_document_classifier_all_params()
+
+    @responses.activate
+    def test_create_document_classifier_required_params(self):
+        """
+        test_create_document_classifier_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/document_classifiers')
+        mock_response = '{"classifier_id": "classifier_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}], "recognized_fields": ["recognized_fields"], "answer_field": "answer_field", "training_data_file": "training_data_file", "test_data_file": "test_data_file", "federated_classification": {"field": "field"}}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=201)
+
+        # Construct a dict representation of a DocumentClassifierEnrichment model
+        document_classifier_enrichment_model = {}
+        document_classifier_enrichment_model['enrichment_id'] = 'testString'
+        document_classifier_enrichment_model['fields'] = ['testString']
+
+        # Construct a dict representation of a ClassifierFederatedModel model
+        classifier_federated_model_model = {}
+        classifier_federated_model_model['field'] = 'testString'
+
+        # Construct a dict representation of a CreateDocumentClassifier model
+        create_document_classifier_model = {}
+        create_document_classifier_model['name'] = 'testString'
+        create_document_classifier_model['description'] = 'testString'
+        create_document_classifier_model['language'] = 'en'
+        create_document_classifier_model['answer_field'] = 'testString'
+        create_document_classifier_model['enrichments'] = [document_classifier_enrichment_model]
+        create_document_classifier_model['federated_classification'] = classifier_federated_model_model
+
+        # Set up parameter values
+        project_id = 'testString'
+        training_data = io.BytesIO(b'This is a mock file.').getvalue()
+        classifier = create_document_classifier_model
+
+        # Invoke method
+        response = _service.create_document_classifier(
+            project_id,
+            training_data,
+            classifier,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 201
+
+    def test_create_document_classifier_required_params_with_retries(self):
+        # Enable retries and run test_create_document_classifier_required_params.
+        _service.enable_retries()
+        self.test_create_document_classifier_required_params()
+
+        # Disable retries and run test_create_document_classifier_required_params.
+        _service.disable_retries()
+        self.test_create_document_classifier_required_params()
+
+    @responses.activate
+    def test_create_document_classifier_value_error(self):
+        """
+        test_create_document_classifier_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/document_classifiers')
+        mock_response = '{"classifier_id": "classifier_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}], "recognized_fields": ["recognized_fields"], "answer_field": "answer_field", "training_data_file": "training_data_file", "test_data_file": "test_data_file", "federated_classification": {"field": "field"}}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=201)
+
+        # Construct a dict representation of a DocumentClassifierEnrichment model
+        document_classifier_enrichment_model = {}
+        document_classifier_enrichment_model['enrichment_id'] = 'testString'
+        document_classifier_enrichment_model['fields'] = ['testString']
+
+        # Construct a dict representation of a ClassifierFederatedModel model
+        classifier_federated_model_model = {}
+        classifier_federated_model_model['field'] = 'testString'
+
+        # Construct a dict representation of a CreateDocumentClassifier model
+        create_document_classifier_model = {}
+        create_document_classifier_model['name'] = 'testString'
+        create_document_classifier_model['description'] = 'testString'
+        create_document_classifier_model['language'] = 'en'
+        create_document_classifier_model['answer_field'] = 'testString'
+        create_document_classifier_model['enrichments'] = [document_classifier_enrichment_model]
+        create_document_classifier_model['federated_classification'] = classifier_federated_model_model
+
+        # Set up parameter values
+        project_id = 'testString'
+        training_data = io.BytesIO(b'This is a mock file.').getvalue()
+        classifier = create_document_classifier_model
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "project_id": project_id,
+            "training_data": training_data,
+            "classifier": classifier,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.create_document_classifier(**req_copy)
+
+    def test_create_document_classifier_value_error_with_retries(self):
+        # Enable retries and run test_create_document_classifier_value_error.
+        _service.enable_retries()
+        self.test_create_document_classifier_value_error()
+
+        # Disable retries and run test_create_document_classifier_value_error.
+        _service.disable_retries()
+        self.test_create_document_classifier_value_error()
+
+class TestGetDocumentClassifier():
+    """
+    Test Class for get_document_classifier
+    """
+
+    @responses.activate
+    def test_get_document_classifier_all_params(self):
+        """
+        get_document_classifier()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/document_classifiers/testString')
+        mock_response = '{"classifier_id": "classifier_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}], "recognized_fields": ["recognized_fields"], "answer_field": "answer_field", "training_data_file": "training_data_file", "test_data_file": "test_data_file", "federated_classification": {"field": "field"}}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+        classifier_id = 'testString'
+
+        # Invoke method
+        response = _service.get_document_classifier(
+            project_id,
+            classifier_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_get_document_classifier_all_params_with_retries(self):
+        # Enable retries and run test_get_document_classifier_all_params.
+        _service.enable_retries()
+        self.test_get_document_classifier_all_params()
+
+        # Disable retries and run test_get_document_classifier_all_params.
+        _service.disable_retries()
+        self.test_get_document_classifier_all_params()
+
+    @responses.activate
+    def test_get_document_classifier_value_error(self):
+        """
+        test_get_document_classifier_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/document_classifiers/testString')
+        mock_response = '{"classifier_id": "classifier_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}], "recognized_fields": ["recognized_fields"], "answer_field": "answer_field", "training_data_file": "training_data_file", "test_data_file": "test_data_file", "federated_classification": {"field": "field"}}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+        classifier_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "project_id": project_id,
+            "classifier_id": classifier_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.get_document_classifier(**req_copy)
+
+    def test_get_document_classifier_value_error_with_retries(self):
+        # Enable retries and run test_get_document_classifier_value_error.
+        _service.enable_retries()
+        self.test_get_document_classifier_value_error()
+
+        # Disable retries and run test_get_document_classifier_value_error.
+        _service.disable_retries()
+        self.test_get_document_classifier_value_error()
+
+class TestUpdateDocumentClassifier():
+    """
+    Test Class for update_document_classifier
+    """
+
+    @responses.activate
+    def test_update_document_classifier_all_params(self):
+        """
+        update_document_classifier()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/document_classifiers/testString')
+        mock_response = '{"classifier_id": "classifier_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}], "recognized_fields": ["recognized_fields"], "answer_field": "answer_field", "training_data_file": "training_data_file", "test_data_file": "test_data_file", "federated_classification": {"field": "field"}}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=201)
+
+        # Construct a dict representation of a UpdateDocumentClassifier model
+        update_document_classifier_model = {}
+        update_document_classifier_model['name'] = 'testString'
+        update_document_classifier_model['description'] = 'testString'
+
+        # Set up parameter values
+        project_id = 'testString'
+        classifier_id = 'testString'
+        classifier = update_document_classifier_model
+        training_data = io.BytesIO(b'This is a mock file.').getvalue()
+        test_data = io.BytesIO(b'This is a mock file.').getvalue()
+
+        # Invoke method
+        response = _service.update_document_classifier(
+            project_id,
+            classifier_id,
+            classifier,
+            training_data=training_data,
+            test_data=test_data,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 201
+
+    def test_update_document_classifier_all_params_with_retries(self):
+        # Enable retries and run test_update_document_classifier_all_params.
+        _service.enable_retries()
+        self.test_update_document_classifier_all_params()
+
+        # Disable retries and run test_update_document_classifier_all_params.
+        _service.disable_retries()
+        self.test_update_document_classifier_all_params()
+
+    @responses.activate
+    def test_update_document_classifier_required_params(self):
+        """
+        test_update_document_classifier_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/document_classifiers/testString')
+        mock_response = '{"classifier_id": "classifier_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}], "recognized_fields": ["recognized_fields"], "answer_field": "answer_field", "training_data_file": "training_data_file", "test_data_file": "test_data_file", "federated_classification": {"field": "field"}}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=201)
+
+        # Construct a dict representation of a UpdateDocumentClassifier model
+        update_document_classifier_model = {}
+        update_document_classifier_model['name'] = 'testString'
+        update_document_classifier_model['description'] = 'testString'
+
+        # Set up parameter values
+        project_id = 'testString'
+        classifier_id = 'testString'
+        classifier = update_document_classifier_model
+
+        # Invoke method
+        response = _service.update_document_classifier(
+            project_id,
+            classifier_id,
+            classifier,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 201
+
+    def test_update_document_classifier_required_params_with_retries(self):
+        # Enable retries and run test_update_document_classifier_required_params.
+        _service.enable_retries()
+        self.test_update_document_classifier_required_params()
+
+        # Disable retries and run test_update_document_classifier_required_params.
+        _service.disable_retries()
+        self.test_update_document_classifier_required_params()
+
+    @responses.activate
+    def test_update_document_classifier_value_error(self):
+        """
+        test_update_document_classifier_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/document_classifiers/testString')
+        mock_response = '{"classifier_id": "classifier_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}], "recognized_fields": ["recognized_fields"], "answer_field": "answer_field", "training_data_file": "training_data_file", "test_data_file": "test_data_file", "federated_classification": {"field": "field"}}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=201)
+
+        # Construct a dict representation of a UpdateDocumentClassifier model
+        update_document_classifier_model = {}
+        update_document_classifier_model['name'] = 'testString'
+        update_document_classifier_model['description'] = 'testString'
+
+        # Set up parameter values
+        project_id = 'testString'
+        classifier_id = 'testString'
+        classifier = update_document_classifier_model
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "project_id": project_id,
+            "classifier_id": classifier_id,
+            "classifier": classifier,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.update_document_classifier(**req_copy)
+
+    def test_update_document_classifier_value_error_with_retries(self):
+        # Enable retries and run test_update_document_classifier_value_error.
+        _service.enable_retries()
+        self.test_update_document_classifier_value_error()
+
+        # Disable retries and run test_update_document_classifier_value_error.
+        _service.disable_retries()
+        self.test_update_document_classifier_value_error()
+
+class TestDeleteDocumentClassifier():
+    """
+    Test Class for delete_document_classifier
+    """
+
+    @responses.activate
+    def test_delete_document_classifier_all_params(self):
+        """
+        delete_document_classifier()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/document_classifiers/testString')
+        responses.add(responses.DELETE,
+                      url,
+                      status=204)
+
+        # Set up parameter values
+        project_id = 'testString'
+        classifier_id = 'testString'
+
+        # Invoke method
+        response = _service.delete_document_classifier(
+            project_id,
+            classifier_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 204
+
+    def test_delete_document_classifier_all_params_with_retries(self):
+        # Enable retries and run test_delete_document_classifier_all_params.
+        _service.enable_retries()
+        self.test_delete_document_classifier_all_params()
+
+        # Disable retries and run test_delete_document_classifier_all_params.
+        _service.disable_retries()
+        self.test_delete_document_classifier_all_params()
+
+    @responses.activate
+    def test_delete_document_classifier_value_error(self):
+        """
+        test_delete_document_classifier_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/document_classifiers/testString')
+        responses.add(responses.DELETE,
+                      url,
+                      status=204)
+
+        # Set up parameter values
+        project_id = 'testString'
+        classifier_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "project_id": project_id,
+            "classifier_id": classifier_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.delete_document_classifier(**req_copy)
+
+    def test_delete_document_classifier_value_error_with_retries(self):
+        # Enable retries and run test_delete_document_classifier_value_error.
+        _service.enable_retries()
+        self.test_delete_document_classifier_value_error()
+
+        # Disable retries and run test_delete_document_classifier_value_error.
+        _service.disable_retries()
+        self.test_delete_document_classifier_value_error()
+
+# endregion
+##############################################################################
+# End of Service: DocumentClassifiers
+##############################################################################
+
+##############################################################################
+# Start of Service: DocumentClassifierModels
+##############################################################################
+# region
+
+class TestListDocumentClassifierModels():
+    """
+    Test Class for list_document_classifier_models
+    """
+
+    @responses.activate
+    def test_list_document_classifier_models_all_params(self):
+        """
+        list_document_classifier_models()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/document_classifiers/testString/models')
+        mock_response = '{"models": [{"model_id": "model_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "training_data_file": "training_data_file", "test_data_file": "test_data_file", "status": "training", "evaluation": {"micro_average": {"precision": 0, "recall": 0, "f1": 0}, "macro_average": {"precision": 0, "recall": 0, "f1": 0}, "per_class": [{"name": "name", "precision": 0, "recall": 0, "f1": 0}]}, "enrichment_id": "enrichment_id", "deployed_at": "2019-01-01T12:00:00.000Z"}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+        classifier_id = 'testString'
+
+        # Invoke method
+        response = _service.list_document_classifier_models(
+            project_id,
+            classifier_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_list_document_classifier_models_all_params_with_retries(self):
+        # Enable retries and run test_list_document_classifier_models_all_params.
+        _service.enable_retries()
+        self.test_list_document_classifier_models_all_params()
+
+        # Disable retries and run test_list_document_classifier_models_all_params.
+        _service.disable_retries()
+        self.test_list_document_classifier_models_all_params()
+
+    @responses.activate
+    def test_list_document_classifier_models_value_error(self):
+        """
+        test_list_document_classifier_models_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/document_classifiers/testString/models')
+        mock_response = '{"models": [{"model_id": "model_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "training_data_file": "training_data_file", "test_data_file": "test_data_file", "status": "training", "evaluation": {"micro_average": {"precision": 0, "recall": 0, "f1": 0}, "macro_average": {"precision": 0, "recall": 0, "f1": 0}, "per_class": [{"name": "name", "precision": 0, "recall": 0, "f1": 0}]}, "enrichment_id": "enrichment_id", "deployed_at": "2019-01-01T12:00:00.000Z"}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+        classifier_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "project_id": project_id,
+            "classifier_id": classifier_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.list_document_classifier_models(**req_copy)
+
+    def test_list_document_classifier_models_value_error_with_retries(self):
+        # Enable retries and run test_list_document_classifier_models_value_error.
+        _service.enable_retries()
+        self.test_list_document_classifier_models_value_error()
+
+        # Disable retries and run test_list_document_classifier_models_value_error.
+        _service.disable_retries()
+        self.test_list_document_classifier_models_value_error()
+
+class TestCreateDocumentClassifierModel():
+    """
+    Test Class for create_document_classifier_model
+    """
+
+    @responses.activate
+    def test_create_document_classifier_model_all_params(self):
+        """
+        create_document_classifier_model()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/document_classifiers/testString/models')
+        mock_response = '{"model_id": "model_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "training_data_file": "training_data_file", "test_data_file": "test_data_file", "status": "training", "evaluation": {"micro_average": {"precision": 0, "recall": 0, "f1": 0}, "macro_average": {"precision": 0, "recall": 0, "f1": 0}, "per_class": [{"name": "name", "precision": 0, "recall": 0, "f1": 0}]}, "enrichment_id": "enrichment_id", "deployed_at": "2019-01-01T12:00:00.000Z"}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=201)
+
+        # Set up parameter values
+        project_id = 'testString'
+        classifier_id = 'testString'
+        name = 'testString'
+        description = 'testString'
+        learning_rate = 0
+        l1_regularization_strengths = [1.0E-6]
+        l2_regularization_strengths = [1.0E-6]
+        training_max_steps = 0
+        improvement_ratio = 0
+
+        # Invoke method
+        response = _service.create_document_classifier_model(
+            project_id,
+            classifier_id,
+            name,
+            description=description,
+            learning_rate=learning_rate,
+            l1_regularization_strengths=l1_regularization_strengths,
+            l2_regularization_strengths=l2_regularization_strengths,
+            training_max_steps=training_max_steps,
+            improvement_ratio=improvement_ratio,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 201
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['name'] == 'testString'
+        assert req_body['description'] == 'testString'
+        assert req_body['learning_rate'] == 0
+        assert req_body['l1_regularization_strengths'] == [1.0E-6]
+        assert req_body['l2_regularization_strengths'] == [1.0E-6]
+        assert req_body['training_max_steps'] == 0
+        assert req_body['improvement_ratio'] == 0
+
+    def test_create_document_classifier_model_all_params_with_retries(self):
+        # Enable retries and run test_create_document_classifier_model_all_params.
+        _service.enable_retries()
+        self.test_create_document_classifier_model_all_params()
+
+        # Disable retries and run test_create_document_classifier_model_all_params.
+        _service.disable_retries()
+        self.test_create_document_classifier_model_all_params()
+
+    @responses.activate
+    def test_create_document_classifier_model_value_error(self):
+        """
+        test_create_document_classifier_model_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/document_classifiers/testString/models')
+        mock_response = '{"model_id": "model_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "training_data_file": "training_data_file", "test_data_file": "test_data_file", "status": "training", "evaluation": {"micro_average": {"precision": 0, "recall": 0, "f1": 0}, "macro_average": {"precision": 0, "recall": 0, "f1": 0}, "per_class": [{"name": "name", "precision": 0, "recall": 0, "f1": 0}]}, "enrichment_id": "enrichment_id", "deployed_at": "2019-01-01T12:00:00.000Z"}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=201)
+
+        # Set up parameter values
+        project_id = 'testString'
+        classifier_id = 'testString'
+        name = 'testString'
+        description = 'testString'
+        learning_rate = 0
+        l1_regularization_strengths = [1.0E-6]
+        l2_regularization_strengths = [1.0E-6]
+        training_max_steps = 0
+        improvement_ratio = 0
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "project_id": project_id,
+            "classifier_id": classifier_id,
+            "name": name,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.create_document_classifier_model(**req_copy)
+
+    def test_create_document_classifier_model_value_error_with_retries(self):
+        # Enable retries and run test_create_document_classifier_model_value_error.
+        _service.enable_retries()
+        self.test_create_document_classifier_model_value_error()
+
+        # Disable retries and run test_create_document_classifier_model_value_error.
+        _service.disable_retries()
+        self.test_create_document_classifier_model_value_error()
+
+class TestGetDocumentClassifierModel():
+    """
+    Test Class for get_document_classifier_model
+    """
+
+    @responses.activate
+    def test_get_document_classifier_model_all_params(self):
+        """
+        get_document_classifier_model()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/document_classifiers/testString/models/testString')
+        mock_response = '{"model_id": "model_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "training_data_file": "training_data_file", "test_data_file": "test_data_file", "status": "training", "evaluation": {"micro_average": {"precision": 0, "recall": 0, "f1": 0}, "macro_average": {"precision": 0, "recall": 0, "f1": 0}, "per_class": [{"name": "name", "precision": 0, "recall": 0, "f1": 0}]}, "enrichment_id": "enrichment_id", "deployed_at": "2019-01-01T12:00:00.000Z"}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+        classifier_id = 'testString'
+        model_id = 'testString'
+
+        # Invoke method
+        response = _service.get_document_classifier_model(
+            project_id,
+            classifier_id,
+            model_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_get_document_classifier_model_all_params_with_retries(self):
+        # Enable retries and run test_get_document_classifier_model_all_params.
+        _service.enable_retries()
+        self.test_get_document_classifier_model_all_params()
+
+        # Disable retries and run test_get_document_classifier_model_all_params.
+        _service.disable_retries()
+        self.test_get_document_classifier_model_all_params()
+
+    @responses.activate
+    def test_get_document_classifier_model_value_error(self):
+        """
+        test_get_document_classifier_model_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/document_classifiers/testString/models/testString')
+        mock_response = '{"model_id": "model_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "training_data_file": "training_data_file", "test_data_file": "test_data_file", "status": "training", "evaluation": {"micro_average": {"precision": 0, "recall": 0, "f1": 0}, "macro_average": {"precision": 0, "recall": 0, "f1": 0}, "per_class": [{"name": "name", "precision": 0, "recall": 0, "f1": 0}]}, "enrichment_id": "enrichment_id", "deployed_at": "2019-01-01T12:00:00.000Z"}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+        classifier_id = 'testString'
+        model_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "project_id": project_id,
+            "classifier_id": classifier_id,
+            "model_id": model_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.get_document_classifier_model(**req_copy)
+
+    def test_get_document_classifier_model_value_error_with_retries(self):
+        # Enable retries and run test_get_document_classifier_model_value_error.
+        _service.enable_retries()
+        self.test_get_document_classifier_model_value_error()
+
+        # Disable retries and run test_get_document_classifier_model_value_error.
+        _service.disable_retries()
+        self.test_get_document_classifier_model_value_error()
+
+class TestUpdateDocumentClassifierModel():
+    """
+    Test Class for update_document_classifier_model
+    """
+
+    @responses.activate
+    def test_update_document_classifier_model_all_params(self):
+        """
+        update_document_classifier_model()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/document_classifiers/testString/models/testString')
+        mock_response = '{"model_id": "model_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "training_data_file": "training_data_file", "test_data_file": "test_data_file", "status": "training", "evaluation": {"micro_average": {"precision": 0, "recall": 0, "f1": 0}, "macro_average": {"precision": 0, "recall": 0, "f1": 0}, "per_class": [{"name": "name", "precision": 0, "recall": 0, "f1": 0}]}, "enrichment_id": "enrichment_id", "deployed_at": "2019-01-01T12:00:00.000Z"}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=201)
+
+        # Set up parameter values
+        project_id = 'testString'
+        classifier_id = 'testString'
+        model_id = 'testString'
+        name = 'testString'
+        description = 'testString'
+
+        # Invoke method
+        response = _service.update_document_classifier_model(
+            project_id,
+            classifier_id,
+            model_id,
+            name=name,
+            description=description,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 201
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['name'] == 'testString'
+        assert req_body['description'] == 'testString'
+
+    def test_update_document_classifier_model_all_params_with_retries(self):
+        # Enable retries and run test_update_document_classifier_model_all_params.
+        _service.enable_retries()
+        self.test_update_document_classifier_model_all_params()
+
+        # Disable retries and run test_update_document_classifier_model_all_params.
+        _service.disable_retries()
+        self.test_update_document_classifier_model_all_params()
+
+    @responses.activate
+    def test_update_document_classifier_model_value_error(self):
+        """
+        test_update_document_classifier_model_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/document_classifiers/testString/models/testString')
+        mock_response = '{"model_id": "model_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "training_data_file": "training_data_file", "test_data_file": "test_data_file", "status": "training", "evaluation": {"micro_average": {"precision": 0, "recall": 0, "f1": 0}, "macro_average": {"precision": 0, "recall": 0, "f1": 0}, "per_class": [{"name": "name", "precision": 0, "recall": 0, "f1": 0}]}, "enrichment_id": "enrichment_id", "deployed_at": "2019-01-01T12:00:00.000Z"}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=201)
+
+        # Set up parameter values
+        project_id = 'testString'
+        classifier_id = 'testString'
+        model_id = 'testString'
+        name = 'testString'
+        description = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "project_id": project_id,
+            "classifier_id": classifier_id,
+            "model_id": model_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.update_document_classifier_model(**req_copy)
+
+    def test_update_document_classifier_model_value_error_with_retries(self):
+        # Enable retries and run test_update_document_classifier_model_value_error.
+        _service.enable_retries()
+        self.test_update_document_classifier_model_value_error()
+
+        # Disable retries and run test_update_document_classifier_model_value_error.
+        _service.disable_retries()
+        self.test_update_document_classifier_model_value_error()
+
+class TestDeleteDocumentClassifierModel():
+    """
+    Test Class for delete_document_classifier_model
+    """
+
+    @responses.activate
+    def test_delete_document_classifier_model_all_params(self):
+        """
+        delete_document_classifier_model()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/document_classifiers/testString/models/testString')
+        responses.add(responses.DELETE,
+                      url,
+                      status=204)
+
+        # Set up parameter values
+        project_id = 'testString'
+        classifier_id = 'testString'
+        model_id = 'testString'
+
+        # Invoke method
+        response = _service.delete_document_classifier_model(
+            project_id,
+            classifier_id,
+            model_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 204
+
+    def test_delete_document_classifier_model_all_params_with_retries(self):
+        # Enable retries and run test_delete_document_classifier_model_all_params.
+        _service.enable_retries()
+        self.test_delete_document_classifier_model_all_params()
+
+        # Disable retries and run test_delete_document_classifier_model_all_params.
+        _service.disable_retries()
+        self.test_delete_document_classifier_model_all_params()
+
+    @responses.activate
+    def test_delete_document_classifier_model_value_error(self):
+        """
+        test_delete_document_classifier_model_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/document_classifiers/testString/models/testString')
+        responses.add(responses.DELETE,
+                      url,
+                      status=204)
+
+        # Set up parameter values
+        project_id = 'testString'
+        classifier_id = 'testString'
+        model_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "project_id": project_id,
+            "classifier_id": classifier_id,
+            "model_id": model_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.delete_document_classifier_model(**req_copy)
+
+    def test_delete_document_classifier_model_value_error_with_retries(self):
+        # Enable retries and run test_delete_document_classifier_model_value_error.
+        _service.enable_retries()
+        self.test_delete_document_classifier_model_value_error()
+
+        # Disable retries and run test_delete_document_classifier_model_value_error.
+        _service.disable_retries()
+        self.test_delete_document_classifier_model_value_error()
+
+# endregion
+##############################################################################
+# End of Service: DocumentClassifierModels
+##############################################################################
+
+##############################################################################
+# Start of Service: Analyze
+##############################################################################
+# region
+
+class TestAnalyzeDocument():
+    """
+    Test Class for analyze_document
+    """
+
+    @responses.activate
+    def test_analyze_document_all_params(self):
+        """
+        analyze_document()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections/testString/analyze')
+        mock_response = '{"notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}], "result": {"metadata": {"mapKey": "anyValue"}}}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_id = 'testString'
+        file = io.BytesIO(b'This is a mock file.').getvalue()
+        filename = 'testString'
+        file_content_type = 'application/json'
+        metadata = 'testString'
+
+        # Invoke method
+        response = _service.analyze_document(
+            project_id,
+            collection_id,
+            file=file,
+            filename=filename,
+            file_content_type=file_content_type,
+            metadata=metadata,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_analyze_document_all_params_with_retries(self):
+        # Enable retries and run test_analyze_document_all_params.
+        _service.enable_retries()
+        self.test_analyze_document_all_params()
+
+        # Disable retries and run test_analyze_document_all_params.
+        _service.disable_retries()
+        self.test_analyze_document_all_params()
+
+    @responses.activate
+    def test_analyze_document_required_params(self):
+        """
+        test_analyze_document_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections/testString/analyze')
+        mock_response = '{"notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}], "result": {"metadata": {"mapKey": "anyValue"}}}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_id = 'testString'
+
+        # Invoke method
+        response = _service.analyze_document(
+            project_id,
+            collection_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_analyze_document_required_params_with_retries(self):
+        # Enable retries and run test_analyze_document_required_params.
+        _service.enable_retries()
+        self.test_analyze_document_required_params()
+
+        # Disable retries and run test_analyze_document_required_params.
+        _service.disable_retries()
+        self.test_analyze_document_required_params()
+
+    @responses.activate
+    def test_analyze_document_value_error(self):
+        """
+        test_analyze_document_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections/testString/analyze')
+        mock_response = '{"notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}], "result": {"metadata": {"mapKey": "anyValue"}}}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "project_id": project_id,
+            "collection_id": collection_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.analyze_document(**req_copy)
+
+    def test_analyze_document_value_error_with_retries(self):
+        # Enable retries and run test_analyze_document_value_error.
+        _service.enable_retries()
+        self.test_analyze_document_value_error()
+
+        # Disable retries and run test_analyze_document_value_error.
+        _service.disable_retries()
+        self.test_analyze_document_value_error()
+
+# endregion
+##############################################################################
+# End of Service: Analyze
 ##############################################################################
 
 ##############################################################################
@@ -3123,24 +5178,13 @@ class TestDeleteUserData():
     Test Class for delete_user_data
     """
 
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     @responses.activate
     def test_delete_user_data_all_params(self):
         """
         delete_user_data()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/user_data')
+        url = preprocess_url('/v2/user_data')
         responses.add(responses.DELETE,
                       url,
                       status=200)
@@ -3162,6 +5206,14 @@ class TestDeleteUserData():
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'customer_id={}'.format(customer_id) in query_string
 
+    def test_delete_user_data_all_params_with_retries(self):
+        # Enable retries and run test_delete_user_data_all_params.
+        _service.enable_retries()
+        self.test_delete_user_data_all_params()
+
+        # Disable retries and run test_delete_user_data_all_params.
+        _service.disable_retries()
+        self.test_delete_user_data_all_params()
 
     @responses.activate
     def test_delete_user_data_value_error(self):
@@ -3169,7 +5221,7 @@ class TestDeleteUserData():
         test_delete_user_data_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/user_data')
+        url = preprocess_url('/v2/user_data')
         responses.add(responses.DELETE,
                       url,
                       status=200)
@@ -3186,7 +5238,14 @@ class TestDeleteUserData():
             with pytest.raises(ValueError):
                 _service.delete_user_data(**req_copy)
 
+    def test_delete_user_data_value_error_with_retries(self):
+        # Enable retries and run test_delete_user_data_value_error.
+        _service.enable_retries()
+        self.test_delete_user_data_value_error()
 
+        # Disable retries and run test_delete_user_data_value_error.
+        _service.disable_retries()
+        self.test_delete_user_data_value_error()
 
 # endregion
 ##############################################################################
@@ -3212,7 +5271,7 @@ class TestModel_AnalyzedDocument():
 
         notice_model = {} # Notice
         notice_model['notice_id'] = 'testString'
-        notice_model['created'] = "2019-01-01T12:00:00Z"
+        notice_model['created'] = '2019-01-01T12:00:00Z'
         notice_model['document_id'] = 'testString'
         notice_model['collection_id'] = 'testString'
         notice_model['query_id'] = 'testString'
@@ -3221,8 +5280,8 @@ class TestModel_AnalyzedDocument():
         notice_model['description'] = 'testString'
 
         analyzed_result_model = {} # AnalyzedResult
-        analyzed_result_model['metadata'] = {}
-        analyzed_result_model['foo'] = { 'foo': 'bar' }
+        analyzed_result_model['metadata'] = {'key1': 'testString'}
+        analyzed_result_model['foo'] = {'foo': 'bar'}
 
         # Construct a json representation of a AnalyzedDocument model
         analyzed_document_model_json = {}
@@ -3256,8 +5315,8 @@ class TestModel_AnalyzedResult():
 
         # Construct a json representation of a AnalyzedResult model
         analyzed_result_model_json = {}
-        analyzed_result_model_json['metadata'] = {}
-        analyzed_result_model_json['foo'] = { 'foo': 'bar' }
+        analyzed_result_model_json['metadata'] = {'key1': 'testString'}
+        analyzed_result_model_json['foo'] = {'foo': 'bar'}
 
         # Construct a model instance of AnalyzedResult by calling from_dict on the json representation
         analyzed_result_model = AnalyzedResult.from_dict(analyzed_result_model_json)
@@ -3279,10 +5338,88 @@ class TestModel_AnalyzedResult():
         actual_dict = analyzed_result_model.get_properties()
         assert actual_dict == {}
 
-        expected_dict = {'foo': { 'foo': 'bar' }}
+        expected_dict = {'foo': {'foo': 'bar'}}
         analyzed_result_model.set_properties(expected_dict)
         actual_dict = analyzed_result_model.get_properties()
         assert actual_dict == expected_dict
+
+class TestModel_ClassifierFederatedModel():
+    """
+    Test Class for ClassifierFederatedModel
+    """
+
+    def test_classifier_federated_model_serialization(self):
+        """
+        Test serialization/deserialization for ClassifierFederatedModel
+        """
+
+        # Construct a json representation of a ClassifierFederatedModel model
+        classifier_federated_model_model_json = {}
+        classifier_federated_model_model_json['field'] = 'testString'
+
+        # Construct a model instance of ClassifierFederatedModel by calling from_dict on the json representation
+        classifier_federated_model_model = ClassifierFederatedModel.from_dict(classifier_federated_model_model_json)
+        assert classifier_federated_model_model != False
+
+        # Construct a model instance of ClassifierFederatedModel by calling from_dict on the json representation
+        classifier_federated_model_model_dict = ClassifierFederatedModel.from_dict(classifier_federated_model_model_json).__dict__
+        classifier_federated_model_model2 = ClassifierFederatedModel(**classifier_federated_model_model_dict)
+
+        # Verify the model instances are equivalent
+        assert classifier_federated_model_model == classifier_federated_model_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        classifier_federated_model_model_json2 = classifier_federated_model_model.to_dict()
+        assert classifier_federated_model_model_json2 == classifier_federated_model_model_json
+
+class TestModel_ClassifierModelEvaluation():
+    """
+    Test Class for ClassifierModelEvaluation
+    """
+
+    def test_classifier_model_evaluation_serialization(self):
+        """
+        Test serialization/deserialization for ClassifierModelEvaluation
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        model_evaluation_micro_average_model = {} # ModelEvaluationMicroAverage
+        model_evaluation_micro_average_model['precision'] = 0
+        model_evaluation_micro_average_model['recall'] = 0
+        model_evaluation_micro_average_model['f1'] = 0
+
+        model_evaluation_macro_average_model = {} # ModelEvaluationMacroAverage
+        model_evaluation_macro_average_model['precision'] = 0
+        model_evaluation_macro_average_model['recall'] = 0
+        model_evaluation_macro_average_model['f1'] = 0
+
+        per_class_model_evaluation_model = {} # PerClassModelEvaluation
+        per_class_model_evaluation_model['name'] = 'testString'
+        per_class_model_evaluation_model['precision'] = 0
+        per_class_model_evaluation_model['recall'] = 0
+        per_class_model_evaluation_model['f1'] = 0
+
+        # Construct a json representation of a ClassifierModelEvaluation model
+        classifier_model_evaluation_model_json = {}
+        classifier_model_evaluation_model_json['micro_average'] = model_evaluation_micro_average_model
+        classifier_model_evaluation_model_json['macro_average'] = model_evaluation_macro_average_model
+        classifier_model_evaluation_model_json['per_class'] = [per_class_model_evaluation_model]
+
+        # Construct a model instance of ClassifierModelEvaluation by calling from_dict on the json representation
+        classifier_model_evaluation_model = ClassifierModelEvaluation.from_dict(classifier_model_evaluation_model_json)
+        assert classifier_model_evaluation_model != False
+
+        # Construct a model instance of ClassifierModelEvaluation by calling from_dict on the json representation
+        classifier_model_evaluation_model_dict = ClassifierModelEvaluation.from_dict(classifier_model_evaluation_model_json).__dict__
+        classifier_model_evaluation_model2 = ClassifierModelEvaluation(**classifier_model_evaluation_model_dict)
+
+        # Verify the model instances are equivalent
+        assert classifier_model_evaluation_model == classifier_model_evaluation_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        classifier_model_evaluation_model_json2 = classifier_model_evaluation_model.to_dict()
+        assert classifier_model_evaluation_model_json2 == classifier_model_evaluation_model_json
 
 class TestModel_Collection():
     """
@@ -3330,14 +5467,19 @@ class TestModel_CollectionDetails():
         collection_enrichment_model['enrichment_id'] = 'testString'
         collection_enrichment_model['fields'] = ['testString']
 
+        collection_details_smart_document_understanding_model = {} # CollectionDetailsSmartDocumentUnderstanding
+        collection_details_smart_document_understanding_model['enabled'] = True
+        collection_details_smart_document_understanding_model['model'] = 'custom'
+
         # Construct a json representation of a CollectionDetails model
         collection_details_model_json = {}
         collection_details_model_json['collection_id'] = 'testString'
         collection_details_model_json['name'] = 'testString'
         collection_details_model_json['description'] = 'testString'
-        collection_details_model_json['created'] = "2019-01-01T12:00:00Z"
+        collection_details_model_json['created'] = '2019-01-01T12:00:00Z'
         collection_details_model_json['language'] = 'en'
         collection_details_model_json['enrichments'] = [collection_enrichment_model]
+        collection_details_model_json['smart_document_understanding'] = collection_details_smart_document_understanding_model
 
         # Construct a model instance of CollectionDetails by calling from_dict on the json representation
         collection_details_model = CollectionDetails.from_dict(collection_details_model_json)
@@ -3353,6 +5495,36 @@ class TestModel_CollectionDetails():
         # Convert model instance back to dict and verify no loss of data
         collection_details_model_json2 = collection_details_model.to_dict()
         assert collection_details_model_json2 == collection_details_model_json
+
+class TestModel_CollectionDetailsSmartDocumentUnderstanding():
+    """
+    Test Class for CollectionDetailsSmartDocumentUnderstanding
+    """
+
+    def test_collection_details_smart_document_understanding_serialization(self):
+        """
+        Test serialization/deserialization for CollectionDetailsSmartDocumentUnderstanding
+        """
+
+        # Construct a json representation of a CollectionDetailsSmartDocumentUnderstanding model
+        collection_details_smart_document_understanding_model_json = {}
+        collection_details_smart_document_understanding_model_json['enabled'] = True
+        collection_details_smart_document_understanding_model_json['model'] = 'custom'
+
+        # Construct a model instance of CollectionDetailsSmartDocumentUnderstanding by calling from_dict on the json representation
+        collection_details_smart_document_understanding_model = CollectionDetailsSmartDocumentUnderstanding.from_dict(collection_details_smart_document_understanding_model_json)
+        assert collection_details_smart_document_understanding_model != False
+
+        # Construct a model instance of CollectionDetailsSmartDocumentUnderstanding by calling from_dict on the json representation
+        collection_details_smart_document_understanding_model_dict = CollectionDetailsSmartDocumentUnderstanding.from_dict(collection_details_smart_document_understanding_model_json).__dict__
+        collection_details_smart_document_understanding_model2 = CollectionDetailsSmartDocumentUnderstanding(**collection_details_smart_document_understanding_model_dict)
+
+        # Verify the model instances are equivalent
+        assert collection_details_smart_document_understanding_model == collection_details_smart_document_understanding_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        collection_details_smart_document_understanding_model_json2 = collection_details_smart_document_understanding_model.to_dict()
+        assert collection_details_smart_document_understanding_model_json2 == collection_details_smart_document_understanding_model_json
 
 class TestModel_CollectionEnrichment():
     """
@@ -3595,6 +5767,49 @@ class TestModel_ComponentSettingsResponse():
         component_settings_response_model_json2 = component_settings_response_model.to_dict()
         assert component_settings_response_model_json2 == component_settings_response_model_json
 
+class TestModel_CreateDocumentClassifier():
+    """
+    Test Class for CreateDocumentClassifier
+    """
+
+    def test_create_document_classifier_serialization(self):
+        """
+        Test serialization/deserialization for CreateDocumentClassifier
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        document_classifier_enrichment_model = {} # DocumentClassifierEnrichment
+        document_classifier_enrichment_model['enrichment_id'] = 'testString'
+        document_classifier_enrichment_model['fields'] = ['testString']
+
+        classifier_federated_model_model = {} # ClassifierFederatedModel
+        classifier_federated_model_model['field'] = 'testString'
+
+        # Construct a json representation of a CreateDocumentClassifier model
+        create_document_classifier_model_json = {}
+        create_document_classifier_model_json['name'] = 'testString'
+        create_document_classifier_model_json['description'] = 'testString'
+        create_document_classifier_model_json['language'] = 'en'
+        create_document_classifier_model_json['answer_field'] = 'testString'
+        create_document_classifier_model_json['enrichments'] = [document_classifier_enrichment_model]
+        create_document_classifier_model_json['federated_classification'] = classifier_federated_model_model
+
+        # Construct a model instance of CreateDocumentClassifier by calling from_dict on the json representation
+        create_document_classifier_model = CreateDocumentClassifier.from_dict(create_document_classifier_model_json)
+        assert create_document_classifier_model != False
+
+        # Construct a model instance of CreateDocumentClassifier by calling from_dict on the json representation
+        create_document_classifier_model_dict = CreateDocumentClassifier.from_dict(create_document_classifier_model_json).__dict__
+        create_document_classifier_model2 = CreateDocumentClassifier(**create_document_classifier_model_dict)
+
+        # Verify the model instances are equivalent
+        assert create_document_classifier_model == create_document_classifier_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        create_document_classifier_model_json2 = create_document_classifier_model.to_dict()
+        assert create_document_classifier_model_json2 == create_document_classifier_model_json
+
 class TestModel_CreateEnrichment():
     """
     Test Class for CreateEnrichment
@@ -3612,12 +5827,16 @@ class TestModel_CreateEnrichment():
         enrichment_options_model['entity_type'] = 'testString'
         enrichment_options_model['regular_expression'] = 'testString'
         enrichment_options_model['result_field'] = 'testString'
+        enrichment_options_model['classifier_id'] = 'testString'
+        enrichment_options_model['model_id'] = 'testString'
+        enrichment_options_model['confidence_threshold'] = 0
+        enrichment_options_model['top_k'] = 38
 
         # Construct a json representation of a CreateEnrichment model
         create_enrichment_model_json = {}
         create_enrichment_model_json['name'] = 'testString'
         create_enrichment_model_json['description'] = 'testString'
-        create_enrichment_model_json['type'] = 'dictionary'
+        create_enrichment_model_json['type'] = 'classifier'
         create_enrichment_model_json['options'] = enrichment_options_model
 
         # Construct a model instance of CreateEnrichment by calling from_dict on the json representation
@@ -3884,6 +6103,345 @@ class TestModel_DocumentAttribute():
         document_attribute_model_json2 = document_attribute_model.to_dict()
         assert document_attribute_model_json2 == document_attribute_model_json
 
+class TestModel_DocumentClassifier():
+    """
+    Test Class for DocumentClassifier
+    """
+
+    def test_document_classifier_serialization(self):
+        """
+        Test serialization/deserialization for DocumentClassifier
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        document_classifier_enrichment_model = {} # DocumentClassifierEnrichment
+        document_classifier_enrichment_model['enrichment_id'] = 'testString'
+        document_classifier_enrichment_model['fields'] = ['testString']
+
+        classifier_federated_model_model = {} # ClassifierFederatedModel
+        classifier_federated_model_model['field'] = 'testString'
+
+        # Construct a json representation of a DocumentClassifier model
+        document_classifier_model_json = {}
+        document_classifier_model_json['classifier_id'] = 'testString'
+        document_classifier_model_json['name'] = 'testString'
+        document_classifier_model_json['description'] = 'testString'
+        document_classifier_model_json['created'] = '2019-01-01T12:00:00Z'
+        document_classifier_model_json['language'] = 'en'
+        document_classifier_model_json['enrichments'] = [document_classifier_enrichment_model]
+        document_classifier_model_json['recognized_fields'] = ['testString']
+        document_classifier_model_json['answer_field'] = 'testString'
+        document_classifier_model_json['training_data_file'] = 'testString'
+        document_classifier_model_json['test_data_file'] = 'testString'
+        document_classifier_model_json['federated_classification'] = classifier_federated_model_model
+
+        # Construct a model instance of DocumentClassifier by calling from_dict on the json representation
+        document_classifier_model = DocumentClassifier.from_dict(document_classifier_model_json)
+        assert document_classifier_model != False
+
+        # Construct a model instance of DocumentClassifier by calling from_dict on the json representation
+        document_classifier_model_dict = DocumentClassifier.from_dict(document_classifier_model_json).__dict__
+        document_classifier_model2 = DocumentClassifier(**document_classifier_model_dict)
+
+        # Verify the model instances are equivalent
+        assert document_classifier_model == document_classifier_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        document_classifier_model_json2 = document_classifier_model.to_dict()
+        assert document_classifier_model_json2 == document_classifier_model_json
+
+class TestModel_DocumentClassifierEnrichment():
+    """
+    Test Class for DocumentClassifierEnrichment
+    """
+
+    def test_document_classifier_enrichment_serialization(self):
+        """
+        Test serialization/deserialization for DocumentClassifierEnrichment
+        """
+
+        # Construct a json representation of a DocumentClassifierEnrichment model
+        document_classifier_enrichment_model_json = {}
+        document_classifier_enrichment_model_json['enrichment_id'] = 'testString'
+        document_classifier_enrichment_model_json['fields'] = ['testString']
+
+        # Construct a model instance of DocumentClassifierEnrichment by calling from_dict on the json representation
+        document_classifier_enrichment_model = DocumentClassifierEnrichment.from_dict(document_classifier_enrichment_model_json)
+        assert document_classifier_enrichment_model != False
+
+        # Construct a model instance of DocumentClassifierEnrichment by calling from_dict on the json representation
+        document_classifier_enrichment_model_dict = DocumentClassifierEnrichment.from_dict(document_classifier_enrichment_model_json).__dict__
+        document_classifier_enrichment_model2 = DocumentClassifierEnrichment(**document_classifier_enrichment_model_dict)
+
+        # Verify the model instances are equivalent
+        assert document_classifier_enrichment_model == document_classifier_enrichment_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        document_classifier_enrichment_model_json2 = document_classifier_enrichment_model.to_dict()
+        assert document_classifier_enrichment_model_json2 == document_classifier_enrichment_model_json
+
+class TestModel_DocumentClassifierModel():
+    """
+    Test Class for DocumentClassifierModel
+    """
+
+    def test_document_classifier_model_serialization(self):
+        """
+        Test serialization/deserialization for DocumentClassifierModel
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        model_evaluation_micro_average_model = {} # ModelEvaluationMicroAverage
+        model_evaluation_micro_average_model['precision'] = 0
+        model_evaluation_micro_average_model['recall'] = 0
+        model_evaluation_micro_average_model['f1'] = 0
+
+        model_evaluation_macro_average_model = {} # ModelEvaluationMacroAverage
+        model_evaluation_macro_average_model['precision'] = 0
+        model_evaluation_macro_average_model['recall'] = 0
+        model_evaluation_macro_average_model['f1'] = 0
+
+        per_class_model_evaluation_model = {} # PerClassModelEvaluation
+        per_class_model_evaluation_model['name'] = 'testString'
+        per_class_model_evaluation_model['precision'] = 0
+        per_class_model_evaluation_model['recall'] = 0
+        per_class_model_evaluation_model['f1'] = 0
+
+        classifier_model_evaluation_model = {} # ClassifierModelEvaluation
+        classifier_model_evaluation_model['micro_average'] = model_evaluation_micro_average_model
+        classifier_model_evaluation_model['macro_average'] = model_evaluation_macro_average_model
+        classifier_model_evaluation_model['per_class'] = [per_class_model_evaluation_model]
+
+        # Construct a json representation of a DocumentClassifierModel model
+        document_classifier_model_model_json = {}
+        document_classifier_model_model_json['model_id'] = 'testString'
+        document_classifier_model_model_json['name'] = 'testString'
+        document_classifier_model_model_json['description'] = 'testString'
+        document_classifier_model_model_json['created'] = '2019-01-01T12:00:00Z'
+        document_classifier_model_model_json['updated'] = '2019-01-01T12:00:00Z'
+        document_classifier_model_model_json['training_data_file'] = 'testString'
+        document_classifier_model_model_json['test_data_file'] = 'testString'
+        document_classifier_model_model_json['status'] = 'training'
+        document_classifier_model_model_json['evaluation'] = classifier_model_evaluation_model
+        document_classifier_model_model_json['enrichment_id'] = 'testString'
+        document_classifier_model_model_json['deployed_at'] = '2019-01-01T12:00:00Z'
+
+        # Construct a model instance of DocumentClassifierModel by calling from_dict on the json representation
+        document_classifier_model_model = DocumentClassifierModel.from_dict(document_classifier_model_model_json)
+        assert document_classifier_model_model != False
+
+        # Construct a model instance of DocumentClassifierModel by calling from_dict on the json representation
+        document_classifier_model_model_dict = DocumentClassifierModel.from_dict(document_classifier_model_model_json).__dict__
+        document_classifier_model_model2 = DocumentClassifierModel(**document_classifier_model_model_dict)
+
+        # Verify the model instances are equivalent
+        assert document_classifier_model_model == document_classifier_model_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        document_classifier_model_model_json2 = document_classifier_model_model.to_dict()
+        assert document_classifier_model_model_json2 == document_classifier_model_model_json
+
+class TestModel_DocumentClassifierModels():
+    """
+    Test Class for DocumentClassifierModels
+    """
+
+    def test_document_classifier_models_serialization(self):
+        """
+        Test serialization/deserialization for DocumentClassifierModels
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        model_evaluation_micro_average_model = {} # ModelEvaluationMicroAverage
+        model_evaluation_micro_average_model['precision'] = 0
+        model_evaluation_micro_average_model['recall'] = 0
+        model_evaluation_micro_average_model['f1'] = 0
+
+        model_evaluation_macro_average_model = {} # ModelEvaluationMacroAverage
+        model_evaluation_macro_average_model['precision'] = 0
+        model_evaluation_macro_average_model['recall'] = 0
+        model_evaluation_macro_average_model['f1'] = 0
+
+        per_class_model_evaluation_model = {} # PerClassModelEvaluation
+        per_class_model_evaluation_model['name'] = 'testString'
+        per_class_model_evaluation_model['precision'] = 0
+        per_class_model_evaluation_model['recall'] = 0
+        per_class_model_evaluation_model['f1'] = 0
+
+        classifier_model_evaluation_model = {} # ClassifierModelEvaluation
+        classifier_model_evaluation_model['micro_average'] = model_evaluation_micro_average_model
+        classifier_model_evaluation_model['macro_average'] = model_evaluation_macro_average_model
+        classifier_model_evaluation_model['per_class'] = [per_class_model_evaluation_model]
+
+        document_classifier_model_model = {} # DocumentClassifierModel
+        document_classifier_model_model['model_id'] = 'testString'
+        document_classifier_model_model['name'] = 'testString'
+        document_classifier_model_model['description'] = 'testString'
+        document_classifier_model_model['created'] = '2019-01-01T12:00:00Z'
+        document_classifier_model_model['updated'] = '2019-01-01T12:00:00Z'
+        document_classifier_model_model['training_data_file'] = 'testString'
+        document_classifier_model_model['test_data_file'] = 'testString'
+        document_classifier_model_model['status'] = 'training'
+        document_classifier_model_model['evaluation'] = classifier_model_evaluation_model
+        document_classifier_model_model['enrichment_id'] = 'testString'
+        document_classifier_model_model['deployed_at'] = '2019-01-01T12:00:00Z'
+
+        # Construct a json representation of a DocumentClassifierModels model
+        document_classifier_models_model_json = {}
+        document_classifier_models_model_json['models'] = [document_classifier_model_model]
+
+        # Construct a model instance of DocumentClassifierModels by calling from_dict on the json representation
+        document_classifier_models_model = DocumentClassifierModels.from_dict(document_classifier_models_model_json)
+        assert document_classifier_models_model != False
+
+        # Construct a model instance of DocumentClassifierModels by calling from_dict on the json representation
+        document_classifier_models_model_dict = DocumentClassifierModels.from_dict(document_classifier_models_model_json).__dict__
+        document_classifier_models_model2 = DocumentClassifierModels(**document_classifier_models_model_dict)
+
+        # Verify the model instances are equivalent
+        assert document_classifier_models_model == document_classifier_models_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        document_classifier_models_model_json2 = document_classifier_models_model.to_dict()
+        assert document_classifier_models_model_json2 == document_classifier_models_model_json
+
+class TestModel_DocumentClassifiers():
+    """
+    Test Class for DocumentClassifiers
+    """
+
+    def test_document_classifiers_serialization(self):
+        """
+        Test serialization/deserialization for DocumentClassifiers
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        document_classifier_enrichment_model = {} # DocumentClassifierEnrichment
+        document_classifier_enrichment_model['enrichment_id'] = 'testString'
+        document_classifier_enrichment_model['fields'] = ['testString']
+
+        classifier_federated_model_model = {} # ClassifierFederatedModel
+        classifier_federated_model_model['field'] = 'testString'
+
+        document_classifier_model = {} # DocumentClassifier
+        document_classifier_model['classifier_id'] = 'testString'
+        document_classifier_model['name'] = 'testString'
+        document_classifier_model['description'] = 'testString'
+        document_classifier_model['created'] = '2019-01-01T12:00:00Z'
+        document_classifier_model['language'] = 'en'
+        document_classifier_model['enrichments'] = [document_classifier_enrichment_model]
+        document_classifier_model['recognized_fields'] = ['testString']
+        document_classifier_model['answer_field'] = 'testString'
+        document_classifier_model['training_data_file'] = 'testString'
+        document_classifier_model['test_data_file'] = 'testString'
+        document_classifier_model['federated_classification'] = classifier_federated_model_model
+
+        # Construct a json representation of a DocumentClassifiers model
+        document_classifiers_model_json = {}
+        document_classifiers_model_json['classifiers'] = [document_classifier_model]
+
+        # Construct a model instance of DocumentClassifiers by calling from_dict on the json representation
+        document_classifiers_model = DocumentClassifiers.from_dict(document_classifiers_model_json)
+        assert document_classifiers_model != False
+
+        # Construct a model instance of DocumentClassifiers by calling from_dict on the json representation
+        document_classifiers_model_dict = DocumentClassifiers.from_dict(document_classifiers_model_json).__dict__
+        document_classifiers_model2 = DocumentClassifiers(**document_classifiers_model_dict)
+
+        # Verify the model instances are equivalent
+        assert document_classifiers_model == document_classifiers_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        document_classifiers_model_json2 = document_classifiers_model.to_dict()
+        assert document_classifiers_model_json2 == document_classifiers_model_json
+
+class TestModel_DocumentDetails():
+    """
+    Test Class for DocumentDetails
+    """
+
+    def test_document_details_serialization(self):
+        """
+        Test serialization/deserialization for DocumentDetails
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        notice_model = {} # Notice
+        notice_model['notice_id'] = 'testString'
+        notice_model['created'] = '2019-01-01T12:00:00Z'
+        notice_model['document_id'] = 'testString'
+        notice_model['collection_id'] = 'testString'
+        notice_model['query_id'] = 'testString'
+        notice_model['severity'] = 'warning'
+        notice_model['step'] = 'testString'
+        notice_model['description'] = 'testString'
+
+        document_details_children_model = {} # DocumentDetailsChildren
+        document_details_children_model['have_notices'] = True
+        document_details_children_model['count'] = 38
+
+        # Construct a json representation of a DocumentDetails model
+        document_details_model_json = {}
+        document_details_model_json['document_id'] = 'testString'
+        document_details_model_json['created'] = '2019-01-01T12:00:00Z'
+        document_details_model_json['updated'] = '2019-01-01T12:00:00Z'
+        document_details_model_json['status'] = 'available'
+        document_details_model_json['notices'] = [notice_model]
+        document_details_model_json['children'] = document_details_children_model
+        document_details_model_json['filename'] = 'testString'
+        document_details_model_json['file_type'] = 'testString'
+        document_details_model_json['sha256'] = 'testString'
+
+        # Construct a model instance of DocumentDetails by calling from_dict on the json representation
+        document_details_model = DocumentDetails.from_dict(document_details_model_json)
+        assert document_details_model != False
+
+        # Construct a model instance of DocumentDetails by calling from_dict on the json representation
+        document_details_model_dict = DocumentDetails.from_dict(document_details_model_json).__dict__
+        document_details_model2 = DocumentDetails(**document_details_model_dict)
+
+        # Verify the model instances are equivalent
+        assert document_details_model == document_details_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        document_details_model_json2 = document_details_model.to_dict()
+        assert document_details_model_json2 == document_details_model_json
+
+class TestModel_DocumentDetailsChildren():
+    """
+    Test Class for DocumentDetailsChildren
+    """
+
+    def test_document_details_children_serialization(self):
+        """
+        Test serialization/deserialization for DocumentDetailsChildren
+        """
+
+        # Construct a json representation of a DocumentDetailsChildren model
+        document_details_children_model_json = {}
+        document_details_children_model_json['have_notices'] = True
+        document_details_children_model_json['count'] = 38
+
+        # Construct a model instance of DocumentDetailsChildren by calling from_dict on the json representation
+        document_details_children_model = DocumentDetailsChildren.from_dict(document_details_children_model_json)
+        assert document_details_children_model != False
+
+        # Construct a model instance of DocumentDetailsChildren by calling from_dict on the json representation
+        document_details_children_model_dict = DocumentDetailsChildren.from_dict(document_details_children_model_json).__dict__
+        document_details_children_model2 = DocumentDetailsChildren(**document_details_children_model_dict)
+
+        # Verify the model instances are equivalent
+        assert document_details_children_model == document_details_children_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        document_details_children_model_json2 = document_details_children_model.to_dict()
+        assert document_details_children_model_json2 == document_details_children_model_json
+
 class TestModel_Enrichment():
     """
     Test Class for Enrichment
@@ -3901,6 +6459,10 @@ class TestModel_Enrichment():
         enrichment_options_model['entity_type'] = 'testString'
         enrichment_options_model['regular_expression'] = 'testString'
         enrichment_options_model['result_field'] = 'testString'
+        enrichment_options_model['classifier_id'] = 'testString'
+        enrichment_options_model['model_id'] = 'testString'
+        enrichment_options_model['confidence_threshold'] = 0
+        enrichment_options_model['top_k'] = 38
 
         # Construct a json representation of a Enrichment model
         enrichment_model_json = {}
@@ -3941,6 +6503,10 @@ class TestModel_EnrichmentOptions():
         enrichment_options_model_json['entity_type'] = 'testString'
         enrichment_options_model_json['regular_expression'] = 'testString'
         enrichment_options_model_json['result_field'] = 'testString'
+        enrichment_options_model_json['classifier_id'] = 'testString'
+        enrichment_options_model_json['model_id'] = 'testString'
+        enrichment_options_model_json['confidence_threshold'] = 0
+        enrichment_options_model_json['top_k'] = 38
 
         # Construct a model instance of EnrichmentOptions by calling from_dict on the json representation
         enrichment_options_model = EnrichmentOptions.from_dict(enrichment_options_model_json)
@@ -3974,6 +6540,10 @@ class TestModel_Enrichments():
         enrichment_options_model['entity_type'] = 'testString'
         enrichment_options_model['regular_expression'] = 'testString'
         enrichment_options_model['result_field'] = 'testString'
+        enrichment_options_model['classifier_id'] = 'testString'
+        enrichment_options_model['model_id'] = 'testString'
+        enrichment_options_model['confidence_threshold'] = 0
+        enrichment_options_model['top_k'] = 38
 
         enrichment_model = {} # Enrichment
         enrichment_model['enrichment_id'] = 'testString'
@@ -4000,6 +6570,71 @@ class TestModel_Enrichments():
         # Convert model instance back to dict and verify no loss of data
         enrichments_model_json2 = enrichments_model.to_dict()
         assert enrichments_model_json2 == enrichments_model_json
+
+class TestModel_Expansion():
+    """
+    Test Class for Expansion
+    """
+
+    def test_expansion_serialization(self):
+        """
+        Test serialization/deserialization for Expansion
+        """
+
+        # Construct a json representation of a Expansion model
+        expansion_model_json = {}
+        expansion_model_json['input_terms'] = ['testString']
+        expansion_model_json['expanded_terms'] = ['testString']
+
+        # Construct a model instance of Expansion by calling from_dict on the json representation
+        expansion_model = Expansion.from_dict(expansion_model_json)
+        assert expansion_model != False
+
+        # Construct a model instance of Expansion by calling from_dict on the json representation
+        expansion_model_dict = Expansion.from_dict(expansion_model_json).__dict__
+        expansion_model2 = Expansion(**expansion_model_dict)
+
+        # Verify the model instances are equivalent
+        assert expansion_model == expansion_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        expansion_model_json2 = expansion_model.to_dict()
+        assert expansion_model_json2 == expansion_model_json
+
+class TestModel_Expansions():
+    """
+    Test Class for Expansions
+    """
+
+    def test_expansions_serialization(self):
+        """
+        Test serialization/deserialization for Expansions
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        expansion_model = {} # Expansion
+        expansion_model['input_terms'] = ['testString']
+        expansion_model['expanded_terms'] = ['testString']
+
+        # Construct a json representation of a Expansions model
+        expansions_model_json = {}
+        expansions_model_json['expansions'] = [expansion_model]
+
+        # Construct a model instance of Expansions by calling from_dict on the json representation
+        expansions_model = Expansions.from_dict(expansions_model_json)
+        assert expansions_model != False
+
+        # Construct a model instance of Expansions by calling from_dict on the json representation
+        expansions_model_dict = Expansions.from_dict(expansions_model_json).__dict__
+        expansions_model2 = Expansions(**expansions_model_dict)
+
+        # Verify the model instances are equivalent
+        assert expansions_model == expansions_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        expansions_model_json2 = expansions_model.to_dict()
+        assert expansions_model_json2 == expansions_model_json
 
 class TestModel_Field():
     """
@@ -4066,6 +6701,63 @@ class TestModel_ListCollectionsResponse():
         # Convert model instance back to dict and verify no loss of data
         list_collections_response_model_json2 = list_collections_response_model.to_dict()
         assert list_collections_response_model_json2 == list_collections_response_model_json
+
+class TestModel_ListDocumentsResponse():
+    """
+    Test Class for ListDocumentsResponse
+    """
+
+    def test_list_documents_response_serialization(self):
+        """
+        Test serialization/deserialization for ListDocumentsResponse
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        notice_model = {} # Notice
+        notice_model['notice_id'] = 'testString'
+        notice_model['created'] = '2019-01-01T12:00:00Z'
+        notice_model['document_id'] = 'testString'
+        notice_model['collection_id'] = 'testString'
+        notice_model['query_id'] = 'testString'
+        notice_model['severity'] = 'warning'
+        notice_model['step'] = 'testString'
+        notice_model['description'] = 'testString'
+
+        document_details_children_model = {} # DocumentDetailsChildren
+        document_details_children_model['have_notices'] = True
+        document_details_children_model['count'] = 38
+
+        document_details_model = {} # DocumentDetails
+        document_details_model['document_id'] = '4ffcfd8052005b99469e632506763bac_0'
+        document_details_model['created'] = '2019-01-01T12:00:00Z'
+        document_details_model['updated'] = '2019-01-01T12:00:00Z'
+        document_details_model['status'] = 'available'
+        document_details_model['notices'] = [notice_model]
+        document_details_model['children'] = document_details_children_model
+        document_details_model['filename'] = 'testString'
+        document_details_model['file_type'] = 'testString'
+        document_details_model['sha256'] = 'testString'
+
+        # Construct a json representation of a ListDocumentsResponse model
+        list_documents_response_model_json = {}
+        list_documents_response_model_json['matching_results'] = 38
+        list_documents_response_model_json['documents'] = [document_details_model]
+
+        # Construct a model instance of ListDocumentsResponse by calling from_dict on the json representation
+        list_documents_response_model = ListDocumentsResponse.from_dict(list_documents_response_model_json)
+        assert list_documents_response_model != False
+
+        # Construct a model instance of ListDocumentsResponse by calling from_dict on the json representation
+        list_documents_response_model_dict = ListDocumentsResponse.from_dict(list_documents_response_model_json).__dict__
+        list_documents_response_model2 = ListDocumentsResponse(**list_documents_response_model_dict)
+
+        # Verify the model instances are equivalent
+        assert list_documents_response_model == list_documents_response_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        list_documents_response_model_json2 = list_documents_response_model.to_dict()
+        assert list_documents_response_model_json2 == list_documents_response_model_json
 
 class TestModel_ListFieldsResponse():
     """
@@ -4152,6 +6844,68 @@ class TestModel_ListProjectsResponse():
         list_projects_response_model_json2 = list_projects_response_model.to_dict()
         assert list_projects_response_model_json2 == list_projects_response_model_json
 
+class TestModel_ModelEvaluationMacroAverage():
+    """
+    Test Class for ModelEvaluationMacroAverage
+    """
+
+    def test_model_evaluation_macro_average_serialization(self):
+        """
+        Test serialization/deserialization for ModelEvaluationMacroAverage
+        """
+
+        # Construct a json representation of a ModelEvaluationMacroAverage model
+        model_evaluation_macro_average_model_json = {}
+        model_evaluation_macro_average_model_json['precision'] = 0
+        model_evaluation_macro_average_model_json['recall'] = 0
+        model_evaluation_macro_average_model_json['f1'] = 0
+
+        # Construct a model instance of ModelEvaluationMacroAverage by calling from_dict on the json representation
+        model_evaluation_macro_average_model = ModelEvaluationMacroAverage.from_dict(model_evaluation_macro_average_model_json)
+        assert model_evaluation_macro_average_model != False
+
+        # Construct a model instance of ModelEvaluationMacroAverage by calling from_dict on the json representation
+        model_evaluation_macro_average_model_dict = ModelEvaluationMacroAverage.from_dict(model_evaluation_macro_average_model_json).__dict__
+        model_evaluation_macro_average_model2 = ModelEvaluationMacroAverage(**model_evaluation_macro_average_model_dict)
+
+        # Verify the model instances are equivalent
+        assert model_evaluation_macro_average_model == model_evaluation_macro_average_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        model_evaluation_macro_average_model_json2 = model_evaluation_macro_average_model.to_dict()
+        assert model_evaluation_macro_average_model_json2 == model_evaluation_macro_average_model_json
+
+class TestModel_ModelEvaluationMicroAverage():
+    """
+    Test Class for ModelEvaluationMicroAverage
+    """
+
+    def test_model_evaluation_micro_average_serialization(self):
+        """
+        Test serialization/deserialization for ModelEvaluationMicroAverage
+        """
+
+        # Construct a json representation of a ModelEvaluationMicroAverage model
+        model_evaluation_micro_average_model_json = {}
+        model_evaluation_micro_average_model_json['precision'] = 0
+        model_evaluation_micro_average_model_json['recall'] = 0
+        model_evaluation_micro_average_model_json['f1'] = 0
+
+        # Construct a model instance of ModelEvaluationMicroAverage by calling from_dict on the json representation
+        model_evaluation_micro_average_model = ModelEvaluationMicroAverage.from_dict(model_evaluation_micro_average_model_json)
+        assert model_evaluation_micro_average_model != False
+
+        # Construct a model instance of ModelEvaluationMicroAverage by calling from_dict on the json representation
+        model_evaluation_micro_average_model_dict = ModelEvaluationMicroAverage.from_dict(model_evaluation_micro_average_model_json).__dict__
+        model_evaluation_micro_average_model2 = ModelEvaluationMicroAverage(**model_evaluation_micro_average_model_dict)
+
+        # Verify the model instances are equivalent
+        assert model_evaluation_micro_average_model == model_evaluation_micro_average_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        model_evaluation_micro_average_model_json2 = model_evaluation_micro_average_model.to_dict()
+        assert model_evaluation_micro_average_model_json2 == model_evaluation_micro_average_model_json
+
 class TestModel_Notice():
     """
     Test Class for Notice
@@ -4165,7 +6919,7 @@ class TestModel_Notice():
         # Construct a json representation of a Notice model
         notice_model_json = {}
         notice_model_json['notice_id'] = 'testString'
-        notice_model_json['created'] = "2019-01-01T12:00:00Z"
+        notice_model_json['created'] = '2019-01-01T12:00:00Z'
         notice_model_json['document_id'] = 'testString'
         notice_model_json['collection_id'] = 'testString'
         notice_model_json['query_id'] = 'testString'
@@ -4187,6 +6941,38 @@ class TestModel_Notice():
         # Convert model instance back to dict and verify no loss of data
         notice_model_json2 = notice_model.to_dict()
         assert notice_model_json2 == notice_model_json
+
+class TestModel_PerClassModelEvaluation():
+    """
+    Test Class for PerClassModelEvaluation
+    """
+
+    def test_per_class_model_evaluation_serialization(self):
+        """
+        Test serialization/deserialization for PerClassModelEvaluation
+        """
+
+        # Construct a json representation of a PerClassModelEvaluation model
+        per_class_model_evaluation_model_json = {}
+        per_class_model_evaluation_model_json['name'] = 'testString'
+        per_class_model_evaluation_model_json['precision'] = 0
+        per_class_model_evaluation_model_json['recall'] = 0
+        per_class_model_evaluation_model_json['f1'] = 0
+
+        # Construct a model instance of PerClassModelEvaluation by calling from_dict on the json representation
+        per_class_model_evaluation_model = PerClassModelEvaluation.from_dict(per_class_model_evaluation_model_json)
+        assert per_class_model_evaluation_model != False
+
+        # Construct a model instance of PerClassModelEvaluation by calling from_dict on the json representation
+        per_class_model_evaluation_model_dict = PerClassModelEvaluation.from_dict(per_class_model_evaluation_model_json).__dict__
+        per_class_model_evaluation_model2 = PerClassModelEvaluation(**per_class_model_evaluation_model_dict)
+
+        # Verify the model instances are equivalent
+        assert per_class_model_evaluation_model == per_class_model_evaluation_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        per_class_model_evaluation_model_json2 = per_class_model_evaluation_model.to_dict()
+        assert per_class_model_evaluation_model_json2 == per_class_model_evaluation_model_json
 
 class TestModel_ProjectDetails():
     """
@@ -4491,6 +7277,37 @@ class TestModel_QueryLargePassages():
         query_large_passages_model_json2 = query_large_passages_model.to_dict()
         assert query_large_passages_model_json2 == query_large_passages_model_json
 
+class TestModel_QueryLargeSimilar():
+    """
+    Test Class for QueryLargeSimilar
+    """
+
+    def test_query_large_similar_serialization(self):
+        """
+        Test serialization/deserialization for QueryLargeSimilar
+        """
+
+        # Construct a json representation of a QueryLargeSimilar model
+        query_large_similar_model_json = {}
+        query_large_similar_model_json['enabled'] = False
+        query_large_similar_model_json['document_ids'] = ['testString']
+        query_large_similar_model_json['fields'] = ['testString']
+
+        # Construct a model instance of QueryLargeSimilar by calling from_dict on the json representation
+        query_large_similar_model = QueryLargeSimilar.from_dict(query_large_similar_model_json)
+        assert query_large_similar_model != False
+
+        # Construct a model instance of QueryLargeSimilar by calling from_dict on the json representation
+        query_large_similar_model_dict = QueryLargeSimilar.from_dict(query_large_similar_model_json).__dict__
+        query_large_similar_model2 = QueryLargeSimilar(**query_large_similar_model_dict)
+
+        # Verify the model instances are equivalent
+        assert query_large_similar_model == query_large_similar_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        query_large_similar_model_json2 = query_large_similar_model.to_dict()
+        assert query_large_similar_model_json2 == query_large_similar_model_json
+
 class TestModel_QueryLargeSuggestedRefinements():
     """
     Test Class for QueryLargeSuggestedRefinements
@@ -4565,7 +7382,7 @@ class TestModel_QueryNoticesResponse():
 
         notice_model = {} # Notice
         notice_model['notice_id'] = 'testString'
-        notice_model['created'] = "2019-01-01T12:00:00Z"
+        notice_model['created'] = '2019-01-01T12:00:00Z'
         notice_model['document_id'] = 'testString'
         notice_model['collection_id'] = 'testString'
         notice_model['query_id'] = 'testString'
@@ -4626,10 +7443,10 @@ class TestModel_QueryResponse():
 
         query_result_model = {} # QueryResult
         query_result_model['document_id'] = 'testString'
-        query_result_model['metadata'] = {}
+        query_result_model['metadata'] = {'key1': 'testString'}
         query_result_model['result_metadata'] = query_result_metadata_model
         query_result_model['document_passages'] = [query_result_passage_model]
-        query_result_model['id'] = { 'foo': 'bar' }
+        query_result_model['id'] = {'foo': 'bar'}
 
         query_aggregation_model = {} # QueryFilterAggregation
         query_aggregation_model['type'] = 'filter'
@@ -4652,7 +7469,7 @@ class TestModel_QueryResponse():
 
         table_headers_model = {} # TableHeaders
         table_headers_model['cell_id'] = 'testString'
-        table_headers_model['location'] = { 'foo': 'bar' }
+        table_headers_model['location'] = {'foo': 'bar'}
         table_headers_model['text'] = 'testString'
         table_headers_model['row_index_begin'] = 26
         table_headers_model['row_index_end'] = 26
@@ -4671,7 +7488,7 @@ class TestModel_QueryResponse():
 
         table_column_headers_model = {} # TableColumnHeaders
         table_column_headers_model['cell_id'] = 'testString'
-        table_column_headers_model['location'] = { 'foo': 'bar' }
+        table_column_headers_model['location'] = {'foo': 'bar'}
         table_column_headers_model['text'] = 'testString'
         table_column_headers_model['text_normalized'] = 'testString'
         table_column_headers_model['row_index_begin'] = 26
@@ -4868,10 +7685,10 @@ class TestModel_QueryResult():
         # Construct a json representation of a QueryResult model
         query_result_model_json = {}
         query_result_model_json['document_id'] = 'testString'
-        query_result_model_json['metadata'] = {}
+        query_result_model_json['metadata'] = {'key1': 'testString'}
         query_result_model_json['result_metadata'] = query_result_metadata_model
         query_result_model_json['document_passages'] = [query_result_passage_model]
-        query_result_model_json['foo'] = { 'foo': 'bar' }
+        query_result_model_json['foo'] = {'foo': 'bar'}
 
         # Construct a model instance of QueryResult by calling from_dict on the json representation
         query_result_model = QueryResult.from_dict(query_result_model_json)
@@ -4893,7 +7710,7 @@ class TestModel_QueryResult():
         actual_dict = query_result_model.get_properties()
         assert actual_dict == {}
 
-        expected_dict = {'foo': { 'foo': 'bar' }}
+        expected_dict = {'foo': {'foo': 'bar'}}
         query_result_model.set_properties(expected_dict)
         actual_dict = query_result_model.get_properties()
         assert actual_dict == expected_dict
@@ -5022,7 +7839,7 @@ class TestModel_QueryTableResult():
 
         table_headers_model = {} # TableHeaders
         table_headers_model['cell_id'] = 'testString'
-        table_headers_model['location'] = { 'foo': 'bar' }
+        table_headers_model['location'] = {'foo': 'bar'}
         table_headers_model['text'] = 'testString'
         table_headers_model['row_index_begin'] = 26
         table_headers_model['row_index_end'] = 26
@@ -5041,7 +7858,7 @@ class TestModel_QueryTableResult():
 
         table_column_headers_model = {} # TableColumnHeaders
         table_column_headers_model['cell_id'] = 'testString'
-        table_column_headers_model['location'] = { 'foo': 'bar' }
+        table_column_headers_model['location'] = {'foo': 'bar'}
         table_column_headers_model['text'] = 'testString'
         table_column_headers_model['text_normalized'] = 'testString'
         table_column_headers_model['row_index_begin'] = 26
@@ -5231,7 +8048,7 @@ class TestModel_QueryTopHitsAggregationResult():
         # Construct a json representation of a QueryTopHitsAggregationResult model
         query_top_hits_aggregation_result_model_json = {}
         query_top_hits_aggregation_result_model_json['matching_results'] = 38
-        query_top_hits_aggregation_result_model_json['hits'] = [{}]
+        query_top_hits_aggregation_result_model_json['hits'] = [{'key1': 'testString'}]
 
         # Construct a model instance of QueryTopHitsAggregationResult by calling from_dict on the json representation
         query_top_hits_aggregation_result_model = QueryTopHitsAggregationResult.from_dict(query_top_hits_aggregation_result_model_json)
@@ -5308,6 +8125,35 @@ class TestModel_RetrievalDetails():
         # Convert model instance back to dict and verify no loss of data
         retrieval_details_model_json2 = retrieval_details_model.to_dict()
         assert retrieval_details_model_json2 == retrieval_details_model_json
+
+class TestModel_StopWordList():
+    """
+    Test Class for StopWordList
+    """
+
+    def test_stop_word_list_serialization(self):
+        """
+        Test serialization/deserialization for StopWordList
+        """
+
+        # Construct a json representation of a StopWordList model
+        stop_word_list_model_json = {}
+        stop_word_list_model_json['stopwords'] = ['testString']
+
+        # Construct a model instance of StopWordList by calling from_dict on the json representation
+        stop_word_list_model = StopWordList.from_dict(stop_word_list_model_json)
+        assert stop_word_list_model != False
+
+        # Construct a model instance of StopWordList by calling from_dict on the json representation
+        stop_word_list_model_dict = StopWordList.from_dict(stop_word_list_model_json).__dict__
+        stop_word_list_model2 = StopWordList(**stop_word_list_model_dict)
+
+        # Verify the model instances are equivalent
+        assert stop_word_list_model == stop_word_list_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        stop_word_list_model_json2 = stop_word_list_model.to_dict()
+        assert stop_word_list_model_json2 == stop_word_list_model_json
 
 class TestModel_TableBodyCells():
     """
@@ -5554,7 +8400,7 @@ class TestModel_TableColumnHeaders():
         # Construct a json representation of a TableColumnHeaders model
         table_column_headers_model_json = {}
         table_column_headers_model_json['cell_id'] = 'testString'
-        table_column_headers_model_json['location'] = { 'foo': 'bar' }
+        table_column_headers_model_json['location'] = {'foo': 'bar'}
         table_column_headers_model_json['text'] = 'testString'
         table_column_headers_model_json['text_normalized'] = 'testString'
         table_column_headers_model_json['row_index_begin'] = 26
@@ -5620,7 +8466,7 @@ class TestModel_TableHeaders():
         # Construct a json representation of a TableHeaders model
         table_headers_model_json = {}
         table_headers_model_json['cell_id'] = 'testString'
-        table_headers_model_json['location'] = { 'foo': 'bar' }
+        table_headers_model_json['location'] = {'foo': 'bar'}
         table_headers_model_json['text'] = 'testString'
         table_headers_model_json['row_index_begin'] = 26
         table_headers_model_json['row_index_end'] = 26
@@ -5710,7 +8556,7 @@ class TestModel_TableResultTable():
 
         table_headers_model = {} # TableHeaders
         table_headers_model['cell_id'] = 'testString'
-        table_headers_model['location'] = { 'foo': 'bar' }
+        table_headers_model['location'] = {'foo': 'bar'}
         table_headers_model['text'] = 'testString'
         table_headers_model['row_index_begin'] = 26
         table_headers_model['row_index_end'] = 26
@@ -5729,7 +8575,7 @@ class TestModel_TableResultTable():
 
         table_column_headers_model = {} # TableColumnHeaders
         table_column_headers_model['cell_id'] = 'testString'
-        table_column_headers_model['location'] = { 'foo': 'bar' }
+        table_column_headers_model['location'] = {'foo': 'bar'}
         table_column_headers_model['text'] = 'testString'
         table_column_headers_model['text_normalized'] = 'testString'
         table_column_headers_model['row_index_begin'] = 26
@@ -5998,8 +8844,8 @@ class TestModel_TrainingExample():
         training_example_model_json['document_id'] = 'testString'
         training_example_model_json['collection_id'] = 'testString'
         training_example_model_json['relevance'] = 38
-        training_example_model_json['created'] = "2019-01-01T12:00:00Z"
-        training_example_model_json['updated'] = "2019-01-01T12:00:00Z"
+        training_example_model_json['created'] = '2019-01-01T12:00:00Z'
+        training_example_model_json['updated'] = '2019-01-01T12:00:00Z'
 
         # Construct a model instance of TrainingExample by calling from_dict on the json representation
         training_example_model = TrainingExample.from_dict(training_example_model_json)
@@ -6032,16 +8878,16 @@ class TestModel_TrainingQuery():
         training_example_model['document_id'] = 'testString'
         training_example_model['collection_id'] = 'testString'
         training_example_model['relevance'] = 38
-        training_example_model['created'] = "2019-01-01T12:00:00Z"
-        training_example_model['updated'] = "2019-01-01T12:00:00Z"
+        training_example_model['created'] = '2019-01-01T12:00:00Z'
+        training_example_model['updated'] = '2019-01-01T12:00:00Z'
 
         # Construct a json representation of a TrainingQuery model
         training_query_model_json = {}
         training_query_model_json['query_id'] = 'testString'
         training_query_model_json['natural_language_query'] = 'testString'
         training_query_model_json['filter'] = 'testString'
-        training_query_model_json['created'] = "2019-01-01T12:00:00Z"
-        training_query_model_json['updated'] = "2019-01-01T12:00:00Z"
+        training_query_model_json['created'] = '2019-01-01T12:00:00Z'
+        training_query_model_json['updated'] = '2019-01-01T12:00:00Z'
         training_query_model_json['examples'] = [training_example_model]
 
         # Construct a model instance of TrainingQuery by calling from_dict on the json representation
@@ -6075,15 +8921,15 @@ class TestModel_TrainingQuerySet():
         training_example_model['document_id'] = 'testString'
         training_example_model['collection_id'] = 'testString'
         training_example_model['relevance'] = 38
-        training_example_model['created'] = "2019-01-01T12:00:00Z"
-        training_example_model['updated'] = "2019-01-01T12:00:00Z"
+        training_example_model['created'] = '2019-01-01T12:00:00Z'
+        training_example_model['updated'] = '2019-01-01T12:00:00Z'
 
         training_query_model = {} # TrainingQuery
         training_query_model['query_id'] = 'testString'
         training_query_model['natural_language_query'] = 'testString'
         training_query_model['filter'] = 'testString'
-        training_query_model['created'] = "2019-01-01T12:00:00Z"
-        training_query_model['updated'] = "2019-01-01T12:00:00Z"
+        training_query_model['created'] = '2019-01-01T12:00:00Z'
+        training_query_model['updated'] = '2019-01-01T12:00:00Z'
         training_query_model['examples'] = [training_example_model]
 
         # Construct a json representation of a TrainingQuerySet model
@@ -6104,6 +8950,36 @@ class TestModel_TrainingQuerySet():
         # Convert model instance back to dict and verify no loss of data
         training_query_set_model_json2 = training_query_set_model.to_dict()
         assert training_query_set_model_json2 == training_query_set_model_json
+
+class TestModel_UpdateDocumentClassifier():
+    """
+    Test Class for UpdateDocumentClassifier
+    """
+
+    def test_update_document_classifier_serialization(self):
+        """
+        Test serialization/deserialization for UpdateDocumentClassifier
+        """
+
+        # Construct a json representation of a UpdateDocumentClassifier model
+        update_document_classifier_model_json = {}
+        update_document_classifier_model_json['name'] = 'testString'
+        update_document_classifier_model_json['description'] = 'testString'
+
+        # Construct a model instance of UpdateDocumentClassifier by calling from_dict on the json representation
+        update_document_classifier_model = UpdateDocumentClassifier.from_dict(update_document_classifier_model_json)
+        assert update_document_classifier_model != False
+
+        # Construct a model instance of UpdateDocumentClassifier by calling from_dict on the json representation
+        update_document_classifier_model_dict = UpdateDocumentClassifier.from_dict(update_document_classifier_model_json).__dict__
+        update_document_classifier_model2 = UpdateDocumentClassifier(**update_document_classifier_model_dict)
+
+        # Verify the model instances are equivalent
+        assert update_document_classifier_model == update_document_classifier_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        update_document_classifier_model_json2 = update_document_classifier_model.to_dict()
+        assert update_document_classifier_model_json2 == update_document_classifier_model_json
 
 class TestModel_QueryCalculationAggregation():
     """
@@ -6337,7 +9213,7 @@ class TestModel_QueryTopHitsAggregation():
 
         query_top_hits_aggregation_result_model = {} # QueryTopHitsAggregationResult
         query_top_hits_aggregation_result_model['matching_results'] = 38
-        query_top_hits_aggregation_result_model['hits'] = [{}]
+        query_top_hits_aggregation_result_model['hits'] = [{'key1': 'testString'}]
 
         # Construct a json representation of a QueryTopHitsAggregation model
         query_top_hits_aggregation_model_json = {}
