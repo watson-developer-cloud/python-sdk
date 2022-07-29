@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2019, 2021.
+# (C) Copyright IBM Corp. 2022.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 3.38.0-07189efd-20210827-205025
+# IBM OpenAPI SDK Code Generator Version: 3.53.0-9710cac3-20220713-193508
 """
 IBM Watson&trade; Discovery is a cognitive search and content analytics engine that you
 can add to applications to identify patterns, trends and actionable insights to drive
@@ -64,7 +64,7 @@ class DiscoveryV2(BaseService):
                Specify dates in YYYY-MM-DD format. The current version is `2020-08-30`.
 
         :param Authenticator authenticator: The authenticator specifies the authentication mechanism.
-               Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
+               Get up to date information from https://github.com/IBM/python-sdk-core/blob/main/README.md
                about initializing the authenticator of your choice.
         """
         if version is None:
@@ -77,6 +77,288 @@ class DiscoveryV2(BaseService):
                              authenticator=authenticator)
         self.version = version
         self.configure_service(service_name)
+
+    #########################
+    # Projects
+    #########################
+
+    def list_projects(self, **kwargs) -> DetailedResponse:
+        """
+        List projects.
+
+        Lists existing projects for this instance.
+
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `ListProjectsResponse` object
+        """
+
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='list_projects')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        url = '/v2/projects'
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request, **kwargs)
+        return response
+
+    def create_project(self,
+                       name: str,
+                       type: str,
+                       *,
+                       default_query_parameters: 'DefaultQueryParams' = None,
+                       **kwargs) -> DetailedResponse:
+        """
+        Create a project.
+
+        Create a new project for this instance.
+
+        :param str name: The human readable name of this project.
+        :param str type: The type of project.
+               The `content_intelligence` type is a *Document Retrieval for Contracts*
+               project and the `other` type is a *Custom* project.
+               The `content_mining` and `content_intelligence` types are available with
+               Premium plan managed deployments and installed deployments only.
+        :param DefaultQueryParams default_query_parameters: (optional) Default
+               query parameters for this project.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `ProjectDetails` object
+        """
+
+        if name is None:
+            raise ValueError('name must be provided')
+        if type is None:
+            raise ValueError('type must be provided')
+        if default_query_parameters is not None:
+            default_query_parameters = convert_model(default_query_parameters)
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='create_project')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        data = {
+            'name': name,
+            'type': type,
+            'default_query_parameters': default_query_parameters
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        url = '/v2/projects'
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data)
+
+        response = self.send(request, **kwargs)
+        return response
+
+    def get_project(self, project_id: str, **kwargs) -> DetailedResponse:
+        """
+        Get project.
+
+        Get details on the specified project.
+
+        :param str project_id: The ID of the project. This information can be found
+               from the *Integrate and Deploy* page in Discovery.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `ProjectDetails` object
+        """
+
+        if project_id is None:
+            raise ValueError('project_id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='get_project')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['project_id']
+        path_param_values = self.encode_path_vars(project_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/projects/{project_id}'.format(**path_param_dict)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request, **kwargs)
+        return response
+
+    def update_project(self,
+                       project_id: str,
+                       *,
+                       name: str = None,
+                       **kwargs) -> DetailedResponse:
+        """
+        Update a project.
+
+        Update the specified project's name.
+
+        :param str project_id: The ID of the project. This information can be found
+               from the *Integrate and Deploy* page in Discovery.
+        :param str name: (optional) The new name to give this project.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `ProjectDetails` object
+        """
+
+        if project_id is None:
+            raise ValueError('project_id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='update_project')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        data = {'name': name}
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['project_id']
+        path_param_values = self.encode_path_vars(project_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/projects/{project_id}'.format(**path_param_dict)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data)
+
+        response = self.send(request, **kwargs)
+        return response
+
+    def delete_project(self, project_id: str, **kwargs) -> DetailedResponse:
+        """
+        Delete a project.
+
+        Deletes the specified project.
+        **Important:** Deleting a project deletes everything that is part of the specified
+        project, including all collections.
+
+        :param str project_id: The ID of the project. This information can be found
+               from the *Integrate and Deploy* page in Discovery.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if project_id is None:
+            raise ValueError('project_id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='delete_project')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+
+        path_param_keys = ['project_id']
+        path_param_values = self.encode_path_vars(project_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/projects/{project_id}'.format(**path_param_dict)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request, **kwargs)
+        return response
+
+    def list_fields(self,
+                    project_id: str,
+                    *,
+                    collection_ids: List[str] = None,
+                    **kwargs) -> DetailedResponse:
+        """
+        List fields.
+
+        Gets a list of the unique fields (and their types) stored in the specified
+        collections.
+
+        :param str project_id: The ID of the project. This information can be found
+               from the *Integrate and Deploy* page in Discovery.
+        :param List[str] collection_ids: (optional) Comma separated list of the
+               collection IDs. If this parameter is not specified, all collections in the
+               project are used.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `ListFieldsResponse` object
+        """
+
+        if project_id is None:
+            raise ValueError('project_id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='list_fields')
+        headers.update(sdk_headers)
+
+        params = {
+            'version': self.version,
+            'collection_ids': convert_list(collection_ids)
+        }
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['project_id']
+        path_param_values = self.encode_path_vars(project_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/projects/{project_id}/fields'.format(**path_param_dict)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request, **kwargs)
+        return response
 
     #########################
     # Collections
@@ -107,6 +389,7 @@ class DiscoveryV2(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['project_id']
@@ -128,6 +411,8 @@ class DiscoveryV2(BaseService):
                           description: str = None,
                           language: str = None,
                           enrichments: List['CollectionEnrichment'] = None,
+                          smart_document_understanding:
+                          'CollectionDetailsSmartDocumentUnderstanding' = None,
                           **kwargs) -> DetailedResponse:
         """
         Create a collection.
@@ -138,9 +423,20 @@ class DiscoveryV2(BaseService):
                from the *Integrate and Deploy* page in Discovery.
         :param str name: The name of the collection.
         :param str description: (optional) A description of the collection.
-        :param str language: (optional) The language of the collection.
+        :param str language: (optional) The language of the collection. For a list
+               of supported languages, see the [product
+               documentation](/docs/discovery-data?topic=discovery-data-language-support).
         :param List[CollectionEnrichment] enrichments: (optional) An array of
-               enrichments that are applied to this collection.
+               enrichments that are applied to this collection. To get a list of
+               enrichments that are available for a project, use the [List
+               enrichments](#listenrichments) method.
+               If no enrichments are specified when the collection is created, the default
+               enrichments for the project type are applied. For more information about
+               project default settings, see the [product
+               documentation](/docs/discovery-data?topic=discovery-data-project-defaults).
+        :param CollectionDetailsSmartDocumentUnderstanding
+               smart_document_understanding: (optional) An object that describes the Smart
+               Document Understanding model for a collection.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `CollectionDetails` object
@@ -152,6 +448,9 @@ class DiscoveryV2(BaseService):
             raise ValueError('name must be provided')
         if enrichments is not None:
             enrichments = [convert_model(x) for x in enrichments]
+        if smart_document_understanding is not None:
+            smart_document_understanding = convert_model(
+                smart_document_understanding)
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V2',
@@ -164,7 +463,8 @@ class DiscoveryV2(BaseService):
             'name': name,
             'description': description,
             'language': language,
-            'enrichments': enrichments
+            'enrichments': enrichments,
+            'smart_document_understanding': smart_document_understanding
         }
         data = {k: v for (k, v) in data.items() if v is not None}
         data = json.dumps(data)
@@ -172,6 +472,7 @@ class DiscoveryV2(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['project_id']
@@ -216,6 +517,7 @@ class DiscoveryV2(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['project_id', 'collection_id']
@@ -247,8 +549,8 @@ class DiscoveryV2(BaseService):
         :param str project_id: The ID of the project. This information can be found
                from the *Integrate and Deploy* page in Discovery.
         :param str collection_id: The ID of the collection.
-        :param str name: (optional) The name of the collection.
-        :param str description: (optional) A description of the collection.
+        :param str name: (optional) The new name of the collection.
+        :param str description: (optional) The new description of the collection.
         :param List[CollectionEnrichment] enrichments: (optional) An array of
                enrichments that are applied to this collection.
         :param dict headers: A `dict` containing the request headers
@@ -281,6 +583,7 @@ class DiscoveryV2(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['project_id', 'collection_id']
@@ -327,6 +630,7 @@ class DiscoveryV2(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
 
         path_param_keys = ['project_id', 'collection_id']
         path_param_values = self.encode_path_vars(project_id, collection_id)
@@ -342,241 +646,69 @@ class DiscoveryV2(BaseService):
         return response
 
     #########################
-    # Queries
+    # Documents
     #########################
 
-    def query(self,
-              project_id: str,
-              *,
-              collection_ids: List[str] = None,
-              filter: str = None,
-              query: str = None,
-              natural_language_query: str = None,
-              aggregation: str = None,
-              count: int = None,
-              return_: List[str] = None,
-              offset: int = None,
-              sort: str = None,
-              highlight: bool = None,
-              spelling_suggestions: bool = None,
-              table_results: 'QueryLargeTableResults' = None,
-              suggested_refinements: 'QueryLargeSuggestedRefinements' = None,
-              passages: 'QueryLargePassages' = None,
-              **kwargs) -> DetailedResponse:
+    def list_documents(self,
+                       project_id: str,
+                       collection_id: str,
+                       *,
+                       count: int = None,
+                       status: str = None,
+                       has_notices: bool = None,
+                       is_parent: bool = None,
+                       parent_document_id: str = None,
+                       sha256: str = None,
+                       **kwargs) -> DetailedResponse:
         """
-        Query a project.
+        List documents.
 
-        By using this method, you can construct queries. For details, see the [Discovery
-        documentation](https://cloud.ibm.com/docs/discovery-data?topic=discovery-data-query-concepts).
-        The default query parameters are defined by the settings for this project, see the
-        [Discovery
-        documentation](https://cloud.ibm.com/docs/discovery-data?topic=discovery-data-project-defaults)
-        for an overview of the standard default settings, and see [the Projects API
-        documentation](#create-project) for details about how to set custom default query
-        settings.
-
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
-        :param List[str] collection_ids: (optional) A comma-separated list of
-               collection IDs to be queried against.
-        :param str filter: (optional) A cacheable query that excludes documents
-               that don't mention the query content. Filter searches are better for
-               metadata-type searches and for assessing the concepts in the data set.
-        :param str query: (optional) A query search returns all documents in your
-               data set with full enrichments and full text, but with the most relevant
-               documents listed first. Use a query search when you want to find the most
-               relevant search results.
-        :param str natural_language_query: (optional) A natural language query that
-               returns relevant documents by utilizing training data and natural language
-               understanding.
-        :param str aggregation: (optional) An aggregation search that returns an
-               exact answer by combining query search with filters. Useful for
-               applications to build lists, tables, and time series. For a full list of
-               possible aggregations, see the Query reference.
-        :param int count: (optional) Number of results to return.
-        :param List[str] return_: (optional) A list of the fields in the document
-               hierarchy to return. If this parameter is an empty list, then all fields
-               are returned.
-        :param int offset: (optional) The number of query results to skip at the
-               beginning. For example, if the total number of results that are returned is
-               10 and the offset is 8, it returns the last two results.
-        :param str sort: (optional) A comma-separated list of fields in the
-               document to sort on. You can optionally specify a sort direction by
-               prefixing the field with `-` for descending or `+` for ascending. Ascending
-               is the default sort direction if no prefix is specified.
-        :param bool highlight: (optional) When `true`, a highlight field is
-               returned for each result which contains the fields which match the query
-               with `<em></em>` tags around the matching query terms.
-        :param bool spelling_suggestions: (optional) When `true` and the
-               **natural_language_query** parameter is used, the
-               **natural_language_query** parameter is spell checked. The most likely
-               correction is returned in the **suggested_query** field of the response (if
-               one exists).
-        :param QueryLargeTableResults table_results: (optional) Configuration for
-               table retrieval.
-        :param QueryLargeSuggestedRefinements suggested_refinements: (optional)
-               Configuration for suggested refinements. Available with Premium plans only.
-        :param QueryLargePassages passages: (optional) Configuration for passage
-               retrieval.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `QueryResponse` object
-        """
-
-        if project_id is None:
-            raise ValueError('project_id must be provided')
-        if table_results is not None:
-            table_results = convert_model(table_results)
-        if suggested_refinements is not None:
-            suggested_refinements = convert_model(suggested_refinements)
-        if passages is not None:
-            passages = convert_model(passages)
-        headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V2',
-                                      operation_id='query')
-        headers.update(sdk_headers)
-
-        params = {'version': self.version}
-
-        data = {
-            'collection_ids': collection_ids,
-            'filter': filter,
-            'query': query,
-            'natural_language_query': natural_language_query,
-            'aggregation': aggregation,
-            'count': count,
-            'return': return_,
-            'offset': offset,
-            'sort': sort,
-            'highlight': highlight,
-            'spelling_suggestions': spelling_suggestions,
-            'table_results': table_results,
-            'suggested_refinements': suggested_refinements,
-            'passages': passages
-        }
-        data = {k: v for (k, v) in data.items() if v is not None}
-        data = json.dumps(data)
-        headers['content-type'] = 'application/json'
-
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-        headers['Accept'] = 'application/json'
-
-        path_param_keys = ['project_id']
-        path_param_values = self.encode_path_vars(project_id)
-        path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = '/v2/projects/{project_id}/query'.format(**path_param_dict)
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       data=data)
-
-        response = self.send(request, **kwargs)
-        return response
-
-    def get_autocompletion(self,
-                           project_id: str,
-                           prefix: str,
-                           *,
-                           collection_ids: List[str] = None,
-                           field: str = None,
-                           count: int = None,
-                           **kwargs) -> DetailedResponse:
-        """
-        Get Autocomplete Suggestions.
-
-        Returns completion query suggestions for the specified prefix.
-
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
-        :param str prefix: The prefix to use for autocompletion. For example, the
-               prefix `Ho` could autocomplete to `hot`, `housing`, or `how`.
-        :param List[str] collection_ids: (optional) Comma separated list of the
-               collection IDs. If this parameter is not specified, all collections in the
-               project are used.
-        :param str field: (optional) The field in the result documents that
-               autocompletion suggestions are identified from.
-        :param int count: (optional) The number of autocompletion suggestions to
-               return.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `Completions` object
-        """
-
-        if project_id is None:
-            raise ValueError('project_id must be provided')
-        if prefix is None:
-            raise ValueError('prefix must be provided')
-        headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V2',
-                                      operation_id='get_autocompletion')
-        headers.update(sdk_headers)
-
-        params = {
-            'version': self.version,
-            'prefix': prefix,
-            'collection_ids': convert_list(collection_ids),
-            'field': field,
-            'count': count
-        }
-
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-        headers['Accept'] = 'application/json'
-
-        path_param_keys = ['project_id']
-        path_param_values = self.encode_path_vars(project_id)
-        path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = '/v2/projects/{project_id}/autocompletion'.format(
-            **path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
-
-        response = self.send(request, **kwargs)
-        return response
-
-    def query_collection_notices(self,
-                                 project_id: str,
-                                 collection_id: str,
-                                 *,
-                                 filter: str = None,
-                                 query: str = None,
-                                 natural_language_query: str = None,
-                                 count: int = None,
-                                 offset: int = None,
-                                 **kwargs) -> DetailedResponse:
-        """
-        Query collection notices.
-
-        Finds collection-level notices (errors and warnings) that are generated when
-        documents are ingested.
+        Lists the documents in the specified collection. The list includes only the
+        document ID of each document and returns information for up to 10,000 documents.
+        **Note**: This method is available only from Cloud Pak for Data version 4.0.9 and
+        later installed instances and from Plus and Enterprise plan IBM Cloud-managed
+        instances.
 
         :param str project_id: The ID of the project. This information can be found
                from the *Integrate and Deploy* page in Discovery.
         :param str collection_id: The ID of the collection.
-        :param str filter: (optional) A cacheable query that excludes documents
-               that don't mention the query content. Filter searches are better for
-               metadata-type searches and for assessing the concepts in the data set.
-        :param str query: (optional) A query search returns all documents in your
-               data set with full enrichments and full text, but with the most relevant
-               documents listed first.
-        :param str natural_language_query: (optional) A natural language query that
-               returns relevant documents by utilizing training data and natural language
-               understanding.
-        :param int count: (optional) Number of results to return. The maximum for
-               the **count** and **offset** values together in any one query is **10000**.
-        :param int offset: (optional) The number of query results to skip at the
-               beginning. For example, if the total number of results that are returned is
-               10 and the offset is 8, it returns the last two results. The maximum for
-               the **count** and **offset** values together in any one query is **10000**.
+        :param int count: (optional) The maximum number of documents to return. Up
+               to 1,000 documents are returned by default. The maximum number allowed is
+               10,000.
+        :param str status: (optional) Filters the documents to include only
+               documents with the specified ingestion status. The options include:
+               * `available`: Ingestion is finished and the document is indexed.
+               * `failed`: Ingestion is finished, but the document is not indexed because
+               of an error.
+               * `pending`: The document is uploaded, but the ingestion process is not
+               started.
+               * `processing`: Ingestion is in progress.
+               You can specify one status value or add a comma-separated list of more than
+               one status value. For example, `available,failed`.
+        :param bool has_notices: (optional) If set to `true`, only documents that
+               have notices, meaning documents for which warnings or errors were generated
+               during the ingestion, are returned. If set to `false`, only documents that
+               don't have notices are returned. If unspecified, no filter based on notices
+               is applied.
+               Notice details are not available in the result, but you can use the [Query
+               collection notices](#querycollectionnotices) method to find details by
+               adding the parameter `query=notices.document_id:{document-id}`.
+        :param bool is_parent: (optional) If set to `true`, only parent documents,
+               meaning documents that were split during the ingestion process and resulted
+               in two or more child documents, are returned. If set to `false`, only child
+               documents are returned. If unspecified, no filter based on the parent or
+               child relationship is applied.
+               CSV files, for example, are split into separate documents per line and JSON
+               files are split into separate documents per object.
+        :param str parent_document_id: (optional) Filters the documents to include
+               only child documents that were generated when the specified parent document
+               was processed.
+        :param str sha256: (optional) Filters the documents to include only
+               documents with the specified SHA-256 hash. Format the hash as a hexadecimal
+               string.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `QueryNoticesResponse` object
+        :rtype: DetailedResponse with `dict` result representing a `ListDocumentsResponse` object
         """
 
         if project_id is None:
@@ -586,26 +718,28 @@ class DiscoveryV2(BaseService):
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V2',
-                                      operation_id='query_collection_notices')
+                                      operation_id='list_documents')
         headers.update(sdk_headers)
 
         params = {
             'version': self.version,
-            'filter': filter,
-            'query': query,
-            'natural_language_query': natural_language_query,
             'count': count,
-            'offset': offset
+            'status': status,
+            'has_notices': has_notices,
+            'is_parent': is_parent,
+            'parent_document_id': parent_document_id,
+            'sha256': sha256
         }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['project_id', 'collection_id']
         path_param_values = self.encode_path_vars(project_id, collection_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = '/v2/projects/{project_id}/collections/{collection_id}/notices'.format(
+        url = '/v2/projects/{project_id}/collections/{collection_id}/documents'.format(
             **path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
@@ -614,175 +748,6 @@ class DiscoveryV2(BaseService):
 
         response = self.send(request, **kwargs)
         return response
-
-    def query_notices(self,
-                      project_id: str,
-                      *,
-                      filter: str = None,
-                      query: str = None,
-                      natural_language_query: str = None,
-                      count: int = None,
-                      offset: int = None,
-                      **kwargs) -> DetailedResponse:
-        """
-        Query project notices.
-
-        Finds project-level notices (errors and warnings). Currently, project-level
-        notices are generated by relevancy training.
-
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
-        :param str filter: (optional) A cacheable query that excludes documents
-               that don't mention the query content. Filter searches are better for
-               metadata-type searches and for assessing the concepts in the data set.
-        :param str query: (optional) A query search returns all documents in your
-               data set with full enrichments and full text, but with the most relevant
-               documents listed first.
-        :param str natural_language_query: (optional) A natural language query that
-               returns relevant documents by utilizing training data and natural language
-               understanding.
-        :param int count: (optional) Number of results to return. The maximum for
-               the **count** and **offset** values together in any one query is **10000**.
-        :param int offset: (optional) The number of query results to skip at the
-               beginning. For example, if the total number of results that are returned is
-               10 and the offset is 8, it returns the last two results. The maximum for
-               the **count** and **offset** values together in any one query is **10000**.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `QueryNoticesResponse` object
-        """
-
-        if project_id is None:
-            raise ValueError('project_id must be provided')
-        headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V2',
-                                      operation_id='query_notices')
-        headers.update(sdk_headers)
-
-        params = {
-            'version': self.version,
-            'filter': filter,
-            'query': query,
-            'natural_language_query': natural_language_query,
-            'count': count,
-            'offset': offset
-        }
-
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-        headers['Accept'] = 'application/json'
-
-        path_param_keys = ['project_id']
-        path_param_values = self.encode_path_vars(project_id)
-        path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = '/v2/projects/{project_id}/notices'.format(**path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
-
-        response = self.send(request, **kwargs)
-        return response
-
-    def list_fields(self,
-                    project_id: str,
-                    *,
-                    collection_ids: List[str] = None,
-                    **kwargs) -> DetailedResponse:
-        """
-        List fields.
-
-        Gets a list of the unique fields (and their types) stored in the the specified
-        collections.
-
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
-        :param List[str] collection_ids: (optional) Comma separated list of the
-               collection IDs. If this parameter is not specified, all collections in the
-               project are used.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `ListFieldsResponse` object
-        """
-
-        if project_id is None:
-            raise ValueError('project_id must be provided')
-        headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V2',
-                                      operation_id='list_fields')
-        headers.update(sdk_headers)
-
-        params = {
-            'version': self.version,
-            'collection_ids': convert_list(collection_ids)
-        }
-
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-        headers['Accept'] = 'application/json'
-
-        path_param_keys = ['project_id']
-        path_param_values = self.encode_path_vars(project_id)
-        path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = '/v2/projects/{project_id}/fields'.format(**path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
-
-        response = self.send(request, **kwargs)
-        return response
-
-    #########################
-    # Component settings
-    #########################
-
-    def get_component_settings(self, project_id: str,
-                               **kwargs) -> DetailedResponse:
-        """
-        List component settings.
-
-        Returns default configuration settings for components.
-
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `ComponentSettingsResponse` object
-        """
-
-        if project_id is None:
-            raise ValueError('project_id must be provided')
-        headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V2',
-                                      operation_id='get_component_settings')
-        headers.update(sdk_headers)
-
-        params = {'version': self.version}
-
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-        headers['Accept'] = 'application/json'
-
-        path_param_keys = ['project_id']
-        path_param_values = self.encode_path_vars(project_id)
-        path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = '/v2/projects/{project_id}/component_settings'.format(
-            **path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
-
-        response = self.send(request, **kwargs)
-        return response
-
-    #########################
-    # Documents
-    #########################
 
     def add_document(self,
                      project_id: str,
@@ -799,42 +764,48 @@ class DiscoveryV2(BaseService):
 
         Add a document to a collection with optional metadata.
         Returns immediately after the system has accepted the document for processing.
-          * The user must provide document content, metadata, or both. If the request is
-        missing both document content and metadata, it is rejected.
+        This operation works with a file upload collection. It cannot be used to modify a
+        collection that crawls an external data source.
+         * For a list of supported file types, see the [product
+        documentation](/docs/discovery-data?topic=discovery-data-collections#supportedfiletypes).
+         * You must provide document content, metadata, or both. If the request is missing
+        both document content and metadata, it is rejected.
           * You can set the **Content-Type** parameter on the **file** part to indicate
         the media type of the document. If the **Content-Type** parameter is missing or is
         one of the generic media types (for example, `application/octet-stream`), then the
         service attempts to automatically detect the document's media type.
-          * The following field names are reserved and are filtered out if present after
-        normalization: `id`, `score`, `highlight`, and any field with the prefix of: `_`,
-        `+`, or `-`
-          * Fields with empty name values after normalization are filtered out before
-        indexing.
-          * Fields that contain the following characters after normalization are filtered
-        out before indexing: `#` and `,`
-          If the document is uploaded to a collection that shares its data with another
+         *  If the document is uploaded to a collection that shares its data with another
         collection, the **X-Watson-Discovery-Force** header must be set to `true`.
-        **Note:** You can assign an ID to a document that you add by appending the ID to
-        the endpoint
+         * In curl requests only, you can assign an ID to a document that you add by
+        appending the ID to the endpoint
         (`/v2/projects/{project_id}/collections/{collection_id}/documents/{document_id}`).
         If a document already exists with the specified ID, it is replaced.
-        **Note:** This operation works with a file upload collection. It cannot be used to
-        modify a collection that crawls an external data source.
+        For more information about how certain file types and field names are handled when
+        a file is added to a collection, see the [product
+        documentation](/docs/discovery-data?topic=discovery-data-index-overview#field-name-limits).
 
         :param str project_id: The ID of the project. This information can be found
                from the *Integrate and Deploy* page in Discovery.
         :param str collection_id: The ID of the collection.
-        :param BinaryIO file: (optional) The content of the document to ingest. For
-               maximum supported file size limits, see [the
+        :param BinaryIO file: (optional) When adding a document, the content of the
+               document to ingest. For maximum supported file size limits, see [the
                documentation](https://cloud.ibm.com/docs/discovery-data?topic=discovery-data-collections#collections-doc-limits).
+               When analyzing a document, the content of the document to analyze but not
+               ingest. Only the `application/json` content type is supported currently.
+               For maximum supported file size limits, see [the product
+               documentation](/docs/discovery-data?topic=discovery-data-analyzeapi#analyzeapi-limits).
         :param str filename: (optional) The filename for file.
         :param str file_content_type: (optional) The content type of file.
-        :param str metadata: (optional) The maximum supported metadata file size is
-               1 MB. Metadata parts larger than 1 MB are rejected.
-               Example:  ``` {
-                 "Creator": "Johnny Appleseed",
-                 "Subject": "Apples"
-               } ```.
+        :param str metadata: (optional) Add information about the file that you
+               want to include in the response.
+               The maximum supported metadata file size is 1 MB. Metadata parts larger
+               than 1 MB are rejected.
+               Example:
+                ```
+                {
+                 "filename": "favorites2.json",
+                 "file_type": "json"
+                }.
         :param bool x_watson_discovery_force: (optional) When `true`, the uploaded
                document is added to the collection even if the data for that collection is
                shared with other collections.
@@ -861,13 +832,14 @@ class DiscoveryV2(BaseService):
                 filename = basename(file.name)
             if not filename:
                 raise ValueError('filename must be provided')
-            form_data.append(('file', (filename, file, file_content_type or
-                                       'application/octet-stream')))
+            form_data.append(('file', (filename, file, file_content_type
+                                       or 'application/octet-stream')))
         if metadata:
             form_data.append(('metadata', (None, metadata, 'text/plain')))
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['project_id', 'collection_id']
@@ -880,6 +852,59 @@ class DiscoveryV2(BaseService):
                                        headers=headers,
                                        params=params,
                                        files=form_data)
+
+        response = self.send(request, **kwargs)
+        return response
+
+    def get_document(self, project_id: str, collection_id: str,
+                     document_id: str, **kwargs) -> DetailedResponse:
+        """
+        Get document details.
+
+        Get details about a specific document, whether the document is added by uploading
+        a file or by crawling an external data source.
+        **Note**: This method is available only from Cloud Pak for Data version 4.0.9 and
+        later installed instances and from Plus and Enterprise plan IBM Cloud-managed
+        instances.
+
+        :param str project_id: The ID of the project. This information can be found
+               from the *Integrate and Deploy* page in Discovery.
+        :param str collection_id: The ID of the collection.
+        :param str document_id: The ID of the document.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `DocumentDetails` object
+        """
+
+        if project_id is None:
+            raise ValueError('project_id must be provided')
+        if collection_id is None:
+            raise ValueError('collection_id must be provided')
+        if document_id is None:
+            raise ValueError('document_id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='get_document')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['project_id', 'collection_id', 'document_id']
+        path_param_values = self.encode_path_vars(project_id, collection_id,
+                                                  document_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/projects/{project_id}/collections/{collection_id}/documents/{document_id}'.format(
+            **path_param_dict)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
 
         response = self.send(request, **kwargs)
         return response
@@ -898,33 +923,42 @@ class DiscoveryV2(BaseService):
         """
         Update a document.
 
-        Replace an existing document or add a document with a specified **document_id**.
+        Replace an existing document or add a document with a specified document ID.
         Starts ingesting a document with optional metadata.
+        This operation works with a file upload collection. It cannot be used to modify a
+        collection that crawls an external data source.
         If the document is uploaded to a collection that shares its data with another
         collection, the **X-Watson-Discovery-Force** header must be set to `true`.
-        **Note:** When uploading a new document with this method it automatically replaces
-        any document stored with the same **document_id** if it exists.
-        **Note:** This operation only works on collections created to accept direct file
-        uploads. It cannot be used to modify a collection that connects to an external
-        source such as Microsoft SharePoint.
-        **Note:** If an uploaded document is segmented, all segments are overwritten, even
-        if the updated version of the document has fewer segments.
+        **Notes:**
+         * Uploading a new document with this method automatically replaces any existing
+        document stored with the same document ID.
+         * If an uploaded document is split into child documents during ingestion, all
+        existing child documents are overwritten, even if the updated version of the
+        document has fewer child documents.
 
         :param str project_id: The ID of the project. This information can be found
                from the *Integrate and Deploy* page in Discovery.
         :param str collection_id: The ID of the collection.
         :param str document_id: The ID of the document.
-        :param BinaryIO file: (optional) The content of the document to ingest. For
-               maximum supported file size limits, see [the
+        :param BinaryIO file: (optional) When adding a document, the content of the
+               document to ingest. For maximum supported file size limits, see [the
                documentation](https://cloud.ibm.com/docs/discovery-data?topic=discovery-data-collections#collections-doc-limits).
+               When analyzing a document, the content of the document to analyze but not
+               ingest. Only the `application/json` content type is supported currently.
+               For maximum supported file size limits, see [the product
+               documentation](/docs/discovery-data?topic=discovery-data-analyzeapi#analyzeapi-limits).
         :param str filename: (optional) The filename for file.
         :param str file_content_type: (optional) The content type of file.
-        :param str metadata: (optional) The maximum supported metadata file size is
-               1 MB. Metadata parts larger than 1 MB are rejected.
-               Example:  ``` {
-                 "Creator": "Johnny Appleseed",
-                 "Subject": "Apples"
-               } ```.
+        :param str metadata: (optional) Add information about the file that you
+               want to include in the response.
+               The maximum supported metadata file size is 1 MB. Metadata parts larger
+               than 1 MB are rejected.
+               Example:
+                ```
+                {
+                 "filename": "favorites2.json",
+                 "file_type": "json"
+                }.
         :param bool x_watson_discovery_force: (optional) When `true`, the uploaded
                document is added to the collection even if the data for that collection is
                shared with other collections.
@@ -953,13 +987,14 @@ class DiscoveryV2(BaseService):
                 filename = basename(file.name)
             if not filename:
                 raise ValueError('filename must be provided')
-            form_data.append(('file', (filename, file, file_content_type or
-                                       'application/octet-stream')))
+            form_data.append(('file', (filename, file, file_content_type
+                                       or 'application/octet-stream')))
         if metadata:
             form_data.append(('metadata', (None, metadata, 'text/plain')))
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['project_id', 'collection_id', 'document_id']
@@ -1024,6 +1059,7 @@ class DiscoveryV2(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['project_id', 'collection_id', 'document_id']
@@ -1033,6 +1069,764 @@ class DiscoveryV2(BaseService):
         url = '/v2/projects/{project_id}/collections/{collection_id}/documents/{document_id}'.format(
             **path_param_dict)
         request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request, **kwargs)
+        return response
+
+    #########################
+    # Queries
+    #########################
+
+    def query(self,
+              project_id: str,
+              *,
+              collection_ids: List[str] = None,
+              filter: str = None,
+              query: str = None,
+              natural_language_query: str = None,
+              aggregation: str = None,
+              count: int = None,
+              return_: List[str] = None,
+              offset: int = None,
+              sort: str = None,
+              highlight: bool = None,
+              spelling_suggestions: bool = None,
+              table_results: 'QueryLargeTableResults' = None,
+              suggested_refinements: 'QueryLargeSuggestedRefinements' = None,
+              passages: 'QueryLargePassages' = None,
+              similar: 'QueryLargeSimilar' = None,
+              **kwargs) -> DetailedResponse:
+        """
+        Query a project.
+
+        Search your data by submitting queries that are written in natural language or
+        formatted in the Discovery Query Language. For more information, see the
+        [Discovery
+        documentation](https://cloud.ibm.com/docs/discovery-data?topic=discovery-data-query-concepts).
+        The default query parameters differ by project type. For more information about
+        the project default settings, see the [Discovery
+        documentation](https://cloud.ibm.com/docs/discovery-data?topic=discovery-data-query-defaults).
+        See [the Projects API documentation](#create-project) for details about how to set
+        custom default query settings.
+        The length of the UTF-8 encoding of the POST body cannot exceed 10,000 bytes,
+        which is roughly equivalent to 10,000 characters in English.
+
+        :param str project_id: The ID of the project. This information can be found
+               from the *Integrate and Deploy* page in Discovery.
+        :param List[str] collection_ids: (optional) A comma-separated list of
+               collection IDs to be queried against.
+        :param str filter: (optional) Searches for documents that match the
+               Discovery Query Language criteria that is specified as input. Filter calls
+               are cached and are faster than query calls because the results are not
+               ordered by relevance. When used with the **aggregation**, **query**, or
+               **natural_language_query** parameters, the **filter** parameter runs first.
+               This parameter is useful for limiting results to those that contain
+               specific metadata values.
+        :param str query: (optional) A query search that is written in the
+               Discovery Query Language and returns all matching documents in your data
+               set with full enrichments and full text, and with the most relevant
+               documents listed first. Use a query search when you want to find the most
+               relevant search results.
+        :param str natural_language_query: (optional) A natural language query that
+               returns relevant documents by using training data and natural language
+               understanding.
+        :param str aggregation: (optional) An aggregation search that returns an
+               exact answer by combining query search with filters. Useful for
+               applications to build lists, tables, and time series. For more information
+               about the supported types of aggregations, see the [Discovery
+               documentation](https://cloud.ibm.com/docs/discovery-data?topic=discovery-data-query-aggregations).
+        :param int count: (optional) Number of results to return.
+        :param List[str] return_: (optional) A list of the fields in the document
+               hierarchy to return. You can specify both root-level (`text`) and nested
+               (`extracted_metadata.filename`) fields. If this parameter is an empty list,
+               then all fields are returned.
+        :param int offset: (optional) The number of query results to skip at the
+               beginning. For example, if the total number of results that are returned is
+               10 and the offset is 8, it returns the last two results.
+        :param str sort: (optional) A comma-separated list of fields in the
+               document to sort on. You can optionally specify a sort direction by
+               prefixing the field with `-` for descending or `+` for ascending. Ascending
+               is the default sort direction if no prefix is specified.
+        :param bool highlight: (optional) When `true`, a highlight field is
+               returned for each result that contains fields that match the query. The
+               matching query terms are emphasized with surrounding `<em></em>` tags. This
+               parameter is ignored if **passages.enabled** and **passages.per_document**
+               are `true`, in which case passages are returned for each document instead
+               of highlights.
+        :param bool spelling_suggestions: (optional) When `true` and the
+               **natural_language_query** parameter is used, the
+               **natural_language_query** parameter is spell checked. The most likely
+               correction is returned in the **suggested_query** field of the response (if
+               one exists).
+        :param QueryLargeTableResults table_results: (optional) Configuration for
+               table retrieval.
+        :param QueryLargeSuggestedRefinements suggested_refinements: (optional)
+               Configuration for suggested refinements.
+               **Note**: The **suggested_refinements** parameter that identified dynamic
+               facets from the data is deprecated.
+        :param QueryLargePassages passages: (optional) Configuration for passage
+               retrieval.
+        :param QueryLargeSimilar similar: (optional) Finds results from documents
+               that are similar to documents of interest. Use this parameter to add a
+               *More like these* function to your search. You can include this parameter
+               with or without a **query**, **filter** or **natural_language_query**
+               parameter.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `QueryResponse` object
+        """
+
+        if project_id is None:
+            raise ValueError('project_id must be provided')
+        if table_results is not None:
+            table_results = convert_model(table_results)
+        if suggested_refinements is not None:
+            suggested_refinements = convert_model(suggested_refinements)
+        if passages is not None:
+            passages = convert_model(passages)
+        if similar is not None:
+            similar = convert_model(similar)
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='query')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        data = {
+            'collection_ids': collection_ids,
+            'filter': filter,
+            'query': query,
+            'natural_language_query': natural_language_query,
+            'aggregation': aggregation,
+            'count': count,
+            'return': return_,
+            'offset': offset,
+            'sort': sort,
+            'highlight': highlight,
+            'spelling_suggestions': spelling_suggestions,
+            'table_results': table_results,
+            'suggested_refinements': suggested_refinements,
+            'passages': passages,
+            'similar': similar
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['project_id']
+        path_param_values = self.encode_path_vars(project_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/projects/{project_id}/query'.format(**path_param_dict)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data)
+
+        response = self.send(request, **kwargs)
+        return response
+
+    def get_autocompletion(self,
+                           project_id: str,
+                           prefix: str,
+                           *,
+                           collection_ids: List[str] = None,
+                           field: str = None,
+                           count: int = None,
+                           **kwargs) -> DetailedResponse:
+        """
+        Get Autocomplete Suggestions.
+
+        Returns completion query suggestions for the specified prefix.
+
+        :param str project_id: The ID of the project. This information can be found
+               from the *Integrate and Deploy* page in Discovery.
+        :param str prefix: The prefix to use for autocompletion. For example, the
+               prefix `Ho` could autocomplete to `hot`, `housing`, or `how`.
+        :param List[str] collection_ids: (optional) Comma separated list of the
+               collection IDs. If this parameter is not specified, all collections in the
+               project are used.
+        :param str field: (optional) The field in the result documents that
+               autocompletion suggestions are identified from.
+        :param int count: (optional) The number of autocompletion suggestions to
+               return.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `Completions` object
+        """
+
+        if project_id is None:
+            raise ValueError('project_id must be provided')
+        if prefix is None:
+            raise ValueError('prefix must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='get_autocompletion')
+        headers.update(sdk_headers)
+
+        params = {
+            'version': self.version,
+            'prefix': prefix,
+            'collection_ids': convert_list(collection_ids),
+            'field': field,
+            'count': count
+        }
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['project_id']
+        path_param_values = self.encode_path_vars(project_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/projects/{project_id}/autocompletion'.format(
+            **path_param_dict)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request, **kwargs)
+        return response
+
+    def query_collection_notices(self,
+                                 project_id: str,
+                                 collection_id: str,
+                                 *,
+                                 filter: str = None,
+                                 query: str = None,
+                                 natural_language_query: str = None,
+                                 count: int = None,
+                                 offset: int = None,
+                                 **kwargs) -> DetailedResponse:
+        """
+        Query collection notices.
+
+        Finds collection-level notices (errors and warnings) that are generated when
+        documents are ingested.
+
+        :param str project_id: The ID of the project. This information can be found
+               from the *Integrate and Deploy* page in Discovery.
+        :param str collection_id: The ID of the collection.
+        :param str filter: (optional) Searches for documents that match the
+               Discovery Query Language criteria that is specified as input. Filter calls
+               are cached and are faster than query calls because the results are not
+               ordered by relevance. When used with the `aggregation`, `query`, or
+               `natural_language_query` parameters, the `filter` parameter runs first.
+               This parameter is useful for limiting results to those that contain
+               specific metadata values.
+        :param str query: (optional) A query search that is written in the
+               Discovery Query Language and returns all matching documents in your data
+               set with full enrichments and full text, and with the most relevant
+               documents listed first.
+        :param str natural_language_query: (optional) A natural language query that
+               returns relevant documents by using training data and natural language
+               understanding.
+        :param int count: (optional) Number of results to return. The maximum for
+               the **count** and **offset** values together in any one query is
+               **10,000**.
+        :param int offset: (optional) The number of query results to skip at the
+               beginning. For example, if the total number of results that are returned is
+               10 and the offset is 8, it returns the last two results. The maximum for
+               the **count** and **offset** values together in any one query is **10000**.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `QueryNoticesResponse` object
+        """
+
+        if project_id is None:
+            raise ValueError('project_id must be provided')
+        if collection_id is None:
+            raise ValueError('collection_id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='query_collection_notices')
+        headers.update(sdk_headers)
+
+        params = {
+            'version': self.version,
+            'filter': filter,
+            'query': query,
+            'natural_language_query': natural_language_query,
+            'count': count,
+            'offset': offset
+        }
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['project_id', 'collection_id']
+        path_param_values = self.encode_path_vars(project_id, collection_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/projects/{project_id}/collections/{collection_id}/notices'.format(
+            **path_param_dict)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request, **kwargs)
+        return response
+
+    def query_notices(self,
+                      project_id: str,
+                      *,
+                      filter: str = None,
+                      query: str = None,
+                      natural_language_query: str = None,
+                      count: int = None,
+                      offset: int = None,
+                      **kwargs) -> DetailedResponse:
+        """
+        Query project notices.
+
+        Finds project-level notices (errors and warnings). Currently, project-level
+        notices are generated by relevancy training.
+
+        :param str project_id: The ID of the project. This information can be found
+               from the *Integrate and Deploy* page in Discovery.
+        :param str filter: (optional) Searches for documents that match the
+               Discovery Query Language criteria that is specified as input. Filter calls
+               are cached and are faster than query calls because the results are not
+               ordered by relevance. When used with the `aggregation`, `query`, or
+               `natural_language_query` parameters, the `filter` parameter runs first.
+               This parameter is useful for limiting results to those that contain
+               specific metadata values.
+        :param str query: (optional) A query search that is written in the
+               Discovery Query Language and returns all matching documents in your data
+               set with full enrichments and full text, and with the most relevant
+               documents listed first.
+        :param str natural_language_query: (optional) A natural language query that
+               returns relevant documents by using training data and natural language
+               understanding.
+        :param int count: (optional) Number of results to return. The maximum for
+               the **count** and **offset** values together in any one query is
+               **10,000**.
+        :param int offset: (optional) The number of query results to skip at the
+               beginning. For example, if the total number of results that are returned is
+               10 and the offset is 8, it returns the last two results. The maximum for
+               the **count** and **offset** values together in any one query is **10000**.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `QueryNoticesResponse` object
+        """
+
+        if project_id is None:
+            raise ValueError('project_id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='query_notices')
+        headers.update(sdk_headers)
+
+        params = {
+            'version': self.version,
+            'filter': filter,
+            'query': query,
+            'natural_language_query': natural_language_query,
+            'count': count,
+            'offset': offset
+        }
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['project_id']
+        path_param_values = self.encode_path_vars(project_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/projects/{project_id}/notices'.format(**path_param_dict)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request, **kwargs)
+        return response
+
+    #########################
+    # Query modifications
+    #########################
+
+    def get_stopword_list(self, project_id: str, collection_id: str,
+                          **kwargs) -> DetailedResponse:
+        """
+        Get a custom stop words list.
+
+        Returns the custom stop words list that is used by the collection. For information
+        about the default stop words lists that are applied to queries, see [the product
+        documentation](/docs/discovery-data?topic=discovery-data-stopwords).
+
+        :param str project_id: The ID of the project. This information can be found
+               from the *Integrate and Deploy* page in Discovery.
+        :param str collection_id: The ID of the collection.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `StopWordList` object
+        """
+
+        if project_id is None:
+            raise ValueError('project_id must be provided')
+        if collection_id is None:
+            raise ValueError('collection_id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='get_stopword_list')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['project_id', 'collection_id']
+        path_param_values = self.encode_path_vars(project_id, collection_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/projects/{project_id}/collections/{collection_id}/stopwords'.format(
+            **path_param_dict)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request, **kwargs)
+        return response
+
+    def create_stopword_list(self,
+                             project_id: str,
+                             collection_id: str,
+                             *,
+                             stopwords: List[str] = None,
+                             **kwargs) -> DetailedResponse:
+        """
+        Create a custom stop words list.
+
+        Adds a list of custom stop words. Stop words are words that you want the service
+        to ignore when they occur in a query because they're not useful in distinguishing
+        the semantic meaning of the query. The stop words list cannot contain more than 1
+        million characters.
+        A default stop words list is used by all collections. The default list is applied
+        both at indexing time and at query time. A custom stop words list that you add is
+        used at query time only.
+        The custom stop words list replaces the default stop words list. Therefore, if you
+        want to keep the stop words that were used when the collection was indexed, get
+        the default stop words list for the language of the collection first and edit it
+        to create your custom list. For information about the default stop words lists per
+        language, see [the product
+        documentation](/docs/discovery-data?topic=discovery-data-stopwords).
+
+        :param str project_id: The ID of the project. This information can be found
+               from the *Integrate and Deploy* page in Discovery.
+        :param str collection_id: The ID of the collection.
+        :param List[str] stopwords: (optional) List of stop words.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `StopWordList` object
+        """
+
+        if project_id is None:
+            raise ValueError('project_id must be provided')
+        if collection_id is None:
+            raise ValueError('collection_id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='create_stopword_list')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        data = {'stopwords': stopwords}
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['project_id', 'collection_id']
+        path_param_values = self.encode_path_vars(project_id, collection_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/projects/{project_id}/collections/{collection_id}/stopwords'.format(
+            **path_param_dict)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data)
+
+        response = self.send(request, **kwargs)
+        return response
+
+    def delete_stopword_list(self, project_id: str, collection_id: str,
+                             **kwargs) -> DetailedResponse:
+        """
+        Delete a custom stop words list.
+
+        Deletes a custom stop words list to stop using it in queries against the
+        collection. After a custom stop words list is deleted, the default stop words list
+        is used.
+
+        :param str project_id: The ID of the project. This information can be found
+               from the *Integrate and Deploy* page in Discovery.
+        :param str collection_id: The ID of the collection.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if project_id is None:
+            raise ValueError('project_id must be provided')
+        if collection_id is None:
+            raise ValueError('collection_id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='delete_stopword_list')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+
+        path_param_keys = ['project_id', 'collection_id']
+        path_param_values = self.encode_path_vars(project_id, collection_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/projects/{project_id}/collections/{collection_id}/stopwords'.format(
+            **path_param_dict)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request, **kwargs)
+        return response
+
+    def list_expansions(self, project_id: str, collection_id: str,
+                        **kwargs) -> DetailedResponse:
+        """
+        Get the expansion list.
+
+        Returns the current expansion list for the specified collection. If an expansion
+        list is not specified, an empty expansions array is returned.
+
+        :param str project_id: The ID of the project. This information can be found
+               from the *Integrate and Deploy* page in Discovery.
+        :param str collection_id: The ID of the collection.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `Expansions` object
+        """
+
+        if project_id is None:
+            raise ValueError('project_id must be provided')
+        if collection_id is None:
+            raise ValueError('collection_id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='list_expansions')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['project_id', 'collection_id']
+        path_param_values = self.encode_path_vars(project_id, collection_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/projects/{project_id}/collections/{collection_id}/expansions'.format(
+            **path_param_dict)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request, **kwargs)
+        return response
+
+    def create_expansions(self, project_id: str, collection_id: str,
+                          expansions: List['Expansion'],
+                          **kwargs) -> DetailedResponse:
+        """
+        Create or update an expansion list.
+
+        Creates or replaces the expansion list for this collection. An expansion list
+        introduces alternative wording for key terms that are mentioned in your
+        collection. By identifying synonyms or common misspellings, you expand the scope
+        of a query beyond exact matches. The maximum number of expanded terms allowed per
+        collection is 5,000.
+
+        :param str project_id: The ID of the project. This information can be found
+               from the *Integrate and Deploy* page in Discovery.
+        :param str collection_id: The ID of the collection.
+        :param List[Expansion] expansions: An array of query expansion definitions.
+                Each object in the **expansions** array represents a term or set of terms
+               that will be expanded into other terms. Each expansion object can be
+               configured as `bidirectional` or `unidirectional`.
+               * **Bidirectional**: Each entry in the `expanded_terms` list expands to
+               include all expanded terms. For example, a query for `ibm` expands to `ibm
+               OR international business machines OR big blue`.
+               * **Unidirectional**: The terms in `input_terms` in the query are replaced
+               by the terms in `expanded_terms`. For example, a query for the often
+               misused term `on premise` is converted to `on premises OR on-premises` and
+               does not contain the original term. If you want an input term to be
+               included in the query, then repeat the input term in the expanded terms
+               list.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `Expansions` object
+        """
+
+        if project_id is None:
+            raise ValueError('project_id must be provided')
+        if collection_id is None:
+            raise ValueError('collection_id must be provided')
+        if expansions is None:
+            raise ValueError('expansions must be provided')
+        expansions = [convert_model(x) for x in expansions]
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='create_expansions')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        data = {'expansions': expansions}
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['project_id', 'collection_id']
+        path_param_values = self.encode_path_vars(project_id, collection_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/projects/{project_id}/collections/{collection_id}/expansions'.format(
+            **path_param_dict)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data)
+
+        response = self.send(request, **kwargs)
+        return response
+
+    def delete_expansions(self, project_id: str, collection_id: str,
+                          **kwargs) -> DetailedResponse:
+        """
+        Delete the expansion list.
+
+        Removes the expansion information for this collection. To disable query expansion
+        for a collection, delete the expansion list.
+
+        :param str project_id: The ID of the project. This information can be found
+               from the *Integrate and Deploy* page in Discovery.
+        :param str collection_id: The ID of the collection.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if project_id is None:
+            raise ValueError('project_id must be provided')
+        if collection_id is None:
+            raise ValueError('collection_id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='delete_expansions')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+
+        path_param_keys = ['project_id', 'collection_id']
+        path_param_values = self.encode_path_vars(project_id, collection_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/projects/{project_id}/collections/{collection_id}/expansions'.format(
+            **path_param_dict)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request, **kwargs)
+        return response
+
+    #########################
+    # Component settings
+    #########################
+
+    def get_component_settings(self, project_id: str,
+                               **kwargs) -> DetailedResponse:
+        """
+        List component settings.
+
+        Returns default configuration settings for components.
+
+        :param str project_id: The ID of the project. This information can be found
+               from the *Integrate and Deploy* page in Discovery.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `ComponentSettingsResponse` object
+        """
+
+        if project_id is None:
+            raise ValueError('project_id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='get_component_settings')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['project_id']
+        path_param_values = self.encode_path_vars(project_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/projects/{project_id}/component_settings'.format(
+            **path_param_dict)
+        request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
                                        params=params)
@@ -1070,6 +1864,7 @@ class DiscoveryV2(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['project_id']
@@ -1111,6 +1906,7 @@ class DiscoveryV2(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
 
         path_param_keys = ['project_id']
         path_param_values = self.encode_path_vars(project_id)
@@ -1176,6 +1972,7 @@ class DiscoveryV2(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['project_id']
@@ -1222,6 +2019,7 @@ class DiscoveryV2(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['project_id', 'query_id']
@@ -1291,6 +2089,7 @@ class DiscoveryV2(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['project_id', 'query_id']
@@ -1337,6 +2136,7 @@ class DiscoveryV2(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
 
         path_param_keys = ['project_id', 'query_id']
         path_param_values = self.encode_path_vars(project_id, query_id)
@@ -1352,93 +2152,12 @@ class DiscoveryV2(BaseService):
         return response
 
     #########################
-    # analyze
-    #########################
-
-    def analyze_document(self,
-                         project_id: str,
-                         collection_id: str,
-                         *,
-                         file: BinaryIO = None,
-                         filename: str = None,
-                         file_content_type: str = None,
-                         metadata: str = None,
-                         **kwargs) -> DetailedResponse:
-        """
-        Analyze a Document.
-
-        Process a document and return it for realtime use. Supports JSON files only.
-        The document is processed according to the collection's configuration settings but
-        is not stored in the collection.
-        **Note:** This method is supported on installed instances of Discovery only.
-
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
-        :param str collection_id: The ID of the collection.
-        :param BinaryIO file: (optional) The content of the document to ingest. For
-               maximum supported file size limits, see [the
-               documentation](https://cloud.ibm.com/docs/discovery-data?topic=discovery-data-collections#collections-doc-limits).
-        :param str filename: (optional) The filename for file.
-        :param str file_content_type: (optional) The content type of file.
-        :param str metadata: (optional) The maximum supported metadata file size is
-               1 MB. Metadata parts larger than 1 MB are rejected.
-               Example:  ``` {
-                 "Creator": "Johnny Appleseed",
-                 "Subject": "Apples"
-               } ```.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `AnalyzedDocument` object
-        """
-
-        if project_id is None:
-            raise ValueError('project_id must be provided')
-        if collection_id is None:
-            raise ValueError('collection_id must be provided')
-        headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V2',
-                                      operation_id='analyze_document')
-        headers.update(sdk_headers)
-
-        params = {'version': self.version}
-
-        form_data = []
-        if file:
-            if not filename and hasattr(file, 'name'):
-                filename = basename(file.name)
-            if not filename:
-                raise ValueError('filename must be provided')
-            form_data.append(('file', (filename, file, file_content_type or
-                                       'application/octet-stream')))
-        if metadata:
-            form_data.append(('metadata', (None, metadata, 'text/plain')))
-
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-        headers['Accept'] = 'application/json'
-
-        path_param_keys = ['project_id', 'collection_id']
-        path_param_values = self.encode_path_vars(project_id, collection_id)
-        path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = '/v2/projects/{project_id}/collections/{collection_id}/analyze'.format(
-            **path_param_dict)
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       files=form_data)
-
-        response = self.send(request, **kwargs)
-        return response
-
-    #########################
-    # enrichments
+    # Enrichments
     #########################
 
     def list_enrichments(self, project_id: str, **kwargs) -> DetailedResponse:
         """
-        List Enrichments.
+        List enrichments.
 
         Lists the enrichments available to this project. The *Part of Speech* and
         *Sentiment of Phrases* enrichments might be listed, but are reserved for internal
@@ -1463,6 +2182,7 @@ class DiscoveryV2(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['project_id']
@@ -1486,13 +2206,20 @@ class DiscoveryV2(BaseService):
         """
         Create an enrichment.
 
-        Create an enrichment for use with the specified project.
+        Create an enrichment for use with the specified project. To apply the enrichment
+        to a collection in the project, use the [Collections
+        API](/apidocs/discovery-data#createcollection).
 
         :param str project_id: The ID of the project. This information can be found
                from the *Integrate and Deploy* page in Discovery.
         :param CreateEnrichment enrichment: Information about a specific
                enrichment.
-        :param BinaryIO file: (optional) The enrichment file to upload.
+        :param BinaryIO file: (optional) The enrichment file to upload. Expected
+               file types per enrichment are as follows:
+               * CSV for `dictionary`
+               * PEAR for `uima_annotator` and `rule_based` (Explorer)
+               * ZIP for `watson_knowledge_studio_model` and `rule_based` (Studio Advanced
+               Rule Editor).
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `Enrichment` object
@@ -1514,10 +2241,12 @@ class DiscoveryV2(BaseService):
         form_data.append(
             ('enrichment', (None, json.dumps(enrichment), 'application/json')))
         if file:
-            form_data.append(('file', (None, file, 'application/octet-stream')))
+            form_data.append(
+                ('file', (None, file, 'application/octet-stream')))
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['project_id']
@@ -1562,6 +2291,7 @@ class DiscoveryV2(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['project_id', 'enrichment_id']
@@ -1620,6 +2350,7 @@ class DiscoveryV2(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['project_id', 'enrichment_id']
@@ -1666,6 +2397,7 @@ class DiscoveryV2(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
 
         path_param_keys = ['project_id', 'enrichment_id']
         path_param_values = self.encode_path_vars(project_id, enrichment_id)
@@ -1681,33 +2413,44 @@ class DiscoveryV2(BaseService):
         return response
 
     #########################
-    # projects
+    # Document classifiers
     #########################
 
-    def list_projects(self, **kwargs) -> DetailedResponse:
+    def list_document_classifiers(self, project_id: str,
+                                  **kwargs) -> DetailedResponse:
         """
-        List projects.
+        List document classifiers.
 
-        Lists existing projects for this instance.
+        Get a list of the document classifiers in a project. Returns only the name and
+        classifier ID of each document classifier.
 
+        :param str project_id: The ID of the project. This information can be found
+               from the *Integrate and Deploy* page in Discovery.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `ListProjectsResponse` object
+        :rtype: DetailedResponse with `dict` result representing a `DocumentClassifiers` object
         """
 
+        if project_id is None:
+            raise ValueError('project_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V2',
-                                      operation_id='list_projects')
+                                      operation_id='list_document_classifiers')
         headers.update(sdk_headers)
 
         params = {'version': self.version}
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
-        url = '/v2/projects'
+        path_param_keys = ['project_id']
+        path_param_values = self.encode_path_vars(project_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/projects/{project_id}/document_classifiers'.format(
+            **path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -1716,98 +2459,122 @@ class DiscoveryV2(BaseService):
         response = self.send(request, **kwargs)
         return response
 
-    def create_project(self,
-                       name: str,
-                       type: str,
-                       *,
-                       default_query_parameters: 'DefaultQueryParams' = None,
-                       **kwargs) -> DetailedResponse:
+    def create_document_classifier(self,
+                                   project_id: str,
+                                   training_data: BinaryIO,
+                                   classifier: 'CreateDocumentClassifier',
+                                   *,
+                                   test_data: BinaryIO = None,
+                                   **kwargs) -> DetailedResponse:
         """
-        Create a Project.
+        Create a document classifier.
 
-        Create a new project for this instance.
-
-        :param str name: The human readable name of this project.
-        :param str type: The type of project.
-               The `content_intelligence` type is a *Document Retrieval for Contracts*
-               project and the `other` type is a *Custom* project.
-               The `content_mining` and `content_intelligence` types are available with
-               Premium plan managed deployments and installed deployments only.
-        :param DefaultQueryParams default_query_parameters: (optional) Default
-               query parameters for this project.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `ProjectDetails` object
-        """
-
-        if name is None:
-            raise ValueError('name must be provided')
-        if type is None:
-            raise ValueError('type must be provided')
-        if default_query_parameters is not None:
-            default_query_parameters = convert_model(default_query_parameters)
-        headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V2',
-                                      operation_id='create_project')
-        headers.update(sdk_headers)
-
-        params = {'version': self.version}
-
-        data = {
-            'name': name,
-            'type': type,
-            'default_query_parameters': default_query_parameters
-        }
-        data = {k: v for (k, v) in data.items() if v is not None}
-        data = json.dumps(data)
-        headers['content-type'] = 'application/json'
-
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-        headers['Accept'] = 'application/json'
-
-        url = '/v2/projects'
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       data=data)
-
-        response = self.send(request, **kwargs)
-        return response
-
-    def get_project(self, project_id: str, **kwargs) -> DetailedResponse:
-        """
-        Get project.
-
-        Get details on the specified project.
+        Create a document classifier. You can use the API to create a document classifier
+        in any project type. After you create a document classifier, you can use the
+        Enrichments API to create a classifier enrichment, and then the Collections API to
+        apply the enrichment to a collection in the project.
+        **Note:** This method is supported on installed instances (IBM Cloud Pak for Data)
+        or IBM Cloud-managed Premium or Enterprise plan instances.
 
         :param str project_id: The ID of the project. This information can be found
                from the *Integrate and Deploy* page in Discovery.
+        :param BinaryIO training_data: The training data CSV file to upload. The
+               CSV file must have headers. The file must include a field that contains the
+               text you want to classify and a field that contains the classification
+               labels that you want to use to classify your data. If you want to specify
+               multiple values in a single field, use a semicolon as the value separator.
+               For a sample file, see [the product
+               documentation](https://cloud.ibm.com/docs/discovery-data?topic=discovery-data-cm-doc-classifier).
+        :param CreateDocumentClassifier classifier: An object that manages the
+               settings and data that is required to train a document classification
+               model.
+        :param BinaryIO test_data: (optional) The CSV with test data to upload. The
+               column values in the test file must be the same as the column values in the
+               training data file. If no test data is provided, the training data is split
+               into two separate groups of training and test data.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `ProjectDetails` object
+        :rtype: DetailedResponse with `dict` result representing a `DocumentClassifier` object
         """
 
         if project_id is None:
             raise ValueError('project_id must be provided')
+        if training_data is None:
+            raise ValueError('training_data must be provided')
+        if classifier is None:
+            raise ValueError('classifier must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V2',
-                                      operation_id='get_project')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V2',
+            operation_id='create_document_classifier')
         headers.update(sdk_headers)
 
         params = {'version': self.version}
 
+        form_data = []
+        form_data.append(('training_data', (None, training_data, 'text/csv')))
+        form_data.append(
+            ('classifier', (None, json.dumps(classifier), 'application/json')))
+        if test_data:
+            form_data.append(('test_data', (None, test_data, 'text/csv')))
+
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['project_id']
         path_param_values = self.encode_path_vars(project_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = '/v2/projects/{project_id}'.format(**path_param_dict)
+        url = '/v2/projects/{project_id}/document_classifiers'.format(
+            **path_param_dict)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       files=form_data)
+
+        response = self.send(request, **kwargs)
+        return response
+
+    def get_document_classifier(self, project_id: str, classifier_id: str,
+                                **kwargs) -> DetailedResponse:
+        """
+        Get a document classifier.
+
+        Get details about a specific document classifier.
+
+        :param str project_id: The ID of the project. This information can be found
+               from the *Integrate and Deploy* page in Discovery.
+        :param str classifier_id: The ID of the classifier.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `DocumentClassifier` object
+        """
+
+        if project_id is None:
+            raise ValueError('project_id must be provided')
+        if classifier_id is None:
+            raise ValueError('classifier_id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='get_document_classifier')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['project_id', 'classifier_id']
+        path_param_values = self.encode_path_vars(project_id, classifier_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/projects/{project_id}/document_classifiers/{classifier_id}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -1816,66 +2583,95 @@ class DiscoveryV2(BaseService):
         response = self.send(request, **kwargs)
         return response
 
-    def update_project(self,
-                       project_id: str,
-                       *,
-                       name: str = None,
-                       **kwargs) -> DetailedResponse:
+    def update_document_classifier(self,
+                                   project_id: str,
+                                   classifier_id: str,
+                                   classifier: 'UpdateDocumentClassifier',
+                                   *,
+                                   training_data: BinaryIO = None,
+                                   test_data: BinaryIO = None,
+                                   **kwargs) -> DetailedResponse:
         """
-        Update a project.
+        Update a document classifier.
 
-        Update the specified project's name.
+        Update the document classifier name or description, update the training data, or
+        add or update the test data.
 
         :param str project_id: The ID of the project. This information can be found
                from the *Integrate and Deploy* page in Discovery.
-        :param str name: (optional) The new name to give this project.
+        :param str classifier_id: The ID of the classifier.
+        :param UpdateDocumentClassifier classifier: An object that contains a new
+               name or description for a document classifier, updated training data, or
+               new or updated test data.
+        :param BinaryIO training_data: (optional) The training data CSV file to
+               upload. The CSV file must have headers. The file must include a field that
+               contains the text you want to classify and a field that contains the
+               classification labels that you want to use to classify your data. If you
+               want to specify multiple values in a single column, use a semicolon as the
+               value separator. For a sample file, see [the product
+               documentation](https://cloud.ibm.com/docs/discovery-data?topic=discovery-data-cm-doc-classifier).
+        :param BinaryIO test_data: (optional) The CSV with test data to upload. The
+               column values in the test file must be the same as the column values in the
+               training data file. If no test data is provided, the training data is split
+               into two separate groups of training and test data.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `ProjectDetails` object
+        :rtype: DetailedResponse with `dict` result representing a `DocumentClassifier` object
         """
 
         if project_id is None:
             raise ValueError('project_id must be provided')
+        if classifier_id is None:
+            raise ValueError('classifier_id must be provided')
+        if classifier is None:
+            raise ValueError('classifier must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V2',
-                                      operation_id='update_project')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V2',
+            operation_id='update_document_classifier')
         headers.update(sdk_headers)
 
         params = {'version': self.version}
 
-        data = {'name': name}
-        data = {k: v for (k, v) in data.items() if v is not None}
-        data = json.dumps(data)
-        headers['content-type'] = 'application/json'
+        form_data = []
+        form_data.append(
+            ('classifier', (None, json.dumps(classifier), 'application/json')))
+        if training_data:
+            form_data.append(
+                ('training_data', (None, training_data, 'text/csv')))
+        if test_data:
+            form_data.append(('test_data', (None, test_data, 'text/csv')))
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
-        path_param_keys = ['project_id']
-        path_param_values = self.encode_path_vars(project_id)
+        path_param_keys = ['project_id', 'classifier_id']
+        path_param_values = self.encode_path_vars(project_id, classifier_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = '/v2/projects/{project_id}'.format(**path_param_dict)
+        url = '/v2/projects/{project_id}/document_classifiers/{classifier_id}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
                                        params=params,
-                                       data=data)
+                                       files=form_data)
 
         response = self.send(request, **kwargs)
         return response
 
-    def delete_project(self, project_id: str, **kwargs) -> DetailedResponse:
+    def delete_document_classifier(self, project_id: str, classifier_id: str,
+                                   **kwargs) -> DetailedResponse:
         """
-        Delete a project.
+        Delete a document classifier.
 
-        Deletes the specified project.
-        **Important:** Deleting a project deletes everything that is part of the specified
-        project, including all collections.
+        Deletes an existing document classifier from the specified project.
 
         :param str project_id: The ID of the project. This information can be found
                from the *Integrate and Deploy* page in Discovery.
+        :param str classifier_id: The ID of the classifier.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -1883,21 +2679,26 @@ class DiscoveryV2(BaseService):
 
         if project_id is None:
             raise ValueError('project_id must be provided')
+        if classifier_id is None:
+            raise ValueError('classifier_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V2',
-                                      operation_id='delete_project')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V2',
+            operation_id='delete_document_classifier')
         headers.update(sdk_headers)
 
         params = {'version': self.version}
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
 
-        path_param_keys = ['project_id']
-        path_param_values = self.encode_path_vars(project_id)
+        path_param_keys = ['project_id', 'classifier_id']
+        path_param_values = self.encode_path_vars(project_id, classifier_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = '/v2/projects/{project_id}'.format(**path_param_dict)
+        url = '/v2/projects/{project_id}/document_classifiers/{classifier_id}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='DELETE',
                                        url=url,
                                        headers=headers,
@@ -1907,7 +2708,420 @@ class DiscoveryV2(BaseService):
         return response
 
     #########################
-    # userData
+    # Document classifier models
+    #########################
+
+    def list_document_classifier_models(self, project_id: str,
+                                        classifier_id: str,
+                                        **kwargs) -> DetailedResponse:
+        """
+        List document classifier models.
+
+        Get a list of the document classifier models in a project. Returns only the name
+        and model ID of each document classifier model.
+
+        :param str project_id: The ID of the project. This information can be found
+               from the *Integrate and Deploy* page in Discovery.
+        :param str classifier_id: The ID of the classifier.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `DocumentClassifierModels` object
+        """
+
+        if project_id is None:
+            raise ValueError('project_id must be provided')
+        if classifier_id is None:
+            raise ValueError('classifier_id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V2',
+            operation_id='list_document_classifier_models')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['project_id', 'classifier_id']
+        path_param_values = self.encode_path_vars(project_id, classifier_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/projects/{project_id}/document_classifiers/{classifier_id}/models'.format(
+            **path_param_dict)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request, **kwargs)
+        return response
+
+    def create_document_classifier_model(
+            self,
+            project_id: str,
+            classifier_id: str,
+            name: str,
+            *,
+            description: str = None,
+            learning_rate: float = None,
+            l1_regularization_strengths: List[float] = None,
+            l2_regularization_strengths: List[float] = None,
+            training_max_steps: int = None,
+            improvement_ratio: float = None,
+            **kwargs) -> DetailedResponse:
+        """
+        Create a document classifier model.
+
+        Create a document classifier model by training a model that uses the data and
+        classifier settings defined in the specified document classifier.
+        **Note:** This method is supported on installed intances (IBM Cloud Pak for Data)
+        or IBM Cloud-managed Premium or Enterprise plan instances.
+
+        :param str project_id: The ID of the project. This information can be found
+               from the *Integrate and Deploy* page in Discovery.
+        :param str classifier_id: The ID of the classifier.
+        :param str name: The name of the document classifier model.
+        :param str description: (optional) A description of the document classifier
+               model.
+        :param float learning_rate: (optional) A tuning parameter in an
+               optimization algorithm that determines the step size at each iteration of
+               the training process. It influences how much of any newly acquired
+               information overrides the existing information, and therefore is said to
+               represent the speed at which a machine learning model learns. The default
+               value is `0.1`.
+        :param List[float] l1_regularization_strengths: (optional) Avoids
+               overfitting by shrinking the coefficient of less important features to
+               zero, which removes some features altogether. You can specify many values
+               for hyper-parameter optimization. The default value is `[0.000001]`.
+        :param List[float] l2_regularization_strengths: (optional) A method you can
+               apply to avoid overfitting your model on the training data. You can specify
+               many values for hyper-parameter optimization. The default value is
+               `[0.000001]`.
+        :param int training_max_steps: (optional) Maximum number of training steps
+               to complete. This setting is useful if you need the training process to
+               finish in a specific time frame to fit into an automated process. The
+               default value is ten million.
+        :param float improvement_ratio: (optional) Stops the training run early if
+               the improvement ratio is not met by the time the process reaches a certain
+               point. The default value is `0.00001`.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `DocumentClassifierModel` object
+        """
+
+        if project_id is None:
+            raise ValueError('project_id must be provided')
+        if classifier_id is None:
+            raise ValueError('classifier_id must be provided')
+        if name is None:
+            raise ValueError('name must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V2',
+            operation_id='create_document_classifier_model')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        data = {
+            'name': name,
+            'description': description,
+            'learning_rate': learning_rate,
+            'l1_regularization_strengths': l1_regularization_strengths,
+            'l2_regularization_strengths': l2_regularization_strengths,
+            'training_max_steps': training_max_steps,
+            'improvement_ratio': improvement_ratio
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['project_id', 'classifier_id']
+        path_param_values = self.encode_path_vars(project_id, classifier_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/projects/{project_id}/document_classifiers/{classifier_id}/models'.format(
+            **path_param_dict)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data)
+
+        response = self.send(request, **kwargs)
+        return response
+
+    def get_document_classifier_model(self, project_id: str,
+                                      classifier_id: str, model_id: str,
+                                      **kwargs) -> DetailedResponse:
+        """
+        Get a document classifier model.
+
+        Get details about a specific document classifier model.
+
+        :param str project_id: The ID of the project. This information can be found
+               from the *Integrate and Deploy* page in Discovery.
+        :param str classifier_id: The ID of the classifier.
+        :param str model_id: The ID of the classifier model.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `DocumentClassifierModel` object
+        """
+
+        if project_id is None:
+            raise ValueError('project_id must be provided')
+        if classifier_id is None:
+            raise ValueError('classifier_id must be provided')
+        if model_id is None:
+            raise ValueError('model_id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V2',
+            operation_id='get_document_classifier_model')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['project_id', 'classifier_id', 'model_id']
+        path_param_values = self.encode_path_vars(project_id, classifier_id,
+                                                  model_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/projects/{project_id}/document_classifiers/{classifier_id}/models/{model_id}'.format(
+            **path_param_dict)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request, **kwargs)
+        return response
+
+    def update_document_classifier_model(self,
+                                         project_id: str,
+                                         classifier_id: str,
+                                         model_id: str,
+                                         *,
+                                         name: str = None,
+                                         description: str = None,
+                                         **kwargs) -> DetailedResponse:
+        """
+        Update a document classifier model.
+
+        Update the document classifier model name or description.
+
+        :param str project_id: The ID of the project. This information can be found
+               from the *Integrate and Deploy* page in Discovery.
+        :param str classifier_id: The ID of the classifier.
+        :param str model_id: The ID of the classifier model.
+        :param str name: (optional) A new name for the enrichment.
+        :param str description: (optional) A new description for the enrichment.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `DocumentClassifierModel` object
+        """
+
+        if project_id is None:
+            raise ValueError('project_id must be provided')
+        if classifier_id is None:
+            raise ValueError('classifier_id must be provided')
+        if model_id is None:
+            raise ValueError('model_id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V2',
+            operation_id='update_document_classifier_model')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        data = {'name': name, 'description': description}
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['project_id', 'classifier_id', 'model_id']
+        path_param_values = self.encode_path_vars(project_id, classifier_id,
+                                                  model_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/projects/{project_id}/document_classifiers/{classifier_id}/models/{model_id}'.format(
+            **path_param_dict)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data)
+
+        response = self.send(request, **kwargs)
+        return response
+
+    def delete_document_classifier_model(self, project_id: str,
+                                         classifier_id: str, model_id: str,
+                                         **kwargs) -> DetailedResponse:
+        """
+        Delete a document classifier model.
+
+        Deletes an existing document classifier model from the specified project.
+
+        :param str project_id: The ID of the project. This information can be found
+               from the *Integrate and Deploy* page in Discovery.
+        :param str classifier_id: The ID of the classifier.
+        :param str model_id: The ID of the classifier model.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if project_id is None:
+            raise ValueError('project_id must be provided')
+        if classifier_id is None:
+            raise ValueError('classifier_id must be provided')
+        if model_id is None:
+            raise ValueError('model_id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V2',
+            operation_id='delete_document_classifier_model')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+
+        path_param_keys = ['project_id', 'classifier_id', 'model_id']
+        path_param_values = self.encode_path_vars(project_id, classifier_id,
+                                                  model_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/projects/{project_id}/document_classifiers/{classifier_id}/models/{model_id}'.format(
+            **path_param_dict)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request, **kwargs)
+        return response
+
+    #########################
+    # Analyze
+    #########################
+
+    def analyze_document(self,
+                         project_id: str,
+                         collection_id: str,
+                         *,
+                         file: BinaryIO = None,
+                         filename: str = None,
+                         file_content_type: str = None,
+                         metadata: str = None,
+                         **kwargs) -> DetailedResponse:
+        """
+        Analyze a Document.
+
+        Process a document and return it for realtime use. Supports JSON files only.
+        The file is not stored in the collection, but is processed according to the
+        collection's configuration settings. To get results, enrichments must be applied
+        to a field in the collection that also exists in the file that you want to
+        analyze. For example, to analyze text in a `Quote` field, you must apply
+        enrichments to the `Quote` field in the collection configuration. Then, when you
+        analyze the file, the text in the `Quote` field is analyzed and results are
+        written to a field named `enriched_Quote`.
+        **Note:** This method is supported with Enterprise plan deployments and installed
+        deployments only.
+
+        :param str project_id: The ID of the project. This information can be found
+               from the *Integrate and Deploy* page in Discovery.
+        :param str collection_id: The ID of the collection.
+        :param BinaryIO file: (optional) When adding a document, the content of the
+               document to ingest. For maximum supported file size limits, see [the
+               documentation](https://cloud.ibm.com/docs/discovery-data?topic=discovery-data-collections#collections-doc-limits).
+               When analyzing a document, the content of the document to analyze but not
+               ingest. Only the `application/json` content type is supported currently.
+               For maximum supported file size limits, see [the product
+               documentation](/docs/discovery-data?topic=discovery-data-analyzeapi#analyzeapi-limits).
+        :param str filename: (optional) The filename for file.
+        :param str file_content_type: (optional) The content type of file.
+        :param str metadata: (optional) Add information about the file that you
+               want to include in the response.
+               The maximum supported metadata file size is 1 MB. Metadata parts larger
+               than 1 MB are rejected.
+               Example:
+                ```
+                {
+                 "filename": "favorites2.json",
+                 "file_type": "json"
+                }.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `AnalyzedDocument` object
+        """
+
+        if project_id is None:
+            raise ValueError('project_id must be provided')
+        if collection_id is None:
+            raise ValueError('collection_id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='analyze_document')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        form_data = []
+        if file:
+            if not filename and hasattr(file, 'name'):
+                filename = basename(file.name)
+            if not filename:
+                raise ValueError('filename must be provided')
+            form_data.append(('file', (filename, file, file_content_type
+                                       or 'application/octet-stream')))
+        if metadata:
+            form_data.append(('metadata', (None, metadata, 'text/plain')))
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['project_id', 'collection_id']
+        path_param_values = self.encode_path_vars(project_id, collection_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/projects/{project_id}/collections/{collection_id}/analyze'.format(
+            **path_param_dict)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       files=form_data)
+
+        response = self.send(request, **kwargs)
+        return response
+
+    #########################
+    # User data
     #########################
 
     def delete_user_data(self, customer_id: str, **kwargs) -> DetailedResponse:
@@ -1941,6 +3155,7 @@ class DiscoveryV2(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
 
         url = '/v2/user_data'
         request = self.prepare_request(method='DELETE',
@@ -1956,7 +3171,6 @@ class AddDocumentEnums:
     """
     Enums for add_document parameters.
     """
-
     class FileContentType(str, Enum):
         """
         The content type of file.
@@ -1973,7 +3187,6 @@ class UpdateDocumentEnums:
     """
     Enums for update_document parameters.
     """
-
     class FileContentType(str, Enum):
         """
         The content type of file.
@@ -1990,7 +3203,6 @@ class AnalyzeDocumentEnums:
     """
     Enums for analyze_document parameters.
     """
-
     class FileContentType(str, Enum):
         """
         The content type of file.
@@ -2011,12 +3223,12 @@ class AnalyzeDocumentEnums:
 class AnalyzedDocument():
     """
     An object that contains the converted document and any identified enrichments.
+    Root-level fields from the original file are returned also.
 
-    :attr List[Notice] notices: (optional) Array of document results that match the
-          query.
+    :attr List[Notice] notices: (optional) Array of notices that are triggered when
+          the files are processed.
     :attr AnalyzedResult result: (optional) Result of the document analysis.
     """
-
     def __init__(self,
                  *,
                  notices: List['Notice'] = None,
@@ -2024,8 +3236,8 @@ class AnalyzedDocument():
         """
         Initialize a AnalyzedDocument object.
 
-        :param List[Notice] notices: (optional) Array of document results that
-               match the query.
+        :param List[Notice] notices: (optional) Array of notices that are triggered
+               when the files are processed.
         :param AnalyzedResult result: (optional) Result of the document analysis.
         """
         self.notices = notices
@@ -2080,7 +3292,7 @@ class AnalyzedResult():
     """
     Result of the document analysis.
 
-    :attr dict metadata: (optional) Metadata of the document.
+    :attr dict metadata: (optional) Metadata that was specified with the request.
     """
 
     # The set of defined properties for the class
@@ -2090,7 +3302,8 @@ class AnalyzedResult():
         """
         Initialize a AnalyzedResult object.
 
-        :param dict metadata: (optional) Metadata of the document.
+        :param dict metadata: (optional) Metadata that was specified with the
+               request.
         :param **kwargs: (optional) Any additional properties.
         """
         self.metadata = metadata
@@ -2104,7 +3317,8 @@ class AnalyzedResult():
         if 'metadata' in _dict:
             args['metadata'] = _dict.get('metadata')
         args.update(
-            {k: v for (k, v) in _dict.items() if k not in cls._properties})
+            {k: v
+             for (k, v) in _dict.items() if k not in cls._properties})
         return cls(**args)
 
     @classmethod
@@ -2167,6 +3381,167 @@ class AnalyzedResult():
         return not self == other
 
 
+class ClassifierFederatedModel():
+    """
+    An object with details for creating federated document classifier models.
+
+    :attr str field: Name of the field that contains the values from which multiple
+          classifier models are defined. For example, you can specify a field that lists
+          product lines to create a separate model per product line.
+    """
+    def __init__(self, field: str) -> None:
+        """
+        Initialize a ClassifierFederatedModel object.
+
+        :param str field: Name of the field that contains the values from which
+               multiple classifier models are defined. For example, you can specify a
+               field that lists product lines to create a separate model per product line.
+        """
+        self.field = field
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ClassifierFederatedModel':
+        """Initialize a ClassifierFederatedModel object from a json dictionary."""
+        args = {}
+        if 'field' in _dict:
+            args['field'] = _dict.get('field')
+        else:
+            raise ValueError(
+                'Required property \'field\' not present in ClassifierFederatedModel JSON'
+            )
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ClassifierFederatedModel object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'field') and self.field is not None:
+            _dict['field'] = self.field
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ClassifierFederatedModel object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ClassifierFederatedModel') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ClassifierFederatedModel') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ClassifierModelEvaluation():
+    """
+    An object that contains information about a trained document classifier model.
+
+    :attr ModelEvaluationMicroAverage micro_average: A micro-average aggregates the
+          contributions of all classes to compute the average metric. Classes refers to
+          the classification labels that are specified in the **answer_field**.
+    :attr ModelEvaluationMacroAverage macro_average: A macro-average computes metric
+          independently for each class and then takes the average. Class refers to the
+          classification label that is specified in the **answer_field**.
+    :attr List[PerClassModelEvaluation] per_class: An array of evaluation metrics,
+          one set of metrics for each class, where class refers to the classification
+          label that is specified in the **answer_field**.
+    """
+    def __init__(self, micro_average: 'ModelEvaluationMicroAverage',
+                 macro_average: 'ModelEvaluationMacroAverage',
+                 per_class: List['PerClassModelEvaluation']) -> None:
+        """
+        Initialize a ClassifierModelEvaluation object.
+
+        :param ModelEvaluationMicroAverage micro_average: A micro-average
+               aggregates the contributions of all classes to compute the average metric.
+               Classes refers to the classification labels that are specified in the
+               **answer_field**.
+        :param ModelEvaluationMacroAverage macro_average: A macro-average computes
+               metric independently for each class and then takes the average. Class
+               refers to the classification label that is specified in the
+               **answer_field**.
+        :param List[PerClassModelEvaluation] per_class: An array of evaluation
+               metrics, one set of metrics for each class, where class refers to the
+               classification label that is specified in the **answer_field**.
+        """
+        self.micro_average = micro_average
+        self.macro_average = macro_average
+        self.per_class = per_class
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ClassifierModelEvaluation':
+        """Initialize a ClassifierModelEvaluation object from a json dictionary."""
+        args = {}
+        if 'micro_average' in _dict:
+            args['micro_average'] = ModelEvaluationMicroAverage.from_dict(
+                _dict.get('micro_average'))
+        else:
+            raise ValueError(
+                'Required property \'micro_average\' not present in ClassifierModelEvaluation JSON'
+            )
+        if 'macro_average' in _dict:
+            args['macro_average'] = ModelEvaluationMacroAverage.from_dict(
+                _dict.get('macro_average'))
+        else:
+            raise ValueError(
+                'Required property \'macro_average\' not present in ClassifierModelEvaluation JSON'
+            )
+        if 'per_class' in _dict:
+            args['per_class'] = [
+                PerClassModelEvaluation.from_dict(x)
+                for x in _dict.get('per_class')
+            ]
+        else:
+            raise ValueError(
+                'Required property \'per_class\' not present in ClassifierModelEvaluation JSON'
+            )
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ClassifierModelEvaluation object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'micro_average') and self.micro_average is not None:
+            _dict['micro_average'] = self.micro_average.to_dict()
+        if hasattr(self, 'macro_average') and self.macro_average is not None:
+            _dict['macro_average'] = self.macro_average.to_dict()
+        if hasattr(self, 'per_class') and self.per_class is not None:
+            _dict['per_class'] = [x.to_dict() for x in self.per_class]
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ClassifierModelEvaluation object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ClassifierModelEvaluation') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ClassifierModelEvaluation') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class Collection():
     """
     A collection for storing documents.
@@ -2174,7 +3549,6 @@ class Collection():
     :attr str collection_id: (optional) The unique identifier of the collection.
     :attr str name: (optional) The name of the collection.
     """
-
     def __init__(self, *, collection_id: str = None, name: str = None) -> None:
         """
         Initialize a Collection object.
@@ -2236,27 +3610,51 @@ class CollectionDetails():
     :attr str name: The name of the collection.
     :attr str description: (optional) A description of the collection.
     :attr datetime created: (optional) The date that the collection was created.
-    :attr str language: (optional) The language of the collection.
+    :attr str language: (optional) The language of the collection. For a list of
+          supported languages, see the [product
+          documentation](/docs/discovery-data?topic=discovery-data-language-support).
     :attr List[CollectionEnrichment] enrichments: (optional) An array of enrichments
-          that are applied to this collection.
+          that are applied to this collection. To get a list of enrichments that are
+          available for a project, use the [List enrichments](#listenrichments) method.
+          If no enrichments are specified when the collection is created, the default
+          enrichments for the project type are applied. For more information about project
+          default settings, see the [product
+          documentation](/docs/discovery-data?topic=discovery-data-project-defaults).
+    :attr CollectionDetailsSmartDocumentUnderstanding smart_document_understanding:
+          (optional) An object that describes the Smart Document Understanding model for a
+          collection.
     """
-
-    def __init__(self,
-                 name: str,
-                 *,
-                 collection_id: str = None,
-                 description: str = None,
-                 created: datetime = None,
-                 language: str = None,
-                 enrichments: List['CollectionEnrichment'] = None) -> None:
+    def __init__(
+        self,
+        name: str,
+        *,
+        collection_id: str = None,
+        description: str = None,
+        created: datetime = None,
+        language: str = None,
+        enrichments: List['CollectionEnrichment'] = None,
+        smart_document_understanding:
+        'CollectionDetailsSmartDocumentUnderstanding' = None
+    ) -> None:
         """
         Initialize a CollectionDetails object.
 
         :param str name: The name of the collection.
         :param str description: (optional) A description of the collection.
-        :param str language: (optional) The language of the collection.
+        :param str language: (optional) The language of the collection. For a list
+               of supported languages, see the [product
+               documentation](/docs/discovery-data?topic=discovery-data-language-support).
         :param List[CollectionEnrichment] enrichments: (optional) An array of
-               enrichments that are applied to this collection.
+               enrichments that are applied to this collection. To get a list of
+               enrichments that are available for a project, use the [List
+               enrichments](#listenrichments) method.
+               If no enrichments are specified when the collection is created, the default
+               enrichments for the project type are applied. For more information about
+               project default settings, see the [product
+               documentation](/docs/discovery-data?topic=discovery-data-project-defaults).
+        :param CollectionDetailsSmartDocumentUnderstanding
+               smart_document_understanding: (optional) An object that describes the Smart
+               Document Understanding model for a collection.
         """
         self.collection_id = collection_id
         self.name = name
@@ -2264,6 +3662,7 @@ class CollectionDetails():
         self.created = created
         self.language = language
         self.enrichments = enrichments
+        self.smart_document_understanding = smart_document_understanding
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'CollectionDetails':
@@ -2288,6 +3687,10 @@ class CollectionDetails():
                 CollectionEnrichment.from_dict(x)
                 for x in _dict.get('enrichments')
             ]
+        if 'smart_document_understanding' in _dict:
+            args[
+                'smart_document_understanding'] = CollectionDetailsSmartDocumentUnderstanding.from_dict(
+                    _dict.get('smart_document_understanding'))
         return cls(**args)
 
     @classmethod
@@ -2311,6 +3714,11 @@ class CollectionDetails():
             _dict['language'] = self.language
         if hasattr(self, 'enrichments') and self.enrichments is not None:
             _dict['enrichments'] = [x.to_dict() for x in self.enrichments]
+        if hasattr(self, 'smart_document_understanding'
+                   ) and self.smart_document_understanding is not None:
+            _dict[
+                'smart_document_understanding'] = self.smart_document_understanding.to_dict(
+                )
         return _dict
 
     def _to_dict(self):
@@ -2332,17 +3740,128 @@ class CollectionDetails():
         return not self == other
 
 
+class CollectionDetailsSmartDocumentUnderstanding():
+    """
+    An object that describes the Smart Document Understanding model for a collection.
+
+    :attr bool enabled: (optional) When `true`, smart document understanding
+          conversion is enabled for the collection.
+    :attr str model: (optional) Specifies the type of Smart Document Understanding
+          (SDU) model that is enabled for the collection. The following types of models
+          are supported:
+           * `custom`: A user-trained model is applied.
+           * `pre_trained`: A pretrained model is applied. This type of model is applied
+          automatically to *Document Retrieval for Contracts* projects.
+           * `text_extraction`: An SDU model that extracts text and metadata from the
+          content. This model is enabled in collections by default regardless of the types
+          of documents in the collection (as long as the service plan supports SDU
+          models).
+          You can apply user-trained or pretrained models to collections from the
+          *Identify fields* page of the product user interface. For more information, see
+          [the product
+          documentation](/docs/discovery-data?topic=discovery-data-configuring-fields).
+    """
+    def __init__(self, *, enabled: bool = None, model: str = None) -> None:
+        """
+        Initialize a CollectionDetailsSmartDocumentUnderstanding object.
+
+        :param bool enabled: (optional) When `true`, smart document understanding
+               conversion is enabled for the collection.
+        :param str model: (optional) Specifies the type of Smart Document
+               Understanding (SDU) model that is enabled for the collection. The following
+               types of models are supported:
+                * `custom`: A user-trained model is applied.
+                * `pre_trained`: A pretrained model is applied. This type of model is
+               applied automatically to *Document Retrieval for Contracts* projects.
+                * `text_extraction`: An SDU model that extracts text and metadata from the
+               content. This model is enabled in collections by default regardless of the
+               types of documents in the collection (as long as the service plan supports
+               SDU models).
+               You can apply user-trained or pretrained models to collections from the
+               *Identify fields* page of the product user interface. For more information,
+               see [the product
+               documentation](/docs/discovery-data?topic=discovery-data-configuring-fields).
+        """
+        self.enabled = enabled
+        self.model = model
+
+    @classmethod
+    def from_dict(
+            cls, _dict: Dict) -> 'CollectionDetailsSmartDocumentUnderstanding':
+        """Initialize a CollectionDetailsSmartDocumentUnderstanding object from a json dictionary."""
+        args = {}
+        if 'enabled' in _dict:
+            args['enabled'] = _dict.get('enabled')
+        if 'model' in _dict:
+            args['model'] = _dict.get('model')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a CollectionDetailsSmartDocumentUnderstanding object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'enabled') and self.enabled is not None:
+            _dict['enabled'] = self.enabled
+        if hasattr(self, 'model') and self.model is not None:
+            _dict['model'] = self.model
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this CollectionDetailsSmartDocumentUnderstanding object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self,
+               other: 'CollectionDetailsSmartDocumentUnderstanding') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self,
+               other: 'CollectionDetailsSmartDocumentUnderstanding') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class ModelEnum(str, Enum):
+        """
+        Specifies the type of Smart Document Understanding (SDU) model that is enabled for
+        the collection. The following types of models are supported:
+         * `custom`: A user-trained model is applied.
+         * `pre_trained`: A pretrained model is applied. This type of model is applied
+        automatically to *Document Retrieval for Contracts* projects.
+         * `text_extraction`: An SDU model that extracts text and metadata from the
+        content. This model is enabled in collections by default regardless of the types
+        of documents in the collection (as long as the service plan supports SDU models).
+        You can apply user-trained or pretrained models to collections from the *Identify
+        fields* page of the product user interface. For more information, see [the product
+        documentation](/docs/discovery-data?topic=discovery-data-configuring-fields).
+        """
+        CUSTOM = 'custom'
+        PRE_TRAINED = 'pre_trained'
+        TEXT_EXTRACTION = 'text_extraction'
+
+
 class CollectionEnrichment():
     """
-    An object describing an Enrichment for a collection.
+    An object describing an enrichment for a collection.
 
     :attr str enrichment_id: (optional) The unique identifier of this enrichment.
+          For more information about how to determine the ID of an enrichment, see [the
+          product
+          documentation](/docs/discovery-data?topic=discovery-data-manage-enrichments#enrichments-ids).
     :attr List[str] fields: (optional) An array of field names that the enrichment
           is applied to.
           If you apply an enrichment to a field from a JSON file, the data is converted to
           an array automatically, even if the field contains a single value.
     """
-
     def __init__(self,
                  *,
                  enrichment_id: str = None,
@@ -2351,7 +3870,9 @@ class CollectionEnrichment():
         Initialize a CollectionEnrichment object.
 
         :param str enrichment_id: (optional) The unique identifier of this
-               enrichment.
+               enrichment. For more information about how to determine the ID of an
+               enrichment, see [the product
+               documentation](/docs/discovery-data?topic=discovery-data-manage-enrichments#enrichments-ids).
         :param List[str] fields: (optional) An array of field names that the
                enrichment is applied to.
                If you apply an enrichment to a field from a JSON file, the data is
@@ -2411,7 +3932,6 @@ class Completions():
     :attr List[str] completions: (optional) Array of autocomplete suggestion based
           on the provided prefix.
     """
-
     def __init__(self, *, completions: List[str] = None) -> None:
         """
         Initialize a Completions object.
@@ -2472,7 +3992,6 @@ class ComponentSettingsAggregation():
     :attr str visualization_type: (optional) Type of visualization to use when
           rendering the aggregation.
     """
-
     def __init__(self,
                  *,
                  name: str = None,
@@ -2523,7 +4042,7 @@ class ComponentSettingsAggregation():
         if hasattr(self, 'label') and self.label is not None:
             _dict['label'] = self.label
         if hasattr(self, 'multiple_selections_allowed'
-                  ) and self.multiple_selections_allowed is not None:
+                   ) and self.multiple_selections_allowed is not None:
             _dict[
                 'multiple_selections_allowed'] = self.multiple_selections_allowed
         if hasattr(
@@ -2567,7 +4086,6 @@ class ComponentSettingsFieldsShown():
     :attr ComponentSettingsFieldsShownBody body: (optional) Body label.
     :attr ComponentSettingsFieldsShownTitle title: (optional) Title label.
     """
-
     def __init__(self,
                  *,
                  body: 'ComponentSettingsFieldsShownBody' = None,
@@ -2633,7 +4151,6 @@ class ComponentSettingsFieldsShownBody():
     :attr bool use_passage: (optional) Use the whole passage as the body.
     :attr str field: (optional) Use a specific field as the title.
     """
-
     def __init__(self, *, use_passage: bool = None, field: str = None) -> None:
         """
         Initialize a ComponentSettingsFieldsShownBody object.
@@ -2693,7 +4210,6 @@ class ComponentSettingsFieldsShownTitle():
 
     :attr str field: (optional) Use a specific field as the title.
     """
-
     def __init__(self, *, field: str = None) -> None:
         """
         Initialize a ComponentSettingsFieldsShownTitle object.
@@ -2754,7 +4270,6 @@ class ComponentSettingsResponse():
     :attr List[ComponentSettingsAggregation] aggregations: (optional) a list of
           component setting aggregations.
     """
-
     def __init__(
             self,
             *,
@@ -2843,18 +4358,170 @@ class ComponentSettingsResponse():
         return not self == other
 
 
+class CreateDocumentClassifier():
+    """
+    An object that manages the settings and data that is required to train a document
+    classification model.
+
+    :attr str name: A human-readable name of the document classifier.
+    :attr str description: (optional) A description of the document classifier.
+    :attr str language: The language of the training data that is associated with
+          the document classifier. Language is specified by using the ISO 639-1 language
+          code, such as `en` for English or `ja` for Japanese.
+    :attr str answer_field: The name of the field from the training and test data
+          that contains the classification labels.
+    :attr List[DocumentClassifierEnrichment] enrichments: (optional) An array of
+          enrichments to apply to the data that is used to train and test the document
+          classifier. The output from the enrichments is used as features by the
+          classifier to classify the document content both during training and at run
+          time.
+    :attr ClassifierFederatedModel federated_classification: (optional) An object
+          with details for creating federated document classifier models.
+    """
+    def __init__(
+            self,
+            name: str,
+            language: str,
+            answer_field: str,
+            *,
+            description: str = None,
+            enrichments: List['DocumentClassifierEnrichment'] = None,
+            federated_classification: 'ClassifierFederatedModel' = None
+    ) -> None:
+        """
+        Initialize a CreateDocumentClassifier object.
+
+        :param str name: A human-readable name of the document classifier.
+        :param str language: The language of the training data that is associated
+               with the document classifier. Language is specified by using the ISO 639-1
+               language code, such as `en` for English or `ja` for Japanese.
+        :param str answer_field: The name of the field from the training and test
+               data that contains the classification labels.
+        :param str description: (optional) A description of the document
+               classifier.
+        :param List[DocumentClassifierEnrichment] enrichments: (optional) An array
+               of enrichments to apply to the data that is used to train and test the
+               document classifier. The output from the enrichments is used as features by
+               the classifier to classify the document content both during training and at
+               run time.
+        :param ClassifierFederatedModel federated_classification: (optional) An
+               object with details for creating federated document classifier models.
+        """
+        self.name = name
+        self.description = description
+        self.language = language
+        self.answer_field = answer_field
+        self.enrichments = enrichments
+        self.federated_classification = federated_classification
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'CreateDocumentClassifier':
+        """Initialize a CreateDocumentClassifier object from a json dictionary."""
+        args = {}
+        if 'name' in _dict:
+            args['name'] = _dict.get('name')
+        else:
+            raise ValueError(
+                'Required property \'name\' not present in CreateDocumentClassifier JSON'
+            )
+        if 'description' in _dict:
+            args['description'] = _dict.get('description')
+        if 'language' in _dict:
+            args['language'] = _dict.get('language')
+        else:
+            raise ValueError(
+                'Required property \'language\' not present in CreateDocumentClassifier JSON'
+            )
+        if 'answer_field' in _dict:
+            args['answer_field'] = _dict.get('answer_field')
+        else:
+            raise ValueError(
+                'Required property \'answer_field\' not present in CreateDocumentClassifier JSON'
+            )
+        if 'enrichments' in _dict:
+            args['enrichments'] = [
+                DocumentClassifierEnrichment.from_dict(x)
+                for x in _dict.get('enrichments')
+            ]
+        if 'federated_classification' in _dict:
+            args[
+                'federated_classification'] = ClassifierFederatedModel.from_dict(
+                    _dict.get('federated_classification'))
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a CreateDocumentClassifier object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
+        if hasattr(self, 'language') and self.language is not None:
+            _dict['language'] = self.language
+        if hasattr(self, 'answer_field') and self.answer_field is not None:
+            _dict['answer_field'] = self.answer_field
+        if hasattr(self, 'enrichments') and self.enrichments is not None:
+            _dict['enrichments'] = [x.to_dict() for x in self.enrichments]
+        if hasattr(self, 'federated_classification'
+                   ) and self.federated_classification is not None:
+            _dict[
+                'federated_classification'] = self.federated_classification.to_dict(
+                )
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this CreateDocumentClassifier object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'CreateDocumentClassifier') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'CreateDocumentClassifier') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class CreateEnrichment():
     """
     Information about a specific enrichment.
 
     :attr str name: (optional) The human readable name for this enrichment.
     :attr str description: (optional) The description of this enrichment.
-    :attr str type: (optional) The type of this enrichment.
+    :attr str type: (optional) The type of this enrichment. The following types are
+          supported:
+          * `classifier`: Creates a document classifier enrichment from a document
+          classifier model that you create by using the [Document classifier
+          API](/apidocs/discovery-data#createdocumentclassifier). **Note**: A text
+          classifier enrichment can be created only from the product user interface.
+          * `dictionary`: Creates a custom dictionary enrichment that you define in a CSV
+          file.
+          * `regular_expression`: Creates a custom regular expression enrichment from
+          regex syntax that you specify in the request.
+          * `rule_based`: Creates an enrichment from an advanced rules model that is
+          created and exported as a ZIP file from Watson Knowledge Studio.
+          * `uima_annotator`: Creates an enrichment from a custom UIMA text analysis model
+          that is defined in a PEAR file created in one of the following ways:
+              * Watson Explorer Content Analytics Studio. **Note**: Supported in IBM Cloud
+          Pak for Data instances only.
+              * Rule-based model that is created in Watson Knowledge Studio.
+          * `watson_knowledge_studio_model`: Creates an enrichment from a Watson Knowledge
+          Studio machine learning model that is defined in a ZIP file.
     :attr EnrichmentOptions options: (optional) An object that contains options for
           the current enrichment. Starting with version `2020-08-30`, the enrichment
           options are not included in responses from the List Enrichments method.
     """
-
     def __init__(self,
                  *,
                  name: str = None,
@@ -2866,7 +4533,25 @@ class CreateEnrichment():
 
         :param str name: (optional) The human readable name for this enrichment.
         :param str description: (optional) The description of this enrichment.
-        :param str type: (optional) The type of this enrichment.
+        :param str type: (optional) The type of this enrichment. The following
+               types are supported:
+               * `classifier`: Creates a document classifier enrichment from a document
+               classifier model that you create by using the [Document classifier
+               API](/apidocs/discovery-data#createdocumentclassifier). **Note**: A text
+               classifier enrichment can be created only from the product user interface.
+               * `dictionary`: Creates a custom dictionary enrichment that you define in a
+               CSV file.
+               * `regular_expression`: Creates a custom regular expression enrichment from
+               regex syntax that you specify in the request.
+               * `rule_based`: Creates an enrichment from an advanced rules model that is
+               created and exported as a ZIP file from Watson Knowledge Studio.
+               * `uima_annotator`: Creates an enrichment from a custom UIMA text analysis
+               model that is defined in a PEAR file created in one of the following ways:
+                   * Watson Explorer Content Analytics Studio. **Note**: Supported in IBM
+               Cloud Pak for Data instances only.
+                   * Rule-based model that is created in Watson Knowledge Studio.
+               * `watson_knowledge_studio_model`: Creates an enrichment from a Watson
+               Knowledge Studio machine learning model that is defined in a ZIP file.
         :param EnrichmentOptions options: (optional) An object that contains
                options for the current enrichment. Starting with version `2020-08-30`, the
                enrichment options are not included in responses from the List Enrichments
@@ -2929,8 +4614,26 @@ class CreateEnrichment():
 
     class TypeEnum(str, Enum):
         """
-        The type of this enrichment.
+        The type of this enrichment. The following types are supported:
+        * `classifier`: Creates a document classifier enrichment from a document
+        classifier model that you create by using the [Document classifier
+        API](/apidocs/discovery-data#createdocumentclassifier). **Note**: A text
+        classifier enrichment can be created only from the product user interface.
+        * `dictionary`: Creates a custom dictionary enrichment that you define in a CSV
+        file.
+        * `regular_expression`: Creates a custom regular expression enrichment from regex
+        syntax that you specify in the request.
+        * `rule_based`: Creates an enrichment from an advanced rules model that is created
+        and exported as a ZIP file from Watson Knowledge Studio.
+        * `uima_annotator`: Creates an enrichment from a custom UIMA text analysis model
+        that is defined in a PEAR file created in one of the following ways:
+            * Watson Explorer Content Analytics Studio. **Note**: Supported in IBM Cloud
+        Pak for Data instances only.
+            * Rule-based model that is created in Watson Knowledge Studio.
+        * `watson_knowledge_studio_model`: Creates an enrichment from a Watson Knowledge
+        Studio machine learning model that is defined in a ZIP file.
         """
+        CLASSIFIER = 'classifier'
         DICTIONARY = 'dictionary'
         REGULAR_EXPRESSION = 'regular_expression'
         UIMA_ANNOTATOR = 'uima_annotator'
@@ -2951,11 +4654,12 @@ class DefaultQueryParams():
     :attr str aggregation: (optional) A string representing the default aggregation
           query for the project.
     :attr DefaultQueryParamsSuggestedRefinements suggested_refinements: (optional)
-          Object that contains suggested refinement settings. Available with Premium plans
-          only.
+          Object that contains suggested refinement settings.
+          **Note**: The `suggested_refinements` parameter that identified dynamic facets
+          from the data is deprecated.
     :attr bool spelling_suggestions: (optional) When `true`, a spelling suggestions
           for the query are returned by default.
-    :attr bool highlight: (optional) When `true`, a highlights for the query are
+    :attr bool highlight: (optional) When `true`, highlights for the query are
           returned by default.
     :attr int count: (optional) The number of document results returned by default.
     :attr str sort: (optional) A comma separated list of document fields to sort
@@ -2963,7 +4667,6 @@ class DefaultQueryParams():
     :attr List[str] return_: (optional) An array of field names to return in
           document results if present by default.
     """
-
     def __init__(self,
                  *,
                  collection_ids: List[str] = None,
@@ -2990,12 +4693,13 @@ class DefaultQueryParams():
         :param str aggregation: (optional) A string representing the default
                aggregation query for the project.
         :param DefaultQueryParamsSuggestedRefinements suggested_refinements:
-               (optional) Object that contains suggested refinement settings. Available
-               with Premium plans only.
+               (optional) Object that contains suggested refinement settings.
+               **Note**: The `suggested_refinements` parameter that identified dynamic
+               facets from the data is deprecated.
         :param bool spelling_suggestions: (optional) When `true`, a spelling
                suggestions for the query are returned by default.
-        :param bool highlight: (optional) When `true`, a highlights for the query
-               are returned by default.
+        :param bool highlight: (optional) When `true`, highlights for the query are
+               returned by default.
         :param int count: (optional) The number of document results returned by
                default.
         :param str sort: (optional) A comma separated list of document fields to
@@ -3061,11 +4765,12 @@ class DefaultQueryParams():
         if hasattr(self, 'aggregation') and self.aggregation is not None:
             _dict['aggregation'] = self.aggregation
         if hasattr(self, 'suggested_refinements'
-                  ) and self.suggested_refinements is not None:
-            _dict['suggested_refinements'] = self.suggested_refinements.to_dict(
-            )
+                   ) and self.suggested_refinements is not None:
+            _dict[
+                'suggested_refinements'] = self.suggested_refinements.to_dict(
+                )
         if hasattr(self, 'spelling_suggestions'
-                  ) and self.spelling_suggestions is not None:
+                   ) and self.spelling_suggestions is not None:
             _dict['spelling_suggestions'] = self.spelling_suggestions
         if hasattr(self, 'highlight') and self.highlight is not None:
             _dict['highlight'] = self.highlight
@@ -3113,7 +4818,6 @@ class DefaultQueryParamsPassages():
     :attr int max_per_document: (optional) The default maximum number of passages
           that can be taken from a single document as the result of a passage query.
     """
-
     def __init__(self,
                  *,
                  enabled: bool = None,
@@ -3208,14 +4912,15 @@ class DefaultQueryParamsPassages():
 
 class DefaultQueryParamsSuggestedRefinements():
     """
-    Object that contains suggested refinement settings. Available with Premium plans only.
+    Object that contains suggested refinement settings.
+    **Note**: The `suggested_refinements` parameter that identified dynamic facets from
+    the data is deprecated.
 
     :attr bool enabled: (optional) When `true`, suggested refinements for the query
           are returned by default.
     :attr int count: (optional) The number of suggested refinements to return by
           default.
     """
-
     def __init__(self, *, enabled: bool = None, count: int = None) -> None:
         """
         Initialize a DefaultQueryParamsSuggestedRefinements object.
@@ -3229,7 +4934,8 @@ class DefaultQueryParamsSuggestedRefinements():
         self.count = count
 
     @classmethod
-    def from_dict(cls, _dict: Dict) -> 'DefaultQueryParamsSuggestedRefinements':
+    def from_dict(cls,
+                  _dict: Dict) -> 'DefaultQueryParamsSuggestedRefinements':
         """Initialize a DefaultQueryParamsSuggestedRefinements object from a json dictionary."""
         args = {}
         if 'enabled' in _dict:
@@ -3281,7 +4987,6 @@ class DefaultQueryParamsTableResults():
     :attr int per_document: (optional) The number of table results to include in
           each result document.
     """
-
     def __init__(self,
                  *,
                  enabled: bool = None,
@@ -3356,7 +5061,6 @@ class DeleteDocumentResponse():
     :attr str status: (optional) Status of the document. A deleted document has the
           status deleted.
     """
-
     def __init__(self, *, document_id: str = None, status: str = None) -> None:
         """
         Initialize a DeleteDocumentResponse object.
@@ -3428,7 +5132,6 @@ class DocumentAccepted():
           *version* date before `2019-01-01`. The `pending` status is returned for all
           others.
     """
-
     def __init__(self, *, document_id: str = None, status: str = None) -> None:
         """
         Initialize a DocumentAccepted object.
@@ -3505,7 +5208,6 @@ class DocumentAttribute():
           identified element in the document, represented with two integers labeled
           `begin` and `end`.
     """
-
     def __init__(self,
                  *,
                  type: str = None,
@@ -3572,6 +5274,779 @@ class DocumentAttribute():
         return not self == other
 
 
+class DocumentClassifier():
+    """
+    Information about a document classifier.
+
+    :attr str classifier_id: (optional) A unique identifier of the document
+          classifier.
+    :attr str name: A human-readable name of the document classifier.
+    :attr str description: (optional) A description of the document classifier.
+    :attr datetime created: (optional) The date that the document classifier was
+          created.
+    :attr str language: (optional) The language of the training data that is
+          associated with the document classifier. Language is specified by using the ISO
+          639-1 language code, such as `en` for English or `ja` for Japanese.
+    :attr List[DocumentClassifierEnrichment] enrichments: (optional) An array of
+          enrichments to apply to the data that is used to train and test the document
+          classifier. The output from the enrichments is used as features by the
+          classifier to classify the document content both during training and at run
+          time.
+    :attr List[str] recognized_fields: (optional) An array of fields that are used
+          to train the document classifier. The same set of fields must exist in the
+          training data, the test data, and the documents where the resulting document
+          classifier enrichment is applied at run time.
+    :attr str answer_field: (optional) The name of the field from the training and
+          test data that contains the classification labels.
+    :attr str training_data_file: (optional) Name of the CSV file with training data
+          that is used to train the document classifier.
+    :attr str test_data_file: (optional) Name of the CSV file with data that is used
+          to test the document classifier. If no test data is provided, a subset of the
+          training data is used for testing purposes.
+    :attr ClassifierFederatedModel federated_classification: (optional) An object
+          with details for creating federated document classifier models.
+    """
+    def __init__(
+            self,
+            name: str,
+            *,
+            classifier_id: str = None,
+            description: str = None,
+            created: datetime = None,
+            language: str = None,
+            enrichments: List['DocumentClassifierEnrichment'] = None,
+            recognized_fields: List[str] = None,
+            answer_field: str = None,
+            training_data_file: str = None,
+            test_data_file: str = None,
+            federated_classification: 'ClassifierFederatedModel' = None
+    ) -> None:
+        """
+        Initialize a DocumentClassifier object.
+
+        :param str name: A human-readable name of the document classifier.
+        :param str description: (optional) A description of the document
+               classifier.
+        :param str language: (optional) The language of the training data that is
+               associated with the document classifier. Language is specified by using the
+               ISO 639-1 language code, such as `en` for English or `ja` for Japanese.
+        :param List[DocumentClassifierEnrichment] enrichments: (optional) An array
+               of enrichments to apply to the data that is used to train and test the
+               document classifier. The output from the enrichments is used as features by
+               the classifier to classify the document content both during training and at
+               run time.
+        :param List[str] recognized_fields: (optional) An array of fields that are
+               used to train the document classifier. The same set of fields must exist in
+               the training data, the test data, and the documents where the resulting
+               document classifier enrichment is applied at run time.
+        :param str answer_field: (optional) The name of the field from the training
+               and test data that contains the classification labels.
+        :param str training_data_file: (optional) Name of the CSV file with
+               training data that is used to train the document classifier.
+        :param str test_data_file: (optional) Name of the CSV file with data that
+               is used to test the document classifier. If no test data is provided, a
+               subset of the training data is used for testing purposes.
+        :param ClassifierFederatedModel federated_classification: (optional) An
+               object with details for creating federated document classifier models.
+        """
+        self.classifier_id = classifier_id
+        self.name = name
+        self.description = description
+        self.created = created
+        self.language = language
+        self.enrichments = enrichments
+        self.recognized_fields = recognized_fields
+        self.answer_field = answer_field
+        self.training_data_file = training_data_file
+        self.test_data_file = test_data_file
+        self.federated_classification = federated_classification
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'DocumentClassifier':
+        """Initialize a DocumentClassifier object from a json dictionary."""
+        args = {}
+        if 'classifier_id' in _dict:
+            args['classifier_id'] = _dict.get('classifier_id')
+        if 'name' in _dict:
+            args['name'] = _dict.get('name')
+        else:
+            raise ValueError(
+                'Required property \'name\' not present in DocumentClassifier JSON'
+            )
+        if 'description' in _dict:
+            args['description'] = _dict.get('description')
+        if 'created' in _dict:
+            args['created'] = string_to_datetime(_dict.get('created'))
+        if 'language' in _dict:
+            args['language'] = _dict.get('language')
+        if 'enrichments' in _dict:
+            args['enrichments'] = [
+                DocumentClassifierEnrichment.from_dict(x)
+                for x in _dict.get('enrichments')
+            ]
+        if 'recognized_fields' in _dict:
+            args['recognized_fields'] = _dict.get('recognized_fields')
+        if 'answer_field' in _dict:
+            args['answer_field'] = _dict.get('answer_field')
+        if 'training_data_file' in _dict:
+            args['training_data_file'] = _dict.get('training_data_file')
+        if 'test_data_file' in _dict:
+            args['test_data_file'] = _dict.get('test_data_file')
+        if 'federated_classification' in _dict:
+            args[
+                'federated_classification'] = ClassifierFederatedModel.from_dict(
+                    _dict.get('federated_classification'))
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DocumentClassifier object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'classifier_id') and getattr(
+                self, 'classifier_id') is not None:
+            _dict['classifier_id'] = getattr(self, 'classifier_id')
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
+        if hasattr(self, 'created') and getattr(self, 'created') is not None:
+            _dict['created'] = datetime_to_string(getattr(self, 'created'))
+        if hasattr(self, 'language') and self.language is not None:
+            _dict['language'] = self.language
+        if hasattr(self, 'enrichments') and self.enrichments is not None:
+            _dict['enrichments'] = [x.to_dict() for x in self.enrichments]
+        if hasattr(self,
+                   'recognized_fields') and self.recognized_fields is not None:
+            _dict['recognized_fields'] = self.recognized_fields
+        if hasattr(self, 'answer_field') and self.answer_field is not None:
+            _dict['answer_field'] = self.answer_field
+        if hasattr(
+                self,
+                'training_data_file') and self.training_data_file is not None:
+            _dict['training_data_file'] = self.training_data_file
+        if hasattr(self, 'test_data_file') and self.test_data_file is not None:
+            _dict['test_data_file'] = self.test_data_file
+        if hasattr(self, 'federated_classification'
+                   ) and self.federated_classification is not None:
+            _dict[
+                'federated_classification'] = self.federated_classification.to_dict(
+                )
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this DocumentClassifier object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'DocumentClassifier') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'DocumentClassifier') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class DocumentClassifierEnrichment():
+    """
+    An object that describes enrichments that are applied to the training and test data
+    that is used by the document classifier.
+
+    :attr str enrichment_id: (optional) A unique identifier of the enrichment.
+    :attr List[str] fields: An array of field names where the enrichment is applied.
+    """
+    def __init__(self,
+                 fields: List[str],
+                 *,
+                 enrichment_id: str = None) -> None:
+        """
+        Initialize a DocumentClassifierEnrichment object.
+
+        :param List[str] fields: An array of field names where the enrichment is
+               applied.
+        :param str enrichment_id: (optional) A unique identifier of the enrichment.
+        """
+        self.enrichment_id = enrichment_id
+        self.fields = fields
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'DocumentClassifierEnrichment':
+        """Initialize a DocumentClassifierEnrichment object from a json dictionary."""
+        args = {}
+        if 'enrichment_id' in _dict:
+            args['enrichment_id'] = _dict.get('enrichment_id')
+        if 'fields' in _dict:
+            args['fields'] = _dict.get('fields')
+        else:
+            raise ValueError(
+                'Required property \'fields\' not present in DocumentClassifierEnrichment JSON'
+            )
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DocumentClassifierEnrichment object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'enrichment_id') and self.enrichment_id is not None:
+            _dict['enrichment_id'] = self.enrichment_id
+        if hasattr(self, 'fields') and self.fields is not None:
+            _dict['fields'] = self.fields
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this DocumentClassifierEnrichment object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'DocumentClassifierEnrichment') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'DocumentClassifierEnrichment') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class DocumentClassifierModel():
+    """
+    Information about a document classifier model.
+
+    :attr str model_id: (optional) A unique identifier of the document classifier
+          model.
+    :attr str name: A human-readable name of the document classifier model.
+    :attr str description: (optional) A description of the document classifier
+          model.
+    :attr datetime created: (optional) The date that the document classifier model
+          was created.
+    :attr datetime updated: (optional) The date that the document classifier model
+          was last updated.
+    :attr str training_data_file: (optional) Name of the CSV file that contains the
+          training data that is used to train the document classifier model.
+    :attr str test_data_file: (optional) Name of the CSV file that contains data
+          that is used to test the document classifier model. If no test data is provided,
+          a subset of the training data is used for testing purposes.
+    :attr str status: (optional) The status of the training run.
+    :attr ClassifierModelEvaluation evaluation: (optional) An object that contains
+          information about a trained document classifier model.
+    :attr str enrichment_id: (optional) A unique identifier of the enrichment that
+          is generated by this document classifier model.
+    :attr datetime deployed_at: (optional) The date that the document classifier
+          model was deployed.
+    """
+    def __init__(self,
+                 name: str,
+                 *,
+                 model_id: str = None,
+                 description: str = None,
+                 created: datetime = None,
+                 updated: datetime = None,
+                 training_data_file: str = None,
+                 test_data_file: str = None,
+                 status: str = None,
+                 evaluation: 'ClassifierModelEvaluation' = None,
+                 enrichment_id: str = None,
+                 deployed_at: datetime = None) -> None:
+        """
+        Initialize a DocumentClassifierModel object.
+
+        :param str name: A human-readable name of the document classifier model.
+        :param str description: (optional) A description of the document classifier
+               model.
+        :param str training_data_file: (optional) Name of the CSV file that
+               contains the training data that is used to train the document classifier
+               model.
+        :param str test_data_file: (optional) Name of the CSV file that contains
+               data that is used to test the document classifier model. If no test data is
+               provided, a subset of the training data is used for testing purposes.
+        :param str status: (optional) The status of the training run.
+        :param ClassifierModelEvaluation evaluation: (optional) An object that
+               contains information about a trained document classifier model.
+        :param str enrichment_id: (optional) A unique identifier of the enrichment
+               that is generated by this document classifier model.
+        """
+        self.model_id = model_id
+        self.name = name
+        self.description = description
+        self.created = created
+        self.updated = updated
+        self.training_data_file = training_data_file
+        self.test_data_file = test_data_file
+        self.status = status
+        self.evaluation = evaluation
+        self.enrichment_id = enrichment_id
+        self.deployed_at = deployed_at
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'DocumentClassifierModel':
+        """Initialize a DocumentClassifierModel object from a json dictionary."""
+        args = {}
+        if 'model_id' in _dict:
+            args['model_id'] = _dict.get('model_id')
+        if 'name' in _dict:
+            args['name'] = _dict.get('name')
+        else:
+            raise ValueError(
+                'Required property \'name\' not present in DocumentClassifierModel JSON'
+            )
+        if 'description' in _dict:
+            args['description'] = _dict.get('description')
+        if 'created' in _dict:
+            args['created'] = string_to_datetime(_dict.get('created'))
+        if 'updated' in _dict:
+            args['updated'] = string_to_datetime(_dict.get('updated'))
+        if 'training_data_file' in _dict:
+            args['training_data_file'] = _dict.get('training_data_file')
+        if 'test_data_file' in _dict:
+            args['test_data_file'] = _dict.get('test_data_file')
+        if 'status' in _dict:
+            args['status'] = _dict.get('status')
+        if 'evaluation' in _dict:
+            args['evaluation'] = ClassifierModelEvaluation.from_dict(
+                _dict.get('evaluation'))
+        if 'enrichment_id' in _dict:
+            args['enrichment_id'] = _dict.get('enrichment_id')
+        if 'deployed_at' in _dict:
+            args['deployed_at'] = string_to_datetime(_dict.get('deployed_at'))
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DocumentClassifierModel object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'model_id') and getattr(self, 'model_id') is not None:
+            _dict['model_id'] = getattr(self, 'model_id')
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
+        if hasattr(self, 'created') and getattr(self, 'created') is not None:
+            _dict['created'] = datetime_to_string(getattr(self, 'created'))
+        if hasattr(self, 'updated') and getattr(self, 'updated') is not None:
+            _dict['updated'] = datetime_to_string(getattr(self, 'updated'))
+        if hasattr(
+                self,
+                'training_data_file') and self.training_data_file is not None:
+            _dict['training_data_file'] = self.training_data_file
+        if hasattr(self, 'test_data_file') and self.test_data_file is not None:
+            _dict['test_data_file'] = self.test_data_file
+        if hasattr(self, 'status') and self.status is not None:
+            _dict['status'] = self.status
+        if hasattr(self, 'evaluation') and self.evaluation is not None:
+            _dict['evaluation'] = self.evaluation.to_dict()
+        if hasattr(self, 'enrichment_id') and self.enrichment_id is not None:
+            _dict['enrichment_id'] = self.enrichment_id
+        if hasattr(self, 'deployed_at') and getattr(self,
+                                                    'deployed_at') is not None:
+            _dict['deployed_at'] = datetime_to_string(
+                getattr(self, 'deployed_at'))
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this DocumentClassifierModel object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'DocumentClassifierModel') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'DocumentClassifierModel') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class StatusEnum(str, Enum):
+        """
+        The status of the training run.
+        """
+        TRAINING = 'training'
+        AVAILABLE = 'available'
+        FAILED = 'failed'
+
+
+class DocumentClassifierModels():
+    """
+    An object that contains a list of document classifier model definitions.
+
+    :attr List[DocumentClassifierModel] models: (optional) An array of document
+          classifier model definitions.
+    """
+    def __init__(self,
+                 *,
+                 models: List['DocumentClassifierModel'] = None) -> None:
+        """
+        Initialize a DocumentClassifierModels object.
+
+        :param List[DocumentClassifierModel] models: (optional) An array of
+               document classifier model definitions.
+        """
+        self.models = models
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'DocumentClassifierModels':
+        """Initialize a DocumentClassifierModels object from a json dictionary."""
+        args = {}
+        if 'models' in _dict:
+            args['models'] = [
+                DocumentClassifierModel.from_dict(x)
+                for x in _dict.get('models')
+            ]
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DocumentClassifierModels object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'models') and self.models is not None:
+            _dict['models'] = [x.to_dict() for x in self.models]
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this DocumentClassifierModels object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'DocumentClassifierModels') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'DocumentClassifierModels') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class DocumentClassifiers():
+    """
+    An object that contains a list of document classifier definitions.
+
+    :attr List[DocumentClassifier] classifiers: (optional) An array of document
+          classifier definitions.
+    """
+    def __init__(self,
+                 *,
+                 classifiers: List['DocumentClassifier'] = None) -> None:
+        """
+        Initialize a DocumentClassifiers object.
+
+        :param List[DocumentClassifier] classifiers: (optional) An array of
+               document classifier definitions.
+        """
+        self.classifiers = classifiers
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'DocumentClassifiers':
+        """Initialize a DocumentClassifiers object from a json dictionary."""
+        args = {}
+        if 'classifiers' in _dict:
+            args['classifiers'] = [
+                DocumentClassifier.from_dict(x)
+                for x in _dict.get('classifiers')
+            ]
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DocumentClassifiers object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'classifiers') and self.classifiers is not None:
+            _dict['classifiers'] = [x.to_dict() for x in self.classifiers]
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this DocumentClassifiers object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'DocumentClassifiers') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'DocumentClassifiers') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class DocumentDetails():
+    """
+    Information about a document.
+
+    :attr str document_id: (optional) The unique identifier of the document.
+    :attr datetime created: (optional) Date and time that the document is added to
+          the collection. For a child document, the date and time when the process that
+          generates the child document runs. The date-time format is
+          `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`.
+    :attr datetime updated: (optional) Date and time that the document is finished
+          being processed and is indexed. This date changes whenever the document is
+          reprocessed, including for enrichment changes. The date-time format is
+          `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`.
+    :attr str status: (optional) The status of the ingestion of the document. The
+          possible values are:
+          * `available`: Ingestion is finished and the document is indexed.
+          * `failed`: Ingestion is finished, but the document is not indexed because of an
+          error.
+          * `pending`: The document is uploaded, but the ingestion process is not started.
+          * `processing`: Ingestion is in progress.
+    :attr List[Notice] notices: (optional) Array of JSON objects for notices,
+          meaning warning or error messages, that are produced by the document ingestion
+          process. The array does not include notices that are produced for child
+          documents that are generated when a document is processed.
+    :attr DocumentDetailsChildren children: (optional) Information about the child
+          documents that are generated from a single document during ingestion or other
+          processing.
+    :attr str filename: (optional) Name of the original source file (if available).
+    :attr str file_type: (optional) The type of the original source file, such as
+          `csv`, `excel`, `html`, `json`, `pdf`, `text`, `word`, and so on.
+    :attr str sha256: (optional) The SHA-256 hash of the original source file. The
+          hash is formatted as a hexadecimal string.
+    """
+    def __init__(self,
+                 *,
+                 document_id: str = None,
+                 created: datetime = None,
+                 updated: datetime = None,
+                 status: str = None,
+                 notices: List['Notice'] = None,
+                 children: 'DocumentDetailsChildren' = None,
+                 filename: str = None,
+                 file_type: str = None,
+                 sha256: str = None) -> None:
+        """
+        Initialize a DocumentDetails object.
+
+        :param str status: (optional) The status of the ingestion of the document.
+               The possible values are:
+               * `available`: Ingestion is finished and the document is indexed.
+               * `failed`: Ingestion is finished, but the document is not indexed because
+               of an error.
+               * `pending`: The document is uploaded, but the ingestion process is not
+               started.
+               * `processing`: Ingestion is in progress.
+        :param List[Notice] notices: (optional) Array of JSON objects for notices,
+               meaning warning or error messages, that are produced by the document
+               ingestion process. The array does not include notices that are produced for
+               child documents that are generated when a document is processed.
+        :param DocumentDetailsChildren children: (optional) Information about the
+               child documents that are generated from a single document during ingestion
+               or other processing.
+        :param str filename: (optional) Name of the original source file (if
+               available).
+        :param str file_type: (optional) The type of the original source file, such
+               as `csv`, `excel`, `html`, `json`, `pdf`, `text`, `word`, and so on.
+        :param str sha256: (optional) The SHA-256 hash of the original source file.
+               The hash is formatted as a hexadecimal string.
+        """
+        self.document_id = document_id
+        self.created = created
+        self.updated = updated
+        self.status = status
+        self.notices = notices
+        self.children = children
+        self.filename = filename
+        self.file_type = file_type
+        self.sha256 = sha256
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'DocumentDetails':
+        """Initialize a DocumentDetails object from a json dictionary."""
+        args = {}
+        if 'document_id' in _dict:
+            args['document_id'] = _dict.get('document_id')
+        if 'created' in _dict:
+            args['created'] = string_to_datetime(_dict.get('created'))
+        if 'updated' in _dict:
+            args['updated'] = string_to_datetime(_dict.get('updated'))
+        if 'status' in _dict:
+            args['status'] = _dict.get('status')
+        if 'notices' in _dict:
+            args['notices'] = [
+                Notice.from_dict(x) for x in _dict.get('notices')
+            ]
+        if 'children' in _dict:
+            args['children'] = DocumentDetailsChildren.from_dict(
+                _dict.get('children'))
+        if 'filename' in _dict:
+            args['filename'] = _dict.get('filename')
+        if 'file_type' in _dict:
+            args['file_type'] = _dict.get('file_type')
+        if 'sha256' in _dict:
+            args['sha256'] = _dict.get('sha256')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DocumentDetails object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'document_id') and getattr(self,
+                                                    'document_id') is not None:
+            _dict['document_id'] = getattr(self, 'document_id')
+        if hasattr(self, 'created') and getattr(self, 'created') is not None:
+            _dict['created'] = datetime_to_string(getattr(self, 'created'))
+        if hasattr(self, 'updated') and getattr(self, 'updated') is not None:
+            _dict['updated'] = datetime_to_string(getattr(self, 'updated'))
+        if hasattr(self, 'status') and self.status is not None:
+            _dict['status'] = self.status
+        if hasattr(self, 'notices') and self.notices is not None:
+            _dict['notices'] = [x.to_dict() for x in self.notices]
+        if hasattr(self, 'children') and self.children is not None:
+            _dict['children'] = self.children.to_dict()
+        if hasattr(self, 'filename') and self.filename is not None:
+            _dict['filename'] = self.filename
+        if hasattr(self, 'file_type') and self.file_type is not None:
+            _dict['file_type'] = self.file_type
+        if hasattr(self, 'sha256') and self.sha256 is not None:
+            _dict['sha256'] = self.sha256
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this DocumentDetails object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'DocumentDetails') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'DocumentDetails') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class StatusEnum(str, Enum):
+        """
+        The status of the ingestion of the document. The possible values are:
+        * `available`: Ingestion is finished and the document is indexed.
+        * `failed`: Ingestion is finished, but the document is not indexed because of an
+        error.
+        * `pending`: The document is uploaded, but the ingestion process is not started.
+        * `processing`: Ingestion is in progress.
+        """
+        AVAILABLE = 'available'
+        FAILED = 'failed'
+        PENDING = 'pending'
+        PROCESSING = 'processing'
+
+
+class DocumentDetailsChildren():
+    """
+    Information about the child documents that are generated from a single document during
+    ingestion or other processing.
+
+    :attr bool have_notices: (optional) Indicates whether the child documents have
+          any notices. The value is `false` if the document does not have child documents.
+    :attr int count: (optional) Number of child documents. The value is `0` when
+          processing of the document doesn't generate any child documents.
+    """
+    def __init__(self,
+                 *,
+                 have_notices: bool = None,
+                 count: int = None) -> None:
+        """
+        Initialize a DocumentDetailsChildren object.
+
+        :param bool have_notices: (optional) Indicates whether the child documents
+               have any notices. The value is `false` if the document does not have child
+               documents.
+        :param int count: (optional) Number of child documents. The value is `0`
+               when processing of the document doesn't generate any child documents.
+        """
+        self.have_notices = have_notices
+        self.count = count
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'DocumentDetailsChildren':
+        """Initialize a DocumentDetailsChildren object from a json dictionary."""
+        args = {}
+        if 'have_notices' in _dict:
+            args['have_notices'] = _dict.get('have_notices')
+        if 'count' in _dict:
+            args['count'] = _dict.get('count')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DocumentDetailsChildren object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'have_notices') and self.have_notices is not None:
+            _dict['have_notices'] = self.have_notices
+        if hasattr(self, 'count') and self.count is not None:
+            _dict['count'] = self.count
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this DocumentDetailsChildren object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'DocumentDetailsChildren') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'DocumentDetailsChildren') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class Enrichment():
     """
     Information about a specific enrichment.
@@ -3584,7 +6059,6 @@ class Enrichment():
           the current enrichment. Starting with version `2020-08-30`, the enrichment
           options are not included in responses from the List Enrichments method.
     """
-
     def __init__(self,
                  *,
                  enrichment_id: str = None,
@@ -3676,6 +6150,7 @@ class Enrichment():
         UIMA_ANNOTATOR = 'uima_annotator'
         RULE_BASED = 'rule_based'
         WATSON_KNOWLEDGE_STUDIO_MODEL = 'watson_knowledge_studio_model'
+        CLASSIFIER = 'classifier'
 
 
 class EnrichmentOptions():
@@ -3685,46 +6160,89 @@ class EnrichmentOptions():
     Enrichments method.
 
     :attr List[str] languages: (optional) An array of supported languages for this
-          enrichment. Required when `type` is `dictionary`. Optional when `type` is
-          `rule_based`. Not valid when creating any other type of enrichment.
+          enrichment. When creating an enrichment, only specify a language that is used by
+          the model or in the dictionary. Required when **type** is `dictionary`. Optional
+          when **type** is `rule_based`. Not valid when creating any other type of
+          enrichment.
     :attr str entity_type: (optional) The name of the entity type. This value is
-          used as the field name in the index. Required when `type` is `dictionary` or
+          used as the field name in the index. Required when **type** is `dictionary` or
           `regular_expression`. Not valid when creating any other type of enrichment.
     :attr str regular_expression: (optional) The regular expression to apply for
-          this enrichment. Required when `type` is `regular_expression`. Not valid when
+          this enrichment. Required when **type** is `regular_expression`. Not valid when
           creating any other type of enrichment.
     :attr str result_field: (optional) The name of the result document field that
-          this enrichment creates. Required when `type` is `rule_based`. Not valid when
-          creating any other type of enrichment.
+          this enrichment creates. Required when **type** is `rule_based` or `classifier`.
+          Not valid when creating any other type of enrichment.
+    :attr str classifier_id: (optional) A unique identifier of the document
+          classifier. Required when **type** is `classifier`. Not valid when creating any
+          other type of enrichment.
+    :attr str model_id: (optional) A unique identifier of the document classifier
+          model. Required when **type** is `classifier`. Not valid when creating any other
+          type of enrichment.
+    :attr float confidence_threshold: (optional) Specifies a threshold. Only classes
+          with evaluation confidence scores that are higher than the specified threshold
+          are included in the output. Optional when **type** is `classifier`. Not valid
+          when creating any other type of enrichment.
+    :attr int top_k: (optional) Evaluates only the classes that fall in the top set
+          of results when ranked by confidence. For example, if set to `5`, then the top
+          five classes for each document are evaluated. If set to 0, the
+          **confidence_threshold** is used to determine the predicted classes. Optional
+          when **type** is `classifier`. Not valid when creating any other type of
+          enrichment.
     """
-
     def __init__(self,
                  *,
                  languages: List[str] = None,
                  entity_type: str = None,
                  regular_expression: str = None,
-                 result_field: str = None) -> None:
+                 result_field: str = None,
+                 classifier_id: str = None,
+                 model_id: str = None,
+                 confidence_threshold: float = None,
+                 top_k: int = None) -> None:
         """
         Initialize a EnrichmentOptions object.
 
         :param List[str] languages: (optional) An array of supported languages for
-               this enrichment. Required when `type` is `dictionary`. Optional when `type`
-               is `rule_based`. Not valid when creating any other type of enrichment.
+               this enrichment. When creating an enrichment, only specify a language that
+               is used by the model or in the dictionary. Required when **type** is
+               `dictionary`. Optional when **type** is `rule_based`. Not valid when
+               creating any other type of enrichment.
         :param str entity_type: (optional) The name of the entity type. This value
-               is used as the field name in the index. Required when `type` is
+               is used as the field name in the index. Required when **type** is
                `dictionary` or `regular_expression`. Not valid when creating any other
                type of enrichment.
         :param str regular_expression: (optional) The regular expression to apply
-               for this enrichment. Required when `type` is `regular_expression`. Not
+               for this enrichment. Required when **type** is `regular_expression`. Not
                valid when creating any other type of enrichment.
         :param str result_field: (optional) The name of the result document field
-               that this enrichment creates. Required when `type` is `rule_based`. Not
-               valid when creating any other type of enrichment.
+               that this enrichment creates. Required when **type** is `rule_based` or
+               `classifier`. Not valid when creating any other type of enrichment.
+        :param str classifier_id: (optional) A unique identifier of the document
+               classifier. Required when **type** is `classifier`. Not valid when creating
+               any other type of enrichment.
+        :param str model_id: (optional) A unique identifier of the document
+               classifier model. Required when **type** is `classifier`. Not valid when
+               creating any other type of enrichment.
+        :param float confidence_threshold: (optional) Specifies a threshold. Only
+               classes with evaluation confidence scores that are higher than the
+               specified threshold are included in the output. Optional when **type** is
+               `classifier`. Not valid when creating any other type of enrichment.
+        :param int top_k: (optional) Evaluates only the classes that fall in the
+               top set of results when ranked by confidence. For example, if set to `5`,
+               then the top five classes for each document are evaluated. If set to 0, the
+               **confidence_threshold** is used to determine the predicted classes.
+               Optional when **type** is `classifier`. Not valid when creating any other
+               type of enrichment.
         """
         self.languages = languages
         self.entity_type = entity_type
         self.regular_expression = regular_expression
         self.result_field = result_field
+        self.classifier_id = classifier_id
+        self.model_id = model_id
+        self.confidence_threshold = confidence_threshold
+        self.top_k = top_k
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'EnrichmentOptions':
@@ -3738,6 +6256,14 @@ class EnrichmentOptions():
             args['regular_expression'] = _dict.get('regular_expression')
         if 'result_field' in _dict:
             args['result_field'] = _dict.get('result_field')
+        if 'classifier_id' in _dict:
+            args['classifier_id'] = _dict.get('classifier_id')
+        if 'model_id' in _dict:
+            args['model_id'] = _dict.get('model_id')
+        if 'confidence_threshold' in _dict:
+            args['confidence_threshold'] = _dict.get('confidence_threshold')
+        if 'top_k' in _dict:
+            args['top_k'] = _dict.get('top_k')
         return cls(**args)
 
     @classmethod
@@ -3758,6 +6284,15 @@ class EnrichmentOptions():
             _dict['regular_expression'] = self.regular_expression
         if hasattr(self, 'result_field') and self.result_field is not None:
             _dict['result_field'] = self.result_field
+        if hasattr(self, 'classifier_id') and self.classifier_id is not None:
+            _dict['classifier_id'] = self.classifier_id
+        if hasattr(self, 'model_id') and self.model_id is not None:
+            _dict['model_id'] = self.model_id
+        if hasattr(self, 'confidence_threshold'
+                   ) and self.confidence_threshold is not None:
+            _dict['confidence_threshold'] = self.confidence_threshold
+        if hasattr(self, 'top_k') and self.top_k is not None:
+            _dict['top_k'] = self.top_k
         return _dict
 
     def _to_dict(self):
@@ -3786,7 +6321,6 @@ class Enrichments():
     :attr List[Enrichment] enrichments: (optional) An array of enrichment
           definitions.
     """
-
     def __init__(self, *, enrichments: List['Enrichment'] = None) -> None:
         """
         Initialize a Enrichments object.
@@ -3837,6 +6371,167 @@ class Enrichments():
         return not self == other
 
 
+class Expansion():
+    """
+    An expansion definition. Each object respresents one set of expandable strings. For
+    example, you could have expansions for the word `hot` in one object, and expansions
+    for the word `cold` in another. Follow these guidelines when you add terms:
+    * Specify the terms in lowercase. Lowercase terms expand to uppercase.
+    * Multiword terms are supported only in bidirectional expansions.
+    * Do not specify a term that is specified in the stop words list for the collection.
+
+    :attr List[str] input_terms: (optional) A list of terms that will be expanded
+          for this expansion. If specified, only the items in this list are expanded.
+    :attr List[str] expanded_terms: A list of terms that this expansion will be
+          expanded to. If specified without **input_terms**, the list also functions as
+          the input term list.
+    """
+    def __init__(self,
+                 expanded_terms: List[str],
+                 *,
+                 input_terms: List[str] = None) -> None:
+        """
+        Initialize a Expansion object.
+
+        :param List[str] expanded_terms: A list of terms that this expansion will
+               be expanded to. If specified without **input_terms**, the list also
+               functions as the input term list.
+        :param List[str] input_terms: (optional) A list of terms that will be
+               expanded for this expansion. If specified, only the items in this list are
+               expanded.
+        """
+        self.input_terms = input_terms
+        self.expanded_terms = expanded_terms
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'Expansion':
+        """Initialize a Expansion object from a json dictionary."""
+        args = {}
+        if 'input_terms' in _dict:
+            args['input_terms'] = _dict.get('input_terms')
+        if 'expanded_terms' in _dict:
+            args['expanded_terms'] = _dict.get('expanded_terms')
+        else:
+            raise ValueError(
+                'Required property \'expanded_terms\' not present in Expansion JSON'
+            )
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Expansion object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'input_terms') and self.input_terms is not None:
+            _dict['input_terms'] = self.input_terms
+        if hasattr(self, 'expanded_terms') and self.expanded_terms is not None:
+            _dict['expanded_terms'] = self.expanded_terms
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this Expansion object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'Expansion') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'Expansion') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class Expansions():
+    """
+    The query expansion definitions for the specified collection.
+
+    :attr List[Expansion] expansions: An array of query expansion definitions.
+           Each object in the **expansions** array represents a term or set of terms that
+          will be expanded into other terms. Each expansion object can be configured as
+          `bidirectional` or `unidirectional`.
+          * **Bidirectional**: Each entry in the `expanded_terms` list expands to include
+          all expanded terms. For example, a query for `ibm` expands to `ibm OR
+          international business machines OR big blue`.
+          * **Unidirectional**: The terms in `input_terms` in the query are replaced by
+          the terms in `expanded_terms`. For example, a query for the often misused term
+          `on premise` is converted to `on premises OR on-premises` and does not contain
+          the original term. If you want an input term to be included in the query, then
+          repeat the input term in the expanded terms list.
+    """
+    def __init__(self, expansions: List['Expansion']) -> None:
+        """
+        Initialize a Expansions object.
+
+        :param List[Expansion] expansions: An array of query expansion definitions.
+                Each object in the **expansions** array represents a term or set of terms
+               that will be expanded into other terms. Each expansion object can be
+               configured as `bidirectional` or `unidirectional`.
+               * **Bidirectional**: Each entry in the `expanded_terms` list expands to
+               include all expanded terms. For example, a query for `ibm` expands to `ibm
+               OR international business machines OR big blue`.
+               * **Unidirectional**: The terms in `input_terms` in the query are replaced
+               by the terms in `expanded_terms`. For example, a query for the often
+               misused term `on premise` is converted to `on premises OR on-premises` and
+               does not contain the original term. If you want an input term to be
+               included in the query, then repeat the input term in the expanded terms
+               list.
+        """
+        self.expansions = expansions
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'Expansions':
+        """Initialize a Expansions object from a json dictionary."""
+        args = {}
+        if 'expansions' in _dict:
+            args['expansions'] = [
+                Expansion.from_dict(x) for x in _dict.get('expansions')
+            ]
+        else:
+            raise ValueError(
+                'Required property \'expansions\' not present in Expansions JSON'
+            )
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Expansions object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'expansions') and self.expansions is not None:
+            _dict['expansions'] = [x.to_dict() for x in self.expansions]
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this Expansions object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'Expansions') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'Expansions') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class Field():
     """
     Object that contains field details.
@@ -3846,7 +6541,6 @@ class Field():
     :attr str collection_id: (optional) The collection Id of the collection where
           the field was found.
     """
-
     def __init__(self,
                  *,
                  field: str = None,
@@ -3931,7 +6625,6 @@ class ListCollectionsResponse():
     :attr List[Collection] collections: (optional) An array that contains
           information about each collection in the project.
     """
-
     def __init__(self, *, collections: List['Collection'] = None) -> None:
         """
         Initialize a ListCollectionsResponse object.
@@ -3982,6 +6675,80 @@ class ListCollectionsResponse():
         return not self == other
 
 
+class ListDocumentsResponse():
+    """
+    Response object that contains an array of documents.
+
+    :attr int matching_results: (optional) The number of matching results for the
+          document query.
+    :attr List[DocumentDetails] documents: (optional) An array that lists the
+          documents in a collection. Only the document ID of each document is returned in
+          the list. You can use the [Get document](#getdocument) method to get more
+          information about an individual document.
+    """
+    def __init__(self,
+                 *,
+                 matching_results: int = None,
+                 documents: List['DocumentDetails'] = None) -> None:
+        """
+        Initialize a ListDocumentsResponse object.
+
+        :param int matching_results: (optional) The number of matching results for
+               the document query.
+        :param List[DocumentDetails] documents: (optional) An array that lists the
+               documents in a collection. Only the document ID of each document is
+               returned in the list. You can use the [Get document](#getdocument) method
+               to get more information about an individual document.
+        """
+        self.matching_results = matching_results
+        self.documents = documents
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ListDocumentsResponse':
+        """Initialize a ListDocumentsResponse object from a json dictionary."""
+        args = {}
+        if 'matching_results' in _dict:
+            args['matching_results'] = _dict.get('matching_results')
+        if 'documents' in _dict:
+            args['documents'] = [
+                DocumentDetails.from_dict(x) for x in _dict.get('documents')
+            ]
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ListDocumentsResponse object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self,
+                   'matching_results') and self.matching_results is not None:
+            _dict['matching_results'] = self.matching_results
+        if hasattr(self, 'documents') and self.documents is not None:
+            _dict['documents'] = [x.to_dict() for x in self.documents]
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ListDocumentsResponse object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ListDocumentsResponse') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ListDocumentsResponse') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class ListFieldsResponse():
     """
     The list of fetched fields.
@@ -3995,7 +6762,6 @@ class ListFieldsResponse():
     :attr List[Field] fields: (optional) An array that contains information about
           each field in the collections.
     """
-
     def __init__(self, *, fields: List['Field'] = None) -> None:
         """
         Initialize a ListFieldsResponse object.
@@ -4050,7 +6816,6 @@ class ListProjectsResponse():
 
     :attr List[ProjectListDetails] projects: (optional) An array of project details.
     """
-
     def __init__(self, *, projects: List['ProjectListDetails'] = None) -> None:
         """
         Initialize a ListProjectsResponse object.
@@ -4101,6 +6866,188 @@ class ListProjectsResponse():
         return not self == other
 
 
+class ModelEvaluationMacroAverage():
+    """
+    A macro-average computes metric independently for each class and then takes the
+    average. Class refers to the classification label that is specified in the
+    **answer_field**.
+
+    :attr float precision: A metric that measures how many of the overall documents
+          are classified correctly.
+    :attr float recall: A metric that measures how often documents that should be
+          classified into certain classes are classified into those classes.
+    :attr float f1: A metric that measures whether the optimal balance between
+          precision and recall is reached. The F1 score can be interpreted as a weighted
+          average of the precision and recall values. An F1 score reaches its best value
+          at 1 and worst value at 0.
+    """
+    def __init__(self, precision: float, recall: float, f1: float) -> None:
+        """
+        Initialize a ModelEvaluationMacroAverage object.
+
+        :param float precision: A metric that measures how many of the overall
+               documents are classified correctly.
+        :param float recall: A metric that measures how often documents that should
+               be classified into certain classes are classified into those classes.
+        :param float f1: A metric that measures whether the optimal balance between
+               precision and recall is reached. The F1 score can be interpreted as a
+               weighted average of the precision and recall values. An F1 score reaches
+               its best value at 1 and worst value at 0.
+        """
+        self.precision = precision
+        self.recall = recall
+        self.f1 = f1
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ModelEvaluationMacroAverage':
+        """Initialize a ModelEvaluationMacroAverage object from a json dictionary."""
+        args = {}
+        if 'precision' in _dict:
+            args['precision'] = _dict.get('precision')
+        else:
+            raise ValueError(
+                'Required property \'precision\' not present in ModelEvaluationMacroAverage JSON'
+            )
+        if 'recall' in _dict:
+            args['recall'] = _dict.get('recall')
+        else:
+            raise ValueError(
+                'Required property \'recall\' not present in ModelEvaluationMacroAverage JSON'
+            )
+        if 'f1' in _dict:
+            args['f1'] = _dict.get('f1')
+        else:
+            raise ValueError(
+                'Required property \'f1\' not present in ModelEvaluationMacroAverage JSON'
+            )
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ModelEvaluationMacroAverage object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'precision') and self.precision is not None:
+            _dict['precision'] = self.precision
+        if hasattr(self, 'recall') and self.recall is not None:
+            _dict['recall'] = self.recall
+        if hasattr(self, 'f1') and self.f1 is not None:
+            _dict['f1'] = self.f1
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ModelEvaluationMacroAverage object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ModelEvaluationMacroAverage') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ModelEvaluationMacroAverage') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ModelEvaluationMicroAverage():
+    """
+    A micro-average aggregates the contributions of all classes to compute the average
+    metric. Classes refers to the classification labels that are specified in the
+    **answer_field**.
+
+    :attr float precision: A metric that measures how many of the overall documents
+          are classified correctly.
+    :attr float recall: A metric that measures how often documents that should be
+          classified into certain classes are classified into those classes.
+    :attr float f1: A metric that measures whether the optimal balance between
+          precision and recall is reached. The F1 score can be interpreted as a weighted
+          average of the precision and recall values. An F1 score reaches its best value
+          at 1 and worst value at 0.
+    """
+    def __init__(self, precision: float, recall: float, f1: float) -> None:
+        """
+        Initialize a ModelEvaluationMicroAverage object.
+
+        :param float precision: A metric that measures how many of the overall
+               documents are classified correctly.
+        :param float recall: A metric that measures how often documents that should
+               be classified into certain classes are classified into those classes.
+        :param float f1: A metric that measures whether the optimal balance between
+               precision and recall is reached. The F1 score can be interpreted as a
+               weighted average of the precision and recall values. An F1 score reaches
+               its best value at 1 and worst value at 0.
+        """
+        self.precision = precision
+        self.recall = recall
+        self.f1 = f1
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ModelEvaluationMicroAverage':
+        """Initialize a ModelEvaluationMicroAverage object from a json dictionary."""
+        args = {}
+        if 'precision' in _dict:
+            args['precision'] = _dict.get('precision')
+        else:
+            raise ValueError(
+                'Required property \'precision\' not present in ModelEvaluationMicroAverage JSON'
+            )
+        if 'recall' in _dict:
+            args['recall'] = _dict.get('recall')
+        else:
+            raise ValueError(
+                'Required property \'recall\' not present in ModelEvaluationMicroAverage JSON'
+            )
+        if 'f1' in _dict:
+            args['f1'] = _dict.get('f1')
+        else:
+            raise ValueError(
+                'Required property \'f1\' not present in ModelEvaluationMicroAverage JSON'
+            )
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ModelEvaluationMicroAverage object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'precision') and self.precision is not None:
+            _dict['precision'] = self.precision
+        if hasattr(self, 'recall') and self.recall is not None:
+            _dict['recall'] = self.recall
+        if hasattr(self, 'f1') and self.f1 is not None:
+            _dict['f1'] = self.f1
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ModelEvaluationMicroAverage object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ModelEvaluationMicroAverage') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ModelEvaluationMicroAverage') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class Notice():
     """
     A notice produced for the collection.
@@ -4108,7 +7055,8 @@ class Notice():
     :attr str notice_id: (optional) Identifies the notice. Many notices might have
           the same ID. This field exists so that user applications can programmatically
           identify a notice and take automatic corrective action. Typical notice IDs
-          include: `index_failed`, `index_failed_too_many_requests`,
+          include:
+          `index_failed`, `index_failed_too_many_requests`,
           `index_failed_incompatible_field`, `index_failed_cluster_unavailable`,
           `ingestion_timeout`, `ingestion_error`, `bad_request`, `internal_error`,
           `missing_model`, `unsupported_model`,
@@ -4118,7 +7066,7 @@ class Notice():
           `smart_document_understanding_failed_warning`,
           `smart_document_understanding_page_error`,
           `smart_document_understanding_page_warning`. **Note:** This is not a complete
-          list, other values might be returned.
+          list. Other values might be returned.
     :attr datetime created: (optional) The creation date of the collection in the
           format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
     :attr str document_id: (optional) Unique identifier of the document.
@@ -4130,7 +7078,6 @@ class Notice():
           occurred.
     :attr str description: (optional) The description of the notice.
     """
-
     def __init__(self,
                  *,
                  notice_id: str = None,
@@ -4232,6 +7179,110 @@ class Notice():
         ERROR = 'error'
 
 
+class PerClassModelEvaluation():
+    """
+    An object that measures the metrics from a training run for each classification label
+    separately.
+
+    :attr str name: Class name. Each class name is derived from a value in the
+          **answer_field**.
+    :attr float precision: A metric that measures how many of the overall documents
+          are classified correctly.
+    :attr float recall: A metric that measures how often documents that should be
+          classified into certain classes are classified into those classes.
+    :attr float f1: A metric that measures whether the optimal balance between
+          precision and recall is reached. The F1 score can be interpreted as a weighted
+          average of the precision and recall values. An F1 score reaches its best value
+          at 1 and worst value at 0.
+    """
+    def __init__(self, name: str, precision: float, recall: float,
+                 f1: float) -> None:
+        """
+        Initialize a PerClassModelEvaluation object.
+
+        :param str name: Class name. Each class name is derived from a value in the
+               **answer_field**.
+        :param float precision: A metric that measures how many of the overall
+               documents are classified correctly.
+        :param float recall: A metric that measures how often documents that should
+               be classified into certain classes are classified into those classes.
+        :param float f1: A metric that measures whether the optimal balance between
+               precision and recall is reached. The F1 score can be interpreted as a
+               weighted average of the precision and recall values. An F1 score reaches
+               its best value at 1 and worst value at 0.
+        """
+        self.name = name
+        self.precision = precision
+        self.recall = recall
+        self.f1 = f1
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'PerClassModelEvaluation':
+        """Initialize a PerClassModelEvaluation object from a json dictionary."""
+        args = {}
+        if 'name' in _dict:
+            args['name'] = _dict.get('name')
+        else:
+            raise ValueError(
+                'Required property \'name\' not present in PerClassModelEvaluation JSON'
+            )
+        if 'precision' in _dict:
+            args['precision'] = _dict.get('precision')
+        else:
+            raise ValueError(
+                'Required property \'precision\' not present in PerClassModelEvaluation JSON'
+            )
+        if 'recall' in _dict:
+            args['recall'] = _dict.get('recall')
+        else:
+            raise ValueError(
+                'Required property \'recall\' not present in PerClassModelEvaluation JSON'
+            )
+        if 'f1' in _dict:
+            args['f1'] = _dict.get('f1')
+        else:
+            raise ValueError(
+                'Required property \'f1\' not present in PerClassModelEvaluation JSON'
+            )
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a PerClassModelEvaluation object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
+        if hasattr(self, 'precision') and self.precision is not None:
+            _dict['precision'] = self.precision
+        if hasattr(self, 'recall') and self.recall is not None:
+            _dict['recall'] = self.recall
+        if hasattr(self, 'f1') and self.f1 is not None:
+            _dict['f1'] = self.f1
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this PerClassModelEvaluation object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'PerClassModelEvaluation') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'PerClassModelEvaluation') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class ProjectDetails():
     """
     Detailed information about the specified project.
@@ -4250,16 +7301,16 @@ class ProjectDetails():
     :attr DefaultQueryParams default_query_parameters: (optional) Default query
           parameters for this project.
     """
-
-    def __init__(self,
-                 *,
-                 project_id: str = None,
-                 name: str = None,
-                 type: str = None,
-                 relevancy_training_status:
-                 'ProjectListDetailsRelevancyTrainingStatus' = None,
-                 collection_count: int = None,
-                 default_query_parameters: 'DefaultQueryParams' = None) -> None:
+    def __init__(
+            self,
+            *,
+            project_id: str = None,
+            name: str = None,
+            type: str = None,
+            relevancy_training_status:
+        'ProjectListDetailsRelevancyTrainingStatus' = None,
+            collection_count: int = None,
+            default_query_parameters: 'DefaultQueryParams' = None) -> None:
         """
         Initialize a ProjectDetails object.
 
@@ -4318,7 +7369,7 @@ class ProjectDetails():
         if hasattr(self, 'type') and self.type is not None:
             _dict['type'] = self.type
         if hasattr(self, 'relevancy_training_status'
-                  ) and self.relevancy_training_status is not None:
+                   ) and self.relevancy_training_status is not None:
             _dict[
                 'relevancy_training_status'] = self.relevancy_training_status.to_dict(
                 )
@@ -4326,7 +7377,7 @@ class ProjectDetails():
                 self, 'collection_count') is not None:
             _dict['collection_count'] = getattr(self, 'collection_count')
         if hasattr(self, 'default_query_parameters'
-                  ) and self.default_query_parameters is not None:
+                   ) and self.default_query_parameters is not None:
             _dict[
                 'default_query_parameters'] = self.default_query_parameters.to_dict(
                 )
@@ -4381,7 +7432,6 @@ class ProjectListDetails():
     :attr int collection_count: (optional) The number of collections configured in
           this project.
     """
-
     def __init__(self,
                  *,
                  project_id: str = None,
@@ -4442,7 +7492,7 @@ class ProjectListDetails():
         if hasattr(self, 'type') and self.type is not None:
             _dict['type'] = self.type
         if hasattr(self, 'relevancy_training_status'
-                  ) and self.relevancy_training_status is not None:
+                   ) and self.relevancy_training_status is not None:
             _dict[
                 'relevancy_training_status'] = self.relevancy_training_status.to_dict(
                 )
@@ -4505,7 +7555,6 @@ class ProjectListDetailsRelevancyTrainingStatus():
     :attr bool minimum_queries_added: (optional) When `true`, the minimum number of
           queries required to train has been met.
     """
-
     def __init__(self,
                  *,
                  data_updated: str = None,
@@ -4562,7 +7611,8 @@ class ProjectListDetailsRelevancyTrainingStatus():
         if 'processing' in _dict:
             args['processing'] = _dict.get('processing')
         if 'minimum_examples_added' in _dict:
-            args['minimum_examples_added'] = _dict.get('minimum_examples_added')
+            args['minimum_examples_added'] = _dict.get(
+                'minimum_examples_added')
         if 'successfully_trained' in _dict:
             args['successfully_trained'] = _dict.get('successfully_trained')
         if 'available' in _dict:
@@ -4586,23 +7636,23 @@ class ProjectListDetailsRelevancyTrainingStatus():
         if hasattr(self, 'total_examples') and self.total_examples is not None:
             _dict['total_examples'] = self.total_examples
         if hasattr(self, 'sufficient_label_diversity'
-                  ) and self.sufficient_label_diversity is not None:
+                   ) and self.sufficient_label_diversity is not None:
             _dict[
                 'sufficient_label_diversity'] = self.sufficient_label_diversity
         if hasattr(self, 'processing') and self.processing is not None:
             _dict['processing'] = self.processing
         if hasattr(self, 'minimum_examples_added'
-                  ) and self.minimum_examples_added is not None:
+                   ) and self.minimum_examples_added is not None:
             _dict['minimum_examples_added'] = self.minimum_examples_added
         if hasattr(self, 'successfully_trained'
-                  ) and self.successfully_trained is not None:
+                   ) and self.successfully_trained is not None:
             _dict['successfully_trained'] = self.successfully_trained
         if hasattr(self, 'available') and self.available is not None:
             _dict['available'] = self.available
         if hasattr(self, 'notices') and self.notices is not None:
             _dict['notices'] = self.notices
         if hasattr(self, 'minimum_queries_added'
-                  ) and self.minimum_queries_added is not None:
+                   ) and self.minimum_queries_added is not None:
             _dict['minimum_queries_added'] = self.minimum_queries_added
         return _dict
 
@@ -4635,7 +7685,6 @@ class QueryAggregation():
           histogram, timeslice, nested, filter, min, max, sum, average, unique_count, and
           top_hits.
     """
-
     def __init__(self, type: str) -> None:
         """
         Initialize a QueryAggregation object.
@@ -4737,7 +7786,6 @@ class QueryGroupByAggregationResult():
     :attr List[QueryAggregation] aggregations: (optional) An array of
           sub-aggregations.
     """
-
     def __init__(self,
                  key: str,
                  matching_results: int,
@@ -4796,7 +7844,8 @@ class QueryGroupByAggregationResult():
                 'estimated_matching_documents')
         if 'aggregations' in _dict:
             args['aggregations'] = [
-                QueryAggregation.from_dict(x) for x in _dict.get('aggregations')
+                QueryAggregation.from_dict(x)
+                for x in _dict.get('aggregations')
             ]
         return cls(**args)
 
@@ -4816,10 +7865,10 @@ class QueryGroupByAggregationResult():
         if hasattr(self, 'relevancy') and self.relevancy is not None:
             _dict['relevancy'] = self.relevancy
         if hasattr(self, 'total_matching_documents'
-                  ) and self.total_matching_documents is not None:
+                   ) and self.total_matching_documents is not None:
             _dict['total_matching_documents'] = self.total_matching_documents
         if hasattr(self, 'estimated_matching_documents'
-                  ) and self.estimated_matching_documents is not None:
+                   ) and self.estimated_matching_documents is not None:
             _dict[
                 'estimated_matching_documents'] = self.estimated_matching_documents
         if hasattr(self, 'aggregations') and self.aggregations is not None:
@@ -4855,7 +7904,6 @@ class QueryHistogramAggregationResult():
     :attr List[QueryAggregation] aggregations: (optional) An array of
           sub-aggregations.
     """
-
     def __init__(self,
                  key: int,
                  matching_results: int,
@@ -4892,7 +7940,8 @@ class QueryHistogramAggregationResult():
             )
         if 'aggregations' in _dict:
             args['aggregations'] = [
-                QueryAggregation.from_dict(x) for x in _dict.get('aggregations')
+                QueryAggregation.from_dict(x)
+                for x in _dict.get('aggregations')
             ]
         return cls(**args)
 
@@ -4946,11 +7995,11 @@ class QueryLargePassages():
           regardless of the document quality and returns them in a separate `passages`
           field in the response.
     :attr int max_per_document: (optional) Maximum number of passages to return per
-          document in the result. Ignored if `passages.per_document` is `false`.
+          document in the result. Ignored if **passages.per_document** is `false`.
     :attr List[str] fields: (optional) A list of fields to extract passages from. If
           this parameter is an empty list, then all root-level fields are included.
     :attr int count: (optional) The maximum number of passages to return. Ignored if
-          `passages.per_document` is `true`.
+          **passages.per_document** is `true`.
     :attr int characters: (optional) The approximate number of characters that any
           one passage will have.
     :attr bool find_answers: (optional) When true, `answer` objects are returned as
@@ -4973,7 +8022,6 @@ class QueryLargePassages():
     :attr int max_answers_per_passage: (optional) The number of `answer` objects to
           return per passage if the **find_answers** parmeter is specified as `true`.
     """
-
     def __init__(self,
                  *,
                  enabled: bool = None,
@@ -4997,13 +8045,13 @@ class QueryLargePassages():
                regardless of the document quality and returns them in a separate
                `passages` field in the response.
         :param int max_per_document: (optional) Maximum number of passages to
-               return per document in the result. Ignored if `passages.per_document` is
+               return per document in the result. Ignored if **passages.per_document** is
                `false`.
         :param List[str] fields: (optional) A list of fields to extract passages
                from. If this parameter is an empty list, then all root-level fields are
                included.
         :param int count: (optional) The maximum number of passages to return.
-               Ignored if `passages.per_document` is `true`.
+               Ignored if **passages.per_document** is `true`.
         :param int characters: (optional) The approximate number of characters that
                any one passage will have.
         :param bool find_answers: (optional) When true, `answer` objects are
@@ -5085,7 +8133,7 @@ class QueryLargePassages():
         if hasattr(self, 'find_answers') and self.find_answers is not None:
             _dict['find_answers'] = self.find_answers
         if hasattr(self, 'max_answers_per_passage'
-                  ) and self.max_answers_per_passage is not None:
+                   ) and self.max_answers_per_passage is not None:
             _dict['max_answers_per_passage'] = self.max_answers_per_passage
         return _dict
 
@@ -5108,15 +8156,98 @@ class QueryLargePassages():
         return not self == other
 
 
+class QueryLargeSimilar():
+    """
+    Finds results from documents that are similar to documents of interest. Use this
+    parameter to add a *More like these* function to your search. You can include this
+    parameter with or without a **query**, **filter** or **natural_language_query**
+    parameter.
+
+    :attr bool enabled: (optional) When `true`, includes documents in the query
+          results that are similar to documents you specify.
+    :attr List[str] document_ids: (optional) The list of documents of interest.
+          Required if `enabled` is `true`.
+    :attr List[str] fields: (optional) Looks for similarities in the specified
+          subset of fields in the documents. If not specified, all of the document fields
+          are used.
+    """
+    def __init__(self,
+                 *,
+                 enabled: bool = None,
+                 document_ids: List[str] = None,
+                 fields: List[str] = None) -> None:
+        """
+        Initialize a QueryLargeSimilar object.
+
+        :param bool enabled: (optional) When `true`, includes documents in the
+               query results that are similar to documents you specify.
+        :param List[str] document_ids: (optional) The list of documents of
+               interest. Required if `enabled` is `true`.
+        :param List[str] fields: (optional) Looks for similarities in the specified
+               subset of fields in the documents. If not specified, all of the document
+               fields are used.
+        """
+        self.enabled = enabled
+        self.document_ids = document_ids
+        self.fields = fields
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'QueryLargeSimilar':
+        """Initialize a QueryLargeSimilar object from a json dictionary."""
+        args = {}
+        if 'enabled' in _dict:
+            args['enabled'] = _dict.get('enabled')
+        if 'document_ids' in _dict:
+            args['document_ids'] = _dict.get('document_ids')
+        if 'fields' in _dict:
+            args['fields'] = _dict.get('fields')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a QueryLargeSimilar object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'enabled') and self.enabled is not None:
+            _dict['enabled'] = self.enabled
+        if hasattr(self, 'document_ids') and self.document_ids is not None:
+            _dict['document_ids'] = self.document_ids
+        if hasattr(self, 'fields') and self.fields is not None:
+            _dict['fields'] = self.fields
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this QueryLargeSimilar object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'QueryLargeSimilar') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'QueryLargeSimilar') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class QueryLargeSuggestedRefinements():
     """
-    Configuration for suggested refinements. Available with Premium plans only.
+    Configuration for suggested refinements.
+    **Note**: The **suggested_refinements** parameter that identified dynamic facets from
+    the data is deprecated.
 
     :attr bool enabled: (optional) Whether to perform suggested refinements.
     :attr int count: (optional) Maximum number of suggested refinements texts to be
           returned. The maximum is `100`.
     """
-
     def __init__(self, *, enabled: bool = None, count: int = None) -> None:
         """
         Initialize a QueryLargeSuggestedRefinements object.
@@ -5178,7 +8309,6 @@ class QueryLargeTableResults():
     :attr bool enabled: (optional) Whether to enable table retrieval.
     :attr int count: (optional) Maximum number of tables to return.
     """
-
     def __init__(self, *, enabled: bool = None, count: int = None) -> None:
         """
         Initialize a QueryLargeTableResults object.
@@ -5240,7 +8370,6 @@ class QueryNoticesResponse():
     :attr List[Notice] notices: (optional) Array of document results that match the
           query.
     """
-
     def __init__(self,
                  *,
                  matching_results: int = None,
@@ -5316,22 +8445,23 @@ class QueryResponse():
     :attr str suggested_query: (optional) Suggested correction to the submitted
           **natural_language_query** value.
     :attr List[QuerySuggestedRefinement] suggested_refinements: (optional) Array of
-          suggested refinements.
+          suggested refinements. **Note**: The `suggested_refinements` parameter that
+          identified dynamic facets from the data is deprecated.
     :attr List[QueryTableResult] table_results: (optional) Array of table results.
     :attr List[QueryResponsePassage] passages: (optional) Passages that best match
           the query from across all of the collections in the project.
     """
-
-    def __init__(self,
-                 *,
-                 matching_results: int = None,
-                 results: List['QueryResult'] = None,
-                 aggregations: List['QueryAggregation'] = None,
-                 retrieval_details: 'RetrievalDetails' = None,
-                 suggested_query: str = None,
-                 suggested_refinements: List['QuerySuggestedRefinement'] = None,
-                 table_results: List['QueryTableResult'] = None,
-                 passages: List['QueryResponsePassage'] = None) -> None:
+    def __init__(
+            self,
+            *,
+            matching_results: int = None,
+            results: List['QueryResult'] = None,
+            aggregations: List['QueryAggregation'] = None,
+            retrieval_details: 'RetrievalDetails' = None,
+            suggested_query: str = None,
+            suggested_refinements: List['QuerySuggestedRefinement'] = None,
+            table_results: List['QueryTableResult'] = None,
+            passages: List['QueryResponsePassage'] = None) -> None:
         """
         Initialize a QueryResponse object.
 
@@ -5347,7 +8477,8 @@ class QueryResponse():
         :param str suggested_query: (optional) Suggested correction to the
                submitted **natural_language_query** value.
         :param List[QuerySuggestedRefinement] suggested_refinements: (optional)
-               Array of suggested refinements.
+               Array of suggested refinements. **Note**: The `suggested_refinements`
+               parameter that identified dynamic facets from the data is deprecated.
         :param List[QueryTableResult] table_results: (optional) Array of table
                results.
         :param List[QueryResponsePassage] passages: (optional) Passages that best
@@ -5374,7 +8505,8 @@ class QueryResponse():
             ]
         if 'aggregations' in _dict:
             args['aggregations'] = [
-                QueryAggregation.from_dict(x) for x in _dict.get('aggregations')
+                QueryAggregation.from_dict(x)
+                for x in _dict.get('aggregations')
             ]
         if 'retrieval_details' in _dict:
             args['retrieval_details'] = RetrievalDetails.from_dict(
@@ -5393,7 +8525,8 @@ class QueryResponse():
             ]
         if 'passages' in _dict:
             args['passages'] = [
-                QueryResponsePassage.from_dict(x) for x in _dict.get('passages')
+                QueryResponsePassage.from_dict(x)
+                for x in _dict.get('passages')
             ]
         return cls(**args)
 
@@ -5419,7 +8552,7 @@ class QueryResponse():
                    'suggested_query') and self.suggested_query is not None:
             _dict['suggested_query'] = self.suggested_query
         if hasattr(self, 'suggested_refinements'
-                  ) and self.suggested_refinements is not None:
+                   ) and self.suggested_refinements is not None:
             _dict['suggested_refinements'] = [
                 x.to_dict() for x in self.suggested_refinements
             ]
@@ -5454,7 +8587,9 @@ class QueryResponsePassage():
 
     :attr str passage_text: (optional) The content of the extracted passage.
     :attr float passage_score: (optional) The confidence score of the passage's
-          analysis. A higher score indicates greater confidence.
+          analysis. A higher score indicates greater confidence. The score is used to rank
+          the passages from all documents and is returned only if
+          **passages.per_document** is `false`.
     :attr str document_id: (optional) The unique identifier of the ingested
           document.
     :attr str collection_id: (optional) The unique identifier of the collection.
@@ -5469,7 +8604,6 @@ class QueryResponsePassage():
     :attr List[ResultPassageAnswer] answers: (optional) An array of extracted
           answers to the specified query.
     """
-
     def __init__(self,
                  *,
                  passage_text: str = None,
@@ -5486,7 +8620,9 @@ class QueryResponsePassage():
 
         :param str passage_text: (optional) The content of the extracted passage.
         :param float passage_score: (optional) The confidence score of the
-               passage's analysis. A higher score indicates greater confidence.
+               passage's analysis. A higher score indicates greater confidence. The score
+               is used to rank the passages from all documents and is returned only if
+               **passages.per_document** is `false`.
         :param str document_id: (optional) The unique identifier of the ingested
                document.
         :param str collection_id: (optional) The unique identifier of the
@@ -5649,7 +8785,8 @@ class QueryResult():
                 for x in _dict.get('document_passages')
             ]
         args.update(
-            {k: v for (k, v) in _dict.items() if k not in cls._properties})
+            {k: v
+             for (k, v) in _dict.items() if k not in cls._properties})
         return cls(**args)
 
     @classmethod
@@ -5673,7 +8810,8 @@ class QueryResult():
                 x.to_dict() for x in self.document_passages
             ]
         for _key in [
-                k for k in vars(self).keys() if k not in QueryResult._properties
+                k for k in vars(self).keys()
+                if k not in QueryResult._properties
         ]:
             if getattr(self, _key, None) is not None:
                 _dict[_key] = getattr(self, _key)
@@ -5688,7 +8826,8 @@ class QueryResult():
         _dict = {}
 
         for _key in [
-                k for k in vars(self).keys() if k not in QueryResult._properties
+                k for k in vars(self).keys()
+                if k not in QueryResult._properties
         ]:
             _dict[_key] = getattr(self, _key)
         return _dict
@@ -5696,7 +8835,8 @@ class QueryResult():
     def set_properties(self, _dict: dict):
         """Set a dictionary of arbitrary properties to this instance of QueryResult"""
         for _key in [
-                k for k in vars(self).keys() if k not in QueryResult._properties
+                k for k in vars(self).keys()
+                if k not in QueryResult._properties
         ]:
             delattr(self, _key)
 
@@ -5735,7 +8875,6 @@ class QueryResultMetadata():
           field is only returned if the **natural_language_query** parameter is specified
           in the query.
     """
-
     def __init__(self,
                  collection_id: str,
                  *,
@@ -5786,7 +8925,7 @@ class QueryResultMetadata():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'document_retrieval_source'
-                  ) and self.document_retrieval_source is not None:
+                   ) and self.document_retrieval_source is not None:
             _dict['document_retrieval_source'] = self.document_retrieval_source
         if hasattr(self, 'collection_id') and self.collection_id is not None:
             _dict['collection_id'] = self.collection_id
@@ -5836,7 +8975,6 @@ class QueryResultPassage():
     :attr List[ResultPassageAnswer] answers: (optional) An arry of extracted answers
           to the specified query.
     """
-
     def __init__(self,
                  *,
                  passage_text: str = None,
@@ -5930,11 +9068,11 @@ class QueryResultPassage():
 
 class QuerySuggestedRefinement():
     """
-    A suggested additional query term or terms user to filter results.
+    A suggested additional query term or terms user to filter results. **Note**: The
+    `suggested_refinements` parameter is deprecated.
 
     :attr str text: (optional) The text used to filter.
     """
-
     def __init__(self, *, text: str = None) -> None:
         """
         Initialize a QuerySuggestedRefinement object.
@@ -5997,7 +9135,6 @@ class QueryTableResult():
     :attr TableResultTable table: (optional) Full table object retrieved from Table
           Understanding Enrichment.
     """
-
     def __init__(self,
                  *,
                  table_id: str = None,
@@ -6105,7 +9242,6 @@ class QueryTermAggregationResult():
     :attr List[QueryAggregation] aggregations: (optional) An array of
           sub-aggregations.
     """
-
     def __init__(self,
                  key: str,
                  matching_results: int,
@@ -6164,7 +9300,8 @@ class QueryTermAggregationResult():
                 'estimated_matching_documents')
         if 'aggregations' in _dict:
             args['aggregations'] = [
-                QueryAggregation.from_dict(x) for x in _dict.get('aggregations')
+                QueryAggregation.from_dict(x)
+                for x in _dict.get('aggregations')
             ]
         return cls(**args)
 
@@ -6184,10 +9321,10 @@ class QueryTermAggregationResult():
         if hasattr(self, 'relevancy') and self.relevancy is not None:
             _dict['relevancy'] = self.relevancy
         if hasattr(self, 'total_matching_documents'
-                  ) and self.total_matching_documents is not None:
+                   ) and self.total_matching_documents is not None:
             _dict['total_matching_documents'] = self.total_matching_documents
         if hasattr(self, 'estimated_matching_documents'
-                  ) and self.estimated_matching_documents is not None:
+                   ) and self.estimated_matching_documents is not None:
             _dict[
                 'estimated_matching_documents'] = self.estimated_matching_documents
         if hasattr(self, 'aggregations') and self.aggregations is not None:
@@ -6226,7 +9363,6 @@ class QueryTimesliceAggregationResult():
     :attr List[QueryAggregation] aggregations: (optional) An array of
           sub-aggregations.
     """
-
     def __init__(self,
                  key_as_string: str,
                  key: int,
@@ -6274,7 +9410,8 @@ class QueryTimesliceAggregationResult():
             )
         if 'aggregations' in _dict:
             args['aggregations'] = [
-                QueryAggregation.from_dict(x) for x in _dict.get('aggregations')
+                QueryAggregation.from_dict(x)
+                for x in _dict.get('aggregations')
             ]
         return cls(**args)
 
@@ -6323,7 +9460,6 @@ class QueryTopHitsAggregationResult():
     :attr int matching_results: Number of matching results.
     :attr List[dict] hits: (optional) An array of the document results.
     """
-
     def __init__(self,
                  matching_results: int,
                  *,
@@ -6398,7 +9534,6 @@ class ResultPassageAnswer():
     :attr float confidence: (optional) An estimate of the probability that the
           answer is relevant.
     """
-
     def __init__(self,
                  *,
                  answer_text: str = None,
@@ -6484,7 +9619,6 @@ class RetrievalDetails():
           model is not used to return results, the **document_retrieval_strategy** is
           listed as `untrained`.
     """
-
     def __init__(self, *, document_retrieval_strategy: str = None) -> None:
         """
         Initialize a RetrievalDetails object.
@@ -6516,7 +9650,7 @@ class RetrievalDetails():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'document_retrieval_strategy'
-                  ) and self.document_retrieval_strategy is not None:
+                   ) and self.document_retrieval_strategy is not None:
             _dict[
                 'document_retrieval_strategy'] = self.document_retrieval_strategy
         return _dict
@@ -6552,6 +9686,63 @@ class RetrievalDetails():
         RELEVANCY_TRAINING = 'relevancy_training'
 
 
+class StopWordList():
+    """
+    List of words to filter out of text that is submitted in queries.
+
+    :attr List[str] stopwords: List of stop words.
+    """
+    def __init__(self, stopwords: List[str]) -> None:
+        """
+        Initialize a StopWordList object.
+
+        :param List[str] stopwords: List of stop words.
+        """
+        self.stopwords = stopwords
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'StopWordList':
+        """Initialize a StopWordList object from a json dictionary."""
+        args = {}
+        if 'stopwords' in _dict:
+            args['stopwords'] = _dict.get('stopwords')
+        else:
+            raise ValueError(
+                'Required property \'stopwords\' not present in StopWordList JSON'
+            )
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a StopWordList object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'stopwords') and self.stopwords is not None:
+            _dict['stopwords'] = self.stopwords
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this StopWordList object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'StopWordList') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'StopWordList') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class TableBodyCells():
     """
     Cells that are not table header, column header, or row header cells.
@@ -6585,7 +9776,6 @@ class TableBodyCells():
     :attr List[DocumentAttribute] attributes: (optional) A list of document
           attributes.
     """
-
     def __init__(self,
                  *,
                  cell_id: str = None,
@@ -6735,14 +9925,16 @@ class TableBodyCells():
                    'column_index_end') and self.column_index_end is not None:
             _dict['column_index_end'] = self.column_index_end
         if hasattr(self, 'row_header_ids') and self.row_header_ids is not None:
-            _dict['row_header_ids'] = [x.to_dict() for x in self.row_header_ids]
+            _dict['row_header_ids'] = [
+                x.to_dict() for x in self.row_header_ids
+            ]
         if hasattr(self,
                    'row_header_texts') and self.row_header_texts is not None:
             _dict['row_header_texts'] = [
                 x.to_dict() for x in self.row_header_texts
             ]
         if hasattr(self, 'row_header_texts_normalized'
-                  ) and self.row_header_texts_normalized is not None:
+                   ) and self.row_header_texts_normalized is not None:
             _dict['row_header_texts_normalized'] = [
                 x.to_dict() for x in self.row_header_texts_normalized
             ]
@@ -6751,14 +9943,13 @@ class TableBodyCells():
             _dict['column_header_ids'] = [
                 x.to_dict() for x in self.column_header_ids
             ]
-        if hasattr(
-                self,
-                'column_header_texts') and self.column_header_texts is not None:
+        if hasattr(self, 'column_header_texts'
+                   ) and self.column_header_texts is not None:
             _dict['column_header_texts'] = [
                 x.to_dict() for x in self.column_header_texts
             ]
         if hasattr(self, 'column_header_texts_normalized'
-                  ) and self.column_header_texts_normalized is not None:
+                   ) and self.column_header_texts_normalized is not None:
             _dict['column_header_texts_normalized'] = [
                 x.to_dict() for x in self.column_header_texts_normalized
             ]
@@ -6796,7 +9987,6 @@ class TableCellKey():
     :attr str text: (optional) The text content of the table cell without HTML
           markup.
     """
-
     def __init__(self,
                  *,
                  cell_id: str = None,
@@ -6875,7 +10065,6 @@ class TableCellValues():
     :attr str text: (optional) The text content of the table cell without HTML
           markup.
     """
-
     def __init__(self,
                  *,
                  cell_id: str = None,
@@ -6950,7 +10139,6 @@ class TableColumnHeaderIds():
 
     :attr str id: (optional) The `id` value of a column header.
     """
-
     def __init__(self, *, id: str = None) -> None:
         """
         Initialize a TableColumnHeaderIds object.
@@ -7005,7 +10193,6 @@ class TableColumnHeaderTexts():
 
     :attr str text: (optional) The `text` value of a column header.
     """
-
     def __init__(self, *, text: str = None) -> None:
         """
         Initialize a TableColumnHeaderTexts object.
@@ -7061,7 +10248,6 @@ class TableColumnHeaderTextsNormalized():
     :attr str text_normalized: (optional) The normalized version of a column header
           text.
     """
-
     def __init__(self, *, text_normalized: str = None) -> None:
         """
         Initialize a TableColumnHeaderTextsNormalized object.
@@ -7134,7 +10320,6 @@ class TableColumnHeaders():
     :attr int column_index_end: (optional) The `end` index of this cell's `column`
           location in the current table.
     """
-
     def __init__(self,
                  *,
                  cell_id: str = None,
@@ -7256,7 +10441,6 @@ class TableElementLocation():
     :attr int begin: The element's `begin` index.
     :attr int end: The element's `end` index.
     """
-
     def __init__(self, begin: int, end: int) -> None:
         """
         Initialize a TableElementLocation object.
@@ -7337,7 +10521,6 @@ class TableHeaders():
     :attr int column_index_end: (optional) The `end` index of this cell's `column`
           location in the current table.
     """
-
     def __init__(self,
                  *,
                  cell_id: str = None,
@@ -7449,7 +10632,6 @@ class TableKeyValuePairs():
     :attr List[TableCellValues] value: (optional) A list of values in a key-value
           pair.
     """
-
     def __init__(self,
                  *,
                  key: 'TableCellKey' = None,
@@ -7538,7 +10720,6 @@ class TableResultTable():
     :attr List[TableTextLocation] contexts: (optional) An array of lists of textual
           entries across the document related to the current table being parsed.
     """
-
     def __init__(self,
                  *,
                  location: 'TableElementLocation' = None,
@@ -7654,7 +10835,9 @@ class TableResultTable():
         if hasattr(self, 'row_headers') and self.row_headers is not None:
             _dict['row_headers'] = [x.to_dict() for x in self.row_headers]
         if hasattr(self, 'column_headers') and self.column_headers is not None:
-            _dict['column_headers'] = [x.to_dict() for x in self.column_headers]
+            _dict['column_headers'] = [
+                x.to_dict() for x in self.column_headers
+            ]
         if hasattr(self,
                    'key_value_pairs') and self.key_value_pairs is not None:
             _dict['key_value_pairs'] = [
@@ -7692,7 +10875,6 @@ class TableRowHeaderIds():
 
     :attr str id: (optional) The `id` values of a row header.
     """
-
     def __init__(self, *, id: str = None) -> None:
         """
         Initialize a TableRowHeaderIds object.
@@ -7747,7 +10929,6 @@ class TableRowHeaderTexts():
 
     :attr str text: (optional) The `text` value of a row header.
     """
-
     def __init__(self, *, text: str = None) -> None:
         """
         Initialize a TableRowHeaderTexts object.
@@ -7803,7 +10984,6 @@ class TableRowHeaderTextsNormalized():
     :attr str text_normalized: (optional) The normalized version of a row header
           text.
     """
-
     def __init__(self, *, text_normalized: str = None) -> None:
         """
         Initialize a TableRowHeaderTextsNormalized object.
@@ -7876,7 +11056,6 @@ class TableRowHeaders():
     :attr int column_index_end: (optional) The `end` index of this cell's `column`
           location in the current table.
     """
-
     def __init__(self,
                  *,
                  cell_id: str = None,
@@ -8000,7 +11179,6 @@ class TableTextLocation():
           identified element in the document, represented with two integers labeled
           `begin` and `end`.
     """
-
     def __init__(self,
                  *,
                  text: str = None,
@@ -8071,7 +11249,6 @@ class TrainingExample():
     :attr datetime created: (optional) The date and time the example was created.
     :attr datetime updated: (optional) The date and time the example was updated.
     """
-
     def __init__(self,
                  document_id: str,
                  collection_id: str,
@@ -8173,7 +11350,6 @@ class TrainingQuery():
     :attr datetime updated: (optional) The date and time the query was updated.
     :attr List[TrainingExample] examples: Array of training examples.
     """
-
     def __init__(self,
                  natural_language_query: str,
                  examples: List['TrainingExample'],
@@ -8205,7 +11381,8 @@ class TrainingQuery():
         if 'query_id' in _dict:
             args['query_id'] = _dict.get('query_id')
         if 'natural_language_query' in _dict:
-            args['natural_language_query'] = _dict.get('natural_language_query')
+            args['natural_language_query'] = _dict.get(
+                'natural_language_query')
         else:
             raise ValueError(
                 'Required property \'natural_language_query\' not present in TrainingQuery JSON'
@@ -8237,7 +11414,7 @@ class TrainingQuery():
         if hasattr(self, 'query_id') and getattr(self, 'query_id') is not None:
             _dict['query_id'] = getattr(self, 'query_id')
         if hasattr(self, 'natural_language_query'
-                  ) and self.natural_language_query is not None:
+                   ) and self.natural_language_query is not None:
             _dict['natural_language_query'] = self.natural_language_query
         if hasattr(self, 'filter') and self.filter is not None:
             _dict['filter'] = self.filter
@@ -8272,14 +11449,17 @@ class TrainingQuerySet():
     """
     Object specifying the training queries contained in the identified training set.
 
-    :attr List[TrainingQuery] queries: (optional) Array of training queries.
+    :attr List[TrainingQuery] queries: (optional) Array of training queries. At
+          least 50 queries are required for training to begin. A maximum of 10,000 queries
+          are returned.
     """
-
     def __init__(self, *, queries: List['TrainingQuery'] = None) -> None:
         """
         Initialize a TrainingQuerySet object.
 
         :param List[TrainingQuery] queries: (optional) Array of training queries.
+               At least 50 queries are required for training to begin. A maximum of 10,000
+               queries are returned.
         """
         self.queries = queries
 
@@ -8324,6 +11504,67 @@ class TrainingQuerySet():
         return not self == other
 
 
+class UpdateDocumentClassifier():
+    """
+    An object that contains a new name or description for a document classifier, updated
+    training data, or new or updated test data.
+
+    :attr str name: (optional) A new name for the classifier.
+    :attr str description: (optional) A new description for the classifier.
+    """
+    def __init__(self, *, name: str = None, description: str = None) -> None:
+        """
+        Initialize a UpdateDocumentClassifier object.
+
+        :param str name: (optional) A new name for the classifier.
+        :param str description: (optional) A new description for the classifier.
+        """
+        self.name = name
+        self.description = description
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'UpdateDocumentClassifier':
+        """Initialize a UpdateDocumentClassifier object from a json dictionary."""
+        args = {}
+        if 'name' in _dict:
+            args['name'] = _dict.get('name')
+        if 'description' in _dict:
+            args['description'] = _dict.get('description')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a UpdateDocumentClassifier object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this UpdateDocumentClassifier object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'UpdateDocumentClassifier') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'UpdateDocumentClassifier') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class QueryCalculationAggregation(QueryAggregation):
     """
     Returns a scalar calculation across all documents for the field specified. Possible
@@ -8332,7 +11573,6 @@ class QueryCalculationAggregation(QueryAggregation):
     :attr str field: The field to perform the calculation on.
     :attr float value: (optional) The value of the calculation.
     """
-
     def __init__(self, type: str, field: str, *, value: float = None) -> None:
         """
         Initialize a QueryCalculationAggregation object.
@@ -8412,7 +11652,6 @@ class QueryFilterAggregation(QueryAggregation):
     :attr List[QueryAggregation] aggregations: (optional) An array of
           sub-aggregations.
     """
-
     def __init__(self,
                  type: str,
                  match: str,
@@ -8460,7 +11699,8 @@ class QueryFilterAggregation(QueryAggregation):
             )
         if 'aggregations' in _dict:
             args['aggregations'] = [
-                QueryAggregation.from_dict(x) for x in _dict.get('aggregations')
+                QueryAggregation.from_dict(x)
+                for x in _dict.get('aggregations')
             ]
         return cls(**args)
 
@@ -8509,11 +11749,11 @@ class QueryGroupByAggregation(QueryAggregation):
     :attr List[QueryGroupByAggregationResult] results: (optional) Array of top
           values for the field.
     """
-
-    def __init__(self,
-                 type: str,
-                 *,
-                 results: List['QueryGroupByAggregationResult'] = None) -> None:
+    def __init__(
+            self,
+            type: str,
+            *,
+            results: List['QueryGroupByAggregationResult'] = None) -> None:
         """
         Initialize a QueryGroupByAggregation object.
 
@@ -8588,7 +11828,6 @@ class QueryHistogramAggregation(QueryAggregation):
     :attr List[QueryHistogramAggregationResult] results: (optional) Array of numeric
           intervals.
     """
-
     def __init__(
             self,
             type: str,
@@ -8698,7 +11937,6 @@ class QueryNestedAggregation(QueryAggregation):
     :attr List[QueryAggregation] aggregations: (optional) An array of
           sub-aggregations.
     """
-
     def __init__(self,
                  type: str,
                  path: str,
@@ -8747,7 +11985,8 @@ class QueryNestedAggregation(QueryAggregation):
             )
         if 'aggregations' in _dict:
             args['aggregations'] = [
-                QueryAggregation.from_dict(x) for x in _dict.get('aggregations')
+                QueryAggregation.from_dict(x)
+                for x in _dict.get('aggregations')
             ]
         return cls(**args)
 
@@ -8800,7 +12039,6 @@ class QueryTermAggregation(QueryAggregation):
     :attr List[QueryTermAggregationResult] results: (optional) Array of top values
           for the field.
     """
-
     def __init__(self,
                  type: str,
                  field: str,
@@ -8906,7 +12144,6 @@ class QueryTimesliceAggregation(QueryAggregation):
     :attr List[QueryTimesliceAggregationResult] results: (optional) Array of
           aggregation results.
     """
-
     def __init__(
             self,
             type: str,
@@ -9014,7 +12251,6 @@ class QueryTopHitsAggregation(QueryAggregation):
           aggregation.
     :attr QueryTopHitsAggregationResult hits: (optional)
     """
-
     def __init__(self,
                  type: str,
                  size: int,
