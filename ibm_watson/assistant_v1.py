@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 3.46.0-a4e29da0-20220224-210428
+# IBM OpenAPI SDK Code Generator Version: 3.53.0-9710cac3-20220713-193508
 """
 The IBM Watson&trade; Assistant service combines machine learning, natural language
 understanding, and an integrated dialog editor to create conversation flows between your
@@ -48,7 +48,7 @@ class AssistantV1(BaseService):
     """The Assistant V1 service."""
 
     DEFAULT_SERVICE_URL = 'https://api.us-south.assistant.watson.cloud.ibm.com'
-    DEFAULT_SERVICE_NAME = 'assistant'
+    DEFAULT_SERVICE_NAME = 'conversation'
 
     def __init__(
         self,
@@ -176,6 +176,7 @@ class AssistantV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['workspace_id']
@@ -235,6 +236,7 @@ class AssistantV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['workspace_id']
@@ -303,6 +305,7 @@ class AssistantV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         url = '/v1/workspaces'
@@ -334,6 +337,8 @@ class AssistantV1(BaseService):
 
         Create a workspace based on component objects. You must provide workspace
         components defining the content of the new workspace.
+        **Note:** The new workspace data cannot be larger than 1.5 MB. For larger
+        requests, use the **Create workspace asynchronously** method.
 
         :param str name: (optional) The name of the workspace. This string cannot
                contain carriage return, newline, or tab characters.
@@ -402,6 +407,7 @@ class AssistantV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         url = '/v1/workspaces'
@@ -459,6 +465,7 @@ class AssistantV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['workspace_id']
@@ -495,6 +502,8 @@ class AssistantV1(BaseService):
 
         Update an existing workspace with new or modified data. You must provide component
         objects defining the content of the updated workspace.
+        **Note:** The new workspace data cannot be larger than 1.5 MB. For larger
+        requests, use the **Update workspace asynchronously** method.
 
         :param str workspace_id: Unique identifier of the workspace.
         :param str name: (optional) The name of the workspace. This string cannot
@@ -579,6 +588,7 @@ class AssistantV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['workspace_id']
@@ -618,6 +628,7 @@ class AssistantV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['workspace_id']
@@ -625,6 +636,294 @@ class AssistantV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/workspaces/{workspace_id}'.format(**path_param_dict)
         request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request, **kwargs)
+        return response
+
+    def create_workspace_async(
+            self,
+            *,
+            name: str = None,
+            description: str = None,
+            language: str = None,
+            dialog_nodes: List['DialogNode'] = None,
+            counterexamples: List['Counterexample'] = None,
+            metadata: dict = None,
+            learning_opt_out: bool = None,
+            system_settings: 'WorkspaceSystemSettings' = None,
+            webhooks: List['Webhook'] = None,
+            intents: List['CreateIntent'] = None,
+            entities: List['CreateEntity'] = None,
+            **kwargs) -> DetailedResponse:
+        """
+        Create workspace asynchronously.
+
+        Create a workspace asynchronously based on component objects. You must provide
+        workspace components defining the content of the new workspace.
+        A successful call to this method only initiates asynchronous creation of the
+        workspace. The new workspace is not available until processing completes. To check
+        the status of the asynchronous operation, use the **Export workspace
+        asynchronously** method.
+
+        :param str name: (optional) The name of the workspace. This string cannot
+               contain carriage return, newline, or tab characters.
+        :param str description: (optional) The description of the workspace. This
+               string cannot contain carriage return, newline, or tab characters.
+        :param str language: (optional) The language of the workspace.
+        :param List[DialogNode] dialog_nodes: (optional) An array of objects
+               describing the dialog nodes in the workspace.
+        :param List[Counterexample] counterexamples: (optional) An array of objects
+               defining input examples that have been marked as irrelevant input.
+        :param dict metadata: (optional) Any metadata related to the workspace.
+        :param bool learning_opt_out: (optional) Whether training data from the
+               workspace (including artifacts such as intents and entities) can be used by
+               IBM for general service improvements. `true` indicates that workspace
+               training data is not to be used.
+        :param WorkspaceSystemSettings system_settings: (optional) Global settings
+               for the workspace.
+        :param List[Webhook] webhooks: (optional)
+        :param List[CreateIntent] intents: (optional) An array of objects defining
+               the intents for the workspace.
+        :param List[CreateEntity] entities: (optional) An array of objects
+               describing the entities for the workspace.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `Workspace` object
+        """
+
+        if dialog_nodes is not None:
+            dialog_nodes = [convert_model(x) for x in dialog_nodes]
+        if counterexamples is not None:
+            counterexamples = [convert_model(x) for x in counterexamples]
+        if system_settings is not None:
+            system_settings = convert_model(system_settings)
+        if webhooks is not None:
+            webhooks = [convert_model(x) for x in webhooks]
+        if intents is not None:
+            intents = [convert_model(x) for x in intents]
+        if entities is not None:
+            entities = [convert_model(x) for x in entities]
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='create_workspace_async')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        data = {
+            'name': name,
+            'description': description,
+            'language': language,
+            'dialog_nodes': dialog_nodes,
+            'counterexamples': counterexamples,
+            'metadata': metadata,
+            'learning_opt_out': learning_opt_out,
+            'system_settings': system_settings,
+            'webhooks': webhooks,
+            'intents': intents,
+            'entities': entities
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        url = '/v1/workspaces_async'
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data)
+
+        response = self.send(request, **kwargs)
+        return response
+
+    def update_workspace_async(
+            self,
+            workspace_id: str,
+            *,
+            name: str = None,
+            description: str = None,
+            language: str = None,
+            dialog_nodes: List['DialogNode'] = None,
+            counterexamples: List['Counterexample'] = None,
+            metadata: dict = None,
+            learning_opt_out: bool = None,
+            system_settings: 'WorkspaceSystemSettings' = None,
+            webhooks: List['Webhook'] = None,
+            intents: List['CreateIntent'] = None,
+            entities: List['CreateEntity'] = None,
+            append: bool = None,
+            **kwargs) -> DetailedResponse:
+        """
+        Update workspace asynchronously.
+
+        Update an existing workspace asynchronously with new or modified data. You must
+        provide component objects defining the content of the updated workspace.
+        A successful call to this method only initiates an asynchronous update of the
+        workspace. The updated workspace is not available until processing completes. To
+        check the status of the asynchronous operation, use the **Export workspace
+        asynchronously** method.
+
+        :param str workspace_id: Unique identifier of the workspace.
+        :param str name: (optional) The name of the workspace. This string cannot
+               contain carriage return, newline, or tab characters.
+        :param str description: (optional) The description of the workspace. This
+               string cannot contain carriage return, newline, or tab characters.
+        :param str language: (optional) The language of the workspace.
+        :param List[DialogNode] dialog_nodes: (optional) An array of objects
+               describing the dialog nodes in the workspace.
+        :param List[Counterexample] counterexamples: (optional) An array of objects
+               defining input examples that have been marked as irrelevant input.
+        :param dict metadata: (optional) Any metadata related to the workspace.
+        :param bool learning_opt_out: (optional) Whether training data from the
+               workspace (including artifacts such as intents and entities) can be used by
+               IBM for general service improvements. `true` indicates that workspace
+               training data is not to be used.
+        :param WorkspaceSystemSettings system_settings: (optional) Global settings
+               for the workspace.
+        :param List[Webhook] webhooks: (optional)
+        :param List[CreateIntent] intents: (optional) An array of objects defining
+               the intents for the workspace.
+        :param List[CreateEntity] entities: (optional) An array of objects
+               describing the entities for the workspace.
+        :param bool append: (optional) Whether the new data is to be appended to
+               the existing data in the object. If **append**=`false`, elements included
+               in the new data completely replace the corresponding existing elements,
+               including all subelements. For example, if the new data for a workspace
+               includes **entities** and **append**=`false`, all existing entities in the
+               workspace are discarded and replaced with the new entities.
+               If **append**=`true`, existing elements are preserved, and the new elements
+               are added. If any elements in the new data collide with existing elements,
+               the update request fails.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `Workspace` object
+        """
+
+        if workspace_id is None:
+            raise ValueError('workspace_id must be provided')
+        if dialog_nodes is not None:
+            dialog_nodes = [convert_model(x) for x in dialog_nodes]
+        if counterexamples is not None:
+            counterexamples = [convert_model(x) for x in counterexamples]
+        if system_settings is not None:
+            system_settings = convert_model(system_settings)
+        if webhooks is not None:
+            webhooks = [convert_model(x) for x in webhooks]
+        if intents is not None:
+            intents = [convert_model(x) for x in intents]
+        if entities is not None:
+            entities = [convert_model(x) for x in entities]
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='update_workspace_async')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version, 'append': append}
+
+        data = {
+            'name': name,
+            'description': description,
+            'language': language,
+            'dialog_nodes': dialog_nodes,
+            'counterexamples': counterexamples,
+            'metadata': metadata,
+            'learning_opt_out': learning_opt_out,
+            'system_settings': system_settings,
+            'webhooks': webhooks,
+            'intents': intents,
+            'entities': entities
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['workspace_id']
+        path_param_values = self.encode_path_vars(workspace_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/workspaces_async/{workspace_id}'.format(**path_param_dict)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data)
+
+        response = self.send(request, **kwargs)
+        return response
+
+    def export_workspace_async(self,
+                               workspace_id: str,
+                               *,
+                               include_audit: bool = None,
+                               sort: str = None,
+                               verbose: bool = None,
+                               **kwargs) -> DetailedResponse:
+        """
+        Export workspace asynchronously.
+
+        Export the entire workspace asynchronously, including all workspace content.
+        A successful call to this method only initiates an asynchronous export. The
+        exported JSON data is not available until processing completes. After the initial
+        request is submitted, you can continue to poll by calling the same request again
+        and checking the value of the **status** property. When processing has completed,
+        the request returns the exported JSON data. Remember that the usual rate limits
+        apply.
+
+        :param str workspace_id: Unique identifier of the workspace.
+        :param bool include_audit: (optional) Whether to include the audit
+               properties (`created` and `updated` timestamps) in the response.
+        :param str sort: (optional) Indicates how the returned workspace data will
+               be sorted. Specify `sort=stable` to sort all workspace objects by unique
+               identifier, in ascending alphabetical order.
+        :param bool verbose: (optional) Whether the response should include the
+               `counts` property, which indicates how many of each component (such as
+               intents and entities) the workspace contains.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `Workspace` object
+        """
+
+        if workspace_id is None:
+            raise ValueError('workspace_id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='export_workspace_async')
+        headers.update(sdk_headers)
+
+        params = {
+            'version': self.version,
+            'include_audit': include_audit,
+            'sort': sort,
+            'verbose': verbose
+        }
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['workspace_id']
+        path_param_values = self.encode_path_vars(workspace_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/workspaces_async/{workspace_id}/export'.format(
+            **path_param_dict)
+        request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
                                        params=params)
@@ -694,6 +993,7 @@ class AssistantV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['workspace_id']
@@ -765,6 +1065,7 @@ class AssistantV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['workspace_id']
@@ -823,6 +1124,7 @@ class AssistantV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['workspace_id', 'intent']
@@ -912,6 +1214,7 @@ class AssistantV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['workspace_id', 'intent']
@@ -956,6 +1259,7 @@ class AssistantV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['workspace_id', 'intent']
@@ -1032,6 +1336,7 @@ class AssistantV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['workspace_id', 'intent']
@@ -1100,6 +1405,7 @@ class AssistantV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['workspace_id', 'intent']
@@ -1154,6 +1460,7 @@ class AssistantV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['workspace_id', 'intent', 'text']
@@ -1224,6 +1531,7 @@ class AssistantV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['workspace_id', 'intent', 'text']
@@ -1271,6 +1579,7 @@ class AssistantV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['workspace_id', 'intent', 'text']
@@ -1343,6 +1652,7 @@ class AssistantV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['workspace_id']
@@ -1403,6 +1713,7 @@ class AssistantV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['workspace_id']
@@ -1455,6 +1766,7 @@ class AssistantV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['workspace_id', 'text']
@@ -1516,6 +1828,7 @@ class AssistantV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['workspace_id', 'text']
@@ -1562,6 +1875,7 @@ class AssistantV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['workspace_id', 'text']
@@ -1639,6 +1953,7 @@ class AssistantV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['workspace_id']
@@ -1719,6 +2034,7 @@ class AssistantV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['workspace_id']
@@ -1777,6 +2093,7 @@ class AssistantV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['workspace_id', 'entity']
@@ -1873,6 +2190,7 @@ class AssistantV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['workspace_id', 'entity']
@@ -1917,6 +2235,7 @@ class AssistantV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['workspace_id', 'entity']
@@ -1980,6 +2299,7 @@ class AssistantV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['workspace_id', 'entity']
@@ -2061,6 +2381,7 @@ class AssistantV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['workspace_id', 'entity']
@@ -2147,6 +2468,7 @@ class AssistantV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['workspace_id', 'entity']
@@ -2210,6 +2532,7 @@ class AssistantV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['workspace_id', 'entity', 'value']
@@ -2315,6 +2638,7 @@ class AssistantV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['workspace_id', 'entity', 'value']
@@ -2362,6 +2686,7 @@ class AssistantV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['workspace_id', 'entity', 'value']
@@ -2441,6 +2766,7 @@ class AssistantV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['workspace_id', 'entity', 'value']
@@ -2509,6 +2835,7 @@ class AssistantV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['workspace_id', 'entity', 'value']
@@ -2567,6 +2894,7 @@ class AssistantV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['workspace_id', 'entity', 'value', 'synonym']
@@ -2638,6 +2966,7 @@ class AssistantV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['workspace_id', 'entity', 'value', 'synonym']
@@ -2689,6 +3018,7 @@ class AssistantV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['workspace_id', 'entity', 'value', 'synonym']
@@ -2761,6 +3091,7 @@ class AssistantV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['workspace_id']
@@ -2912,6 +3243,7 @@ class AssistantV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['workspace_id']
@@ -2963,6 +3295,7 @@ class AssistantV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['workspace_id', 'dialog_node']
@@ -3119,6 +3452,7 @@ class AssistantV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['workspace_id', 'dialog_node']
@@ -3164,6 +3498,7 @@ class AssistantV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['workspace_id', 'dialog_node']
@@ -3196,6 +3531,10 @@ class AssistantV1(BaseService):
 
         List the events from the log of a specific workspace.
         This method requires Manager access.
+        **Note:** If you use the **cursor** parameter to retrieve results one page at a
+        time, subsequent requests must be no more than 5 minutes apart. Any returned value
+        for the **cursor** parameter becomes invalid after 5 minutes. For more information
+        about using pagination, see [Pagination](#pagination).
 
         :param str workspace_id: Unique identifier of the workspace.
         :param str sort: (optional) How to sort the returned log events. You can
@@ -3231,6 +3570,7 @@ class AssistantV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['workspace_id']
@@ -3256,6 +3596,10 @@ class AssistantV1(BaseService):
         List log events in all workspaces.
 
         List the events from the logs of all workspaces in the service instance.
+        **Note:** If you use the **cursor** parameter to retrieve results one page at a
+        time, subsequent requests must be no more than 5 minutes apart. Any returned value
+        for the **cursor** parameter becomes invalid after 5 minutes. For more information
+        about using pagination, see [Pagination](#pagination).
 
         :param str filter: A cacheable parameter that limits the results to those
                matching the specified filter. You must specify a filter query that
@@ -3295,6 +3639,7 @@ class AssistantV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         url = '/v1/logs'
@@ -3345,6 +3690,7 @@ class AssistantV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         url = '/v1/user_data'
@@ -3381,6 +3727,19 @@ class GetWorkspaceEnums:
         Indicates how the returned workspace data will be sorted. This parameter is valid
         only if **export**=`true`. Specify `sort=stable` to sort all workspace objects by
         unique identifier, in ascending alphabetical order.
+        """
+        STABLE = 'stable'
+
+
+class ExportWorkspaceAsyncEnums:
+    """
+    Enums for export_workspace_async parameters.
+    """
+
+    class Sort(str, Enum):
+        """
+        Indicates how the returned workspace data will be sorted. Specify `sort=stable` to
+        sort all workspace objects by unique identifier, in ascending alphabetical order.
         """
         STABLE = 'stable'
 
@@ -8988,17 +9347,20 @@ class RuntimeIntent():
     An intent identified in the user input.
 
     :attr str intent: The name of the recognized intent.
-    :attr float confidence: A decimal percentage that represents Watson's confidence
-          in the intent.
+    :attr float confidence: (optional) A decimal percentage that represents Watson's
+          confidence in the intent. If you are specifying an intent as part of a request,
+          but you do not have a calculated confidence value, specify `1`.
     """
 
-    def __init__(self, intent: str, confidence: float) -> None:
+    def __init__(self, intent: str, *, confidence: float = None) -> None:
         """
         Initialize a RuntimeIntent object.
 
         :param str intent: The name of the recognized intent.
-        :param float confidence: A decimal percentage that represents Watson's
-               confidence in the intent.
+        :param float confidence: (optional) A decimal percentage that represents
+               Watson's confidence in the intent. If you are specifying an intent as part
+               of a request, but you do not have a calculated confidence value, specify
+               `1`.
         """
         self.intent = intent
         self.confidence = confidence
@@ -9015,10 +9377,6 @@ class RuntimeIntent():
             )
         if 'confidence' in _dict:
             args['confidence'] = _dict.get('confidence')
-        else:
-            raise ValueError(
-                'Required property \'confidence\' not present in RuntimeIntent JSON'
-            )
         return cls(**args)
 
     @classmethod
@@ -9141,6 +9499,61 @@ class RuntimeResponseGeneric():
         if isinstance(disc_class, object):
             return disc_class
         raise TypeError('%s is not a discriminator class' % class_name)
+
+
+class StatusError():
+    """
+    An object describing an error that occurred during processing of an asynchronous
+    operation.
+
+    :attr str message: (optional) The text of the error message.
+    """
+
+    def __init__(self, *, message: str = None) -> None:
+        """
+        Initialize a StatusError object.
+
+        :param str message: (optional) The text of the error message.
+        """
+        self.message = message
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'StatusError':
+        """Initialize a StatusError object from a json dictionary."""
+        args = {}
+        if 'message' in _dict:
+            args['message'] = _dict.get('message')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a StatusError object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'message') and self.message is not None:
+            _dict['message'] = self.message
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this StatusError object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'StatusError') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'StatusError') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
 
 
 class Synonym():
@@ -9681,11 +10094,27 @@ class Workspace():
           improvements. `true` indicates that workspace training data is not to be used.
     :attr WorkspaceSystemSettings system_settings: (optional) Global settings for
           the workspace.
-    :attr str status: (optional) The current status of the workspace.
+    :attr str status: (optional) The current status of the workspace:
+           - **Available**: The workspace is available and ready to process messages.
+           - **Failed**: An asynchronous operation has failed. See the **status_errors**
+          property for more information about the cause of the failure. Returned only by
+          the **Export workspace asynchronously** method.
+           - **Non Existent**: The workspace does not exist.
+           - **Processing**: An asynchronous operation has not yet completed. Returned
+          only by the **Export workspace asynchronously** method.
+           - **Training**: The workspace is training based on new data such as intents or
+          examples.
+    :attr List[StatusError] status_errors: (optional) An array of messages about
+          errors that caused an asynchronous operation to fail.
     :attr List[Webhook] webhooks: (optional)
     :attr List[Intent] intents: (optional) An array of intents.
     :attr List[Entity] entities: (optional) An array of objects describing the
           entities for the workspace.
+    :attr WorkspaceCounts counts: (optional) An object containing properties that
+          indicate how many intents, entities, and dialog nodes are defined in the
+          workspace. This property is included only in responses from the **Export
+          workspace asynchronously** method, and only when the **verbose** query parameter
+          is set to `true`.
     """
 
     def __init__(self,
@@ -9702,9 +10131,11 @@ class Workspace():
                  metadata: dict = None,
                  system_settings: 'WorkspaceSystemSettings' = None,
                  status: str = None,
+                 status_errors: List['StatusError'] = None,
                  webhooks: List['Webhook'] = None,
                  intents: List['Intent'] = None,
-                 entities: List['Entity'] = None) -> None:
+                 entities: List['Entity'] = None,
+                 counts: 'WorkspaceCounts' = None) -> None:
         """
         Initialize a Workspace object.
 
@@ -9728,6 +10159,11 @@ class Workspace():
         :param List[Intent] intents: (optional) An array of intents.
         :param List[Entity] entities: (optional) An array of objects describing the
                entities for the workspace.
+        :param WorkspaceCounts counts: (optional) An object containing properties
+               that indicate how many intents, entities, and dialog nodes are defined in
+               the workspace. This property is included only in responses from the
+               **Export workspace asynchronously** method, and only when the **verbose**
+               query parameter is set to `true`.
         """
         self.name = name
         self.description = description
@@ -9741,9 +10177,11 @@ class Workspace():
         self.learning_opt_out = learning_opt_out
         self.system_settings = system_settings
         self.status = status
+        self.status_errors = status_errors
         self.webhooks = webhooks
         self.intents = intents
         self.entities = entities
+        self.counts = counts
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'Workspace':
@@ -9789,6 +10227,10 @@ class Workspace():
                 _dict.get('system_settings'))
         if 'status' in _dict:
             args['status'] = _dict.get('status')
+        if 'status_errors' in _dict:
+            args['status_errors'] = [
+                StatusError.from_dict(x) for x in _dict.get('status_errors')
+            ]
         if 'webhooks' in _dict:
             args['webhooks'] = [
                 Webhook.from_dict(x) for x in _dict.get('webhooks')
@@ -9801,6 +10243,8 @@ class Workspace():
             args['entities'] = [
                 Entity.from_dict(x) for x in _dict.get('entities')
             ]
+        if 'counts' in _dict:
+            args['counts'] = WorkspaceCounts.from_dict(_dict.get('counts'))
         return cls(**args)
 
     @classmethod
@@ -9841,12 +10285,19 @@ class Workspace():
             _dict['system_settings'] = self.system_settings.to_dict()
         if hasattr(self, 'status') and getattr(self, 'status') is not None:
             _dict['status'] = getattr(self, 'status')
+        if hasattr(self, 'status_errors') and getattr(
+                self, 'status_errors') is not None:
+            _dict['status_errors'] = [
+                x.to_dict() for x in getattr(self, 'status_errors')
+            ]
         if hasattr(self, 'webhooks') and self.webhooks is not None:
             _dict['webhooks'] = [x.to_dict() for x in self.webhooks]
         if hasattr(self, 'intents') and self.intents is not None:
             _dict['intents'] = [x.to_dict() for x in self.intents]
         if hasattr(self, 'entities') and self.entities is not None:
             _dict['entities'] = [x.to_dict() for x in self.entities]
+        if hasattr(self, 'counts') and self.counts is not None:
+            _dict['counts'] = self.counts.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -9869,12 +10320,22 @@ class Workspace():
 
     class StatusEnum(str, Enum):
         """
-        The current status of the workspace.
+        The current status of the workspace:
+         - **Available**: The workspace is available and ready to process messages.
+         - **Failed**: An asynchronous operation has failed. See the **status_errors**
+        property for more information about the cause of the failure. Returned only by the
+        **Export workspace asynchronously** method.
+         - **Non Existent**: The workspace does not exist.
+         - **Processing**: An asynchronous operation has not yet completed. Returned only
+        by the **Export workspace asynchronously** method.
+         - **Training**: The workspace is training based on new data such as intents or
+        examples.
         """
-        NON_EXISTENT = 'Non Existent'
-        TRAINING = 'Training'
-        FAILED = 'Failed'
         AVAILABLE = 'Available'
+        FAILED = 'Failed'
+        NON_EXISTENT = 'Non Existent'
+        PROCESSING = 'Processing'
+        TRAINING = 'Training'
         UNAVAILABLE = 'Unavailable'
 
 
@@ -9952,6 +10413,83 @@ class WorkspaceCollection():
         return not self == other
 
 
+class WorkspaceCounts():
+    """
+    An object containing properties that indicate how many intents, entities, and dialog
+    nodes are defined in the workspace. This property is included only in responses from
+    the **Export workspace asynchronously** method, and only when the **verbose** query
+    parameter is set to `true`.
+
+    :attr int intent: (optional) The number of intents defined in the workspace.
+    :attr int entity: (optional) The number of entities defined in the workspace.
+    :attr int node: (optional) The number of nodes defined in the workspace.
+    """
+
+    def __init__(self,
+                 *,
+                 intent: int = None,
+                 entity: int = None,
+                 node: int = None) -> None:
+        """
+        Initialize a WorkspaceCounts object.
+
+        :param int intent: (optional) The number of intents defined in the
+               workspace.
+        :param int entity: (optional) The number of entities defined in the
+               workspace.
+        :param int node: (optional) The number of nodes defined in the workspace.
+        """
+        self.intent = intent
+        self.entity = entity
+        self.node = node
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'WorkspaceCounts':
+        """Initialize a WorkspaceCounts object from a json dictionary."""
+        args = {}
+        if 'intent' in _dict:
+            args['intent'] = _dict.get('intent')
+        if 'entity' in _dict:
+            args['entity'] = _dict.get('entity')
+        if 'node' in _dict:
+            args['node'] = _dict.get('node')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a WorkspaceCounts object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'intent') and self.intent is not None:
+            _dict['intent'] = self.intent
+        if hasattr(self, 'entity') and self.entity is not None:
+            _dict['entity'] = self.entity
+        if hasattr(self, 'node') and self.node is not None:
+            _dict['node'] = self.node
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this WorkspaceCounts object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'WorkspaceCounts') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'WorkspaceCounts') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class WorkspaceSystemSettings():
     """
     Global settings for the workspace.
@@ -9973,13 +10511,15 @@ class WorkspaceSystemSettings():
           Workspace settings related to the behavior of system entities.
     :attr WorkspaceSystemSettingsOffTopic off_topic: (optional) Workspace settings
           related to detection of irrelevant input.
+    :attr WorkspaceSystemSettingsNlp nlp: (optional) Workspace settings related to
+          the version of the training algorithms currently used by the skill.
     """
 
     # The set of defined properties for the class
     _properties = frozenset([
         'tooling', 'disambiguation', 'human_agent_assist',
         'spelling_suggestions', 'spelling_auto_correct', 'system_entities',
-        'off_topic'
+        'off_topic', 'nlp'
     ])
 
     def __init__(
@@ -9992,6 +10532,7 @@ class WorkspaceSystemSettings():
             spelling_auto_correct: bool = None,
             system_entities: 'WorkspaceSystemSettingsSystemEntities' = None,
             off_topic: 'WorkspaceSystemSettingsOffTopic' = None,
+            nlp: 'WorkspaceSystemSettingsNlp' = None,
             **kwargs) -> None:
         """
         Initialize a WorkspaceSystemSettings object.
@@ -10014,6 +10555,9 @@ class WorkspaceSystemSettings():
                Workspace settings related to the behavior of system entities.
         :param WorkspaceSystemSettingsOffTopic off_topic: (optional) Workspace
                settings related to detection of irrelevant input.
+        :param WorkspaceSystemSettingsNlp nlp: (optional) Workspace settings
+               related to the version of the training algorithms currently used by the
+               skill.
         :param **kwargs: (optional) Any additional properties.
         """
         self.tooling = tooling
@@ -10023,6 +10567,7 @@ class WorkspaceSystemSettings():
         self.spelling_auto_correct = spelling_auto_correct
         self.system_entities = system_entities
         self.off_topic = off_topic
+        self.nlp = nlp
         for _key, _value in kwargs.items():
             setattr(self, _key, _value)
 
@@ -10050,6 +10595,8 @@ class WorkspaceSystemSettings():
         if 'off_topic' in _dict:
             args['off_topic'] = WorkspaceSystemSettingsOffTopic.from_dict(
                 _dict.get('off_topic'))
+        if 'nlp' in _dict:
+            args['nlp'] = WorkspaceSystemSettingsNlp.from_dict(_dict.get('nlp'))
         args.update(
             {k: v for (k, v) in _dict.items() if k not in cls._properties})
         return cls(**args)
@@ -10081,6 +10628,8 @@ class WorkspaceSystemSettings():
             _dict['system_entities'] = self.system_entities.to_dict()
         if hasattr(self, 'off_topic') and self.off_topic is not None:
             _dict['off_topic'] = self.off_topic.to_dict()
+        if hasattr(self, 'nlp') and self.nlp is not None:
+            _dict['nlp'] = self.nlp.to_dict()
         for _key in [
                 k for k in vars(self).keys()
                 if k not in WorkspaceSystemSettings._properties
@@ -10268,6 +10817,76 @@ class WorkspaceSystemSettingsDisambiguation():
         MEDIUM = 'medium'
         MEDIUM_LOW = 'medium_low'
         LOW = 'low'
+
+
+class WorkspaceSystemSettingsNlp():
+    """
+    Workspace settings related to the version of the training algorithms currently used by
+    the skill.
+
+    :attr str model: (optional) The policy the skill follows for selecting the
+          algorithm version to use:
+           - `baseline`: the latest mature version
+           - `beta`: the latest beta version.
+    """
+
+    def __init__(self, *, model: str = None) -> None:
+        """
+        Initialize a WorkspaceSystemSettingsNlp object.
+
+        :param str model: (optional) The policy the skill follows for selecting the
+               algorithm version to use:
+                - `baseline`: the latest mature version
+                - `beta`: the latest beta version.
+        """
+        self.model = model
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'WorkspaceSystemSettingsNlp':
+        """Initialize a WorkspaceSystemSettingsNlp object from a json dictionary."""
+        args = {}
+        if 'model' in _dict:
+            args['model'] = _dict.get('model')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a WorkspaceSystemSettingsNlp object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'model') and self.model is not None:
+            _dict['model'] = self.model
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this WorkspaceSystemSettingsNlp object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'WorkspaceSystemSettingsNlp') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'WorkspaceSystemSettingsNlp') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class ModelEnum(str, Enum):
+        """
+        The policy the skill follows for selecting the algorithm version to use:
+         - `baseline`: the latest mature version
+         - `beta`: the latest beta version.
+        """
+        BASELINE = 'baseline'
+        BETA = 'beta'
 
 
 class WorkspaceSystemSettingsOffTopic():
