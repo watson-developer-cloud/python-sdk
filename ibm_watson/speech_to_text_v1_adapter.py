@@ -45,7 +45,6 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
                                   speaker_labels=None,
                                   http_proxy_host=None,
                                   http_proxy_port=None,
-                                  customization_id=None,
                                   grammar_name=None,
                                   redaction=None,
                                   processing_metrics=None,
@@ -56,6 +55,7 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
                                   speech_detector_sensitivity=None,
                                   background_audio_suppression=None,
                                   low_latency=None,
+                                  character_insertion_bias: float = None,
                                   **kwargs):
         """
         Sends audio for speech recognition using web sockets.
@@ -190,10 +190,6 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
                labels](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-speaker-labels).
         :param str http_proxy_host: http proxy host name.
         :param str http_proxy_port: http proxy port. If not set, set to 80.
-        :param str customization_id: (optional) **Deprecated.** Use the
-               `language_customization_id` parameter to specify the customization ID
-               (GUID) of a custom language model that is to be used with the recognition
-               request. Do not specify both parameters with a request.
         :param str grammar_name: (optional) The name of a grammar that is to be
                used with the recognition request. If you specify a grammar, you must also
                use the `language_customization_id` parameter to specify the name of the
@@ -287,6 +283,28 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
                for next-generation models.
                * For more information about the `low_latency` parameter, see [Low
                latency](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-interim#low-latency).
+        :param float character_insertion_bias: (optional) For next-generation
+               `Multimedia` and `Telephony` models, an indication of whether the service
+               is biased to recognize shorter or longer strings of characters when
+               developing transcription hypotheses. By default, the service is optimized
+               for each individual model to balance its recognition of strings of
+               different lengths. The model-specific bias is equivalent to 0.0.
+               The value that you specify represents a change from a model's default bias.
+               The allowable range of values is -1.0 to 1.0.
+               * Negative values bias the service to favor hypotheses with shorter strings
+               of characters.
+               * Positive values bias the service to favor hypotheses with longer strings
+               of characters.
+               As the value approaches -1.0 or 1.0, the impact of the parameter becomes
+               more pronounced. To determine the most effective value for your scenario,
+               start by setting the value of the parameter to a small increment, such as
+               -0.1, -0.05, 0.05, or 0.1, and assess how the value impacts the
+               transcription results. Then experiment with different values as necessary,
+               adjusting the value by small increments.
+               The parameter is not available for previous-generation `Broadband` and
+               `Narrowband` models.
+               See [Character insertion
+               bias](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-parsing#insertion-bias).
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `SpeechRecognitionResults` response.
         :rtype: dict
@@ -321,7 +339,6 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
 
         params = {
             'model': model,
-            'customization_id': customization_id,
             'acoustic_customization_id': acoustic_customization_id,
             'base_model_version': base_model_version,
             'language_customization_id': language_customization_id
@@ -353,7 +370,8 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
             'split_transcript_at_phrase_end': split_transcript_at_phrase_end,
             'speech_detector_sensitivity': speech_detector_sensitivity,
             'background_audio_suppression': background_audio_suppression,
-            'low_latency': low_latency
+            'low_latency': low_latency,
+            'character_insertion_bias': character_insertion_bias
         }
         options = {k: v for k, v in options.items() if v is not None}
         request['options'] = options
