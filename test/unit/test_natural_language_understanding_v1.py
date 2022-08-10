@@ -162,7 +162,7 @@ class TestAnalyze():
         features_model['emotion'] = emotion_options_model
         features_model['entities'] = entities_options_model
         features_model['keywords'] = keywords_options_model
-        features_model['metadata'] = {}
+        features_model['metadata'] = {'key1': 'testString'}
         features_model['relations'] = relations_options_model
         features_model['semantic_roles'] = semantic_roles_options_model
         features_model['sentiment'] = sentiment_options_model
@@ -306,7 +306,7 @@ class TestAnalyze():
         features_model['emotion'] = emotion_options_model
         features_model['entities'] = entities_options_model
         features_model['keywords'] = keywords_options_model
-        features_model['metadata'] = {}
+        features_model['metadata'] = {'key1': 'testString'}
         features_model['relations'] = relations_options_model
         features_model['semantic_roles'] = semantic_roles_options_model
         features_model['sentiment'] = sentiment_options_model
@@ -334,7 +334,6 @@ class TestAnalyze():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.analyze(**req_copy)
-
 
     def test_analyze_value_error_with_retries(self):
         # Enable retries and run test_analyze_value_error.
@@ -413,7 +412,6 @@ class TestListModels():
             with pytest.raises(ValueError):
                 _service.list_models(**req_copy)
 
-
     def test_list_models_value_error_with_retries(self):
         # Enable retries and run test_list_models_value_error.
         _service.enable_retries()
@@ -489,7 +487,6 @@ class TestDeleteModel():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_model(**req_copy)
-
 
     def test_delete_model_value_error_with_retries(self):
         # Enable retries and run test_delete_model_value_error.
@@ -629,7 +626,6 @@ class TestCreateSentimentModel():
             with pytest.raises(ValueError):
                 _service.create_sentiment_model(**req_copy)
 
-
     def test_create_sentiment_model_value_error_with_retries(self):
         # Enable retries and run test_create_sentiment_model_value_error.
         _service.enable_retries()
@@ -696,7 +692,6 @@ class TestListSentimentModels():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_sentiment_models(**req_copy)
-
 
     def test_list_sentiment_models_value_error_with_retries(self):
         # Enable retries and run test_list_sentiment_models_value_error.
@@ -773,7 +768,6 @@ class TestGetSentimentModel():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_sentiment_model(**req_copy)
-
 
     def test_get_sentiment_model_value_error_with_retries(self):
         # Enable retries and run test_get_sentiment_model_value_error.
@@ -909,7 +903,6 @@ class TestUpdateSentimentModel():
             with pytest.raises(ValueError):
                 _service.update_sentiment_model(**req_copy)
 
-
     def test_update_sentiment_model_value_error_with_retries(self):
         # Enable retries and run test_update_sentiment_model_value_error.
         _service.enable_retries()
@@ -985,7 +978,6 @@ class TestDeleteSentimentModel():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_sentiment_model(**req_copy)
-
 
     def test_delete_sentiment_model_value_error_with_retries(self):
         # Enable retries and run test_delete_sentiment_model_value_error.
@@ -1127,7 +1119,6 @@ class TestCreateCategoriesModel():
             with pytest.raises(ValueError):
                 _service.create_categories_model(**req_copy)
 
-
     def test_create_categories_model_value_error_with_retries(self):
         # Enable retries and run test_create_categories_model_value_error.
         _service.enable_retries()
@@ -1194,7 +1185,6 @@ class TestListCategoriesModels():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_categories_models(**req_copy)
-
 
     def test_list_categories_models_value_error_with_retries(self):
         # Enable retries and run test_list_categories_models_value_error.
@@ -1271,7 +1261,6 @@ class TestGetCategoriesModel():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_categories_model(**req_copy)
-
 
     def test_get_categories_model_value_error_with_retries(self):
         # Enable retries and run test_get_categories_model_value_error.
@@ -1409,7 +1398,6 @@ class TestUpdateCategoriesModel():
             with pytest.raises(ValueError):
                 _service.update_categories_model(**req_copy)
 
-
     def test_update_categories_model_value_error_with_retries(self):
         # Enable retries and run test_update_categories_model_value_error.
         _service.enable_retries()
@@ -1486,7 +1474,6 @@ class TestDeleteCategoriesModel():
             with pytest.raises(ValueError):
                 _service.delete_categories_model(**req_copy)
 
-
     def test_delete_categories_model_value_error_with_retries(self):
         # Enable retries and run test_delete_categories_model_value_error.
         _service.enable_retries()
@@ -1525,6 +1512,10 @@ class TestCreateClassificationsModel():
                       content_type='application/json',
                       status=201)
 
+        # Construct a dict representation of a ClassificationsTrainingParameters model
+        classifications_training_parameters_model = {}
+        classifications_training_parameters_model['model_type'] = 'single_label'
+
         # Set up parameter values
         language = 'testString'
         training_data = io.BytesIO(b'This is a mock file.').getvalue()
@@ -1534,6 +1525,7 @@ class TestCreateClassificationsModel():
         model_version = 'testString'
         workspace_id = 'testString'
         version_description = 'testString'
+        training_parameters = classifications_training_parameters_model
 
         # Invoke method
         response = _service.create_classifications_model(
@@ -1545,6 +1537,7 @@ class TestCreateClassificationsModel():
             model_version=model_version,
             workspace_id=workspace_id,
             version_description=version_description,
+            training_parameters=training_parameters,
             headers={}
         )
 
@@ -1627,7 +1620,6 @@ class TestCreateClassificationsModel():
             with pytest.raises(ValueError):
                 _service.create_classifications_model(**req_copy)
 
-
     def test_create_classifications_model_value_error_with_retries(self):
         # Enable retries and run test_create_classifications_model_value_error.
         _service.enable_retries()
@@ -1694,7 +1686,6 @@ class TestListClassificationsModels():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_classifications_models(**req_copy)
-
 
     def test_list_classifications_models_value_error_with_retries(self):
         # Enable retries and run test_list_classifications_models_value_error.
@@ -1772,7 +1763,6 @@ class TestGetClassificationsModel():
             with pytest.raises(ValueError):
                 _service.get_classifications_model(**req_copy)
 
-
     def test_get_classifications_model_value_error_with_retries(self):
         # Enable retries and run test_get_classifications_model_value_error.
         _service.enable_retries()
@@ -1801,6 +1791,10 @@ class TestUpdateClassificationsModel():
                       content_type='application/json',
                       status=200)
 
+        # Construct a dict representation of a ClassificationsTrainingParameters model
+        classifications_training_parameters_model = {}
+        classifications_training_parameters_model['model_type'] = 'single_label'
+
         # Set up parameter values
         model_id = 'testString'
         language = 'testString'
@@ -1811,6 +1805,7 @@ class TestUpdateClassificationsModel():
         model_version = 'testString'
         workspace_id = 'testString'
         version_description = 'testString'
+        training_parameters = classifications_training_parameters_model
 
         # Invoke method
         response = _service.update_classifications_model(
@@ -1823,6 +1818,7 @@ class TestUpdateClassificationsModel():
             model_version=model_version,
             workspace_id=workspace_id,
             version_description=version_description,
+            training_parameters=training_parameters,
             headers={}
         )
 
@@ -1909,7 +1905,6 @@ class TestUpdateClassificationsModel():
             with pytest.raises(ValueError):
                 _service.update_classifications_model(**req_copy)
 
-
     def test_update_classifications_model_value_error_with_retries(self):
         # Enable retries and run test_update_classifications_model_value_error.
         _service.enable_retries()
@@ -1985,7 +1980,6 @@ class TestDeleteClassificationsModel():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_classifications_model(**req_copy)
-
 
     def test_delete_classifications_model_value_error_with_retries(self):
         # Enable retries and run test_delete_classifications_model_value_error.
@@ -2288,7 +2282,7 @@ class TestModel_CategoriesModel():
         # Construct a json representation of a CategoriesModel model
         categories_model_model_json = {}
         categories_model_model_json['name'] = 'testString'
-        categories_model_model_json['user_metadata'] = {}
+        categories_model_model_json['user_metadata'] = {'key1': {'foo': 'bar'}}
         categories_model_model_json['language'] = 'testString'
         categories_model_model_json['description'] = 'testString'
         categories_model_model_json['model_version'] = 'testString'
@@ -2334,7 +2328,7 @@ class TestModel_CategoriesModelList():
 
         categories_model_model = {} # CategoriesModel
         categories_model_model['name'] = 'testString'
-        categories_model_model['user_metadata'] = {}
+        categories_model_model['user_metadata'] = {'key1': {'foo': 'bar'}}
         categories_model_model['language'] = 'testString'
         categories_model_model['description'] = 'testString'
         categories_model_model['model_version'] = 'testString'
@@ -2518,7 +2512,7 @@ class TestModel_ClassificationsModel():
         # Construct a json representation of a ClassificationsModel model
         classifications_model_model_json = {}
         classifications_model_model_json['name'] = 'testString'
-        classifications_model_model_json['user_metadata'] = {}
+        classifications_model_model_json['user_metadata'] = {'key1': {'foo': 'bar'}}
         classifications_model_model_json['language'] = 'testString'
         classifications_model_model_json['description'] = 'testString'
         classifications_model_model_json['model_version'] = 'testString'
@@ -2564,7 +2558,7 @@ class TestModel_ClassificationsModelList():
 
         classifications_model_model = {} # ClassificationsModel
         classifications_model_model['name'] = 'testString'
-        classifications_model_model['user_metadata'] = {}
+        classifications_model_model['user_metadata'] = {'key1': {'foo': 'bar'}}
         classifications_model_model['language'] = 'testString'
         classifications_model_model['description'] = 'testString'
         classifications_model_model['model_version'] = 'testString'
@@ -2655,6 +2649,35 @@ class TestModel_ClassificationsResult():
         # Convert model instance back to dict and verify no loss of data
         classifications_result_model_json2 = classifications_result_model.to_dict()
         assert classifications_result_model_json2 == classifications_result_model_json
+
+class TestModel_ClassificationsTrainingParameters():
+    """
+    Test Class for ClassificationsTrainingParameters
+    """
+
+    def test_classifications_training_parameters_serialization(self):
+        """
+        Test serialization/deserialization for ClassificationsTrainingParameters
+        """
+
+        # Construct a json representation of a ClassificationsTrainingParameters model
+        classifications_training_parameters_model_json = {}
+        classifications_training_parameters_model_json['model_type'] = 'single_label'
+
+        # Construct a model instance of ClassificationsTrainingParameters by calling from_dict on the json representation
+        classifications_training_parameters_model = ClassificationsTrainingParameters.from_dict(classifications_training_parameters_model_json)
+        assert classifications_training_parameters_model != False
+
+        # Construct a model instance of ClassificationsTrainingParameters by calling from_dict on the json representation
+        classifications_training_parameters_model_dict = ClassificationsTrainingParameters.from_dict(classifications_training_parameters_model_json).__dict__
+        classifications_training_parameters_model2 = ClassificationsTrainingParameters(**classifications_training_parameters_model_dict)
+
+        # Verify the model instances are equivalent
+        assert classifications_training_parameters_model == classifications_training_parameters_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        classifications_training_parameters_model_json2 = classifications_training_parameters_model.to_dict()
+        assert classifications_training_parameters_model_json2 == classifications_training_parameters_model_json
 
 class TestModel_ConceptsOptions():
     """
@@ -3175,7 +3198,7 @@ class TestModel_Features():
         features_model_json['emotion'] = emotion_options_model
         features_model_json['entities'] = entities_options_model
         features_model_json['keywords'] = keywords_options_model
-        features_model_json['metadata'] = {}
+        features_model_json['metadata'] = {'key1': 'testString'}
         features_model_json['relations'] = relations_options_model
         features_model_json['semantic_roles'] = semantic_roles_options_model
         features_model_json['sentiment'] = sentiment_options_model
@@ -3409,7 +3432,7 @@ class TestModel_ListSentimentModelsResponse():
         sentiment_model_model['last_trained'] = '2019-01-01T12:00:00Z'
         sentiment_model_model['last_deployed'] = '2019-01-01T12:00:00Z'
         sentiment_model_model['name'] = 'testString'
-        sentiment_model_model['user_metadata'] = {}
+        sentiment_model_model['user_metadata'] = {'key1': {'foo': 'bar'}}
         sentiment_model_model['language'] = 'testString'
         sentiment_model_model['description'] = 'testString'
         sentiment_model_model['model_version'] = 'testString'
@@ -3986,7 +4009,7 @@ class TestModel_SentimentModel():
         sentiment_model_model_json['last_trained'] = '2019-01-01T12:00:00Z'
         sentiment_model_model_json['last_deployed'] = '2019-01-01T12:00:00Z'
         sentiment_model_model_json['name'] = 'testString'
-        sentiment_model_model_json['user_metadata'] = {}
+        sentiment_model_model_json['user_metadata'] = {'key1': {'foo': 'bar'}}
         sentiment_model_model_json['language'] = 'testString'
         sentiment_model_model_json['description'] = 'testString'
         sentiment_model_model_json['model_version'] = 'testString'

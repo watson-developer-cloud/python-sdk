@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 3.46.0-a4e29da0-20220224-210428
+# IBM OpenAPI SDK Code Generator Version: 3.53.0-9710cac3-20220713-193508
 """
 Analyze various features of text content at scale. Provide text, raw HTML, or a public URL
 and IBM Watson Natural Language Understanding will give you results for the features you
@@ -62,7 +62,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
         Construct a new client for the Natural Language Understanding service.
 
         :param str version: Release date of the API version you want to use.
-               Specify dates in YYYY-MM-DD format. The current version is `2021-08-01`.
+               Specify dates in YYYY-MM-DD format. The current version is `2022-04-07`.
 
         :param Authenticator authenticator: The authenticator specifies the authentication mechanism.
                Get up to date information from https://github.com/IBM/python-sdk-core/blob/main/README.md
@@ -176,6 +176,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         url = '/v1/analyze'
@@ -215,6 +216,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         url = '/v1/models'
@@ -250,6 +252,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['model_id']
@@ -331,6 +334,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         url = '/v1/models/sentiment'
@@ -364,6 +368,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         url = '/v1/models/sentiment'
@@ -399,6 +404,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['model_id']
@@ -479,6 +485,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['model_id']
@@ -520,6 +527,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['model_id']
@@ -606,6 +614,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         url = '/v1/models/categories'
@@ -639,6 +648,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         url = '/v1/models/categories'
@@ -674,6 +684,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['model_id']
@@ -759,6 +770,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['model_id']
@@ -800,6 +812,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['model_id']
@@ -818,17 +831,19 @@ class NaturalLanguageUnderstandingV1(BaseService):
     # Manage classifications models
     #########################
 
-    def create_classifications_model(self,
-                                     language: str,
-                                     training_data: BinaryIO,
-                                     *,
-                                     training_data_content_type: str = None,
-                                     name: str = None,
-                                     description: str = None,
-                                     model_version: str = None,
-                                     workspace_id: str = None,
-                                     version_description: str = None,
-                                     **kwargs) -> DetailedResponse:
+    def create_classifications_model(
+            self,
+            language: str,
+            training_data: BinaryIO,
+            *,
+            training_data_content_type: str = None,
+            name: str = None,
+            description: str = None,
+            model_version: str = None,
+            workspace_id: str = None,
+            version_description: str = None,
+            training_parameters: 'ClassificationsTrainingParameters' = None,
+            **kwargs) -> DetailedResponse:
         """
         Create classifications model.
 
@@ -848,6 +863,9 @@ class NaturalLanguageUnderstandingV1(BaseService):
         :param str workspace_id: (optional) ID of the Watson Knowledge Studio
                workspace that deployed this model to Natural Language Understanding.
         :param str version_description: (optional) The description of the version.
+        :param ClassificationsTrainingParameters training_parameters: (optional)
+               Optional classifications training parameters along with model train
+               requests.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `ClassificationsModel` object
@@ -884,9 +902,14 @@ class NaturalLanguageUnderstandingV1(BaseService):
         if version_description:
             form_data.append(('version_description', (None, version_description,
                                                       'text/plain')))
+        if training_parameters:
+            form_data.append(
+                ('training_parameters', (None, json.dumps(training_parameters),
+                                         'application/json')))
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         url = '/v1/models/classifications'
@@ -921,6 +944,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         url = '/v1/models/classifications'
@@ -957,6 +981,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['model_id']
@@ -971,18 +996,20 @@ class NaturalLanguageUnderstandingV1(BaseService):
         response = self.send(request, **kwargs)
         return response
 
-    def update_classifications_model(self,
-                                     model_id: str,
-                                     language: str,
-                                     training_data: BinaryIO,
-                                     *,
-                                     training_data_content_type: str = None,
-                                     name: str = None,
-                                     description: str = None,
-                                     model_version: str = None,
-                                     workspace_id: str = None,
-                                     version_description: str = None,
-                                     **kwargs) -> DetailedResponse:
+    def update_classifications_model(
+            self,
+            model_id: str,
+            language: str,
+            training_data: BinaryIO,
+            *,
+            training_data_content_type: str = None,
+            name: str = None,
+            description: str = None,
+            model_version: str = None,
+            workspace_id: str = None,
+            version_description: str = None,
+            training_parameters: 'ClassificationsTrainingParameters' = None,
+            **kwargs) -> DetailedResponse:
         """
         Update classifications model.
 
@@ -1002,6 +1029,9 @@ class NaturalLanguageUnderstandingV1(BaseService):
         :param str workspace_id: (optional) ID of the Watson Knowledge Studio
                workspace that deployed this model to Natural Language Understanding.
         :param str version_description: (optional) The description of the version.
+        :param ClassificationsTrainingParameters training_parameters: (optional)
+               Optional classifications training parameters along with model train
+               requests.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `ClassificationsModel` object
@@ -1040,9 +1070,14 @@ class NaturalLanguageUnderstandingV1(BaseService):
         if version_description:
             form_data.append(('version_description', (None, version_description,
                                                       'text/plain')))
+        if training_parameters:
+            form_data.append(
+                ('training_parameters', (None, json.dumps(training_parameters),
+                                         'application/json')))
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['model_id']
@@ -1085,6 +1120,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['model_id']
@@ -2431,6 +2467,69 @@ class ClassificationsResult():
     def __ne__(self, other: 'ClassificationsResult') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
+
+
+class ClassificationsTrainingParameters():
+    """
+    Optional classifications training parameters along with model train requests.
+
+    :attr str model_type: (optional) Model type selector to train either a
+          single_label or a multi_label classifier.
+    """
+
+    def __init__(self, *, model_type: str = None) -> None:
+        """
+        Initialize a ClassificationsTrainingParameters object.
+
+        :param str model_type: (optional) Model type selector to train either a
+               single_label or a multi_label classifier.
+        """
+        self.model_type = model_type
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ClassificationsTrainingParameters':
+        """Initialize a ClassificationsTrainingParameters object from a json dictionary."""
+        args = {}
+        if 'model_type' in _dict:
+            args['model_type'] = _dict.get('model_type')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ClassificationsTrainingParameters object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'model_type') and self.model_type is not None:
+            _dict['model_type'] = self.model_type
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ClassificationsTrainingParameters object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ClassificationsTrainingParameters') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ClassificationsTrainingParameters') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class ModelTypeEnum(str, Enum):
+        """
+        Model type selector to train either a single_label or a multi_label classifier.
+        """
+        SINGLE_LABEL = 'single_label'
+        MULTI_LABEL = 'multi_label'
 
 
 class ConceptsOptions():
