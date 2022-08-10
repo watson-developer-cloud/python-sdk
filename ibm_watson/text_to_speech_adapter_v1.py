@@ -30,7 +30,7 @@ class TextToSpeechV1Adapter(TextToSpeechV1):
                                    voice=None,
                                    timings=None,
                                    customization_id=None,
-                                   spell_out_mode: str = None,
+                                   spell_out_mode=None,
                                    http_proxy_host=None,
                                    http_proxy_port=None,
                                    **kwargs):
