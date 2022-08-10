@@ -14,9 +14,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 3.46.0-a4e29da0-20220224-210428
+# IBM OpenAPI SDK Code Generator Version: 3.53.0-9710cac3-20220713-193508
 """
-IBM Watson&trade; Discovery is a cognitive search and content analytics engine that you
+IBM Watson&trade; Discovery v1 is a cognitive search and content analytics engine that you
 can add to applications to identify patterns, trends and actionable insights to drive
 better decision-making. Securely unify structured and unstructured data with pre-enriched
 content, and use a simplified query language to eliminate the need for manual filtering of
@@ -124,6 +124,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         url = '/v1/environments'
@@ -161,6 +162,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         url = '/v1/environments'
@@ -195,6 +197,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['environment_id']
@@ -249,6 +252,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['environment_id']
@@ -287,6 +291,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['environment_id']
@@ -334,6 +339,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['environment_id']
@@ -430,6 +436,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['environment_id']
@@ -475,6 +482,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['environment_id']
@@ -516,6 +524,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['environment_id', 'configuration_id']
@@ -612,6 +621,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['environment_id', 'configuration_id']
@@ -662,6 +672,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['environment_id', 'configuration_id']
@@ -729,6 +740,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['environment_id']
@@ -774,6 +786,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['environment_id']
@@ -815,6 +828,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['environment_id', 'collection_id']
@@ -877,6 +891,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['environment_id', 'collection_id']
@@ -919,6 +934,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['environment_id', 'collection_id']
@@ -962,6 +978,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['environment_id', 'collection_id']
@@ -1010,6 +1027,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['environment_id', 'collection_id']
@@ -1077,6 +1095,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['environment_id', 'collection_id']
@@ -1122,6 +1141,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
 
         path_param_keys = ['environment_id', 'collection_id']
         path_param_values = self.encode_path_vars(environment_id, collection_id)
@@ -1167,6 +1187,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['environment_id', 'collection_id']
@@ -1227,6 +1248,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['environment_id', 'collection_id']
@@ -1273,6 +1295,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
 
         path_param_keys = ['environment_id', 'collection_id']
         path_param_values = self.encode_path_vars(environment_id, collection_id)
@@ -1315,6 +1338,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['environment_id', 'collection_id']
@@ -1375,6 +1399,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['environment_id', 'collection_id']
@@ -1420,6 +1445,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
 
         path_param_keys = ['environment_id', 'collection_id']
         path_param_values = self.encode_path_vars(environment_id, collection_id)
@@ -1514,6 +1540,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['environment_id', 'collection_id']
@@ -1564,6 +1591,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['environment_id', 'collection_id', 'document_id']
@@ -1644,6 +1672,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['environment_id', 'collection_id', 'document_id']
@@ -1694,6 +1723,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['environment_id', 'collection_id', 'document_id']
@@ -1868,6 +1898,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['environment_id', 'collection_id']
@@ -2009,6 +2040,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['environment_id', 'collection_id']
@@ -2172,6 +2204,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['environment_id']
@@ -2297,6 +2330,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['environment_id']
@@ -2361,6 +2395,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['environment_id', 'collection_id']
@@ -2408,6 +2443,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['environment_id', 'collection_id']
@@ -2475,6 +2511,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['environment_id', 'collection_id']
@@ -2519,6 +2556,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
 
         path_param_keys = ['environment_id', 'collection_id']
         path_param_values = self.encode_path_vars(environment_id, collection_id)
@@ -2565,6 +2603,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['environment_id', 'collection_id', 'query_id']
@@ -2613,6 +2652,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
 
         path_param_keys = ['environment_id', 'collection_id', 'query_id']
         path_param_values = self.encode_path_vars(environment_id, collection_id,
@@ -2659,6 +2699,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['environment_id', 'collection_id', 'query_id']
@@ -2727,6 +2768,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['environment_id', 'collection_id', 'query_id']
@@ -2779,6 +2821,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
 
         path_param_keys = [
             'environment_id', 'collection_id', 'query_id', 'example_id'
@@ -2844,6 +2887,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = [
@@ -2898,6 +2942,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = [
@@ -2950,6 +2995,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
 
         url = '/v1/user_data'
         request = self.prepare_request(method='DELETE',
@@ -3000,6 +3046,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         url = '/v1/events'
@@ -3065,6 +3112,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         url = '/v1/logs'
@@ -3114,6 +3162,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         url = '/v1/metrics/number_of_queries'
@@ -3164,6 +3213,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         url = '/v1/metrics/number_of_queries_with_event'
@@ -3214,6 +3264,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         url = '/v1/metrics/number_of_queries_with_no_search_results'
@@ -3264,6 +3315,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         url = '/v1/metrics/event_rate'
@@ -3305,6 +3357,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         url = '/v1/metrics/top_query_tokens_with_event_rate'
@@ -3347,6 +3400,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['environment_id']
@@ -3424,6 +3478,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['environment_id']
@@ -3471,6 +3526,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['environment_id', 'credential_id']
@@ -3552,6 +3608,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['environment_id', 'credential_id']
@@ -3597,6 +3654,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['environment_id', 'credential_id']
@@ -3640,6 +3698,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['environment_id']
@@ -3689,6 +3748,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['environment_id']
@@ -3733,6 +3793,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['environment_id', 'gateway_id']
@@ -3776,6 +3837,7 @@ class DiscoveryV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['environment_id', 'gateway_id']
@@ -12465,7 +12527,9 @@ class TrainingDataSet():
           training data set.
     :attr str collection_id: (optional) The collection id associated with this
           training data set.
-    :attr List[TrainingQuery] queries: (optional) Array of training queries.
+    :attr List[TrainingQuery] queries: (optional) Array of training queries. At
+          least 50 queries are required for training to begin. A maximum of 10,000 queries
+          are returned.
     """
 
     def __init__(self,
@@ -12481,6 +12545,8 @@ class TrainingDataSet():
         :param str collection_id: (optional) The collection id associated with this
                training data set.
         :param List[TrainingQuery] queries: (optional) Array of training queries.
+               At least 50 queries are required for training to begin. A maximum of 10,000
+               queries are returned.
         """
         self.environment_id = environment_id
         self.collection_id = collection_id
