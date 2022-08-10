@@ -131,7 +131,6 @@ class TestListLanguages():
             with pytest.raises(ValueError):
                 _service.list_languages(**req_copy)
 
-
     def test_list_languages_value_error_with_retries(self):
         # Enable retries and run test_list_languages_value_error.
         _service.enable_retries()
@@ -233,7 +232,6 @@ class TestTranslate():
             with pytest.raises(ValueError):
                 _service.translate(**req_copy)
 
-
     def test_translate_value_error_with_retries(self):
         # Enable retries and run test_translate_value_error.
         _service.enable_retries()
@@ -310,7 +308,6 @@ class TestListIdentifiableLanguages():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_identifiable_languages(**req_copy)
-
 
     def test_list_identifiable_languages_value_error_with_retries(self):
         # Enable retries and run test_list_identifiable_languages_value_error.
@@ -389,7 +386,6 @@ class TestIdentify():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.identify(**req_copy)
-
 
     def test_identify_value_error_with_retries(self):
         # Enable retries and run test_identify_value_error.
@@ -514,7 +510,6 @@ class TestListModels():
             with pytest.raises(ValueError):
                 _service.list_models(**req_copy)
 
-
     def test_list_models_value_error_with_retries(self):
         # Enable retries and run test_list_models_value_error.
         _service.enable_retries()
@@ -546,14 +541,18 @@ class TestCreateModel():
         # Set up parameter values
         base_model_id = 'testString'
         forced_glossary = io.BytesIO(b'This is a mock file.').getvalue()
+        forced_glossary_content_type = 'application/x-tmx+xml'
         parallel_corpus = io.BytesIO(b'This is a mock file.').getvalue()
+        parallel_corpus_content_type = 'application/x-tmx+xml'
         name = 'testString'
 
         # Invoke method
         response = _service.create_model(
             base_model_id,
             forced_glossary=forced_glossary,
+            forced_glossary_content_type=forced_glossary_content_type,
             parallel_corpus=parallel_corpus,
+            parallel_corpus_content_type=parallel_corpus_content_type,
             name=name,
             headers={}
         )
@@ -642,7 +641,6 @@ class TestCreateModel():
             with pytest.raises(ValueError):
                 _service.create_model(**req_copy)
 
-
     def test_create_model_value_error_with_retries(self):
         # Enable retries and run test_create_model_value_error.
         _service.enable_retries()
@@ -718,7 +716,6 @@ class TestDeleteModel():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_model(**req_copy)
-
 
     def test_delete_model_value_error_with_retries(self):
         # Enable retries and run test_delete_model_value_error.
@@ -796,7 +793,6 @@ class TestGetModel():
             with pytest.raises(ValueError):
                 _service.get_model(**req_copy)
 
-
     def test_get_model_value_error_with_retries(self):
         # Enable retries and run test_get_model_value_error.
         _service.enable_retries()
@@ -873,7 +869,6 @@ class TestListDocuments():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_documents(**req_copy)
-
 
     def test_list_documents_value_error_with_retries(self):
         # Enable retries and run test_list_documents_value_error.
@@ -1002,7 +997,6 @@ class TestTranslateDocument():
             with pytest.raises(ValueError):
                 _service.translate_document(**req_copy)
 
-
     def test_translate_document_value_error_with_retries(self):
         # Enable retries and run test_translate_document_value_error.
         _service.enable_retries()
@@ -1079,7 +1073,6 @@ class TestGetDocumentStatus():
             with pytest.raises(ValueError):
                 _service.get_document_status(**req_copy)
 
-
     def test_get_document_status_value_error_with_retries(self):
         # Enable retries and run test_get_document_status_value_error.
         _service.enable_retries()
@@ -1149,7 +1142,6 @@ class TestDeleteDocument():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_document(**req_copy)
-
 
     def test_delete_document_value_error_with_retries(self):
         # Enable retries and run test_delete_document_value_error.
@@ -1264,7 +1256,6 @@ class TestGetTranslatedDocument():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_translated_document(**req_copy)
-
 
     def test_get_translated_document_value_error_with_retries(self):
         # Enable retries and run test_get_translated_document_value_error.

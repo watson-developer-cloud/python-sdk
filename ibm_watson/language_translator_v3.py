@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 3.46.0-a4e29da0-20220224-210428
+# IBM OpenAPI SDK Code Generator Version: 3.53.0-9710cac3-20220713-193508
 """
 IBM Watson&trade; Language Translator translates text from one language to another. The
 service offers multiple IBM-provided translation models that you can customize based on
@@ -107,6 +107,7 @@ class LanguageTranslatorV3(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         url = '/v3/languages'
@@ -182,6 +183,7 @@ class LanguageTranslatorV3(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         url = '/v3/translate'
@@ -221,6 +223,7 @@ class LanguageTranslatorV3(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         url = '/v3/identifiable_languages'
@@ -259,6 +262,7 @@ class LanguageTranslatorV3(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         url = '/v3/identify'
@@ -315,6 +319,7 @@ class LanguageTranslatorV3(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         url = '/v3/models'
@@ -330,7 +335,9 @@ class LanguageTranslatorV3(BaseService):
                      base_model_id: str,
                      *,
                      forced_glossary: BinaryIO = None,
+                     forced_glossary_content_type: str = None,
                      parallel_corpus: BinaryIO = None,
+                     parallel_corpus_content_type: str = None,
                      name: str = None,
                      **kwargs) -> DetailedResponse:
         """
@@ -409,6 +416,8 @@ class LanguageTranslatorV3(BaseService):
                words or short phrases. For more information, see **Supported file
                formats** in the method description.
                *With `curl`, use `--form forced_glossary=@{filename}`.*.
+        :param str forced_glossary_content_type: (optional) The content type of
+               forced_glossary.
         :param BinaryIO parallel_corpus: (optional) A file with parallel sentences
                for the source and target languages. You can upload multiple parallel
                corpus files in one request by repeating the parameter. All uploaded
@@ -420,6 +429,8 @@ class LanguageTranslatorV3(BaseService):
                MB. For more information, see **Supported file formats** in the method
                description.
                *With `curl`, use `--form parallel_corpus=@{filename}`.*.
+        :param str parallel_corpus_content_type: (optional) The content type of
+               parallel_corpus.
         :param str name: (optional) An optional model name that you can use to
                identify the model. Valid characters are letters, numbers, dashes,
                underscores, spaces, and apostrophes. The maximum length of the name is 32
@@ -445,14 +456,19 @@ class LanguageTranslatorV3(BaseService):
 
         form_data = []
         if forced_glossary:
-            form_data.append(('forced_glossary', (None, forced_glossary,
-                                                  'application/octet-stream')))
+            form_data.append(
+                ('forced_glossary',
+                 (None, forced_glossary, forced_glossary_content_type or
+                  'application/octet-stream')))
         if parallel_corpus:
-            form_data.append(('parallel_corpus', (None, parallel_corpus,
-                                                  'application/octet-stream')))
+            form_data.append(
+                ('parallel_corpus',
+                 (None, parallel_corpus, parallel_corpus_content_type or
+                  'application/octet-stream')))
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         url = '/v3/models'
@@ -489,6 +505,7 @@ class LanguageTranslatorV3(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['model_id']
@@ -529,6 +546,7 @@ class LanguageTranslatorV3(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['model_id']
@@ -568,6 +586,7 @@ class LanguageTranslatorV3(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         url = '/v3/documents'
@@ -596,14 +615,16 @@ class LanguageTranslatorV3(BaseService):
         `file` parameter, or you can reference a previously submitted document by document
         ID. The maximum file size for document translation is
         * 20 MB for service instances on the Standard, Advanced, and Premium plans
-        * 2 MB for service instances on the Lite plan.
+        * 2 MB for service instances on the Lite plan
+        **Note:** When translating a previously submitted document, the target language
+        must be different from the target language of the original request when the
+        document was initially submitted.
 
         :param BinaryIO file: The contents of the source file to translate. The
                maximum file size for document translation is 20 MB for service instances
                on the Standard, Advanced, and Premium plans, and 2 MB for service
                instances on the Lite plan. For more information, see [Supported file
-               formats
-               (Beta)](https://cloud.ibm.com/docs/language-translator?topic=language-translator-document-translator-tutorial#supported-file-formats).
+               formats](https://cloud.ibm.com/docs/language-translator?topic=language-translator-document-translator-tutorial#supported-file-formats).
         :param str filename: (optional) The filename for file.
         :param str file_content_type: (optional) The content type of file.
         :param str model_id: (optional) The model to use for translation. For
@@ -653,6 +674,7 @@ class LanguageTranslatorV3(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         url = '/v3/documents'
@@ -690,6 +712,7 @@ class LanguageTranslatorV3(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['document_id']
@@ -728,6 +751,7 @@ class LanguageTranslatorV3(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
 
         path_param_keys = ['document_id']
         path_param_values = self.encode_path_vars(document_id)
@@ -784,6 +808,7 @@ class LanguageTranslatorV3(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
 
         path_param_keys = ['document_id']
         path_param_values = self.encode_path_vars(document_id)
@@ -797,6 +822,34 @@ class LanguageTranslatorV3(BaseService):
 
         response = self.send(request, **kwargs)
         return response
+
+
+class CreateModelEnums:
+    """
+    Enums for create_model parameters.
+    """
+
+    class ForcedGlossaryContentType(str, Enum):
+        """
+        The content type of forced_glossary.
+        """
+        APPLICATION_X_TMX_XML = 'application/x-tmx+xml'
+        APPLICATION_XLIFF_XML = 'application/xliff+xml'
+        TEXT_CSV = 'text/csv'
+        TEXT_TAB_SEPARATED_VALUES = 'text/tab-separated-values'
+        APPLICATION_JSON = 'application/json'
+        APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_SPREADSHEETML_SHEET = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+
+    class ParallelCorpusContentType(str, Enum):
+        """
+        The content type of parallel_corpus.
+        """
+        APPLICATION_X_TMX_XML = 'application/x-tmx+xml'
+        APPLICATION_XLIFF_XML = 'application/xliff+xml'
+        TEXT_CSV = 'text/csv'
+        TEXT_TAB_SEPARATED_VALUES = 'text/tab-separated-values'
+        APPLICATION_JSON = 'application/json'
+        APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_SPREADSHEETML_SHEET = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
 
 
 class TranslateDocumentEnums:
