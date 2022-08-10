@@ -48,7 +48,7 @@ class AssistantV2(BaseService):
     """The Assistant V2 service."""
 
     DEFAULT_SERVICE_URL = 'https://api.us-south.assistant.watson.cloud.ibm.com'
-    DEFAULT_SERVICE_NAME = 'conversation'
+    DEFAULT_SERVICE_NAME = 'assistant'
 
     def __init__(
         self,
@@ -84,7 +84,6 @@ class AssistantV2(BaseService):
     def create_session(self,
                        assistant_id: str,
                        *,
-                       create_session: 'CreateSession' = None,
                        **kwargs) -> DetailedResponse:
         """
         Create a session.
@@ -101,7 +100,6 @@ class AssistantV2(BaseService):
                assistants, see the
                [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-assistant-add#assistant-add-task).
                **Note:** Currently, the v2 API does not support creating assistants.
-        :param CreateSession create_session: (optional)
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `SessionResponse` object
