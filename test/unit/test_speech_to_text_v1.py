@@ -172,7 +172,6 @@ class TestGetModel():
             with pytest.raises(ValueError):
                 _service.get_model(**req_copy)
 
-
     def test_get_model_value_error_with_retries(self):
         # Enable retries and run test_get_model_value_error.
         _service.enable_retries()
@@ -229,7 +228,6 @@ class TestRecognize():
         profanity_filter = True
         smart_formatting = False
         speaker_labels = False
-        customization_id = 'testString'
         grammar_name = 'testString'
         redaction = False
         audio_metrics = False
@@ -238,6 +236,7 @@ class TestRecognize():
         speech_detector_sensitivity = 72.5
         background_audio_suppression = 72.5
         low_latency = False
+        character_insertion_bias = 72.5
 
         # Invoke method
         response = _service.recognize(
@@ -258,7 +257,6 @@ class TestRecognize():
             profanity_filter=profanity_filter,
             smart_formatting=smart_formatting,
             speaker_labels=speaker_labels,
-            customization_id=customization_id,
             grammar_name=grammar_name,
             redaction=redaction,
             audio_metrics=audio_metrics,
@@ -267,6 +265,7 @@ class TestRecognize():
             speech_detector_sensitivity=speech_detector_sensitivity,
             background_audio_suppression=background_audio_suppression,
             low_latency=low_latency,
+            character_insertion_bias=character_insertion_bias,
             headers={}
         )
 
@@ -291,7 +290,6 @@ class TestRecognize():
         assert 'profanity_filter={}'.format('true' if profanity_filter else 'false') in query_string
         assert 'smart_formatting={}'.format('true' if smart_formatting else 'false') in query_string
         assert 'speaker_labels={}'.format('true' if speaker_labels else 'false') in query_string
-        assert 'customization_id={}'.format(customization_id) in query_string
         assert 'grammar_name={}'.format(grammar_name) in query_string
         assert 'redaction={}'.format('true' if redaction else 'false') in query_string
         assert 'audio_metrics={}'.format('true' if audio_metrics else 'false') in query_string
@@ -300,6 +298,7 @@ class TestRecognize():
         assert 'speech_detector_sensitivity={}'.format(speech_detector_sensitivity) in query_string
         assert 'background_audio_suppression={}'.format(background_audio_suppression) in query_string
         assert 'low_latency={}'.format('true' if low_latency else 'false') in query_string
+        assert 'character_insertion_bias={}'.format(character_insertion_bias) in query_string
         # Validate body params
 
     def test_recognize_all_params_with_retries(self):
@@ -373,7 +372,6 @@ class TestRecognize():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.recognize(**req_copy)
-
 
     def test_recognize_value_error_with_retries(self):
         # Enable retries and run test_recognize_value_error.
@@ -508,7 +506,6 @@ class TestRegisterCallback():
             with pytest.raises(ValueError):
                 _service.register_callback(**req_copy)
 
-
     def test_register_callback_value_error_with_retries(self):
         # Enable retries and run test_register_callback_value_error.
         _service.enable_retries()
@@ -583,7 +580,6 @@ class TestUnregisterCallback():
             with pytest.raises(ValueError):
                 _service.unregister_callback(**req_copy)
 
-
     def test_unregister_callback_value_error_with_retries(self):
         # Enable retries and run test_unregister_callback_value_error.
         _service.enable_retries()
@@ -634,7 +630,6 @@ class TestCreateJob():
         profanity_filter = True
         smart_formatting = False
         speaker_labels = False
-        customization_id = 'testString'
         grammar_name = 'testString'
         redaction = False
         processing_metrics = False
@@ -645,6 +640,7 @@ class TestCreateJob():
         speech_detector_sensitivity = 72.5
         background_audio_suppression = 72.5
         low_latency = False
+        character_insertion_bias = 72.5
 
         # Invoke method
         response = _service.create_job(
@@ -669,7 +665,6 @@ class TestCreateJob():
             profanity_filter=profanity_filter,
             smart_formatting=smart_formatting,
             speaker_labels=speaker_labels,
-            customization_id=customization_id,
             grammar_name=grammar_name,
             redaction=redaction,
             processing_metrics=processing_metrics,
@@ -680,6 +675,7 @@ class TestCreateJob():
             speech_detector_sensitivity=speech_detector_sensitivity,
             background_audio_suppression=background_audio_suppression,
             low_latency=low_latency,
+            character_insertion_bias=character_insertion_bias,
             headers={}
         )
 
@@ -708,7 +704,6 @@ class TestCreateJob():
         assert 'profanity_filter={}'.format('true' if profanity_filter else 'false') in query_string
         assert 'smart_formatting={}'.format('true' if smart_formatting else 'false') in query_string
         assert 'speaker_labels={}'.format('true' if speaker_labels else 'false') in query_string
-        assert 'customization_id={}'.format(customization_id) in query_string
         assert 'grammar_name={}'.format(grammar_name) in query_string
         assert 'redaction={}'.format('true' if redaction else 'false') in query_string
         assert 'processing_metrics={}'.format('true' if processing_metrics else 'false') in query_string
@@ -719,6 +714,7 @@ class TestCreateJob():
         assert 'speech_detector_sensitivity={}'.format(speech_detector_sensitivity) in query_string
         assert 'background_audio_suppression={}'.format(background_audio_suppression) in query_string
         assert 'low_latency={}'.format('true' if low_latency else 'false') in query_string
+        assert 'character_insertion_bias={}'.format(character_insertion_bias) in query_string
         # Validate body params
 
     def test_create_job_all_params_with_retries(self):
@@ -792,7 +788,6 @@ class TestCreateJob():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.create_job(**req_copy)
-
 
     def test_create_job_value_error_with_retries(self):
         # Enable retries and run test_create_job_value_error.
@@ -906,7 +901,6 @@ class TestCheckJob():
             with pytest.raises(ValueError):
                 _service.check_job(**req_copy)
 
-
     def test_check_job_value_error_with_retries(self):
         # Enable retries and run test_check_job_value_error.
         _service.enable_retries()
@@ -976,7 +970,6 @@ class TestDeleteJob():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_job(**req_copy)
-
 
     def test_delete_job_value_error_with_retries(self):
         # Enable retries and run test_delete_job_value_error.
@@ -1079,7 +1072,6 @@ class TestCreateLanguageModel():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.create_language_model(**req_copy)
-
 
     def test_create_language_model_value_error_with_retries(self):
         # Enable retries and run test_create_language_model_value_error.
@@ -1233,7 +1225,6 @@ class TestGetLanguageModel():
             with pytest.raises(ValueError):
                 _service.get_language_model(**req_copy)
 
-
     def test_get_language_model_value_error_with_retries(self):
         # Enable retries and run test_get_language_model_value_error.
         _service.enable_retries()
@@ -1304,7 +1295,6 @@ class TestDeleteLanguageModel():
             with pytest.raises(ValueError):
                 _service.delete_language_model(**req_copy)
 
-
     def test_delete_language_model_value_error_with_retries(self):
         # Enable retries and run test_delete_language_model_value_error.
         _service.enable_retries()
@@ -1337,12 +1327,14 @@ class TestTrainLanguageModel():
         customization_id = 'testString'
         word_type_to_add = 'all'
         customization_weight = 72.5
+        strict = True
 
         # Invoke method
         response = _service.train_language_model(
             customization_id,
             word_type_to_add=word_type_to_add,
             customization_weight=customization_weight,
+            strict=strict,
             headers={}
         )
 
@@ -1354,6 +1346,7 @@ class TestTrainLanguageModel():
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'word_type_to_add={}'.format(word_type_to_add) in query_string
         assert 'customization_weight={}'.format(customization_weight) in query_string
+        assert 'strict={}'.format('true' if strict else 'false') in query_string
 
     def test_train_language_model_all_params_with_retries(self):
         # Enable retries and run test_train_language_model_all_params.
@@ -1426,7 +1419,6 @@ class TestTrainLanguageModel():
             with pytest.raises(ValueError):
                 _service.train_language_model(**req_copy)
 
-
     def test_train_language_model_value_error_with_retries(self):
         # Enable retries and run test_train_language_model_value_error.
         _service.enable_retries()
@@ -1497,7 +1489,6 @@ class TestResetLanguageModel():
             with pytest.raises(ValueError):
                 _service.reset_language_model(**req_copy)
 
-
     def test_reset_language_model_value_error_with_retries(self):
         # Enable retries and run test_reset_language_model_value_error.
         _service.enable_retries()
@@ -1567,7 +1558,6 @@ class TestUpgradeLanguageModel():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.upgrade_language_model(**req_copy)
-
 
     def test_upgrade_language_model_value_error_with_retries(self):
         # Enable retries and run test_upgrade_language_model_value_error.
@@ -1654,7 +1644,6 @@ class TestListCorpora():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_corpora(**req_copy)
-
 
     def test_list_corpora_value_error_with_retries(self):
         # Enable retries and run test_list_corpora_value_error.
@@ -1777,7 +1766,6 @@ class TestAddCorpus():
             with pytest.raises(ValueError):
                 _service.add_corpus(**req_copy)
 
-
     def test_add_corpus_value_error_with_retries(self):
         # Enable retries and run test_add_corpus_value_error.
         _service.enable_retries()
@@ -1858,7 +1846,6 @@ class TestGetCorpus():
             with pytest.raises(ValueError):
                 _service.get_corpus(**req_copy)
 
-
     def test_get_corpus_value_error_with_retries(self):
         # Enable retries and run test_get_corpus_value_error.
         _service.enable_retries()
@@ -1932,7 +1919,6 @@ class TestDeleteCorpus():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_corpus(**req_copy)
-
 
     def test_delete_corpus_value_error_with_retries(self):
         # Enable retries and run test_delete_corpus_value_error.
@@ -2065,7 +2051,6 @@ class TestListWords():
             with pytest.raises(ValueError):
                 _service.list_words(**req_copy)
 
-
     def test_list_words_value_error_with_retries(self):
         # Enable retries and run test_list_words_value_error.
         _service.enable_retries()
@@ -2155,7 +2140,6 @@ class TestAddWords():
             with pytest.raises(ValueError):
                 _service.add_words(**req_copy)
 
-
     def test_add_words_value_error_with_retries(self):
         # Enable retries and run test_add_words_value_error.
         _service.enable_retries()
@@ -2244,7 +2228,6 @@ class TestAddWord():
             with pytest.raises(ValueError):
                 _service.add_word(**req_copy)
 
-
     def test_add_word_value_error_with_retries(self):
         # Enable retries and run test_add_word_value_error.
         _service.enable_retries()
@@ -2325,7 +2308,6 @@ class TestGetWord():
             with pytest.raises(ValueError):
                 _service.get_word(**req_copy)
 
-
     def test_get_word_value_error_with_retries(self):
         # Enable retries and run test_get_word_value_error.
         _service.enable_retries()
@@ -2399,7 +2381,6 @@ class TestDeleteWord():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_word(**req_copy)
-
 
     def test_delete_word_value_error_with_retries(self):
         # Enable retries and run test_delete_word_value_error.
@@ -2486,7 +2467,6 @@ class TestListGrammars():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_grammars(**req_copy)
-
 
     def test_list_grammars_value_error_with_retries(self):
         # Enable retries and run test_list_grammars_value_error.
@@ -2617,7 +2597,6 @@ class TestAddGrammar():
             with pytest.raises(ValueError):
                 _service.add_grammar(**req_copy)
 
-
     def test_add_grammar_value_error_with_retries(self):
         # Enable retries and run test_add_grammar_value_error.
         _service.enable_retries()
@@ -2698,7 +2677,6 @@ class TestGetGrammar():
             with pytest.raises(ValueError):
                 _service.get_grammar(**req_copy)
 
-
     def test_get_grammar_value_error_with_retries(self):
         # Enable retries and run test_get_grammar_value_error.
         _service.enable_retries()
@@ -2772,7 +2750,6 @@ class TestDeleteGrammar():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_grammar(**req_copy)
-
 
     def test_delete_grammar_value_error_with_retries(self):
         # Enable retries and run test_delete_grammar_value_error.
@@ -2871,7 +2848,6 @@ class TestCreateAcousticModel():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.create_acoustic_model(**req_copy)
-
 
     def test_create_acoustic_model_value_error_with_retries(self):
         # Enable retries and run test_create_acoustic_model_value_error.
@@ -3025,7 +3001,6 @@ class TestGetAcousticModel():
             with pytest.raises(ValueError):
                 _service.get_acoustic_model(**req_copy)
 
-
     def test_get_acoustic_model_value_error_with_retries(self):
         # Enable retries and run test_get_acoustic_model_value_error.
         _service.enable_retries()
@@ -3096,7 +3071,6 @@ class TestDeleteAcousticModel():
             with pytest.raises(ValueError):
                 _service.delete_acoustic_model(**req_copy)
 
-
     def test_delete_acoustic_model_value_error_with_retries(self):
         # Enable retries and run test_delete_acoustic_model_value_error.
         _service.enable_retries()
@@ -3128,11 +3102,13 @@ class TestTrainAcousticModel():
         # Set up parameter values
         customization_id = 'testString'
         custom_language_model_id = 'testString'
+        strict = True
 
         # Invoke method
         response = _service.train_acoustic_model(
             customization_id,
             custom_language_model_id=custom_language_model_id,
+            strict=strict,
             headers={}
         )
 
@@ -3143,6 +3119,7 @@ class TestTrainAcousticModel():
         query_string = responses.calls[0].request.url.split('?',1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'custom_language_model_id={}'.format(custom_language_model_id) in query_string
+        assert 'strict={}'.format('true' if strict else 'false') in query_string
 
     def test_train_acoustic_model_all_params_with_retries(self):
         # Enable retries and run test_train_acoustic_model_all_params.
@@ -3215,7 +3192,6 @@ class TestTrainAcousticModel():
             with pytest.raises(ValueError):
                 _service.train_acoustic_model(**req_copy)
 
-
     def test_train_acoustic_model_value_error_with_retries(self):
         # Enable retries and run test_train_acoustic_model_value_error.
         _service.enable_retries()
@@ -3285,7 +3261,6 @@ class TestResetAcousticModel():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.reset_acoustic_model(**req_copy)
-
 
     def test_reset_acoustic_model_value_error_with_retries(self):
         # Enable retries and run test_reset_acoustic_model_value_error.
@@ -3399,7 +3374,6 @@ class TestUpgradeAcousticModel():
             with pytest.raises(ValueError):
                 _service.upgrade_acoustic_model(**req_copy)
 
-
     def test_upgrade_acoustic_model_value_error_with_retries(self):
         # Enable retries and run test_upgrade_acoustic_model_value_error.
         _service.enable_retries()
@@ -3485,7 +3459,6 @@ class TestListAudio():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_audio(**req_copy)
-
 
     def test_list_audio_value_error_with_retries(self):
         # Enable retries and run test_list_audio_value_error.
@@ -3614,7 +3587,6 @@ class TestAddAudio():
             with pytest.raises(ValueError):
                 _service.add_audio(**req_copy)
 
-
     def test_add_audio_value_error_with_retries(self):
         # Enable retries and run test_add_audio_value_error.
         _service.enable_retries()
@@ -3695,7 +3667,6 @@ class TestGetAudio():
             with pytest.raises(ValueError):
                 _service.get_audio(**req_copy)
 
-
     def test_get_audio_value_error_with_retries(self):
         # Enable retries and run test_get_audio_value_error.
         _service.enable_retries()
@@ -3769,7 +3740,6 @@ class TestDeleteAudio():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_audio(**req_copy)
-
 
     def test_delete_audio_value_error_with_retries(self):
         # Enable retries and run test_delete_audio_value_error.
@@ -3854,7 +3824,6 @@ class TestDeleteUserData():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_user_data(**req_copy)
-
 
     def test_delete_user_data_value_error_with_retries(self):
         # Enable retries and run test_delete_user_data_value_error.
@@ -4646,7 +4615,7 @@ class TestModel_RecognitionJob():
         speech_recognition_result_model = {} # SpeechRecognitionResult
         speech_recognition_result_model['final'] = True
         speech_recognition_result_model['alternatives'] = [speech_recognition_alternative_model]
-        speech_recognition_result_model['keywords_result'] = {}
+        speech_recognition_result_model['keywords_result'] = {'key1': [keyword_result_model]}
         speech_recognition_result_model['word_alternatives'] = [word_alternative_results_model]
         speech_recognition_result_model['end_of_utterance'] = 'end_of_data'
 
@@ -4758,7 +4727,7 @@ class TestModel_RecognitionJobs():
         speech_recognition_result_model = {} # SpeechRecognitionResult
         speech_recognition_result_model['final'] = True
         speech_recognition_result_model['alternatives'] = [speech_recognition_alternative_model]
-        speech_recognition_result_model['keywords_result'] = {}
+        speech_recognition_result_model['keywords_result'] = {'key1': [keyword_result_model]}
         speech_recognition_result_model['word_alternatives'] = [word_alternative_results_model]
         speech_recognition_result_model['end_of_utterance'] = 'end_of_data'
 
@@ -5056,7 +5025,7 @@ class TestModel_SpeechRecognitionResult():
         speech_recognition_result_model_json = {}
         speech_recognition_result_model_json['final'] = True
         speech_recognition_result_model_json['alternatives'] = [speech_recognition_alternative_model]
-        speech_recognition_result_model_json['keywords_result'] = {}
+        speech_recognition_result_model_json['keywords_result'] = {'key1': [keyword_result_model]}
         speech_recognition_result_model_json['word_alternatives'] = [word_alternative_results_model]
         speech_recognition_result_model_json['end_of_utterance'] = 'end_of_data'
 
@@ -5111,7 +5080,7 @@ class TestModel_SpeechRecognitionResults():
         speech_recognition_result_model = {} # SpeechRecognitionResult
         speech_recognition_result_model['final'] = True
         speech_recognition_result_model['alternatives'] = [speech_recognition_alternative_model]
-        speech_recognition_result_model['keywords_result'] = {}
+        speech_recognition_result_model['keywords_result'] = {'key1': [keyword_result_model]}
         speech_recognition_result_model['word_alternatives'] = [word_alternative_results_model]
         speech_recognition_result_model['end_of_utterance'] = 'end_of_data'
 
