@@ -14,11 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 3.46.0-a4e29da0-20220224-210428
+# IBM OpenAPI SDK Code Generator Version: 3.53.0-9710cac3-20220713-193508
 """
 The IBM Watson&trade; Text to Speech service provides APIs that use IBM's speech-synthesis
 capabilities to synthesize text into natural-sounding speech in a variety of languages,
-dialects, and voices. The service supports at least one male or female voice, sometimes
+dialects, and voices.  The service supports at least one male or female voice, sometimes
 both, for each language. The audio is streamed back to the client with minimal delay.
 For speech synthesis, the service supports a synchronous HTTP Representational State
 Transfer (REST) interface and a WebSocket interface. Both interfaces support plain text
@@ -35,6 +35,14 @@ Australian English, Korean, and Swedish voices support only IPA, not SPR.
 The service also offers a Tune by Example feature that lets you define custom prompts. You
 can also define speaker models to improve the quality of your custom prompts. The service
 support custom prompts only for US English custom models and voices.
+Effective 31 March 2022, all neural voices are deprecated. The deprecated voices remain
+available to existing users until 31 March 2023, when they will be removed from the
+service and the documentation. The neural voices are supported only for IBM Cloud; they
+are not available for IBM Cloud Pak for Data. All enhanced neural voices remain available
+to all users. For more information, see the [31 March 2022 service
+update](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-release-notes#text-to-speech-31march2022)
+in the release notes for {{site.data.keyword.texttospeechshort}} for
+{{site.data.keyword.cloud_notm}}.{: deprecated}
 
 API Version: 1.0.0
 See: https://cloud.ibm.com/docs/text-to-speech
@@ -94,6 +102,14 @@ class TextToSpeechV1(BaseService):
         list of voices can change from call to call; do not rely on an alphabetized or
         static list of voices. To see information about a specific voice, use the [Get a
         voice](#getvoice).
+        **Note:** Effective 31 March 2022, all neural voices are deprecated. The
+        deprecated voices remain available to existing users until 31 March 2023, when
+        they will be removed from the service and the documentation. The neural voices are
+        supported only for IBM Cloud; they are not available for IBM Cloud Pak for Data.
+        All enhanced neural voices remain available to all users. For more information,
+        see the [31 March 2022 service
+        update](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-release-notes#text-to-speech-31march2022)
+        in the release notes.
         **See also:** [Listing all available
         voices](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-voices#listVoices).
 
@@ -110,6 +126,7 @@ class TextToSpeechV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         url = '/v1/voices'
@@ -133,10 +150,14 @@ class TextToSpeechV1(BaseService):
         voices](#listvoices) method.
         **See also:** [Listing a specific
         voice](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-voices#listVoice).
-        **Note:** The Arabic, Chinese, Czech, Dutch (Belgian and Netherlands), Australian
-        English, Korean, and Swedish languages and voices are supported only for IBM
-        Cloud; they are deprecated for IBM Cloud Pak for Data. Also, the `ar-AR_OmarVoice`
-        voice is deprecated; use the `ar-MS_OmarVoice` voice instead.
+        **Note:** Effective 31 March 2022, all neural voices are deprecated. The
+        deprecated voices remain available to existing users until 31 March 2023, when
+        they will be removed from the service and the documentation. The neural voices are
+        supported only for IBM Cloud; they are not available for IBM Cloud Pak for Data.
+        All enhanced neural voices remain available to all users. For more information,
+        see the [31 March 2022 service
+        update](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-release-notes#text-to-speech-31march2022)
+        in the release notes.
 
         :param str voice: The voice for which information is to be returned.
         :param str customization_id: (optional) The customization ID (GUID) of a
@@ -161,6 +182,7 @@ class TextToSpeechV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['voice']
@@ -185,6 +207,7 @@ class TextToSpeechV1(BaseService):
                    accept: str = None,
                    voice: str = None,
                    customization_id: str = None,
+                   spell_out_mode: str = None,
                    **kwargs) -> DetailedResponse:
         """
         Synthesize audio.
@@ -197,16 +220,20 @@ class TextToSpeechV1(BaseService):
         specify. The service returns the synthesized audio stream as an array of bytes.
         **See also:** [The HTTP
         interface](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-usingHTTP#usingHTTP).
-        **Note:** The Arabic, Chinese, Czech, Dutch (Belgian and Netherlands), Australian
-        English, Korean, and Swedish languages and voices are supported only for IBM
-        Cloud; they are deprecated for IBM Cloud Pak for Data. Also, the `ar-AR_OmarVoice`
-        voice is deprecated; use the `ar-MS_OmarVoice` voice instead.
+        **Note:** Effective 31 March 2022, all neural voices are deprecated. The
+        deprecated voices remain available to existing users until 31 March 2023, when
+        they will be removed from the service and the documentation. The neural voices are
+        supported only for IBM Cloud; they are not available for IBM Cloud Pak for Data.
+        All enhanced neural voices remain available to all users. For more information,
+        see the [31 March 2022 service
+        update](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-release-notes#text-to-speech-31march2022)
+        in the release notes.
         ### Audio formats (accept types)
          The service can return audio in the following formats (MIME types).
         * Where indicated, you can optionally specify the sampling rate (`rate`) of the
-        audio. You must specify a sampling rate for the `audio/l16` and `audio/mulaw`
-        formats. A specified sampling rate must lie in the range of 8 kHz to 192 kHz. Some
-        formats restrict the sampling rate to certain values, as noted.
+        audio. You must specify a sampling rate for the `audio/alaw`, `audio/l16`,  and
+        `audio/mulaw` formats. A specified sampling rate must lie in the range of 8 kHz to
+        192 kHz. Some formats restrict the sampling rate to certain values, as noted.
         * For the `audio/l16` format, you can optionally specify the endianness
         (`endianness`) of the audio: `endianness=big-endian` or
         `endianness=little-endian`.
@@ -214,6 +241,7 @@ class TextToSpeechV1(BaseService):
         of the response audio. If you omit an audio format altogether, the service returns
         the audio in Ogg format with the Opus codec (`audio/ogg;codecs=opus`). The service
         always returns single-channel audio.
+        * `audio/alaw` - You must specify the `rate` of the audio.
         * `audio/basic` - The service returns audio with a sampling rate of 8000 Hz.
         * `audio/flac` - You can optionally specify the `rate` of the audio. The default
         sampling rate is 22,050 Hz.
@@ -257,25 +285,38 @@ class TextToSpeechV1(BaseService):
                audio. You can use the `Accept` header or the `accept` parameter to specify
                the audio format. For more information about specifying an audio format,
                see **Audio formats (accept types)** in the method description.
-        :param str voice: (optional) The voice to use for synthesis. If you omit
-               the `voice` parameter, the service uses a default voice, which depends on
-               the version of the service that you are using:
-               * _For IBM Cloud,_ the service always uses the US English
+        :param str voice: (optional) The voice to use for speech synthesis. If you
+               omit the `voice` parameter, the service uses the US English
                `en-US_MichaelV3Voice` by default.
-               * _For IBM Cloud Pak for Data,_ the default voice depends on the voices
-               that you installed. If you installed the _enhanced neural voices_, the
-               service uses the US English `en-US_MichaelV3Voice` by default; if that
-               voice is not installed, you must specify a voice. If you installed the
-               _neural voices_, the service always uses the Australian English
-               `en-AU_MadisonVoice` by default.
-               **See also:** See also [Using languages and
-               voices](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-voices).
+               _For IBM Cloud Pak for Data,_ if you do not install the
+               `en-US_MichaelV3Voice`, you must either specify a voice with the request or
+               specify a new default voice for your installation of the service.
+               **See also:**
+               * [Using languages and
+               voices](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-voices)
+               * [The default
+               voice](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-voices#specify-voice-default).
         :param str customization_id: (optional) The customization ID (GUID) of a
                custom model to use for the synthesis. If a custom model is specified, it
                works only if it matches the language of the indicated voice. You must make
                the request with credentials for the instance of the service that owns the
                custom model. Omit the parameter to use the specified voice with no
                customization.
+        :param str spell_out_mode: (optional) *For German voices,* indicates how
+               the service is to spell out strings of individual letters. To indicate the
+               pace of the spelling, specify one of the following values:
+               * `default` - The service reads the characters at the rate at which it
+               synthesizes speech for the request. You can also omit the parameter
+               entirely to achieve the default behavior.
+               * `singles` - The service reads the characters one at a time, with a brief
+               pause between each character.
+               * `pairs` - The service reads the characters two at a time, with a brief
+               pause between each pair.
+               * `triples` - The service reads the characters three at a time, with a
+               brief pause between each triplet.
+               The parameter is available only for IBM Cloud.
+               **See also:** [Specifying how strings are spelled
+               out](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-synthesis-params#params-spell-out-mode).
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `BinaryIO` result
@@ -289,7 +330,11 @@ class TextToSpeechV1(BaseService):
                                       operation_id='synthesize')
         headers.update(sdk_headers)
 
-        params = {'voice': voice, 'customization_id': customization_id}
+        params = {
+            'voice': voice,
+            'customization_id': customization_id,
+            'spell_out_mode': spell_out_mode
+        }
 
         data = {'text': text}
         data = {k: v for (k, v) in data.items() if v is not None}
@@ -298,6 +343,7 @@ class TextToSpeechV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
 
         url = '/v1/synthesize'
         request = self.prepare_request(method='POST',
@@ -327,17 +373,27 @@ class TextToSpeechV1(BaseService):
         pronunciation for a specific format. You can also request the pronunciation for a
         specific voice to see the default translation for the language of that voice or
         for a specific custom model to see the translation for that model.
+        **Note:** Effective 31 March 2022, all neural voices are deprecated. The
+        deprecated voices remain available to existing users until 31 March 2023, when
+        they will be removed from the service and the documentation. The neural voices are
+        supported only for IBM Cloud; they are not available for IBM Cloud Pak for Data.
+        All enhanced neural voices remain available to all users. For more information,
+        see the [31 March 2022 service
+        update](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-release-notes#text-to-speech-31march2022)
+        in the release notes.
         **See also:** [Querying a word from a
         language](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customWords#cuWordsQueryLanguage).
-        **Note:** The Arabic, Chinese, Czech, Dutch (Belgian and Netherlands), Australian
-        English, Korean, and Swedish languages and voices are supported only for IBM
-        Cloud; they are deprecated for IBM Cloud Pak for Data. Also, the `ar-AR_OmarVoice`
-        voice is deprecated; use the `ar-MS_OmarVoice` voice instead.
 
         :param str text: The word for which the pronunciation is requested.
         :param str voice: (optional) A voice that specifies the language in which
-               the pronunciation is to be returned. All voices for the same language (for
-               example, `en-US`) return the same translation.
+               the pronunciation is to be returned. If you omit the `voice` parameter, the
+               service uses the US English `en-US_MichaelV3Voice` by default. All voices
+               for the same language (for example, `en-US`) return the same translation.
+               _For IBM Cloud Pak for Data,_ if you do not install the
+               `en-US_MichaelV3Voice`, you must either specify a voice with the request or
+               specify a new default voice for your installation of the service.
+               **See also:** [The default
+               voice](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-voices#specify-voice-default).
         :param str format: (optional) The phoneme format in which to return the
                pronunciation. The Arabic, Chinese, Dutch, Australian English, and Korean
                languages support only IPA. Omit the parameter to obtain the pronunciation
@@ -372,6 +428,7 @@ class TextToSpeechV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         url = '/v1/pronunciation'
@@ -402,22 +459,20 @@ class TextToSpeechV1(BaseService):
         used to create it.
         **See also:** [Creating a custom
         model](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customModels#cuModelsCreate).
-        **Note:** The Arabic, Chinese, Czech, Dutch (Belgian and Netherlands), Australian
-        English, Korean, and Swedish languages and voices are supported only for IBM
-        Cloud; they are deprecated for IBM Cloud Pak for Data. Also, the `ar-AR` language
-        identifier cannot be used to create a custom model; use the `ar-MS` identifier
-        instead.
+        **Note:** Effective 31 March 2022, all neural voices are deprecated. The
+        deprecated voices remain available to existing users until 31 March 2023, when
+        they will be removed from the service and the documentation. The neural voices are
+        supported only for IBM Cloud; they are not available for IBM Cloud Pak for Data.
+        All enhanced neural voices remain available to all users. For more information,
+        see the [31 March 2022 service
+        update](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-release-notes#text-to-speech-31march2022)
+        in the release notes.
 
         :param str name: The name of the new custom model.
         :param str language: (optional) The language of the new custom model. You
                create a custom model for a specific language, not for a specific voice. A
                custom model can be used with any voice for its specified language. Omit
                the parameter to use the the default language, `en-US`.
-               **Important:** If you are using the service on IBM Cloud Pak for Data _and_
-               you install the neural voices, the `language`parameter is required. You
-               must specify the language for the custom model in the indicated format (for
-               example, `en-AU` for Australian English). The request fails if you do not
-               specify a language.
         :param str description: (optional) A description of the new custom model.
                Specifying a description is recommended.
         :param dict headers: A `dict` containing the request headers
@@ -440,6 +495,7 @@ class TextToSpeechV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         url = '/v1/customizations'
@@ -485,6 +541,7 @@ class TextToSpeechV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         url = '/v1/customizations'
@@ -560,6 +617,7 @@ class TextToSpeechV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['customization_id']
@@ -605,6 +663,7 @@ class TextToSpeechV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['customization_id']
@@ -644,6 +703,7 @@ class TextToSpeechV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
 
         path_param_keys = ['customization_id']
         path_param_values = self.encode_path_vars(customization_id)
@@ -722,6 +782,7 @@ class TextToSpeechV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['customization_id']
@@ -765,6 +826,7 @@ class TextToSpeechV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['customization_id']
@@ -852,6 +914,7 @@ class TextToSpeechV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
 
         path_param_keys = ['customization_id', 'word']
         path_param_values = self.encode_path_vars(customization_id, word)
@@ -898,6 +961,7 @@ class TextToSpeechV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['customization_id', 'word']
@@ -941,6 +1005,7 @@ class TextToSpeechV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
 
         path_param_keys = ['customization_id', 'word']
         path_param_values = self.encode_path_vars(customization_id, word)
@@ -993,6 +1058,7 @@ class TextToSpeechV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['customization_id']
@@ -1131,6 +1197,7 @@ class TextToSpeechV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['customization_id', 'prompt_id']
@@ -1180,6 +1247,7 @@ class TextToSpeechV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['customization_id', 'prompt_id']
@@ -1229,6 +1297,7 @@ class TextToSpeechV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
 
         path_param_keys = ['customization_id', 'prompt_id']
         path_param_values = self.encode_path_vars(customization_id, prompt_id)
@@ -1271,6 +1340,7 @@ class TextToSpeechV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         url = '/v1/speakers'
@@ -1362,6 +1432,7 @@ class TextToSpeechV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         url = '/v1/speakers'
@@ -1407,6 +1478,7 @@ class TextToSpeechV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
         headers['Accept'] = 'application/json'
 
         path_param_keys = ['speaker_id']
@@ -1454,6 +1526,7 @@ class TextToSpeechV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
 
         path_param_keys = ['speaker_id']
         path_param_values = self.encode_path_vars(speaker_id)
@@ -1507,6 +1580,7 @@ class TextToSpeechV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
 
         url = '/v1/user_data'
         request = self.prepare_request(method='DELETE',
@@ -1527,12 +1601,9 @@ class GetVoiceEnums:
         """
         The voice for which information is to be returned.
         """
-        AR_AR_OMARVOICE = 'ar-AR_OmarVoice'
         AR_MS_OMARVOICE = 'ar-MS_OmarVoice'
         CS_CZ_ALENAVOICE = 'cs-CZ_AlenaVoice'
-        DE_DE_BIRGITVOICE = 'de-DE_BirgitVoice'
         DE_DE_BIRGITV3VOICE = 'de-DE_BirgitV3Voice'
-        DE_DE_DIETERVOICE = 'de-DE_DieterVoice'
         DE_DE_DIETERV3VOICE = 'de-DE_DieterV3Voice'
         DE_DE_ERIKAV3VOICE = 'de-DE_ErikaV3Voice'
         EN_AU_CRAIGVOICE = 'en-AU_CraigVoice'
@@ -1540,33 +1611,22 @@ class GetVoiceEnums:
         EN_AU_STEVEVOICE = 'en-AU_SteveVoice'
         EN_GB_CHARLOTTEV3VOICE = 'en-GB_CharlotteV3Voice'
         EN_GB_JAMESV3VOICE = 'en-GB_JamesV3Voice'
-        EN_GB_KATEVOICE = 'en-GB_KateVoice'
         EN_GB_KATEV3VOICE = 'en-GB_KateV3Voice'
-        EN_US_ALLISONVOICE = 'en-US_AllisonVoice'
         EN_US_ALLISONV3VOICE = 'en-US_AllisonV3Voice'
         EN_US_EMILYV3VOICE = 'en-US_EmilyV3Voice'
         EN_US_HENRYV3VOICE = 'en-US_HenryV3Voice'
         EN_US_KEVINV3VOICE = 'en-US_KevinV3Voice'
-        EN_US_LISAVOICE = 'en-US_LisaVoice'
         EN_US_LISAV3VOICE = 'en-US_LisaV3Voice'
-        EN_US_MICHAELVOICE = 'en-US_MichaelVoice'
         EN_US_MICHAELV3VOICE = 'en-US_MichaelV3Voice'
         EN_US_OLIVIAV3VOICE = 'en-US_OliviaV3Voice'
-        ES_ES_ENRIQUEVOICE = 'es-ES_EnriqueVoice'
         ES_ES_ENRIQUEV3VOICE = 'es-ES_EnriqueV3Voice'
-        ES_ES_LAURAVOICE = 'es-ES_LauraVoice'
         ES_ES_LAURAV3VOICE = 'es-ES_LauraV3Voice'
-        ES_LA_SOFIAVOICE = 'es-LA_SofiaVoice'
         ES_LA_SOFIAV3VOICE = 'es-LA_SofiaV3Voice'
-        ES_US_SOFIAVOICE = 'es-US_SofiaVoice'
         ES_US_SOFIAV3VOICE = 'es-US_SofiaV3Voice'
         FR_CA_LOUISEV3VOICE = 'fr-CA_LouiseV3Voice'
         FR_FR_NICOLASV3VOICE = 'fr-FR_NicolasV3Voice'
-        FR_FR_RENEEVOICE = 'fr-FR_ReneeVoice'
         FR_FR_RENEEV3VOICE = 'fr-FR_ReneeV3Voice'
-        IT_IT_FRANCESCAVOICE = 'it-IT_FrancescaVoice'
         IT_IT_FRANCESCAV3VOICE = 'it-IT_FrancescaV3Voice'
-        JA_JP_EMIVOICE = 'ja-JP_EmiVoice'
         JA_JP_EMIV3VOICE = 'ja-JP_EmiV3Voice'
         KO_KR_HYUNJUNVOICE = 'ko-KR_HyunjunVoice'
         KO_KR_SIWOOVOICE = 'ko-KR_SiWooVoice'
@@ -1576,7 +1636,6 @@ class GetVoiceEnums:
         NL_BE_BRAMVOICE = 'nl-BE_BramVoice'
         NL_NL_EMMAVOICE = 'nl-NL_EmmaVoice'
         NL_NL_LIAMVOICE = 'nl-NL_LiamVoice'
-        PT_BR_ISABELAVOICE = 'pt-BR_IsabelaVoice'
         PT_BR_ISABELAV3VOICE = 'pt-BR_IsabelaV3Voice'
         SV_SE_INGRIDVOICE = 'sv-SE_IngridVoice'
         ZH_CN_LINAVOICE = 'zh-CN_LiNaVoice'
@@ -1596,6 +1655,7 @@ class SynthesizeEnums:
         specifying an audio format, see **Audio formats (accept types)** in the method
         description.
         """
+        AUDIO_ALAW = 'audio/alaw'
         AUDIO_BASIC = 'audio/basic'
         AUDIO_FLAC = 'audio/flac'
         AUDIO_L16 = 'audio/l16'
@@ -1612,25 +1672,20 @@ class SynthesizeEnums:
 
     class Voice(str, Enum):
         """
-        The voice to use for synthesis. If you omit the `voice` parameter, the service
-        uses a default voice, which depends on the version of the service that you are
-        using:
-        * _For IBM Cloud,_ the service always uses the US English `en-US_MichaelV3Voice`
-        by default.
-        * _For IBM Cloud Pak for Data,_ the default voice depends on the voices that you
-        installed. If you installed the _enhanced neural voices_, the service uses the US
-        English `en-US_MichaelV3Voice` by default; if that voice is not installed, you
-        must specify a voice. If you installed the _neural voices_, the service always
-        uses the Australian English `en-AU_MadisonVoice` by default.
-        **See also:** See also [Using languages and
-        voices](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-voices).
+        The voice to use for speech synthesis. If you omit the `voice` parameter, the
+        service uses the US English `en-US_MichaelV3Voice` by default.
+        _For IBM Cloud Pak for Data,_ if you do not install the `en-US_MichaelV3Voice`,
+        you must either specify a voice with the request or specify a new default voice
+        for your installation of the service.
+        **See also:**
+        * [Using languages and
+        voices](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-voices)
+        * [The default
+        voice](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-voices#specify-voice-default).
         """
-        AR_AR_OMARVOICE = 'ar-AR_OmarVoice'
         AR_MS_OMARVOICE = 'ar-MS_OmarVoice'
         CS_CZ_ALENAVOICE = 'cs-CZ_AlenaVoice'
-        DE_DE_BIRGITVOICE = 'de-DE_BirgitVoice'
         DE_DE_BIRGITV3VOICE = 'de-DE_BirgitV3Voice'
-        DE_DE_DIETERVOICE = 'de-DE_DieterVoice'
         DE_DE_DIETERV3VOICE = 'de-DE_DieterV3Voice'
         DE_DE_ERIKAV3VOICE = 'de-DE_ErikaV3Voice'
         EN_AU_CRAIGVOICE = 'en-AU_CraigVoice'
@@ -1638,33 +1693,22 @@ class SynthesizeEnums:
         EN_AU_STEVEVOICE = 'en-AU_SteveVoice'
         EN_GB_CHARLOTTEV3VOICE = 'en-GB_CharlotteV3Voice'
         EN_GB_JAMESV3VOICE = 'en-GB_JamesV3Voice'
-        EN_GB_KATEVOICE = 'en-GB_KateVoice'
         EN_GB_KATEV3VOICE = 'en-GB_KateV3Voice'
-        EN_US_ALLISONVOICE = 'en-US_AllisonVoice'
         EN_US_ALLISONV3VOICE = 'en-US_AllisonV3Voice'
         EN_US_EMILYV3VOICE = 'en-US_EmilyV3Voice'
         EN_US_HENRYV3VOICE = 'en-US_HenryV3Voice'
         EN_US_KEVINV3VOICE = 'en-US_KevinV3Voice'
-        EN_US_LISAVOICE = 'en-US_LisaVoice'
         EN_US_LISAV3VOICE = 'en-US_LisaV3Voice'
-        EN_US_MICHAELVOICE = 'en-US_MichaelVoice'
         EN_US_MICHAELV3VOICE = 'en-US_MichaelV3Voice'
         EN_US_OLIVIAV3VOICE = 'en-US_OliviaV3Voice'
-        ES_ES_ENRIQUEVOICE = 'es-ES_EnriqueVoice'
         ES_ES_ENRIQUEV3VOICE = 'es-ES_EnriqueV3Voice'
-        ES_ES_LAURAVOICE = 'es-ES_LauraVoice'
         ES_ES_LAURAV3VOICE = 'es-ES_LauraV3Voice'
-        ES_LA_SOFIAVOICE = 'es-LA_SofiaVoice'
         ES_LA_SOFIAV3VOICE = 'es-LA_SofiaV3Voice'
-        ES_US_SOFIAVOICE = 'es-US_SofiaVoice'
         ES_US_SOFIAV3VOICE = 'es-US_SofiaV3Voice'
         FR_CA_LOUISEV3VOICE = 'fr-CA_LouiseV3Voice'
         FR_FR_NICOLASV3VOICE = 'fr-FR_NicolasV3Voice'
-        FR_FR_RENEEVOICE = 'fr-FR_ReneeVoice'
         FR_FR_RENEEV3VOICE = 'fr-FR_ReneeV3Voice'
-        IT_IT_FRANCESCAVOICE = 'it-IT_FrancescaVoice'
         IT_IT_FRANCESCAV3VOICE = 'it-IT_FrancescaV3Voice'
-        JA_JP_EMIVOICE = 'ja-JP_EmiVoice'
         JA_JP_EMIV3VOICE = 'ja-JP_EmiV3Voice'
         KO_KR_HYUNJUNVOICE = 'ko-KR_HyunjunVoice'
         KO_KR_SIWOOVOICE = 'ko-KR_SiWooVoice'
@@ -1674,12 +1718,34 @@ class SynthesizeEnums:
         NL_BE_BRAMVOICE = 'nl-BE_BramVoice'
         NL_NL_EMMAVOICE = 'nl-NL_EmmaVoice'
         NL_NL_LIAMVOICE = 'nl-NL_LiamVoice'
-        PT_BR_ISABELAVOICE = 'pt-BR_IsabelaVoice'
         PT_BR_ISABELAV3VOICE = 'pt-BR_IsabelaV3Voice'
         SV_SE_INGRIDVOICE = 'sv-SE_IngridVoice'
         ZH_CN_LINAVOICE = 'zh-CN_LiNaVoice'
         ZH_CN_WANGWEIVOICE = 'zh-CN_WangWeiVoice'
         ZH_CN_ZHANGJINGVOICE = 'zh-CN_ZhangJingVoice'
+
+    class SpellOutMode(str, Enum):
+        """
+        *For German voices,* indicates how the service is to spell out strings of
+        individual letters. To indicate the pace of the spelling, specify one of the
+        following values:
+        * `default` - The service reads the characters at the rate at which it synthesizes
+        speech for the request. You can also omit the parameter entirely to achieve the
+        default behavior.
+        * `singles` - The service reads the characters one at a time, with a brief pause
+        between each character.
+        * `pairs` - The service reads the characters two at a time, with a brief pause
+        between each pair.
+        * `triples` - The service reads the characters three at a time, with a brief pause
+        between each triplet.
+        The parameter is available only for IBM Cloud.
+        **See also:** [Specifying how strings are spelled
+        out](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-synthesis-params#params-spell-out-mode).
+        """
+        DEFAULT = 'default'
+        SINGLES = 'singles'
+        PAIRS = 'pairs'
+        TRIPLES = 'triples'
 
 
 class GetPronunciationEnums:
@@ -1690,15 +1756,18 @@ class GetPronunciationEnums:
     class Voice(str, Enum):
         """
         A voice that specifies the language in which the pronunciation is to be returned.
-        All voices for the same language (for example, `en-US`) return the same
-        translation.
+        If you omit the `voice` parameter, the service uses the US English
+        `en-US_MichaelV3Voice` by default. All voices for the same language (for example,
+        `en-US`) return the same translation.
+        _For IBM Cloud Pak for Data,_ if you do not install the `en-US_MichaelV3Voice`,
+        you must either specify a voice with the request or specify a new default voice
+        for your installation of the service.
+        **See also:** [The default
+        voice](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-voices#specify-voice-default).
         """
-        AR_AR_OMARVOICE = 'ar-AR_OmarVoice'
         AR_MS_OMARVOICE = 'ar-MS_OmarVoice'
         CS_CZ_ALENAVOICE = 'cs-CZ_AlenaVoice'
-        DE_DE_BIRGITVOICE = 'de-DE_BirgitVoice'
         DE_DE_BIRGITV3VOICE = 'de-DE_BirgitV3Voice'
-        DE_DE_DIETERVOICE = 'de-DE_DieterVoice'
         DE_DE_DIETERV3VOICE = 'de-DE_DieterV3Voice'
         DE_DE_ERIKAV3VOICE = 'de-DE_ErikaV3Voice'
         EN_AU_CRAIGVOICE = 'en-AU_CraigVoice'
@@ -1706,33 +1775,22 @@ class GetPronunciationEnums:
         EN_AU_STEVEVOICE = 'en-AU_SteveVoice'
         EN_GB_CHARLOTTEV3VOICE = 'en-GB_CharlotteV3Voice'
         EN_GB_JAMESV3VOICE = 'en-GB_JamesV3Voice'
-        EN_GB_KATEVOICE = 'en-GB_KateVoice'
         EN_GB_KATEV3VOICE = 'en-GB_KateV3Voice'
-        EN_US_ALLISONVOICE = 'en-US_AllisonVoice'
         EN_US_ALLISONV3VOICE = 'en-US_AllisonV3Voice'
         EN_US_EMILYV3VOICE = 'en-US_EmilyV3Voice'
         EN_US_HENRYV3VOICE = 'en-US_HenryV3Voice'
         EN_US_KEVINV3VOICE = 'en-US_KevinV3Voice'
-        EN_US_LISAVOICE = 'en-US_LisaVoice'
         EN_US_LISAV3VOICE = 'en-US_LisaV3Voice'
-        EN_US_MICHAELVOICE = 'en-US_MichaelVoice'
         EN_US_MICHAELV3VOICE = 'en-US_MichaelV3Voice'
         EN_US_OLIVIAV3VOICE = 'en-US_OliviaV3Voice'
-        ES_ES_ENRIQUEVOICE = 'es-ES_EnriqueVoice'
         ES_ES_ENRIQUEV3VOICE = 'es-ES_EnriqueV3Voice'
-        ES_ES_LAURAVOICE = 'es-ES_LauraVoice'
         ES_ES_LAURAV3VOICE = 'es-ES_LauraV3Voice'
-        ES_LA_SOFIAVOICE = 'es-LA_SofiaVoice'
         ES_LA_SOFIAV3VOICE = 'es-LA_SofiaV3Voice'
-        ES_US_SOFIAVOICE = 'es-US_SofiaVoice'
         ES_US_SOFIAV3VOICE = 'es-US_SofiaV3Voice'
         FR_CA_LOUISEV3VOICE = 'fr-CA_LouiseV3Voice'
         FR_FR_NICOLASV3VOICE = 'fr-FR_NicolasV3Voice'
-        FR_FR_RENEEVOICE = 'fr-FR_ReneeVoice'
         FR_FR_RENEEV3VOICE = 'fr-FR_ReneeV3Voice'
-        IT_IT_FRANCESCAVOICE = 'it-IT_FrancescaVoice'
         IT_IT_FRANCESCAV3VOICE = 'it-IT_FrancescaV3Voice'
-        JA_JP_EMIVOICE = 'ja-JP_EmiVoice'
         JA_JP_EMIV3VOICE = 'ja-JP_EmiV3Voice'
         KO_KR_HYUNJUNVOICE = 'ko-KR_HyunjunVoice'
         KO_KR_SIWOOVOICE = 'ko-KR_SiWooVoice'
@@ -1742,7 +1800,6 @@ class GetPronunciationEnums:
         NL_BE_BRAMVOICE = 'nl-BE_BramVoice'
         NL_NL_EMMAVOICE = 'nl-NL_EmmaVoice'
         NL_NL_LIAMVOICE = 'nl-NL_LiamVoice'
-        PT_BR_ISABELAVOICE = 'pt-BR_IsabelaVoice'
         PT_BR_ISABELAV3VOICE = 'pt-BR_IsabelaV3Voice'
         SV_SE_INGRIDVOICE = 'sv-SE_IngridVoice'
         ZH_CN_LINAVOICE = 'zh-CN_LiNaVoice'

@@ -116,7 +116,7 @@ class TestGetVoice():
         get_voice()
         """
         # Set up mock
-        url = preprocess_url('/v1/voices/ar-AR_OmarVoice')
+        url = preprocess_url('/v1/voices/ar-MS_OmarVoice')
         mock_response = '{"url": "url", "gender": "gender", "name": "name", "language": "language", "description": "description", "customizable": true, "supported_features": {"custom_pronunciation": true, "voice_transformation": true}, "customization": {"customization_id": "customization_id", "name": "name", "language": "language", "owner": "owner", "created": "created", "last_modified": "last_modified", "description": "description", "words": [{"word": "word", "translation": "translation", "part_of_speech": "Dosi"}], "prompts": [{"prompt": "prompt", "prompt_id": "prompt_id", "status": "status", "error": "error", "speaker_id": "speaker_id"}]}}'
         responses.add(responses.GET,
                       url,
@@ -125,7 +125,7 @@ class TestGetVoice():
                       status=200)
 
         # Set up parameter values
-        voice = 'ar-AR_OmarVoice'
+        voice = 'ar-MS_OmarVoice'
         customization_id = 'testString'
 
         # Invoke method
@@ -158,7 +158,7 @@ class TestGetVoice():
         test_get_voice_required_params()
         """
         # Set up mock
-        url = preprocess_url('/v1/voices/ar-AR_OmarVoice')
+        url = preprocess_url('/v1/voices/ar-MS_OmarVoice')
         mock_response = '{"url": "url", "gender": "gender", "name": "name", "language": "language", "description": "description", "customizable": true, "supported_features": {"custom_pronunciation": true, "voice_transformation": true}, "customization": {"customization_id": "customization_id", "name": "name", "language": "language", "owner": "owner", "created": "created", "last_modified": "last_modified", "description": "description", "words": [{"word": "word", "translation": "translation", "part_of_speech": "Dosi"}], "prompts": [{"prompt": "prompt", "prompt_id": "prompt_id", "status": "status", "error": "error", "speaker_id": "speaker_id"}]}}'
         responses.add(responses.GET,
                       url,
@@ -167,7 +167,7 @@ class TestGetVoice():
                       status=200)
 
         # Set up parameter values
-        voice = 'ar-AR_OmarVoice'
+        voice = 'ar-MS_OmarVoice'
 
         # Invoke method
         response = _service.get_voice(
@@ -194,7 +194,7 @@ class TestGetVoice():
         test_get_voice_value_error()
         """
         # Set up mock
-        url = preprocess_url('/v1/voices/ar-AR_OmarVoice')
+        url = preprocess_url('/v1/voices/ar-MS_OmarVoice')
         mock_response = '{"url": "url", "gender": "gender", "name": "name", "language": "language", "description": "description", "customizable": true, "supported_features": {"custom_pronunciation": true, "voice_transformation": true}, "customization": {"customization_id": "customization_id", "name": "name", "language": "language", "owner": "owner", "created": "created", "last_modified": "last_modified", "description": "description", "words": [{"word": "word", "translation": "translation", "part_of_speech": "Dosi"}], "prompts": [{"prompt": "prompt", "prompt_id": "prompt_id", "status": "status", "error": "error", "speaker_id": "speaker_id"}]}}'
         responses.add(responses.GET,
                       url,
@@ -203,7 +203,7 @@ class TestGetVoice():
                       status=200)
 
         # Set up parameter values
-        voice = 'ar-AR_OmarVoice'
+        voice = 'ar-MS_OmarVoice'
 
         # Pass in all but one required param and check for a ValueError
         req_param_dict = {
@@ -213,7 +213,6 @@ class TestGetVoice():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_voice(**req_copy)
-
 
     def test_get_voice_value_error_with_retries(self):
         # Enable retries and run test_get_voice_value_error.
@@ -250,7 +249,7 @@ class TestSynthesize():
         responses.add(responses.POST,
                       url,
                       body=mock_response,
-                      content_type='audio/basic',
+                      content_type='audio/alaw',
                       status=200)
 
         # Set up parameter values
@@ -258,6 +257,7 @@ class TestSynthesize():
         accept = 'audio/ogg;codecs=opus'
         voice = 'en-US_MichaelV3Voice'
         customization_id = 'testString'
+        spell_out_mode = 'default'
 
         # Invoke method
         response = _service.synthesize(
@@ -265,6 +265,7 @@ class TestSynthesize():
             accept=accept,
             voice=voice,
             customization_id=customization_id,
+            spell_out_mode=spell_out_mode,
             headers={}
         )
 
@@ -276,6 +277,7 @@ class TestSynthesize():
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'voice={}'.format(voice) in query_string
         assert 'customization_id={}'.format(customization_id) in query_string
+        assert 'spell_out_mode={}'.format(spell_out_mode) in query_string
         # Validate body params
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['text'] == 'testString'
@@ -300,7 +302,7 @@ class TestSynthesize():
         responses.add(responses.POST,
                       url,
                       body=mock_response,
-                      content_type='audio/basic',
+                      content_type='audio/alaw',
                       status=200)
 
         # Set up parameter values
@@ -339,7 +341,7 @@ class TestSynthesize():
         responses.add(responses.POST,
                       url,
                       body=mock_response,
-                      content_type='audio/basic',
+                      content_type='audio/alaw',
                       status=200)
 
         # Set up parameter values
@@ -353,7 +355,6 @@ class TestSynthesize():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.synthesize(**req_copy)
-
 
     def test_synthesize_value_error_with_retries(self):
         # Enable retries and run test_synthesize_value_error.
@@ -494,7 +495,6 @@ class TestGetPronunciation():
             with pytest.raises(ValueError):
                 _service.get_pronunciation(**req_copy)
 
-
     def test_get_pronunciation_value_error_with_retries(self):
         # Enable retries and run test_get_pronunciation_value_error.
         _service.enable_retries()
@@ -591,7 +591,6 @@ class TestCreateCustomModel():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.create_custom_model(**req_copy)
-
 
     def test_create_custom_model_value_error_with_retries(self):
         # Enable retries and run test_create_custom_model_value_error.
@@ -765,7 +764,6 @@ class TestUpdateCustomModel():
             with pytest.raises(ValueError):
                 _service.update_custom_model(**req_copy)
 
-
     def test_update_custom_model_value_error_with_retries(self):
         # Enable retries and run test_update_custom_model_value_error.
         _service.enable_retries()
@@ -842,7 +840,6 @@ class TestGetCustomModel():
             with pytest.raises(ValueError):
                 _service.get_custom_model(**req_copy)
 
-
     def test_get_custom_model_value_error_with_retries(self):
         # Enable retries and run test_get_custom_model_value_error.
         _service.enable_retries()
@@ -912,7 +909,6 @@ class TestDeleteCustomModel():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_custom_model(**req_copy)
-
 
     def test_delete_custom_model_value_error_with_retries(self):
         # Enable retries and run test_delete_custom_model_value_error.
@@ -1013,7 +1009,6 @@ class TestAddWords():
             with pytest.raises(ValueError):
                 _service.add_words(**req_copy)
 
-
     def test_add_words_value_error_with_retries(self):
         # Enable retries and run test_add_words_value_error.
         _service.enable_retries()
@@ -1089,7 +1084,6 @@ class TestListWords():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_words(**req_copy)
-
 
     def test_list_words_value_error_with_retries(self):
         # Enable retries and run test_list_words_value_error.
@@ -1176,7 +1170,6 @@ class TestAddWord():
             with pytest.raises(ValueError):
                 _service.add_word(**req_copy)
 
-
     def test_add_word_value_error_with_retries(self):
         # Enable retries and run test_add_word_value_error.
         _service.enable_retries()
@@ -1257,7 +1250,6 @@ class TestGetWord():
             with pytest.raises(ValueError):
                 _service.get_word(**req_copy)
 
-
     def test_get_word_value_error_with_retries(self):
         # Enable retries and run test_get_word_value_error.
         _service.enable_retries()
@@ -1331,7 +1323,6 @@ class TestDeleteWord():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_word(**req_copy)
-
 
     def test_delete_word_value_error_with_retries(self):
         # Enable retries and run test_delete_word_value_error.
@@ -1418,7 +1409,6 @@ class TestListCustomPrompts():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_custom_prompts(**req_copy)
-
 
     def test_list_custom_prompts_value_error_with_retries(self):
         # Enable retries and run test_list_custom_prompts_value_error.
@@ -1518,7 +1508,6 @@ class TestAddCustomPrompt():
             with pytest.raises(ValueError):
                 _service.add_custom_prompt(**req_copy)
 
-
     def test_add_custom_prompt_value_error_with_retries(self):
         # Enable retries and run test_add_custom_prompt_value_error.
         _service.enable_retries()
@@ -1599,7 +1588,6 @@ class TestGetCustomPrompt():
             with pytest.raises(ValueError):
                 _service.get_custom_prompt(**req_copy)
 
-
     def test_get_custom_prompt_value_error_with_retries(self):
         # Enable retries and run test_get_custom_prompt_value_error.
         _service.enable_retries()
@@ -1673,7 +1661,6 @@ class TestDeleteCustomPrompt():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_custom_prompt(**req_copy)
-
 
     def test_delete_custom_prompt_value_error_with_retries(self):
         # Enable retries and run test_delete_custom_prompt_value_error.
@@ -1807,7 +1794,6 @@ class TestCreateSpeakerModel():
             with pytest.raises(ValueError):
                 _service.create_speaker_model(**req_copy)
 
-
     def test_create_speaker_model_value_error_with_retries(self):
         # Enable retries and run test_create_speaker_model_value_error.
         _service.enable_retries()
@@ -1884,7 +1870,6 @@ class TestGetSpeakerModel():
             with pytest.raises(ValueError):
                 _service.get_speaker_model(**req_copy)
 
-
     def test_get_speaker_model_value_error_with_retries(self):
         # Enable retries and run test_get_speaker_model_value_error.
         _service.enable_retries()
@@ -1954,7 +1939,6 @@ class TestDeleteSpeakerModel():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_speaker_model(**req_copy)
-
 
     def test_delete_speaker_model_value_error_with_retries(self):
         # Enable retries and run test_delete_speaker_model_value_error.
@@ -2039,7 +2023,6 @@ class TestDeleteUserData():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_user_data(**req_copy)
-
 
     def test_delete_user_data_value_error_with_retries(self):
         # Enable retries and run test_delete_user_data_value_error.
