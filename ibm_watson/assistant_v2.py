@@ -81,10 +81,7 @@ class AssistantV2(BaseService):
     # Sessions
     #########################
 
-    def create_session(self,
-                       assistant_id: str,
-                       *,
-                       **kwargs) -> DetailedResponse:
+    def create_session(self, assistant_id: str, **kwargs) -> DetailedResponse:
         """
         Create a session.
 
