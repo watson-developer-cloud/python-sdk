@@ -152,7 +152,6 @@ class TestCreateEnvironment():
             with pytest.raises(ValueError):
                 _service.create_environment(**req_copy)
 
-
     def test_create_environment_value_error_with_retries(self):
         # Enable retries and run test_create_environment_value_error.
         _service.enable_retries()
@@ -260,7 +259,6 @@ class TestListEnvironments():
             with pytest.raises(ValueError):
                 _service.list_environments(**req_copy)
 
-
     def test_list_environments_value_error_with_retries(self):
         # Enable retries and run test_list_environments_value_error.
         _service.enable_retries()
@@ -336,7 +334,6 @@ class TestGetEnvironment():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_environment(**req_copy)
-
 
     def test_get_environment_value_error_with_retries(self):
         # Enable retries and run test_get_environment_value_error.
@@ -428,7 +425,6 @@ class TestUpdateEnvironment():
             with pytest.raises(ValueError):
                 _service.update_environment(**req_copy)
 
-
     def test_update_environment_value_error_with_retries(self):
         # Enable retries and run test_update_environment_value_error.
         _service.enable_retries()
@@ -504,7 +500,6 @@ class TestDeleteEnvironment():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_environment(**req_copy)
-
 
     def test_delete_environment_value_error_with_retries(self):
         # Enable retries and run test_delete_environment_value_error.
@@ -589,7 +584,6 @@ class TestListFields():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_fields(**req_copy)
-
 
     def test_list_fields_value_error_with_retries(self):
         # Enable retries and run test_list_fields_value_error.
@@ -740,7 +734,7 @@ class TestCreateConfiguration():
         nlu_enrichment_features_model['entities'] = nlu_enrichment_entities_model
         nlu_enrichment_features_model['sentiment'] = nlu_enrichment_sentiment_model
         nlu_enrichment_features_model['emotion'] = nlu_enrichment_emotion_model
-        nlu_enrichment_features_model['categories'] = {}
+        nlu_enrichment_features_model['categories'] = {'key1': 'testString'}
         nlu_enrichment_features_model['semantic_roles'] = nlu_enrichment_semantic_roles_model
         nlu_enrichment_features_model['relations'] = nlu_enrichment_relations_model
         nlu_enrichment_features_model['concepts'] = nlu_enrichment_concepts_model
@@ -982,7 +976,7 @@ class TestCreateConfiguration():
         nlu_enrichment_features_model['entities'] = nlu_enrichment_entities_model
         nlu_enrichment_features_model['sentiment'] = nlu_enrichment_sentiment_model
         nlu_enrichment_features_model['emotion'] = nlu_enrichment_emotion_model
-        nlu_enrichment_features_model['categories'] = {}
+        nlu_enrichment_features_model['categories'] = {'key1': 'testString'}
         nlu_enrichment_features_model['semantic_roles'] = nlu_enrichment_semantic_roles_model
         nlu_enrichment_features_model['relations'] = nlu_enrichment_relations_model
         nlu_enrichment_features_model['concepts'] = nlu_enrichment_concepts_model
@@ -1075,7 +1069,6 @@ class TestCreateConfiguration():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.create_configuration(**req_copy)
-
 
     def test_create_configuration_value_error_with_retries(self):
         # Enable retries and run test_create_configuration_value_error.
@@ -1195,7 +1188,6 @@ class TestListConfigurations():
             with pytest.raises(ValueError):
                 _service.list_configurations(**req_copy)
 
-
     def test_list_configurations_value_error_with_retries(self):
         # Enable retries and run test_list_configurations_value_error.
         _service.enable_retries()
@@ -1275,7 +1267,6 @@ class TestGetConfiguration():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_configuration(**req_copy)
-
 
     def test_get_configuration_value_error_with_retries(self):
         # Enable retries and run test_get_configuration_value_error.
@@ -1416,7 +1407,7 @@ class TestUpdateConfiguration():
         nlu_enrichment_features_model['entities'] = nlu_enrichment_entities_model
         nlu_enrichment_features_model['sentiment'] = nlu_enrichment_sentiment_model
         nlu_enrichment_features_model['emotion'] = nlu_enrichment_emotion_model
-        nlu_enrichment_features_model['categories'] = {}
+        nlu_enrichment_features_model['categories'] = {'key1': 'testString'}
         nlu_enrichment_features_model['semantic_roles'] = nlu_enrichment_semantic_roles_model
         nlu_enrichment_features_model['relations'] = nlu_enrichment_relations_model
         nlu_enrichment_features_model['concepts'] = nlu_enrichment_concepts_model
@@ -1660,7 +1651,7 @@ class TestUpdateConfiguration():
         nlu_enrichment_features_model['entities'] = nlu_enrichment_entities_model
         nlu_enrichment_features_model['sentiment'] = nlu_enrichment_sentiment_model
         nlu_enrichment_features_model['emotion'] = nlu_enrichment_emotion_model
-        nlu_enrichment_features_model['categories'] = {}
+        nlu_enrichment_features_model['categories'] = {'key1': 'testString'}
         nlu_enrichment_features_model['semantic_roles'] = nlu_enrichment_semantic_roles_model
         nlu_enrichment_features_model['relations'] = nlu_enrichment_relations_model
         nlu_enrichment_features_model['concepts'] = nlu_enrichment_concepts_model
@@ -1756,7 +1747,6 @@ class TestUpdateConfiguration():
             with pytest.raises(ValueError):
                 _service.update_configuration(**req_copy)
 
-
     def test_update_configuration_value_error_with_retries(self):
         # Enable retries and run test_update_configuration_value_error.
         _service.enable_retries()
@@ -1836,7 +1826,6 @@ class TestDeleteConfiguration():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_configuration(**req_copy)
-
 
     def test_delete_configuration_value_error_with_retries(self):
         # Enable retries and run test_delete_configuration_value_error.
@@ -1942,7 +1931,6 @@ class TestCreateCollection():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.create_collection(**req_copy)
-
 
     def test_create_collection_value_error_with_retries(self):
         # Enable retries and run test_create_collection_value_error.
@@ -2062,7 +2050,6 @@ class TestListCollections():
             with pytest.raises(ValueError):
                 _service.list_collections(**req_copy)
 
-
     def test_list_collections_value_error_with_retries(self):
         # Enable retries and run test_list_collections_value_error.
         _service.enable_retries()
@@ -2142,7 +2129,6 @@ class TestGetCollection():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_collection(**req_copy)
-
 
     def test_get_collection_value_error_with_retries(self):
         # Enable retries and run test_get_collection_value_error.
@@ -2239,7 +2225,6 @@ class TestUpdateCollection():
             with pytest.raises(ValueError):
                 _service.update_collection(**req_copy)
 
-
     def test_update_collection_value_error_with_retries(self):
         # Enable retries and run test_update_collection_value_error.
         _service.enable_retries()
@@ -2320,7 +2305,6 @@ class TestDeleteCollection():
             with pytest.raises(ValueError):
                 _service.delete_collection(**req_copy)
 
-
     def test_delete_collection_value_error_with_retries(self):
         # Enable retries and run test_delete_collection_value_error.
         _service.enable_retries()
@@ -2400,7 +2384,6 @@ class TestListCollectionFields():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_collection_fields(**req_copy)
-
 
     def test_list_collection_fields_value_error_with_retries(self):
         # Enable retries and run test_list_collection_fields_value_error.
@@ -2491,7 +2474,6 @@ class TestListExpansions():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_expansions(**req_copy)
-
 
     def test_list_expansions_value_error_with_retries(self):
         # Enable retries and run test_list_expansions_value_error.
@@ -2590,7 +2572,6 @@ class TestCreateExpansions():
             with pytest.raises(ValueError):
                 _service.create_expansions(**req_copy)
 
-
     def test_create_expansions_value_error_with_retries(self):
         # Enable retries and run test_create_expansions_value_error.
         _service.enable_retries()
@@ -2664,7 +2645,6 @@ class TestDeleteExpansions():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_expansions(**req_copy)
-
 
     def test_delete_expansions_value_error_with_retries(self):
         # Enable retries and run test_delete_expansions_value_error.
@@ -2745,7 +2725,6 @@ class TestGetTokenizationDictionaryStatus():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_tokenization_dictionary_status(**req_copy)
-
 
     def test_get_tokenization_dictionary_status_value_error_with_retries(self):
         # Enable retries and run test_get_tokenization_dictionary_status_value_error.
@@ -2877,7 +2856,6 @@ class TestCreateTokenizationDictionary():
             with pytest.raises(ValueError):
                 _service.create_tokenization_dictionary(**req_copy)
 
-
     def test_create_tokenization_dictionary_value_error_with_retries(self):
         # Enable retries and run test_create_tokenization_dictionary_value_error.
         _service.enable_retries()
@@ -2951,7 +2929,6 @@ class TestDeleteTokenizationDictionary():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_tokenization_dictionary(**req_copy)
-
 
     def test_delete_tokenization_dictionary_value_error_with_retries(self):
         # Enable retries and run test_delete_tokenization_dictionary_value_error.
@@ -3032,7 +3009,6 @@ class TestGetStopwordListStatus():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_stopword_list_status(**req_copy)
-
 
     def test_get_stopword_list_status_value_error_with_retries(self):
         # Enable retries and run test_get_stopword_list_status_value_error.
@@ -3163,7 +3139,6 @@ class TestCreateStopwordList():
             with pytest.raises(ValueError):
                 _service.create_stopword_list(**req_copy)
 
-
     def test_create_stopword_list_value_error_with_retries(self):
         # Enable retries and run test_create_stopword_list_value_error.
         _service.enable_retries()
@@ -3237,7 +3212,6 @@ class TestDeleteStopwordList():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_stopword_list(**req_copy)
-
 
     def test_delete_stopword_list_value_error_with_retries(self):
         # Enable retries and run test_delete_stopword_list_value_error.
@@ -3375,7 +3349,6 @@ class TestAddDocument():
             with pytest.raises(ValueError):
                 _service.add_document(**req_copy)
 
-
     def test_add_document_value_error_with_retries(self):
         # Enable retries and run test_add_document_value_error.
         _service.enable_retries()
@@ -3459,7 +3432,6 @@ class TestGetDocumentStatus():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_document_status(**req_copy)
-
 
     def test_get_document_status_value_error_with_retries(self):
         # Enable retries and run test_get_document_status_value_error.
@@ -3593,7 +3565,6 @@ class TestUpdateDocument():
             with pytest.raises(ValueError):
                 _service.update_document(**req_copy)
 
-
     def test_update_document_value_error_with_retries(self):
         # Enable retries and run test_update_document_value_error.
         _service.enable_retries()
@@ -3677,7 +3648,6 @@ class TestDeleteDocument():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_document(**req_copy)
-
 
     def test_delete_document_value_error_with_retries(self):
         # Enable retries and run test_delete_document_value_error.
@@ -3871,7 +3841,6 @@ class TestQuery():
             with pytest.raises(ValueError):
                 _service.query(**req_copy)
 
-
     def test_query_value_error_with_retries(self):
         # Enable retries and run test_query_value_error.
         _service.enable_retries()
@@ -4043,7 +4012,6 @@ class TestQueryNotices():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.query_notices(**req_copy)
-
 
     def test_query_notices_value_error_with_retries(self):
         # Enable retries and run test_query_notices_value_error.
@@ -4304,7 +4272,6 @@ class TestFederatedQuery():
             with pytest.raises(ValueError):
                 _service.federated_query(**req_copy)
 
-
     def test_federated_query_value_error_with_retries(self):
         # Enable retries and run test_federated_query_value_error.
         _service.enable_retries()
@@ -4470,7 +4437,6 @@ class TestFederatedQueryNotices():
             with pytest.raises(ValueError):
                 _service.federated_query_notices(**req_copy)
 
-
     def test_federated_query_notices_value_error_with_retries(self):
         # Enable retries and run test_federated_query_notices_value_error.
         _service.enable_retries()
@@ -4609,7 +4575,6 @@ class TestGetAutocompletion():
             with pytest.raises(ValueError):
                 _service.get_autocompletion(**req_copy)
 
-
     def test_get_autocompletion_value_error_with_retries(self):
         # Enable retries and run test_get_autocompletion_value_error.
         _service.enable_retries()
@@ -4699,7 +4664,6 @@ class TestListTrainingData():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_training_data(**req_copy)
-
 
     def test_list_training_data_value_error_with_retries(self):
         # Enable retries and run test_list_training_data_value_error.
@@ -4807,7 +4771,6 @@ class TestAddTrainingData():
             with pytest.raises(ValueError):
                 _service.add_training_data(**req_copy)
 
-
     def test_add_training_data_value_error_with_retries(self):
         # Enable retries and run test_add_training_data_value_error.
         _service.enable_retries()
@@ -4881,7 +4844,6 @@ class TestDeleteAllTrainingData():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_all_training_data(**req_copy)
-
 
     def test_delete_all_training_data_value_error_with_retries(self):
         # Enable retries and run test_delete_all_training_data_value_error.
@@ -4967,7 +4929,6 @@ class TestGetTrainingData():
             with pytest.raises(ValueError):
                 _service.get_training_data(**req_copy)
 
-
     def test_get_training_data_value_error_with_retries(self):
         # Enable retries and run test_get_training_data_value_error.
         _service.enable_retries()
@@ -5045,7 +5006,6 @@ class TestDeleteTrainingData():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_training_data(**req_copy)
-
 
     def test_delete_training_data_value_error_with_retries(self):
         # Enable retries and run test_delete_training_data_value_error.
@@ -5130,7 +5090,6 @@ class TestListTrainingExamples():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_training_examples(**req_copy)
-
 
     def test_list_training_examples_value_error_with_retries(self):
         # Enable retries and run test_list_training_examples_value_error.
@@ -5230,7 +5189,6 @@ class TestCreateTrainingExample():
             with pytest.raises(ValueError):
                 _service.create_training_example(**req_copy)
 
-
     def test_create_training_example_value_error_with_retries(self):
         # Enable retries and run test_create_training_example_value_error.
         _service.enable_retries()
@@ -5312,7 +5270,6 @@ class TestDeleteTrainingExample():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_training_example(**req_copy)
-
 
     def test_delete_training_example_value_error_with_retries(self):
         # Enable retries and run test_delete_training_example_value_error.
@@ -5412,7 +5369,6 @@ class TestUpdateTrainingExample():
             with pytest.raises(ValueError):
                 _service.update_training_example(**req_copy)
 
-
     def test_update_training_example_value_error_with_retries(self):
         # Enable retries and run test_update_training_example_value_error.
         _service.enable_retries()
@@ -5501,7 +5457,6 @@ class TestGetTrainingExample():
             with pytest.raises(ValueError):
                 _service.get_training_example(**req_copy)
 
-
     def test_get_training_example_value_error_with_retries(self):
         # Enable retries and run test_get_training_example_value_error.
         _service.enable_retries()
@@ -5585,7 +5540,6 @@ class TestDeleteUserData():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_user_data(**req_copy)
-
 
     def test_delete_user_data_value_error_with_retries(self):
         # Enable retries and run test_delete_user_data_value_error.
@@ -5698,7 +5652,6 @@ class TestCreateEvent():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.create_event(**req_copy)
-
 
     def test_create_event_value_error_with_retries(self):
         # Enable retries and run test_create_event_value_error.
@@ -5819,7 +5772,6 @@ class TestQueryLog():
             with pytest.raises(ValueError):
                 _service.query_log(**req_copy)
 
-
     def test_query_log_value_error_with_retries(self):
         # Enable retries and run test_query_log_value_error.
         _service.enable_retries()
@@ -5930,7 +5882,6 @@ class TestGetMetricsQuery():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_metrics_query(**req_copy)
-
 
     def test_get_metrics_query_value_error_with_retries(self):
         # Enable retries and run test_get_metrics_query_value_error.
@@ -6043,7 +5994,6 @@ class TestGetMetricsQueryEvent():
             with pytest.raises(ValueError):
                 _service.get_metrics_query_event(**req_copy)
 
-
     def test_get_metrics_query_event_value_error_with_retries(self):
         # Enable retries and run test_get_metrics_query_event_value_error.
         _service.enable_retries()
@@ -6154,7 +6104,6 @@ class TestGetMetricsQueryNoResults():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_metrics_query_no_results(**req_copy)
-
 
     def test_get_metrics_query_no_results_value_error_with_retries(self):
         # Enable retries and run test_get_metrics_query_no_results_value_error.
@@ -6267,7 +6216,6 @@ class TestGetMetricsEventRate():
             with pytest.raises(ValueError):
                 _service.get_metrics_event_rate(**req_copy)
 
-
     def test_get_metrics_event_rate_value_error_with_retries(self):
         # Enable retries and run test_get_metrics_event_rate_value_error.
         _service.enable_retries()
@@ -6375,7 +6323,6 @@ class TestGetMetricsQueryTokenEvent():
             with pytest.raises(ValueError):
                 _service.get_metrics_query_token_event(**req_copy)
 
-
     def test_get_metrics_query_token_event_value_error_with_retries(self):
         # Enable retries and run test_get_metrics_query_token_event_value_error.
         _service.enable_retries()
@@ -6461,7 +6408,6 @@ class TestListCredentials():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_credentials(**req_copy)
-
 
     def test_list_credentials_value_error_with_retries(self):
         # Enable retries and run test_list_credentials_value_error.
@@ -6607,7 +6553,6 @@ class TestCreateCredentials():
             with pytest.raises(ValueError):
                 _service.create_credentials(**req_copy)
 
-
     def test_create_credentials_value_error_with_retries(self):
         # Enable retries and run test_create_credentials_value_error.
         _service.enable_retries()
@@ -6687,7 +6632,6 @@ class TestGetCredentials():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_credentials(**req_copy)
-
 
     def test_get_credentials_value_error_with_retries(self):
         # Enable retries and run test_get_credentials_value_error.
@@ -6837,7 +6781,6 @@ class TestUpdateCredentials():
             with pytest.raises(ValueError):
                 _service.update_credentials(**req_copy)
 
-
     def test_update_credentials_value_error_with_retries(self):
         # Enable retries and run test_update_credentials_value_error.
         _service.enable_retries()
@@ -6917,7 +6860,6 @@ class TestDeleteCredentials():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_credentials(**req_copy)
-
 
     def test_delete_credentials_value_error_with_retries(self):
         # Enable retries and run test_delete_credentials_value_error.
@@ -7004,7 +6946,6 @@ class TestListGateways():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_gateways(**req_copy)
-
 
     def test_list_gateways_value_error_with_retries(self):
         # Enable retries and run test_list_gateways_value_error.
@@ -7123,7 +7064,6 @@ class TestCreateGateway():
             with pytest.raises(ValueError):
                 _service.create_gateway(**req_copy)
 
-
     def test_create_gateway_value_error_with_retries(self):
         # Enable retries and run test_create_gateway_value_error.
         _service.enable_retries()
@@ -7204,7 +7144,6 @@ class TestGetGateway():
             with pytest.raises(ValueError):
                 _service.get_gateway(**req_copy)
 
-
     def test_get_gateway_value_error_with_retries(self):
         # Enable retries and run test_get_gateway_value_error.
         _service.enable_retries()
@@ -7284,7 +7223,6 @@ class TestDeleteGateway():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_gateway(**req_copy)
-
 
     def test_delete_gateway_value_error_with_retries(self):
         # Enable retries and run test_delete_gateway_value_error.
@@ -7613,7 +7551,7 @@ class TestModel_Configuration():
         nlu_enrichment_features_model['entities'] = nlu_enrichment_entities_model
         nlu_enrichment_features_model['sentiment'] = nlu_enrichment_sentiment_model
         nlu_enrichment_features_model['emotion'] = nlu_enrichment_emotion_model
-        nlu_enrichment_features_model['categories'] = {}
+        nlu_enrichment_features_model['categories'] = {'key1': 'testString'}
         nlu_enrichment_features_model['semantic_roles'] = nlu_enrichment_semantic_roles_model
         nlu_enrichment_features_model['relations'] = nlu_enrichment_relations_model
         nlu_enrichment_features_model['concepts'] = nlu_enrichment_concepts_model
@@ -8359,7 +8297,7 @@ class TestModel_Enrichment():
         nlu_enrichment_features_model['entities'] = nlu_enrichment_entities_model
         nlu_enrichment_features_model['sentiment'] = nlu_enrichment_sentiment_model
         nlu_enrichment_features_model['emotion'] = nlu_enrichment_emotion_model
-        nlu_enrichment_features_model['categories'] = {}
+        nlu_enrichment_features_model['categories'] = {'key1': 'testString'}
         nlu_enrichment_features_model['semantic_roles'] = nlu_enrichment_semantic_roles_model
         nlu_enrichment_features_model['relations'] = nlu_enrichment_relations_model
         nlu_enrichment_features_model['concepts'] = nlu_enrichment_concepts_model
@@ -8444,7 +8382,7 @@ class TestModel_EnrichmentOptions():
         nlu_enrichment_features_model['entities'] = nlu_enrichment_entities_model
         nlu_enrichment_features_model['sentiment'] = nlu_enrichment_sentiment_model
         nlu_enrichment_features_model['emotion'] = nlu_enrichment_emotion_model
-        nlu_enrichment_features_model['categories'] = {}
+        nlu_enrichment_features_model['categories'] = {'key1': 'testString'}
         nlu_enrichment_features_model['semantic_roles'] = nlu_enrichment_semantic_roles_model
         nlu_enrichment_features_model['relations'] = nlu_enrichment_relations_model
         nlu_enrichment_features_model['concepts'] = nlu_enrichment_concepts_model
@@ -9136,7 +9074,7 @@ class TestModel_ListConfigurationsResponse():
         nlu_enrichment_features_model['entities'] = nlu_enrichment_entities_model
         nlu_enrichment_features_model['sentiment'] = nlu_enrichment_sentiment_model
         nlu_enrichment_features_model['emotion'] = nlu_enrichment_emotion_model
-        nlu_enrichment_features_model['categories'] = {}
+        nlu_enrichment_features_model['categories'] = {'key1': 'testString'}
         nlu_enrichment_features_model['semantic_roles'] = nlu_enrichment_semantic_roles_model
         nlu_enrichment_features_model['relations'] = nlu_enrichment_relations_model
         nlu_enrichment_features_model['concepts'] = nlu_enrichment_concepts_model
@@ -9850,7 +9788,7 @@ class TestModel_NluEnrichmentFeatures():
         nlu_enrichment_features_model_json['entities'] = nlu_enrichment_entities_model
         nlu_enrichment_features_model_json['sentiment'] = nlu_enrichment_sentiment_model
         nlu_enrichment_features_model_json['emotion'] = nlu_enrichment_emotion_model
-        nlu_enrichment_features_model_json['categories'] = {}
+        nlu_enrichment_features_model_json['categories'] = {'key1': 'testString'}
         nlu_enrichment_features_model_json['semantic_roles'] = nlu_enrichment_semantic_roles_model
         nlu_enrichment_features_model_json['relations'] = nlu_enrichment_relations_model
         nlu_enrichment_features_model_json['concepts'] = nlu_enrichment_concepts_model
@@ -10232,7 +10170,7 @@ class TestModel_QueryNoticesResponse():
 
         query_notices_result_model = {} # QueryNoticesResult
         query_notices_result_model['id'] = '030ba125-29db-43f2-8552-f941ae30a7a8'
-        query_notices_result_model['metadata'] = {}
+        query_notices_result_model['metadata'] = {'key1': 'testString'}
         query_notices_result_model['collection_id'] = 'f1360220-ea2d-4271-9d62-89a910b13c37'
         query_notices_result_model['result_metadata'] = query_result_metadata_model
         query_notices_result_model['code'] = 200
@@ -10240,7 +10178,7 @@ class TestModel_QueryNoticesResponse():
         query_notices_result_model['file_type'] = 'html'
         query_notices_result_model['sha1'] = 'de9f2c7fd25e1b3afad3e85a0bd17d9b100db4b3'
         query_notices_result_model['notices'] = [notice_model]
-        query_notices_result_model['score'] = { 'foo': 'bar' }
+        query_notices_result_model['score'] = {'foo': 'bar'}
 
         query_aggregation_model = {} # QueryFilterAggregation
         query_aggregation_model['type'] = 'filter'
@@ -10306,7 +10244,7 @@ class TestModel_QueryNoticesResult():
         # Construct a json representation of a QueryNoticesResult model
         query_notices_result_model_json = {}
         query_notices_result_model_json['id'] = 'testString'
-        query_notices_result_model_json['metadata'] = {}
+        query_notices_result_model_json['metadata'] = {'key1': 'testString'}
         query_notices_result_model_json['collection_id'] = 'testString'
         query_notices_result_model_json['result_metadata'] = query_result_metadata_model
         query_notices_result_model_json['code'] = 38
@@ -10314,7 +10252,7 @@ class TestModel_QueryNoticesResult():
         query_notices_result_model_json['file_type'] = 'pdf'
         query_notices_result_model_json['sha1'] = 'testString'
         query_notices_result_model_json['notices'] = [notice_model]
-        query_notices_result_model_json['foo'] = { 'foo': 'bar' }
+        query_notices_result_model_json['foo'] = {'foo': 'bar'}
 
         # Construct a model instance of QueryNoticesResult by calling from_dict on the json representation
         query_notices_result_model = QueryNoticesResult.from_dict(query_notices_result_model_json)
@@ -10336,7 +10274,7 @@ class TestModel_QueryNoticesResult():
         actual_dict = query_notices_result_model.get_properties()
         assert actual_dict == {}
 
-        expected_dict = {'foo': { 'foo': 'bar' }}
+        expected_dict = {'foo': {'foo': 'bar'}}
         query_notices_result_model.set_properties(expected_dict)
         actual_dict = query_notices_result_model.get_properties()
         assert actual_dict == expected_dict
@@ -10393,10 +10331,10 @@ class TestModel_QueryResponse():
 
         query_result_model = {} # QueryResult
         query_result_model['id'] = 'watson-generated ID'
-        query_result_model['metadata'] = {}
+        query_result_model['metadata'] = {'key1': 'testString'}
         query_result_model['collection_id'] = 'testString'
         query_result_model['result_metadata'] = query_result_metadata_model
-        query_result_model['score'] = { 'foo': 'bar' }
+        query_result_model['score'] = {'foo': 'bar'}
 
         query_aggregation_model = {} # QueryFilterAggregation
         query_aggregation_model['type'] = 'filter'
@@ -10459,10 +10397,10 @@ class TestModel_QueryResult():
         # Construct a json representation of a QueryResult model
         query_result_model_json = {}
         query_result_model_json['id'] = 'testString'
-        query_result_model_json['metadata'] = {}
+        query_result_model_json['metadata'] = {'key1': 'testString'}
         query_result_model_json['collection_id'] = 'testString'
         query_result_model_json['result_metadata'] = query_result_metadata_model
-        query_result_model_json['foo'] = { 'foo': 'bar' }
+        query_result_model_json['foo'] = {'foo': 'bar'}
 
         # Construct a model instance of QueryResult by calling from_dict on the json representation
         query_result_model = QueryResult.from_dict(query_result_model_json)
@@ -10484,7 +10422,7 @@ class TestModel_QueryResult():
         actual_dict = query_result_model.get_properties()
         assert actual_dict == {}
 
-        expected_dict = {'foo': { 'foo': 'bar' }}
+        expected_dict = {'foo': {'foo': 'bar'}}
         query_result_model.set_properties(expected_dict)
         actual_dict = query_result_model.get_properties()
         assert actual_dict == expected_dict
@@ -10612,7 +10550,7 @@ class TestModel_QueryTopHitsAggregationResult():
         # Construct a json representation of a QueryTopHitsAggregationResult model
         query_top_hits_aggregation_result_model_json = {}
         query_top_hits_aggregation_result_model_json['matching_results'] = 38
-        query_top_hits_aggregation_result_model_json['hits'] = [{}]
+        query_top_hits_aggregation_result_model_json['hits'] = [{'key1': 'testString'}]
 
         # Construct a model instance of QueryTopHitsAggregationResult by calling from_dict on the json representation
         query_top_hits_aggregation_result_model = QueryTopHitsAggregationResult.from_dict(query_top_hits_aggregation_result_model_json)
@@ -11777,7 +11715,7 @@ class TestModel_QueryTopHitsAggregation():
 
         query_top_hits_aggregation_result_model = {} # QueryTopHitsAggregationResult
         query_top_hits_aggregation_result_model['matching_results'] = 38
-        query_top_hits_aggregation_result_model['hits'] = [{}]
+        query_top_hits_aggregation_result_model['hits'] = [{'key1': 'testString'}]
 
         # Construct a json representation of a QueryTopHitsAggregation model
         query_top_hits_aggregation_model_json = {}
