@@ -30,6 +30,7 @@ class TextToSpeechV1Adapter(TextToSpeechV1):
                                    voice=None,
                                    timings=None,
                                    customization_id=None,
+                                   spell_out_mode: str = None,
                                    http_proxy_host=None,
                                    http_proxy_port=None,
                                    **kwargs):
@@ -60,6 +61,21 @@ class TextToSpeechV1Adapter(TextToSpeechV1):
         If you include a customization ID, you must call the method with the service credentials of the custom model's owner. Omit the
         parameter to use the specified voice with no customization. For more information, see [Understanding customization]
         (https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customIntro#customIntro).
+        :param str spell_out_mode: (optional) *For German voices,* indicates how
+        the service is to spell out strings of individual letters. To indicate the
+        pace of the spelling, specify one of the following values:
+        * `default` - The service reads the characters at the rate at which it
+        synthesizes speech for the request. You can also omit the parameter
+        entirely to achieve the default behavior.
+        * `singles` - The service reads the characters one at a time, with a brief
+        pause between each character.
+        * `pairs` - The service reads the characters two at a time, with a brief
+        pause between each pair.
+        * `triples` - The service reads the characters three at a time, with a
+        brief pause between each triplet.
+        The parameter is available only for IBM Cloud.
+        **See also:** [Specifying how strings are spelled
+        out](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-synthesis-params#params-spell-out-mode).
         :param str http_proxy_host: http proxy host name.
         :param str http_proxy_port: http proxy port. If not set, set to 80.
         :param dict headers: A `dict` containing the request headers
@@ -90,6 +106,7 @@ class TextToSpeechV1Adapter(TextToSpeechV1):
         params = {
             'voice': voice,
             'customization_id': customization_id,
+            'spell_out_mode': spell_out_mode
         }
         params = {k: v for k, v in params.items() if v is not None}
         url += '/v1/synthesize?{0}'.format(urlencode(params))
