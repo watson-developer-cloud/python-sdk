@@ -55,7 +55,7 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
                                   speech_detector_sensitivity=None,
                                   background_audio_suppression=None,
                                   low_latency=None,
-                                  character_insertion_bias: float = None,
+                                  character_insertion_bias=None,
                                   **kwargs):
         """
         Sends audio for speech recognition using web sockets.
