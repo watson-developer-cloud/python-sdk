@@ -116,7 +116,7 @@ class TestGetModel():
         get_model()
         """
         # Set up mock
-        url = preprocess_url('/v1/models/ar-AR_BroadbandModel')
+        url = preprocess_url('/v1/models/ar-MS_BroadbandModel')
         mock_response = '{"name": "name", "language": "language", "rate": 4, "url": "url", "supported_features": {"custom_language_model": false, "custom_acoustic_model": false, "speaker_labels": true, "low_latency": false}, "description": "description"}'
         responses.add(responses.GET,
                       url,
@@ -125,7 +125,7 @@ class TestGetModel():
                       status=200)
 
         # Set up parameter values
-        model_id = 'ar-AR_BroadbandModel'
+        model_id = 'ar-MS_BroadbandModel'
 
         # Invoke method
         response = _service.get_model(
@@ -152,7 +152,7 @@ class TestGetModel():
         test_get_model_value_error()
         """
         # Set up mock
-        url = preprocess_url('/v1/models/ar-AR_BroadbandModel')
+        url = preprocess_url('/v1/models/ar-MS_BroadbandModel')
         mock_response = '{"name": "name", "language": "language", "rate": 4, "url": "url", "supported_features": {"custom_language_model": false, "custom_acoustic_model": false, "speaker_labels": true, "low_latency": false}, "description": "description"}'
         responses.add(responses.GET,
                       url,
@@ -161,7 +161,7 @@ class TestGetModel():
                       status=200)
 
         # Set up parameter values
-        model_id = 'ar-AR_BroadbandModel'
+        model_id = 'ar-MS_BroadbandModel'
 
         # Pass in all but one required param and check for a ValueError
         req_param_dict = {
@@ -1091,7 +1091,7 @@ class TestListLanguageModels():
                       status=200)
 
         # Set up parameter values
-        language = 'ar-AR'
+        language = 'ar-MS'
 
         # Invoke method
         response = _service.list_language_models(
@@ -2780,7 +2780,7 @@ class TestCreateAcousticModel():
 
         # Set up parameter values
         name = 'testString'
-        base_model_name = 'ar-AR_BroadbandModel'
+        base_model_name = 'ar-MS_BroadbandModel'
         description = 'testString'
 
         # Invoke method
@@ -2797,7 +2797,7 @@ class TestCreateAcousticModel():
         # Validate body params
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['name'] == 'testString'
-        assert req_body['base_model_name'] == 'ar-AR_BroadbandModel'
+        assert req_body['base_model_name'] == 'ar-MS_BroadbandModel'
         assert req_body['description'] == 'testString'
 
     def test_create_acoustic_model_all_params_with_retries(self):
@@ -2825,7 +2825,7 @@ class TestCreateAcousticModel():
 
         # Set up parameter values
         name = 'testString'
-        base_model_name = 'ar-AR_BroadbandModel'
+        base_model_name = 'ar-MS_BroadbandModel'
         description = 'testString'
 
         # Pass in all but one required param and check for a ValueError
@@ -2867,7 +2867,7 @@ class TestListAcousticModels():
                       status=200)
 
         # Set up parameter values
-        language = 'ar-AR'
+        language = 'ar-MS'
 
         # Invoke method
         response = _service.list_acoustic_models(

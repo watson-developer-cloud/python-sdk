@@ -17,7 +17,7 @@
 # IBM OpenAPI SDK Code Generator Version: 3.64.1-cee95189-20230124-211647
 """
 The IBM Watson&trade; Speech to Text service provides APIs that use IBM's
-speech-recognition capabilities to produce transcripts of spoken audio.  The service can
+speech-recognition capabilities to produce transcripts of spoken audio. The service can
 transcribe speech from various languages and audio formats. In addition to basic
 transcription, the service can produce detailed information about many different aspects
 of the audio. It returns all JSON response content in the UTF-8 character set.
@@ -27,9 +27,9 @@ the terms `Multimedia` and `Telephony` in their names. Broadband and multimedia 
 have minimum sampling rates of 16 kHz. Narrowband and telephony models have minimum
 sampling rates of 8 kHz. The next-generation models offer high throughput and greater
 transcription accuracy.
-Effective 15 March 2022, previous-generation models for all languages other than Arabic
-and Japanese are deprecated. The deprecated models remain available until 15 September
-2022, when they will be removed from the service and the documentation. You must migrate
+Effective **15 March 2022**, previous-generation models for all languages other than
+Arabic and Japanese are deprecated. The deprecated models remain available until **31 July
+2023**, when they will be removed from the service and the documentation. You must migrate
 to the equivalent next-generation model by the end of service date. For more information,
 see [Migrating to next-generation
 models](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-models-migrate).{:
@@ -140,9 +140,7 @@ class SpeechToTextV1(BaseService):
         model](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-models-list#models-list-specific).
 
         :param str model_id: The identifier of the model in the form of its name
-               from the output of the [List models](#listmodels) method. (**Note:** The
-               model `ar-AR_BroadbandModel` is deprecated; use `ar-MS_BroadbandModel`
-               instead.).
+               from the output of the [List models](#listmodels) method.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `SpeechModel` object
@@ -278,12 +276,11 @@ class SpeechToTextV1(BaseService):
         do not support the following parameters:
         * `acoustic_customization_id`
         * `keywords` and `keywords_threshold`
-        * `max_alternatives`
         * `processing_metrics` and `processing_metrics_interval`
         * `word_alternatives_threshold`
-        **Important:** Effective 15 March 2022, previous-generation models for all
+        **Important:** Effective **15 March 2022**, previous-generation models for all
         languages other than Arabic and Japanese are deprecated. The deprecated models
-        remain available until 15 September 2022, when they will be removed from the
+        remain available until **31 July 2023**, when they will be removed from the
         service and the documentation. You must migrate to the equivalent next-generation
         model by the end of service date. For more information, see [Migrating to
         next-generation
@@ -314,15 +311,14 @@ class SpeechToTextV1(BaseService):
                (content types)** in the method description.
         :param str model: (optional) The model to use for speech recognition. If
                you omit the `model` parameter, the service uses the US English
-               `en-US_BroadbandModel` by default. (The model `ar-AR_BroadbandModel` is
-               deprecated; use `ar-MS_BroadbandModel` instead.)
+               `en-US_BroadbandModel` by default.
                _For IBM Cloud Pak for Data,_ if you do not install the
                `en-US_BroadbandModel`, you must either specify a model with the request or
                specify a new default model for your installation of the service.
                **See also:**
                * [Using a model for speech
                recognition](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-models-use)
-               * [The default
+               * [Using the default
                model](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-models-use#models-use-default).
         :param str language_customization_id: (optional) The customization ID
                (GUID) of a custom language model that is to be used with the recognition
@@ -893,12 +889,11 @@ class SpeechToTextV1(BaseService):
         do not support the following parameters:
         * `acoustic_customization_id`
         * `keywords` and `keywords_threshold`
-        * `max_alternatives`
         * `processing_metrics` and `processing_metrics_interval`
         * `word_alternatives_threshold`
-        **Important:** Effective 15 March 2022, previous-generation models for all
+        **Important:** Effective **15 March 2022**, previous-generation models for all
         languages other than Arabic and Japanese are deprecated. The deprecated models
-        remain available until 15 September 2022, when they will be removed from the
+        remain available until **31 July 2023**, when they will be removed from the
         service and the documentation. You must migrate to the equivalent next-generation
         model by the end of service date. For more information, see  [Migrating to
         next-generation
@@ -915,15 +910,14 @@ class SpeechToTextV1(BaseService):
                (content types)** in the method description.
         :param str model: (optional) The model to use for speech recognition. If
                you omit the `model` parameter, the service uses the US English
-               `en-US_BroadbandModel` by default. (The model `ar-AR_BroadbandModel` is
-               deprecated; use `ar-MS_BroadbandModel` instead.)
+               `en-US_BroadbandModel` by default.
                _For IBM Cloud Pak for Data,_ if you do not install the
                `en-US_BroadbandModel`, you must either specify a model with the request or
                specify a new default model for your installation of the service.
                **See also:**
                * [Using a model for speech
                recognition](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-models-use)
-               * [The default
+               * [Using the default
                model](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-models-use#models-use-default).
         :param str callback_url: (optional) A URL to which callback notifications
                are to be sent. The URL must already be successfully allowlisted by using
@@ -1443,9 +1437,9 @@ class SpeechToTextV1(BaseService):
         The service returns an error if you attempt to create more than 1024 models. You
         do not lose any models, but you cannot create any more until your model count is
         below the limit.
-        **Important:** Effective 15 March 2022, previous-generation models for all
+        **Important:** Effective **15 March 2022**, previous-generation models for all
         languages other than Arabic and Japanese are deprecated. The deprecated models
-        remain available until 15 September 2022, when they will be removed from the
+        remain available until **31 July 2023**, when they will be removed from the
         service and the documentation. You must migrate to the equivalent next-generation
         model by the end of service date. For more information, see [Migrating to
         next-generation
@@ -1457,10 +1451,12 @@ class SpeechToTextV1(BaseService):
         customization](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-custom-support).
 
         :param str name: A user-defined name for the new custom language model. Use
-               a name that is unique among all custom language models that you own. Use a
-               localized name that matches the language of the custom model. Use a name
+               a localized name that matches the language of the custom model. Use a name
                that describes the domain of the custom model, such as `Medical custom
-               model` or `Legal custom model`.
+               model` or `Legal custom model`. Use a name that is unique among all custom
+               language models that you own.
+               Include a maximum of 256 characters in the name. Do not use backslashes,
+               slashes, colons, equal signs, ampersands, or question marks in the name.
         :param str base_model_name: The name of the base language model that is to
                be customized by the new custom language model. The new custom model can be
                used only with the base model that it customizes.
@@ -1485,9 +1481,10 @@ class SpeechToTextV1(BaseService):
                `es-PE` models)
                * `es-US` for Mexican (North American) Spanish (`es-MX` models)
                All values that you pass for the `dialect` field are case-insensitive.
-        :param str description: (optional) A description of the new custom language
-               model. Use a localized description that matches the language of the custom
-               model.
+        :param str description: (optional) A recommended description of the new
+               custom language model. Use a localized description that matches the
+               language of the custom model. Include a maximum of 128 characters in the
+               description.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `LanguageModel` object
@@ -1550,8 +1547,7 @@ class SpeechToTextV1(BaseService):
                five-character language identifier; for example, specify `en-US` to see all
                custom language or custom acoustic models that are based on US English
                models. Omit the parameter to see all custom language or custom acoustic
-               models that are owned by the requesting credentials. (**Note:** The
-               identifier `ar-AR` is deprecated; use `ar-MS` instead.)
+               models that are owned by the requesting credentials.
                To determine the languages for which customization is available, see
                [Language support for
                customization](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-custom-support).
@@ -1699,11 +1695,13 @@ class SpeechToTextV1(BaseService):
         indicate that the training process has begun.
         You can monitor the status of the training by using the [Get a custom language
         model](#getlanguagemodel) method to poll the model's status. Use a loop to check
-        the status every 10 seconds. The method returns a `LanguageModel` object that
-        includes `status` and `progress` fields. A status of `available` means that the
-        custom model is trained and ready to use. The service cannot accept subsequent
-        training requests or requests to add new resources until the existing request
-        completes.
+        the status every 10 seconds. If you added custom words directly to a custom model
+        that is based on a next-generation model, allow for some minutes of extra training
+        time for the model.
+        The method returns a `LanguageModel` object that includes `status` and `progress`
+        fields. A status of `available` means that the custom model is trained and ready
+        to use. The service cannot accept subsequent training requests or requests to add
+        new resources until the existing request completes.
         **See also:**
         * [Train the custom language
         model](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-languageCreate#trainModel-language)
@@ -2952,9 +2950,9 @@ class SpeechToTextV1(BaseService):
         below the limit.
         **Note:** Acoustic model customization is supported only for use with
         previous-generation models. It is not supported for next-generation models.
-        **Important:** Effective 15 March 2022, previous-generation models for all
+        **Important:** Effective **15 March 2022**, previous-generation models for all
         languages other than Arabic and Japanese are deprecated. The deprecated models
-        remain available until 15 September 2022, when they will be removed from the
+        remain available until **31 July 2023**, when they will be removed from the
         service and the documentation. You must migrate to the equivalent next-generation
         model by the end of service date. For more information, see [Migrating to
         next-generation
@@ -2963,20 +2961,22 @@ class SpeechToTextV1(BaseService):
         model](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-acoustic#createModel-acoustic).
 
         :param str name: A user-defined name for the new custom acoustic model. Use
-               a name that is unique among all custom acoustic models that you own. Use a
-               localized name that matches the language of the custom model. Use a name
+               a localized name that matches the language of the custom model. Use a name
                that describes the acoustic environment of the custom model, such as
-               `Mobile custom model` or `Noisy car custom model`.
+               `Mobile custom model` or `Noisy car custom model`. Use a name that is
+               unique among all custom acoustic models that you own.
+               Include a maximum of 256 characters in the name. Do not use backslashes,
+               slashes, colons, equal signs, ampersands, or question marks in the name.
         :param str base_model_name: The name of the base language model that is to
                be customized by the new custom acoustic model. The new custom model can be
-               used only with the base model that it customizes. (**Note:** The model
-               `ar-AR_BroadbandModel` is deprecated; use `ar-MS_BroadbandModel` instead.)
+               used only with the base model that it customizes.
                To determine whether a base model supports acoustic model customization,
                refer to [Language support for
                customization](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-custom-support).
-        :param str description: (optional) A description of the new custom acoustic
-               model. Use a localized description that matches the language of the custom
-               model.
+        :param str description: (optional) A recommended description of the new
+               custom acoustic model. Use a localized description that matches the
+               language of the custom model. Include a maximum of 128 characters in the
+               description.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `AcousticModel` object
@@ -3037,8 +3037,7 @@ class SpeechToTextV1(BaseService):
                five-character language identifier; for example, specify `en-US` to see all
                custom language or custom acoustic models that are based on US English
                models. Omit the parameter to see all custom language or custom acoustic
-               models that are owned by the requesting credentials. (**Note:** The
-               identifier `ar-AR` is deprecated; use `ar-MS` instead.)
+               models that are owned by the requesting credentials.
                To determine the languages for which customization is available, see
                [Language support for
                customization](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-custom-support).
@@ -3213,8 +3212,13 @@ class SpeechToTextV1(BaseService):
          Training can fail to start for the following reasons:
         * The service is currently handling another request for the custom model, such as
         another training request or a request to add audio resources to the model.
-        * The custom model contains less than 10 minutes or more than 200 hours of audio
-        data.
+        * The custom model contains less than 10 minutes of audio that includes speech,
+        not silence.
+        * The custom model contains more than 50 hours of audio (for IBM Cloud) or more
+        that 200 hours of audio (for IBM Cloud Pak for Data). **Note:** For IBM Cloud, the
+        maximum hours of audio for a custom acoustic model was reduced from 200 to 50
+        hours in August and September 2022. For more information, see [Maximum hours of
+        audio](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-audioResources#audioMaximum).
         * You passed a custom language model with the `custom_language_model_id` query
         parameter that is not in the available state. A custom language model must be
         fully trained and available to be used to train a custom acoustic model.
@@ -3496,11 +3500,15 @@ class SpeechToTextV1(BaseService):
         You can use this method to add any number of audio resources to a custom model by
         calling the method once for each audio or archive file. You can add multiple
         different audio resources at the same time. You must add a minimum of 10 minutes
-        and a maximum of 200 hours of audio that includes speech, not just silence, to a
-        custom acoustic model before you can train it. No audio resource, audio- or
-        archive-type, can be larger than 100 MB. To add an audio resource that has the
-        same name as an existing audio resource, set the `allow_overwrite` parameter to
-        `true`; otherwise, the request fails.
+        of audio that includes speech, not just silence, to a custom acoustic model before
+        you can train it. No audio resource, audio- or archive-type, can be larger than
+        100 MB. To add an audio resource that has the same name as an existing audio
+        resource, set the `allow_overwrite` parameter to `true`; otherwise, the request
+        fails. A custom model can contain no more than 50 hours of audio (for IBM Cloud)
+        or 200 hours of audio (for IBM Cloud Pak for Data). **Note:** For IBM Cloud, the
+        maximum hours of audio for a custom acoustic model was reduced from 200 to 50
+        hours in August and September 2022. For more information, see [Maximum hours of
+        audio](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-audioResources#audioMaximum).
         The method is asynchronous. It can take several seconds or minutes to complete
         depending on the duration of the audio and, in the case of an archive file, the
         total number of audio files being processed. The service returns a 201 response
@@ -3844,10 +3852,8 @@ class GetModelEnums:
     class ModelId(str, Enum):
         """
         The identifier of the model in the form of its name from the output of the [List
-        models](#listmodels) method. (**Note:** The model `ar-AR_BroadbandModel` is
-        deprecated; use `ar-MS_BroadbandModel` instead.).
+        models](#listmodels) method.
         """
-        AR_AR_BROADBANDMODEL = 'ar-AR_BroadbandModel'
         AR_MS_BROADBANDMODEL = 'ar-MS_BroadbandModel'
         AR_MS_TELEPHONY = 'ar-MS_Telephony'
         CS_CZ_TELEPHONY = 'cs-CZ_Telephony'
@@ -3886,6 +3892,7 @@ class GetModelEnums:
         ES_PE_BROADBANDMODEL = 'es-PE_BroadbandModel'
         ES_PE_NARROWBANDMODEL = 'es-PE_NarrowbandModel'
         FR_CA_BROADBANDMODEL = 'fr-CA_BroadbandModel'
+        FR_CA_MULTIMEDIA = 'fr-CA_Multimedia'
         FR_CA_NARROWBANDMODEL = 'fr-CA_NarrowbandModel'
         FR_CA_TELEPHONY = 'fr-CA_Telephony'
         FR_FR_BROADBANDMODEL = 'fr-FR_BroadbandModel'
@@ -3906,12 +3913,14 @@ class GetModelEnums:
         KO_KR_TELEPHONY = 'ko-KR_Telephony'
         NL_BE_TELEPHONY = 'nl-BE_Telephony'
         NL_NL_BROADBANDMODEL = 'nl-NL_BroadbandModel'
+        NL_NL_MULTIMEDIA = 'nl-NL_Multimedia'
         NL_NL_NARROWBANDMODEL = 'nl-NL_NarrowbandModel'
         NL_NL_TELEPHONY = 'nl-NL_Telephony'
         PT_BR_BROADBANDMODEL = 'pt-BR_BroadbandModel'
         PT_BR_MULTIMEDIA = 'pt-BR_Multimedia'
         PT_BR_NARROWBANDMODEL = 'pt-BR_NarrowbandModel'
         PT_BR_TELEPHONY = 'pt-BR_Telephony'
+        SV_SE_TELEPHONY = 'sv-SE_Telephony'
         ZH_CN_BROADBANDMODEL = 'zh-CN_BroadbandModel'
         ZH_CN_NARROWBANDMODEL = 'zh-CN_NarrowbandModel'
         ZH_CN_TELEPHONY = 'zh-CN_Telephony'
@@ -3947,18 +3956,16 @@ class RecognizeEnums:
     class Model(str, Enum):
         """
         The model to use for speech recognition. If you omit the `model` parameter, the
-        service uses the US English `en-US_BroadbandModel` by default. (The model
-        `ar-AR_BroadbandModel` is deprecated; use `ar-MS_BroadbandModel` instead.)
+        service uses the US English `en-US_BroadbandModel` by default.
         _For IBM Cloud Pak for Data,_ if you do not install the `en-US_BroadbandModel`,
         you must either specify a model with the request or specify a new default model
         for your installation of the service.
         **See also:**
         * [Using a model for speech
         recognition](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-models-use)
-        * [The default
+        * [Using the default
         model](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-models-use#models-use-default).
         """
-        AR_AR_BROADBANDMODEL = 'ar-AR_BroadbandModel'
         AR_MS_BROADBANDMODEL = 'ar-MS_BroadbandModel'
         AR_MS_TELEPHONY = 'ar-MS_Telephony'
         CS_CZ_TELEPHONY = 'cs-CZ_Telephony'
@@ -3997,6 +4004,7 @@ class RecognizeEnums:
         ES_PE_BROADBANDMODEL = 'es-PE_BroadbandModel'
         ES_PE_NARROWBANDMODEL = 'es-PE_NarrowbandModel'
         FR_CA_BROADBANDMODEL = 'fr-CA_BroadbandModel'
+        FR_CA_MULTIMEDIA = 'fr-CA_Multimedia'
         FR_CA_NARROWBANDMODEL = 'fr-CA_NarrowbandModel'
         FR_CA_TELEPHONY = 'fr-CA_Telephony'
         FR_FR_BROADBANDMODEL = 'fr-FR_BroadbandModel'
@@ -4017,12 +4025,14 @@ class RecognizeEnums:
         KO_KR_TELEPHONY = 'ko-KR_Telephony'
         NL_BE_TELEPHONY = 'nl-BE_Telephony'
         NL_NL_BROADBANDMODEL = 'nl-NL_BroadbandModel'
+        NL_NL_MULTIMEDIA = 'nl-NL_Multimedia'
         NL_NL_NARROWBANDMODEL = 'nl-NL_NarrowbandModel'
         NL_NL_TELEPHONY = 'nl-NL_Telephony'
         PT_BR_BROADBANDMODEL = 'pt-BR_BroadbandModel'
         PT_BR_MULTIMEDIA = 'pt-BR_Multimedia'
         PT_BR_NARROWBANDMODEL = 'pt-BR_NarrowbandModel'
         PT_BR_TELEPHONY = 'pt-BR_Telephony'
+        SV_SE_TELEPHONY = 'sv-SE_Telephony'
         ZH_CN_BROADBANDMODEL = 'zh-CN_BroadbandModel'
         ZH_CN_NARROWBANDMODEL = 'zh-CN_NarrowbandModel'
         ZH_CN_TELEPHONY = 'zh-CN_Telephony'
@@ -4058,18 +4068,16 @@ class CreateJobEnums:
     class Model(str, Enum):
         """
         The model to use for speech recognition. If you omit the `model` parameter, the
-        service uses the US English `en-US_BroadbandModel` by default. (The model
-        `ar-AR_BroadbandModel` is deprecated; use `ar-MS_BroadbandModel` instead.)
+        service uses the US English `en-US_BroadbandModel` by default.
         _For IBM Cloud Pak for Data,_ if you do not install the `en-US_BroadbandModel`,
         you must either specify a model with the request or specify a new default model
         for your installation of the service.
         **See also:**
         * [Using a model for speech
         recognition](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-models-use)
-        * [The default
+        * [Using the default
         model](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-models-use#models-use-default).
         """
-        AR_AR_BROADBANDMODEL = 'ar-AR_BroadbandModel'
         AR_MS_BROADBANDMODEL = 'ar-MS_BroadbandModel'
         AR_MS_TELEPHONY = 'ar-MS_Telephony'
         CS_CZ_TELEPHONY = 'cs-CZ_Telephony'
@@ -4108,6 +4116,7 @@ class CreateJobEnums:
         ES_PE_BROADBANDMODEL = 'es-PE_BroadbandModel'
         ES_PE_NARROWBANDMODEL = 'es-PE_NarrowbandModel'
         FR_CA_BROADBANDMODEL = 'fr-CA_BroadbandModel'
+        FR_CA_MULTIMEDIA = 'fr-CA_Multimedia'
         FR_CA_NARROWBANDMODEL = 'fr-CA_NarrowbandModel'
         FR_CA_TELEPHONY = 'fr-CA_Telephony'
         FR_FR_BROADBANDMODEL = 'fr-FR_BroadbandModel'
@@ -4128,12 +4137,14 @@ class CreateJobEnums:
         KO_KR_TELEPHONY = 'ko-KR_Telephony'
         NL_BE_TELEPHONY = 'nl-BE_Telephony'
         NL_NL_BROADBANDMODEL = 'nl-NL_BroadbandModel'
+        NL_NL_MULTIMEDIA = 'nl-NL_Multimedia'
         NL_NL_NARROWBANDMODEL = 'nl-NL_NarrowbandModel'
         NL_NL_TELEPHONY = 'nl-NL_Telephony'
         PT_BR_BROADBANDMODEL = 'pt-BR_BroadbandModel'
         PT_BR_MULTIMEDIA = 'pt-BR_Multimedia'
         PT_BR_NARROWBANDMODEL = 'pt-BR_NarrowbandModel'
         PT_BR_TELEPHONY = 'pt-BR_Telephony'
+        SV_SE_TELEPHONY = 'sv-SE_Telephony'
         ZH_CN_BROADBANDMODEL = 'zh-CN_BroadbandModel'
         ZH_CN_NARROWBANDMODEL = 'zh-CN_NarrowbandModel'
         ZH_CN_TELEPHONY = 'zh-CN_Telephony'
@@ -4175,13 +4186,11 @@ class ListLanguageModelsEnums:
         are to be returned. Specify the five-character language identifier; for example,
         specify `en-US` to see all custom language or custom acoustic models that are
         based on US English models. Omit the parameter to see all custom language or
-        custom acoustic models that are owned by the requesting credentials. (**Note:**
-        The identifier `ar-AR` is deprecated; use `ar-MS` instead.)
+        custom acoustic models that are owned by the requesting credentials.
         To determine the languages for which customization is available, see [Language
         support for
         customization](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-custom-support).
         """
-        AR_AR = 'ar-AR'
         AR_MS = 'ar-MS'
         CS_CZ = 'cs-CZ'
         DE_DE = 'de-DE'
@@ -4206,6 +4215,7 @@ class ListLanguageModelsEnums:
         NL_BE = 'nl-BE'
         NL_NL = 'nl-NL'
         PT_BR = 'pt-BR'
+        SV_SE = 'sv-SE'
         ZH_CN = 'zh-CN'
 
 
@@ -4295,13 +4305,11 @@ class ListAcousticModelsEnums:
         are to be returned. Specify the five-character language identifier; for example,
         specify `en-US` to see all custom language or custom acoustic models that are
         based on US English models. Omit the parameter to see all custom language or
-        custom acoustic models that are owned by the requesting credentials. (**Note:**
-        The identifier `ar-AR` is deprecated; use `ar-MS` instead.)
+        custom acoustic models that are owned by the requesting credentials.
         To determine the languages for which customization is available, see [Language
         support for
         customization](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-custom-support).
         """
-        AR_AR = 'ar-AR'
         AR_MS = 'ar-MS'
         CS_CZ = 'cs-CZ'
         DE_DE = 'de-DE'
@@ -4326,6 +4334,7 @@ class ListAcousticModelsEnums:
         NL_BE = 'nl-BE'
         NL_NL = 'nl-NL'
         PT_BR = 'pt-BR'
+        SV_SE = 'sv-SE'
         ZH_CN = 'zh-CN'
 
 
