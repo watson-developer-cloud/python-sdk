@@ -16,9 +16,9 @@
 
 # IBM OpenAPI SDK Code Generator Version: 3.64.1-cee95189-20230124-211647
 """
-IBM Watson&trade; Discovery is a cognitive search and content analytics engine that you
-can add to applications to identify patterns, trends and actionable insights to drive
-better decision-making. Securely unify structured and unstructured data with pre-enriched
+IBM Watson&reg; Discovery is a cognitive search and content analytics engine that you can
+add to applications to identify patterns, trends and actionable insights to drive better
+decision-making. Securely unify structured and unstructured data with pre-enriched
 content, and use a simplified query language to eliminate the need for manual filtering of
 results.
 
@@ -680,7 +680,7 @@ class DiscoveryV2(BaseService):
         document ID of each document and returns information for up to 10,000 documents.
         **Note**: This method is available only from Cloud Pak for Data version 4.0.9 and
         later installed instances and from Plus and Enterprise plan IBM Cloud-managed
-        instances.
+        instances. It is not currently available from Premium plan instances.
 
         :param str project_id: The ID of the project. This information can be found
                from the *Integrate and Deploy* page in Discovery.
@@ -777,8 +777,8 @@ class DiscoveryV2(BaseService):
 
         Add a document to a collection with optional metadata.
         Returns immediately after the system has accepted the document for processing.
-        This operation works with a file upload collection. It cannot be used to modify a
-        collection that crawls an external data source.
+        Use this method to upload a file to the collection. You cannot use this method to
+        crawl an external data source.
          * For a list of supported file types, see the [product
         documentation](/docs/discovery-data?topic=discovery-data-collections#supportedfiletypes).
          * You must provide document content, metadata, or both. If the request is missing
@@ -802,7 +802,7 @@ class DiscoveryV2(BaseService):
         :param str collection_id: The ID of the collection.
         :param BinaryIO file: (optional) When adding a document, the content of the
                document to ingest. For maximum supported file size limits, see [the
-               documentation](https://cloud.ibm.com/docs/discovery-data?topic=discovery-data-collections#collections-doc-limits).
+               documentation](/docs/discovery-data?topic=discovery-data-collections#collections-doc-limits).
                When analyzing a document, the content of the document to analyze but not
                ingest. Only the `application/json` content type is supported currently.
                For maximum supported file size limits, see [the product
@@ -882,7 +882,7 @@ class DiscoveryV2(BaseService):
         a file or by crawling an external data source.
         **Note**: This method is available only from Cloud Pak for Data version 4.0.9 and
         later installed instances and from Plus and Enterprise plan IBM Cloud-managed
-        instances.
+        instances. It is not currently available from Premium plan instances.
 
         :param str project_id: The ID of the project. This information can be found
                from the *Integrate and Deploy* page in Discovery.
@@ -944,8 +944,8 @@ class DiscoveryV2(BaseService):
 
         Replace an existing document or add a document with a specified document ID.
         Starts ingesting a document with optional metadata.
-        This operation works with a file upload collection. It cannot be used to modify a
-        collection that crawls an external data source.
+        Use this method to upload a file to a collection. You cannot use this method to
+        crawl an external data source.
         If the document is uploaded to a collection that shares its data with another
         collection, the **X-Watson-Discovery-Force** header must be set to `true`.
         **Notes:**
@@ -961,7 +961,7 @@ class DiscoveryV2(BaseService):
         :param str document_id: The ID of the document.
         :param BinaryIO file: (optional) When adding a document, the content of the
                document to ingest. For maximum supported file size limits, see [the
-               documentation](https://cloud.ibm.com/docs/discovery-data?topic=discovery-data-collections#collections-doc-limits).
+               documentation](/docs/discovery-data?topic=discovery-data-collections#collections-doc-limits).
                When analyzing a document, the content of the document to analyze but not
                ingest. Only the `application/json` content type is supported currently.
                For maximum supported file size limits, see [the product
@@ -1045,14 +1045,17 @@ class DiscoveryV2(BaseService):
         """
         Delete a document.
 
-        If the given document ID is invalid, or if the document is not found, then the a
-        success response is returned (HTTP status code `200`) with the status set to
-        'deleted'.
-        **Note:** This operation only works on collections created to accept direct file
-        uploads. It cannot be used to modify a collection that connects to an external
-        source such as Microsoft SharePoint.
-        **Note:** Segments of an uploaded document cannot be deleted individually. Delete
-        all segments by deleting using the `parent_document_id` of a segment result.
+        Deletes the document with the document ID that you specify from the collection.
+        Removes uploaded documents from the collection permanently. If you delete a
+        document that was added by crawling an external data source, the document will be
+        added again with the next scheduled crawl of the data source. The delete function
+        removes the document from the collection, not from the external data source.
+        **Note:** Files such as CSV or JSON files generate subdocuments when they are
+        added to a collection. If you delete a subdocument, and then repeat the action
+        that created it, the deleted document is added back in to your collection. To
+        remove subdocuments that are generated by an uploaded file, delete the original
+        document instead. You can get the document ID of the original document from the
+        `parent_document_id` of the subdocument result.
 
         :param str project_id: The ID of the project. This information can be found
                from the *Integrate and Deploy* page in Discovery.
@@ -1132,12 +1135,12 @@ class DiscoveryV2(BaseService):
         Search your data by submitting queries that are written in natural language or
         formatted in the Discovery Query Language. For more information, see the
         [Discovery
-        documentation](https://cloud.ibm.com/docs/discovery-data?topic=discovery-data-query-concepts).
-        The default query parameters differ by project type. For more information about
-        the project default settings, see the [Discovery
-        documentation](https://cloud.ibm.com/docs/discovery-data?topic=discovery-data-query-defaults).
-        See [the Projects API documentation](#create-project) for details about how to set
-        custom default query settings.
+        documentation](/docs/discovery-data?topic=discovery-data-query-concepts). The
+        default query parameters differ by project type. For more information about the
+        project default settings, see the [Discovery
+        documentation](/docs/discovery-data?topic=discovery-data-query-defaults). See [the
+        Projects API documentation](#create-project) for details about how to set custom
+        default query settings.
         The length of the UTF-8 encoding of the POST body cannot exceed 10,000 bytes,
         which is roughly equivalent to 10,000 characters in English.
 
@@ -1164,7 +1167,7 @@ class DiscoveryV2(BaseService):
                exact answer by combining query search with filters. Useful for
                applications to build lists, tables, and time series. For more information
                about the supported types of aggregations, see the [Discovery
-               documentation](https://cloud.ibm.com/docs/discovery-data?topic=discovery-data-query-aggregations).
+               documentation](/docs/discovery-data?topic=discovery-data-query-aggregations).
         :param int count: (optional) Number of results to return.
         :param List[str] return_: (optional) A list of the fields in the document
                hierarchy to return. You can specify both root-level (`text`) and nested
@@ -1558,12 +1561,9 @@ class DiscoveryV2(BaseService):
         A default stop words list is used by all collections. The default list is applied
         both at indexing time and at query time. A custom stop words list that you add is
         used at query time only.
-        The custom stop words list replaces the default stop words list. Therefore, if you
-        want to keep the stop words that were used when the collection was indexed, get
-        the default stop words list for the language of the collection first and edit it
-        to create your custom list. For information about the default stop words lists per
-        language, see [the product
-        documentation](/docs/discovery-data?topic=discovery-data-stopwords).
+        The custom stop words list augments the default stop words list; you cannot remove
+        stop words. For information about the default stop words lists per language, see
+        [the product documentation](/docs/discovery-data?topic=discovery-data-stopwords).
 
         :param str project_id: The ID of the project. This information can be found
                from the *Integrate and Deploy* page in Discovery.
@@ -2557,7 +2557,7 @@ class DiscoveryV2(BaseService):
                labels that you want to use to classify your data. If you want to specify
                multiple values in a single field, use a semicolon as the value separator.
                For a sample file, see [the product
-               documentation](https://cloud.ibm.com/docs/discovery-data?topic=discovery-data-cm-doc-classifier).
+               documentation](/docs/discovery-data?topic=discovery-data-cm-doc-classifier).
         :param CreateDocumentClassifier classifier: An object that manages the
                settings and data that is required to train a document classification
                model.
@@ -2685,7 +2685,7 @@ class DiscoveryV2(BaseService):
                classification labels that you want to use to classify your data. If you
                want to specify multiple values in a single column, use a semicolon as the
                value separator. For a sample file, see [the product
-               documentation](https://cloud.ibm.com/docs/discovery-data?topic=discovery-data-cm-doc-classifier).
+               documentation](/docs/discovery-data?topic=discovery-data-cm-doc-classifier).
         :param BinaryIO test_data: (optional) The CSV with test data to upload. The
                column values in the test file must be the same as the column values in the
                training data file. If no test data is provided, the training data is split
@@ -3147,7 +3147,7 @@ class DiscoveryV2(BaseService):
         :param str collection_id: The ID of the collection.
         :param BinaryIO file: (optional) When adding a document, the content of the
                document to ingest. For maximum supported file size limits, see [the
-               documentation](https://cloud.ibm.com/docs/discovery-data?topic=discovery-data-collections#collections-doc-limits).
+               documentation](/docs/discovery-data?topic=discovery-data-collections#collections-doc-limits).
                When analyzing a document, the content of the document to analyze but not
                ingest. Only the `application/json` content type is supported currently.
                For maximum supported file size limits, see [the product
@@ -3226,7 +3226,7 @@ class DiscoveryV2(BaseService):
         You associate a customer ID with data by passing the **X-Watson-Metadata** header
         with a request that passes data. For more information about personal data and
         customer IDs, see [Information
-        security](https://cloud.ibm.com/docs/discovery-data?topic=discovery-data-information-security#information-security).
+        security](/docs/discovery-data?topic=discovery-data-information-security#information-security).
         **Note:** This method is only supported on IBM Cloud instances of Discovery.
 
         :param str customer_id: The customer ID for which all data is to be
@@ -7963,22 +7963,30 @@ class ProjectListDetailsRelevancyTrainingStatus():
 
 class QueryAggregation():
     """
-    An abstract aggregation type produced by Discovery to analyze the input provided.
+    An object that defines how to aggregate query results.
 
-    :attr str type: The type of aggregation command used. Options include: term,
-          histogram, timeslice, nested, filter, min, max, sum, average, unique_count, and
-          top_hits.
     """
 
-    def __init__(self, type: str) -> None:
+    def __init__(self) -> None:
         """
         Initialize a QueryAggregation object.
 
-        :param str type: The type of aggregation command used. Options include:
-               term, histogram, timeslice, nested, filter, min, max, sum, average,
-               unique_count, and top_hits.
         """
-        self.type = type
+        msg = "Cannot instantiate base class. Instead, instantiate one of the defined subclasses: {0}".format(
+            ", ".join([
+                'QueryAggregationQueryTermAggregation',
+                'QueryAggregationQueryGroupByAggregation',
+                'QueryAggregationQueryHistogramAggregation',
+                'QueryAggregationQueryTimesliceAggregation',
+                'QueryAggregationQueryNestedAggregation',
+                'QueryAggregationQueryFilterAggregation',
+                'QueryAggregationQueryCalculationAggregation',
+                'QueryAggregationQueryTopHitsAggregation',
+                'QueryAggregationQueryPairAggregation',
+                'QueryAggregationQueryTrendAggregation',
+                'QueryAggregationQueryTopicAggregation'
+            ]))
+        raise Exception(msg)
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'QueryAggregation':
@@ -7986,60 +7994,47 @@ class QueryAggregation():
         disc_class = cls._get_class_by_discriminator(_dict)
         if disc_class != cls:
             return disc_class.from_dict(_dict)
-        args = {}
-        if 'type' in _dict:
-            args['type'] = _dict.get('type')
-        else:
-            raise ValueError(
-                'Required property \'type\' not present in QueryAggregation JSON'
-            )
-        return cls(**args)
+        msg = (
+            "Cannot convert dictionary into an instance of base class 'QueryAggregation'. "
+            + "The discriminator value should map to a valid subclass: {1}"
+        ).format(", ".join([
+            'QueryAggregationQueryTermAggregation',
+            'QueryAggregationQueryGroupByAggregation',
+            'QueryAggregationQueryHistogramAggregation',
+            'QueryAggregationQueryTimesliceAggregation',
+            'QueryAggregationQueryNestedAggregation',
+            'QueryAggregationQueryFilterAggregation',
+            'QueryAggregationQueryCalculationAggregation',
+            'QueryAggregationQueryTopHitsAggregation',
+            'QueryAggregationQueryPairAggregation',
+            'QueryAggregationQueryTrendAggregation',
+            'QueryAggregationQueryTopicAggregation'
+        ]))
+        raise Exception(msg)
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def _from_dict(cls, _dict: Dict):
         """Initialize a QueryAggregation object from a json dictionary."""
         return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'type') and self.type is not None:
-            _dict['type'] = self.type
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this QueryAggregation object."""
-        return json.dumps(self.to_dict(), indent=2)
-
-    def __eq__(self, other: 'QueryAggregation') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'QueryAggregation') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
 
     @classmethod
     def _get_class_by_discriminator(cls, _dict: Dict) -> object:
         mapping = {}
-        mapping['term'] = 'QueryTermAggregation'
-        mapping['histogram'] = 'QueryHistogramAggregation'
-        mapping['timeslice'] = 'QueryTimesliceAggregation'
-        mapping['nested'] = 'QueryNestedAggregation'
-        mapping['filter'] = 'QueryFilterAggregation'
-        mapping['min'] = 'QueryCalculationAggregation'
-        mapping['max'] = 'QueryCalculationAggregation'
-        mapping['sum'] = 'QueryCalculationAggregation'
-        mapping['average'] = 'QueryCalculationAggregation'
-        mapping['unique_count'] = 'QueryCalculationAggregation'
-        mapping['top_hits'] = 'QueryTopHitsAggregation'
-        mapping['group_by'] = 'QueryGroupByAggregation'
+        mapping['term'] = 'QueryAggregationQueryTermAggregation'
+        mapping['group_by'] = 'QueryAggregationQueryGroupByAggregation'
+        mapping['histogram'] = 'QueryAggregationQueryHistogramAggregation'
+        mapping['timeslice'] = 'QueryAggregationQueryTimesliceAggregation'
+        mapping['nested'] = 'QueryAggregationQueryNestedAggregation'
+        mapping['filter'] = 'QueryAggregationQueryFilterAggregation'
+        mapping['min'] = 'QueryAggregationQueryCalculationAggregation'
+        mapping['max'] = 'QueryAggregationQueryCalculationAggregation'
+        mapping['sum'] = 'QueryAggregationQueryCalculationAggregation'
+        mapping['average'] = 'QueryAggregationQueryCalculationAggregation'
+        mapping['unique_count'] = 'QueryAggregationQueryCalculationAggregation'
+        mapping['top_hits'] = 'QueryAggregationQueryTopHitsAggregation'
+        mapping['pair'] = 'QueryAggregationQueryPairAggregation'
+        mapping['trend'] = 'QueryAggregationQueryTrendAggregation'
+        mapping['topic'] = 'QueryAggregationQueryTopicAggregation'
         disc_value = _dict.get('type')
         if disc_value is None:
             raise ValueError(
@@ -8057,19 +8052,22 @@ class QueryAggregation():
 
 class QueryGroupByAggregationResult():
     """
-    Top value result for the term aggregation.
+    Result group for the `group_by` aggregation.
 
-    :attr str key: Value of the field with a non-zero frequency in the document set.
-    :attr int matching_results: Number of documents that contain the 'key'.
-    :attr float relevancy: (optional) The relevancy for this group.
-    :attr int total_matching_documents: (optional) The number of documents which
-          have the group as the value of specified field in the whole set of documents in
-          this collection. Returned only when the `relevancy` parameter is set to `true`.
-    :attr int estimated_matching_documents: (optional) The estimated number of
-          documents which would match the query and also meet the condition. Returned only
-          when the `relevancy` parameter is set to `true`.
-    :attr List[QueryAggregation] aggregations: (optional) An array of
-          sub-aggregations.
+    :attr str key: The condition that is met by the documents in this group. For
+          example, `YEARTXT<2000`.
+    :attr int matching_results: Number of documents that meet the query and
+          condition.
+    :attr float relevancy: (optional) The relevancy for this group. Returned only if
+          `relevancy:true` is specified in the request.
+    :attr int total_matching_documents: (optional) Number of documents that meet the
+          condition in the whole set of documents in this collection. Returned only when
+          `relevancy:true` is specified in the request.
+    :attr float estimated_matching_results: (optional) The number of documents that
+          are estimated to match the query and condition. Returned only when
+          `relevancy:true` is specified in the request.
+    :attr List[dict] aggregations: (optional) An array of subaggregations. Returned
+          only when this aggregation is returned as a subaggregation.
     """
 
     def __init__(self,
@@ -8078,30 +8076,31 @@ class QueryGroupByAggregationResult():
                  *,
                  relevancy: float = None,
                  total_matching_documents: int = None,
-                 estimated_matching_documents: int = None,
-                 aggregations: List['QueryAggregation'] = None) -> None:
+                 estimated_matching_results: float = None,
+                 aggregations: List[dict] = None) -> None:
         """
         Initialize a QueryGroupByAggregationResult object.
 
-        :param str key: Value of the field with a non-zero frequency in the
-               document set.
-        :param int matching_results: Number of documents that contain the 'key'.
-        :param float relevancy: (optional) The relevancy for this group.
-        :param int total_matching_documents: (optional) The number of documents
-               which have the group as the value of specified field in the whole set of
-               documents in this collection. Returned only when the `relevancy` parameter
-               is set to `true`.
-        :param int estimated_matching_documents: (optional) The estimated number of
-               documents which would match the query and also meet the condition. Returned
-               only when the `relevancy` parameter is set to `true`.
-        :param List[QueryAggregation] aggregations: (optional) An array of
-               sub-aggregations.
+        :param str key: The condition that is met by the documents in this group.
+               For example, `YEARTXT<2000`.
+        :param int matching_results: Number of documents that meet the query and
+               condition.
+        :param float relevancy: (optional) The relevancy for this group. Returned
+               only if `relevancy:true` is specified in the request.
+        :param int total_matching_documents: (optional) Number of documents that
+               meet the condition in the whole set of documents in this collection.
+               Returned only when `relevancy:true` is specified in the request.
+        :param float estimated_matching_results: (optional) The number of documents
+               that are estimated to match the query and condition. Returned only when
+               `relevancy:true` is specified in the request.
+        :param List[dict] aggregations: (optional) An array of subaggregations.
+               Returned only when this aggregation is returned as a subaggregation.
         """
         self.key = key
         self.matching_results = matching_results
         self.relevancy = relevancy
         self.total_matching_documents = total_matching_documents
-        self.estimated_matching_documents = estimated_matching_documents
+        self.estimated_matching_results = estimated_matching_results
         self.aggregations = aggregations
 
     @classmethod
@@ -8125,13 +8124,11 @@ class QueryGroupByAggregationResult():
         if 'total_matching_documents' in _dict:
             args['total_matching_documents'] = _dict.get(
                 'total_matching_documents')
-        if 'estimated_matching_documents' in _dict:
-            args['estimated_matching_documents'] = _dict.get(
-                'estimated_matching_documents')
+        if 'estimated_matching_results' in _dict:
+            args['estimated_matching_results'] = _dict.get(
+                'estimated_matching_results')
         if 'aggregations' in _dict:
-            args['aggregations'] = [
-                QueryAggregation.from_dict(v) for v in _dict.get('aggregations')
-            ]
+            args['aggregations'] = _dict.get('aggregations')
         return cls(**args)
 
     @classmethod
@@ -8152,18 +8149,12 @@ class QueryGroupByAggregationResult():
         if hasattr(self, 'total_matching_documents'
                   ) and self.total_matching_documents is not None:
             _dict['total_matching_documents'] = self.total_matching_documents
-        if hasattr(self, 'estimated_matching_documents'
-                  ) and self.estimated_matching_documents is not None:
+        if hasattr(self, 'estimated_matching_results'
+                  ) and self.estimated_matching_results is not None:
             _dict[
-                'estimated_matching_documents'] = self.estimated_matching_documents
+                'estimated_matching_results'] = self.estimated_matching_results
         if hasattr(self, 'aggregations') and self.aggregations is not None:
-            aggregations_list = []
-            for v in self.aggregations:
-                if isinstance(v, dict):
-                    aggregations_list.append(v)
-                else:
-                    aggregations_list.append(v.to_dict())
-            _dict['aggregations'] = aggregations_list
+            _dict['aggregations'] = self.aggregations
         return _dict
 
     def _to_dict(self):
@@ -8192,23 +8183,23 @@ class QueryHistogramAggregationResult():
     :attr int key: The value of the upper bound for the numeric segment.
     :attr int matching_results: Number of documents with the specified key as the
           upper bound.
-    :attr List[QueryAggregation] aggregations: (optional) An array of
-          sub-aggregations.
+    :attr List[dict] aggregations: (optional) An array of subaggregations. Returned
+          only when this aggregation is returned as a subaggregation.
     """
 
     def __init__(self,
                  key: int,
                  matching_results: int,
                  *,
-                 aggregations: List['QueryAggregation'] = None) -> None:
+                 aggregations: List[dict] = None) -> None:
         """
         Initialize a QueryHistogramAggregationResult object.
 
         :param int key: The value of the upper bound for the numeric segment.
         :param int matching_results: Number of documents with the specified key as
                the upper bound.
-        :param List[QueryAggregation] aggregations: (optional) An array of
-               sub-aggregations.
+        :param List[dict] aggregations: (optional) An array of subaggregations.
+               Returned only when this aggregation is returned as a subaggregation.
         """
         self.key = key
         self.matching_results = matching_results
@@ -8231,9 +8222,7 @@ class QueryHistogramAggregationResult():
                 'Required property \'matching_results\' not present in QueryHistogramAggregationResult JSON'
             )
         if 'aggregations' in _dict:
-            args['aggregations'] = [
-                QueryAggregation.from_dict(v) for v in _dict.get('aggregations')
-            ]
+            args['aggregations'] = _dict.get('aggregations')
         return cls(**args)
 
     @classmethod
@@ -8250,13 +8239,7 @@ class QueryHistogramAggregationResult():
                    'matching_results') and self.matching_results is not None:
             _dict['matching_results'] = self.matching_results
         if hasattr(self, 'aggregations') and self.aggregations is not None:
-            aggregations_list = []
-            for v in self.aggregations:
-                if isinstance(v, dict):
-                    aggregations_list.append(v)
-                else:
-                    aggregations_list.append(v.to_dict())
-            _dict['aggregations'] = aggregations_list
+            _dict['aggregations'] = self.aggregations
         return _dict
 
     def _to_dict(self):
@@ -8293,8 +8276,10 @@ class QueryLargePassages():
           field in the response.
     :attr int max_per_document: (optional) Maximum number of passages to return per
           document in the result. Ignored if **passages.per_document** is `false`.
-    :attr List[str] fields: (optional) A list of fields to extract passages from. If
-          this parameter is an empty list, then all root-level fields are included.
+    :attr List[str] fields: (optional) A list of fields to extract passages from. By
+          default, passages are extracted from the `text` and `title` fields only. If you
+          add this parameter and specify an empty list (`[]`) as its value, then the
+          service searches all root-level fields for suitable passages.
     :attr int count: (optional) The maximum number of passages to return. Ignored if
           **passages.per_document** is `true`.
     :attr int characters: (optional) The approximate number of characters that any
@@ -8346,8 +8331,10 @@ class QueryLargePassages():
                return per document in the result. Ignored if **passages.per_document** is
                `false`.
         :param List[str] fields: (optional) A list of fields to extract passages
-               from. If this parameter is an empty list, then all root-level fields are
-               included.
+               from. By default, passages are extracted from the `text` and `title` fields
+               only. If you add this parameter and specify an empty list (`[]`) as its
+               value, then the service searches all root-level fields for suitable
+               passages.
         :param int count: (optional) The maximum number of passages to return.
                Ignored if **passages.per_document** is `true`.
         :param int characters: (optional) The approximate number of characters that
@@ -8738,6 +8725,66 @@ class QueryNoticesResponse():
         return not self == other
 
 
+class QueryPairAggregationResult():
+    """
+    Result for the `pair` aggregation.
+
+    :attr List[dict] aggregations: (optional) Array of subaggregations of type
+          `term`, `group_by`, `histogram`, or `timeslice`. Each element of the matrix that
+          is returned contains a **relevancy** value that is calculated from the
+          combination of each value from the first and second aggregations.
+    """
+
+    def __init__(self, *, aggregations: List[dict] = None) -> None:
+        """
+        Initialize a QueryPairAggregationResult object.
+
+        :param List[dict] aggregations: (optional) Array of subaggregations of type
+               `term`, `group_by`, `histogram`, or `timeslice`. Each element of the matrix
+               that is returned contains a **relevancy** value that is calculated from the
+               combination of each value from the first and second aggregations.
+        """
+        self.aggregations = aggregations
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'QueryPairAggregationResult':
+        """Initialize a QueryPairAggregationResult object from a json dictionary."""
+        args = {}
+        if 'aggregations' in _dict:
+            args['aggregations'] = _dict.get('aggregations')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a QueryPairAggregationResult object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'aggregations') and self.aggregations is not None:
+            _dict['aggregations'] = self.aggregations
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this QueryPairAggregationResult object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'QueryPairAggregationResult') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'QueryPairAggregationResult') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class QueryResponse():
     """
     A response that contains the documents and aggregations for the query.
@@ -8758,7 +8805,8 @@ class QueryResponse():
           is deprecated.
     :attr List[QueryTableResult] table_results: (optional) Array of table results.
     :attr List[QueryResponsePassage] passages: (optional) Passages that best match
-          the query from across all of the collections in the project.
+          the query from across all of the collections in the project. Returned if
+          **passages.per_document** is `false`.
     """
 
     def __init__(self,
@@ -8792,7 +8840,8 @@ class QueryResponse():
         :param List[QueryTableResult] table_results: (optional) Array of table
                results.
         :param List[QueryResponsePassage] passages: (optional) Passages that best
-               match the query from across all of the collections in the project.
+               match the query from across all of the collections in the project. Returned
+               if **passages.per_document** is `false`.
         """
         self.matching_results = matching_results
         self.results = results
@@ -8938,10 +8987,9 @@ class QueryResponsePassage():
           extracted passage in the originating field.
     :attr str field: (optional) The label of the field from which the passage has
           been extracted.
-    :attr float confidence: (optional) An estimate of the probability that the
-          passage is relevant.
     :attr List[ResultPassageAnswer] answers: (optional) An array of extracted
-          answers to the specified query.
+          answers to the specified query. Returned for natural language queries when
+          **passages.per_document** is `false`.
     """
 
     def __init__(self,
@@ -8953,7 +9001,6 @@ class QueryResponsePassage():
                  start_offset: int = None,
                  end_offset: int = None,
                  field: str = None,
-                 confidence: float = None,
                  answers: List['ResultPassageAnswer'] = None) -> None:
         """
         Initialize a QueryResponsePassage object.
@@ -8973,10 +9020,9 @@ class QueryResponsePassage():
                the extracted passage in the originating field.
         :param str field: (optional) The label of the field from which the passage
                has been extracted.
-        :param float confidence: (optional) An estimate of the probability that the
-               passage is relevant.
         :param List[ResultPassageAnswer] answers: (optional) An array of extracted
-               answers to the specified query.
+               answers to the specified query. Returned for natural language queries when
+               **passages.per_document** is `false`.
         """
         self.passage_text = passage_text
         self.passage_score = passage_score
@@ -8985,7 +9031,6 @@ class QueryResponsePassage():
         self.start_offset = start_offset
         self.end_offset = end_offset
         self.field = field
-        self.confidence = confidence
         self.answers = answers
 
     @classmethod
@@ -9006,8 +9051,6 @@ class QueryResponsePassage():
             args['end_offset'] = _dict.get('end_offset')
         if 'field' in _dict:
             args['field'] = _dict.get('field')
-        if 'confidence' in _dict:
-            args['confidence'] = _dict.get('confidence')
         if 'answers' in _dict:
             args['answers'] = [
                 ResultPassageAnswer.from_dict(v) for v in _dict.get('answers')
@@ -9036,8 +9079,6 @@ class QueryResponsePassage():
             _dict['end_offset'] = self.end_offset
         if hasattr(self, 'field') and self.field is not None:
             _dict['field'] = self.field
-        if hasattr(self, 'confidence') and self.confidence is not None:
-            _dict['confidence'] = self.confidence
         if hasattr(self, 'answers') and self.answers is not None:
             answers_list = []
             for v in self.answers:
@@ -9075,7 +9116,8 @@ class QueryResult():
     :attr dict metadata: (optional) Metadata of the document.
     :attr QueryResultMetadata result_metadata: Metadata of a query result.
     :attr List[QueryResultPassage] document_passages: (optional) Passages from the
-          document that best matches the query.
+          document that best matches the query. Returned if **passages.per_document** is
+          `true`.
     """
 
     # The set of defined properties for the class
@@ -9096,7 +9138,8 @@ class QueryResult():
         :param QueryResultMetadata result_metadata: Metadata of a query result.
         :param dict metadata: (optional) Metadata of the document.
         :param List[QueryResultPassage] document_passages: (optional) Passages from
-               the document that best matches the query.
+               the document that best matches the query. Returned if
+               **passages.per_document** is `true`.
         :param **kwargs: (optional) Any additional properties.
         """
         self.document_id = document_id
@@ -9216,11 +9259,11 @@ class QueryResultMetadata():
     :attr str collection_id: The collection id associated with this training data
           set.
     :attr float confidence: (optional) The confidence score for the given result.
-          Calculated based on how relevant the result is estimated to be. confidence can
+          Calculated based on how relevant the result is estimated to be. The score can
           range from `0.0` to `1.0`. The higher the number, the more relevant the
           document. The `confidence` value for a result was calculated using the model
           specified in the `document_retrieval_strategy` field of the result set. This
-          field is only returned if the **natural_language_query** parameter is specified
+          field is returned only if the **natural_language_query** parameter is specified
           in the query.
     """
 
@@ -9237,11 +9280,11 @@ class QueryResultMetadata():
         :param str document_retrieval_source: (optional) The document retrieval
                source that produced this search result.
         :param float confidence: (optional) The confidence score for the given
-               result. Calculated based on how relevant the result is estimated to be.
-               confidence can range from `0.0` to `1.0`. The higher the number, the more
+               result. Calculated based on how relevant the result is estimated to be. The
+               score can range from `0.0` to `1.0`. The higher the number, the more
                relevant the document. The `confidence` value for a result was calculated
                using the model specified in the `document_retrieval_strategy` field of the
-               result set. This field is only returned if the **natural_language_query**
+               result set. This field is returned only if the **natural_language_query**
                parameter is specified in the query.
         """
         self.document_retrieval_source = document_retrieval_source
@@ -9319,10 +9362,9 @@ class QueryResultPassage():
           extracted passage in the originating field.
     :attr str field: (optional) The label of the field from which the passage has
           been extracted.
-    :attr float confidence: (optional) Estimate of the probability that the passage
-          is relevant.
     :attr List[ResultPassageAnswer] answers: (optional) An arry of extracted answers
-          to the specified query.
+          to the specified query. Returned for natural language queries when
+          **passages.per_document** is `true`.
     """
 
     def __init__(self,
@@ -9331,7 +9373,6 @@ class QueryResultPassage():
                  start_offset: int = None,
                  end_offset: int = None,
                  field: str = None,
-                 confidence: float = None,
                  answers: List['ResultPassageAnswer'] = None) -> None:
         """
         Initialize a QueryResultPassage object.
@@ -9343,16 +9384,14 @@ class QueryResultPassage():
                the extracted passage in the originating field.
         :param str field: (optional) The label of the field from which the passage
                has been extracted.
-        :param float confidence: (optional) Estimate of the probability that the
-               passage is relevant.
         :param List[ResultPassageAnswer] answers: (optional) An arry of extracted
-               answers to the specified query.
+               answers to the specified query. Returned for natural language queries when
+               **passages.per_document** is `true`.
         """
         self.passage_text = passage_text
         self.start_offset = start_offset
         self.end_offset = end_offset
         self.field = field
-        self.confidence = confidence
         self.answers = answers
 
     @classmethod
@@ -9367,8 +9406,6 @@ class QueryResultPassage():
             args['end_offset'] = _dict.get('end_offset')
         if 'field' in _dict:
             args['field'] = _dict.get('field')
-        if 'confidence' in _dict:
-            args['confidence'] = _dict.get('confidence')
         if 'answers' in _dict:
             args['answers'] = [
                 ResultPassageAnswer.from_dict(v) for v in _dict.get('answers')
@@ -9391,8 +9428,6 @@ class QueryResultPassage():
             _dict['end_offset'] = self.end_offset
         if hasattr(self, 'field') and self.field is not None:
             _dict['field'] = self.field
-        if hasattr(self, 'confidence') and self.confidence is not None:
-            _dict['confidence'] = self.confidence
         if hasattr(self, 'answers') and self.answers is not None:
             answers_list = []
             for v in self.answers:
@@ -9589,19 +9624,21 @@ class QueryTableResult():
 
 class QueryTermAggregationResult():
     """
-    Top value result for the term aggregation.
+    Top value result for the `term` aggregation.
 
-    :attr str key: Value of the field with a non-zero frequency in the document set.
+    :attr str key: Value of the field with a nonzero frequency in the document set.
     :attr int matching_results: Number of documents that contain the 'key'.
-    :attr float relevancy: (optional) The relevancy for this term.
-    :attr int total_matching_documents: (optional) The number of documents which
-          have the term as the value of specified field in the whole set of documents in
-          this collection. Returned only when the `relevancy` parameter is set to `true`.
-    :attr int estimated_matching_documents: (optional) The estimated number of
-          documents which would match the query and also meet the condition. Returned only
-          when the `relevancy` parameter is set to `true`.
-    :attr List[QueryAggregation] aggregations: (optional) An array of
-          sub-aggregations.
+    :attr float relevancy: (optional) The relevancy score for this result. Returned
+          only if `relevancy:true` is specified in the request.
+    :attr int total_matching_documents: (optional) Number of documents in the
+          collection that contain the term in the specified field. Returned only when
+          `relevancy:true` is specified in the request.
+    :attr float estimated_matching_results: (optional) Number of documents that are
+          estimated to match the query and also meet the condition. Returned only when
+          `relevancy:true` is specified in the request.
+    :attr List[dict] aggregations: (optional) An array of subaggregations. Returned
+          only when this aggregation is combined with other aggregations in the request or
+          is returned as a subaggregation.
     """
 
     def __init__(self,
@@ -9610,30 +9647,31 @@ class QueryTermAggregationResult():
                  *,
                  relevancy: float = None,
                  total_matching_documents: int = None,
-                 estimated_matching_documents: int = None,
-                 aggregations: List['QueryAggregation'] = None) -> None:
+                 estimated_matching_results: float = None,
+                 aggregations: List[dict] = None) -> None:
         """
         Initialize a QueryTermAggregationResult object.
 
-        :param str key: Value of the field with a non-zero frequency in the
-               document set.
+        :param str key: Value of the field with a nonzero frequency in the document
+               set.
         :param int matching_results: Number of documents that contain the 'key'.
-        :param float relevancy: (optional) The relevancy for this term.
-        :param int total_matching_documents: (optional) The number of documents
-               which have the term as the value of specified field in the whole set of
-               documents in this collection. Returned only when the `relevancy` parameter
-               is set to `true`.
-        :param int estimated_matching_documents: (optional) The estimated number of
-               documents which would match the query and also meet the condition. Returned
-               only when the `relevancy` parameter is set to `true`.
-        :param List[QueryAggregation] aggregations: (optional) An array of
-               sub-aggregations.
+        :param float relevancy: (optional) The relevancy score for this result.
+               Returned only if `relevancy:true` is specified in the request.
+        :param int total_matching_documents: (optional) Number of documents in the
+               collection that contain the term in the specified field. Returned only when
+               `relevancy:true` is specified in the request.
+        :param float estimated_matching_results: (optional) Number of documents
+               that are estimated to match the query and also meet the condition. Returned
+               only when `relevancy:true` is specified in the request.
+        :param List[dict] aggregations: (optional) An array of subaggregations.
+               Returned only when this aggregation is combined with other aggregations in
+               the request or is returned as a subaggregation.
         """
         self.key = key
         self.matching_results = matching_results
         self.relevancy = relevancy
         self.total_matching_documents = total_matching_documents
-        self.estimated_matching_documents = estimated_matching_documents
+        self.estimated_matching_results = estimated_matching_results
         self.aggregations = aggregations
 
     @classmethod
@@ -9657,13 +9695,11 @@ class QueryTermAggregationResult():
         if 'total_matching_documents' in _dict:
             args['total_matching_documents'] = _dict.get(
                 'total_matching_documents')
-        if 'estimated_matching_documents' in _dict:
-            args['estimated_matching_documents'] = _dict.get(
-                'estimated_matching_documents')
+        if 'estimated_matching_results' in _dict:
+            args['estimated_matching_results'] = _dict.get(
+                'estimated_matching_results')
         if 'aggregations' in _dict:
-            args['aggregations'] = [
-                QueryAggregation.from_dict(v) for v in _dict.get('aggregations')
-            ]
+            args['aggregations'] = _dict.get('aggregations')
         return cls(**args)
 
     @classmethod
@@ -9684,18 +9720,12 @@ class QueryTermAggregationResult():
         if hasattr(self, 'total_matching_documents'
                   ) and self.total_matching_documents is not None:
             _dict['total_matching_documents'] = self.total_matching_documents
-        if hasattr(self, 'estimated_matching_documents'
-                  ) and self.estimated_matching_documents is not None:
+        if hasattr(self, 'estimated_matching_results'
+                  ) and self.estimated_matching_results is not None:
             _dict[
-                'estimated_matching_documents'] = self.estimated_matching_documents
+                'estimated_matching_results'] = self.estimated_matching_results
         if hasattr(self, 'aggregations') and self.aggregations is not None:
-            aggregations_list = []
-            for v in self.aggregations:
-                if isinstance(v, dict):
-                    aggregations_list.append(v)
-                else:
-                    aggregations_list.append(v.to_dict())
-            _dict['aggregations'] = aggregations_list
+            _dict['aggregations'] = self.aggregations
         return _dict
 
     def _to_dict(self):
@@ -9727,8 +9757,8 @@ class QueryTimesliceAggregationResult():
           in UNIX milliseconds since epoch.
     :attr int matching_results: Number of documents with the specified key as the
           upper bound.
-    :attr List[QueryAggregation] aggregations: (optional) An array of
-          sub-aggregations.
+    :attr List[dict] aggregations: (optional) An array of subaggregations. Returned
+          only when this aggregation is returned as a subaggregation.
     """
 
     def __init__(self,
@@ -9736,7 +9766,7 @@ class QueryTimesliceAggregationResult():
                  key: int,
                  matching_results: int,
                  *,
-                 aggregations: List['QueryAggregation'] = None) -> None:
+                 aggregations: List[dict] = None) -> None:
         """
         Initialize a QueryTimesliceAggregationResult object.
 
@@ -9746,8 +9776,8 @@ class QueryTimesliceAggregationResult():
                interval in UNIX milliseconds since epoch.
         :param int matching_results: Number of documents with the specified key as
                the upper bound.
-        :param List[QueryAggregation] aggregations: (optional) An array of
-               sub-aggregations.
+        :param List[dict] aggregations: (optional) An array of subaggregations.
+               Returned only when this aggregation is returned as a subaggregation.
         """
         self.key_as_string = key_as_string
         self.key = key
@@ -9777,9 +9807,7 @@ class QueryTimesliceAggregationResult():
                 'Required property \'matching_results\' not present in QueryTimesliceAggregationResult JSON'
             )
         if 'aggregations' in _dict:
-            args['aggregations'] = [
-                QueryAggregation.from_dict(v) for v in _dict.get('aggregations')
-            ]
+            args['aggregations'] = _dict.get('aggregations')
         return cls(**args)
 
     @classmethod
@@ -9798,13 +9826,7 @@ class QueryTimesliceAggregationResult():
                    'matching_results') and self.matching_results is not None:
             _dict['matching_results'] = self.matching_results
         if hasattr(self, 'aggregations') and self.aggregations is not None:
-            aggregations_list = []
-            for v in self.aggregations:
-                if isinstance(v, dict):
-                    aggregations_list.append(v)
-                else:
-                    aggregations_list.append(v.to_dict())
-            _dict['aggregations'] = aggregations_list
+            _dict['aggregations'] = self.aggregations
         return _dict
 
     def _to_dict(self):
@@ -9831,7 +9853,8 @@ class QueryTopHitsAggregationResult():
     A query response that contains the matching documents for the preceding aggregations.
 
     :attr int matching_results: Number of matching results.
-    :attr List[dict] hits: (optional) An array of the document results.
+    :attr List[dict] hits: (optional) An array of the document results in an ordered
+          list.
     """
 
     def __init__(self,
@@ -9842,7 +9865,8 @@ class QueryTopHitsAggregationResult():
         Initialize a QueryTopHitsAggregationResult object.
 
         :param int matching_results: Number of matching results.
-        :param List[dict] hits: (optional) An array of the document results.
+        :param List[dict] hits: (optional) An array of the document results in an
+               ordered list.
         """
         self.matching_results = matching_results
         self.hits = hits
@@ -9891,6 +9915,126 @@ class QueryTopHitsAggregationResult():
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'QueryTopHitsAggregationResult') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class QueryTopicAggregationResult():
+    """
+    Result for the `topic` aggregation.
+
+    :attr List[dict] aggregations: (optional) Array of subaggregations  of type
+          `term` or `group_by` and `timeslice`. Each element of the matrix that is
+          returned contains a **topic_indicator** that is calculated from the combination
+          of each aggregation value and segment of time.
+    """
+
+    def __init__(self, *, aggregations: List[dict] = None) -> None:
+        """
+        Initialize a QueryTopicAggregationResult object.
+
+        :param List[dict] aggregations: (optional) Array of subaggregations  of
+               type `term` or `group_by` and `timeslice`. Each element of the matrix that
+               is returned contains a **topic_indicator** that is calculated from the
+               combination of each aggregation value and segment of time.
+        """
+        self.aggregations = aggregations
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'QueryTopicAggregationResult':
+        """Initialize a QueryTopicAggregationResult object from a json dictionary."""
+        args = {}
+        if 'aggregations' in _dict:
+            args['aggregations'] = _dict.get('aggregations')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a QueryTopicAggregationResult object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'aggregations') and self.aggregations is not None:
+            _dict['aggregations'] = self.aggregations
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this QueryTopicAggregationResult object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'QueryTopicAggregationResult') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'QueryTopicAggregationResult') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class QueryTrendAggregationResult():
+    """
+    Result for the `trend` aggregation.
+
+    :attr List[dict] aggregations: (optional) Array of subaggregations of type
+          `term` or `group_by` and `timeslice`. Each element of the matrix that is
+          returned contains a **trend_indicator** that is calculated from the combination
+          of each aggregation value and segment of time.
+    """
+
+    def __init__(self, *, aggregations: List[dict] = None) -> None:
+        """
+        Initialize a QueryTrendAggregationResult object.
+
+        :param List[dict] aggregations: (optional) Array of subaggregations of type
+               `term` or `group_by` and `timeslice`. Each element of the matrix that is
+               returned contains a **trend_indicator** that is calculated from the
+               combination of each aggregation value and segment of time.
+        """
+        self.aggregations = aggregations
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'QueryTrendAggregationResult':
+        """Initialize a QueryTrendAggregationResult object from a json dictionary."""
+        args = {}
+        if 'aggregations' in _dict:
+            args['aggregations'] = _dict.get('aggregations')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a QueryTrendAggregationResult object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'aggregations') and self.aggregations is not None:
+            _dict['aggregations'] = self.aggregations
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this QueryTrendAggregationResult object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'QueryTrendAggregationResult') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'QueryTrendAggregationResult') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -12072,44 +12216,47 @@ class UpdateDocumentClassifier():
         return not self == other
 
 
-class QueryCalculationAggregation(QueryAggregation):
+class QueryAggregationQueryCalculationAggregation(QueryAggregation):
     """
     Returns a scalar calculation across all documents for the field specified. Possible
     calculations include min, max, sum, average, and unique_count.
 
+    :attr str type: (optional) Specifies the calculation type, such as 'average`,
+          `max`, `min`, `sum`, or `unique_count`.
     :attr str field: The field to perform the calculation on.
     :attr float value: (optional) The value of the calculation.
     """
 
-    def __init__(self, type: str, field: str, *, value: float = None) -> None:
+    def __init__(self,
+                 field: str,
+                 *,
+                 type: str = None,
+                 value: float = None) -> None:
         """
-        Initialize a QueryCalculationAggregation object.
+        Initialize a QueryAggregationQueryCalculationAggregation object.
 
-        :param str type: The type of aggregation command used. Options include:
-               term, histogram, timeslice, nested, filter, min, max, sum, average,
-               unique_count, and top_hits.
         :param str field: The field to perform the calculation on.
+        :param str type: (optional) Specifies the calculation type, such as
+               'average`, `max`, `min`, `sum`, or `unique_count`.
         :param float value: (optional) The value of the calculation.
         """
+        # pylint: disable=super-init-not-called
         self.type = type
         self.field = field
         self.value = value
 
     @classmethod
-    def from_dict(cls, _dict: Dict) -> 'QueryCalculationAggregation':
-        """Initialize a QueryCalculationAggregation object from a json dictionary."""
+    def from_dict(cls,
+                  _dict: Dict) -> 'QueryAggregationQueryCalculationAggregation':
+        """Initialize a QueryAggregationQueryCalculationAggregation object from a json dictionary."""
         args = {}
         if 'type' in _dict:
             args['type'] = _dict.get('type')
-        else:
-            raise ValueError(
-                'Required property \'type\' not present in QueryCalculationAggregation JSON'
-            )
         if 'field' in _dict:
             args['field'] = _dict.get('field')
         else:
             raise ValueError(
-                'Required property \'field\' not present in QueryCalculationAggregation JSON'
+                'Required property \'field\' not present in QueryAggregationQueryCalculationAggregation JSON'
             )
         if 'value' in _dict:
             args['value'] = _dict.get('value')
@@ -12117,7 +12264,7 @@ class QueryCalculationAggregation(QueryAggregation):
 
     @classmethod
     def _from_dict(cls, _dict):
-        """Initialize a QueryCalculationAggregation object from a json dictionary."""
+        """Initialize a QueryAggregationQueryCalculationAggregation object from a json dictionary."""
         return cls.from_dict(_dict)
 
     def to_dict(self) -> Dict:
@@ -12136,85 +12283,80 @@ class QueryCalculationAggregation(QueryAggregation):
         return self.to_dict()
 
     def __str__(self) -> str:
-        """Return a `str` version of this QueryCalculationAggregation object."""
+        """Return a `str` version of this QueryAggregationQueryCalculationAggregation object."""
         return json.dumps(self.to_dict(), indent=2)
 
-    def __eq__(self, other: 'QueryCalculationAggregation') -> bool:
+    def __eq__(self,
+               other: 'QueryAggregationQueryCalculationAggregation') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other: 'QueryCalculationAggregation') -> bool:
+    def __ne__(self,
+               other: 'QueryAggregationQueryCalculationAggregation') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
 
-class QueryFilterAggregation(QueryAggregation):
+class QueryAggregationQueryFilterAggregation(QueryAggregation):
     """
-    A modifier that narrows the document set of the sub-aggregations it precedes.
+    A modifier that narrows the document set of the subaggregations it precedes.
 
+    :attr str type: (optional) Specifies that the aggregation type is `filter`.
     :attr str match: The filter that is written in Discovery Query Language syntax
-          and is applied to the documents before sub-aggregations are run.
+          and is applied to the documents before subaggregations are run.
     :attr int matching_results: Number of documents that match the filter.
-    :attr List[QueryAggregation] aggregations: (optional) An array of
-          sub-aggregations.
+    :attr List[dict] aggregations: (optional) An array of subaggregations.
     """
 
     def __init__(self,
-                 type: str,
                  match: str,
                  matching_results: int,
                  *,
-                 aggregations: List['QueryAggregation'] = None) -> None:
+                 type: str = None,
+                 aggregations: List[dict] = None) -> None:
         """
-        Initialize a QueryFilterAggregation object.
+        Initialize a QueryAggregationQueryFilterAggregation object.
 
-        :param str type: The type of aggregation command used. Options include:
-               term, histogram, timeslice, nested, filter, min, max, sum, average,
-               unique_count, and top_hits.
         :param str match: The filter that is written in Discovery Query Language
-               syntax and is applied to the documents before sub-aggregations are run.
+               syntax and is applied to the documents before subaggregations are run.
         :param int matching_results: Number of documents that match the filter.
-        :param List[QueryAggregation] aggregations: (optional) An array of
-               sub-aggregations.
+        :param str type: (optional) Specifies that the aggregation type is
+               `filter`.
+        :param List[dict] aggregations: (optional) An array of subaggregations.
         """
+        # pylint: disable=super-init-not-called
         self.type = type
         self.match = match
         self.matching_results = matching_results
         self.aggregations = aggregations
 
     @classmethod
-    def from_dict(cls, _dict: Dict) -> 'QueryFilterAggregation':
-        """Initialize a QueryFilterAggregation object from a json dictionary."""
+    def from_dict(cls, _dict: Dict) -> 'QueryAggregationQueryFilterAggregation':
+        """Initialize a QueryAggregationQueryFilterAggregation object from a json dictionary."""
         args = {}
         if 'type' in _dict:
             args['type'] = _dict.get('type')
-        else:
-            raise ValueError(
-                'Required property \'type\' not present in QueryFilterAggregation JSON'
-            )
         if 'match' in _dict:
             args['match'] = _dict.get('match')
         else:
             raise ValueError(
-                'Required property \'match\' not present in QueryFilterAggregation JSON'
+                'Required property \'match\' not present in QueryAggregationQueryFilterAggregation JSON'
             )
         if 'matching_results' in _dict:
             args['matching_results'] = _dict.get('matching_results')
         else:
             raise ValueError(
-                'Required property \'matching_results\' not present in QueryFilterAggregation JSON'
+                'Required property \'matching_results\' not present in QueryAggregationQueryFilterAggregation JSON'
             )
         if 'aggregations' in _dict:
-            args['aggregations'] = [
-                QueryAggregation.from_dict(v) for v in _dict.get('aggregations')
-            ]
+            args['aggregations'] = _dict.get('aggregations')
         return cls(**args)
 
     @classmethod
     def _from_dict(cls, _dict):
-        """Initialize a QueryFilterAggregation object from a json dictionary."""
+        """Initialize a QueryAggregationQueryFilterAggregation object from a json dictionary."""
         return cls.from_dict(_dict)
 
     def to_dict(self) -> Dict:
@@ -12228,13 +12370,7 @@ class QueryFilterAggregation(QueryAggregation):
                    'matching_results') and self.matching_results is not None:
             _dict['matching_results'] = self.matching_results
         if hasattr(self, 'aggregations') and self.aggregations is not None:
-            aggregations_list = []
-            for v in self.aggregations:
-                if isinstance(v, dict):
-                    aggregations_list.append(v)
-                else:
-                    aggregations_list.append(v.to_dict())
-            _dict['aggregations'] = aggregations_list
+            _dict['aggregations'] = self.aggregations
         return _dict
 
     def _to_dict(self):
@@ -12242,54 +12378,52 @@ class QueryFilterAggregation(QueryAggregation):
         return self.to_dict()
 
     def __str__(self) -> str:
-        """Return a `str` version of this QueryFilterAggregation object."""
+        """Return a `str` version of this QueryAggregationQueryFilterAggregation object."""
         return json.dumps(self.to_dict(), indent=2)
 
-    def __eq__(self, other: 'QueryFilterAggregation') -> bool:
+    def __eq__(self, other: 'QueryAggregationQueryFilterAggregation') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other: 'QueryFilterAggregation') -> bool:
+    def __ne__(self, other: 'QueryAggregationQueryFilterAggregation') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
 
-class QueryGroupByAggregation(QueryAggregation):
+class QueryAggregationQueryGroupByAggregation(QueryAggregation):
     """
-    Returns the top values for the field specified.
+    Separates document results into groups that meet the conditions you specify.
 
-    :attr List[QueryGroupByAggregationResult] results: (optional) Array of top
-          values for the field.
+    :attr str type: (optional) Specifies that the aggregation type is `group_by`.
+    :attr List[QueryGroupByAggregationResult] results: (optional) An array of
+          results.
     """
 
     def __init__(self,
-                 type: str,
                  *,
+                 type: str = None,
                  results: List['QueryGroupByAggregationResult'] = None) -> None:
         """
-        Initialize a QueryGroupByAggregation object.
+        Initialize a QueryAggregationQueryGroupByAggregation object.
 
-        :param str type: The type of aggregation command used. Options include:
-               term, histogram, timeslice, nested, filter, min, max, sum, average,
-               unique_count, and top_hits.
-        :param List[QueryGroupByAggregationResult] results: (optional) Array of top
-               values for the field.
+        :param str type: (optional) Specifies that the aggregation type is
+               `group_by`.
+        :param List[QueryGroupByAggregationResult] results: (optional) An array of
+               results.
         """
+        # pylint: disable=super-init-not-called
         self.type = type
         self.results = results
 
     @classmethod
-    def from_dict(cls, _dict: Dict) -> 'QueryGroupByAggregation':
-        """Initialize a QueryGroupByAggregation object from a json dictionary."""
+    def from_dict(cls,
+                  _dict: Dict) -> 'QueryAggregationQueryGroupByAggregation':
+        """Initialize a QueryAggregationQueryGroupByAggregation object from a json dictionary."""
         args = {}
         if 'type' in _dict:
             args['type'] = _dict.get('type')
-        else:
-            raise ValueError(
-                'Required property \'type\' not present in QueryGroupByAggregation JSON'
-            )
         if 'results' in _dict:
             args['results'] = [
                 QueryGroupByAggregationResult.from_dict(v)
@@ -12299,7 +12433,7 @@ class QueryGroupByAggregation(QueryAggregation):
 
     @classmethod
     def _from_dict(cls, _dict):
-        """Initialize a QueryGroupByAggregation object from a json dictionary."""
+        """Initialize a QueryAggregationQueryGroupByAggregation object from a json dictionary."""
         return cls.from_dict(_dict)
 
     def to_dict(self) -> Dict:
@@ -12322,55 +12456,56 @@ class QueryGroupByAggregation(QueryAggregation):
         return self.to_dict()
 
     def __str__(self) -> str:
-        """Return a `str` version of this QueryGroupByAggregation object."""
+        """Return a `str` version of this QueryAggregationQueryGroupByAggregation object."""
         return json.dumps(self.to_dict(), indent=2)
 
-    def __eq__(self, other: 'QueryGroupByAggregation') -> bool:
+    def __eq__(self, other: 'QueryAggregationQueryGroupByAggregation') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other: 'QueryGroupByAggregation') -> bool:
+    def __ne__(self, other: 'QueryAggregationQueryGroupByAggregation') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
 
-class QueryHistogramAggregation(QueryAggregation):
+class QueryAggregationQueryHistogramAggregation(QueryAggregation):
     """
     Numeric interval segments to categorize documents by using field values from a single
     numeric field to describe the category.
 
+    :attr str type: (optional) Specifies that the aggregation type is `histogram`.
     :attr str field: The numeric field name used to create the histogram.
     :attr int interval: The size of the sections that the results are split into.
-    :attr str name: (optional) Identifier specified in the query request of this
-          aggregation.
+    :attr str name: (optional) Identifier that can optionally be specified in the
+          query request of this aggregation.
     :attr List[QueryHistogramAggregationResult] results: (optional) Array of numeric
           intervals.
     """
 
     def __init__(
             self,
-            type: str,
             field: str,
             interval: int,
             *,
+            type: str = None,
             name: str = None,
             results: List['QueryHistogramAggregationResult'] = None) -> None:
         """
-        Initialize a QueryHistogramAggregation object.
+        Initialize a QueryAggregationQueryHistogramAggregation object.
 
-        :param str type: The type of aggregation command used. Options include:
-               term, histogram, timeslice, nested, filter, min, max, sum, average,
-               unique_count, and top_hits.
         :param str field: The numeric field name used to create the histogram.
         :param int interval: The size of the sections that the results are split
                into.
-        :param str name: (optional) Identifier specified in the query request of
-               this aggregation.
+        :param str type: (optional) Specifies that the aggregation type is
+               `histogram`.
+        :param str name: (optional) Identifier that can optionally be specified in
+               the query request of this aggregation.
         :param List[QueryHistogramAggregationResult] results: (optional) Array of
                numeric intervals.
         """
+        # pylint: disable=super-init-not-called
         self.type = type
         self.field = field
         self.interval = interval
@@ -12378,26 +12513,23 @@ class QueryHistogramAggregation(QueryAggregation):
         self.results = results
 
     @classmethod
-    def from_dict(cls, _dict: Dict) -> 'QueryHistogramAggregation':
-        """Initialize a QueryHistogramAggregation object from a json dictionary."""
+    def from_dict(cls,
+                  _dict: Dict) -> 'QueryAggregationQueryHistogramAggregation':
+        """Initialize a QueryAggregationQueryHistogramAggregation object from a json dictionary."""
         args = {}
         if 'type' in _dict:
             args['type'] = _dict.get('type')
-        else:
-            raise ValueError(
-                'Required property \'type\' not present in QueryHistogramAggregation JSON'
-            )
         if 'field' in _dict:
             args['field'] = _dict.get('field')
         else:
             raise ValueError(
-                'Required property \'field\' not present in QueryHistogramAggregation JSON'
+                'Required property \'field\' not present in QueryAggregationQueryHistogramAggregation JSON'
             )
         if 'interval' in _dict:
             args['interval'] = _dict.get('interval')
         else:
             raise ValueError(
-                'Required property \'interval\' not present in QueryHistogramAggregation JSON'
+                'Required property \'interval\' not present in QueryAggregationQueryHistogramAggregation JSON'
             )
         if 'name' in _dict:
             args['name'] = _dict.get('name')
@@ -12410,7 +12542,7 @@ class QueryHistogramAggregation(QueryAggregation):
 
     @classmethod
     def _from_dict(cls, _dict):
-        """Initialize a QueryHistogramAggregation object from a json dictionary."""
+        """Initialize a QueryAggregationQueryHistogramAggregation object from a json dictionary."""
         return cls.from_dict(_dict)
 
     def to_dict(self) -> Dict:
@@ -12439,87 +12571,84 @@ class QueryHistogramAggregation(QueryAggregation):
         return self.to_dict()
 
     def __str__(self) -> str:
-        """Return a `str` version of this QueryHistogramAggregation object."""
+        """Return a `str` version of this QueryAggregationQueryHistogramAggregation object."""
         return json.dumps(self.to_dict(), indent=2)
 
-    def __eq__(self, other: 'QueryHistogramAggregation') -> bool:
+    def __eq__(self,
+               other: 'QueryAggregationQueryHistogramAggregation') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other: 'QueryHistogramAggregation') -> bool:
+    def __ne__(self,
+               other: 'QueryAggregationQueryHistogramAggregation') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
 
-class QueryNestedAggregation(QueryAggregation):
+class QueryAggregationQueryNestedAggregation(QueryAggregation):
     """
-    A restriction that alters the document set that is used for sub-aggregations it
-    precedes to nested documents found in the field specified.
+    A restriction that alters the document set that is used by the aggregations that it
+    precedes. Subsequent aggregations are applied to nested documents from the specified
+    field.
 
-    :attr str path: The path to the document field to scope sub-aggregations to.
+    :attr str type: (optional) Specifies that the aggregation type is `nested`.
+    :attr str path: The path to the document field to scope subsequent aggregations
+          to.
     :attr int matching_results: Number of nested documents found in the specified
           field.
-    :attr List[QueryAggregation] aggregations: (optional) An array of
-          sub-aggregations.
+    :attr List[dict] aggregations: (optional) An array of subaggregations.
     """
 
     def __init__(self,
-                 type: str,
                  path: str,
                  matching_results: int,
                  *,
-                 aggregations: List['QueryAggregation'] = None) -> None:
+                 type: str = None,
+                 aggregations: List[dict] = None) -> None:
         """
-        Initialize a QueryNestedAggregation object.
+        Initialize a QueryAggregationQueryNestedAggregation object.
 
-        :param str type: The type of aggregation command used. Options include:
-               term, histogram, timeslice, nested, filter, min, max, sum, average,
-               unique_count, and top_hits.
-        :param str path: The path to the document field to scope sub-aggregations
-               to.
+        :param str path: The path to the document field to scope subsequent
+               aggregations to.
         :param int matching_results: Number of nested documents found in the
                specified field.
-        :param List[QueryAggregation] aggregations: (optional) An array of
-               sub-aggregations.
+        :param str type: (optional) Specifies that the aggregation type is
+               `nested`.
+        :param List[dict] aggregations: (optional) An array of subaggregations.
         """
+        # pylint: disable=super-init-not-called
         self.type = type
         self.path = path
         self.matching_results = matching_results
         self.aggregations = aggregations
 
     @classmethod
-    def from_dict(cls, _dict: Dict) -> 'QueryNestedAggregation':
-        """Initialize a QueryNestedAggregation object from a json dictionary."""
+    def from_dict(cls, _dict: Dict) -> 'QueryAggregationQueryNestedAggregation':
+        """Initialize a QueryAggregationQueryNestedAggregation object from a json dictionary."""
         args = {}
         if 'type' in _dict:
             args['type'] = _dict.get('type')
-        else:
-            raise ValueError(
-                'Required property \'type\' not present in QueryNestedAggregation JSON'
-            )
         if 'path' in _dict:
             args['path'] = _dict.get('path')
         else:
             raise ValueError(
-                'Required property \'path\' not present in QueryNestedAggregation JSON'
+                'Required property \'path\' not present in QueryAggregationQueryNestedAggregation JSON'
             )
         if 'matching_results' in _dict:
             args['matching_results'] = _dict.get('matching_results')
         else:
             raise ValueError(
-                'Required property \'matching_results\' not present in QueryNestedAggregation JSON'
+                'Required property \'matching_results\' not present in QueryAggregationQueryNestedAggregation JSON'
             )
         if 'aggregations' in _dict:
-            args['aggregations'] = [
-                QueryAggregation.from_dict(v) for v in _dict.get('aggregations')
-            ]
+            args['aggregations'] = _dict.get('aggregations')
         return cls(**args)
 
     @classmethod
     def _from_dict(cls, _dict):
-        """Initialize a QueryNestedAggregation object from a json dictionary."""
+        """Initialize a QueryAggregationQueryNestedAggregation object from a json dictionary."""
         return cls.from_dict(_dict)
 
     def to_dict(self) -> Dict:
@@ -12533,13 +12662,7 @@ class QueryNestedAggregation(QueryAggregation):
                    'matching_results') and self.matching_results is not None:
             _dict['matching_results'] = self.matching_results
         if hasattr(self, 'aggregations') and self.aggregations is not None:
-            aggregations_list = []
-            for v in self.aggregations:
-                if isinstance(v, dict):
-                    aggregations_list.append(v)
-                else:
-                    aggregations_list.append(v.to_dict())
-            _dict['aggregations'] = aggregations_list
+            _dict['aggregations'] = self.aggregations
         return _dict
 
     def _to_dict(self):
@@ -12547,53 +12670,183 @@ class QueryNestedAggregation(QueryAggregation):
         return self.to_dict()
 
     def __str__(self) -> str:
-        """Return a `str` version of this QueryNestedAggregation object."""
+        """Return a `str` version of this QueryAggregationQueryNestedAggregation object."""
         return json.dumps(self.to_dict(), indent=2)
 
-    def __eq__(self, other: 'QueryNestedAggregation') -> bool:
+    def __eq__(self, other: 'QueryAggregationQueryNestedAggregation') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other: 'QueryNestedAggregation') -> bool:
+    def __ne__(self, other: 'QueryAggregationQueryNestedAggregation') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
 
-class QueryTermAggregation(QueryAggregation):
+class QueryAggregationQueryPairAggregation(QueryAggregation):
     """
-    Returns the top values for the field specified.
+    Calculates relevancy values using combinations of document sets from results of the
+    specified pair of aggregations.
 
-    :attr str field: The field in the document used to generate top values from.
-    :attr int count: (optional) The number of top values returned.
-    :attr str name: (optional) Identifier specified in the query request of this
-          aggregation.
-    :attr List[QueryTermAggregationResult] results: (optional) Array of top values
-          for the field.
+    :attr str type: (optional) Specifies that the aggregation type is `pair`.
+    :attr str first: (optional) Specifies the first aggregation in the pair. The
+          aggregation must be a `term`, `group_by`, `histogram`, or `timeslice`
+          aggregation type.
+    :attr str second: (optional) Specifies the second aggregation in the pair. The
+          aggregation must be a `term`, `group_by`, `histogram`, or `timeslice`
+          aggregation type.
+    :attr bool show_estimated_matching_results: (optional) Indicates whether to
+          include estimated matching result information.
+    :attr bool show_total_matching_documents: (optional) Indicates whether to
+          include total matching documents information.
+    :attr List[QueryPairAggregationResult] results: (optional) An array of
+          aggregations.
     """
 
     def __init__(self,
-                 type: str,
-                 field: str,
                  *,
+                 type: str = None,
+                 first: str = None,
+                 second: str = None,
+                 show_estimated_matching_results: bool = None,
+                 show_total_matching_documents: bool = None,
+                 results: List['QueryPairAggregationResult'] = None) -> None:
+        """
+        Initialize a QueryAggregationQueryPairAggregation object.
+
+        :param str type: (optional) Specifies that the aggregation type is `pair`.
+        :param str first: (optional) Specifies the first aggregation in the pair.
+               The aggregation must be a `term`, `group_by`, `histogram`, or `timeslice`
+               aggregation type.
+        :param str second: (optional) Specifies the second aggregation in the pair.
+               The aggregation must be a `term`, `group_by`, `histogram`, or `timeslice`
+               aggregation type.
+        :param bool show_estimated_matching_results: (optional) Indicates whether
+               to include estimated matching result information.
+        :param bool show_total_matching_documents: (optional) Indicates whether to
+               include total matching documents information.
+        :param List[QueryPairAggregationResult] results: (optional) An array of
+               aggregations.
+        """
+        # pylint: disable=super-init-not-called
+        self.type = type
+        self.first = first
+        self.second = second
+        self.show_estimated_matching_results = show_estimated_matching_results
+        self.show_total_matching_documents = show_total_matching_documents
+        self.results = results
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'QueryAggregationQueryPairAggregation':
+        """Initialize a QueryAggregationQueryPairAggregation object from a json dictionary."""
+        args = {}
+        if 'type' in _dict:
+            args['type'] = _dict.get('type')
+        if 'first' in _dict:
+            args['first'] = _dict.get('first')
+        if 'second' in _dict:
+            args['second'] = _dict.get('second')
+        if 'show_estimated_matching_results' in _dict:
+            args['show_estimated_matching_results'] = _dict.get(
+                'show_estimated_matching_results')
+        if 'show_total_matching_documents' in _dict:
+            args['show_total_matching_documents'] = _dict.get(
+                'show_total_matching_documents')
+        if 'results' in _dict:
+            args['results'] = [
+                QueryPairAggregationResult.from_dict(v)
+                for v in _dict.get('results')
+            ]
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a QueryAggregationQueryPairAggregation object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'type') and self.type is not None:
+            _dict['type'] = self.type
+        if hasattr(self, 'first') and self.first is not None:
+            _dict['first'] = self.first
+        if hasattr(self, 'second') and self.second is not None:
+            _dict['second'] = self.second
+        if hasattr(self, 'show_estimated_matching_results'
+                  ) and self.show_estimated_matching_results is not None:
+            _dict[
+                'show_estimated_matching_results'] = self.show_estimated_matching_results
+        if hasattr(self, 'show_total_matching_documents'
+                  ) and self.show_total_matching_documents is not None:
+            _dict[
+                'show_total_matching_documents'] = self.show_total_matching_documents
+        if hasattr(self, 'results') and self.results is not None:
+            results_list = []
+            for v in self.results:
+                if isinstance(v, dict):
+                    results_list.append(v)
+                else:
+                    results_list.append(v.to_dict())
+            _dict['results'] = results_list
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this QueryAggregationQueryPairAggregation object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'QueryAggregationQueryPairAggregation') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'QueryAggregationQueryPairAggregation') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class QueryAggregationQueryTermAggregation(QueryAggregation):
+    """
+    Returns results from the field that is specified.
+
+    :attr str type: (optional) Specifies that the aggregation type is `term`.
+    :attr str field: (optional) The field in the document where the values come
+          from.
+    :attr int count: (optional) The number of results returned. Not returned if
+          `relevancy:true` is specified in the request.
+    :attr str name: (optional) Identifier specified in the query request of this
+          aggregation. Not returned if `relevancy:true` is specified in the request.
+    :attr List[QueryTermAggregationResult] results: (optional) An array of results.
+    """
+
+    def __init__(self,
+                 *,
+                 type: str = None,
+                 field: str = None,
                  count: int = None,
                  name: str = None,
                  results: List['QueryTermAggregationResult'] = None) -> None:
         """
-        Initialize a QueryTermAggregation object.
+        Initialize a QueryAggregationQueryTermAggregation object.
 
-        :param str type: The type of aggregation command used. Options include:
-               term, histogram, timeslice, nested, filter, min, max, sum, average,
-               unique_count, and top_hits.
-        :param str field: The field in the document used to generate top values
-               from.
-        :param int count: (optional) The number of top values returned.
+        :param str type: (optional) Specifies that the aggregation type is `term`.
+        :param str field: (optional) The field in the document where the values
+               come from.
+        :param int count: (optional) The number of results returned. Not returned
+               if `relevancy:true` is specified in the request.
         :param str name: (optional) Identifier specified in the query request of
-               this aggregation.
-        :param List[QueryTermAggregationResult] results: (optional) Array of top
-               values for the field.
+               this aggregation. Not returned if `relevancy:true` is specified in the
+               request.
+        :param List[QueryTermAggregationResult] results: (optional) An array of
+               results.
         """
+        # pylint: disable=super-init-not-called
         self.type = type
         self.field = field
         self.count = count
@@ -12601,21 +12854,13 @@ class QueryTermAggregation(QueryAggregation):
         self.results = results
 
     @classmethod
-    def from_dict(cls, _dict: Dict) -> 'QueryTermAggregation':
-        """Initialize a QueryTermAggregation object from a json dictionary."""
+    def from_dict(cls, _dict: Dict) -> 'QueryAggregationQueryTermAggregation':
+        """Initialize a QueryAggregationQueryTermAggregation object from a json dictionary."""
         args = {}
         if 'type' in _dict:
             args['type'] = _dict.get('type')
-        else:
-            raise ValueError(
-                'Required property \'type\' not present in QueryTermAggregation JSON'
-            )
         if 'field' in _dict:
             args['field'] = _dict.get('field')
-        else:
-            raise ValueError(
-                'Required property \'field\' not present in QueryTermAggregation JSON'
-            )
         if 'count' in _dict:
             args['count'] = _dict.get('count')
         if 'name' in _dict:
@@ -12629,7 +12874,7 @@ class QueryTermAggregation(QueryAggregation):
 
     @classmethod
     def _from_dict(cls, _dict):
-        """Initialize a QueryTermAggregation object from a json dictionary."""
+        """Initialize a QueryAggregationQueryTermAggregation object from a json dictionary."""
         return cls.from_dict(_dict)
 
     def to_dict(self) -> Dict:
@@ -12658,55 +12903,56 @@ class QueryTermAggregation(QueryAggregation):
         return self.to_dict()
 
     def __str__(self) -> str:
-        """Return a `str` version of this QueryTermAggregation object."""
+        """Return a `str` version of this QueryAggregationQueryTermAggregation object."""
         return json.dumps(self.to_dict(), indent=2)
 
-    def __eq__(self, other: 'QueryTermAggregation') -> bool:
+    def __eq__(self, other: 'QueryAggregationQueryTermAggregation') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other: 'QueryTermAggregation') -> bool:
+    def __ne__(self, other: 'QueryAggregationQueryTermAggregation') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
 
-class QueryTimesliceAggregation(QueryAggregation):
+class QueryAggregationQueryTimesliceAggregation(QueryAggregation):
     """
     A specialized histogram aggregation that uses dates to create interval segments.
 
+    :attr str type: (optional) Specifies that the aggregation type is `timeslice`.
     :attr str field: The date field name used to create the timeslice.
     :attr str interval: The date interval value. Valid values are seconds, minutes,
           hours, days, weeks, and years.
-    :attr str name: (optional) Identifier specified in the query request of this
-          aggregation.
+    :attr str name: (optional) Identifier that can optionally be specified in the
+          query request of this aggregation.
     :attr List[QueryTimesliceAggregationResult] results: (optional) Array of
           aggregation results.
     """
 
     def __init__(
             self,
-            type: str,
             field: str,
             interval: str,
             *,
+            type: str = None,
             name: str = None,
             results: List['QueryTimesliceAggregationResult'] = None) -> None:
         """
-        Initialize a QueryTimesliceAggregation object.
+        Initialize a QueryAggregationQueryTimesliceAggregation object.
 
-        :param str type: The type of aggregation command used. Options include:
-               term, histogram, timeslice, nested, filter, min, max, sum, average,
-               unique_count, and top_hits.
         :param str field: The date field name used to create the timeslice.
         :param str interval: The date interval value. Valid values are seconds,
                minutes, hours, days, weeks, and years.
-        :param str name: (optional) Identifier specified in the query request of
-               this aggregation.
+        :param str type: (optional) Specifies that the aggregation type is
+               `timeslice`.
+        :param str name: (optional) Identifier that can optionally be specified in
+               the query request of this aggregation.
         :param List[QueryTimesliceAggregationResult] results: (optional) Array of
                aggregation results.
         """
+        # pylint: disable=super-init-not-called
         self.type = type
         self.field = field
         self.interval = interval
@@ -12714,26 +12960,23 @@ class QueryTimesliceAggregation(QueryAggregation):
         self.results = results
 
     @classmethod
-    def from_dict(cls, _dict: Dict) -> 'QueryTimesliceAggregation':
-        """Initialize a QueryTimesliceAggregation object from a json dictionary."""
+    def from_dict(cls,
+                  _dict: Dict) -> 'QueryAggregationQueryTimesliceAggregation':
+        """Initialize a QueryAggregationQueryTimesliceAggregation object from a json dictionary."""
         args = {}
         if 'type' in _dict:
             args['type'] = _dict.get('type')
-        else:
-            raise ValueError(
-                'Required property \'type\' not present in QueryTimesliceAggregation JSON'
-            )
         if 'field' in _dict:
             args['field'] = _dict.get('field')
         else:
             raise ValueError(
-                'Required property \'field\' not present in QueryTimesliceAggregation JSON'
+                'Required property \'field\' not present in QueryAggregationQueryTimesliceAggregation JSON'
             )
         if 'interval' in _dict:
             args['interval'] = _dict.get('interval')
         else:
             raise ValueError(
-                'Required property \'interval\' not present in QueryTimesliceAggregation JSON'
+                'Required property \'interval\' not present in QueryAggregationQueryTimesliceAggregation JSON'
             )
         if 'name' in _dict:
             args['name'] = _dict.get('name')
@@ -12746,7 +12989,7 @@ class QueryTimesliceAggregation(QueryAggregation):
 
     @classmethod
     def _from_dict(cls, _dict):
-        """Initialize a QueryTimesliceAggregation object from a json dictionary."""
+        """Initialize a QueryAggregationQueryTimesliceAggregation object from a json dictionary."""
         return cls.from_dict(_dict)
 
     def to_dict(self) -> Dict:
@@ -12775,67 +13018,69 @@ class QueryTimesliceAggregation(QueryAggregation):
         return self.to_dict()
 
     def __str__(self) -> str:
-        """Return a `str` version of this QueryTimesliceAggregation object."""
+        """Return a `str` version of this QueryAggregationQueryTimesliceAggregation object."""
         return json.dumps(self.to_dict(), indent=2)
 
-    def __eq__(self, other: 'QueryTimesliceAggregation') -> bool:
+    def __eq__(self,
+               other: 'QueryAggregationQueryTimesliceAggregation') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other: 'QueryTimesliceAggregation') -> bool:
+    def __ne__(self,
+               other: 'QueryAggregationQueryTimesliceAggregation') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
 
-class QueryTopHitsAggregation(QueryAggregation):
+class QueryAggregationQueryTopHitsAggregation(QueryAggregation):
     """
     Returns the top documents ranked by the score of the query.
 
+    :attr str type: (optional) Specifies that the aggregation type is `top_hits`.
     :attr int size: The number of documents to return.
     :attr str name: (optional) Identifier specified in the query request of this
           aggregation.
-    :attr QueryTopHitsAggregationResult hits: (optional)
+    :attr QueryTopHitsAggregationResult hits: (optional) A query response that
+          contains the matching documents for the preceding aggregations.
     """
 
     def __init__(self,
-                 type: str,
                  size: int,
                  *,
+                 type: str = None,
                  name: str = None,
                  hits: 'QueryTopHitsAggregationResult' = None) -> None:
         """
-        Initialize a QueryTopHitsAggregation object.
+        Initialize a QueryAggregationQueryTopHitsAggregation object.
 
-        :param str type: The type of aggregation command used. Options include:
-               term, histogram, timeslice, nested, filter, min, max, sum, average,
-               unique_count, and top_hits.
         :param int size: The number of documents to return.
+        :param str type: (optional) Specifies that the aggregation type is
+               `top_hits`.
         :param str name: (optional) Identifier specified in the query request of
                this aggregation.
-        :param QueryTopHitsAggregationResult hits: (optional)
+        :param QueryTopHitsAggregationResult hits: (optional) A query response that
+               contains the matching documents for the preceding aggregations.
         """
+        # pylint: disable=super-init-not-called
         self.type = type
         self.size = size
         self.name = name
         self.hits = hits
 
     @classmethod
-    def from_dict(cls, _dict: Dict) -> 'QueryTopHitsAggregation':
-        """Initialize a QueryTopHitsAggregation object from a json dictionary."""
+    def from_dict(cls,
+                  _dict: Dict) -> 'QueryAggregationQueryTopHitsAggregation':
+        """Initialize a QueryAggregationQueryTopHitsAggregation object from a json dictionary."""
         args = {}
         if 'type' in _dict:
             args['type'] = _dict.get('type')
-        else:
-            raise ValueError(
-                'Required property \'type\' not present in QueryTopHitsAggregation JSON'
-            )
         if 'size' in _dict:
             args['size'] = _dict.get('size')
         else:
             raise ValueError(
-                'Required property \'size\' not present in QueryTopHitsAggregation JSON'
+                'Required property \'size\' not present in QueryAggregationQueryTopHitsAggregation JSON'
             )
         if 'name' in _dict:
             args['name'] = _dict.get('name')
@@ -12846,7 +13091,7 @@ class QueryTopHitsAggregation(QueryAggregation):
 
     @classmethod
     def _from_dict(cls, _dict):
-        """Initialize a QueryTopHitsAggregation object from a json dictionary."""
+        """Initialize a QueryAggregationQueryTopHitsAggregation object from a json dictionary."""
         return cls.from_dict(_dict)
 
     def to_dict(self) -> Dict:
@@ -12870,15 +13115,263 @@ class QueryTopHitsAggregation(QueryAggregation):
         return self.to_dict()
 
     def __str__(self) -> str:
-        """Return a `str` version of this QueryTopHitsAggregation object."""
+        """Return a `str` version of this QueryAggregationQueryTopHitsAggregation object."""
         return json.dumps(self.to_dict(), indent=2)
 
-    def __eq__(self, other: 'QueryTopHitsAggregation') -> bool:
+    def __eq__(self, other: 'QueryAggregationQueryTopHitsAggregation') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other: 'QueryTopHitsAggregation') -> bool:
+    def __ne__(self, other: 'QueryAggregationQueryTopHitsAggregation') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class QueryAggregationQueryTopicAggregation(QueryAggregation):
+    """
+    Detects how much the frequency of a given facet value deviates from the expected
+    average for the given time period. This aggregation type does not use data from
+    previous time periods. It calculates an index by using the averages of frequency
+    counts of other facet values for the given time period.
+
+    :attr str type: (optional) Specifies that the aggregation type is `topic`.
+    :attr str facet: (optional) Specifies the `term` or `group_by` aggregation for
+          the facet that you want to analyze.
+    :attr str time_segments: (optional) Specifies the `timeslice` aggregation that
+          defines the time segments.
+    :attr bool show_estimated_matching_results: (optional) Indicates whether to
+          include estimated matching result information.
+    :attr bool show_total_matching_documents: (optional) Indicates whether to
+          include total matching documents information.
+    :attr List[QueryTopicAggregationResult] results: (optional) An array of
+          aggregations.
+    """
+
+    def __init__(self,
+                 *,
+                 type: str = None,
+                 facet: str = None,
+                 time_segments: str = None,
+                 show_estimated_matching_results: bool = None,
+                 show_total_matching_documents: bool = None,
+                 results: List['QueryTopicAggregationResult'] = None) -> None:
+        """
+        Initialize a QueryAggregationQueryTopicAggregation object.
+
+        :param str type: (optional) Specifies that the aggregation type is `topic`.
+        :param str facet: (optional) Specifies the `term` or `group_by` aggregation
+               for the facet that you want to analyze.
+        :param str time_segments: (optional) Specifies the `timeslice` aggregation
+               that defines the time segments.
+        :param bool show_estimated_matching_results: (optional) Indicates whether
+               to include estimated matching result information.
+        :param bool show_total_matching_documents: (optional) Indicates whether to
+               include total matching documents information.
+        :param List[QueryTopicAggregationResult] results: (optional) An array of
+               aggregations.
+        """
+        # pylint: disable=super-init-not-called
+        self.type = type
+        self.facet = facet
+        self.time_segments = time_segments
+        self.show_estimated_matching_results = show_estimated_matching_results
+        self.show_total_matching_documents = show_total_matching_documents
+        self.results = results
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'QueryAggregationQueryTopicAggregation':
+        """Initialize a QueryAggregationQueryTopicAggregation object from a json dictionary."""
+        args = {}
+        if 'type' in _dict:
+            args['type'] = _dict.get('type')
+        if 'facet' in _dict:
+            args['facet'] = _dict.get('facet')
+        if 'time_segments' in _dict:
+            args['time_segments'] = _dict.get('time_segments')
+        if 'show_estimated_matching_results' in _dict:
+            args['show_estimated_matching_results'] = _dict.get(
+                'show_estimated_matching_results')
+        if 'show_total_matching_documents' in _dict:
+            args['show_total_matching_documents'] = _dict.get(
+                'show_total_matching_documents')
+        if 'results' in _dict:
+            args['results'] = [
+                QueryTopicAggregationResult.from_dict(v)
+                for v in _dict.get('results')
+            ]
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a QueryAggregationQueryTopicAggregation object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'type') and self.type is not None:
+            _dict['type'] = self.type
+        if hasattr(self, 'facet') and self.facet is not None:
+            _dict['facet'] = self.facet
+        if hasattr(self, 'time_segments') and self.time_segments is not None:
+            _dict['time_segments'] = self.time_segments
+        if hasattr(self, 'show_estimated_matching_results'
+                  ) and self.show_estimated_matching_results is not None:
+            _dict[
+                'show_estimated_matching_results'] = self.show_estimated_matching_results
+        if hasattr(self, 'show_total_matching_documents'
+                  ) and self.show_total_matching_documents is not None:
+            _dict[
+                'show_total_matching_documents'] = self.show_total_matching_documents
+        if hasattr(self, 'results') and self.results is not None:
+            results_list = []
+            for v in self.results:
+                if isinstance(v, dict):
+                    results_list.append(v)
+                else:
+                    results_list.append(v.to_dict())
+            _dict['results'] = results_list
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this QueryAggregationQueryTopicAggregation object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'QueryAggregationQueryTopicAggregation') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'QueryAggregationQueryTopicAggregation') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class QueryAggregationQueryTrendAggregation(QueryAggregation):
+    """
+    Detects sharp and unexpected changes in the frequency of a facet or facet value over
+    time based on the past history of frequency changes of the facet value.
+
+    :attr str type: (optional) Specifies that the aggregation type is `trend`.
+    :attr str facet: (optional) Specifies the `term` or `group_by` aggregation for
+          the facet that you want to analyze.
+    :attr str time_segments: (optional) Specifies the `timeslice` aggregation that
+          defines the time segments.
+    :attr bool show_estimated_matching_results: (optional) Indicates whether to
+          include estimated matching result information.
+    :attr bool show_total_matching_documents: (optional) Indicates whether to
+          include total matching documents information.
+    :attr List[QueryTrendAggregationResult] results: (optional) An array of
+          aggregations.
+    """
+
+    def __init__(self,
+                 *,
+                 type: str = None,
+                 facet: str = None,
+                 time_segments: str = None,
+                 show_estimated_matching_results: bool = None,
+                 show_total_matching_documents: bool = None,
+                 results: List['QueryTrendAggregationResult'] = None) -> None:
+        """
+        Initialize a QueryAggregationQueryTrendAggregation object.
+
+        :param str type: (optional) Specifies that the aggregation type is `trend`.
+        :param str facet: (optional) Specifies the `term` or `group_by` aggregation
+               for the facet that you want to analyze.
+        :param str time_segments: (optional) Specifies the `timeslice` aggregation
+               that defines the time segments.
+        :param bool show_estimated_matching_results: (optional) Indicates whether
+               to include estimated matching result information.
+        :param bool show_total_matching_documents: (optional) Indicates whether to
+               include total matching documents information.
+        :param List[QueryTrendAggregationResult] results: (optional) An array of
+               aggregations.
+        """
+        # pylint: disable=super-init-not-called
+        self.type = type
+        self.facet = facet
+        self.time_segments = time_segments
+        self.show_estimated_matching_results = show_estimated_matching_results
+        self.show_total_matching_documents = show_total_matching_documents
+        self.results = results
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'QueryAggregationQueryTrendAggregation':
+        """Initialize a QueryAggregationQueryTrendAggregation object from a json dictionary."""
+        args = {}
+        if 'type' in _dict:
+            args['type'] = _dict.get('type')
+        if 'facet' in _dict:
+            args['facet'] = _dict.get('facet')
+        if 'time_segments' in _dict:
+            args['time_segments'] = _dict.get('time_segments')
+        if 'show_estimated_matching_results' in _dict:
+            args['show_estimated_matching_results'] = _dict.get(
+                'show_estimated_matching_results')
+        if 'show_total_matching_documents' in _dict:
+            args['show_total_matching_documents'] = _dict.get(
+                'show_total_matching_documents')
+        if 'results' in _dict:
+            args['results'] = [
+                QueryTrendAggregationResult.from_dict(v)
+                for v in _dict.get('results')
+            ]
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a QueryAggregationQueryTrendAggregation object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'type') and self.type is not None:
+            _dict['type'] = self.type
+        if hasattr(self, 'facet') and self.facet is not None:
+            _dict['facet'] = self.facet
+        if hasattr(self, 'time_segments') and self.time_segments is not None:
+            _dict['time_segments'] = self.time_segments
+        if hasattr(self, 'show_estimated_matching_results'
+                  ) and self.show_estimated_matching_results is not None:
+            _dict[
+                'show_estimated_matching_results'] = self.show_estimated_matching_results
+        if hasattr(self, 'show_total_matching_documents'
+                  ) and self.show_total_matching_documents is not None:
+            _dict[
+                'show_total_matching_documents'] = self.show_total_matching_documents
+        if hasattr(self, 'results') and self.results is not None:
+            results_list = []
+            for v in self.results:
+                if isinstance(v, dict):
+                    results_list.append(v)
+                else:
+                    results_list.append(v.to_dict())
+            _dict['results'] = results_list
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this QueryAggregationQueryTrendAggregation object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'QueryAggregationQueryTrendAggregation') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'QueryAggregationQueryTrendAggregation') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other

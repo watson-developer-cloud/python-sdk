@@ -1767,7 +1767,7 @@ class TestQuery():
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/query')
-        mock_response = '{"matching_results": 16, "results": [{"document_id": "document_id", "metadata": {"anyKey": "anyValue"}, "result_metadata": {"document_retrieval_source": "search", "collection_id": "collection_id", "confidence": 10}, "document_passages": [{"passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field", "confidence": 0, "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query", "suggested_refinements": [{"text": "text"}], "table_results": [{"table_id": "table_id", "source_document_id": "source_document_id", "collection_id": "collection_id", "table_html": "table_html", "table_html_offset": 17, "table": {"location": {"begin": 5, "end": 3}, "text": "text", "section_title": {"text": "text", "location": {"begin": 5, "end": 3}}, "title": {"text": "text", "location": {"begin": 5, "end": 3}}, "table_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "row_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "column_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "key_value_pairs": [{"key": {"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}, "value": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}]}], "body_cells": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16, "row_header_ids": [{"id": "id"}], "row_header_texts": [{"text": "text"}], "row_header_texts_normalized": [{"text_normalized": "text_normalized"}], "column_header_ids": [{"id": "id"}], "column_header_texts": [{"text": "text"}], "column_header_texts_normalized": [{"text_normalized": "text_normalized"}], "attributes": [{"type": "type", "text": "text", "location": {"begin": 5, "end": 3}}]}], "contexts": [{"text": "text", "location": {"begin": 5, "end": 3}}]}}], "passages": [{"passage_text": "passage_text", "passage_score": 13, "document_id": "document_id", "collection_id": "collection_id", "start_offset": 12, "end_offset": 10, "field": "field", "confidence": 0, "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}'
+        mock_response = '{"matching_results": 16, "results": [{"document_id": "document_id", "metadata": {"anyKey": "anyValue"}, "result_metadata": {"document_retrieval_source": "search", "collection_id": "collection_id", "confidence": 0}, "document_passages": [{"passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field", "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}], "aggregations": [{"type": "term", "field": "field", "count": 5, "name": "name", "results": [{"key": "key", "matching_results": 16, "relevancy": 9, "total_matching_documents": 24, "estimated_matching_results": 26, "aggregations": [{"anyKey": "anyValue"}]}]}], "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query", "suggested_refinements": [{"text": "text"}], "table_results": [{"table_id": "table_id", "source_document_id": "source_document_id", "collection_id": "collection_id", "table_html": "table_html", "table_html_offset": 17, "table": {"location": {"begin": 5, "end": 3}, "text": "text", "section_title": {"text": "text", "location": {"begin": 5, "end": 3}}, "title": {"text": "text", "location": {"begin": 5, "end": 3}}, "table_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "row_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "column_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "key_value_pairs": [{"key": {"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}, "value": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}]}], "body_cells": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16, "row_header_ids": [{"id": "id"}], "row_header_texts": [{"text": "text"}], "row_header_texts_normalized": [{"text_normalized": "text_normalized"}], "column_header_ids": [{"id": "id"}], "column_header_texts": [{"text": "text"}], "column_header_texts_normalized": [{"text_normalized": "text_normalized"}], "attributes": [{"type": "type", "text": "text", "location": {"begin": 5, "end": 3}}]}], "contexts": [{"text": "text", "location": {"begin": 5, "end": 3}}]}}], "passages": [{"passage_text": "passage_text", "passage_score": 13, "document_id": "document_id", "collection_id": "collection_id", "start_offset": 12, "end_offset": 10, "field": "field", "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -1877,7 +1877,7 @@ class TestQuery():
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/query')
-        mock_response = '{"matching_results": 16, "results": [{"document_id": "document_id", "metadata": {"anyKey": "anyValue"}, "result_metadata": {"document_retrieval_source": "search", "collection_id": "collection_id", "confidence": 10}, "document_passages": [{"passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field", "confidence": 0, "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query", "suggested_refinements": [{"text": "text"}], "table_results": [{"table_id": "table_id", "source_document_id": "source_document_id", "collection_id": "collection_id", "table_html": "table_html", "table_html_offset": 17, "table": {"location": {"begin": 5, "end": 3}, "text": "text", "section_title": {"text": "text", "location": {"begin": 5, "end": 3}}, "title": {"text": "text", "location": {"begin": 5, "end": 3}}, "table_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "row_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "column_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "key_value_pairs": [{"key": {"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}, "value": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}]}], "body_cells": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16, "row_header_ids": [{"id": "id"}], "row_header_texts": [{"text": "text"}], "row_header_texts_normalized": [{"text_normalized": "text_normalized"}], "column_header_ids": [{"id": "id"}], "column_header_texts": [{"text": "text"}], "column_header_texts_normalized": [{"text_normalized": "text_normalized"}], "attributes": [{"type": "type", "text": "text", "location": {"begin": 5, "end": 3}}]}], "contexts": [{"text": "text", "location": {"begin": 5, "end": 3}}]}}], "passages": [{"passage_text": "passage_text", "passage_score": 13, "document_id": "document_id", "collection_id": "collection_id", "start_offset": 12, "end_offset": 10, "field": "field", "confidence": 0, "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}'
+        mock_response = '{"matching_results": 16, "results": [{"document_id": "document_id", "metadata": {"anyKey": "anyValue"}, "result_metadata": {"document_retrieval_source": "search", "collection_id": "collection_id", "confidence": 0}, "document_passages": [{"passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field", "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}], "aggregations": [{"type": "term", "field": "field", "count": 5, "name": "name", "results": [{"key": "key", "matching_results": 16, "relevancy": 9, "total_matching_documents": 24, "estimated_matching_results": 26, "aggregations": [{"anyKey": "anyValue"}]}]}], "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query", "suggested_refinements": [{"text": "text"}], "table_results": [{"table_id": "table_id", "source_document_id": "source_document_id", "collection_id": "collection_id", "table_html": "table_html", "table_html_offset": 17, "table": {"location": {"begin": 5, "end": 3}, "text": "text", "section_title": {"text": "text", "location": {"begin": 5, "end": 3}}, "title": {"text": "text", "location": {"begin": 5, "end": 3}}, "table_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "row_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "column_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "key_value_pairs": [{"key": {"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}, "value": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}]}], "body_cells": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16, "row_header_ids": [{"id": "id"}], "row_header_texts": [{"text": "text"}], "row_header_texts_normalized": [{"text_normalized": "text_normalized"}], "column_header_ids": [{"id": "id"}], "column_header_texts": [{"text": "text"}], "column_header_texts_normalized": [{"text_normalized": "text_normalized"}], "attributes": [{"type": "type", "text": "text", "location": {"begin": 5, "end": 3}}]}], "contexts": [{"text": "text", "location": {"begin": 5, "end": 3}}]}}], "passages": [{"passage_text": "passage_text", "passage_score": 13, "document_id": "document_id", "collection_id": "collection_id", "start_offset": 12, "end_offset": 10, "field": "field", "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -1913,7 +1913,7 @@ class TestQuery():
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/query')
-        mock_response = '{"matching_results": 16, "results": [{"document_id": "document_id", "metadata": {"anyKey": "anyValue"}, "result_metadata": {"document_retrieval_source": "search", "collection_id": "collection_id", "confidence": 10}, "document_passages": [{"passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field", "confidence": 0, "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query", "suggested_refinements": [{"text": "text"}], "table_results": [{"table_id": "table_id", "source_document_id": "source_document_id", "collection_id": "collection_id", "table_html": "table_html", "table_html_offset": 17, "table": {"location": {"begin": 5, "end": 3}, "text": "text", "section_title": {"text": "text", "location": {"begin": 5, "end": 3}}, "title": {"text": "text", "location": {"begin": 5, "end": 3}}, "table_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "row_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "column_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "key_value_pairs": [{"key": {"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}, "value": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}]}], "body_cells": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16, "row_header_ids": [{"id": "id"}], "row_header_texts": [{"text": "text"}], "row_header_texts_normalized": [{"text_normalized": "text_normalized"}], "column_header_ids": [{"id": "id"}], "column_header_texts": [{"text": "text"}], "column_header_texts_normalized": [{"text_normalized": "text_normalized"}], "attributes": [{"type": "type", "text": "text", "location": {"begin": 5, "end": 3}}]}], "contexts": [{"text": "text", "location": {"begin": 5, "end": 3}}]}}], "passages": [{"passage_text": "passage_text", "passage_score": 13, "document_id": "document_id", "collection_id": "collection_id", "start_offset": 12, "end_offset": 10, "field": "field", "confidence": 0, "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}'
+        mock_response = '{"matching_results": 16, "results": [{"document_id": "document_id", "metadata": {"anyKey": "anyValue"}, "result_metadata": {"document_retrieval_source": "search", "collection_id": "collection_id", "confidence": 0}, "document_passages": [{"passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field", "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}], "aggregations": [{"type": "term", "field": "field", "count": 5, "name": "name", "results": [{"key": "key", "matching_results": 16, "relevancy": 9, "total_matching_documents": 24, "estimated_matching_results": 26, "aggregations": [{"anyKey": "anyValue"}]}]}], "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query", "suggested_refinements": [{"text": "text"}], "table_results": [{"table_id": "table_id", "source_document_id": "source_document_id", "collection_id": "collection_id", "table_html": "table_html", "table_html_offset": 17, "table": {"location": {"begin": 5, "end": 3}, "text": "text", "section_title": {"text": "text", "location": {"begin": 5, "end": 3}}, "title": {"text": "text", "location": {"begin": 5, "end": 3}}, "table_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "row_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "column_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "key_value_pairs": [{"key": {"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}, "value": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}]}], "body_cells": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16, "row_header_ids": [{"id": "id"}], "row_header_texts": [{"text": "text"}], "row_header_texts_normalized": [{"text_normalized": "text_normalized"}], "column_header_ids": [{"id": "id"}], "column_header_texts": [{"text": "text"}], "column_header_texts_normalized": [{"text_normalized": "text_normalized"}], "attributes": [{"type": "type", "text": "text", "location": {"begin": 5, "end": 3}}]}], "contexts": [{"text": "text", "location": {"begin": 5, "end": 3}}]}}], "passages": [{"passage_text": "passage_text", "passage_score": 13, "document_id": "document_id", "collection_id": "collection_id", "start_offset": 12, "end_offset": 10, "field": "field", "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -7008,35 +7008,6 @@ class TestModel_ProjectListDetailsRelevancyTrainingStatus():
         project_list_details_relevancy_training_status_model_json2 = project_list_details_relevancy_training_status_model.to_dict()
         assert project_list_details_relevancy_training_status_model_json2 == project_list_details_relevancy_training_status_model_json
 
-class TestModel_QueryAggregation():
-    """
-    Test Class for QueryAggregation
-    """
-
-    def test_query_aggregation_serialization(self):
-        """
-        Test serialization/deserialization for QueryAggregation
-        """
-
-        # Construct a json representation of a QueryAggregation model
-        query_aggregation_model_json = {}
-        query_aggregation_model_json['type'] = 'testString'
-
-        # Construct a model instance of QueryAggregation by calling from_dict on the json representation
-        query_aggregation_model = QueryAggregation.from_dict(query_aggregation_model_json)
-        assert query_aggregation_model != False
-
-        # Construct a copy of the model instance by calling from_dict on the output of to_dict
-        query_aggregation_model_json2 = query_aggregation_model.to_dict()
-        query_aggregation_model2 = QueryAggregation.from_dict(query_aggregation_model_json2)
-
-        # Verify the model instances are equivalent
-        assert query_aggregation_model == query_aggregation_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        query_aggregation_model_json2 = query_aggregation_model.to_dict()
-        assert query_aggregation_model_json2 == query_aggregation_model_json
-
 class TestModel_QueryGroupByAggregationResult():
     """
     Test Class for QueryGroupByAggregationResult
@@ -7047,21 +7018,14 @@ class TestModel_QueryGroupByAggregationResult():
         Test serialization/deserialization for QueryGroupByAggregationResult
         """
 
-        # Construct dict forms of any model objects needed in order to build this model.
-
-        query_aggregation_model = {} # QueryFilterAggregation
-        query_aggregation_model['type'] = 'filter'
-        query_aggregation_model['match'] = 'testString'
-        query_aggregation_model['matching_results'] = 26
-
         # Construct a json representation of a QueryGroupByAggregationResult model
         query_group_by_aggregation_result_model_json = {}
         query_group_by_aggregation_result_model_json['key'] = 'testString'
         query_group_by_aggregation_result_model_json['matching_results'] = 38
         query_group_by_aggregation_result_model_json['relevancy'] = 72.5
         query_group_by_aggregation_result_model_json['total_matching_documents'] = 38
-        query_group_by_aggregation_result_model_json['estimated_matching_documents'] = 38
-        query_group_by_aggregation_result_model_json['aggregations'] = [query_aggregation_model]
+        query_group_by_aggregation_result_model_json['estimated_matching_results'] = 72.5
+        query_group_by_aggregation_result_model_json['aggregations'] = [{'foo': 'bar'}]
 
         # Construct a model instance of QueryGroupByAggregationResult by calling from_dict on the json representation
         query_group_by_aggregation_result_model = QueryGroupByAggregationResult.from_dict(query_group_by_aggregation_result_model_json)
@@ -7088,18 +7052,11 @@ class TestModel_QueryHistogramAggregationResult():
         Test serialization/deserialization for QueryHistogramAggregationResult
         """
 
-        # Construct dict forms of any model objects needed in order to build this model.
-
-        query_aggregation_model = {} # QueryFilterAggregation
-        query_aggregation_model['type'] = 'filter'
-        query_aggregation_model['match'] = 'testString'
-        query_aggregation_model['matching_results'] = 26
-
         # Construct a json representation of a QueryHistogramAggregationResult model
         query_histogram_aggregation_result_model_json = {}
         query_histogram_aggregation_result_model_json['key'] = 26
         query_histogram_aggregation_result_model_json['matching_results'] = 38
-        query_histogram_aggregation_result_model_json['aggregations'] = [query_aggregation_model]
+        query_histogram_aggregation_result_model_json['aggregations'] = [{'foo': 'bar'}]
 
         # Construct a model instance of QueryHistogramAggregationResult by calling from_dict on the json representation
         query_histogram_aggregation_result_model = QueryHistogramAggregationResult.from_dict(query_histogram_aggregation_result_model_json)
@@ -7277,6 +7234,35 @@ class TestModel_QueryNoticesResponse():
         query_notices_response_model_json2 = query_notices_response_model.to_dict()
         assert query_notices_response_model_json2 == query_notices_response_model_json
 
+class TestModel_QueryPairAggregationResult():
+    """
+    Test Class for QueryPairAggregationResult
+    """
+
+    def test_query_pair_aggregation_result_serialization(self):
+        """
+        Test serialization/deserialization for QueryPairAggregationResult
+        """
+
+        # Construct a json representation of a QueryPairAggregationResult model
+        query_pair_aggregation_result_model_json = {}
+        query_pair_aggregation_result_model_json['aggregations'] = [{'foo': 'bar'}]
+
+        # Construct a model instance of QueryPairAggregationResult by calling from_dict on the json representation
+        query_pair_aggregation_result_model = QueryPairAggregationResult.from_dict(query_pair_aggregation_result_model_json)
+        assert query_pair_aggregation_result_model != False
+
+        # Construct a model instance of QueryPairAggregationResult by calling from_dict on the json representation
+        query_pair_aggregation_result_model_dict = QueryPairAggregationResult.from_dict(query_pair_aggregation_result_model_json).__dict__
+        query_pair_aggregation_result_model2 = QueryPairAggregationResult(**query_pair_aggregation_result_model_dict)
+
+        # Verify the model instances are equivalent
+        assert query_pair_aggregation_result_model == query_pair_aggregation_result_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        query_pair_aggregation_result_model_json2 = query_pair_aggregation_result_model.to_dict()
+        assert query_pair_aggregation_result_model_json2 == query_pair_aggregation_result_model_json
+
 class TestModel_QueryResponse():
     """
     Test Class for QueryResponse
@@ -7292,7 +7278,7 @@ class TestModel_QueryResponse():
         query_result_metadata_model = {} # QueryResultMetadata
         query_result_metadata_model['document_retrieval_source'] = 'search'
         query_result_metadata_model['collection_id'] = 'testString'
-        query_result_metadata_model['confidence'] = 72.5
+        query_result_metadata_model['confidence'] = 0
 
         result_passage_answer_model = {} # ResultPassageAnswer
         result_passage_answer_model['answer_text'] = 'testString'
@@ -7305,7 +7291,6 @@ class TestModel_QueryResponse():
         query_result_passage_model['start_offset'] = 38
         query_result_passage_model['end_offset'] = 38
         query_result_passage_model['field'] = 'testString'
-        query_result_passage_model['confidence'] = 0
         query_result_passage_model['answers'] = [result_passage_answer_model]
 
         query_result_model = {} # QueryResult
@@ -7315,10 +7300,20 @@ class TestModel_QueryResponse():
         query_result_model['document_passages'] = [query_result_passage_model]
         query_result_model['id'] = 'watson-generated ID'
 
-        query_aggregation_model = {} # QueryFilterAggregation
-        query_aggregation_model['type'] = 'filter'
-        query_aggregation_model['match'] = 'testString'
-        query_aggregation_model['matching_results'] = 26
+        query_term_aggregation_result_model = {} # QueryTermAggregationResult
+        query_term_aggregation_result_model['key'] = 'active'
+        query_term_aggregation_result_model['matching_results'] = 34
+        query_term_aggregation_result_model['relevancy'] = 72.5
+        query_term_aggregation_result_model['total_matching_documents'] = 38
+        query_term_aggregation_result_model['estimated_matching_results'] = 72.5
+        query_term_aggregation_result_model['aggregations'] = [{'foo': 'bar'}]
+
+        query_aggregation_model = {} # QueryAggregationQueryTermAggregation
+        query_aggregation_model['type'] = 'term'
+        query_aggregation_model['field'] = 'field'
+        query_aggregation_model['count'] = 1
+        query_aggregation_model['name'] = 'testString'
+        query_aggregation_model['results'] = [query_term_aggregation_result_model]
 
         retrieval_details_model = {} # RetrievalDetails
         retrieval_details_model['document_retrieval_strategy'] = 'untrained'
@@ -7444,7 +7439,6 @@ class TestModel_QueryResponse():
         query_response_passage_model['start_offset'] = 38
         query_response_passage_model['end_offset'] = 38
         query_response_passage_model['field'] = 'testString'
-        query_response_passage_model['confidence'] = 0
         query_response_passage_model['answers'] = [result_passage_answer_model]
 
         # Construct a json representation of a QueryResponse model
@@ -7500,7 +7494,6 @@ class TestModel_QueryResponsePassage():
         query_response_passage_model_json['start_offset'] = 38
         query_response_passage_model_json['end_offset'] = 38
         query_response_passage_model_json['field'] = 'testString'
-        query_response_passage_model_json['confidence'] = 0
         query_response_passage_model_json['answers'] = [result_passage_answer_model]
 
         # Construct a model instance of QueryResponsePassage by calling from_dict on the json representation
@@ -7533,7 +7526,7 @@ class TestModel_QueryResult():
         query_result_metadata_model = {} # QueryResultMetadata
         query_result_metadata_model['document_retrieval_source'] = 'search'
         query_result_metadata_model['collection_id'] = 'testString'
-        query_result_metadata_model['confidence'] = 72.5
+        query_result_metadata_model['confidence'] = 0
 
         result_passage_answer_model = {} # ResultPassageAnswer
         result_passage_answer_model['answer_text'] = 'testString'
@@ -7546,7 +7539,6 @@ class TestModel_QueryResult():
         query_result_passage_model['start_offset'] = 38
         query_result_passage_model['end_offset'] = 38
         query_result_passage_model['field'] = 'testString'
-        query_result_passage_model['confidence'] = 0
         query_result_passage_model['answers'] = [result_passage_answer_model]
 
         # Construct a json representation of a QueryResult model
@@ -7596,7 +7588,7 @@ class TestModel_QueryResultMetadata():
         query_result_metadata_model_json = {}
         query_result_metadata_model_json['document_retrieval_source'] = 'search'
         query_result_metadata_model_json['collection_id'] = 'testString'
-        query_result_metadata_model_json['confidence'] = 72.5
+        query_result_metadata_model_json['confidence'] = 0
 
         # Construct a model instance of QueryResultMetadata by calling from_dict on the json representation
         query_result_metadata_model = QueryResultMetadata.from_dict(query_result_metadata_model_json)
@@ -7637,7 +7629,6 @@ class TestModel_QueryResultPassage():
         query_result_passage_model_json['start_offset'] = 38
         query_result_passage_model_json['end_offset'] = 38
         query_result_passage_model_json['field'] = 'testString'
-        query_result_passage_model_json['confidence'] = 0
         query_result_passage_model_json['answers'] = [result_passage_answer_model]
 
         # Construct a model instance of QueryResultPassage by calling from_dict on the json representation
@@ -7832,21 +7823,14 @@ class TestModel_QueryTermAggregationResult():
         Test serialization/deserialization for QueryTermAggregationResult
         """
 
-        # Construct dict forms of any model objects needed in order to build this model.
-
-        query_aggregation_model = {} # QueryFilterAggregation
-        query_aggregation_model['type'] = 'filter'
-        query_aggregation_model['match'] = 'testString'
-        query_aggregation_model['matching_results'] = 26
-
         # Construct a json representation of a QueryTermAggregationResult model
         query_term_aggregation_result_model_json = {}
         query_term_aggregation_result_model_json['key'] = 'testString'
         query_term_aggregation_result_model_json['matching_results'] = 38
         query_term_aggregation_result_model_json['relevancy'] = 72.5
         query_term_aggregation_result_model_json['total_matching_documents'] = 38
-        query_term_aggregation_result_model_json['estimated_matching_documents'] = 38
-        query_term_aggregation_result_model_json['aggregations'] = [query_aggregation_model]
+        query_term_aggregation_result_model_json['estimated_matching_results'] = 72.5
+        query_term_aggregation_result_model_json['aggregations'] = [{'foo': 'bar'}]
 
         # Construct a model instance of QueryTermAggregationResult by calling from_dict on the json representation
         query_term_aggregation_result_model = QueryTermAggregationResult.from_dict(query_term_aggregation_result_model_json)
@@ -7873,19 +7857,12 @@ class TestModel_QueryTimesliceAggregationResult():
         Test serialization/deserialization for QueryTimesliceAggregationResult
         """
 
-        # Construct dict forms of any model objects needed in order to build this model.
-
-        query_aggregation_model = {} # QueryFilterAggregation
-        query_aggregation_model['type'] = 'filter'
-        query_aggregation_model['match'] = 'testString'
-        query_aggregation_model['matching_results'] = 26
-
         # Construct a json representation of a QueryTimesliceAggregationResult model
         query_timeslice_aggregation_result_model_json = {}
         query_timeslice_aggregation_result_model_json['key_as_string'] = 'testString'
         query_timeslice_aggregation_result_model_json['key'] = 26
         query_timeslice_aggregation_result_model_json['matching_results'] = 26
-        query_timeslice_aggregation_result_model_json['aggregations'] = [query_aggregation_model]
+        query_timeslice_aggregation_result_model_json['aggregations'] = [{'foo': 'bar'}]
 
         # Construct a model instance of QueryTimesliceAggregationResult by calling from_dict on the json representation
         query_timeslice_aggregation_result_model = QueryTimesliceAggregationResult.from_dict(query_timeslice_aggregation_result_model_json)
@@ -7931,6 +7908,64 @@ class TestModel_QueryTopHitsAggregationResult():
         # Convert model instance back to dict and verify no loss of data
         query_top_hits_aggregation_result_model_json2 = query_top_hits_aggregation_result_model.to_dict()
         assert query_top_hits_aggregation_result_model_json2 == query_top_hits_aggregation_result_model_json
+
+class TestModel_QueryTopicAggregationResult():
+    """
+    Test Class for QueryTopicAggregationResult
+    """
+
+    def test_query_topic_aggregation_result_serialization(self):
+        """
+        Test serialization/deserialization for QueryTopicAggregationResult
+        """
+
+        # Construct a json representation of a QueryTopicAggregationResult model
+        query_topic_aggregation_result_model_json = {}
+        query_topic_aggregation_result_model_json['aggregations'] = [{'foo': 'bar'}]
+
+        # Construct a model instance of QueryTopicAggregationResult by calling from_dict on the json representation
+        query_topic_aggregation_result_model = QueryTopicAggregationResult.from_dict(query_topic_aggregation_result_model_json)
+        assert query_topic_aggregation_result_model != False
+
+        # Construct a model instance of QueryTopicAggregationResult by calling from_dict on the json representation
+        query_topic_aggregation_result_model_dict = QueryTopicAggregationResult.from_dict(query_topic_aggregation_result_model_json).__dict__
+        query_topic_aggregation_result_model2 = QueryTopicAggregationResult(**query_topic_aggregation_result_model_dict)
+
+        # Verify the model instances are equivalent
+        assert query_topic_aggregation_result_model == query_topic_aggregation_result_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        query_topic_aggregation_result_model_json2 = query_topic_aggregation_result_model.to_dict()
+        assert query_topic_aggregation_result_model_json2 == query_topic_aggregation_result_model_json
+
+class TestModel_QueryTrendAggregationResult():
+    """
+    Test Class for QueryTrendAggregationResult
+    """
+
+    def test_query_trend_aggregation_result_serialization(self):
+        """
+        Test serialization/deserialization for QueryTrendAggregationResult
+        """
+
+        # Construct a json representation of a QueryTrendAggregationResult model
+        query_trend_aggregation_result_model_json = {}
+        query_trend_aggregation_result_model_json['aggregations'] = [{'foo': 'bar'}]
+
+        # Construct a model instance of QueryTrendAggregationResult by calling from_dict on the json representation
+        query_trend_aggregation_result_model = QueryTrendAggregationResult.from_dict(query_trend_aggregation_result_model_json)
+        assert query_trend_aggregation_result_model != False
+
+        # Construct a model instance of QueryTrendAggregationResult by calling from_dict on the json representation
+        query_trend_aggregation_result_model_dict = QueryTrendAggregationResult.from_dict(query_trend_aggregation_result_model_json).__dict__
+        query_trend_aggregation_result_model2 = QueryTrendAggregationResult(**query_trend_aggregation_result_model_dict)
+
+        # Verify the model instances are equivalent
+        assert query_trend_aggregation_result_model == query_trend_aggregation_result_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        query_trend_aggregation_result_model_json2 = query_trend_aggregation_result_model.to_dict()
+        assert query_trend_aggregation_result_model_json2 == query_trend_aggregation_result_model_json
 
 class TestModel_ResultPassageAnswer():
     """
@@ -8836,232 +8871,312 @@ class TestModel_UpdateDocumentClassifier():
         update_document_classifier_model_json2 = update_document_classifier_model.to_dict()
         assert update_document_classifier_model_json2 == update_document_classifier_model_json
 
-class TestModel_QueryCalculationAggregation():
+class TestModel_QueryAggregationQueryCalculationAggregation():
     """
-    Test Class for QueryCalculationAggregation
+    Test Class for QueryAggregationQueryCalculationAggregation
     """
 
-    def test_query_calculation_aggregation_serialization(self):
+    def test_query_aggregation_query_calculation_aggregation_serialization(self):
         """
-        Test serialization/deserialization for QueryCalculationAggregation
+        Test serialization/deserialization for QueryAggregationQueryCalculationAggregation
         """
 
-        # Construct a json representation of a QueryCalculationAggregation model
-        query_calculation_aggregation_model_json = {}
-        query_calculation_aggregation_model_json['type'] = 'unique_count'
-        query_calculation_aggregation_model_json['field'] = 'testString'
-        query_calculation_aggregation_model_json['value'] = 72.5
+        # Construct a json representation of a QueryAggregationQueryCalculationAggregation model
+        query_aggregation_query_calculation_aggregation_model_json = {}
+        query_aggregation_query_calculation_aggregation_model_json['type'] = 'unique_count'
+        query_aggregation_query_calculation_aggregation_model_json['field'] = 'testString'
+        query_aggregation_query_calculation_aggregation_model_json['value'] = 72.5
 
-        # Construct a model instance of QueryCalculationAggregation by calling from_dict on the json representation
-        query_calculation_aggregation_model = QueryCalculationAggregation.from_dict(query_calculation_aggregation_model_json)
-        assert query_calculation_aggregation_model != False
+        # Construct a model instance of QueryAggregationQueryCalculationAggregation by calling from_dict on the json representation
+        query_aggregation_query_calculation_aggregation_model = QueryAggregationQueryCalculationAggregation.from_dict(query_aggregation_query_calculation_aggregation_model_json)
+        assert query_aggregation_query_calculation_aggregation_model != False
 
-        # Construct a model instance of QueryCalculationAggregation by calling from_dict on the json representation
-        query_calculation_aggregation_model_dict = QueryCalculationAggregation.from_dict(query_calculation_aggregation_model_json).__dict__
-        query_calculation_aggregation_model2 = QueryCalculationAggregation(**query_calculation_aggregation_model_dict)
+        # Construct a model instance of QueryAggregationQueryCalculationAggregation by calling from_dict on the json representation
+        query_aggregation_query_calculation_aggregation_model_dict = QueryAggregationQueryCalculationAggregation.from_dict(query_aggregation_query_calculation_aggregation_model_json).__dict__
+        query_aggregation_query_calculation_aggregation_model2 = QueryAggregationQueryCalculationAggregation(**query_aggregation_query_calculation_aggregation_model_dict)
 
         # Verify the model instances are equivalent
-        assert query_calculation_aggregation_model == query_calculation_aggregation_model2
+        assert query_aggregation_query_calculation_aggregation_model == query_aggregation_query_calculation_aggregation_model2
 
         # Convert model instance back to dict and verify no loss of data
-        query_calculation_aggregation_model_json2 = query_calculation_aggregation_model.to_dict()
-        assert query_calculation_aggregation_model_json2 == query_calculation_aggregation_model_json
+        query_aggregation_query_calculation_aggregation_model_json2 = query_aggregation_query_calculation_aggregation_model.to_dict()
+        assert query_aggregation_query_calculation_aggregation_model_json2 == query_aggregation_query_calculation_aggregation_model_json
 
-class TestModel_QueryFilterAggregation():
+class TestModel_QueryAggregationQueryFilterAggregation():
     """
-    Test Class for QueryFilterAggregation
+    Test Class for QueryAggregationQueryFilterAggregation
     """
 
-    def test_query_filter_aggregation_serialization(self):
+    def test_query_aggregation_query_filter_aggregation_serialization(self):
         """
-        Test serialization/deserialization for QueryFilterAggregation
+        Test serialization/deserialization for QueryAggregationQueryFilterAggregation
         """
 
-        # Construct a json representation of a QueryFilterAggregation model
-        query_filter_aggregation_model_json = {}
-        query_filter_aggregation_model_json['type'] = 'filter'
-        query_filter_aggregation_model_json['match'] = 'testString'
-        query_filter_aggregation_model_json['matching_results'] = 26
+        # Construct a json representation of a QueryAggregationQueryFilterAggregation model
+        query_aggregation_query_filter_aggregation_model_json = {}
+        query_aggregation_query_filter_aggregation_model_json['type'] = 'filter'
+        query_aggregation_query_filter_aggregation_model_json['match'] = 'testString'
+        query_aggregation_query_filter_aggregation_model_json['matching_results'] = 26
+        query_aggregation_query_filter_aggregation_model_json['aggregations'] = [{'foo': 'bar'}]
 
-        # Construct a model instance of QueryFilterAggregation by calling from_dict on the json representation
-        query_filter_aggregation_model = QueryFilterAggregation.from_dict(query_filter_aggregation_model_json)
-        assert query_filter_aggregation_model != False
+        # Construct a model instance of QueryAggregationQueryFilterAggregation by calling from_dict on the json representation
+        query_aggregation_query_filter_aggregation_model = QueryAggregationQueryFilterAggregation.from_dict(query_aggregation_query_filter_aggregation_model_json)
+        assert query_aggregation_query_filter_aggregation_model != False
 
-        # Construct a model instance of QueryFilterAggregation by calling from_dict on the json representation
-        query_filter_aggregation_model_dict = QueryFilterAggregation.from_dict(query_filter_aggregation_model_json).__dict__
-        query_filter_aggregation_model2 = QueryFilterAggregation(**query_filter_aggregation_model_dict)
+        # Construct a model instance of QueryAggregationQueryFilterAggregation by calling from_dict on the json representation
+        query_aggregation_query_filter_aggregation_model_dict = QueryAggregationQueryFilterAggregation.from_dict(query_aggregation_query_filter_aggregation_model_json).__dict__
+        query_aggregation_query_filter_aggregation_model2 = QueryAggregationQueryFilterAggregation(**query_aggregation_query_filter_aggregation_model_dict)
 
         # Verify the model instances are equivalent
-        assert query_filter_aggregation_model == query_filter_aggregation_model2
+        assert query_aggregation_query_filter_aggregation_model == query_aggregation_query_filter_aggregation_model2
 
         # Convert model instance back to dict and verify no loss of data
-        query_filter_aggregation_model_json2 = query_filter_aggregation_model.to_dict()
-        assert query_filter_aggregation_model_json2 == query_filter_aggregation_model_json
+        query_aggregation_query_filter_aggregation_model_json2 = query_aggregation_query_filter_aggregation_model.to_dict()
+        assert query_aggregation_query_filter_aggregation_model_json2 == query_aggregation_query_filter_aggregation_model_json
 
-class TestModel_QueryGroupByAggregation():
+class TestModel_QueryAggregationQueryGroupByAggregation():
     """
-    Test Class for QueryGroupByAggregation
+    Test Class for QueryAggregationQueryGroupByAggregation
     """
 
-    def test_query_group_by_aggregation_serialization(self):
+    def test_query_aggregation_query_group_by_aggregation_serialization(self):
         """
-        Test serialization/deserialization for QueryGroupByAggregation
+        Test serialization/deserialization for QueryAggregationQueryGroupByAggregation
         """
 
-        # Construct a json representation of a QueryGroupByAggregation model
-        query_group_by_aggregation_model_json = {}
-        query_group_by_aggregation_model_json['type'] = 'group_by'
+        # Construct dict forms of any model objects needed in order to build this model.
 
-        # Construct a model instance of QueryGroupByAggregation by calling from_dict on the json representation
-        query_group_by_aggregation_model = QueryGroupByAggregation.from_dict(query_group_by_aggregation_model_json)
-        assert query_group_by_aggregation_model != False
+        query_group_by_aggregation_result_model = {} # QueryGroupByAggregationResult
+        query_group_by_aggregation_result_model['key'] = 'testString'
+        query_group_by_aggregation_result_model['matching_results'] = 38
+        query_group_by_aggregation_result_model['relevancy'] = 72.5
+        query_group_by_aggregation_result_model['total_matching_documents'] = 38
+        query_group_by_aggregation_result_model['estimated_matching_results'] = 72.5
+        query_group_by_aggregation_result_model['aggregations'] = [{'foo': 'bar'}]
 
-        # Construct a model instance of QueryGroupByAggregation by calling from_dict on the json representation
-        query_group_by_aggregation_model_dict = QueryGroupByAggregation.from_dict(query_group_by_aggregation_model_json).__dict__
-        query_group_by_aggregation_model2 = QueryGroupByAggregation(**query_group_by_aggregation_model_dict)
+        # Construct a json representation of a QueryAggregationQueryGroupByAggregation model
+        query_aggregation_query_group_by_aggregation_model_json = {}
+        query_aggregation_query_group_by_aggregation_model_json['type'] = 'group_by'
+        query_aggregation_query_group_by_aggregation_model_json['results'] = [query_group_by_aggregation_result_model]
+
+        # Construct a model instance of QueryAggregationQueryGroupByAggregation by calling from_dict on the json representation
+        query_aggregation_query_group_by_aggregation_model = QueryAggregationQueryGroupByAggregation.from_dict(query_aggregation_query_group_by_aggregation_model_json)
+        assert query_aggregation_query_group_by_aggregation_model != False
+
+        # Construct a model instance of QueryAggregationQueryGroupByAggregation by calling from_dict on the json representation
+        query_aggregation_query_group_by_aggregation_model_dict = QueryAggregationQueryGroupByAggregation.from_dict(query_aggregation_query_group_by_aggregation_model_json).__dict__
+        query_aggregation_query_group_by_aggregation_model2 = QueryAggregationQueryGroupByAggregation(**query_aggregation_query_group_by_aggregation_model_dict)
 
         # Verify the model instances are equivalent
-        assert query_group_by_aggregation_model == query_group_by_aggregation_model2
+        assert query_aggregation_query_group_by_aggregation_model == query_aggregation_query_group_by_aggregation_model2
 
         # Convert model instance back to dict and verify no loss of data
-        query_group_by_aggregation_model_json2 = query_group_by_aggregation_model.to_dict()
-        assert query_group_by_aggregation_model_json2 == query_group_by_aggregation_model_json
+        query_aggregation_query_group_by_aggregation_model_json2 = query_aggregation_query_group_by_aggregation_model.to_dict()
+        assert query_aggregation_query_group_by_aggregation_model_json2 == query_aggregation_query_group_by_aggregation_model_json
 
-class TestModel_QueryHistogramAggregation():
+class TestModel_QueryAggregationQueryHistogramAggregation():
     """
-    Test Class for QueryHistogramAggregation
+    Test Class for QueryAggregationQueryHistogramAggregation
     """
 
-    def test_query_histogram_aggregation_serialization(self):
+    def test_query_aggregation_query_histogram_aggregation_serialization(self):
         """
-        Test serialization/deserialization for QueryHistogramAggregation
+        Test serialization/deserialization for QueryAggregationQueryHistogramAggregation
         """
 
-        # Construct a json representation of a QueryHistogramAggregation model
-        query_histogram_aggregation_model_json = {}
-        query_histogram_aggregation_model_json['type'] = 'histogram'
-        query_histogram_aggregation_model_json['field'] = 'testString'
-        query_histogram_aggregation_model_json['interval'] = 38
-        query_histogram_aggregation_model_json['name'] = 'testString'
+        # Construct dict forms of any model objects needed in order to build this model.
 
-        # Construct a model instance of QueryHistogramAggregation by calling from_dict on the json representation
-        query_histogram_aggregation_model = QueryHistogramAggregation.from_dict(query_histogram_aggregation_model_json)
-        assert query_histogram_aggregation_model != False
+        query_histogram_aggregation_result_model = {} # QueryHistogramAggregationResult
+        query_histogram_aggregation_result_model['key'] = 26
+        query_histogram_aggregation_result_model['matching_results'] = 38
+        query_histogram_aggregation_result_model['aggregations'] = [{'foo': 'bar'}]
 
-        # Construct a model instance of QueryHistogramAggregation by calling from_dict on the json representation
-        query_histogram_aggregation_model_dict = QueryHistogramAggregation.from_dict(query_histogram_aggregation_model_json).__dict__
-        query_histogram_aggregation_model2 = QueryHistogramAggregation(**query_histogram_aggregation_model_dict)
+        # Construct a json representation of a QueryAggregationQueryHistogramAggregation model
+        query_aggregation_query_histogram_aggregation_model_json = {}
+        query_aggregation_query_histogram_aggregation_model_json['type'] = 'histogram'
+        query_aggregation_query_histogram_aggregation_model_json['field'] = 'testString'
+        query_aggregation_query_histogram_aggregation_model_json['interval'] = 38
+        query_aggregation_query_histogram_aggregation_model_json['name'] = 'testString'
+        query_aggregation_query_histogram_aggregation_model_json['results'] = [query_histogram_aggregation_result_model]
+
+        # Construct a model instance of QueryAggregationQueryHistogramAggregation by calling from_dict on the json representation
+        query_aggregation_query_histogram_aggregation_model = QueryAggregationQueryHistogramAggregation.from_dict(query_aggregation_query_histogram_aggregation_model_json)
+        assert query_aggregation_query_histogram_aggregation_model != False
+
+        # Construct a model instance of QueryAggregationQueryHistogramAggregation by calling from_dict on the json representation
+        query_aggregation_query_histogram_aggregation_model_dict = QueryAggregationQueryHistogramAggregation.from_dict(query_aggregation_query_histogram_aggregation_model_json).__dict__
+        query_aggregation_query_histogram_aggregation_model2 = QueryAggregationQueryHistogramAggregation(**query_aggregation_query_histogram_aggregation_model_dict)
 
         # Verify the model instances are equivalent
-        assert query_histogram_aggregation_model == query_histogram_aggregation_model2
+        assert query_aggregation_query_histogram_aggregation_model == query_aggregation_query_histogram_aggregation_model2
 
         # Convert model instance back to dict and verify no loss of data
-        query_histogram_aggregation_model_json2 = query_histogram_aggregation_model.to_dict()
-        assert query_histogram_aggregation_model_json2 == query_histogram_aggregation_model_json
+        query_aggregation_query_histogram_aggregation_model_json2 = query_aggregation_query_histogram_aggregation_model.to_dict()
+        assert query_aggregation_query_histogram_aggregation_model_json2 == query_aggregation_query_histogram_aggregation_model_json
 
-class TestModel_QueryNestedAggregation():
+class TestModel_QueryAggregationQueryNestedAggregation():
     """
-    Test Class for QueryNestedAggregation
+    Test Class for QueryAggregationQueryNestedAggregation
     """
 
-    def test_query_nested_aggregation_serialization(self):
+    def test_query_aggregation_query_nested_aggregation_serialization(self):
         """
-        Test serialization/deserialization for QueryNestedAggregation
+        Test serialization/deserialization for QueryAggregationQueryNestedAggregation
         """
 
-        # Construct a json representation of a QueryNestedAggregation model
-        query_nested_aggregation_model_json = {}
-        query_nested_aggregation_model_json['type'] = 'nested'
-        query_nested_aggregation_model_json['path'] = 'testString'
-        query_nested_aggregation_model_json['matching_results'] = 26
+        # Construct a json representation of a QueryAggregationQueryNestedAggregation model
+        query_aggregation_query_nested_aggregation_model_json = {}
+        query_aggregation_query_nested_aggregation_model_json['type'] = 'nested'
+        query_aggregation_query_nested_aggregation_model_json['path'] = 'testString'
+        query_aggregation_query_nested_aggregation_model_json['matching_results'] = 26
+        query_aggregation_query_nested_aggregation_model_json['aggregations'] = [{'foo': 'bar'}]
 
-        # Construct a model instance of QueryNestedAggregation by calling from_dict on the json representation
-        query_nested_aggregation_model = QueryNestedAggregation.from_dict(query_nested_aggregation_model_json)
-        assert query_nested_aggregation_model != False
+        # Construct a model instance of QueryAggregationQueryNestedAggregation by calling from_dict on the json representation
+        query_aggregation_query_nested_aggregation_model = QueryAggregationQueryNestedAggregation.from_dict(query_aggregation_query_nested_aggregation_model_json)
+        assert query_aggregation_query_nested_aggregation_model != False
 
-        # Construct a model instance of QueryNestedAggregation by calling from_dict on the json representation
-        query_nested_aggregation_model_dict = QueryNestedAggregation.from_dict(query_nested_aggregation_model_json).__dict__
-        query_nested_aggregation_model2 = QueryNestedAggregation(**query_nested_aggregation_model_dict)
+        # Construct a model instance of QueryAggregationQueryNestedAggregation by calling from_dict on the json representation
+        query_aggregation_query_nested_aggregation_model_dict = QueryAggregationQueryNestedAggregation.from_dict(query_aggregation_query_nested_aggregation_model_json).__dict__
+        query_aggregation_query_nested_aggregation_model2 = QueryAggregationQueryNestedAggregation(**query_aggregation_query_nested_aggregation_model_dict)
 
         # Verify the model instances are equivalent
-        assert query_nested_aggregation_model == query_nested_aggregation_model2
+        assert query_aggregation_query_nested_aggregation_model == query_aggregation_query_nested_aggregation_model2
 
         # Convert model instance back to dict and verify no loss of data
-        query_nested_aggregation_model_json2 = query_nested_aggregation_model.to_dict()
-        assert query_nested_aggregation_model_json2 == query_nested_aggregation_model_json
+        query_aggregation_query_nested_aggregation_model_json2 = query_aggregation_query_nested_aggregation_model.to_dict()
+        assert query_aggregation_query_nested_aggregation_model_json2 == query_aggregation_query_nested_aggregation_model_json
 
-class TestModel_QueryTermAggregation():
+class TestModel_QueryAggregationQueryPairAggregation():
     """
-    Test Class for QueryTermAggregation
+    Test Class for QueryAggregationQueryPairAggregation
     """
 
-    def test_query_term_aggregation_serialization(self):
+    def test_query_aggregation_query_pair_aggregation_serialization(self):
         """
-        Test serialization/deserialization for QueryTermAggregation
+        Test serialization/deserialization for QueryAggregationQueryPairAggregation
         """
 
-        # Construct a json representation of a QueryTermAggregation model
-        query_term_aggregation_model_json = {}
-        query_term_aggregation_model_json['type'] = 'term'
-        query_term_aggregation_model_json['field'] = 'testString'
-        query_term_aggregation_model_json['count'] = 38
-        query_term_aggregation_model_json['name'] = 'testString'
+        # Construct dict forms of any model objects needed in order to build this model.
 
-        # Construct a model instance of QueryTermAggregation by calling from_dict on the json representation
-        query_term_aggregation_model = QueryTermAggregation.from_dict(query_term_aggregation_model_json)
-        assert query_term_aggregation_model != False
+        query_pair_aggregation_result_model = {} # QueryPairAggregationResult
+        query_pair_aggregation_result_model['aggregations'] = [{'foo': 'bar'}]
 
-        # Construct a model instance of QueryTermAggregation by calling from_dict on the json representation
-        query_term_aggregation_model_dict = QueryTermAggregation.from_dict(query_term_aggregation_model_json).__dict__
-        query_term_aggregation_model2 = QueryTermAggregation(**query_term_aggregation_model_dict)
+        # Construct a json representation of a QueryAggregationQueryPairAggregation model
+        query_aggregation_query_pair_aggregation_model_json = {}
+        query_aggregation_query_pair_aggregation_model_json['type'] = 'pair'
+        query_aggregation_query_pair_aggregation_model_json['first'] = 'testString'
+        query_aggregation_query_pair_aggregation_model_json['second'] = 'testString'
+        query_aggregation_query_pair_aggregation_model_json['show_estimated_matching_results'] = False
+        query_aggregation_query_pair_aggregation_model_json['show_total_matching_documents'] = False
+        query_aggregation_query_pair_aggregation_model_json['results'] = [query_pair_aggregation_result_model]
+
+        # Construct a model instance of QueryAggregationQueryPairAggregation by calling from_dict on the json representation
+        query_aggregation_query_pair_aggregation_model = QueryAggregationQueryPairAggregation.from_dict(query_aggregation_query_pair_aggregation_model_json)
+        assert query_aggregation_query_pair_aggregation_model != False
+
+        # Construct a model instance of QueryAggregationQueryPairAggregation by calling from_dict on the json representation
+        query_aggregation_query_pair_aggregation_model_dict = QueryAggregationQueryPairAggregation.from_dict(query_aggregation_query_pair_aggregation_model_json).__dict__
+        query_aggregation_query_pair_aggregation_model2 = QueryAggregationQueryPairAggregation(**query_aggregation_query_pair_aggregation_model_dict)
 
         # Verify the model instances are equivalent
-        assert query_term_aggregation_model == query_term_aggregation_model2
+        assert query_aggregation_query_pair_aggregation_model == query_aggregation_query_pair_aggregation_model2
 
         # Convert model instance back to dict and verify no loss of data
-        query_term_aggregation_model_json2 = query_term_aggregation_model.to_dict()
-        assert query_term_aggregation_model_json2 == query_term_aggregation_model_json
+        query_aggregation_query_pair_aggregation_model_json2 = query_aggregation_query_pair_aggregation_model.to_dict()
+        assert query_aggregation_query_pair_aggregation_model_json2 == query_aggregation_query_pair_aggregation_model_json
 
-class TestModel_QueryTimesliceAggregation():
+class TestModel_QueryAggregationQueryTermAggregation():
     """
-    Test Class for QueryTimesliceAggregation
+    Test Class for QueryAggregationQueryTermAggregation
     """
 
-    def test_query_timeslice_aggregation_serialization(self):
+    def test_query_aggregation_query_term_aggregation_serialization(self):
         """
-        Test serialization/deserialization for QueryTimesliceAggregation
+        Test serialization/deserialization for QueryAggregationQueryTermAggregation
         """
 
-        # Construct a json representation of a QueryTimesliceAggregation model
-        query_timeslice_aggregation_model_json = {}
-        query_timeslice_aggregation_model_json['type'] = 'timeslice'
-        query_timeslice_aggregation_model_json['field'] = 'testString'
-        query_timeslice_aggregation_model_json['interval'] = 'testString'
-        query_timeslice_aggregation_model_json['name'] = 'testString'
+        # Construct dict forms of any model objects needed in order to build this model.
 
-        # Construct a model instance of QueryTimesliceAggregation by calling from_dict on the json representation
-        query_timeslice_aggregation_model = QueryTimesliceAggregation.from_dict(query_timeslice_aggregation_model_json)
-        assert query_timeslice_aggregation_model != False
+        query_term_aggregation_result_model = {} # QueryTermAggregationResult
+        query_term_aggregation_result_model['key'] = 'testString'
+        query_term_aggregation_result_model['matching_results'] = 38
+        query_term_aggregation_result_model['relevancy'] = 72.5
+        query_term_aggregation_result_model['total_matching_documents'] = 38
+        query_term_aggregation_result_model['estimated_matching_results'] = 72.5
+        query_term_aggregation_result_model['aggregations'] = [{'foo': 'bar'}]
 
-        # Construct a model instance of QueryTimesliceAggregation by calling from_dict on the json representation
-        query_timeslice_aggregation_model_dict = QueryTimesliceAggregation.from_dict(query_timeslice_aggregation_model_json).__dict__
-        query_timeslice_aggregation_model2 = QueryTimesliceAggregation(**query_timeslice_aggregation_model_dict)
+        # Construct a json representation of a QueryAggregationQueryTermAggregation model
+        query_aggregation_query_term_aggregation_model_json = {}
+        query_aggregation_query_term_aggregation_model_json['type'] = 'term'
+        query_aggregation_query_term_aggregation_model_json['field'] = 'testString'
+        query_aggregation_query_term_aggregation_model_json['count'] = 38
+        query_aggregation_query_term_aggregation_model_json['name'] = 'testString'
+        query_aggregation_query_term_aggregation_model_json['results'] = [query_term_aggregation_result_model]
+
+        # Construct a model instance of QueryAggregationQueryTermAggregation by calling from_dict on the json representation
+        query_aggregation_query_term_aggregation_model = QueryAggregationQueryTermAggregation.from_dict(query_aggregation_query_term_aggregation_model_json)
+        assert query_aggregation_query_term_aggregation_model != False
+
+        # Construct a model instance of QueryAggregationQueryTermAggregation by calling from_dict on the json representation
+        query_aggregation_query_term_aggregation_model_dict = QueryAggregationQueryTermAggregation.from_dict(query_aggregation_query_term_aggregation_model_json).__dict__
+        query_aggregation_query_term_aggregation_model2 = QueryAggregationQueryTermAggregation(**query_aggregation_query_term_aggregation_model_dict)
 
         # Verify the model instances are equivalent
-        assert query_timeslice_aggregation_model == query_timeslice_aggregation_model2
+        assert query_aggregation_query_term_aggregation_model == query_aggregation_query_term_aggregation_model2
 
         # Convert model instance back to dict and verify no loss of data
-        query_timeslice_aggregation_model_json2 = query_timeslice_aggregation_model.to_dict()
-        assert query_timeslice_aggregation_model_json2 == query_timeslice_aggregation_model_json
+        query_aggregation_query_term_aggregation_model_json2 = query_aggregation_query_term_aggregation_model.to_dict()
+        assert query_aggregation_query_term_aggregation_model_json2 == query_aggregation_query_term_aggregation_model_json
 
-class TestModel_QueryTopHitsAggregation():
+class TestModel_QueryAggregationQueryTimesliceAggregation():
     """
-    Test Class for QueryTopHitsAggregation
+    Test Class for QueryAggregationQueryTimesliceAggregation
     """
 
-    def test_query_top_hits_aggregation_serialization(self):
+    def test_query_aggregation_query_timeslice_aggregation_serialization(self):
         """
-        Test serialization/deserialization for QueryTopHitsAggregation
+        Test serialization/deserialization for QueryAggregationQueryTimesliceAggregation
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        query_timeslice_aggregation_result_model = {} # QueryTimesliceAggregationResult
+        query_timeslice_aggregation_result_model['key_as_string'] = 'testString'
+        query_timeslice_aggregation_result_model['key'] = 26
+        query_timeslice_aggregation_result_model['matching_results'] = 26
+        query_timeslice_aggregation_result_model['aggregations'] = [{'foo': 'bar'}]
+
+        # Construct a json representation of a QueryAggregationQueryTimesliceAggregation model
+        query_aggregation_query_timeslice_aggregation_model_json = {}
+        query_aggregation_query_timeslice_aggregation_model_json['type'] = 'timeslice'
+        query_aggregation_query_timeslice_aggregation_model_json['field'] = 'testString'
+        query_aggregation_query_timeslice_aggregation_model_json['interval'] = 'testString'
+        query_aggregation_query_timeslice_aggregation_model_json['name'] = 'testString'
+        query_aggregation_query_timeslice_aggregation_model_json['results'] = [query_timeslice_aggregation_result_model]
+
+        # Construct a model instance of QueryAggregationQueryTimesliceAggregation by calling from_dict on the json representation
+        query_aggregation_query_timeslice_aggregation_model = QueryAggregationQueryTimesliceAggregation.from_dict(query_aggregation_query_timeslice_aggregation_model_json)
+        assert query_aggregation_query_timeslice_aggregation_model != False
+
+        # Construct a model instance of QueryAggregationQueryTimesliceAggregation by calling from_dict on the json representation
+        query_aggregation_query_timeslice_aggregation_model_dict = QueryAggregationQueryTimesliceAggregation.from_dict(query_aggregation_query_timeslice_aggregation_model_json).__dict__
+        query_aggregation_query_timeslice_aggregation_model2 = QueryAggregationQueryTimesliceAggregation(**query_aggregation_query_timeslice_aggregation_model_dict)
+
+        # Verify the model instances are equivalent
+        assert query_aggregation_query_timeslice_aggregation_model == query_aggregation_query_timeslice_aggregation_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        query_aggregation_query_timeslice_aggregation_model_json2 = query_aggregation_query_timeslice_aggregation_model.to_dict()
+        assert query_aggregation_query_timeslice_aggregation_model_json2 == query_aggregation_query_timeslice_aggregation_model_json
+
+class TestModel_QueryAggregationQueryTopHitsAggregation():
+    """
+    Test Class for QueryAggregationQueryTopHitsAggregation
+    """
+
+    def test_query_aggregation_query_top_hits_aggregation_serialization(self):
+        """
+        Test serialization/deserialization for QueryAggregationQueryTopHitsAggregation
         """
 
         # Construct dict forms of any model objects needed in order to build this model.
@@ -9070,27 +9185,105 @@ class TestModel_QueryTopHitsAggregation():
         query_top_hits_aggregation_result_model['matching_results'] = 38
         query_top_hits_aggregation_result_model['hits'] = [{'foo': 'bar'}]
 
-        # Construct a json representation of a QueryTopHitsAggregation model
-        query_top_hits_aggregation_model_json = {}
-        query_top_hits_aggregation_model_json['type'] = 'top_hits'
-        query_top_hits_aggregation_model_json['size'] = 38
-        query_top_hits_aggregation_model_json['name'] = 'testString'
-        query_top_hits_aggregation_model_json['hits'] = query_top_hits_aggregation_result_model
+        # Construct a json representation of a QueryAggregationQueryTopHitsAggregation model
+        query_aggregation_query_top_hits_aggregation_model_json = {}
+        query_aggregation_query_top_hits_aggregation_model_json['type'] = 'top_hits'
+        query_aggregation_query_top_hits_aggregation_model_json['size'] = 38
+        query_aggregation_query_top_hits_aggregation_model_json['name'] = 'testString'
+        query_aggregation_query_top_hits_aggregation_model_json['hits'] = query_top_hits_aggregation_result_model
 
-        # Construct a model instance of QueryTopHitsAggregation by calling from_dict on the json representation
-        query_top_hits_aggregation_model = QueryTopHitsAggregation.from_dict(query_top_hits_aggregation_model_json)
-        assert query_top_hits_aggregation_model != False
+        # Construct a model instance of QueryAggregationQueryTopHitsAggregation by calling from_dict on the json representation
+        query_aggregation_query_top_hits_aggregation_model = QueryAggregationQueryTopHitsAggregation.from_dict(query_aggregation_query_top_hits_aggregation_model_json)
+        assert query_aggregation_query_top_hits_aggregation_model != False
 
-        # Construct a model instance of QueryTopHitsAggregation by calling from_dict on the json representation
-        query_top_hits_aggregation_model_dict = QueryTopHitsAggregation.from_dict(query_top_hits_aggregation_model_json).__dict__
-        query_top_hits_aggregation_model2 = QueryTopHitsAggregation(**query_top_hits_aggregation_model_dict)
+        # Construct a model instance of QueryAggregationQueryTopHitsAggregation by calling from_dict on the json representation
+        query_aggregation_query_top_hits_aggregation_model_dict = QueryAggregationQueryTopHitsAggregation.from_dict(query_aggregation_query_top_hits_aggregation_model_json).__dict__
+        query_aggregation_query_top_hits_aggregation_model2 = QueryAggregationQueryTopHitsAggregation(**query_aggregation_query_top_hits_aggregation_model_dict)
 
         # Verify the model instances are equivalent
-        assert query_top_hits_aggregation_model == query_top_hits_aggregation_model2
+        assert query_aggregation_query_top_hits_aggregation_model == query_aggregation_query_top_hits_aggregation_model2
 
         # Convert model instance back to dict and verify no loss of data
-        query_top_hits_aggregation_model_json2 = query_top_hits_aggregation_model.to_dict()
-        assert query_top_hits_aggregation_model_json2 == query_top_hits_aggregation_model_json
+        query_aggregation_query_top_hits_aggregation_model_json2 = query_aggregation_query_top_hits_aggregation_model.to_dict()
+        assert query_aggregation_query_top_hits_aggregation_model_json2 == query_aggregation_query_top_hits_aggregation_model_json
+
+class TestModel_QueryAggregationQueryTopicAggregation():
+    """
+    Test Class for QueryAggregationQueryTopicAggregation
+    """
+
+    def test_query_aggregation_query_topic_aggregation_serialization(self):
+        """
+        Test serialization/deserialization for QueryAggregationQueryTopicAggregation
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        query_topic_aggregation_result_model = {} # QueryTopicAggregationResult
+        query_topic_aggregation_result_model['aggregations'] = [{'foo': 'bar'}]
+
+        # Construct a json representation of a QueryAggregationQueryTopicAggregation model
+        query_aggregation_query_topic_aggregation_model_json = {}
+        query_aggregation_query_topic_aggregation_model_json['type'] = 'topic'
+        query_aggregation_query_topic_aggregation_model_json['facet'] = 'testString'
+        query_aggregation_query_topic_aggregation_model_json['time_segments'] = 'testString'
+        query_aggregation_query_topic_aggregation_model_json['show_estimated_matching_results'] = False
+        query_aggregation_query_topic_aggregation_model_json['show_total_matching_documents'] = False
+        query_aggregation_query_topic_aggregation_model_json['results'] = [query_topic_aggregation_result_model]
+
+        # Construct a model instance of QueryAggregationQueryTopicAggregation by calling from_dict on the json representation
+        query_aggregation_query_topic_aggregation_model = QueryAggregationQueryTopicAggregation.from_dict(query_aggregation_query_topic_aggregation_model_json)
+        assert query_aggregation_query_topic_aggregation_model != False
+
+        # Construct a model instance of QueryAggregationQueryTopicAggregation by calling from_dict on the json representation
+        query_aggregation_query_topic_aggregation_model_dict = QueryAggregationQueryTopicAggregation.from_dict(query_aggregation_query_topic_aggregation_model_json).__dict__
+        query_aggregation_query_topic_aggregation_model2 = QueryAggregationQueryTopicAggregation(**query_aggregation_query_topic_aggregation_model_dict)
+
+        # Verify the model instances are equivalent
+        assert query_aggregation_query_topic_aggregation_model == query_aggregation_query_topic_aggregation_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        query_aggregation_query_topic_aggregation_model_json2 = query_aggregation_query_topic_aggregation_model.to_dict()
+        assert query_aggregation_query_topic_aggregation_model_json2 == query_aggregation_query_topic_aggregation_model_json
+
+class TestModel_QueryAggregationQueryTrendAggregation():
+    """
+    Test Class for QueryAggregationQueryTrendAggregation
+    """
+
+    def test_query_aggregation_query_trend_aggregation_serialization(self):
+        """
+        Test serialization/deserialization for QueryAggregationQueryTrendAggregation
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        query_trend_aggregation_result_model = {} # QueryTrendAggregationResult
+        query_trend_aggregation_result_model['aggregations'] = [{'foo': 'bar'}]
+
+        # Construct a json representation of a QueryAggregationQueryTrendAggregation model
+        query_aggregation_query_trend_aggregation_model_json = {}
+        query_aggregation_query_trend_aggregation_model_json['type'] = 'trend'
+        query_aggregation_query_trend_aggregation_model_json['facet'] = 'testString'
+        query_aggregation_query_trend_aggregation_model_json['time_segments'] = 'testString'
+        query_aggregation_query_trend_aggregation_model_json['show_estimated_matching_results'] = False
+        query_aggregation_query_trend_aggregation_model_json['show_total_matching_documents'] = False
+        query_aggregation_query_trend_aggregation_model_json['results'] = [query_trend_aggregation_result_model]
+
+        # Construct a model instance of QueryAggregationQueryTrendAggregation by calling from_dict on the json representation
+        query_aggregation_query_trend_aggregation_model = QueryAggregationQueryTrendAggregation.from_dict(query_aggregation_query_trend_aggregation_model_json)
+        assert query_aggregation_query_trend_aggregation_model != False
+
+        # Construct a model instance of QueryAggregationQueryTrendAggregation by calling from_dict on the json representation
+        query_aggregation_query_trend_aggregation_model_dict = QueryAggregationQueryTrendAggregation.from_dict(query_aggregation_query_trend_aggregation_model_json).__dict__
+        query_aggregation_query_trend_aggregation_model2 = QueryAggregationQueryTrendAggregation(**query_aggregation_query_trend_aggregation_model_dict)
+
+        # Verify the model instances are equivalent
+        assert query_aggregation_query_trend_aggregation_model == query_aggregation_query_trend_aggregation_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        query_aggregation_query_trend_aggregation_model_json2 = query_aggregation_query_trend_aggregation_model.to_dict()
+        assert query_aggregation_query_trend_aggregation_model_json2 == query_aggregation_query_trend_aggregation_model_json
 
 
 # endregion
