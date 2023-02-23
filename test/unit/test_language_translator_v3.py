@@ -901,7 +901,7 @@ class TestTranslateDocument():
         # Set up parameter values
         file = io.BytesIO(b'This is a mock file.').getvalue()
         filename = 'testString'
-        file_content_type = 'application/powerpoint'
+        file_content_type = 'application/mspowerpoint'
         model_id = 'testString'
         source = 'testString'
         target = 'testString'
