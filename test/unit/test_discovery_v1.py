@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2016, 2022.
+# (C) Copyright IBM Corp. 2016, 2023.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -36,7 +36,7 @@ version = 'testString'
 
 _service = DiscoveryV1(
     authenticator=NoAuthAuthenticator(),
-    version=version
+    version=version,
 )
 
 _base_url = 'https://api.us-south.discovery.watson.cloud.ibm.com'
@@ -616,7 +616,7 @@ class TestCreateConfiguration():
         """
         # Set up mock
         url = preprocess_url('/v1/environments/testString/configurations')
-        mock_response = '{"configuration_id": "configuration_id", "name": "name", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "description": "description", "conversions": {"pdf": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}]}}, "word": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}], "styles": [{"level": 5, "names": ["names"]}]}}, "html": {"exclude_tags_completely": ["exclude_tags_completely"], "exclude_tags_keep_content": ["exclude_tags_keep_content"], "keep_content": {"xpaths": ["xpaths"]}, "exclude_content": {"xpaths": ["xpaths"]}, "keep_tag_attributes": ["keep_tag_attributes"], "exclude_tag_attributes": ["exclude_tag_attributes"]}, "segment": {"enabled": false, "selector_tags": ["selector_tags"], "annotated_fields": ["annotated_fields"]}, "json_normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "image_text_recognition": true}, "enrichments": [{"description": "description", "destination_field": "destination_field", "source_field": "source_field", "overwrite": false, "enrichment": "enrichment", "ignore_downstream_errors": false, "options": {"features": {"keywords": {"sentiment": false, "emotion": false, "limit": 5}, "entities": {"sentiment": false, "emotion": false, "limit": 5, "mentions": true, "mention_types": false, "sentence_locations": true, "model": "model"}, "sentiment": {"document": true, "targets": ["target"]}, "emotion": {"document": true, "targets": ["target"]}, "categories": {"mapKey": "anyValue"}, "semantic_roles": {"entities": true, "keywords": true, "limit": 5}, "relations": {"model": "model"}, "concepts": {"limit": 5}}, "language": "ar", "model": "model"}}], "normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "source": {"type": "box", "credential_id": "credential_id", "schedule": {"enabled": true, "time_zone": "America/New_York", "frequency": "daily"}, "options": {"folders": [{"owner_user_id": "owner_user_id", "folder_id": "folder_id", "limit": 5}], "objects": [{"name": "name", "limit": 5}], "site_collections": [{"site_collection_path": "site_collection_path", "limit": 5}], "urls": [{"url": "url", "limit_to_starting_hosts": true, "crawl_speed": "normal", "allow_untrusted_certificate": false, "maximum_hops": 12, "request_timeout": 15, "override_robots_txt": false, "blacklist": ["blacklist"]}], "buckets": [{"name": "name", "limit": 5}], "crawl_all_buckets": false}}}'
+        mock_response = '{"configuration_id": "configuration_id", "name": "name", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "description": "description", "conversions": {"pdf": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}]}}, "word": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}], "styles": [{"level": 5, "names": ["names"]}]}}, "html": {"exclude_tags_completely": ["exclude_tags_completely"], "exclude_tags_keep_content": ["exclude_tags_keep_content"], "keep_content": {"xpaths": ["xpaths"]}, "exclude_content": {"xpaths": ["xpaths"]}, "keep_tag_attributes": ["keep_tag_attributes"], "exclude_tag_attributes": ["exclude_tag_attributes"]}, "segment": {"enabled": false, "selector_tags": ["selector_tags"], "annotated_fields": ["annotated_fields"]}, "json_normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "image_text_recognition": true}, "enrichments": [{"description": "description", "destination_field": "destination_field", "source_field": "source_field", "overwrite": false, "enrichment": "enrichment", "ignore_downstream_errors": false, "options": {"features": {"keywords": {"sentiment": false, "emotion": false, "limit": 5}, "entities": {"sentiment": false, "emotion": false, "limit": 5, "mentions": true, "mention_types": false, "sentence_locations": true, "model": "model"}, "sentiment": {"document": true, "targets": ["target"]}, "emotion": {"document": true, "targets": ["target"]}, "categories": {"anyKey": "anyValue"}, "semantic_roles": {"entities": true, "keywords": true, "limit": 5}, "relations": {"model": "model"}, "concepts": {"limit": 5}}, "language": "ar", "model": "model"}}], "normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "source": {"type": "box", "credential_id": "credential_id", "schedule": {"enabled": true, "time_zone": "America/New_York", "frequency": "daily"}, "options": {"folders": [{"owner_user_id": "owner_user_id", "folder_id": "folder_id", "limit": 5}], "objects": [{"name": "name", "limit": 5}], "site_collections": [{"site_collection_path": "site_collection_path", "limit": 5}], "urls": [{"url": "url", "limit_to_starting_hosts": true, "crawl_speed": "normal", "allow_untrusted_certificate": false, "maximum_hops": 12, "request_timeout": 15, "override_robots_txt": false, "blacklist": ["blacklist"]}], "buckets": [{"name": "name", "limit": 5}], "crawl_all_buckets": false}}}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -734,7 +734,7 @@ class TestCreateConfiguration():
         nlu_enrichment_features_model['entities'] = nlu_enrichment_entities_model
         nlu_enrichment_features_model['sentiment'] = nlu_enrichment_sentiment_model
         nlu_enrichment_features_model['emotion'] = nlu_enrichment_emotion_model
-        nlu_enrichment_features_model['categories'] = {'key1': 'testString'}
+        nlu_enrichment_features_model['categories'] = {'foo': 'bar'}
         nlu_enrichment_features_model['semantic_roles'] = nlu_enrichment_semantic_roles_model
         nlu_enrichment_features_model['relations'] = nlu_enrichment_relations_model
         nlu_enrichment_features_model['concepts'] = nlu_enrichment_concepts_model
@@ -858,7 +858,7 @@ class TestCreateConfiguration():
         """
         # Set up mock
         url = preprocess_url('/v1/environments/testString/configurations')
-        mock_response = '{"configuration_id": "configuration_id", "name": "name", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "description": "description", "conversions": {"pdf": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}]}}, "word": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}], "styles": [{"level": 5, "names": ["names"]}]}}, "html": {"exclude_tags_completely": ["exclude_tags_completely"], "exclude_tags_keep_content": ["exclude_tags_keep_content"], "keep_content": {"xpaths": ["xpaths"]}, "exclude_content": {"xpaths": ["xpaths"]}, "keep_tag_attributes": ["keep_tag_attributes"], "exclude_tag_attributes": ["exclude_tag_attributes"]}, "segment": {"enabled": false, "selector_tags": ["selector_tags"], "annotated_fields": ["annotated_fields"]}, "json_normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "image_text_recognition": true}, "enrichments": [{"description": "description", "destination_field": "destination_field", "source_field": "source_field", "overwrite": false, "enrichment": "enrichment", "ignore_downstream_errors": false, "options": {"features": {"keywords": {"sentiment": false, "emotion": false, "limit": 5}, "entities": {"sentiment": false, "emotion": false, "limit": 5, "mentions": true, "mention_types": false, "sentence_locations": true, "model": "model"}, "sentiment": {"document": true, "targets": ["target"]}, "emotion": {"document": true, "targets": ["target"]}, "categories": {"mapKey": "anyValue"}, "semantic_roles": {"entities": true, "keywords": true, "limit": 5}, "relations": {"model": "model"}, "concepts": {"limit": 5}}, "language": "ar", "model": "model"}}], "normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "source": {"type": "box", "credential_id": "credential_id", "schedule": {"enabled": true, "time_zone": "America/New_York", "frequency": "daily"}, "options": {"folders": [{"owner_user_id": "owner_user_id", "folder_id": "folder_id", "limit": 5}], "objects": [{"name": "name", "limit": 5}], "site_collections": [{"site_collection_path": "site_collection_path", "limit": 5}], "urls": [{"url": "url", "limit_to_starting_hosts": true, "crawl_speed": "normal", "allow_untrusted_certificate": false, "maximum_hops": 12, "request_timeout": 15, "override_robots_txt": false, "blacklist": ["blacklist"]}], "buckets": [{"name": "name", "limit": 5}], "crawl_all_buckets": false}}}'
+        mock_response = '{"configuration_id": "configuration_id", "name": "name", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "description": "description", "conversions": {"pdf": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}]}}, "word": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}], "styles": [{"level": 5, "names": ["names"]}]}}, "html": {"exclude_tags_completely": ["exclude_tags_completely"], "exclude_tags_keep_content": ["exclude_tags_keep_content"], "keep_content": {"xpaths": ["xpaths"]}, "exclude_content": {"xpaths": ["xpaths"]}, "keep_tag_attributes": ["keep_tag_attributes"], "exclude_tag_attributes": ["exclude_tag_attributes"]}, "segment": {"enabled": false, "selector_tags": ["selector_tags"], "annotated_fields": ["annotated_fields"]}, "json_normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "image_text_recognition": true}, "enrichments": [{"description": "description", "destination_field": "destination_field", "source_field": "source_field", "overwrite": false, "enrichment": "enrichment", "ignore_downstream_errors": false, "options": {"features": {"keywords": {"sentiment": false, "emotion": false, "limit": 5}, "entities": {"sentiment": false, "emotion": false, "limit": 5, "mentions": true, "mention_types": false, "sentence_locations": true, "model": "model"}, "sentiment": {"document": true, "targets": ["target"]}, "emotion": {"document": true, "targets": ["target"]}, "categories": {"anyKey": "anyValue"}, "semantic_roles": {"entities": true, "keywords": true, "limit": 5}, "relations": {"model": "model"}, "concepts": {"limit": 5}}, "language": "ar", "model": "model"}}], "normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "source": {"type": "box", "credential_id": "credential_id", "schedule": {"enabled": true, "time_zone": "America/New_York", "frequency": "daily"}, "options": {"folders": [{"owner_user_id": "owner_user_id", "folder_id": "folder_id", "limit": 5}], "objects": [{"name": "name", "limit": 5}], "site_collections": [{"site_collection_path": "site_collection_path", "limit": 5}], "urls": [{"url": "url", "limit_to_starting_hosts": true, "crawl_speed": "normal", "allow_untrusted_certificate": false, "maximum_hops": 12, "request_timeout": 15, "override_robots_txt": false, "blacklist": ["blacklist"]}], "buckets": [{"name": "name", "limit": 5}], "crawl_all_buckets": false}}}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -976,7 +976,7 @@ class TestCreateConfiguration():
         nlu_enrichment_features_model['entities'] = nlu_enrichment_entities_model
         nlu_enrichment_features_model['sentiment'] = nlu_enrichment_sentiment_model
         nlu_enrichment_features_model['emotion'] = nlu_enrichment_emotion_model
-        nlu_enrichment_features_model['categories'] = {'key1': 'testString'}
+        nlu_enrichment_features_model['categories'] = {'foo': 'bar'}
         nlu_enrichment_features_model['semantic_roles'] = nlu_enrichment_semantic_roles_model
         nlu_enrichment_features_model['relations'] = nlu_enrichment_relations_model
         nlu_enrichment_features_model['concepts'] = nlu_enrichment_concepts_model
@@ -1091,7 +1091,7 @@ class TestListConfigurations():
         """
         # Set up mock
         url = preprocess_url('/v1/environments/testString/configurations')
-        mock_response = '{"configurations": [{"configuration_id": "configuration_id", "name": "name", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "description": "description", "conversions": {"pdf": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}]}}, "word": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}], "styles": [{"level": 5, "names": ["names"]}]}}, "html": {"exclude_tags_completely": ["exclude_tags_completely"], "exclude_tags_keep_content": ["exclude_tags_keep_content"], "keep_content": {"xpaths": ["xpaths"]}, "exclude_content": {"xpaths": ["xpaths"]}, "keep_tag_attributes": ["keep_tag_attributes"], "exclude_tag_attributes": ["exclude_tag_attributes"]}, "segment": {"enabled": false, "selector_tags": ["selector_tags"], "annotated_fields": ["annotated_fields"]}, "json_normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "image_text_recognition": true}, "enrichments": [{"description": "description", "destination_field": "destination_field", "source_field": "source_field", "overwrite": false, "enrichment": "enrichment", "ignore_downstream_errors": false, "options": {"features": {"keywords": {"sentiment": false, "emotion": false, "limit": 5}, "entities": {"sentiment": false, "emotion": false, "limit": 5, "mentions": true, "mention_types": false, "sentence_locations": true, "model": "model"}, "sentiment": {"document": true, "targets": ["target"]}, "emotion": {"document": true, "targets": ["target"]}, "categories": {"mapKey": "anyValue"}, "semantic_roles": {"entities": true, "keywords": true, "limit": 5}, "relations": {"model": "model"}, "concepts": {"limit": 5}}, "language": "ar", "model": "model"}}], "normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "source": {"type": "box", "credential_id": "credential_id", "schedule": {"enabled": true, "time_zone": "America/New_York", "frequency": "daily"}, "options": {"folders": [{"owner_user_id": "owner_user_id", "folder_id": "folder_id", "limit": 5}], "objects": [{"name": "name", "limit": 5}], "site_collections": [{"site_collection_path": "site_collection_path", "limit": 5}], "urls": [{"url": "url", "limit_to_starting_hosts": true, "crawl_speed": "normal", "allow_untrusted_certificate": false, "maximum_hops": 12, "request_timeout": 15, "override_robots_txt": false, "blacklist": ["blacklist"]}], "buckets": [{"name": "name", "limit": 5}], "crawl_all_buckets": false}}}]}'
+        mock_response = '{"configurations": [{"configuration_id": "configuration_id", "name": "name", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "description": "description", "conversions": {"pdf": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}]}}, "word": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}], "styles": [{"level": 5, "names": ["names"]}]}}, "html": {"exclude_tags_completely": ["exclude_tags_completely"], "exclude_tags_keep_content": ["exclude_tags_keep_content"], "keep_content": {"xpaths": ["xpaths"]}, "exclude_content": {"xpaths": ["xpaths"]}, "keep_tag_attributes": ["keep_tag_attributes"], "exclude_tag_attributes": ["exclude_tag_attributes"]}, "segment": {"enabled": false, "selector_tags": ["selector_tags"], "annotated_fields": ["annotated_fields"]}, "json_normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "image_text_recognition": true}, "enrichments": [{"description": "description", "destination_field": "destination_field", "source_field": "source_field", "overwrite": false, "enrichment": "enrichment", "ignore_downstream_errors": false, "options": {"features": {"keywords": {"sentiment": false, "emotion": false, "limit": 5}, "entities": {"sentiment": false, "emotion": false, "limit": 5, "mentions": true, "mention_types": false, "sentence_locations": true, "model": "model"}, "sentiment": {"document": true, "targets": ["target"]}, "emotion": {"document": true, "targets": ["target"]}, "categories": {"anyKey": "anyValue"}, "semantic_roles": {"entities": true, "keywords": true, "limit": 5}, "relations": {"model": "model"}, "concepts": {"limit": 5}}, "language": "ar", "model": "model"}}], "normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "source": {"type": "box", "credential_id": "credential_id", "schedule": {"enabled": true, "time_zone": "America/New_York", "frequency": "daily"}, "options": {"folders": [{"owner_user_id": "owner_user_id", "folder_id": "folder_id", "limit": 5}], "objects": [{"name": "name", "limit": 5}], "site_collections": [{"site_collection_path": "site_collection_path", "limit": 5}], "urls": [{"url": "url", "limit_to_starting_hosts": true, "crawl_speed": "normal", "allow_untrusted_certificate": false, "maximum_hops": 12, "request_timeout": 15, "override_robots_txt": false, "blacklist": ["blacklist"]}], "buckets": [{"name": "name", "limit": 5}], "crawl_all_buckets": false}}}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1133,7 +1133,7 @@ class TestListConfigurations():
         """
         # Set up mock
         url = preprocess_url('/v1/environments/testString/configurations')
-        mock_response = '{"configurations": [{"configuration_id": "configuration_id", "name": "name", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "description": "description", "conversions": {"pdf": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}]}}, "word": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}], "styles": [{"level": 5, "names": ["names"]}]}}, "html": {"exclude_tags_completely": ["exclude_tags_completely"], "exclude_tags_keep_content": ["exclude_tags_keep_content"], "keep_content": {"xpaths": ["xpaths"]}, "exclude_content": {"xpaths": ["xpaths"]}, "keep_tag_attributes": ["keep_tag_attributes"], "exclude_tag_attributes": ["exclude_tag_attributes"]}, "segment": {"enabled": false, "selector_tags": ["selector_tags"], "annotated_fields": ["annotated_fields"]}, "json_normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "image_text_recognition": true}, "enrichments": [{"description": "description", "destination_field": "destination_field", "source_field": "source_field", "overwrite": false, "enrichment": "enrichment", "ignore_downstream_errors": false, "options": {"features": {"keywords": {"sentiment": false, "emotion": false, "limit": 5}, "entities": {"sentiment": false, "emotion": false, "limit": 5, "mentions": true, "mention_types": false, "sentence_locations": true, "model": "model"}, "sentiment": {"document": true, "targets": ["target"]}, "emotion": {"document": true, "targets": ["target"]}, "categories": {"mapKey": "anyValue"}, "semantic_roles": {"entities": true, "keywords": true, "limit": 5}, "relations": {"model": "model"}, "concepts": {"limit": 5}}, "language": "ar", "model": "model"}}], "normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "source": {"type": "box", "credential_id": "credential_id", "schedule": {"enabled": true, "time_zone": "America/New_York", "frequency": "daily"}, "options": {"folders": [{"owner_user_id": "owner_user_id", "folder_id": "folder_id", "limit": 5}], "objects": [{"name": "name", "limit": 5}], "site_collections": [{"site_collection_path": "site_collection_path", "limit": 5}], "urls": [{"url": "url", "limit_to_starting_hosts": true, "crawl_speed": "normal", "allow_untrusted_certificate": false, "maximum_hops": 12, "request_timeout": 15, "override_robots_txt": false, "blacklist": ["blacklist"]}], "buckets": [{"name": "name", "limit": 5}], "crawl_all_buckets": false}}}]}'
+        mock_response = '{"configurations": [{"configuration_id": "configuration_id", "name": "name", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "description": "description", "conversions": {"pdf": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}]}}, "word": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}], "styles": [{"level": 5, "names": ["names"]}]}}, "html": {"exclude_tags_completely": ["exclude_tags_completely"], "exclude_tags_keep_content": ["exclude_tags_keep_content"], "keep_content": {"xpaths": ["xpaths"]}, "exclude_content": {"xpaths": ["xpaths"]}, "keep_tag_attributes": ["keep_tag_attributes"], "exclude_tag_attributes": ["exclude_tag_attributes"]}, "segment": {"enabled": false, "selector_tags": ["selector_tags"], "annotated_fields": ["annotated_fields"]}, "json_normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "image_text_recognition": true}, "enrichments": [{"description": "description", "destination_field": "destination_field", "source_field": "source_field", "overwrite": false, "enrichment": "enrichment", "ignore_downstream_errors": false, "options": {"features": {"keywords": {"sentiment": false, "emotion": false, "limit": 5}, "entities": {"sentiment": false, "emotion": false, "limit": 5, "mentions": true, "mention_types": false, "sentence_locations": true, "model": "model"}, "sentiment": {"document": true, "targets": ["target"]}, "emotion": {"document": true, "targets": ["target"]}, "categories": {"anyKey": "anyValue"}, "semantic_roles": {"entities": true, "keywords": true, "limit": 5}, "relations": {"model": "model"}, "concepts": {"limit": 5}}, "language": "ar", "model": "model"}}], "normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "source": {"type": "box", "credential_id": "credential_id", "schedule": {"enabled": true, "time_zone": "America/New_York", "frequency": "daily"}, "options": {"folders": [{"owner_user_id": "owner_user_id", "folder_id": "folder_id", "limit": 5}], "objects": [{"name": "name", "limit": 5}], "site_collections": [{"site_collection_path": "site_collection_path", "limit": 5}], "urls": [{"url": "url", "limit_to_starting_hosts": true, "crawl_speed": "normal", "allow_untrusted_certificate": false, "maximum_hops": 12, "request_timeout": 15, "override_robots_txt": false, "blacklist": ["blacklist"]}], "buckets": [{"name": "name", "limit": 5}], "crawl_all_buckets": false}}}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1169,7 +1169,7 @@ class TestListConfigurations():
         """
         # Set up mock
         url = preprocess_url('/v1/environments/testString/configurations')
-        mock_response = '{"configurations": [{"configuration_id": "configuration_id", "name": "name", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "description": "description", "conversions": {"pdf": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}]}}, "word": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}], "styles": [{"level": 5, "names": ["names"]}]}}, "html": {"exclude_tags_completely": ["exclude_tags_completely"], "exclude_tags_keep_content": ["exclude_tags_keep_content"], "keep_content": {"xpaths": ["xpaths"]}, "exclude_content": {"xpaths": ["xpaths"]}, "keep_tag_attributes": ["keep_tag_attributes"], "exclude_tag_attributes": ["exclude_tag_attributes"]}, "segment": {"enabled": false, "selector_tags": ["selector_tags"], "annotated_fields": ["annotated_fields"]}, "json_normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "image_text_recognition": true}, "enrichments": [{"description": "description", "destination_field": "destination_field", "source_field": "source_field", "overwrite": false, "enrichment": "enrichment", "ignore_downstream_errors": false, "options": {"features": {"keywords": {"sentiment": false, "emotion": false, "limit": 5}, "entities": {"sentiment": false, "emotion": false, "limit": 5, "mentions": true, "mention_types": false, "sentence_locations": true, "model": "model"}, "sentiment": {"document": true, "targets": ["target"]}, "emotion": {"document": true, "targets": ["target"]}, "categories": {"mapKey": "anyValue"}, "semantic_roles": {"entities": true, "keywords": true, "limit": 5}, "relations": {"model": "model"}, "concepts": {"limit": 5}}, "language": "ar", "model": "model"}}], "normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "source": {"type": "box", "credential_id": "credential_id", "schedule": {"enabled": true, "time_zone": "America/New_York", "frequency": "daily"}, "options": {"folders": [{"owner_user_id": "owner_user_id", "folder_id": "folder_id", "limit": 5}], "objects": [{"name": "name", "limit": 5}], "site_collections": [{"site_collection_path": "site_collection_path", "limit": 5}], "urls": [{"url": "url", "limit_to_starting_hosts": true, "crawl_speed": "normal", "allow_untrusted_certificate": false, "maximum_hops": 12, "request_timeout": 15, "override_robots_txt": false, "blacklist": ["blacklist"]}], "buckets": [{"name": "name", "limit": 5}], "crawl_all_buckets": false}}}]}'
+        mock_response = '{"configurations": [{"configuration_id": "configuration_id", "name": "name", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "description": "description", "conversions": {"pdf": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}]}}, "word": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}], "styles": [{"level": 5, "names": ["names"]}]}}, "html": {"exclude_tags_completely": ["exclude_tags_completely"], "exclude_tags_keep_content": ["exclude_tags_keep_content"], "keep_content": {"xpaths": ["xpaths"]}, "exclude_content": {"xpaths": ["xpaths"]}, "keep_tag_attributes": ["keep_tag_attributes"], "exclude_tag_attributes": ["exclude_tag_attributes"]}, "segment": {"enabled": false, "selector_tags": ["selector_tags"], "annotated_fields": ["annotated_fields"]}, "json_normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "image_text_recognition": true}, "enrichments": [{"description": "description", "destination_field": "destination_field", "source_field": "source_field", "overwrite": false, "enrichment": "enrichment", "ignore_downstream_errors": false, "options": {"features": {"keywords": {"sentiment": false, "emotion": false, "limit": 5}, "entities": {"sentiment": false, "emotion": false, "limit": 5, "mentions": true, "mention_types": false, "sentence_locations": true, "model": "model"}, "sentiment": {"document": true, "targets": ["target"]}, "emotion": {"document": true, "targets": ["target"]}, "categories": {"anyKey": "anyValue"}, "semantic_roles": {"entities": true, "keywords": true, "limit": 5}, "relations": {"model": "model"}, "concepts": {"limit": 5}}, "language": "ar", "model": "model"}}], "normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "source": {"type": "box", "credential_id": "credential_id", "schedule": {"enabled": true, "time_zone": "America/New_York", "frequency": "daily"}, "options": {"folders": [{"owner_user_id": "owner_user_id", "folder_id": "folder_id", "limit": 5}], "objects": [{"name": "name", "limit": 5}], "site_collections": [{"site_collection_path": "site_collection_path", "limit": 5}], "urls": [{"url": "url", "limit_to_starting_hosts": true, "crawl_speed": "normal", "allow_untrusted_certificate": false, "maximum_hops": 12, "request_timeout": 15, "override_robots_txt": false, "blacklist": ["blacklist"]}], "buckets": [{"name": "name", "limit": 5}], "crawl_all_buckets": false}}}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1209,7 +1209,7 @@ class TestGetConfiguration():
         """
         # Set up mock
         url = preprocess_url('/v1/environments/testString/configurations/testString')
-        mock_response = '{"configuration_id": "configuration_id", "name": "name", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "description": "description", "conversions": {"pdf": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}]}}, "word": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}], "styles": [{"level": 5, "names": ["names"]}]}}, "html": {"exclude_tags_completely": ["exclude_tags_completely"], "exclude_tags_keep_content": ["exclude_tags_keep_content"], "keep_content": {"xpaths": ["xpaths"]}, "exclude_content": {"xpaths": ["xpaths"]}, "keep_tag_attributes": ["keep_tag_attributes"], "exclude_tag_attributes": ["exclude_tag_attributes"]}, "segment": {"enabled": false, "selector_tags": ["selector_tags"], "annotated_fields": ["annotated_fields"]}, "json_normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "image_text_recognition": true}, "enrichments": [{"description": "description", "destination_field": "destination_field", "source_field": "source_field", "overwrite": false, "enrichment": "enrichment", "ignore_downstream_errors": false, "options": {"features": {"keywords": {"sentiment": false, "emotion": false, "limit": 5}, "entities": {"sentiment": false, "emotion": false, "limit": 5, "mentions": true, "mention_types": false, "sentence_locations": true, "model": "model"}, "sentiment": {"document": true, "targets": ["target"]}, "emotion": {"document": true, "targets": ["target"]}, "categories": {"mapKey": "anyValue"}, "semantic_roles": {"entities": true, "keywords": true, "limit": 5}, "relations": {"model": "model"}, "concepts": {"limit": 5}}, "language": "ar", "model": "model"}}], "normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "source": {"type": "box", "credential_id": "credential_id", "schedule": {"enabled": true, "time_zone": "America/New_York", "frequency": "daily"}, "options": {"folders": [{"owner_user_id": "owner_user_id", "folder_id": "folder_id", "limit": 5}], "objects": [{"name": "name", "limit": 5}], "site_collections": [{"site_collection_path": "site_collection_path", "limit": 5}], "urls": [{"url": "url", "limit_to_starting_hosts": true, "crawl_speed": "normal", "allow_untrusted_certificate": false, "maximum_hops": 12, "request_timeout": 15, "override_robots_txt": false, "blacklist": ["blacklist"]}], "buckets": [{"name": "name", "limit": 5}], "crawl_all_buckets": false}}}'
+        mock_response = '{"configuration_id": "configuration_id", "name": "name", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "description": "description", "conversions": {"pdf": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}]}}, "word": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}], "styles": [{"level": 5, "names": ["names"]}]}}, "html": {"exclude_tags_completely": ["exclude_tags_completely"], "exclude_tags_keep_content": ["exclude_tags_keep_content"], "keep_content": {"xpaths": ["xpaths"]}, "exclude_content": {"xpaths": ["xpaths"]}, "keep_tag_attributes": ["keep_tag_attributes"], "exclude_tag_attributes": ["exclude_tag_attributes"]}, "segment": {"enabled": false, "selector_tags": ["selector_tags"], "annotated_fields": ["annotated_fields"]}, "json_normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "image_text_recognition": true}, "enrichments": [{"description": "description", "destination_field": "destination_field", "source_field": "source_field", "overwrite": false, "enrichment": "enrichment", "ignore_downstream_errors": false, "options": {"features": {"keywords": {"sentiment": false, "emotion": false, "limit": 5}, "entities": {"sentiment": false, "emotion": false, "limit": 5, "mentions": true, "mention_types": false, "sentence_locations": true, "model": "model"}, "sentiment": {"document": true, "targets": ["target"]}, "emotion": {"document": true, "targets": ["target"]}, "categories": {"anyKey": "anyValue"}, "semantic_roles": {"entities": true, "keywords": true, "limit": 5}, "relations": {"model": "model"}, "concepts": {"limit": 5}}, "language": "ar", "model": "model"}}], "normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "source": {"type": "box", "credential_id": "credential_id", "schedule": {"enabled": true, "time_zone": "America/New_York", "frequency": "daily"}, "options": {"folders": [{"owner_user_id": "owner_user_id", "folder_id": "folder_id", "limit": 5}], "objects": [{"name": "name", "limit": 5}], "site_collections": [{"site_collection_path": "site_collection_path", "limit": 5}], "urls": [{"url": "url", "limit_to_starting_hosts": true, "crawl_speed": "normal", "allow_untrusted_certificate": false, "maximum_hops": 12, "request_timeout": 15, "override_robots_txt": false, "blacklist": ["blacklist"]}], "buckets": [{"name": "name", "limit": 5}], "crawl_all_buckets": false}}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1247,7 +1247,7 @@ class TestGetConfiguration():
         """
         # Set up mock
         url = preprocess_url('/v1/environments/testString/configurations/testString')
-        mock_response = '{"configuration_id": "configuration_id", "name": "name", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "description": "description", "conversions": {"pdf": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}]}}, "word": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}], "styles": [{"level": 5, "names": ["names"]}]}}, "html": {"exclude_tags_completely": ["exclude_tags_completely"], "exclude_tags_keep_content": ["exclude_tags_keep_content"], "keep_content": {"xpaths": ["xpaths"]}, "exclude_content": {"xpaths": ["xpaths"]}, "keep_tag_attributes": ["keep_tag_attributes"], "exclude_tag_attributes": ["exclude_tag_attributes"]}, "segment": {"enabled": false, "selector_tags": ["selector_tags"], "annotated_fields": ["annotated_fields"]}, "json_normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "image_text_recognition": true}, "enrichments": [{"description": "description", "destination_field": "destination_field", "source_field": "source_field", "overwrite": false, "enrichment": "enrichment", "ignore_downstream_errors": false, "options": {"features": {"keywords": {"sentiment": false, "emotion": false, "limit": 5}, "entities": {"sentiment": false, "emotion": false, "limit": 5, "mentions": true, "mention_types": false, "sentence_locations": true, "model": "model"}, "sentiment": {"document": true, "targets": ["target"]}, "emotion": {"document": true, "targets": ["target"]}, "categories": {"mapKey": "anyValue"}, "semantic_roles": {"entities": true, "keywords": true, "limit": 5}, "relations": {"model": "model"}, "concepts": {"limit": 5}}, "language": "ar", "model": "model"}}], "normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "source": {"type": "box", "credential_id": "credential_id", "schedule": {"enabled": true, "time_zone": "America/New_York", "frequency": "daily"}, "options": {"folders": [{"owner_user_id": "owner_user_id", "folder_id": "folder_id", "limit": 5}], "objects": [{"name": "name", "limit": 5}], "site_collections": [{"site_collection_path": "site_collection_path", "limit": 5}], "urls": [{"url": "url", "limit_to_starting_hosts": true, "crawl_speed": "normal", "allow_untrusted_certificate": false, "maximum_hops": 12, "request_timeout": 15, "override_robots_txt": false, "blacklist": ["blacklist"]}], "buckets": [{"name": "name", "limit": 5}], "crawl_all_buckets": false}}}'
+        mock_response = '{"configuration_id": "configuration_id", "name": "name", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "description": "description", "conversions": {"pdf": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}]}}, "word": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}], "styles": [{"level": 5, "names": ["names"]}]}}, "html": {"exclude_tags_completely": ["exclude_tags_completely"], "exclude_tags_keep_content": ["exclude_tags_keep_content"], "keep_content": {"xpaths": ["xpaths"]}, "exclude_content": {"xpaths": ["xpaths"]}, "keep_tag_attributes": ["keep_tag_attributes"], "exclude_tag_attributes": ["exclude_tag_attributes"]}, "segment": {"enabled": false, "selector_tags": ["selector_tags"], "annotated_fields": ["annotated_fields"]}, "json_normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "image_text_recognition": true}, "enrichments": [{"description": "description", "destination_field": "destination_field", "source_field": "source_field", "overwrite": false, "enrichment": "enrichment", "ignore_downstream_errors": false, "options": {"features": {"keywords": {"sentiment": false, "emotion": false, "limit": 5}, "entities": {"sentiment": false, "emotion": false, "limit": 5, "mentions": true, "mention_types": false, "sentence_locations": true, "model": "model"}, "sentiment": {"document": true, "targets": ["target"]}, "emotion": {"document": true, "targets": ["target"]}, "categories": {"anyKey": "anyValue"}, "semantic_roles": {"entities": true, "keywords": true, "limit": 5}, "relations": {"model": "model"}, "concepts": {"limit": 5}}, "language": "ar", "model": "model"}}], "normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "source": {"type": "box", "credential_id": "credential_id", "schedule": {"enabled": true, "time_zone": "America/New_York", "frequency": "daily"}, "options": {"folders": [{"owner_user_id": "owner_user_id", "folder_id": "folder_id", "limit": 5}], "objects": [{"name": "name", "limit": 5}], "site_collections": [{"site_collection_path": "site_collection_path", "limit": 5}], "urls": [{"url": "url", "limit_to_starting_hosts": true, "crawl_speed": "normal", "allow_untrusted_certificate": false, "maximum_hops": 12, "request_timeout": 15, "override_robots_txt": false, "blacklist": ["blacklist"]}], "buckets": [{"name": "name", "limit": 5}], "crawl_all_buckets": false}}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1289,7 +1289,7 @@ class TestUpdateConfiguration():
         """
         # Set up mock
         url = preprocess_url('/v1/environments/testString/configurations/testString')
-        mock_response = '{"configuration_id": "configuration_id", "name": "name", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "description": "description", "conversions": {"pdf": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}]}}, "word": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}], "styles": [{"level": 5, "names": ["names"]}]}}, "html": {"exclude_tags_completely": ["exclude_tags_completely"], "exclude_tags_keep_content": ["exclude_tags_keep_content"], "keep_content": {"xpaths": ["xpaths"]}, "exclude_content": {"xpaths": ["xpaths"]}, "keep_tag_attributes": ["keep_tag_attributes"], "exclude_tag_attributes": ["exclude_tag_attributes"]}, "segment": {"enabled": false, "selector_tags": ["selector_tags"], "annotated_fields": ["annotated_fields"]}, "json_normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "image_text_recognition": true}, "enrichments": [{"description": "description", "destination_field": "destination_field", "source_field": "source_field", "overwrite": false, "enrichment": "enrichment", "ignore_downstream_errors": false, "options": {"features": {"keywords": {"sentiment": false, "emotion": false, "limit": 5}, "entities": {"sentiment": false, "emotion": false, "limit": 5, "mentions": true, "mention_types": false, "sentence_locations": true, "model": "model"}, "sentiment": {"document": true, "targets": ["target"]}, "emotion": {"document": true, "targets": ["target"]}, "categories": {"mapKey": "anyValue"}, "semantic_roles": {"entities": true, "keywords": true, "limit": 5}, "relations": {"model": "model"}, "concepts": {"limit": 5}}, "language": "ar", "model": "model"}}], "normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "source": {"type": "box", "credential_id": "credential_id", "schedule": {"enabled": true, "time_zone": "America/New_York", "frequency": "daily"}, "options": {"folders": [{"owner_user_id": "owner_user_id", "folder_id": "folder_id", "limit": 5}], "objects": [{"name": "name", "limit": 5}], "site_collections": [{"site_collection_path": "site_collection_path", "limit": 5}], "urls": [{"url": "url", "limit_to_starting_hosts": true, "crawl_speed": "normal", "allow_untrusted_certificate": false, "maximum_hops": 12, "request_timeout": 15, "override_robots_txt": false, "blacklist": ["blacklist"]}], "buckets": [{"name": "name", "limit": 5}], "crawl_all_buckets": false}}}'
+        mock_response = '{"configuration_id": "configuration_id", "name": "name", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "description": "description", "conversions": {"pdf": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}]}}, "word": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}], "styles": [{"level": 5, "names": ["names"]}]}}, "html": {"exclude_tags_completely": ["exclude_tags_completely"], "exclude_tags_keep_content": ["exclude_tags_keep_content"], "keep_content": {"xpaths": ["xpaths"]}, "exclude_content": {"xpaths": ["xpaths"]}, "keep_tag_attributes": ["keep_tag_attributes"], "exclude_tag_attributes": ["exclude_tag_attributes"]}, "segment": {"enabled": false, "selector_tags": ["selector_tags"], "annotated_fields": ["annotated_fields"]}, "json_normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "image_text_recognition": true}, "enrichments": [{"description": "description", "destination_field": "destination_field", "source_field": "source_field", "overwrite": false, "enrichment": "enrichment", "ignore_downstream_errors": false, "options": {"features": {"keywords": {"sentiment": false, "emotion": false, "limit": 5}, "entities": {"sentiment": false, "emotion": false, "limit": 5, "mentions": true, "mention_types": false, "sentence_locations": true, "model": "model"}, "sentiment": {"document": true, "targets": ["target"]}, "emotion": {"document": true, "targets": ["target"]}, "categories": {"anyKey": "anyValue"}, "semantic_roles": {"entities": true, "keywords": true, "limit": 5}, "relations": {"model": "model"}, "concepts": {"limit": 5}}, "language": "ar", "model": "model"}}], "normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "source": {"type": "box", "credential_id": "credential_id", "schedule": {"enabled": true, "time_zone": "America/New_York", "frequency": "daily"}, "options": {"folders": [{"owner_user_id": "owner_user_id", "folder_id": "folder_id", "limit": 5}], "objects": [{"name": "name", "limit": 5}], "site_collections": [{"site_collection_path": "site_collection_path", "limit": 5}], "urls": [{"url": "url", "limit_to_starting_hosts": true, "crawl_speed": "normal", "allow_untrusted_certificate": false, "maximum_hops": 12, "request_timeout": 15, "override_robots_txt": false, "blacklist": ["blacklist"]}], "buckets": [{"name": "name", "limit": 5}], "crawl_all_buckets": false}}}'
         responses.add(responses.PUT,
                       url,
                       body=mock_response,
@@ -1407,7 +1407,7 @@ class TestUpdateConfiguration():
         nlu_enrichment_features_model['entities'] = nlu_enrichment_entities_model
         nlu_enrichment_features_model['sentiment'] = nlu_enrichment_sentiment_model
         nlu_enrichment_features_model['emotion'] = nlu_enrichment_emotion_model
-        nlu_enrichment_features_model['categories'] = {'key1': 'testString'}
+        nlu_enrichment_features_model['categories'] = {'foo': 'bar'}
         nlu_enrichment_features_model['semantic_roles'] = nlu_enrichment_semantic_roles_model
         nlu_enrichment_features_model['relations'] = nlu_enrichment_relations_model
         nlu_enrichment_features_model['concepts'] = nlu_enrichment_concepts_model
@@ -1533,7 +1533,7 @@ class TestUpdateConfiguration():
         """
         # Set up mock
         url = preprocess_url('/v1/environments/testString/configurations/testString')
-        mock_response = '{"configuration_id": "configuration_id", "name": "name", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "description": "description", "conversions": {"pdf": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}]}}, "word": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}], "styles": [{"level": 5, "names": ["names"]}]}}, "html": {"exclude_tags_completely": ["exclude_tags_completely"], "exclude_tags_keep_content": ["exclude_tags_keep_content"], "keep_content": {"xpaths": ["xpaths"]}, "exclude_content": {"xpaths": ["xpaths"]}, "keep_tag_attributes": ["keep_tag_attributes"], "exclude_tag_attributes": ["exclude_tag_attributes"]}, "segment": {"enabled": false, "selector_tags": ["selector_tags"], "annotated_fields": ["annotated_fields"]}, "json_normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "image_text_recognition": true}, "enrichments": [{"description": "description", "destination_field": "destination_field", "source_field": "source_field", "overwrite": false, "enrichment": "enrichment", "ignore_downstream_errors": false, "options": {"features": {"keywords": {"sentiment": false, "emotion": false, "limit": 5}, "entities": {"sentiment": false, "emotion": false, "limit": 5, "mentions": true, "mention_types": false, "sentence_locations": true, "model": "model"}, "sentiment": {"document": true, "targets": ["target"]}, "emotion": {"document": true, "targets": ["target"]}, "categories": {"mapKey": "anyValue"}, "semantic_roles": {"entities": true, "keywords": true, "limit": 5}, "relations": {"model": "model"}, "concepts": {"limit": 5}}, "language": "ar", "model": "model"}}], "normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "source": {"type": "box", "credential_id": "credential_id", "schedule": {"enabled": true, "time_zone": "America/New_York", "frequency": "daily"}, "options": {"folders": [{"owner_user_id": "owner_user_id", "folder_id": "folder_id", "limit": 5}], "objects": [{"name": "name", "limit": 5}], "site_collections": [{"site_collection_path": "site_collection_path", "limit": 5}], "urls": [{"url": "url", "limit_to_starting_hosts": true, "crawl_speed": "normal", "allow_untrusted_certificate": false, "maximum_hops": 12, "request_timeout": 15, "override_robots_txt": false, "blacklist": ["blacklist"]}], "buckets": [{"name": "name", "limit": 5}], "crawl_all_buckets": false}}}'
+        mock_response = '{"configuration_id": "configuration_id", "name": "name", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "description": "description", "conversions": {"pdf": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}]}}, "word": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}], "styles": [{"level": 5, "names": ["names"]}]}}, "html": {"exclude_tags_completely": ["exclude_tags_completely"], "exclude_tags_keep_content": ["exclude_tags_keep_content"], "keep_content": {"xpaths": ["xpaths"]}, "exclude_content": {"xpaths": ["xpaths"]}, "keep_tag_attributes": ["keep_tag_attributes"], "exclude_tag_attributes": ["exclude_tag_attributes"]}, "segment": {"enabled": false, "selector_tags": ["selector_tags"], "annotated_fields": ["annotated_fields"]}, "json_normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "image_text_recognition": true}, "enrichments": [{"description": "description", "destination_field": "destination_field", "source_field": "source_field", "overwrite": false, "enrichment": "enrichment", "ignore_downstream_errors": false, "options": {"features": {"keywords": {"sentiment": false, "emotion": false, "limit": 5}, "entities": {"sentiment": false, "emotion": false, "limit": 5, "mentions": true, "mention_types": false, "sentence_locations": true, "model": "model"}, "sentiment": {"document": true, "targets": ["target"]}, "emotion": {"document": true, "targets": ["target"]}, "categories": {"anyKey": "anyValue"}, "semantic_roles": {"entities": true, "keywords": true, "limit": 5}, "relations": {"model": "model"}, "concepts": {"limit": 5}}, "language": "ar", "model": "model"}}], "normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "source": {"type": "box", "credential_id": "credential_id", "schedule": {"enabled": true, "time_zone": "America/New_York", "frequency": "daily"}, "options": {"folders": [{"owner_user_id": "owner_user_id", "folder_id": "folder_id", "limit": 5}], "objects": [{"name": "name", "limit": 5}], "site_collections": [{"site_collection_path": "site_collection_path", "limit": 5}], "urls": [{"url": "url", "limit_to_starting_hosts": true, "crawl_speed": "normal", "allow_untrusted_certificate": false, "maximum_hops": 12, "request_timeout": 15, "override_robots_txt": false, "blacklist": ["blacklist"]}], "buckets": [{"name": "name", "limit": 5}], "crawl_all_buckets": false}}}'
         responses.add(responses.PUT,
                       url,
                       body=mock_response,
@@ -1651,7 +1651,7 @@ class TestUpdateConfiguration():
         nlu_enrichment_features_model['entities'] = nlu_enrichment_entities_model
         nlu_enrichment_features_model['sentiment'] = nlu_enrichment_sentiment_model
         nlu_enrichment_features_model['emotion'] = nlu_enrichment_emotion_model
-        nlu_enrichment_features_model['categories'] = {'key1': 'testString'}
+        nlu_enrichment_features_model['categories'] = {'foo': 'bar'}
         nlu_enrichment_features_model['semantic_roles'] = nlu_enrichment_semantic_roles_model
         nlu_enrichment_features_model['relations'] = nlu_enrichment_relations_model
         nlu_enrichment_features_model['concepts'] = nlu_enrichment_concepts_model
@@ -3680,7 +3680,7 @@ class TestQuery():
         """
         # Set up mock
         url = preprocess_url('/v1/environments/testString/collections/testString/query')
-        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18, "session_token": "session_token", "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query"}'
+        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"anyKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18, "session_token": "session_token", "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -3782,7 +3782,7 @@ class TestQuery():
         """
         # Set up mock
         url = preprocess_url('/v1/environments/testString/collections/testString/query')
-        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18, "session_token": "session_token", "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query"}'
+        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"anyKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18, "session_token": "session_token", "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -3820,7 +3820,7 @@ class TestQuery():
         """
         # Set up mock
         url = preprocess_url('/v1/environments/testString/collections/testString/query')
-        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18, "session_token": "session_token", "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query"}'
+        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"anyKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18, "session_token": "session_token", "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -3862,7 +3862,7 @@ class TestQueryNotices():
         """
         # Set up mock
         url = preprocess_url('/v1/environments/testString/collections/testString/notices')
-        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}, "code": 4, "filename": "filename", "file_type": "pdf", "sha1": "sha1", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18}'
+        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"anyKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}, "code": 4, "filename": "filename", "file_type": "pdf", "sha1": "sha1", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -3954,7 +3954,7 @@ class TestQueryNotices():
         """
         # Set up mock
         url = preprocess_url('/v1/environments/testString/collections/testString/notices')
-        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}, "code": 4, "filename": "filename", "file_type": "pdf", "sha1": "sha1", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18}'
+        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"anyKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}, "code": 4, "filename": "filename", "file_type": "pdf", "sha1": "sha1", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -3992,7 +3992,7 @@ class TestQueryNotices():
         """
         # Set up mock
         url = preprocess_url('/v1/environments/testString/collections/testString/notices')
-        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}, "code": 4, "filename": "filename", "file_type": "pdf", "sha1": "sha1", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18}'
+        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"anyKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}, "code": 4, "filename": "filename", "file_type": "pdf", "sha1": "sha1", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -4034,7 +4034,7 @@ class TestFederatedQuery():
         """
         # Set up mock
         url = preprocess_url('/v1/environments/testString/query')
-        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18, "session_token": "session_token", "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query"}'
+        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"anyKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18, "session_token": "session_token", "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -4134,7 +4134,7 @@ class TestFederatedQuery():
         """
         # Set up mock
         url = preprocess_url('/v1/environments/testString/query')
-        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18, "session_token": "session_token", "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query"}'
+        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"anyKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18, "session_token": "session_token", "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -4232,7 +4232,7 @@ class TestFederatedQuery():
         """
         # Set up mock
         url = preprocess_url('/v1/environments/testString/query')
-        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18, "session_token": "session_token", "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query"}'
+        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"anyKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18, "session_token": "session_token", "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -4293,7 +4293,7 @@ class TestFederatedQueryNotices():
         """
         # Set up mock
         url = preprocess_url('/v1/environments/testString/notices')
-        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}, "code": 4, "filename": "filename", "file_type": "pdf", "sha1": "sha1", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18}'
+        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"anyKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}, "code": 4, "filename": "filename", "file_type": "pdf", "sha1": "sha1", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -4374,7 +4374,7 @@ class TestFederatedQueryNotices():
         """
         # Set up mock
         url = preprocess_url('/v1/environments/testString/notices')
-        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}, "code": 4, "filename": "filename", "file_type": "pdf", "sha1": "sha1", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18}'
+        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"anyKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}, "code": 4, "filename": "filename", "file_type": "pdf", "sha1": "sha1", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -4416,7 +4416,7 @@ class TestFederatedQueryNotices():
         """
         # Set up mock
         url = preprocess_url('/v1/environments/testString/notices')
-        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}, "code": 4, "filename": "filename", "file_type": "pdf", "sha1": "sha1", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18}'
+        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"anyKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}, "code": 4, "filename": "filename", "file_type": "pdf", "sha1": "sha1", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -7256,13 +7256,8 @@ class TestModel_Collection():
         # Construct dict forms of any model objects needed in order to build this model.
 
         document_counts_model = {} # DocumentCounts
-        document_counts_model['available'] = 0
-        document_counts_model['processing'] = 0
-        document_counts_model['failed'] = 0
-        document_counts_model['pending'] = 26
 
         collection_disk_usage_model = {} # CollectionDiskUsage
-        collection_disk_usage_model['used_bytes'] = 260
 
         training_status_model = {} # TrainingStatus
         training_status_model['total_examples'] = 0
@@ -7295,12 +7290,8 @@ class TestModel_Collection():
 
         # Construct a json representation of a Collection model
         collection_model_json = {}
-        collection_model_json['collection_id'] = 'testString'
         collection_model_json['name'] = 'testString'
         collection_model_json['description'] = 'testString'
-        collection_model_json['created'] = '2019-01-01T12:00:00Z'
-        collection_model_json['updated'] = '2019-01-01T12:00:00Z'
-        collection_model_json['status'] = 'active'
         collection_model_json['configuration_id'] = 'testString'
         collection_model_json['language'] = 'testString'
         collection_model_json['document_counts'] = document_counts_model
@@ -7371,7 +7362,6 @@ class TestModel_CollectionDiskUsage():
 
         # Construct a json representation of a CollectionDiskUsage model
         collection_disk_usage_model_json = {}
-        collection_disk_usage_model_json['used_bytes'] = 38
 
         # Construct a model instance of CollectionDiskUsage by calling from_dict on the json representation
         collection_disk_usage_model = CollectionDiskUsage.from_dict(collection_disk_usage_model_json)
@@ -7400,8 +7390,6 @@ class TestModel_CollectionUsage():
 
         # Construct a json representation of a CollectionUsage model
         collection_usage_model_json = {}
-        collection_usage_model_json['available'] = 38
-        collection_usage_model_json['maximum_allowed'] = 38
 
         # Construct a model instance of CollectionUsage by calling from_dict on the json representation
         collection_usage_model = CollectionUsage.from_dict(collection_usage_model_json)
@@ -7551,7 +7539,7 @@ class TestModel_Configuration():
         nlu_enrichment_features_model['entities'] = nlu_enrichment_entities_model
         nlu_enrichment_features_model['sentiment'] = nlu_enrichment_sentiment_model
         nlu_enrichment_features_model['emotion'] = nlu_enrichment_emotion_model
-        nlu_enrichment_features_model['categories'] = {'key1': 'testString'}
+        nlu_enrichment_features_model['categories'] = {'foo': 'bar'}
         nlu_enrichment_features_model['semantic_roles'] = nlu_enrichment_semantic_roles_model
         nlu_enrichment_features_model['relations'] = nlu_enrichment_relations_model
         nlu_enrichment_features_model['concepts'] = nlu_enrichment_concepts_model
@@ -7618,10 +7606,7 @@ class TestModel_Configuration():
 
         # Construct a json representation of a Configuration model
         configuration_model_json = {}
-        configuration_model_json['configuration_id'] = 'testString'
         configuration_model_json['name'] = 'testString'
-        configuration_model_json['created'] = '2019-01-01T12:00:00Z'
-        configuration_model_json['updated'] = '2019-01-01T12:00:00Z'
         configuration_model_json['description'] = 'testString'
         configuration_model_json['conversions'] = conversions_model
         configuration_model_json['enrichments'] = [enrichment_model]
@@ -7744,7 +7729,6 @@ class TestModel_CreateEventResponse():
         event_data_model['display_rank'] = 38
         event_data_model['collection_id'] = 'testString'
         event_data_model['document_id'] = 'testString'
-        event_data_model['query_id'] = 'testString'
 
         # Construct a json representation of a CreateEventResponse model
         create_event_response_model_json = {}
@@ -7852,7 +7836,6 @@ class TestModel_Credentials():
 
         # Construct a json representation of a Credentials model
         credentials_model_json = {}
-        credentials_model_json['credential_id'] = 'testString'
         credentials_model_json['source_type'] = 'box'
         credentials_model_json['credential_details'] = credential_details_model
         credentials_model_json['status'] = status_details_model
@@ -7910,7 +7893,6 @@ class TestModel_CredentialsList():
         status_details_model['error_message'] = 'testString'
 
         credentials_model = {} # Credentials
-        credentials_model['credential_id'] = '00000d8c-0000-00e8-ba89-0ed5f89f718b'
         credentials_model['source_type'] = 'salesforce'
         credentials_model['credential_details'] = credential_details_model
         credentials_model['status'] = status_details_model
@@ -7977,13 +7959,6 @@ class TestModel_DeleteConfigurationResponse():
         # Construct dict forms of any model objects needed in order to build this model.
 
         notice_model = {} # Notice
-        notice_model['notice_id'] = 'configuration_in_use'
-        notice_model['created'] = '2016-09-28T12:34:00Z'
-        notice_model['document_id'] = 'testString'
-        notice_model['query_id'] = 'testString'
-        notice_model['severity'] = 'warning'
-        notice_model['step'] = 'testString'
-        notice_model['description'] = 'The configuration was deleted, but it is referenced by one or more collections.'
 
         # Construct a json representation of a DeleteConfigurationResponse model
         delete_configuration_response_model_json = {}
@@ -8108,8 +8083,6 @@ class TestModel_DiskUsage():
 
         # Construct a json representation of a DiskUsage model
         disk_usage_model_json = {}
-        disk_usage_model_json['used_bytes'] = 38
-        disk_usage_model_json['maximum_allowed_bytes'] = 38
 
         # Construct a model instance of DiskUsage by calling from_dict on the json representation
         disk_usage_model = DiskUsage.from_dict(disk_usage_model_json)
@@ -8139,13 +8112,6 @@ class TestModel_DocumentAccepted():
         # Construct dict forms of any model objects needed in order to build this model.
 
         notice_model = {} # Notice
-        notice_model['notice_id'] = 'testString'
-        notice_model['created'] = '2019-01-01T12:00:00Z'
-        notice_model['document_id'] = 'testString'
-        notice_model['query_id'] = 'testString'
-        notice_model['severity'] = 'warning'
-        notice_model['step'] = 'testString'
-        notice_model['description'] = 'testString'
 
         # Construct a json representation of a DocumentAccepted model
         document_accepted_model_json = {}
@@ -8180,10 +8146,6 @@ class TestModel_DocumentCounts():
 
         # Construct a json representation of a DocumentCounts model
         document_counts_model_json = {}
-        document_counts_model_json['available'] = 26
-        document_counts_model_json['processing'] = 26
-        document_counts_model_json['failed'] = 26
-        document_counts_model_json['pending'] = 26
 
         # Construct a model instance of DocumentCounts by calling from_dict on the json representation
         document_counts_model = DocumentCounts.from_dict(document_counts_model_json)
@@ -8210,27 +8172,11 @@ class TestModel_DocumentStatus():
         Test serialization/deserialization for DocumentStatus
         """
 
-        # Construct dict forms of any model objects needed in order to build this model.
-
-        notice_model = {} # Notice
-        notice_model['notice_id'] = 'index_342'
-        notice_model['created'] = '2019-01-01T12:00:00Z'
-        notice_model['document_id'] = 'f1360220-ea2d-4271-9d62-89a910b13c37'
-        notice_model['query_id'] = 'testString'
-        notice_model['severity'] = 'warning'
-        notice_model['step'] = 'indexing'
-        notice_model['description'] = 'something bad happened'
-
         # Construct a json representation of a DocumentStatus model
         document_status_model_json = {}
-        document_status_model_json['document_id'] = 'testString'
-        document_status_model_json['configuration_id'] = 'testString'
-        document_status_model_json['status'] = 'available'
-        document_status_model_json['status_description'] = 'testString'
         document_status_model_json['filename'] = 'testString'
         document_status_model_json['file_type'] = 'pdf'
         document_status_model_json['sha1'] = 'testString'
-        document_status_model_json['notices'] = [notice_model]
 
         # Construct a model instance of DocumentStatus by calling from_dict on the json representation
         document_status_model = DocumentStatus.from_dict(document_status_model_json)
@@ -8297,7 +8243,7 @@ class TestModel_Enrichment():
         nlu_enrichment_features_model['entities'] = nlu_enrichment_entities_model
         nlu_enrichment_features_model['sentiment'] = nlu_enrichment_sentiment_model
         nlu_enrichment_features_model['emotion'] = nlu_enrichment_emotion_model
-        nlu_enrichment_features_model['categories'] = {'key1': 'testString'}
+        nlu_enrichment_features_model['categories'] = {'foo': 'bar'}
         nlu_enrichment_features_model['semantic_roles'] = nlu_enrichment_semantic_roles_model
         nlu_enrichment_features_model['relations'] = nlu_enrichment_relations_model
         nlu_enrichment_features_model['concepts'] = nlu_enrichment_concepts_model
@@ -8382,7 +8328,7 @@ class TestModel_EnrichmentOptions():
         nlu_enrichment_features_model['entities'] = nlu_enrichment_entities_model
         nlu_enrichment_features_model['sentiment'] = nlu_enrichment_sentiment_model
         nlu_enrichment_features_model['emotion'] = nlu_enrichment_emotion_model
-        nlu_enrichment_features_model['categories'] = {'key1': 'testString'}
+        nlu_enrichment_features_model['categories'] = {'foo': 'bar'}
         nlu_enrichment_features_model['semantic_roles'] = nlu_enrichment_semantic_roles_model
         nlu_enrichment_features_model['relations'] = nlu_enrichment_relations_model
         nlu_enrichment_features_model['concepts'] = nlu_enrichment_concepts_model
@@ -8421,16 +8367,10 @@ class TestModel_Environment():
         # Construct dict forms of any model objects needed in order to build this model.
 
         environment_documents_model = {} # EnvironmentDocuments
-        environment_documents_model['available'] = 38
-        environment_documents_model['maximum_allowed'] = 1000000
 
         disk_usage_model = {} # DiskUsage
-        disk_usage_model['used_bytes'] = 0
-        disk_usage_model['maximum_allowed_bytes'] = 85899345920
 
         collection_usage_model = {} # CollectionUsage
-        collection_usage_model['available'] = 1
-        collection_usage_model['maximum_allowed'] = 4
 
         index_capacity_model = {} # IndexCapacity
         index_capacity_model['documents'] = environment_documents_model
@@ -8445,13 +8385,8 @@ class TestModel_Environment():
 
         # Construct a json representation of a Environment model
         environment_model_json = {}
-        environment_model_json['environment_id'] = 'testString'
         environment_model_json['name'] = 'testString'
         environment_model_json['description'] = 'testString'
-        environment_model_json['created'] = '2019-01-01T12:00:00Z'
-        environment_model_json['updated'] = '2019-01-01T12:00:00Z'
-        environment_model_json['status'] = 'active'
-        environment_model_json['read_only'] = True
         environment_model_json['size'] = 'LT'
         environment_model_json['requested_size'] = 'testString'
         environment_model_json['index_capacity'] = index_capacity_model
@@ -8484,8 +8419,6 @@ class TestModel_EnvironmentDocuments():
 
         # Construct a json representation of a EnvironmentDocuments model
         environment_documents_model_json = {}
-        environment_documents_model_json['available'] = 38
-        environment_documents_model_json['maximum_allowed'] = 38
 
         # Construct a model instance of EnvironmentDocuments by calling from_dict on the json representation
         environment_documents_model = EnvironmentDocuments.from_dict(environment_documents_model_json)
@@ -8520,7 +8453,6 @@ class TestModel_EventData():
         event_data_model_json['display_rank'] = 38
         event_data_model_json['collection_id'] = 'testString'
         event_data_model_json['document_id'] = 'testString'
-        event_data_model_json['query_id'] = 'testString'
 
         # Construct a model instance of EventData by calling from_dict on the json representation
         event_data_model = EventData.from_dict(event_data_model_json)
@@ -8614,8 +8546,6 @@ class TestModel_Field():
 
         # Construct a json representation of a Field model
         field_model_json = {}
-        field_model_json['field'] = 'testString'
-        field_model_json['type'] = 'nested'
 
         # Construct a model instance of Field by calling from_dict on the json representation
         field_model = Field.from_dict(field_model_json)
@@ -8819,16 +8749,10 @@ class TestModel_IndexCapacity():
         # Construct dict forms of any model objects needed in order to build this model.
 
         environment_documents_model = {} # EnvironmentDocuments
-        environment_documents_model['available'] = 38
-        environment_documents_model['maximum_allowed'] = 38
 
         disk_usage_model = {} # DiskUsage
-        disk_usage_model['used_bytes'] = 38
-        disk_usage_model['maximum_allowed_bytes'] = 38
 
         collection_usage_model = {} # CollectionUsage
-        collection_usage_model['available'] = 38
-        collection_usage_model['maximum_allowed'] = 38
 
         # Construct a json representation of a IndexCapacity model
         index_capacity_model_json = {}
@@ -8864,8 +8788,6 @@ class TestModel_ListCollectionFieldsResponse():
         # Construct dict forms of any model objects needed in order to build this model.
 
         field_model = {} # Field
-        field_model['field'] = 'warnings'
-        field_model['type'] = 'nested'
 
         # Construct a json representation of a ListCollectionFieldsResponse model
         list_collection_fields_response_model_json = {}
@@ -8899,13 +8821,8 @@ class TestModel_ListCollectionsResponse():
         # Construct dict forms of any model objects needed in order to build this model.
 
         document_counts_model = {} # DocumentCounts
-        document_counts_model['available'] = 26
-        document_counts_model['processing'] = 26
-        document_counts_model['failed'] = 26
-        document_counts_model['pending'] = 26
 
         collection_disk_usage_model = {} # CollectionDiskUsage
-        collection_disk_usage_model['used_bytes'] = 38
 
         training_status_model = {} # TrainingStatus
         training_status_model['total_examples'] = 38
@@ -8937,12 +8854,8 @@ class TestModel_ListCollectionsResponse():
         sdu_status_model['custom_fields'] = sdu_status_custom_fields_model
 
         collection_model = {} # Collection
-        collection_model['collection_id'] = 'f1360220-ea2d-4271-9d62-89a910b13c37'
         collection_model['name'] = 'example'
         collection_model['description'] = 'this is a demo collection'
-        collection_model['created'] = '2015-08-24T18:42:25.324000Z'
-        collection_model['updated'] = '2015-08-24T18:42:25.324000Z'
-        collection_model['status'] = 'active'
         collection_model['configuration_id'] = '6963be41-2dea-4f79-8f52-127c63c479b0'
         collection_model['language'] = 'en'
         collection_model['document_counts'] = document_counts_model
@@ -9074,7 +8987,7 @@ class TestModel_ListConfigurationsResponse():
         nlu_enrichment_features_model['entities'] = nlu_enrichment_entities_model
         nlu_enrichment_features_model['sentiment'] = nlu_enrichment_sentiment_model
         nlu_enrichment_features_model['emotion'] = nlu_enrichment_emotion_model
-        nlu_enrichment_features_model['categories'] = {'key1': 'testString'}
+        nlu_enrichment_features_model['categories'] = {'foo': 'bar'}
         nlu_enrichment_features_model['semantic_roles'] = nlu_enrichment_semantic_roles_model
         nlu_enrichment_features_model['relations'] = nlu_enrichment_relations_model
         nlu_enrichment_features_model['concepts'] = nlu_enrichment_concepts_model
@@ -9140,10 +9053,7 @@ class TestModel_ListConfigurationsResponse():
         source_model['options'] = source_options_model
 
         configuration_model = {} # Configuration
-        configuration_model['configuration_id'] = 'testString'
         configuration_model['name'] = 'testString'
-        configuration_model['created'] = '2019-01-01T12:00:00Z'
-        configuration_model['updated'] = '2019-01-01T12:00:00Z'
         configuration_model['description'] = 'testString'
         configuration_model['conversions'] = conversions_model
         configuration_model['enrichments'] = [enrichment_model]
@@ -9182,16 +9092,10 @@ class TestModel_ListEnvironmentsResponse():
         # Construct dict forms of any model objects needed in order to build this model.
 
         environment_documents_model = {} # EnvironmentDocuments
-        environment_documents_model['available'] = 38
-        environment_documents_model['maximum_allowed'] = 38
 
         disk_usage_model = {} # DiskUsage
-        disk_usage_model['used_bytes'] = 38
-        disk_usage_model['maximum_allowed_bytes'] = 38
 
         collection_usage_model = {} # CollectionUsage
-        collection_usage_model['available'] = 38
-        collection_usage_model['maximum_allowed'] = 38
 
         index_capacity_model = {} # IndexCapacity
         index_capacity_model['documents'] = environment_documents_model
@@ -9205,13 +9109,8 @@ class TestModel_ListEnvironmentsResponse():
         search_status_model['last_trained'] = '2019-01-01'
 
         environment_model = {} # Environment
-        environment_model['environment_id'] = 'ecbda78e-fb06-40b1-a43f-a039fac0adc6'
         environment_model['name'] = 'byod_environment'
         environment_model['description'] = 'Private Data Environment'
-        environment_model['created'] = '2017-07-14T12:54:40.985000Z'
-        environment_model['updated'] = '2017-07-14T12:54:40.985000Z'
-        environment_model['status'] = 'active'
-        environment_model['read_only'] = False
         environment_model['size'] = 'LT'
         environment_model['requested_size'] = 'testString'
         environment_model['index_capacity'] = index_capacity_model
@@ -9788,7 +9687,7 @@ class TestModel_NluEnrichmentFeatures():
         nlu_enrichment_features_model_json['entities'] = nlu_enrichment_entities_model
         nlu_enrichment_features_model_json['sentiment'] = nlu_enrichment_sentiment_model
         nlu_enrichment_features_model_json['emotion'] = nlu_enrichment_emotion_model
-        nlu_enrichment_features_model_json['categories'] = {'key1': 'testString'}
+        nlu_enrichment_features_model_json['categories'] = {'foo': 'bar'}
         nlu_enrichment_features_model_json['semantic_roles'] = nlu_enrichment_semantic_roles_model
         nlu_enrichment_features_model_json['relations'] = nlu_enrichment_relations_model
         nlu_enrichment_features_model_json['concepts'] = nlu_enrichment_concepts_model
@@ -9972,13 +9871,6 @@ class TestModel_Notice():
 
         # Construct a json representation of a Notice model
         notice_model_json = {}
-        notice_model_json['notice_id'] = 'testString'
-        notice_model_json['created'] = '2019-01-01T12:00:00Z'
-        notice_model_json['document_id'] = 'testString'
-        notice_model_json['query_id'] = 'testString'
-        notice_model_json['severity'] = 'warning'
-        notice_model_json['step'] = 'testString'
-        notice_model_json['description'] = 'testString'
 
         # Construct a model instance of Notice by calling from_dict on the json representation
         notice_model = Notice.from_dict(notice_model_json)
@@ -10160,17 +10052,10 @@ class TestModel_QueryNoticesResponse():
         query_result_metadata_model['confidence'] = 72.5
 
         notice_model = {} # Notice
-        notice_model['notice_id'] = 'xpath_not_found'
-        notice_model['created'] = '2016-09-20T17:26:17Z'
-        notice_model['document_id'] = '030ba125-29db-43f2-8552-f941ae30a7a8'
-        notice_model['query_id'] = 'testString'
-        notice_model['severity'] = 'warning'
-        notice_model['step'] = 'html-to-html'
-        notice_model['description'] = 'The xpath expression "boom" was not found.'
 
         query_notices_result_model = {} # QueryNoticesResult
         query_notices_result_model['id'] = '030ba125-29db-43f2-8552-f941ae30a7a8'
-        query_notices_result_model['metadata'] = {'key1': 'testString'}
+        query_notices_result_model['metadata'] = {'foo': 'bar'}
         query_notices_result_model['collection_id'] = 'f1360220-ea2d-4271-9d62-89a910b13c37'
         query_notices_result_model['result_metadata'] = query_result_metadata_model
         query_notices_result_model['code'] = 200
@@ -10178,7 +10063,7 @@ class TestModel_QueryNoticesResponse():
         query_notices_result_model['file_type'] = 'html'
         query_notices_result_model['sha1'] = 'de9f2c7fd25e1b3afad3e85a0bd17d9b100db4b3'
         query_notices_result_model['notices'] = [notice_model]
-        query_notices_result_model['score'] = {'foo': 'bar'}
+        query_notices_result_model['score'] = '1'
 
         query_aggregation_model = {} # QueryFilterAggregation
         query_aggregation_model['type'] = 'filter'
@@ -10233,18 +10118,11 @@ class TestModel_QueryNoticesResult():
         query_result_metadata_model['confidence'] = 72.5
 
         notice_model = {} # Notice
-        notice_model['notice_id'] = 'testString'
-        notice_model['created'] = '2019-01-01T12:00:00Z'
-        notice_model['document_id'] = 'testString'
-        notice_model['query_id'] = 'testString'
-        notice_model['severity'] = 'warning'
-        notice_model['step'] = 'testString'
-        notice_model['description'] = 'testString'
 
         # Construct a json representation of a QueryNoticesResult model
         query_notices_result_model_json = {}
         query_notices_result_model_json['id'] = 'testString'
-        query_notices_result_model_json['metadata'] = {'key1': 'testString'}
+        query_notices_result_model_json['metadata'] = {'foo': 'bar'}
         query_notices_result_model_json['collection_id'] = 'testString'
         query_notices_result_model_json['result_metadata'] = query_result_metadata_model
         query_notices_result_model_json['code'] = 38
@@ -10252,7 +10130,7 @@ class TestModel_QueryNoticesResult():
         query_notices_result_model_json['file_type'] = 'pdf'
         query_notices_result_model_json['sha1'] = 'testString'
         query_notices_result_model_json['notices'] = [notice_model]
-        query_notices_result_model_json['foo'] = {'foo': 'bar'}
+        query_notices_result_model_json['foo'] = 'testString'
 
         # Construct a model instance of QueryNoticesResult by calling from_dict on the json representation
         query_notices_result_model = QueryNoticesResult.from_dict(query_notices_result_model_json)
@@ -10274,7 +10152,7 @@ class TestModel_QueryNoticesResult():
         actual_dict = query_notices_result_model.get_properties()
         assert actual_dict == {}
 
-        expected_dict = {'foo': {'foo': 'bar'}}
+        expected_dict = {'foo': 'testString'}
         query_notices_result_model.set_properties(expected_dict)
         actual_dict = query_notices_result_model.get_properties()
         assert actual_dict == expected_dict
@@ -10331,10 +10209,10 @@ class TestModel_QueryResponse():
 
         query_result_model = {} # QueryResult
         query_result_model['id'] = 'watson-generated ID'
-        query_result_model['metadata'] = {'key1': 'testString'}
+        query_result_model['metadata'] = {'foo': 'bar'}
         query_result_model['collection_id'] = 'testString'
         query_result_model['result_metadata'] = query_result_metadata_model
-        query_result_model['score'] = {'foo': 'bar'}
+        query_result_model['score'] = '1'
 
         query_aggregation_model = {} # QueryFilterAggregation
         query_aggregation_model['type'] = 'filter'
@@ -10397,10 +10275,10 @@ class TestModel_QueryResult():
         # Construct a json representation of a QueryResult model
         query_result_model_json = {}
         query_result_model_json['id'] = 'testString'
-        query_result_model_json['metadata'] = {'key1': 'testString'}
+        query_result_model_json['metadata'] = {'foo': 'bar'}
         query_result_model_json['collection_id'] = 'testString'
         query_result_model_json['result_metadata'] = query_result_metadata_model
-        query_result_model_json['foo'] = {'foo': 'bar'}
+        query_result_model_json['foo'] = 'testString'
 
         # Construct a model instance of QueryResult by calling from_dict on the json representation
         query_result_model = QueryResult.from_dict(query_result_model_json)
@@ -10422,7 +10300,7 @@ class TestModel_QueryResult():
         actual_dict = query_result_model.get_properties()
         assert actual_dict == {}
 
-        expected_dict = {'foo': {'foo': 'bar'}}
+        expected_dict = {'foo': 'testString'}
         query_result_model.set_properties(expected_dict)
         actual_dict = query_result_model.get_properties()
         assert actual_dict == expected_dict
@@ -10550,7 +10428,7 @@ class TestModel_QueryTopHitsAggregationResult():
         # Construct a json representation of a QueryTopHitsAggregationResult model
         query_top_hits_aggregation_result_model_json = {}
         query_top_hits_aggregation_result_model_json['matching_results'] = 38
-        query_top_hits_aggregation_result_model_json['hits'] = [{'key1': 'testString'}]
+        query_top_hits_aggregation_result_model_json['hits'] = [{'foo': 'bar'}]
 
         # Construct a model instance of QueryTopHitsAggregationResult by calling from_dict on the json representation
         query_top_hits_aggregation_result_model = QueryTopHitsAggregationResult.from_dict(query_top_hits_aggregation_result_model_json)
@@ -11715,7 +11593,7 @@ class TestModel_QueryTopHitsAggregation():
 
         query_top_hits_aggregation_result_model = {} # QueryTopHitsAggregationResult
         query_top_hits_aggregation_result_model['matching_results'] = 38
-        query_top_hits_aggregation_result_model['hits'] = [{'key1': 'testString'}]
+        query_top_hits_aggregation_result_model['hits'] = [{'foo': 'bar'}]
 
         # Construct a json representation of a QueryTopHitsAggregation model
         query_top_hits_aggregation_model_json = {}

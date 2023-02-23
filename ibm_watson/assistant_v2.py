@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2019, 2022.
+# (C) Copyright IBM Corp. 2019, 2023.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 3.53.0-9710cac3-20220713-193508
+# IBM OpenAPI SDK Code Generator Version: 3.64.1-cee95189-20230124-211647
 """
 The IBM Watson&trade; Assistant service combines machine learning, natural language
 understanding, and an integrated dialog editor to create conversation flows between your
@@ -97,12 +97,13 @@ class AssistantV2(BaseService):
                assistants, see the
                [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-assistant-add#assistant-add-task).
                **Note:** Currently, the v2 API does not support creating assistants.
+        :param dict request_body: (optional)
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `SessionResponse` object
         """
 
-        if assistant_id is None:
+        if not assistant_id:
             raise ValueError('assistant_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -110,7 +111,9 @@ class AssistantV2(BaseService):
                                       operation_id='create_session')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         data = {}
         data = {k: v for (k, v) in data.items() if v is not None}
@@ -156,9 +159,9 @@ class AssistantV2(BaseService):
         :rtype: DetailedResponse
         """
 
-        if assistant_id is None:
+        if not assistant_id:
             raise ValueError('assistant_id must be provided')
-        if session_id is None:
+        if not session_id:
             raise ValueError('session_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -166,7 +169,9 @@ class AssistantV2(BaseService):
                                       operation_id='delete_session')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -235,9 +240,9 @@ class AssistantV2(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `MessageResponse` object
         """
 
-        if assistant_id is None:
+        if not assistant_id:
             raise ValueError('assistant_id must be provided')
-        if session_id is None:
+        if not session_id:
             raise ValueError('session_id must be provided')
         if input is not None:
             input = convert_model(input)
@@ -249,9 +254,15 @@ class AssistantV2(BaseService):
                                       operation_id='message')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
-        data = {'input': input, 'context': context, 'user_id': user_id}
+        data = {
+            'input': input,
+            'context': context,
+            'user_id': user_id,
+        }
         data = {k: v for (k, v) in data.items() if v is not None}
         data = json.dumps(data)
         headers['content-type'] = 'application/json'
@@ -318,7 +329,7 @@ class AssistantV2(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `MessageResponseStateless` object
         """
 
-        if assistant_id is None:
+        if not assistant_id:
             raise ValueError('assistant_id must be provided')
         if input is not None:
             input = convert_model(input)
@@ -330,9 +341,15 @@ class AssistantV2(BaseService):
                                       operation_id='message_stateless')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
-        data = {'input': input, 'context': context, 'user_id': user_id}
+        data = {
+            'input': input,
+            'context': context,
+            'user_id': user_id,
+        }
         data = {k: v for (k, v) in data.items() if v is not None}
         data = json.dumps(data)
         headers['content-type'] = 'application/json'
@@ -380,7 +397,7 @@ class AssistantV2(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `BulkClassifyResponse` object
         """
 
-        if skill_id is None:
+        if not skill_id:
             raise ValueError('skill_id must be provided')
         if input is None:
             raise ValueError('input must be provided')
@@ -391,9 +408,13 @@ class AssistantV2(BaseService):
                                       operation_id='bulk_classify')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
-        data = {'input': input}
+        data = {
+            'input': input,
+        }
         data = {k: v for (k, v) in data.items() if v is not None}
         data = json.dumps(data)
         headers['content-type'] = 'application/json'
@@ -460,7 +481,7 @@ class AssistantV2(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `LogCollection` object
         """
 
-        if assistant_id is None:
+        if not assistant_id:
             raise ValueError('assistant_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -473,7 +494,7 @@ class AssistantV2(BaseService):
             'sort': sort,
             'filter': filter,
             'page_limit': page_limit,
-            'cursor': cursor
+            'cursor': cursor,
         }
 
         if 'headers' in kwargs:
@@ -520,7 +541,7 @@ class AssistantV2(BaseService):
         :rtype: DetailedResponse
         """
 
-        if customer_id is None:
+        if not customer_id:
             raise ValueError('customer_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -528,7 +549,10 @@ class AssistantV2(BaseService):
                                       operation_id='delete_user_data')
         headers.update(sdk_headers)
 
-        params = {'version': self.version, 'customer_id': customer_id}
+        params = {
+            'version': self.version,
+            'customer_id': customer_id,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -586,7 +610,7 @@ class AssistantV2(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `EnvironmentCollection` object
         """
 
-        if assistant_id is None:
+        if not assistant_id:
             raise ValueError('assistant_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -600,7 +624,7 @@ class AssistantV2(BaseService):
             'include_count': include_count,
             'sort': sort,
             'cursor': cursor,
-            'include_audit': include_audit
+            'include_audit': include_audit,
         }
 
         if 'headers' in kwargs:
@@ -650,9 +674,9 @@ class AssistantV2(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `Environment` object
         """
 
-        if assistant_id is None:
+        if not assistant_id:
             raise ValueError('assistant_id must be provided')
-        if environment_id is None:
+        if not environment_id:
             raise ValueError('environment_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -660,7 +684,10 @@ class AssistantV2(BaseService):
                                       operation_id='get_environment')
         headers.update(sdk_headers)
 
-        params = {'version': self.version, 'include_audit': include_audit}
+        params = {
+            'version': self.version,
+            'include_audit': include_audit,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -723,7 +750,7 @@ class AssistantV2(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `ReleaseCollection` object
         """
 
-        if assistant_id is None:
+        if not assistant_id:
             raise ValueError('assistant_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -737,7 +764,7 @@ class AssistantV2(BaseService):
             'include_count': include_count,
             'sort': sort,
             'cursor': cursor,
-            'include_audit': include_audit
+            'include_audit': include_audit,
         }
 
         if 'headers' in kwargs:
@@ -786,9 +813,9 @@ class AssistantV2(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `Release` object
         """
 
-        if assistant_id is None:
+        if not assistant_id:
             raise ValueError('assistant_id must be provided')
-        if release is None:
+        if not release:
             raise ValueError('release must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -796,7 +823,10 @@ class AssistantV2(BaseService):
                                       operation_id='get_release')
         headers.update(sdk_headers)
 
-        params = {'version': self.version, 'include_audit': include_audit}
+        params = {
+            'version': self.version,
+            'include_audit': include_audit,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -845,9 +875,9 @@ class AssistantV2(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `Environment` object
         """
 
-        if assistant_id is None:
+        if not assistant_id:
             raise ValueError('assistant_id must be provided')
-        if release is None:
+        if not release:
             raise ValueError('release must be provided')
         if environment_id is None:
             raise ValueError('environment_id must be provided')
@@ -857,9 +887,14 @@ class AssistantV2(BaseService):
                                       operation_id='deploy_release')
         headers.update(sdk_headers)
 
-        params = {'version': self.version, 'include_audit': include_audit}
+        params = {
+            'version': self.version,
+            'include_audit': include_audit,
+        }
 
-        data = {'environment_id': environment_id}
+        data = {
+            'environment_id': environment_id,
+        }
         data = {k: v for (k, v) in data.items() if v is not None}
         data = json.dumps(data)
         headers['content-type'] = 'application/json'
@@ -1010,11 +1045,11 @@ class BulkClassifyOutput():
             args['input'] = BulkClassifyUtterance.from_dict(_dict.get('input'))
         if 'entities' in _dict:
             args['entities'] = [
-                RuntimeEntity.from_dict(x) for x in _dict.get('entities')
+                RuntimeEntity.from_dict(v) for v in _dict.get('entities')
             ]
         if 'intents' in _dict:
             args['intents'] = [
-                RuntimeIntent.from_dict(x) for x in _dict.get('intents')
+                RuntimeIntent.from_dict(v) for v in _dict.get('intents')
             ]
         return cls(**args)
 
@@ -1027,11 +1062,26 @@ class BulkClassifyOutput():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'input') and self.input is not None:
-            _dict['input'] = self.input.to_dict()
+            if isinstance(self.input, dict):
+                _dict['input'] = self.input
+            else:
+                _dict['input'] = self.input.to_dict()
         if hasattr(self, 'entities') and self.entities is not None:
-            _dict['entities'] = [x.to_dict() for x in self.entities]
+            entities_list = []
+            for v in self.entities:
+                if isinstance(v, dict):
+                    entities_list.append(v)
+                else:
+                    entities_list.append(v.to_dict())
+            _dict['entities'] = entities_list
         if hasattr(self, 'intents') and self.intents is not None:
-            _dict['intents'] = [x.to_dict() for x in self.intents]
+            intents_list = []
+            for v in self.intents:
+                if isinstance(v, dict):
+                    intents_list.append(v)
+                else:
+                    intents_list.append(v.to_dict())
+            _dict['intents'] = intents_list
         return _dict
 
     def _to_dict(self):
@@ -1076,7 +1126,7 @@ class BulkClassifyResponse():
         args = {}
         if 'output' in _dict:
             args['output'] = [
-                BulkClassifyOutput.from_dict(x) for x in _dict.get('output')
+                BulkClassifyOutput.from_dict(v) for v in _dict.get('output')
             ]
         return cls(**args)
 
@@ -1089,7 +1139,13 @@ class BulkClassifyResponse():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'output') and self.output is not None:
-            _dict['output'] = [x.to_dict() for x in self.output]
+            output_list = []
+            for v in self.output:
+                if isinstance(v, dict):
+                    output_list.append(v)
+                else:
+                    output_list.append(v.to_dict())
+            _dict['output'] = output_list
         return _dict
 
     def _to_dict(self):
@@ -1279,7 +1335,10 @@ class ChannelTransferInfo():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'target') and self.target is not None:
-            _dict['target'] = self.target.to_dict()
+            if isinstance(self.target, dict):
+                _dict['target'] = self.target
+            else:
+                _dict['target'] = self.target.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -1338,7 +1397,10 @@ class ChannelTransferTarget():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'chat') and self.chat is not None:
-            _dict['chat'] = self.chat.to_dict()
+            if isinstance(self.chat, dict):
+                _dict['chat'] = self.chat
+            else:
+                _dict['chat'] = self.chat.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -1488,7 +1550,10 @@ class DialogLogMessage():
         if hasattr(self, 'code') and self.code is not None:
             _dict['code'] = self.code
         if hasattr(self, 'source') and self.source is not None:
-            _dict['source'] = self.source.to_dict()
+            if isinstance(self.source, dict):
+                _dict['source'] = self.source
+            else:
+                _dict['source'] = self.source.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -1739,7 +1804,10 @@ class DialogNodeOutputOptionsElement():
         if hasattr(self, 'label') and self.label is not None:
             _dict['label'] = self.label
         if hasattr(self, 'value') and self.value is not None:
-            _dict['value'] = self.value.to_dict()
+            if isinstance(self.value, dict):
+                _dict['value'] = self.value
+            else:
+                _dict['value'] = self.value.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -1796,7 +1864,10 @@ class DialogNodeOutputOptionsElementValue():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'input') and self.input is not None:
-            _dict['input'] = self.input.to_dict()
+            if isinstance(self.input, dict):
+                _dict['input'] = self.input
+            else:
+                _dict['input'] = self.input.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -1960,7 +2031,10 @@ class DialogSuggestion():
         if hasattr(self, 'label') and self.label is not None:
             _dict['label'] = self.label
         if hasattr(self, 'value') and self.value is not None:
-            _dict['value'] = self.value.to_dict()
+            if isinstance(self.value, dict):
+                _dict['value'] = self.value
+            else:
+                _dict['value'] = self.value.to_dict()
         if hasattr(self, 'output') and self.output is not None:
             _dict['output'] = self.output
         return _dict
@@ -2019,7 +2093,10 @@ class DialogSuggestionValue():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'input') and self.input is not None:
-            _dict['input'] = self.input.to_dict()
+            if isinstance(self.input, dict):
+                _dict['input'] = self.input
+            else:
+                _dict['input'] = self.input.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -2093,10 +2170,6 @@ class Environment():
         :param str language: (optional) The language of the environment. An
                environment is always created with the same language as the assistant it is
                associated with.
-        :param EnvironmentReleaseReference release_reference: (optional) An object
-               describing the release that is currently deployed in the environment.
-        :param EnvironmentOrchestration orchestration: (optional) The search skill
-               orchestration settings for the environment.
         :param int session_timeout: (optional) The session inactivity timeout
                setting for the environment.
         :param List[IntegrationReference] integration_references: (optional) An
@@ -2145,13 +2218,13 @@ class Environment():
             args['session_timeout'] = _dict.get('session_timeout')
         if 'integration_references' in _dict:
             args['integration_references'] = [
-                IntegrationReference.from_dict(x)
-                for x in _dict.get('integration_references')
+                IntegrationReference.from_dict(v)
+                for v in _dict.get('integration_references')
             ]
         if 'skill_references' in _dict:
             args['skill_references'] = [
-                SkillReference.from_dict(x)
-                for x in _dict.get('skill_references')
+                SkillReference.from_dict(v)
+                for v in _dict.get('skill_references')
             ]
         if 'created' in _dict:
             args['created'] = string_to_datetime(_dict.get('created'))
@@ -2182,24 +2255,41 @@ class Environment():
         if hasattr(self, 'environment') and getattr(self,
                                                     'environment') is not None:
             _dict['environment'] = getattr(self, 'environment')
-        if hasattr(self,
-                   'release_reference') and self.release_reference is not None:
-            _dict['release_reference'] = self.release_reference.to_dict()
-        if hasattr(self, 'orchestration') and self.orchestration is not None:
-            _dict['orchestration'] = self.orchestration.to_dict()
+        if hasattr(self, 'release_reference') and getattr(
+                self, 'release_reference') is not None:
+            if isinstance(getattr(self, 'release_reference'), dict):
+                _dict['release_reference'] = getattr(self, 'release_reference')
+            else:
+                _dict['release_reference'] = getattr(
+                    self, 'release_reference').to_dict()
+        if hasattr(self, 'orchestration') and getattr(
+                self, 'orchestration') is not None:
+            if isinstance(getattr(self, 'orchestration'), dict):
+                _dict['orchestration'] = getattr(self, 'orchestration')
+            else:
+                _dict['orchestration'] = getattr(self,
+                                                 'orchestration').to_dict()
         if hasattr(self,
                    'session_timeout') and self.session_timeout is not None:
             _dict['session_timeout'] = self.session_timeout
         if hasattr(self, 'integration_references'
                   ) and self.integration_references is not None:
-            _dict['integration_references'] = [
-                x.to_dict() for x in self.integration_references
-            ]
+            integration_references_list = []
+            for v in self.integration_references:
+                if isinstance(v, dict):
+                    integration_references_list.append(v)
+                else:
+                    integration_references_list.append(v.to_dict())
+            _dict['integration_references'] = integration_references_list
         if hasattr(self,
                    'skill_references') and self.skill_references is not None:
-            _dict['skill_references'] = [
-                x.to_dict() for x in self.skill_references
-            ]
+            skill_references_list = []
+            for v in self.skill_references:
+                if isinstance(v, dict):
+                    skill_references_list.append(v)
+                else:
+                    skill_references_list.append(v.to_dict())
+            _dict['skill_references'] = skill_references_list
         if hasattr(self, 'created') and getattr(self, 'created') is not None:
             _dict['created'] = datetime_to_string(getattr(self, 'created'))
         if hasattr(self, 'updated') and getattr(self, 'updated') is not None:
@@ -2252,7 +2342,7 @@ class EnvironmentCollection():
         args = {}
         if 'environments' in _dict:
             args['environments'] = [
-                Environment.from_dict(x) for x in _dict.get('environments')
+                Environment.from_dict(v) for v in _dict.get('environments')
             ]
         else:
             raise ValueError(
@@ -2275,9 +2365,18 @@ class EnvironmentCollection():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'environments') and self.environments is not None:
-            _dict['environments'] = [x.to_dict() for x in self.environments]
+            environments_list = []
+            for v in self.environments:
+                if isinstance(v, dict):
+                    environments_list.append(v)
+                else:
+                    environments_list.append(v.to_dict())
+            _dict['environments'] = environments_list
         if hasattr(self, 'pagination') and self.pagination is not None:
-            _dict['pagination'] = self.pagination.to_dict()
+            if isinstance(self.pagination, dict):
+                _dict['pagination'] = self.pagination
+            else:
+                _dict['pagination'] = self.pagination.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -2700,9 +2799,15 @@ class Log():
         if hasattr(self, 'log_id') and self.log_id is not None:
             _dict['log_id'] = self.log_id
         if hasattr(self, 'request') and self.request is not None:
-            _dict['request'] = self.request.to_dict()
+            if isinstance(self.request, dict):
+                _dict['request'] = self.request
+            else:
+                _dict['request'] = self.request.to_dict()
         if hasattr(self, 'response') and self.response is not None:
-            _dict['response'] = self.response.to_dict()
+            if isinstance(self.response, dict):
+                _dict['response'] = self.response
+            else:
+                _dict['response'] = self.response.to_dict()
         if hasattr(self, 'assistant_id') and self.assistant_id is not None:
             _dict['assistant_id'] = self.assistant_id
         if hasattr(self, 'session_id') and self.session_id is not None:
@@ -2767,7 +2872,7 @@ class LogCollection():
         """Initialize a LogCollection object from a json dictionary."""
         args = {}
         if 'logs' in _dict:
-            args['logs'] = [Log.from_dict(x) for x in _dict.get('logs')]
+            args['logs'] = [Log.from_dict(v) for v in _dict.get('logs')]
         else:
             raise ValueError(
                 'Required property \'logs\' not present in LogCollection JSON')
@@ -2789,9 +2894,18 @@ class LogCollection():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'logs') and self.logs is not None:
-            _dict['logs'] = [x.to_dict() for x in self.logs]
+            logs_list = []
+            for v in self.logs:
+                if isinstance(v, dict):
+                    logs_list.append(v)
+                else:
+                    logs_list.append(v.to_dict())
+            _dict['logs'] = logs_list
         if hasattr(self, 'pagination') and self.pagination is not None:
-            _dict['pagination'] = self.pagination.to_dict()
+            if isinstance(self.pagination, dict):
+                _dict['pagination'] = self.pagination
+            else:
+                _dict['pagination'] = self.pagination.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -2956,7 +3070,7 @@ class MessageContext():
           shared by all skills used by the assistant.
     :attr dict skills: (optional) Information specific to particular skills used by
           the assistant.
-    :attr object integrations: (optional) An object containing context data that is
+    :attr dict integrations: (optional) An object containing context data that is
           specific to particular integrations. For more information, see the
           [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-dialog-integrations).
     """
@@ -2965,7 +3079,7 @@ class MessageContext():
                  *,
                  global_: 'MessageContextGlobal' = None,
                  skills: dict = None,
-                 integrations: object = None) -> None:
+                 integrations: dict = None) -> None:
         """
         Initialize a MessageContext object.
 
@@ -2973,8 +3087,8 @@ class MessageContext():
                is shared by all skills used by the assistant.
         :param dict skills: (optional) Information specific to particular skills
                used by the assistant.
-        :param object integrations: (optional) An object containing context data
-               that is specific to particular integrations. For more information, see the
+        :param dict integrations: (optional) An object containing context data that
+               is specific to particular integrations. For more information, see the
                [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-dialog-integrations).
         """
         self.global_ = global_
@@ -3006,9 +3120,18 @@ class MessageContext():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'global_') and self.global_ is not None:
-            _dict['global'] = self.global_.to_dict()
+            if isinstance(self.global_, dict):
+                _dict['global'] = self.global_
+            else:
+                _dict['global'] = self.global_.to_dict()
         if hasattr(self, 'skills') and self.skills is not None:
-            _dict['skills'] = {k: v.to_dict() for k, v in self.skills.items()}
+            skills_map = {}
+            for k, v in self.skills.items():
+                if isinstance(v, dict):
+                    skills_map[k] = v
+                else:
+                    skills_map[k] = v.to_dict()
+            _dict['skills'] = skills_map
         if hasattr(self, 'integrations') and self.integrations is not None:
             _dict['integrations'] = self.integrations
         return _dict
@@ -3074,7 +3197,10 @@ class MessageContextGlobal():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'system') and self.system is not None:
-            _dict['system'] = self.system.to_dict()
+            if isinstance(self.system, dict):
+                _dict['system'] = self.system
+            else:
+                _dict['system'] = self.system.to_dict()
         if hasattr(self, 'session_id') and getattr(self,
                                                    'session_id') is not None:
             _dict['session_id'] = getattr(self, 'session_id')
@@ -3142,7 +3268,10 @@ class MessageContextGlobalStateless():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'system') and self.system is not None:
-            _dict['system'] = self.system.to_dict()
+            if isinstance(self.system, dict):
+                _dict['system'] = self.system
+            else:
+                _dict['system'] = self.system.to_dict()
         if hasattr(self, 'session_id') and self.session_id is not None:
             _dict['session_id'] = self.session_id
         return _dict
@@ -3436,7 +3565,10 @@ class MessageContextSkill():
         if hasattr(self, 'user_defined') and self.user_defined is not None:
             _dict['user_defined'] = self.user_defined
         if hasattr(self, 'system') and self.system is not None:
-            _dict['system'] = self.system.to_dict()
+            if isinstance(self.system, dict):
+                _dict['system'] = self.system
+            else:
+                _dict['system'] = self.system.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -3511,8 +3643,7 @@ class MessageContextSkillSystem():
                 k for k in vars(self).keys()
                 if k not in MessageContextSkillSystem._properties
         ]:
-            if getattr(self, _key, None) is not None:
-                _dict[_key] = getattr(self, _key)
+            _dict[_key] = getattr(self, _key)
         return _dict
 
     def _to_dict(self):
@@ -3565,7 +3696,7 @@ class MessageContextStateless():
           that is shared by all skills used by the assistant.
     :attr dict skills: (optional) Information specific to particular skills used by
           the assistant.
-    :attr object integrations: (optional) An object containing context data that is
+    :attr dict integrations: (optional) An object containing context data that is
           specific to particular integrations. For more information, see the
           [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-dialog-integrations).
     """
@@ -3574,7 +3705,7 @@ class MessageContextStateless():
                  *,
                  global_: 'MessageContextGlobalStateless' = None,
                  skills: dict = None,
-                 integrations: object = None) -> None:
+                 integrations: dict = None) -> None:
         """
         Initialize a MessageContextStateless object.
 
@@ -3582,8 +3713,8 @@ class MessageContextStateless():
                data that is shared by all skills used by the assistant.
         :param dict skills: (optional) Information specific to particular skills
                used by the assistant.
-        :param object integrations: (optional) An object containing context data
-               that is specific to particular integrations. For more information, see the
+        :param dict integrations: (optional) An object containing context data that
+               is specific to particular integrations. For more information, see the
                [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-dialog-integrations).
         """
         self.global_ = global_
@@ -3615,9 +3746,18 @@ class MessageContextStateless():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'global_') and self.global_ is not None:
-            _dict['global'] = self.global_.to_dict()
+            if isinstance(self.global_, dict):
+                _dict['global'] = self.global_
+            else:
+                _dict['global'] = self.global_.to_dict()
         if hasattr(self, 'skills') and self.skills is not None:
-            _dict['skills'] = {k: v.to_dict() for k, v in self.skills.items()}
+            skills_map = {}
+            for k, v in self.skills.items():
+                if isinstance(v, dict):
+                    skills_map[k] = v
+                else:
+                    skills_map[k] = v.to_dict()
+            _dict['skills'] = skills_map
         if hasattr(self, 'integrations') and self.integrations is not None:
             _dict['integrations'] = self.integrations
         return _dict
@@ -3722,18 +3862,18 @@ class MessageInput():
             args['text'] = _dict.get('text')
         if 'intents' in _dict:
             args['intents'] = [
-                RuntimeIntent.from_dict(x) for x in _dict.get('intents')
+                RuntimeIntent.from_dict(v) for v in _dict.get('intents')
             ]
         if 'entities' in _dict:
             args['entities'] = [
-                RuntimeEntity.from_dict(x) for x in _dict.get('entities')
+                RuntimeEntity.from_dict(v) for v in _dict.get('entities')
             ]
         if 'suggestion_id' in _dict:
             args['suggestion_id'] = _dict.get('suggestion_id')
         if 'attachments' in _dict:
             args['attachments'] = [
-                MessageInputAttachment.from_dict(x)
-                for x in _dict.get('attachments')
+                MessageInputAttachment.from_dict(v)
+                for v in _dict.get('attachments')
             ]
         if 'options' in _dict:
             args['options'] = MessageInputOptions.from_dict(
@@ -3753,15 +3893,36 @@ class MessageInput():
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         if hasattr(self, 'intents') and self.intents is not None:
-            _dict['intents'] = [x.to_dict() for x in self.intents]
+            intents_list = []
+            for v in self.intents:
+                if isinstance(v, dict):
+                    intents_list.append(v)
+                else:
+                    intents_list.append(v.to_dict())
+            _dict['intents'] = intents_list
         if hasattr(self, 'entities') and self.entities is not None:
-            _dict['entities'] = [x.to_dict() for x in self.entities]
+            entities_list = []
+            for v in self.entities:
+                if isinstance(v, dict):
+                    entities_list.append(v)
+                else:
+                    entities_list.append(v.to_dict())
+            _dict['entities'] = entities_list
         if hasattr(self, 'suggestion_id') and self.suggestion_id is not None:
             _dict['suggestion_id'] = self.suggestion_id
         if hasattr(self, 'attachments') and self.attachments is not None:
-            _dict['attachments'] = [x.to_dict() for x in self.attachments]
+            attachments_list = []
+            for v in self.attachments:
+                if isinstance(v, dict):
+                    attachments_list.append(v)
+                else:
+                    attachments_list.append(v.to_dict())
+            _dict['attachments'] = attachments_list
         if hasattr(self, 'options') and self.options is not None:
-            _dict['options'] = self.options.to_dict()
+            if isinstance(self.options, dict):
+                _dict['options'] = self.options
+            else:
+                _dict['options'] = self.options.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -3963,7 +4124,10 @@ class MessageInputOptions():
                    'alternate_intents') and self.alternate_intents is not None:
             _dict['alternate_intents'] = self.alternate_intents
         if hasattr(self, 'spelling') and self.spelling is not None:
-            _dict['spelling'] = self.spelling.to_dict()
+            if isinstance(self.spelling, dict):
+                _dict['spelling'] = self.spelling
+            else:
+                _dict['spelling'] = self.spelling.to_dict()
         if hasattr(self, 'debug') and self.debug is not None:
             _dict['debug'] = self.debug
         if hasattr(self, 'return_context') and self.return_context is not None:
@@ -4150,7 +4314,10 @@ class MessageInputOptionsStateless():
                    'alternate_intents') and self.alternate_intents is not None:
             _dict['alternate_intents'] = self.alternate_intents
         if hasattr(self, 'spelling') and self.spelling is not None:
-            _dict['spelling'] = self.spelling.to_dict()
+            if isinstance(self.spelling, dict):
+                _dict['spelling'] = self.spelling
+            else:
+                _dict['spelling'] = self.spelling.to_dict()
         if hasattr(self, 'debug') and self.debug is not None:
             _dict['debug'] = self.debug
         return _dict
@@ -4255,18 +4422,18 @@ class MessageInputStateless():
             args['text'] = _dict.get('text')
         if 'intents' in _dict:
             args['intents'] = [
-                RuntimeIntent.from_dict(x) for x in _dict.get('intents')
+                RuntimeIntent.from_dict(v) for v in _dict.get('intents')
             ]
         if 'entities' in _dict:
             args['entities'] = [
-                RuntimeEntity.from_dict(x) for x in _dict.get('entities')
+                RuntimeEntity.from_dict(v) for v in _dict.get('entities')
             ]
         if 'suggestion_id' in _dict:
             args['suggestion_id'] = _dict.get('suggestion_id')
         if 'attachments' in _dict:
             args['attachments'] = [
-                MessageInputAttachment.from_dict(x)
-                for x in _dict.get('attachments')
+                MessageInputAttachment.from_dict(v)
+                for v in _dict.get('attachments')
             ]
         if 'options' in _dict:
             args['options'] = MessageInputOptionsStateless.from_dict(
@@ -4286,15 +4453,36 @@ class MessageInputStateless():
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         if hasattr(self, 'intents') and self.intents is not None:
-            _dict['intents'] = [x.to_dict() for x in self.intents]
+            intents_list = []
+            for v in self.intents:
+                if isinstance(v, dict):
+                    intents_list.append(v)
+                else:
+                    intents_list.append(v.to_dict())
+            _dict['intents'] = intents_list
         if hasattr(self, 'entities') and self.entities is not None:
-            _dict['entities'] = [x.to_dict() for x in self.entities]
+            entities_list = []
+            for v in self.entities:
+                if isinstance(v, dict):
+                    entities_list.append(v)
+                else:
+                    entities_list.append(v.to_dict())
+            _dict['entities'] = entities_list
         if hasattr(self, 'suggestion_id') and self.suggestion_id is not None:
             _dict['suggestion_id'] = self.suggestion_id
         if hasattr(self, 'attachments') and self.attachments is not None:
-            _dict['attachments'] = [x.to_dict() for x in self.attachments]
+            attachments_list = []
+            for v in self.attachments:
+                if isinstance(v, dict):
+                    attachments_list.append(v)
+                else:
+                    attachments_list.append(v.to_dict())
+            _dict['attachments'] = attachments_list
         if hasattr(self, 'options') and self.options is not None:
-            _dict['options'] = self.options.to_dict()
+            if isinstance(self.options, dict):
+                _dict['options'] = self.options
+            else:
+                _dict['options'] = self.options.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -4394,20 +4582,20 @@ class MessageOutput():
         args = {}
         if 'generic' in _dict:
             args['generic'] = [
-                RuntimeResponseGeneric.from_dict(x)
-                for x in _dict.get('generic')
+                RuntimeResponseGeneric.from_dict(v)
+                for v in _dict.get('generic')
             ]
         if 'intents' in _dict:
             args['intents'] = [
-                RuntimeIntent.from_dict(x) for x in _dict.get('intents')
+                RuntimeIntent.from_dict(v) for v in _dict.get('intents')
             ]
         if 'entities' in _dict:
             args['entities'] = [
-                RuntimeEntity.from_dict(x) for x in _dict.get('entities')
+                RuntimeEntity.from_dict(v) for v in _dict.get('entities')
             ]
         if 'actions' in _dict:
             args['actions'] = [
-                DialogNodeAction.from_dict(x) for x in _dict.get('actions')
+                DialogNodeAction.from_dict(v) for v in _dict.get('actions')
             ]
         if 'debug' in _dict:
             args['debug'] = MessageOutputDebug.from_dict(_dict.get('debug'))
@@ -4427,19 +4615,49 @@ class MessageOutput():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'generic') and self.generic is not None:
-            _dict['generic'] = [x.to_dict() for x in self.generic]
+            generic_list = []
+            for v in self.generic:
+                if isinstance(v, dict):
+                    generic_list.append(v)
+                else:
+                    generic_list.append(v.to_dict())
+            _dict['generic'] = generic_list
         if hasattr(self, 'intents') and self.intents is not None:
-            _dict['intents'] = [x.to_dict() for x in self.intents]
+            intents_list = []
+            for v in self.intents:
+                if isinstance(v, dict):
+                    intents_list.append(v)
+                else:
+                    intents_list.append(v.to_dict())
+            _dict['intents'] = intents_list
         if hasattr(self, 'entities') and self.entities is not None:
-            _dict['entities'] = [x.to_dict() for x in self.entities]
+            entities_list = []
+            for v in self.entities:
+                if isinstance(v, dict):
+                    entities_list.append(v)
+                else:
+                    entities_list.append(v.to_dict())
+            _dict['entities'] = entities_list
         if hasattr(self, 'actions') and self.actions is not None:
-            _dict['actions'] = [x.to_dict() for x in self.actions]
+            actions_list = []
+            for v in self.actions:
+                if isinstance(v, dict):
+                    actions_list.append(v)
+                else:
+                    actions_list.append(v.to_dict())
+            _dict['actions'] = actions_list
         if hasattr(self, 'debug') and self.debug is not None:
-            _dict['debug'] = self.debug.to_dict()
+            if isinstance(self.debug, dict):
+                _dict['debug'] = self.debug
+            else:
+                _dict['debug'] = self.debug.to_dict()
         if hasattr(self, 'user_defined') and self.user_defined is not None:
             _dict['user_defined'] = self.user_defined
         if hasattr(self, 'spelling') and self.spelling is not None:
-            _dict['spelling'] = self.spelling.to_dict()
+            if isinstance(self.spelling, dict):
+                _dict['spelling'] = self.spelling
+            else:
+                _dict['spelling'] = self.spelling.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -4519,12 +4737,12 @@ class MessageOutputDebug():
         args = {}
         if 'nodes_visited' in _dict:
             args['nodes_visited'] = [
-                DialogNodeVisited.from_dict(x)
-                for x in _dict.get('nodes_visited')
+                DialogNodeVisited.from_dict(v)
+                for v in _dict.get('nodes_visited')
             ]
         if 'log_messages' in _dict:
             args['log_messages'] = [
-                DialogLogMessage.from_dict(x) for x in _dict.get('log_messages')
+                DialogLogMessage.from_dict(v) for v in _dict.get('log_messages')
             ]
         if 'branch_exited' in _dict:
             args['branch_exited'] = _dict.get('branch_exited')
@@ -4532,8 +4750,8 @@ class MessageOutputDebug():
             args['branch_exited_reason'] = _dict.get('branch_exited_reason')
         if 'turn_events' in _dict:
             args['turn_events'] = [
-                MessageOutputDebugTurnEvent.from_dict(x)
-                for x in _dict.get('turn_events')
+                MessageOutputDebugTurnEvent.from_dict(v)
+                for v in _dict.get('turn_events')
             ]
         return cls(**args)
 
@@ -4546,16 +4764,34 @@ class MessageOutputDebug():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'nodes_visited') and self.nodes_visited is not None:
-            _dict['nodes_visited'] = [x.to_dict() for x in self.nodes_visited]
+            nodes_visited_list = []
+            for v in self.nodes_visited:
+                if isinstance(v, dict):
+                    nodes_visited_list.append(v)
+                else:
+                    nodes_visited_list.append(v.to_dict())
+            _dict['nodes_visited'] = nodes_visited_list
         if hasattr(self, 'log_messages') and self.log_messages is not None:
-            _dict['log_messages'] = [x.to_dict() for x in self.log_messages]
+            log_messages_list = []
+            for v in self.log_messages:
+                if isinstance(v, dict):
+                    log_messages_list.append(v)
+                else:
+                    log_messages_list.append(v.to_dict())
+            _dict['log_messages'] = log_messages_list
         if hasattr(self, 'branch_exited') and self.branch_exited is not None:
             _dict['branch_exited'] = self.branch_exited
         if hasattr(self, 'branch_exited_reason'
                   ) and self.branch_exited_reason is not None:
             _dict['branch_exited_reason'] = self.branch_exited_reason
         if hasattr(self, 'turn_events') and self.turn_events is not None:
-            _dict['turn_events'] = [x.to_dict() for x in self.turn_events]
+            turn_events_list = []
+            for v in self.turn_events:
+                if isinstance(v, dict):
+                    turn_events_list.append(v)
+                else:
+                    turn_events_list.append(v.to_dict())
+            _dict['turn_events'] = turn_events_list
         return _dict
 
     def _to_dict(self):
@@ -4826,9 +5062,15 @@ class MessageRequest():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'input') and self.input is not None:
-            _dict['input'] = self.input.to_dict()
+            if isinstance(self.input, dict):
+                _dict['input'] = self.input
+            else:
+                _dict['input'] = self.input.to_dict()
         if hasattr(self, 'context') and self.context is not None:
-            _dict['context'] = self.context.to_dict()
+            if isinstance(self.context, dict):
+                _dict['context'] = self.context
+            else:
+                _dict['context'] = self.context.to_dict()
         if hasattr(self, 'user_id') and self.user_id is not None:
             _dict['user_id'] = self.user_id
         return _dict
@@ -4934,9 +5176,15 @@ class MessageResponse():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'output') and self.output is not None:
-            _dict['output'] = self.output.to_dict()
+            if isinstance(self.output, dict):
+                _dict['output'] = self.output
+            else:
+                _dict['output'] = self.output.to_dict()
         if hasattr(self, 'context') and self.context is not None:
-            _dict['context'] = self.context.to_dict()
+            if isinstance(self.context, dict):
+                _dict['context'] = self.context
+            else:
+                _dict['context'] = self.context.to_dict()
         if hasattr(self, 'user_id') and self.user_id is not None:
             _dict['user_id'] = self.user_id
         return _dict
@@ -5039,9 +5287,15 @@ class MessageResponseStateless():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'output') and self.output is not None:
-            _dict['output'] = self.output.to_dict()
+            if isinstance(self.output, dict):
+                _dict['output'] = self.output
+            else:
+                _dict['output'] = self.output.to_dict()
         if hasattr(self, 'context') and self.context is not None:
-            _dict['context'] = self.context.to_dict()
+            if isinstance(self.context, dict):
+                _dict['context'] = self.context
+            else:
+                _dict['context'] = self.context.to_dict()
         if hasattr(self, 'user_id') and self.user_id is not None:
             _dict['user_id'] = self.user_id
         return _dict
@@ -5209,9 +5463,6 @@ class Release():
         :param str release: (optional) The name of the release. The name is the
                version number (an integer), returned as a string.
         :param str description: (optional) The description of the release.
-        :param ReleaseContent content: (optional) An object describing the
-               versionable content objects (such as skill snapshots) that are included in
-               the release.
         :param str status: (optional) The current status of the release:
                 - **Available**: The release is available for deployment.
                 - **Failed**: An asynchronous publish operation has failed.
@@ -5235,8 +5486,8 @@ class Release():
             args['description'] = _dict.get('description')
         if 'environment_references' in _dict:
             args['environment_references'] = [
-                EnvironmentReference.from_dict(x)
-                for x in _dict.get('environment_references')
+                EnvironmentReference.from_dict(v)
+                for v in _dict.get('environment_references')
             ]
         if 'content' in _dict:
             args['content'] = ReleaseContent.from_dict(_dict.get('content'))
@@ -5262,11 +5513,18 @@ class Release():
             _dict['description'] = self.description
         if hasattr(self, 'environment_references') and getattr(
                 self, 'environment_references') is not None:
-            _dict['environment_references'] = [
-                x.to_dict() for x in getattr(self, 'environment_references')
-            ]
-        if hasattr(self, 'content') and self.content is not None:
-            _dict['content'] = self.content.to_dict()
+            environment_references_list = []
+            for v in getattr(self, 'environment_references'):
+                if isinstance(v, dict):
+                    environment_references_list.append(v)
+                else:
+                    environment_references_list.append(v.to_dict())
+            _dict['environment_references'] = environment_references_list
+        if hasattr(self, 'content') and getattr(self, 'content') is not None:
+            if isinstance(getattr(self, 'content'), dict):
+                _dict['content'] = getattr(self, 'content')
+            else:
+                _dict['content'] = getattr(self, 'content').to_dict()
         if hasattr(self, 'status') and self.status is not None:
             _dict['status'] = self.status
         if hasattr(self, 'created') and getattr(self, 'created') is not None:
@@ -5332,7 +5590,7 @@ class ReleaseCollection():
         args = {}
         if 'releases' in _dict:
             args['releases'] = [
-                Release.from_dict(x) for x in _dict.get('releases')
+                Release.from_dict(v) for v in _dict.get('releases')
             ]
         else:
             raise ValueError(
@@ -5355,9 +5613,18 @@ class ReleaseCollection():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'releases') and self.releases is not None:
-            _dict['releases'] = [x.to_dict() for x in self.releases]
+            releases_list = []
+            for v in self.releases:
+                if isinstance(v, dict):
+                    releases_list.append(v)
+                else:
+                    releases_list.append(v.to_dict())
+            _dict['releases'] = releases_list
         if hasattr(self, 'pagination') and self.pagination is not None:
-            _dict['pagination'] = self.pagination.to_dict()
+            if isinstance(self.pagination, dict):
+                _dict['pagination'] = self.pagination
+            else:
+                _dict['pagination'] = self.pagination.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -5401,7 +5668,7 @@ class ReleaseContent():
         args = {}
         if 'skills' in _dict:
             args['skills'] = [
-                ReleaseSkillReference.from_dict(x) for x in _dict.get('skills')
+                ReleaseSkillReference.from_dict(v) for v in _dict.get('skills')
             ]
         return cls(**args)
 
@@ -5414,7 +5681,13 @@ class ReleaseContent():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'skills') and getattr(self, 'skills') is not None:
-            _dict['skills'] = [x.to_dict() for x in getattr(self, 'skills')]
+            skills_list = []
+            for v in getattr(self, 'skills'):
+                if isinstance(v, dict):
+                    skills_list.append(v)
+                else:
+                    skills_list.append(v.to_dict())
+            _dict['skills'] = skills_list
         return _dict
 
     def _to_dict(self):
@@ -5688,15 +5961,15 @@ class RuntimeEntity():
             args['confidence'] = _dict.get('confidence')
         if 'groups' in _dict:
             args['groups'] = [
-                CaptureGroup.from_dict(x) for x in _dict.get('groups')
+                CaptureGroup.from_dict(v) for v in _dict.get('groups')
             ]
         if 'interpretation' in _dict:
             args['interpretation'] = RuntimeEntityInterpretation.from_dict(
                 _dict.get('interpretation'))
         if 'alternatives' in _dict:
             args['alternatives'] = [
-                RuntimeEntityAlternative.from_dict(x)
-                for x in _dict.get('alternatives')
+                RuntimeEntityAlternative.from_dict(v)
+                for v in _dict.get('alternatives')
             ]
         if 'role' in _dict:
             args['role'] = RuntimeEntityRole.from_dict(_dict.get('role'))
@@ -5721,13 +5994,31 @@ class RuntimeEntity():
         if hasattr(self, 'confidence') and self.confidence is not None:
             _dict['confidence'] = self.confidence
         if hasattr(self, 'groups') and self.groups is not None:
-            _dict['groups'] = [x.to_dict() for x in self.groups]
+            groups_list = []
+            for v in self.groups:
+                if isinstance(v, dict):
+                    groups_list.append(v)
+                else:
+                    groups_list.append(v.to_dict())
+            _dict['groups'] = groups_list
         if hasattr(self, 'interpretation') and self.interpretation is not None:
-            _dict['interpretation'] = self.interpretation.to_dict()
+            if isinstance(self.interpretation, dict):
+                _dict['interpretation'] = self.interpretation
+            else:
+                _dict['interpretation'] = self.interpretation.to_dict()
         if hasattr(self, 'alternatives') and self.alternatives is not None:
-            _dict['alternatives'] = [x.to_dict() for x in self.alternatives]
+            alternatives_list = []
+            for v in self.alternatives:
+                if isinstance(v, dict):
+                    alternatives_list.append(v)
+                else:
+                    alternatives_list.append(v.to_dict())
+            _dict['alternatives'] = alternatives_list
         if hasattr(self, 'role') and self.role is not None:
-            _dict['role'] = self.role.to_dict()
+            if isinstance(self.role, dict):
+                _dict['role'] = self.role
+            else:
+                _dict['role'] = self.role.to_dict()
         if hasattr(self, 'skill') and self.skill is not None:
             _dict['skill'] = self.skill
         return _dict
@@ -6537,7 +6828,7 @@ class SearchResult():
                 _dict.get('highlight'))
         if 'answers' in _dict:
             args['answers'] = [
-                SearchResultAnswer.from_dict(x) for x in _dict.get('answers')
+                SearchResultAnswer.from_dict(v) for v in _dict.get('answers')
             ]
         return cls(**args)
 
@@ -6553,7 +6844,10 @@ class SearchResult():
             _dict['id'] = self.id
         if hasattr(self,
                    'result_metadata') and self.result_metadata is not None:
-            _dict['result_metadata'] = self.result_metadata.to_dict()
+            if isinstance(self.result_metadata, dict):
+                _dict['result_metadata'] = self.result_metadata
+            else:
+                _dict['result_metadata'] = self.result_metadata.to_dict()
         if hasattr(self, 'body') and self.body is not None:
             _dict['body'] = self.body
         if hasattr(self, 'title') and self.title is not None:
@@ -6561,9 +6855,18 @@ class SearchResult():
         if hasattr(self, 'url') and self.url is not None:
             _dict['url'] = self.url
         if hasattr(self, 'highlight') and self.highlight is not None:
-            _dict['highlight'] = self.highlight.to_dict()
+            if isinstance(self.highlight, dict):
+                _dict['highlight'] = self.highlight
+            else:
+                _dict['highlight'] = self.highlight.to_dict()
         if hasattr(self, 'answers') and self.answers is not None:
-            _dict['answers'] = [x.to_dict() for x in self.answers]
+            answers_list = []
+            for v in self.answers:
+                if isinstance(v, dict):
+                    answers_list.append(v)
+                else:
+                    answers_list.append(v.to_dict())
+            _dict['answers'] = answers_list
         return _dict
 
     def _to_dict(self):
@@ -6733,8 +7036,7 @@ class SearchResultHighlight():
                 k for k in vars(self).keys()
                 if k not in SearchResultHighlight._properties
         ]:
-            if getattr(self, _key, None) is not None:
-                _dict[_key] = getattr(self, _key)
+            _dict[_key] = getattr(self, _key)
         return _dict
 
     def _to_dict(self):
@@ -7784,7 +8086,10 @@ class MessageOutputDebugTurnEventTurnEventActionFinished(
         if hasattr(self, 'event') and self.event is not None:
             _dict['event'] = self.event
         if hasattr(self, 'source') and self.source is not None:
-            _dict['source'] = self.source.to_dict()
+            if isinstance(self.source, dict):
+                _dict['source'] = self.source
+            else:
+                _dict['source'] = self.source.to_dict()
         if hasattr(self,
                    'action_start_time') and self.action_start_time is not None:
             _dict['action_start_time'] = self.action_start_time
@@ -7908,7 +8213,10 @@ class MessageOutputDebugTurnEventTurnEventActionVisited(
         if hasattr(self, 'event') and self.event is not None:
             _dict['event'] = self.event
         if hasattr(self, 'source') and self.source is not None:
-            _dict['source'] = self.source.to_dict()
+            if isinstance(self.source, dict):
+                _dict['source'] = self.source
+            else:
+                _dict['source'] = self.source.to_dict()
         if hasattr(self,
                    'action_start_time') and self.action_start_time is not None:
             _dict['action_start_time'] = self.action_start_time
@@ -8021,11 +8329,20 @@ class MessageOutputDebugTurnEventTurnEventCallout(MessageOutputDebugTurnEvent):
         if hasattr(self, 'event') and self.event is not None:
             _dict['event'] = self.event
         if hasattr(self, 'source') and self.source is not None:
-            _dict['source'] = self.source.to_dict()
+            if isinstance(self.source, dict):
+                _dict['source'] = self.source
+            else:
+                _dict['source'] = self.source.to_dict()
         if hasattr(self, 'callout') and self.callout is not None:
-            _dict['callout'] = self.callout.to_dict()
+            if isinstance(self.callout, dict):
+                _dict['callout'] = self.callout
+            else:
+                _dict['callout'] = self.callout.to_dict()
         if hasattr(self, 'error') and self.error is not None:
-            _dict['error'] = self.error.to_dict()
+            if isinstance(self.error, dict):
+                _dict['error'] = self.error
+            else:
+                _dict['error'] = self.error.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -8104,7 +8421,10 @@ class MessageOutputDebugTurnEventTurnEventHandlerVisited(
         if hasattr(self, 'event') and self.event is not None:
             _dict['event'] = self.event
         if hasattr(self, 'source') and self.source is not None:
-            _dict['source'] = self.source.to_dict()
+            if isinstance(self.source, dict):
+                _dict['source'] = self.source
+            else:
+                _dict['source'] = self.source.to_dict()
         if hasattr(self,
                    'action_start_time') and self.action_start_time is not None:
             _dict['action_start_time'] = self.action_start_time
@@ -8185,7 +8505,10 @@ class MessageOutputDebugTurnEventTurnEventNodeVisited(
         if hasattr(self, 'event') and self.event is not None:
             _dict['event'] = self.event
         if hasattr(self, 'source') and self.source is not None:
-            _dict['source'] = self.source.to_dict()
+            if isinstance(self.source, dict):
+                _dict['source'] = self.source
+            else:
+                _dict['source'] = self.source.to_dict()
         if hasattr(self, 'reason') and self.reason is not None:
             _dict['reason'] = self.reason
         return _dict
@@ -8275,9 +8598,15 @@ class MessageOutputDebugTurnEventTurnEventSearch(MessageOutputDebugTurnEvent):
         if hasattr(self, 'event') and self.event is not None:
             _dict['event'] = self.event
         if hasattr(self, 'source') and self.source is not None:
-            _dict['source'] = self.source.to_dict()
+            if isinstance(self.source, dict):
+                _dict['source'] = self.source
+            else:
+                _dict['source'] = self.source.to_dict()
         if hasattr(self, 'error') and self.error is not None:
-            _dict['error'] = self.error.to_dict()
+            if isinstance(self.error, dict):
+                _dict['error'] = self.error
+            else:
+                _dict['error'] = self.error.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -8374,7 +8703,10 @@ class MessageOutputDebugTurnEventTurnEventStepAnswered(
         if hasattr(self, 'event') and self.event is not None:
             _dict['event'] = self.event
         if hasattr(self, 'source') and self.source is not None:
-            _dict['source'] = self.source.to_dict()
+            if isinstance(self.source, dict):
+                _dict['source'] = self.source
+            else:
+                _dict['source'] = self.source.to_dict()
         if hasattr(self, 'condition_type') and self.condition_type is not None:
             _dict['condition_type'] = self.condition_type
         if hasattr(self,
@@ -8486,7 +8818,10 @@ class MessageOutputDebugTurnEventTurnEventStepVisited(
         if hasattr(self, 'event') and self.event is not None:
             _dict['event'] = self.event
         if hasattr(self, 'source') and self.source is not None:
-            _dict['source'] = self.source.to_dict()
+            if isinstance(self.source, dict):
+                _dict['source'] = self.source
+            else:
+                _dict['source'] = self.source.to_dict()
         if hasattr(self, 'condition_type') and self.condition_type is not None:
             _dict['condition_type'] = self.condition_type
         if hasattr(self,
@@ -8541,7 +8876,7 @@ class RuntimeResponseGenericRuntimeResponseTypeAudio(RuntimeResponseGeneric):
           specifying channels for which the response is intended. If **channels** is
           present, the response is intended for a built-in integration and should not be
           handled by an API client.
-    :attr object channel_options: (optional) For internal use only.
+    :attr dict channel_options: (optional) For internal use only.
     :attr str alt_text: (optional) Descriptive text that can be used for screen
           readers or other situations where the audio player cannot be seen.
     """
@@ -8553,7 +8888,7 @@ class RuntimeResponseGenericRuntimeResponseTypeAudio(RuntimeResponseGeneric):
                  title: str = None,
                  description: str = None,
                  channels: List['ResponseGenericChannel'] = None,
-                 channel_options: object = None,
+                 channel_options: dict = None,
                  alt_text: str = None) -> None:
         """
         Initialize a RuntimeResponseGenericRuntimeResponseTypeAudio object.
@@ -8570,7 +8905,7 @@ class RuntimeResponseGenericRuntimeResponseTypeAudio(RuntimeResponseGeneric):
                objects specifying channels for which the response is intended. If
                **channels** is present, the response is intended for a built-in
                integration and should not be handled by an API client.
-        :param object channel_options: (optional) For internal use only.
+        :param dict channel_options: (optional) For internal use only.
         :param str alt_text: (optional) Descriptive text that can be used for
                screen readers or other situations where the audio player cannot be seen.
         """
@@ -8607,8 +8942,8 @@ class RuntimeResponseGenericRuntimeResponseTypeAudio(RuntimeResponseGeneric):
             args['description'] = _dict.get('description')
         if 'channels' in _dict:
             args['channels'] = [
-                ResponseGenericChannel.from_dict(x)
-                for x in _dict.get('channels')
+                ResponseGenericChannel.from_dict(v)
+                for v in _dict.get('channels')
             ]
         if 'channel_options' in _dict:
             args['channel_options'] = _dict.get('channel_options')
@@ -8633,7 +8968,13 @@ class RuntimeResponseGenericRuntimeResponseTypeAudio(RuntimeResponseGeneric):
         if hasattr(self, 'description') and self.description is not None:
             _dict['description'] = self.description
         if hasattr(self, 'channels') and self.channels is not None:
-            _dict['channels'] = [x.to_dict() for x in self.channels]
+            channels_list = []
+            for v in self.channels:
+                if isinstance(v, dict):
+                    channels_list.append(v)
+                else:
+                    channels_list.append(v.to_dict())
+            _dict['channels'] = channels_list
         if hasattr(self,
                    'channel_options') and self.channel_options is not None:
             _dict['channel_options'] = self.channel_options
@@ -8733,8 +9074,8 @@ class RuntimeResponseGenericRuntimeResponseTypeChannelTransfer(
             )
         if 'channels' in _dict:
             args['channels'] = [
-                ResponseGenericChannel.from_dict(x)
-                for x in _dict.get('channels')
+                ResponseGenericChannel.from_dict(v)
+                for v in _dict.get('channels')
             ]
         return cls(**args)
 
@@ -8752,9 +9093,18 @@ class RuntimeResponseGenericRuntimeResponseTypeChannelTransfer(
                    'message_to_user') and self.message_to_user is not None:
             _dict['message_to_user'] = self.message_to_user
         if hasattr(self, 'transfer_info') and self.transfer_info is not None:
-            _dict['transfer_info'] = self.transfer_info.to_dict()
+            if isinstance(self.transfer_info, dict):
+                _dict['transfer_info'] = self.transfer_info
+            else:
+                _dict['transfer_info'] = self.transfer_info.to_dict()
         if hasattr(self, 'channels') and self.channels is not None:
-            _dict['channels'] = [x.to_dict() for x in self.channels]
+            channels_list = []
+            for v in self.channels:
+                if isinstance(v, dict):
+                    channels_list.append(v)
+                else:
+                    channels_list.append(v.to_dict())
+            _dict['channels'] = channels_list
         return _dict
 
     def _to_dict(self):
@@ -8879,8 +9229,8 @@ class RuntimeResponseGenericRuntimeResponseTypeConnectToAgent(
             args['topic'] = _dict.get('topic')
         if 'channels' in _dict:
             args['channels'] = [
-                ResponseGenericChannel.from_dict(x)
-                for x in _dict.get('channels')
+                ResponseGenericChannel.from_dict(v)
+                for v in _dict.get('channels')
             ]
         return cls(**args)
 
@@ -8899,16 +9249,31 @@ class RuntimeResponseGenericRuntimeResponseTypeConnectToAgent(
             _dict['message_to_human_agent'] = self.message_to_human_agent
         if hasattr(self,
                    'agent_available') and self.agent_available is not None:
-            _dict['agent_available'] = self.agent_available.to_dict()
+            if isinstance(self.agent_available, dict):
+                _dict['agent_available'] = self.agent_available
+            else:
+                _dict['agent_available'] = self.agent_available.to_dict()
         if hasattr(self,
                    'agent_unavailable') and self.agent_unavailable is not None:
-            _dict['agent_unavailable'] = self.agent_unavailable.to_dict()
+            if isinstance(self.agent_unavailable, dict):
+                _dict['agent_unavailable'] = self.agent_unavailable
+            else:
+                _dict['agent_unavailable'] = self.agent_unavailable.to_dict()
         if hasattr(self, 'transfer_info') and self.transfer_info is not None:
-            _dict['transfer_info'] = self.transfer_info.to_dict()
+            if isinstance(self.transfer_info, dict):
+                _dict['transfer_info'] = self.transfer_info
+            else:
+                _dict['transfer_info'] = self.transfer_info.to_dict()
         if hasattr(self, 'topic') and self.topic is not None:
             _dict['topic'] = self.topic
         if hasattr(self, 'channels') and self.channels is not None:
-            _dict['channels'] = [x.to_dict() for x in self.channels]
+            channels_list = []
+            for v in self.channels:
+                if isinstance(v, dict):
+                    channels_list.append(v)
+                else:
+                    channels_list.append(v.to_dict())
+            _dict['channels'] = channels_list
         return _dict
 
     def _to_dict(self):
@@ -9078,8 +9443,8 @@ class RuntimeResponseGenericRuntimeResponseTypeIframe(RuntimeResponseGeneric):
             args['image_url'] = _dict.get('image_url')
         if 'channels' in _dict:
             args['channels'] = [
-                ResponseGenericChannel.from_dict(x)
-                for x in _dict.get('channels')
+                ResponseGenericChannel.from_dict(v)
+                for v in _dict.get('channels')
             ]
         return cls(**args)
 
@@ -9102,7 +9467,13 @@ class RuntimeResponseGenericRuntimeResponseTypeIframe(RuntimeResponseGeneric):
         if hasattr(self, 'image_url') and self.image_url is not None:
             _dict['image_url'] = self.image_url
         if hasattr(self, 'channels') and self.channels is not None:
-            _dict['channels'] = [x.to_dict() for x in self.channels]
+            channels_list = []
+            for v in self.channels:
+                if isinstance(v, dict):
+                    channels_list.append(v)
+                else:
+                    channels_list.append(v.to_dict())
+            _dict['channels'] = channels_list
         return _dict
 
     def _to_dict(self):
@@ -9202,8 +9573,8 @@ class RuntimeResponseGenericRuntimeResponseTypeImage(RuntimeResponseGeneric):
             args['description'] = _dict.get('description')
         if 'channels' in _dict:
             args['channels'] = [
-                ResponseGenericChannel.from_dict(x)
-                for x in _dict.get('channels')
+                ResponseGenericChannel.from_dict(v)
+                for v in _dict.get('channels')
             ]
         if 'alt_text' in _dict:
             args['alt_text'] = _dict.get('alt_text')
@@ -9226,7 +9597,13 @@ class RuntimeResponseGenericRuntimeResponseTypeImage(RuntimeResponseGeneric):
         if hasattr(self, 'description') and self.description is not None:
             _dict['description'] = self.description
         if hasattr(self, 'channels') and self.channels is not None:
-            _dict['channels'] = [x.to_dict() for x in self.channels]
+            channels_list = []
+            for v in self.channels:
+                if isinstance(v, dict):
+                    channels_list.append(v)
+                else:
+                    channels_list.append(v.to_dict())
+            _dict['channels'] = channels_list
         if hasattr(self, 'alt_text') and self.alt_text is not None:
             _dict['alt_text'] = self.alt_text
         return _dict
@@ -9327,8 +9704,8 @@ class RuntimeResponseGenericRuntimeResponseTypeOption(RuntimeResponseGeneric):
             args['preference'] = _dict.get('preference')
         if 'options' in _dict:
             args['options'] = [
-                DialogNodeOutputOptionsElement.from_dict(x)
-                for x in _dict.get('options')
+                DialogNodeOutputOptionsElement.from_dict(v)
+                for v in _dict.get('options')
             ]
         else:
             raise ValueError(
@@ -9336,8 +9713,8 @@ class RuntimeResponseGenericRuntimeResponseTypeOption(RuntimeResponseGeneric):
             )
         if 'channels' in _dict:
             args['channels'] = [
-                ResponseGenericChannel.from_dict(x)
-                for x in _dict.get('channels')
+                ResponseGenericChannel.from_dict(v)
+                for v in _dict.get('channels')
             ]
         return cls(**args)
 
@@ -9358,9 +9735,21 @@ class RuntimeResponseGenericRuntimeResponseTypeOption(RuntimeResponseGeneric):
         if hasattr(self, 'preference') and self.preference is not None:
             _dict['preference'] = self.preference
         if hasattr(self, 'options') and self.options is not None:
-            _dict['options'] = [x.to_dict() for x in self.options]
+            options_list = []
+            for v in self.options:
+                if isinstance(v, dict):
+                    options_list.append(v)
+                else:
+                    options_list.append(v.to_dict())
+            _dict['options'] = options_list
         if hasattr(self, 'channels') and self.channels is not None:
-            _dict['channels'] = [x.to_dict() for x in self.channels]
+            channels_list = []
+            for v in self.channels:
+                if isinstance(v, dict):
+                    channels_list.append(v)
+                else:
+                    channels_list.append(v.to_dict())
+            _dict['channels'] = channels_list
         return _dict
 
     def _to_dict(self):
@@ -9456,8 +9845,8 @@ class RuntimeResponseGenericRuntimeResponseTypePause(RuntimeResponseGeneric):
             args['typing'] = _dict.get('typing')
         if 'channels' in _dict:
             args['channels'] = [
-                ResponseGenericChannel.from_dict(x)
-                for x in _dict.get('channels')
+                ResponseGenericChannel.from_dict(v)
+                for v in _dict.get('channels')
             ]
         return cls(**args)
 
@@ -9476,7 +9865,13 @@ class RuntimeResponseGenericRuntimeResponseTypePause(RuntimeResponseGeneric):
         if hasattr(self, 'typing') and self.typing is not None:
             _dict['typing'] = self.typing
         if hasattr(self, 'channels') and self.channels is not None:
-            _dict['channels'] = [x.to_dict() for x in self.channels]
+            channels_list = []
+            for v in self.channels:
+                if isinstance(v, dict):
+                    channels_list.append(v)
+                else:
+                    channels_list.append(v.to_dict())
+            _dict['channels'] = channels_list
         return _dict
 
     def _to_dict(self):
@@ -9571,7 +9966,7 @@ class RuntimeResponseGenericRuntimeResponseTypeSearch(RuntimeResponseGeneric):
             )
         if 'primary_results' in _dict:
             args['primary_results'] = [
-                SearchResult.from_dict(x) for x in _dict.get('primary_results')
+                SearchResult.from_dict(v) for v in _dict.get('primary_results')
             ]
         else:
             raise ValueError(
@@ -9579,8 +9974,8 @@ class RuntimeResponseGenericRuntimeResponseTypeSearch(RuntimeResponseGeneric):
             )
         if 'additional_results' in _dict:
             args['additional_results'] = [
-                SearchResult.from_dict(x)
-                for x in _dict.get('additional_results')
+                SearchResult.from_dict(v)
+                for v in _dict.get('additional_results')
             ]
         else:
             raise ValueError(
@@ -9588,8 +9983,8 @@ class RuntimeResponseGenericRuntimeResponseTypeSearch(RuntimeResponseGeneric):
             )
         if 'channels' in _dict:
             args['channels'] = [
-                ResponseGenericChannel.from_dict(x)
-                for x in _dict.get('channels')
+                ResponseGenericChannel.from_dict(v)
+                for v in _dict.get('channels')
             ]
         return cls(**args)
 
@@ -9607,17 +10002,31 @@ class RuntimeResponseGenericRuntimeResponseTypeSearch(RuntimeResponseGeneric):
             _dict['header'] = self.header
         if hasattr(self,
                    'primary_results') and self.primary_results is not None:
-            _dict['primary_results'] = [
-                x.to_dict() for x in self.primary_results
-            ]
+            primary_results_list = []
+            for v in self.primary_results:
+                if isinstance(v, dict):
+                    primary_results_list.append(v)
+                else:
+                    primary_results_list.append(v.to_dict())
+            _dict['primary_results'] = primary_results_list
         if hasattr(
                 self,
                 'additional_results') and self.additional_results is not None:
-            _dict['additional_results'] = [
-                x.to_dict() for x in self.additional_results
-            ]
+            additional_results_list = []
+            for v in self.additional_results:
+                if isinstance(v, dict):
+                    additional_results_list.append(v)
+                else:
+                    additional_results_list.append(v.to_dict())
+            _dict['additional_results'] = additional_results_list
         if hasattr(self, 'channels') and self.channels is not None:
-            _dict['channels'] = [x.to_dict() for x in self.channels]
+            channels_list = []
+            for v in self.channels:
+                if isinstance(v, dict):
+                    channels_list.append(v)
+                else:
+                    channels_list.append(v.to_dict())
+            _dict['channels'] = channels_list
         return _dict
 
     def _to_dict(self):
@@ -9706,7 +10115,7 @@ class RuntimeResponseGenericRuntimeResponseTypeSuggestion(
             )
         if 'suggestions' in _dict:
             args['suggestions'] = [
-                DialogSuggestion.from_dict(x) for x in _dict.get('suggestions')
+                DialogSuggestion.from_dict(v) for v in _dict.get('suggestions')
             ]
         else:
             raise ValueError(
@@ -9714,8 +10123,8 @@ class RuntimeResponseGenericRuntimeResponseTypeSuggestion(
             )
         if 'channels' in _dict:
             args['channels'] = [
-                ResponseGenericChannel.from_dict(x)
-                for x in _dict.get('channels')
+                ResponseGenericChannel.from_dict(v)
+                for v in _dict.get('channels')
             ]
         return cls(**args)
 
@@ -9732,9 +10141,21 @@ class RuntimeResponseGenericRuntimeResponseTypeSuggestion(
         if hasattr(self, 'title') and self.title is not None:
             _dict['title'] = self.title
         if hasattr(self, 'suggestions') and self.suggestions is not None:
-            _dict['suggestions'] = [x.to_dict() for x in self.suggestions]
+            suggestions_list = []
+            for v in self.suggestions:
+                if isinstance(v, dict):
+                    suggestions_list.append(v)
+                else:
+                    suggestions_list.append(v.to_dict())
+            _dict['suggestions'] = suggestions_list
         if hasattr(self, 'channels') and self.channels is not None:
-            _dict['channels'] = [x.to_dict() for x in self.channels]
+            channels_list = []
+            for v in self.channels:
+                if isinstance(v, dict):
+                    channels_list.append(v)
+                else:
+                    channels_list.append(v.to_dict())
+            _dict['channels'] = channels_list
         return _dict
 
     def _to_dict(self):
@@ -9815,8 +10236,8 @@ class RuntimeResponseGenericRuntimeResponseTypeText(RuntimeResponseGeneric):
             )
         if 'channels' in _dict:
             args['channels'] = [
-                ResponseGenericChannel.from_dict(x)
-                for x in _dict.get('channels')
+                ResponseGenericChannel.from_dict(v)
+                for v in _dict.get('channels')
             ]
         return cls(**args)
 
@@ -9833,7 +10254,13 @@ class RuntimeResponseGenericRuntimeResponseTypeText(RuntimeResponseGeneric):
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         if hasattr(self, 'channels') and self.channels is not None:
-            _dict['channels'] = [x.to_dict() for x in self.channels]
+            channels_list = []
+            for v in self.channels:
+                if isinstance(v, dict):
+                    channels_list.append(v)
+                else:
+                    channels_list.append(v.to_dict())
+            _dict['channels'] = channels_list
         return _dict
 
     def _to_dict(self):
@@ -9915,8 +10342,8 @@ class RuntimeResponseGenericRuntimeResponseTypeUserDefined(
             )
         if 'channels' in _dict:
             args['channels'] = [
-                ResponseGenericChannel.from_dict(x)
-                for x in _dict.get('channels')
+                ResponseGenericChannel.from_dict(v)
+                for v in _dict.get('channels')
             ]
         return cls(**args)
 
@@ -9933,7 +10360,13 @@ class RuntimeResponseGenericRuntimeResponseTypeUserDefined(
         if hasattr(self, 'user_defined') and self.user_defined is not None:
             _dict['user_defined'] = self.user_defined
         if hasattr(self, 'channels') and self.channels is not None:
-            _dict['channels'] = [x.to_dict() for x in self.channels]
+            channels_list = []
+            for v in self.channels:
+                if isinstance(v, dict):
+                    channels_list.append(v)
+                else:
+                    channels_list.append(v.to_dict())
+            _dict['channels'] = channels_list
         return _dict
 
     def _to_dict(self):
@@ -9973,7 +10406,7 @@ class RuntimeResponseGenericRuntimeResponseTypeVideo(RuntimeResponseGeneric):
           specifying channels for which the response is intended. If **channels** is
           present, the response is intended for a built-in integration and should not be
           handled by an API client.
-    :attr object channel_options: (optional) For internal use only.
+    :attr dict channel_options: (optional) For internal use only.
     :attr str alt_text: (optional) Descriptive text that can be used for screen
           readers or other situations where the video cannot be seen.
     """
@@ -9985,7 +10418,7 @@ class RuntimeResponseGenericRuntimeResponseTypeVideo(RuntimeResponseGeneric):
                  title: str = None,
                  description: str = None,
                  channels: List['ResponseGenericChannel'] = None,
-                 channel_options: object = None,
+                 channel_options: dict = None,
                  alt_text: str = None) -> None:
         """
         Initialize a RuntimeResponseGenericRuntimeResponseTypeVideo object.
@@ -10002,7 +10435,7 @@ class RuntimeResponseGenericRuntimeResponseTypeVideo(RuntimeResponseGeneric):
                objects specifying channels for which the response is intended. If
                **channels** is present, the response is intended for a built-in
                integration and should not be handled by an API client.
-        :param object channel_options: (optional) For internal use only.
+        :param dict channel_options: (optional) For internal use only.
         :param str alt_text: (optional) Descriptive text that can be used for
                screen readers or other situations where the video cannot be seen.
         """
@@ -10039,8 +10472,8 @@ class RuntimeResponseGenericRuntimeResponseTypeVideo(RuntimeResponseGeneric):
             args['description'] = _dict.get('description')
         if 'channels' in _dict:
             args['channels'] = [
-                ResponseGenericChannel.from_dict(x)
-                for x in _dict.get('channels')
+                ResponseGenericChannel.from_dict(v)
+                for v in _dict.get('channels')
             ]
         if 'channel_options' in _dict:
             args['channel_options'] = _dict.get('channel_options')
@@ -10065,7 +10498,13 @@ class RuntimeResponseGenericRuntimeResponseTypeVideo(RuntimeResponseGeneric):
         if hasattr(self, 'description') and self.description is not None:
             _dict['description'] = self.description
         if hasattr(self, 'channels') and self.channels is not None:
-            _dict['channels'] = [x.to_dict() for x in self.channels]
+            channels_list = []
+            for v in self.channels:
+                if isinstance(v, dict):
+                    channels_list.append(v)
+                else:
+                    channels_list.append(v.to_dict())
+            _dict['channels'] = channels_list
         if hasattr(self,
                    'channel_options') and self.channel_options is not None:
             _dict['channel_options'] = self.channel_options

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2019, 2022.
+# (C) Copyright IBM Corp. 2019, 2023.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ version = 'testString'
 
 _service = NaturalLanguageUnderstandingV1(
     authenticator=NoAuthAuthenticator(),
-    version=version
+    version=version,
 )
 
 _base_url = 'https://api.us-south.natural-language-understanding.watson.cloud.ibm.com'
@@ -162,7 +162,7 @@ class TestAnalyze():
         features_model['emotion'] = emotion_options_model
         features_model['entities'] = entities_options_model
         features_model['keywords'] = keywords_options_model
-        features_model['metadata'] = {'key1': 'testString'}
+        features_model['metadata'] = {'foo': 'bar'}
         features_model['relations'] = relations_options_model
         features_model['semantic_roles'] = semantic_roles_options_model
         features_model['sentiment'] = sentiment_options_model
@@ -306,7 +306,7 @@ class TestAnalyze():
         features_model['emotion'] = emotion_options_model
         features_model['entities'] = entities_options_model
         features_model['keywords'] = keywords_options_model
-        features_model['metadata'] = {'key1': 'testString'}
+        features_model['metadata'] = {'foo': 'bar'}
         features_model['relations'] = relations_options_model
         features_model['semantic_roles'] = semantic_roles_options_model
         features_model['sentiment'] = sentiment_options_model
@@ -519,7 +519,7 @@ class TestCreateSentimentModel():
         """
         # Set up mock
         url = preprocess_url('/v1/models/sentiment')
-        mock_response = '{"features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z", "name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "notices": [{"message": "message"}], "workspace_id": "workspace_id", "version_description": "version_description"}'
+        mock_response = '{"features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z", "name": "name", "user_metadata": {"mapKey": "unknown property type: inner"}, "language": "language", "description": "description", "model_version": "model_version", "notices": [{"message": "message"}], "workspace_id": "workspace_id", "version_description": "version_description"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -567,7 +567,7 @@ class TestCreateSentimentModel():
         """
         # Set up mock
         url = preprocess_url('/v1/models/sentiment')
-        mock_response = '{"features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z", "name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "notices": [{"message": "message"}], "workspace_id": "workspace_id", "version_description": "version_description"}'
+        mock_response = '{"features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z", "name": "name", "user_metadata": {"mapKey": "unknown property type: inner"}, "language": "language", "description": "description", "model_version": "model_version", "notices": [{"message": "message"}], "workspace_id": "workspace_id", "version_description": "version_description"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -605,7 +605,7 @@ class TestCreateSentimentModel():
         """
         # Set up mock
         url = preprocess_url('/v1/models/sentiment')
-        mock_response = '{"features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z", "name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "notices": [{"message": "message"}], "workspace_id": "workspace_id", "version_description": "version_description"}'
+        mock_response = '{"features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z", "name": "name", "user_metadata": {"mapKey": "unknown property type: inner"}, "language": "language", "description": "description", "model_version": "model_version", "notices": [{"message": "message"}], "workspace_id": "workspace_id", "version_description": "version_description"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -647,7 +647,7 @@ class TestListSentimentModels():
         """
         # Set up mock
         url = preprocess_url('/v1/models/sentiment')
-        mock_response = '{"models": [{"features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z", "name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "notices": [{"message": "message"}], "workspace_id": "workspace_id", "version_description": "version_description"}]}'
+        mock_response = '{"models": [{"features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z", "name": "name", "user_metadata": {"mapKey": "unknown property type: inner"}, "language": "language", "description": "description", "model_version": "model_version", "notices": [{"message": "message"}], "workspace_id": "workspace_id", "version_description": "version_description"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -678,7 +678,7 @@ class TestListSentimentModels():
         """
         # Set up mock
         url = preprocess_url('/v1/models/sentiment')
-        mock_response = '{"models": [{"features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z", "name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "notices": [{"message": "message"}], "workspace_id": "workspace_id", "version_description": "version_description"}]}'
+        mock_response = '{"models": [{"features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z", "name": "name", "user_metadata": {"mapKey": "unknown property type: inner"}, "language": "language", "description": "description", "model_version": "model_version", "notices": [{"message": "message"}], "workspace_id": "workspace_id", "version_description": "version_description"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -714,7 +714,7 @@ class TestGetSentimentModel():
         """
         # Set up mock
         url = preprocess_url('/v1/models/sentiment/testString')
-        mock_response = '{"features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z", "name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "notices": [{"message": "message"}], "workspace_id": "workspace_id", "version_description": "version_description"}'
+        mock_response = '{"features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z", "name": "name", "user_metadata": {"mapKey": "unknown property type: inner"}, "language": "language", "description": "description", "model_version": "model_version", "notices": [{"message": "message"}], "workspace_id": "workspace_id", "version_description": "version_description"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -750,7 +750,7 @@ class TestGetSentimentModel():
         """
         # Set up mock
         url = preprocess_url('/v1/models/sentiment/testString')
-        mock_response = '{"features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z", "name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "notices": [{"message": "message"}], "workspace_id": "workspace_id", "version_description": "version_description"}'
+        mock_response = '{"features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z", "name": "name", "user_metadata": {"mapKey": "unknown property type: inner"}, "language": "language", "description": "description", "model_version": "model_version", "notices": [{"message": "message"}], "workspace_id": "workspace_id", "version_description": "version_description"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -790,7 +790,7 @@ class TestUpdateSentimentModel():
         """
         # Set up mock
         url = preprocess_url('/v1/models/sentiment/testString')
-        mock_response = '{"features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z", "name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "notices": [{"message": "message"}], "workspace_id": "workspace_id", "version_description": "version_description"}'
+        mock_response = '{"features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z", "name": "name", "user_metadata": {"mapKey": "unknown property type: inner"}, "language": "language", "description": "description", "model_version": "model_version", "notices": [{"message": "message"}], "workspace_id": "workspace_id", "version_description": "version_description"}'
         responses.add(responses.PUT,
                       url,
                       body=mock_response,
@@ -840,7 +840,7 @@ class TestUpdateSentimentModel():
         """
         # Set up mock
         url = preprocess_url('/v1/models/sentiment/testString')
-        mock_response = '{"features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z", "name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "notices": [{"message": "message"}], "workspace_id": "workspace_id", "version_description": "version_description"}'
+        mock_response = '{"features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z", "name": "name", "user_metadata": {"mapKey": "unknown property type: inner"}, "language": "language", "description": "description", "model_version": "model_version", "notices": [{"message": "message"}], "workspace_id": "workspace_id", "version_description": "version_description"}'
         responses.add(responses.PUT,
                       url,
                       body=mock_response,
@@ -880,7 +880,7 @@ class TestUpdateSentimentModel():
         """
         # Set up mock
         url = preprocess_url('/v1/models/sentiment/testString')
-        mock_response = '{"features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z", "name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "notices": [{"message": "message"}], "workspace_id": "workspace_id", "version_description": "version_description"}'
+        mock_response = '{"features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z", "name": "name", "user_metadata": {"mapKey": "unknown property type: inner"}, "language": "language", "description": "description", "model_version": "model_version", "notices": [{"message": "message"}], "workspace_id": "workspace_id", "version_description": "version_description"}'
         responses.add(responses.PUT,
                       url,
                       body=mock_response,
@@ -1010,7 +1010,7 @@ class TestCreateCategoriesModel():
         """
         # Set up mock
         url = preprocess_url('/v1/models/categories')
-        mock_response = '{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"name": "name", "user_metadata": {"mapKey": "unknown property type: inner"}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -1060,7 +1060,7 @@ class TestCreateCategoriesModel():
         """
         # Set up mock
         url = preprocess_url('/v1/models/categories')
-        mock_response = '{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"name": "name", "user_metadata": {"mapKey": "unknown property type: inner"}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -1098,7 +1098,7 @@ class TestCreateCategoriesModel():
         """
         # Set up mock
         url = preprocess_url('/v1/models/categories')
-        mock_response = '{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"name": "name", "user_metadata": {"mapKey": "unknown property type: inner"}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -1140,7 +1140,7 @@ class TestListCategoriesModels():
         """
         # Set up mock
         url = preprocess_url('/v1/models/categories')
-        mock_response = '{"models": [{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}]}'
+        mock_response = '{"models": [{"name": "name", "user_metadata": {"mapKey": "unknown property type: inner"}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1171,7 +1171,7 @@ class TestListCategoriesModels():
         """
         # Set up mock
         url = preprocess_url('/v1/models/categories')
-        mock_response = '{"models": [{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}]}'
+        mock_response = '{"models": [{"name": "name", "user_metadata": {"mapKey": "unknown property type: inner"}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1207,7 +1207,7 @@ class TestGetCategoriesModel():
         """
         # Set up mock
         url = preprocess_url('/v1/models/categories/testString')
-        mock_response = '{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"name": "name", "user_metadata": {"mapKey": "unknown property type: inner"}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1243,7 +1243,7 @@ class TestGetCategoriesModel():
         """
         # Set up mock
         url = preprocess_url('/v1/models/categories/testString')
-        mock_response = '{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"name": "name", "user_metadata": {"mapKey": "unknown property type: inner"}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1283,7 +1283,7 @@ class TestUpdateCategoriesModel():
         """
         # Set up mock
         url = preprocess_url('/v1/models/categories/testString')
-        mock_response = '{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"name": "name", "user_metadata": {"mapKey": "unknown property type: inner"}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.PUT,
                       url,
                       body=mock_response,
@@ -1335,7 +1335,7 @@ class TestUpdateCategoriesModel():
         """
         # Set up mock
         url = preprocess_url('/v1/models/categories/testString')
-        mock_response = '{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"name": "name", "user_metadata": {"mapKey": "unknown property type: inner"}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.PUT,
                       url,
                       body=mock_response,
@@ -1375,7 +1375,7 @@ class TestUpdateCategoriesModel():
         """
         # Set up mock
         url = preprocess_url('/v1/models/categories/testString')
-        mock_response = '{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"name": "name", "user_metadata": {"mapKey": "unknown property type: inner"}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.PUT,
                       url,
                       body=mock_response,
@@ -1505,7 +1505,7 @@ class TestCreateClassificationsModel():
         """
         # Set up mock
         url = preprocess_url('/v1/models/classifications')
-        mock_response = '{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"name": "name", "user_metadata": {"mapKey": "unknown property type: inner"}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -1561,7 +1561,7 @@ class TestCreateClassificationsModel():
         """
         # Set up mock
         url = preprocess_url('/v1/models/classifications')
-        mock_response = '{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"name": "name", "user_metadata": {"mapKey": "unknown property type: inner"}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -1599,7 +1599,7 @@ class TestCreateClassificationsModel():
         """
         # Set up mock
         url = preprocess_url('/v1/models/classifications')
-        mock_response = '{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"name": "name", "user_metadata": {"mapKey": "unknown property type: inner"}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -1641,7 +1641,7 @@ class TestListClassificationsModels():
         """
         # Set up mock
         url = preprocess_url('/v1/models/classifications')
-        mock_response = '{"models": [{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}]}'
+        mock_response = '{"models": [{"name": "name", "user_metadata": {"mapKey": "unknown property type: inner"}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1672,7 +1672,7 @@ class TestListClassificationsModels():
         """
         # Set up mock
         url = preprocess_url('/v1/models/classifications')
-        mock_response = '{"models": [{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}]}'
+        mock_response = '{"models": [{"name": "name", "user_metadata": {"mapKey": "unknown property type: inner"}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1708,7 +1708,7 @@ class TestGetClassificationsModel():
         """
         # Set up mock
         url = preprocess_url('/v1/models/classifications/testString')
-        mock_response = '{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"name": "name", "user_metadata": {"mapKey": "unknown property type: inner"}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1744,7 +1744,7 @@ class TestGetClassificationsModel():
         """
         # Set up mock
         url = preprocess_url('/v1/models/classifications/testString')
-        mock_response = '{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"name": "name", "user_metadata": {"mapKey": "unknown property type: inner"}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1784,7 +1784,7 @@ class TestUpdateClassificationsModel():
         """
         # Set up mock
         url = preprocess_url('/v1/models/classifications/testString')
-        mock_response = '{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"name": "name", "user_metadata": {"mapKey": "unknown property type: inner"}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.PUT,
                       url,
                       body=mock_response,
@@ -1842,7 +1842,7 @@ class TestUpdateClassificationsModel():
         """
         # Set up mock
         url = preprocess_url('/v1/models/classifications/testString')
-        mock_response = '{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"name": "name", "user_metadata": {"mapKey": "unknown property type: inner"}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.PUT,
                       url,
                       body=mock_response,
@@ -1882,7 +1882,7 @@ class TestUpdateClassificationsModel():
         """
         # Set up mock
         url = preprocess_url('/v1/models/classifications/testString')
-        mock_response = '{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"name": "name", "user_metadata": {"mapKey": "unknown property type: inner"}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.PUT,
                       url,
                       body=mock_response,
@@ -2277,12 +2277,11 @@ class TestModel_CategoriesModel():
         # Construct dict forms of any model objects needed in order to build this model.
 
         notice_model = {} # Notice
-        notice_model['message'] = 'Training data validation failed: Too few examples for label insufficient_examples. Minimum of 5 required'
 
         # Construct a json representation of a CategoriesModel model
         categories_model_model_json = {}
         categories_model_model_json['name'] = 'testString'
-        categories_model_model_json['user_metadata'] = {'key1': {'foo': 'bar'}}
+        categories_model_model_json['user_metadata'] = {'key1': 'unknown type: dict'}
         categories_model_model_json['language'] = 'testString'
         categories_model_model_json['description'] = 'testString'
         categories_model_model_json['model_version'] = 'testString'
@@ -2324,11 +2323,10 @@ class TestModel_CategoriesModelList():
         # Construct dict forms of any model objects needed in order to build this model.
 
         notice_model = {} # Notice
-        notice_model['message'] = 'Training data validation failed: Too few examples for label insufficient_examples. Minimum of 5 required'
 
         categories_model_model = {} # CategoriesModel
         categories_model_model['name'] = 'testString'
-        categories_model_model['user_metadata'] = {'key1': {'foo': 'bar'}}
+        categories_model_model['user_metadata'] = {'key1': 'unknown type: dict'}
         categories_model_model['language'] = 'testString'
         categories_model_model['description'] = 'testString'
         categories_model_model['model_version'] = 'testString'
@@ -2507,12 +2505,11 @@ class TestModel_ClassificationsModel():
         # Construct dict forms of any model objects needed in order to build this model.
 
         notice_model = {} # Notice
-        notice_model['message'] = 'Training data validation failed: Too few examples for label insufficient_examples. Minimum of 5 required'
 
         # Construct a json representation of a ClassificationsModel model
         classifications_model_model_json = {}
         classifications_model_model_json['name'] = 'testString'
-        classifications_model_model_json['user_metadata'] = {'key1': {'foo': 'bar'}}
+        classifications_model_model_json['user_metadata'] = {'key1': 'unknown type: dict'}
         classifications_model_model_json['language'] = 'testString'
         classifications_model_model_json['description'] = 'testString'
         classifications_model_model_json['model_version'] = 'testString'
@@ -2554,11 +2551,10 @@ class TestModel_ClassificationsModelList():
         # Construct dict forms of any model objects needed in order to build this model.
 
         notice_model = {} # Notice
-        notice_model['message'] = 'Training data validation failed: Too few examples for label insufficient_examples. Minimum of 5 required'
 
         classifications_model_model = {} # ClassificationsModel
         classifications_model_model['name'] = 'testString'
-        classifications_model_model['user_metadata'] = {'key1': {'foo': 'bar'}}
+        classifications_model_model['user_metadata'] = {'key1': 'unknown type: dict'}
         classifications_model_model['language'] = 'testString'
         classifications_model_model['description'] = 'testString'
         classifications_model_model['model_version'] = 'testString'
@@ -3198,7 +3194,7 @@ class TestModel_Features():
         features_model_json['emotion'] = emotion_options_model
         features_model_json['entities'] = entities_options_model
         features_model_json['keywords'] = keywords_options_model
-        features_model_json['metadata'] = {'key1': 'testString'}
+        features_model_json['metadata'] = {'foo': 'bar'}
         features_model_json['relations'] = relations_options_model
         features_model_json['semantic_roles'] = semantic_roles_options_model
         features_model_json['sentiment'] = sentiment_options_model
@@ -3422,7 +3418,6 @@ class TestModel_ListSentimentModelsResponse():
         # Construct dict forms of any model objects needed in order to build this model.
 
         notice_model = {} # Notice
-        notice_model['message'] = 'Training data validation failed: Too few examples for label insufficient_examples. Minimum of 5 required'
 
         sentiment_model_model = {} # SentimentModel
         sentiment_model_model['features'] = ['testString']
@@ -3432,7 +3427,7 @@ class TestModel_ListSentimentModelsResponse():
         sentiment_model_model['last_trained'] = '2019-01-01T12:00:00Z'
         sentiment_model_model['last_deployed'] = '2019-01-01T12:00:00Z'
         sentiment_model_model['name'] = 'testString'
-        sentiment_model_model['user_metadata'] = {'key1': {'foo': 'bar'}}
+        sentiment_model_model['user_metadata'] = {'key1': 'unknown type: dict'}
         sentiment_model_model['language'] = 'testString'
         sentiment_model_model['description'] = 'testString'
         sentiment_model_model['model_version'] = 'testString'
@@ -3508,7 +3503,6 @@ class TestModel_Notice():
 
         # Construct a json representation of a Notice model
         notice_model_json = {}
-        notice_model_json['message'] = 'testString'
 
         # Construct a model instance of Notice by calling from_dict on the json representation
         notice_model = Notice.from_dict(notice_model_json)
@@ -3998,7 +3992,6 @@ class TestModel_SentimentModel():
         # Construct dict forms of any model objects needed in order to build this model.
 
         notice_model = {} # Notice
-        notice_model['message'] = 'Training data validation failed: Too few examples for label insufficient_examples. Minimum of 5 required'
 
         # Construct a json representation of a SentimentModel model
         sentiment_model_model_json = {}
@@ -4009,7 +4002,7 @@ class TestModel_SentimentModel():
         sentiment_model_model_json['last_trained'] = '2019-01-01T12:00:00Z'
         sentiment_model_model_json['last_deployed'] = '2019-01-01T12:00:00Z'
         sentiment_model_model_json['name'] = 'testString'
-        sentiment_model_model_json['user_metadata'] = {'key1': {'foo': 'bar'}}
+        sentiment_model_model_json['user_metadata'] = {'key1': 'unknown type: dict'}
         sentiment_model_model_json['language'] = 'testString'
         sentiment_model_model_json['description'] = 'testString'
         sentiment_model_model_json['model_version'] = 'testString'
