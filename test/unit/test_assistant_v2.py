@@ -67,6 +67,286 @@ def preprocess_url(operation_path: str):
 
 
 ##############################################################################
+# Start of Service: Assistants
+##############################################################################
+# region
+
+class TestCreateAssistant():
+    """
+    Test Class for create_assistant
+    """
+
+    @responses.activate
+    def test_create_assistant_all_params(self):
+        """
+        create_assistant()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/assistants')
+        mock_response = '{"assistant_id": "assistant_id", "name": "name", "description": "description", "language": "language", "assistant_skills": [{"skill_id": "skill_id", "type": "dialog"}], "assistant_environments": [{"name": "name", "environment_id": "environment_id", "environment": "draft"}]}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        language = 'testString'
+        name = 'testString'
+        description = 'testString'
+
+        # Invoke method
+        response = _service.create_assistant(
+            language=language,
+            name=name,
+            description=description,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['language'] == 'testString'
+        assert req_body['name'] == 'testString'
+        assert req_body['description'] == 'testString'
+
+    def test_create_assistant_all_params_with_retries(self):
+        # Enable retries and run test_create_assistant_all_params.
+        _service.enable_retries()
+        self.test_create_assistant_all_params()
+
+        # Disable retries and run test_create_assistant_all_params.
+        _service.disable_retries()
+        self.test_create_assistant_all_params()
+
+    @responses.activate
+    def test_create_assistant_required_params(self):
+        """
+        test_create_assistant_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/assistants')
+        mock_response = '{"assistant_id": "assistant_id", "name": "name", "description": "description", "language": "language", "assistant_skills": [{"skill_id": "skill_id", "type": "dialog"}], "assistant_environments": [{"name": "name", "environment_id": "environment_id", "environment": "draft"}]}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Invoke method
+        response = _service.create_assistant()
+
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_create_assistant_required_params_with_retries(self):
+        # Enable retries and run test_create_assistant_required_params.
+        _service.enable_retries()
+        self.test_create_assistant_required_params()
+
+        # Disable retries and run test_create_assistant_required_params.
+        _service.disable_retries()
+        self.test_create_assistant_required_params()
+
+    @responses.activate
+    def test_create_assistant_value_error(self):
+        """
+        test_create_assistant_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/assistants')
+        mock_response = '{"assistant_id": "assistant_id", "name": "name", "description": "description", "language": "language", "assistant_skills": [{"skill_id": "skill_id", "type": "dialog"}], "assistant_environments": [{"name": "name", "environment_id": "environment_id", "environment": "draft"}]}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.create_assistant(**req_copy)
+
+    def test_create_assistant_value_error_with_retries(self):
+        # Enable retries and run test_create_assistant_value_error.
+        _service.enable_retries()
+        self.test_create_assistant_value_error()
+
+        # Disable retries and run test_create_assistant_value_error.
+        _service.disable_retries()
+        self.test_create_assistant_value_error()
+
+class TestListAssistants():
+    """
+    Test Class for list_assistants
+    """
+
+    @responses.activate
+    def test_list_assistants_all_params(self):
+        """
+        list_assistants()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/assistants')
+        mock_response = '{"assistants": [{"assistant_id": "assistant_id", "name": "name", "description": "description", "language": "language", "assistant_skills": [{"skill_id": "skill_id", "type": "dialog"}], "assistant_environments": [{"name": "name", "environment_id": "environment_id", "environment": "draft"}]}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        page_limit = 38
+        include_count = False
+        sort = 'name'
+        cursor = 'testString'
+        include_audit = False
+
+        # Invoke method
+        response = _service.list_assistants(
+            page_limit=page_limit,
+            include_count=include_count,
+            sort=sort,
+            cursor=cursor,
+            include_audit=include_audit,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate query params
+        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = urllib.parse.unquote_plus(query_string)
+        assert 'page_limit={}'.format(page_limit) in query_string
+        assert 'include_count={}'.format('true' if include_count else 'false') in query_string
+        assert 'sort={}'.format(sort) in query_string
+        assert 'cursor={}'.format(cursor) in query_string
+        assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
+
+    def test_list_assistants_all_params_with_retries(self):
+        # Enable retries and run test_list_assistants_all_params.
+        _service.enable_retries()
+        self.test_list_assistants_all_params()
+
+        # Disable retries and run test_list_assistants_all_params.
+        _service.disable_retries()
+        self.test_list_assistants_all_params()
+
+    @responses.activate
+    def test_list_assistants_required_params(self):
+        """
+        test_list_assistants_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/assistants')
+        mock_response = '{"assistants": [{"assistant_id": "assistant_id", "name": "name", "description": "description", "language": "language", "assistant_skills": [{"skill_id": "skill_id", "type": "dialog"}], "assistant_environments": [{"name": "name", "environment_id": "environment_id", "environment": "draft"}]}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Invoke method
+        response = _service.list_assistants()
+
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_list_assistants_required_params_with_retries(self):
+        # Enable retries and run test_list_assistants_required_params.
+        _service.enable_retries()
+        self.test_list_assistants_required_params()
+
+        # Disable retries and run test_list_assistants_required_params.
+        _service.disable_retries()
+        self.test_list_assistants_required_params()
+
+class TestDeleteAssistant():
+    """
+    Test Class for delete_assistant
+    """
+
+    @responses.activate
+    def test_delete_assistant_all_params(self):
+        """
+        delete_assistant()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/assistants/testString')
+        responses.add(responses.DELETE,
+                      url,
+                      status=200)
+
+        # Set up parameter values
+        assistant_id = 'testString'
+
+        # Invoke method
+        response = _service.delete_assistant(
+            assistant_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_delete_assistant_all_params_with_retries(self):
+        # Enable retries and run test_delete_assistant_all_params.
+        _service.enable_retries()
+        self.test_delete_assistant_all_params()
+
+        # Disable retries and run test_delete_assistant_all_params.
+        _service.disable_retries()
+        self.test_delete_assistant_all_params()
+
+    @responses.activate
+    def test_delete_assistant_value_error(self):
+        """
+        test_delete_assistant_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/assistants/testString')
+        responses.add(responses.DELETE,
+                      url,
+                      status=200)
+
+        # Set up parameter values
+        assistant_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "assistant_id": assistant_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.delete_assistant(**req_copy)
+
+    def test_delete_assistant_value_error_with_retries(self):
+        # Enable retries and run test_delete_assistant_value_error.
+        _service.enable_retries()
+        self.test_delete_assistant_value_error()
+
+        # Disable retries and run test_delete_assistant_value_error.
+        _service.disable_retries()
+        self.test_delete_assistant_value_error()
+
+# endregion
+##############################################################################
+# End of Service: Assistants
+##############################################################################
+
+##############################################################################
 # Start of Service: Sessions
 ##############################################################################
 # region
@@ -90,14 +370,20 @@ class TestCreateSession():
                       content_type='application/json',
                       status=201)
 
+        # Construct a dict representation of a RequestAnalytics model
+        request_analytics_model = {}
+        request_analytics_model['browser'] = 'testString'
+        request_analytics_model['device'] = 'testString'
+        request_analytics_model['pageUrl'] = 'testString'
+
         # Set up parameter values
         assistant_id = 'testString'
-        request_body = {'key1': 'testString'}
+        analytics = request_analytics_model
 
         # Invoke method
         response = _service.create_session(
             assistant_id,
-            request_body=request_body,
+            analytics=analytics,
             headers={}
         )
 
@@ -106,7 +392,7 @@ class TestCreateSession():
         assert response.status_code == 201
         # Validate body params
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
-        assert req_body == request_body
+        assert req_body['analytics'] == request_analytics_model
 
     def test_create_session_all_params_with_retries(self):
         # Enable retries and run test_create_session_all_params.
@@ -284,7 +570,7 @@ class TestMessage():
         """
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/sessions/testString/message')
-        mock_response = '{"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"mapKey": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}'
+        mock_response = '{"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"mapKey": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -357,6 +643,12 @@ class TestMessage():
         message_input_attachment_model['url'] = 'testString'
         message_input_attachment_model['media_type'] = 'testString'
 
+        # Construct a dict representation of a RequestAnalytics model
+        request_analytics_model = {}
+        request_analytics_model['browser'] = 'testString'
+        request_analytics_model['device'] = 'testString'
+        request_analytics_model['pageUrl'] = 'testString'
+
         # Construct a dict representation of a MessageInputOptionsSpelling model
         message_input_options_spelling_model = {}
         message_input_options_spelling_model['suggestions'] = True
@@ -379,6 +671,7 @@ class TestMessage():
         message_input_model['entities'] = [runtime_entity_model]
         message_input_model['suggestion_id'] = 'testString'
         message_input_model['attachments'] = [message_input_attachment_model]
+        message_input_model['analytics'] = request_analytics_model
         message_input_model['options'] = message_input_options_model
 
         # Construct a dict representation of a MessageContextGlobalSystem model
@@ -454,7 +747,7 @@ class TestMessage():
         """
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/sessions/testString/message')
-        mock_response = '{"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"mapKey": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}'
+        mock_response = '{"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"mapKey": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -492,7 +785,7 @@ class TestMessage():
         """
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/sessions/testString/message')
-        mock_response = '{"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"mapKey": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}'
+        mock_response = '{"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"mapKey": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -534,7 +827,7 @@ class TestMessageStateless():
         """
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/message')
-        mock_response = '{"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"mapKey": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}'
+        mock_response = '{"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"mapKey": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -607,6 +900,12 @@ class TestMessageStateless():
         message_input_attachment_model['url'] = 'testString'
         message_input_attachment_model['media_type'] = 'testString'
 
+        # Construct a dict representation of a RequestAnalytics model
+        request_analytics_model = {}
+        request_analytics_model['browser'] = 'testString'
+        request_analytics_model['device'] = 'testString'
+        request_analytics_model['pageUrl'] = 'testString'
+
         # Construct a dict representation of a MessageInputOptionsSpelling model
         message_input_options_spelling_model = {}
         message_input_options_spelling_model['suggestions'] = True
@@ -627,6 +926,7 @@ class TestMessageStateless():
         message_input_stateless_model['entities'] = [runtime_entity_model]
         message_input_stateless_model['suggestion_id'] = 'testString'
         message_input_stateless_model['attachments'] = [message_input_attachment_model]
+        message_input_stateless_model['analytics'] = request_analytics_model
         message_input_stateless_model['options'] = message_input_options_stateless_model
 
         # Construct a dict representation of a MessageContextGlobalSystem model
@@ -701,7 +1001,7 @@ class TestMessageStateless():
         """
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/message')
-        mock_response = '{"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"mapKey": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}'
+        mock_response = '{"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"mapKey": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -737,7 +1037,7 @@ class TestMessageStateless():
         """
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/message')
-        mock_response = '{"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"mapKey": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}'
+        mock_response = '{"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"mapKey": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -888,7 +1188,7 @@ class TestListLogs():
         """
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/logs')
-        mock_response = '{"logs": [{"log_id": "log_id", "request": {"input": {"message_type": "text", "text": "text", "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "suggestion_id": "suggestion_id", "attachments": [{"url": "url", "media_type": "media_type"}], "options": {"restart": false, "alternate_intents": false, "spelling": {"suggestions": false, "auto_correct": true}, "debug": false, "return_context": false, "export": false}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"mapKey": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}, "response": {"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"mapKey": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}, "assistant_id": "assistant_id", "session_id": "session_id", "skill_id": "skill_id", "snapshot": "snapshot", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "language": "language", "customer_id": "customer_id"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
+        mock_response = '{"logs": [{"log_id": "log_id", "request": {"input": {"message_type": "text", "text": "text", "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "suggestion_id": "suggestion_id", "attachments": [{"url": "url", "media_type": "media_type"}], "analytics": {"browser": "browser", "device": "device", "pageUrl": "page_url"}, "options": {"restart": false, "alternate_intents": false, "spelling": {"suggestions": false, "auto_correct": true}, "debug": false, "return_context": false, "export": false}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"mapKey": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}, "response": {"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"mapKey": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}, "assistant_id": "assistant_id", "session_id": "session_id", "skill_id": "skill_id", "snapshot": "snapshot", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "language": "language", "customer_id": "customer_id"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -939,7 +1239,7 @@ class TestListLogs():
         """
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/logs')
-        mock_response = '{"logs": [{"log_id": "log_id", "request": {"input": {"message_type": "text", "text": "text", "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "suggestion_id": "suggestion_id", "attachments": [{"url": "url", "media_type": "media_type"}], "options": {"restart": false, "alternate_intents": false, "spelling": {"suggestions": false, "auto_correct": true}, "debug": false, "return_context": false, "export": false}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"mapKey": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}, "response": {"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"mapKey": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}, "assistant_id": "assistant_id", "session_id": "session_id", "skill_id": "skill_id", "snapshot": "snapshot", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "language": "language", "customer_id": "customer_id"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
+        mock_response = '{"logs": [{"log_id": "log_id", "request": {"input": {"message_type": "text", "text": "text", "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "suggestion_id": "suggestion_id", "attachments": [{"url": "url", "media_type": "media_type"}], "analytics": {"browser": "browser", "device": "device", "pageUrl": "page_url"}, "options": {"restart": false, "alternate_intents": false, "spelling": {"suggestions": false, "auto_correct": true}, "debug": false, "return_context": false, "export": false}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"mapKey": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}, "response": {"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"mapKey": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}, "assistant_id": "assistant_id", "session_id": "session_id", "skill_id": "skill_id", "snapshot": "snapshot", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "language": "language", "customer_id": "customer_id"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -975,7 +1275,7 @@ class TestListLogs():
         """
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/logs')
-        mock_response = '{"logs": [{"log_id": "log_id", "request": {"input": {"message_type": "text", "text": "text", "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "suggestion_id": "suggestion_id", "attachments": [{"url": "url", "media_type": "media_type"}], "options": {"restart": false, "alternate_intents": false, "spelling": {"suggestions": false, "auto_correct": true}, "debug": false, "return_context": false, "export": false}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"mapKey": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}, "response": {"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"mapKey": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}, "assistant_id": "assistant_id", "session_id": "session_id", "skill_id": "skill_id", "snapshot": "snapshot", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "language": "language", "customer_id": "customer_id"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
+        mock_response = '{"logs": [{"log_id": "log_id", "request": {"input": {"message_type": "text", "text": "text", "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "suggestion_id": "suggestion_id", "attachments": [{"url": "url", "media_type": "media_type"}], "analytics": {"browser": "browser", "device": "device", "pageUrl": "page_url"}, "options": {"restart": false, "alternate_intents": false, "spelling": {"suggestions": false, "auto_correct": true}, "debug": false, "return_context": false, "export": false}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"mapKey": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}, "response": {"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"mapKey": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}, "assistant_id": "assistant_id", "session_id": "session_id", "skill_id": "skill_id", "snapshot": "snapshot", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "language": "language", "customer_id": "customer_id"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1109,7 +1409,7 @@ class TestListEnvironments():
         """
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/environments')
-        mock_response = '{"environments": [{"name": "name", "description": "description", "language": "language", "assistant_id": "assistant_id", "environment_id": "environment_id", "environment": "environment", "release_reference": {"release": "release"}, "orchestration": {"search_skill_fallback": false}, "session_timeout": 15, "integration_references": [{"integration_id": "integration_id", "type": "type"}], "skill_references": [{"skill_id": "skill_id", "type": "dialog", "disabled": true, "snapshot": "snapshot", "skill_reference": "skill_reference"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
+        mock_response = '{"environments": [{"name": "name", "description": "description", "assistant_id": "assistant_id", "environment_id": "environment_id", "environment": "environment", "release_reference": {"release": "release"}, "orchestration": {"search_skill_fallback": false}, "session_timeout": 10, "integration_references": [{"integration_id": "integration_id", "type": "type"}], "skill_references": [{"skill_id": "skill_id", "type": "dialog", "disabled": true, "snapshot": "snapshot", "skill_reference": "skill_reference"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1163,7 +1463,7 @@ class TestListEnvironments():
         """
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/environments')
-        mock_response = '{"environments": [{"name": "name", "description": "description", "language": "language", "assistant_id": "assistant_id", "environment_id": "environment_id", "environment": "environment", "release_reference": {"release": "release"}, "orchestration": {"search_skill_fallback": false}, "session_timeout": 15, "integration_references": [{"integration_id": "integration_id", "type": "type"}], "skill_references": [{"skill_id": "skill_id", "type": "dialog", "disabled": true, "snapshot": "snapshot", "skill_reference": "skill_reference"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
+        mock_response = '{"environments": [{"name": "name", "description": "description", "assistant_id": "assistant_id", "environment_id": "environment_id", "environment": "environment", "release_reference": {"release": "release"}, "orchestration": {"search_skill_fallback": false}, "session_timeout": 10, "integration_references": [{"integration_id": "integration_id", "type": "type"}], "skill_references": [{"skill_id": "skill_id", "type": "dialog", "disabled": true, "snapshot": "snapshot", "skill_reference": "skill_reference"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1199,7 +1499,7 @@ class TestListEnvironments():
         """
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/environments')
-        mock_response = '{"environments": [{"name": "name", "description": "description", "language": "language", "assistant_id": "assistant_id", "environment_id": "environment_id", "environment": "environment", "release_reference": {"release": "release"}, "orchestration": {"search_skill_fallback": false}, "session_timeout": 15, "integration_references": [{"integration_id": "integration_id", "type": "type"}], "skill_references": [{"skill_id": "skill_id", "type": "dialog", "disabled": true, "snapshot": "snapshot", "skill_reference": "skill_reference"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
+        mock_response = '{"environments": [{"name": "name", "description": "description", "assistant_id": "assistant_id", "environment_id": "environment_id", "environment": "environment", "release_reference": {"release": "release"}, "orchestration": {"search_skill_fallback": false}, "session_timeout": 10, "integration_references": [{"integration_id": "integration_id", "type": "type"}], "skill_references": [{"skill_id": "skill_id", "type": "dialog", "disabled": true, "snapshot": "snapshot", "skill_reference": "skill_reference"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1239,7 +1539,7 @@ class TestGetEnvironment():
         """
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/environments/testString')
-        mock_response = '{"name": "name", "description": "description", "language": "language", "assistant_id": "assistant_id", "environment_id": "environment_id", "environment": "environment", "release_reference": {"release": "release"}, "orchestration": {"search_skill_fallback": false}, "session_timeout": 15, "integration_references": [{"integration_id": "integration_id", "type": "type"}], "skill_references": [{"skill_id": "skill_id", "type": "dialog", "disabled": true, "snapshot": "snapshot", "skill_reference": "skill_reference"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"name": "name", "description": "description", "assistant_id": "assistant_id", "environment_id": "environment_id", "environment": "environment", "release_reference": {"release": "release"}, "orchestration": {"search_skill_fallback": false}, "session_timeout": 10, "integration_references": [{"integration_id": "integration_id", "type": "type"}], "skill_references": [{"skill_id": "skill_id", "type": "dialog", "disabled": true, "snapshot": "snapshot", "skill_reference": "skill_reference"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1283,7 +1583,7 @@ class TestGetEnvironment():
         """
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/environments/testString')
-        mock_response = '{"name": "name", "description": "description", "language": "language", "assistant_id": "assistant_id", "environment_id": "environment_id", "environment": "environment", "release_reference": {"release": "release"}, "orchestration": {"search_skill_fallback": false}, "session_timeout": 15, "integration_references": [{"integration_id": "integration_id", "type": "type"}], "skill_references": [{"skill_id": "skill_id", "type": "dialog", "disabled": true, "snapshot": "snapshot", "skill_reference": "skill_reference"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"name": "name", "description": "description", "assistant_id": "assistant_id", "environment_id": "environment_id", "environment": "environment", "release_reference": {"release": "release"}, "orchestration": {"search_skill_fallback": false}, "session_timeout": 10, "integration_references": [{"integration_id": "integration_id", "type": "type"}], "skill_references": [{"skill_id": "skill_id", "type": "dialog", "disabled": true, "snapshot": "snapshot", "skill_reference": "skill_reference"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1321,7 +1621,7 @@ class TestGetEnvironment():
         """
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/environments/testString')
-        mock_response = '{"name": "name", "description": "description", "language": "language", "assistant_id": "assistant_id", "environment_id": "environment_id", "environment": "environment", "release_reference": {"release": "release"}, "orchestration": {"search_skill_fallback": false}, "session_timeout": 15, "integration_references": [{"integration_id": "integration_id", "type": "type"}], "skill_references": [{"skill_id": "skill_id", "type": "dialog", "disabled": true, "snapshot": "snapshot", "skill_reference": "skill_reference"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"name": "name", "description": "description", "assistant_id": "assistant_id", "environment_id": "environment_id", "environment": "environment", "release_reference": {"release": "release"}, "orchestration": {"search_skill_fallback": false}, "session_timeout": 10, "integration_references": [{"integration_id": "integration_id", "type": "type"}], "skill_references": [{"skill_id": "skill_id", "type": "dialog", "disabled": true, "snapshot": "snapshot", "skill_reference": "skill_reference"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1351,6 +1651,146 @@ class TestGetEnvironment():
         _service.disable_retries()
         self.test_get_environment_value_error()
 
+class TestUpdateEnvironment():
+    """
+    Test Class for update_environment
+    """
+
+    @responses.activate
+    def test_update_environment_all_params(self):
+        """
+        update_environment()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/assistants/testString/environments/testString')
+        mock_response = '{"name": "name", "description": "description", "assistant_id": "assistant_id", "environment_id": "environment_id", "environment": "environment", "release_reference": {"release": "release"}, "orchestration": {"search_skill_fallback": false}, "session_timeout": 10, "integration_references": [{"integration_id": "integration_id", "type": "type"}], "skill_references": [{"skill_id": "skill_id", "type": "dialog", "disabled": true, "snapshot": "snapshot", "skill_reference": "skill_reference"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Construct a dict representation of a EnvironmentSkill model
+        environment_skill_model = {}
+        environment_skill_model['skill_id'] = 'testString'
+        environment_skill_model['type'] = 'dialog'
+        environment_skill_model['disabled'] = True
+        environment_skill_model['snapshot'] = 'testString'
+        environment_skill_model['skill_reference'] = 'testString'
+
+        # Set up parameter values
+        assistant_id = 'testString'
+        environment_id = 'testString'
+        name = 'testString'
+        description = 'testString'
+        session_timeout = 10
+        skill_references = [environment_skill_model]
+
+        # Invoke method
+        response = _service.update_environment(
+            assistant_id,
+            environment_id,
+            name=name,
+            description=description,
+            session_timeout=session_timeout,
+            skill_references=skill_references,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['name'] == 'testString'
+        assert req_body['description'] == 'testString'
+        assert req_body['session_timeout'] == 10
+        assert req_body['skill_references'] == [environment_skill_model]
+
+    def test_update_environment_all_params_with_retries(self):
+        # Enable retries and run test_update_environment_all_params.
+        _service.enable_retries()
+        self.test_update_environment_all_params()
+
+        # Disable retries and run test_update_environment_all_params.
+        _service.disable_retries()
+        self.test_update_environment_all_params()
+
+    @responses.activate
+    def test_update_environment_required_params(self):
+        """
+        test_update_environment_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/assistants/testString/environments/testString')
+        mock_response = '{"name": "name", "description": "description", "assistant_id": "assistant_id", "environment_id": "environment_id", "environment": "environment", "release_reference": {"release": "release"}, "orchestration": {"search_skill_fallback": false}, "session_timeout": 10, "integration_references": [{"integration_id": "integration_id", "type": "type"}], "skill_references": [{"skill_id": "skill_id", "type": "dialog", "disabled": true, "snapshot": "snapshot", "skill_reference": "skill_reference"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        assistant_id = 'testString'
+        environment_id = 'testString'
+
+        # Invoke method
+        response = _service.update_environment(
+            assistant_id,
+            environment_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_update_environment_required_params_with_retries(self):
+        # Enable retries and run test_update_environment_required_params.
+        _service.enable_retries()
+        self.test_update_environment_required_params()
+
+        # Disable retries and run test_update_environment_required_params.
+        _service.disable_retries()
+        self.test_update_environment_required_params()
+
+    @responses.activate
+    def test_update_environment_value_error(self):
+        """
+        test_update_environment_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/assistants/testString/environments/testString')
+        mock_response = '{"name": "name", "description": "description", "assistant_id": "assistant_id", "environment_id": "environment_id", "environment": "environment", "release_reference": {"release": "release"}, "orchestration": {"search_skill_fallback": false}, "session_timeout": 10, "integration_references": [{"integration_id": "integration_id", "type": "type"}], "skill_references": [{"skill_id": "skill_id", "type": "dialog", "disabled": true, "snapshot": "snapshot", "skill_reference": "skill_reference"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        assistant_id = 'testString'
+        environment_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "assistant_id": assistant_id,
+            "environment_id": environment_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.update_environment(**req_copy)
+
+    def test_update_environment_value_error_with_retries(self):
+        # Enable retries and run test_update_environment_value_error.
+        _service.enable_retries()
+        self.test_update_environment_value_error()
+
+        # Disable retries and run test_update_environment_value_error.
+        _service.disable_retries()
+        self.test_update_environment_value_error()
+
 # endregion
 ##############################################################################
 # End of Service: Environments
@@ -1360,6 +1800,123 @@ class TestGetEnvironment():
 # Start of Service: Releases
 ##############################################################################
 # region
+
+class TestCreateRelease():
+    """
+    Test Class for create_release
+    """
+
+    @responses.activate
+    def test_create_release_all_params(self):
+        """
+        create_release()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/assistants/testString/releases')
+        mock_response = '{"release": "release", "description": "description", "environment_references": [{"name": "name", "environment_id": "environment_id", "environment": "draft"}], "content": {"skills": [{"skill_id": "skill_id", "type": "dialog", "snapshot": "snapshot"}]}, "status": "Available", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=202)
+
+        # Set up parameter values
+        assistant_id = 'testString'
+        description = 'testString'
+
+        # Invoke method
+        response = _service.create_release(
+            assistant_id,
+            description=description,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 202
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['description'] == 'testString'
+
+    def test_create_release_all_params_with_retries(self):
+        # Enable retries and run test_create_release_all_params.
+        _service.enable_retries()
+        self.test_create_release_all_params()
+
+        # Disable retries and run test_create_release_all_params.
+        _service.disable_retries()
+        self.test_create_release_all_params()
+
+    @responses.activate
+    def test_create_release_required_params(self):
+        """
+        test_create_release_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/assistants/testString/releases')
+        mock_response = '{"release": "release", "description": "description", "environment_references": [{"name": "name", "environment_id": "environment_id", "environment": "draft"}], "content": {"skills": [{"skill_id": "skill_id", "type": "dialog", "snapshot": "snapshot"}]}, "status": "Available", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=202)
+
+        # Set up parameter values
+        assistant_id = 'testString'
+
+        # Invoke method
+        response = _service.create_release(
+            assistant_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 202
+
+    def test_create_release_required_params_with_retries(self):
+        # Enable retries and run test_create_release_required_params.
+        _service.enable_retries()
+        self.test_create_release_required_params()
+
+        # Disable retries and run test_create_release_required_params.
+        _service.disable_retries()
+        self.test_create_release_required_params()
+
+    @responses.activate
+    def test_create_release_value_error(self):
+        """
+        test_create_release_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/assistants/testString/releases')
+        mock_response = '{"release": "release", "description": "description", "environment_references": [{"name": "name", "environment_id": "environment_id", "environment": "draft"}], "content": {"skills": [{"skill_id": "skill_id", "type": "dialog", "snapshot": "snapshot"}]}, "status": "Available", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=202)
+
+        # Set up parameter values
+        assistant_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "assistant_id": assistant_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.create_release(**req_copy)
+
+    def test_create_release_value_error_with_retries(self):
+        # Enable retries and run test_create_release_value_error.
+        _service.enable_retries()
+        self.test_create_release_value_error()
+
+        # Disable retries and run test_create_release_value_error.
+        _service.disable_retries()
+        self.test_create_release_value_error()
 
 class TestListReleases():
     """
@@ -1615,6 +2172,80 @@ class TestGetRelease():
         _service.disable_retries()
         self.test_get_release_value_error()
 
+class TestDeleteRelease():
+    """
+    Test Class for delete_release
+    """
+
+    @responses.activate
+    def test_delete_release_all_params(self):
+        """
+        delete_release()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/assistants/testString/releases/testString')
+        responses.add(responses.DELETE,
+                      url,
+                      status=200)
+
+        # Set up parameter values
+        assistant_id = 'testString'
+        release = 'testString'
+
+        # Invoke method
+        response = _service.delete_release(
+            assistant_id,
+            release,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_delete_release_all_params_with_retries(self):
+        # Enable retries and run test_delete_release_all_params.
+        _service.enable_retries()
+        self.test_delete_release_all_params()
+
+        # Disable retries and run test_delete_release_all_params.
+        _service.disable_retries()
+        self.test_delete_release_all_params()
+
+    @responses.activate
+    def test_delete_release_value_error(self):
+        """
+        test_delete_release_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/assistants/testString/releases/testString')
+        responses.add(responses.DELETE,
+                      url,
+                      status=200)
+
+        # Set up parameter values
+        assistant_id = 'testString'
+        release = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "assistant_id": assistant_id,
+            "release": release,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.delete_release(**req_copy)
+
+    def test_delete_release_value_error_with_retries(self):
+        # Enable retries and run test_delete_release_value_error.
+        _service.enable_retries()
+        self.test_delete_release_value_error()
+
+        # Disable retries and run test_delete_release_value_error.
+        _service.disable_retries()
+        self.test_delete_release_value_error()
+
 class TestDeployRelease():
     """
     Test Class for deploy_release
@@ -1627,7 +2258,7 @@ class TestDeployRelease():
         """
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/releases/testString/deploy')
-        mock_response = '{"name": "name", "description": "description", "language": "language", "assistant_id": "assistant_id", "environment_id": "environment_id", "environment": "environment", "release_reference": {"release": "release"}, "orchestration": {"search_skill_fallback": false}, "session_timeout": 15, "integration_references": [{"integration_id": "integration_id", "type": "type"}], "skill_references": [{"skill_id": "skill_id", "type": "dialog", "disabled": true, "snapshot": "snapshot", "skill_reference": "skill_reference"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"name": "name", "description": "description", "assistant_id": "assistant_id", "environment_id": "environment_id", "environment": "environment", "release_reference": {"release": "release"}, "orchestration": {"search_skill_fallback": false}, "session_timeout": 10, "integration_references": [{"integration_id": "integration_id", "type": "type"}], "skill_references": [{"skill_id": "skill_id", "type": "dialog", "disabled": true, "snapshot": "snapshot", "skill_reference": "skill_reference"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -1676,7 +2307,7 @@ class TestDeployRelease():
         """
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/releases/testString/deploy')
-        mock_response = '{"name": "name", "description": "description", "language": "language", "assistant_id": "assistant_id", "environment_id": "environment_id", "environment": "environment", "release_reference": {"release": "release"}, "orchestration": {"search_skill_fallback": false}, "session_timeout": 15, "integration_references": [{"integration_id": "integration_id", "type": "type"}], "skill_references": [{"skill_id": "skill_id", "type": "dialog", "disabled": true, "snapshot": "snapshot", "skill_reference": "skill_reference"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"name": "name", "description": "description", "assistant_id": "assistant_id", "environment_id": "environment_id", "environment": "environment", "release_reference": {"release": "release"}, "orchestration": {"search_skill_fallback": false}, "session_timeout": 10, "integration_references": [{"integration_id": "integration_id", "type": "type"}], "skill_references": [{"skill_id": "skill_id", "type": "dialog", "disabled": true, "snapshot": "snapshot", "skill_reference": "skill_reference"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -1719,7 +2350,7 @@ class TestDeployRelease():
         """
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/releases/testString/deploy')
-        mock_response = '{"name": "name", "description": "description", "language": "language", "assistant_id": "assistant_id", "environment_id": "environment_id", "environment": "environment", "release_reference": {"release": "release"}, "orchestration": {"search_skill_fallback": false}, "session_timeout": 15, "integration_references": [{"integration_id": "integration_id", "type": "type"}], "skill_references": [{"skill_id": "skill_id", "type": "dialog", "disabled": true, "snapshot": "snapshot", "skill_reference": "skill_reference"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"name": "name", "description": "description", "assistant_id": "assistant_id", "environment_id": "environment_id", "environment": "environment", "release_reference": {"release": "release"}, "orchestration": {"search_skill_fallback": false}, "session_timeout": 10, "integration_references": [{"integration_id": "integration_id", "type": "type"}], "skill_references": [{"skill_id": "skill_id", "type": "dialog", "disabled": true, "snapshot": "snapshot", "skill_reference": "skill_reference"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -1756,6 +2387,575 @@ class TestDeployRelease():
 # End of Service: Releases
 ##############################################################################
 
+##############################################################################
+# Start of Service: Skills
+##############################################################################
+# region
+
+class TestGetSkill():
+    """
+    Test Class for get_skill
+    """
+
+    @responses.activate
+    def test_get_skill_all_params(self):
+        """
+        get_skill()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/assistants/testString/skills/testString')
+        mock_response = '{"name": "name", "description": "description", "workspace": {"anyKey": "anyValue"}, "skill_id": "skill_id", "status": "Available", "status_errors": [{"message": "message"}], "status_description": "status_description", "dialog_settings": {"anyKey": "anyValue"}, "assistant_id": "assistant_id", "workspace_id": "workspace_id", "environment_id": "environment_id", "valid": false, "next_snapshot_version": "next_snapshot_version", "search_settings": {"anyKey": "anyValue"}, "warnings": [{"code": "code", "path": "path", "message": "message"}], "language": "language", "type": "action"}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        assistant_id = 'testString'
+        skill_id = 'testString'
+
+        # Invoke method
+        response = _service.get_skill(
+            assistant_id,
+            skill_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_get_skill_all_params_with_retries(self):
+        # Enable retries and run test_get_skill_all_params.
+        _service.enable_retries()
+        self.test_get_skill_all_params()
+
+        # Disable retries and run test_get_skill_all_params.
+        _service.disable_retries()
+        self.test_get_skill_all_params()
+
+    @responses.activate
+    def test_get_skill_value_error(self):
+        """
+        test_get_skill_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/assistants/testString/skills/testString')
+        mock_response = '{"name": "name", "description": "description", "workspace": {"anyKey": "anyValue"}, "skill_id": "skill_id", "status": "Available", "status_errors": [{"message": "message"}], "status_description": "status_description", "dialog_settings": {"anyKey": "anyValue"}, "assistant_id": "assistant_id", "workspace_id": "workspace_id", "environment_id": "environment_id", "valid": false, "next_snapshot_version": "next_snapshot_version", "search_settings": {"anyKey": "anyValue"}, "warnings": [{"code": "code", "path": "path", "message": "message"}], "language": "language", "type": "action"}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        assistant_id = 'testString'
+        skill_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "assistant_id": assistant_id,
+            "skill_id": skill_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.get_skill(**req_copy)
+
+    def test_get_skill_value_error_with_retries(self):
+        # Enable retries and run test_get_skill_value_error.
+        _service.enable_retries()
+        self.test_get_skill_value_error()
+
+        # Disable retries and run test_get_skill_value_error.
+        _service.disable_retries()
+        self.test_get_skill_value_error()
+
+class TestUpdateSkill():
+    """
+    Test Class for update_skill
+    """
+
+    @responses.activate
+    def test_update_skill_all_params(self):
+        """
+        update_skill()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/assistants/testString/skills/testString')
+        mock_response = '{"name": "name", "description": "description", "workspace": {"anyKey": "anyValue"}, "skill_id": "skill_id", "status": "Available", "status_errors": [{"message": "message"}], "status_description": "status_description", "dialog_settings": {"anyKey": "anyValue"}, "assistant_id": "assistant_id", "workspace_id": "workspace_id", "environment_id": "environment_id", "valid": false, "next_snapshot_version": "next_snapshot_version", "search_settings": {"anyKey": "anyValue"}, "warnings": [{"code": "code", "path": "path", "message": "message"}], "language": "language", "type": "action"}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=202)
+
+        # Set up parameter values
+        assistant_id = 'testString'
+        skill_id = 'testString'
+        name = 'testString'
+        description = 'testString'
+        workspace = {'foo': 'bar'}
+        dialog_settings = {'foo': 'bar'}
+        search_settings = {'foo': 'bar'}
+
+        # Invoke method
+        response = _service.update_skill(
+            assistant_id,
+            skill_id,
+            name=name,
+            description=description,
+            workspace=workspace,
+            dialog_settings=dialog_settings,
+            search_settings=search_settings,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 202
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['name'] == 'testString'
+        assert req_body['description'] == 'testString'
+        assert req_body['workspace'] == {'foo': 'bar'}
+        assert req_body['dialog_settings'] == {'foo': 'bar'}
+        assert req_body['search_settings'] == {'foo': 'bar'}
+
+    def test_update_skill_all_params_with_retries(self):
+        # Enable retries and run test_update_skill_all_params.
+        _service.enable_retries()
+        self.test_update_skill_all_params()
+
+        # Disable retries and run test_update_skill_all_params.
+        _service.disable_retries()
+        self.test_update_skill_all_params()
+
+    @responses.activate
+    def test_update_skill_value_error(self):
+        """
+        test_update_skill_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/assistants/testString/skills/testString')
+        mock_response = '{"name": "name", "description": "description", "workspace": {"anyKey": "anyValue"}, "skill_id": "skill_id", "status": "Available", "status_errors": [{"message": "message"}], "status_description": "status_description", "dialog_settings": {"anyKey": "anyValue"}, "assistant_id": "assistant_id", "workspace_id": "workspace_id", "environment_id": "environment_id", "valid": false, "next_snapshot_version": "next_snapshot_version", "search_settings": {"anyKey": "anyValue"}, "warnings": [{"code": "code", "path": "path", "message": "message"}], "language": "language", "type": "action"}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=202)
+
+        # Set up parameter values
+        assistant_id = 'testString'
+        skill_id = 'testString'
+        name = 'testString'
+        description = 'testString'
+        workspace = {'foo': 'bar'}
+        dialog_settings = {'foo': 'bar'}
+        search_settings = {'foo': 'bar'}
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "assistant_id": assistant_id,
+            "skill_id": skill_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.update_skill(**req_copy)
+
+    def test_update_skill_value_error_with_retries(self):
+        # Enable retries and run test_update_skill_value_error.
+        _service.enable_retries()
+        self.test_update_skill_value_error()
+
+        # Disable retries and run test_update_skill_value_error.
+        _service.disable_retries()
+        self.test_update_skill_value_error()
+
+class TestExportSkills():
+    """
+    Test Class for export_skills
+    """
+
+    @responses.activate
+    def test_export_skills_all_params(self):
+        """
+        export_skills()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/assistants/testString/skills_export')
+        mock_response = '{"assistant_skills": [{"name": "name", "description": "description", "workspace": {"anyKey": "anyValue"}, "skill_id": "skill_id", "status": "Available", "status_errors": [{"message": "message"}], "status_description": "status_description", "dialog_settings": {"anyKey": "anyValue"}, "assistant_id": "assistant_id", "workspace_id": "workspace_id", "environment_id": "environment_id", "valid": false, "next_snapshot_version": "next_snapshot_version", "search_settings": {"anyKey": "anyValue"}, "warnings": [{"code": "code", "path": "path", "message": "message"}], "language": "language", "type": "action"}], "assistant_state": {"action_disabled": false, "dialog_disabled": false}}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        assistant_id = 'testString'
+        include_audit = False
+
+        # Invoke method
+        response = _service.export_skills(
+            assistant_id,
+            include_audit=include_audit,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate query params
+        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = urllib.parse.unquote_plus(query_string)
+        assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
+
+    def test_export_skills_all_params_with_retries(self):
+        # Enable retries and run test_export_skills_all_params.
+        _service.enable_retries()
+        self.test_export_skills_all_params()
+
+        # Disable retries and run test_export_skills_all_params.
+        _service.disable_retries()
+        self.test_export_skills_all_params()
+
+    @responses.activate
+    def test_export_skills_required_params(self):
+        """
+        test_export_skills_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/assistants/testString/skills_export')
+        mock_response = '{"assistant_skills": [{"name": "name", "description": "description", "workspace": {"anyKey": "anyValue"}, "skill_id": "skill_id", "status": "Available", "status_errors": [{"message": "message"}], "status_description": "status_description", "dialog_settings": {"anyKey": "anyValue"}, "assistant_id": "assistant_id", "workspace_id": "workspace_id", "environment_id": "environment_id", "valid": false, "next_snapshot_version": "next_snapshot_version", "search_settings": {"anyKey": "anyValue"}, "warnings": [{"code": "code", "path": "path", "message": "message"}], "language": "language", "type": "action"}], "assistant_state": {"action_disabled": false, "dialog_disabled": false}}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        assistant_id = 'testString'
+
+        # Invoke method
+        response = _service.export_skills(
+            assistant_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_export_skills_required_params_with_retries(self):
+        # Enable retries and run test_export_skills_required_params.
+        _service.enable_retries()
+        self.test_export_skills_required_params()
+
+        # Disable retries and run test_export_skills_required_params.
+        _service.disable_retries()
+        self.test_export_skills_required_params()
+
+    @responses.activate
+    def test_export_skills_value_error(self):
+        """
+        test_export_skills_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/assistants/testString/skills_export')
+        mock_response = '{"assistant_skills": [{"name": "name", "description": "description", "workspace": {"anyKey": "anyValue"}, "skill_id": "skill_id", "status": "Available", "status_errors": [{"message": "message"}], "status_description": "status_description", "dialog_settings": {"anyKey": "anyValue"}, "assistant_id": "assistant_id", "workspace_id": "workspace_id", "environment_id": "environment_id", "valid": false, "next_snapshot_version": "next_snapshot_version", "search_settings": {"anyKey": "anyValue"}, "warnings": [{"code": "code", "path": "path", "message": "message"}], "language": "language", "type": "action"}], "assistant_state": {"action_disabled": false, "dialog_disabled": false}}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        assistant_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "assistant_id": assistant_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.export_skills(**req_copy)
+
+    def test_export_skills_value_error_with_retries(self):
+        # Enable retries and run test_export_skills_value_error.
+        _service.enable_retries()
+        self.test_export_skills_value_error()
+
+        # Disable retries and run test_export_skills_value_error.
+        _service.disable_retries()
+        self.test_export_skills_value_error()
+
+class TestImportSkills():
+    """
+    Test Class for import_skills
+    """
+
+    @responses.activate
+    def test_import_skills_all_params(self):
+        """
+        import_skills()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/assistants/testString/skills_import')
+        mock_response = '{"assistant_id": "assistant_id", "status": "Available", "status_description": "status_description", "status_errors": [{"message": "message"}]}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=202)
+
+        # Construct a dict representation of a SkillImport model
+        skill_import_model = {}
+        skill_import_model['name'] = 'testString'
+        skill_import_model['description'] = 'testString'
+        skill_import_model['workspace'] = {'foo': 'bar'}
+        skill_import_model['dialog_settings'] = {'foo': 'bar'}
+        skill_import_model['search_settings'] = {'foo': 'bar'}
+        skill_import_model['language'] = 'testString'
+        skill_import_model['type'] = 'action'
+
+        # Construct a dict representation of a AssistantState model
+        assistant_state_model = {}
+        assistant_state_model['action_disabled'] = True
+        assistant_state_model['dialog_disabled'] = True
+
+        # Set up parameter values
+        assistant_id = 'testString'
+        assistant_skills = [skill_import_model]
+        assistant_state = assistant_state_model
+        include_audit = False
+
+        # Invoke method
+        response = _service.import_skills(
+            assistant_id,
+            assistant_skills,
+            assistant_state,
+            include_audit=include_audit,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 202
+        # Validate query params
+        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = urllib.parse.unquote_plus(query_string)
+        assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['assistant_skills'] == [skill_import_model]
+        assert req_body['assistant_state'] == assistant_state_model
+
+    def test_import_skills_all_params_with_retries(self):
+        # Enable retries and run test_import_skills_all_params.
+        _service.enable_retries()
+        self.test_import_skills_all_params()
+
+        # Disable retries and run test_import_skills_all_params.
+        _service.disable_retries()
+        self.test_import_skills_all_params()
+
+    @responses.activate
+    def test_import_skills_required_params(self):
+        """
+        test_import_skills_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/assistants/testString/skills_import')
+        mock_response = '{"assistant_id": "assistant_id", "status": "Available", "status_description": "status_description", "status_errors": [{"message": "message"}]}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=202)
+
+        # Construct a dict representation of a SkillImport model
+        skill_import_model = {}
+        skill_import_model['name'] = 'testString'
+        skill_import_model['description'] = 'testString'
+        skill_import_model['workspace'] = {'foo': 'bar'}
+        skill_import_model['dialog_settings'] = {'foo': 'bar'}
+        skill_import_model['search_settings'] = {'foo': 'bar'}
+        skill_import_model['language'] = 'testString'
+        skill_import_model['type'] = 'action'
+
+        # Construct a dict representation of a AssistantState model
+        assistant_state_model = {}
+        assistant_state_model['action_disabled'] = True
+        assistant_state_model['dialog_disabled'] = True
+
+        # Set up parameter values
+        assistant_id = 'testString'
+        assistant_skills = [skill_import_model]
+        assistant_state = assistant_state_model
+
+        # Invoke method
+        response = _service.import_skills(
+            assistant_id,
+            assistant_skills,
+            assistant_state,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 202
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['assistant_skills'] == [skill_import_model]
+        assert req_body['assistant_state'] == assistant_state_model
+
+    def test_import_skills_required_params_with_retries(self):
+        # Enable retries and run test_import_skills_required_params.
+        _service.enable_retries()
+        self.test_import_skills_required_params()
+
+        # Disable retries and run test_import_skills_required_params.
+        _service.disable_retries()
+        self.test_import_skills_required_params()
+
+    @responses.activate
+    def test_import_skills_value_error(self):
+        """
+        test_import_skills_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/assistants/testString/skills_import')
+        mock_response = '{"assistant_id": "assistant_id", "status": "Available", "status_description": "status_description", "status_errors": [{"message": "message"}]}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=202)
+
+        # Construct a dict representation of a SkillImport model
+        skill_import_model = {}
+        skill_import_model['name'] = 'testString'
+        skill_import_model['description'] = 'testString'
+        skill_import_model['workspace'] = {'foo': 'bar'}
+        skill_import_model['dialog_settings'] = {'foo': 'bar'}
+        skill_import_model['search_settings'] = {'foo': 'bar'}
+        skill_import_model['language'] = 'testString'
+        skill_import_model['type'] = 'action'
+
+        # Construct a dict representation of a AssistantState model
+        assistant_state_model = {}
+        assistant_state_model['action_disabled'] = True
+        assistant_state_model['dialog_disabled'] = True
+
+        # Set up parameter values
+        assistant_id = 'testString'
+        assistant_skills = [skill_import_model]
+        assistant_state = assistant_state_model
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "assistant_id": assistant_id,
+            "assistant_skills": assistant_skills,
+            "assistant_state": assistant_state,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.import_skills(**req_copy)
+
+    def test_import_skills_value_error_with_retries(self):
+        # Enable retries and run test_import_skills_value_error.
+        _service.enable_retries()
+        self.test_import_skills_value_error()
+
+        # Disable retries and run test_import_skills_value_error.
+        _service.disable_retries()
+        self.test_import_skills_value_error()
+
+class TestImportSkillsStatus():
+    """
+    Test Class for import_skills_status
+    """
+
+    @responses.activate
+    def test_import_skills_status_all_params(self):
+        """
+        import_skills_status()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/assistants/testString/skills_import/status')
+        mock_response = '{"assistant_id": "assistant_id", "status": "Available", "status_description": "status_description", "status_errors": [{"message": "message"}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        assistant_id = 'testString'
+
+        # Invoke method
+        response = _service.import_skills_status(
+            assistant_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_import_skills_status_all_params_with_retries(self):
+        # Enable retries and run test_import_skills_status_all_params.
+        _service.enable_retries()
+        self.test_import_skills_status_all_params()
+
+        # Disable retries and run test_import_skills_status_all_params.
+        _service.disable_retries()
+        self.test_import_skills_status_all_params()
+
+    @responses.activate
+    def test_import_skills_status_value_error(self):
+        """
+        test_import_skills_status_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/assistants/testString/skills_import/status')
+        mock_response = '{"assistant_id": "assistant_id", "status": "Available", "status_description": "status_description", "status_errors": [{"message": "message"}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        assistant_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "assistant_id": assistant_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.import_skills_status(**req_copy)
+
+    def test_import_skills_status_value_error_with_retries(self):
+        # Enable retries and run test_import_skills_status_value_error.
+        _service.enable_retries()
+        self.test_import_skills_status_value_error()
+
+        # Disable retries and run test_import_skills_status_value_error.
+        _service.disable_retries()
+        self.test_import_skills_status_value_error()
+
+# endregion
+##############################################################################
+# End of Service: Skills
+##############################################################################
+
 
 ##############################################################################
 # Start of Model Tests
@@ -1789,6 +2989,200 @@ class TestModel_AgentAvailabilityMessage():
         # Convert model instance back to dict and verify no loss of data
         agent_availability_message_model_json2 = agent_availability_message_model.to_dict()
         assert agent_availability_message_model_json2 == agent_availability_message_model_json
+
+class TestModel_Assistant():
+    """
+    Test Class for Assistant
+    """
+
+    def test_assistant_serialization(self):
+        """
+        Test serialization/deserialization for Assistant
+        """
+
+        # Construct a json representation of a Assistant model
+        assistant_model_json = {}
+        assistant_model_json['name'] = 'testString'
+        assistant_model_json['description'] = 'testString'
+        assistant_model_json['language'] = 'testString'
+
+        # Construct a model instance of Assistant by calling from_dict on the json representation
+        assistant_model = Assistant.from_dict(assistant_model_json)
+        assert assistant_model != False
+
+        # Construct a model instance of Assistant by calling from_dict on the json representation
+        assistant_model_dict = Assistant.from_dict(assistant_model_json).__dict__
+        assistant_model2 = Assistant(**assistant_model_dict)
+
+        # Verify the model instances are equivalent
+        assert assistant_model == assistant_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        assistant_model_json2 = assistant_model.to_dict()
+        assert assistant_model_json2 == assistant_model_json
+
+class TestModel_AssistantCollection():
+    """
+    Test Class for AssistantCollection
+    """
+
+    def test_assistant_collection_serialization(self):
+        """
+        Test serialization/deserialization for AssistantCollection
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        assistant_model = {} # Assistant
+        assistant_model['name'] = 'testString'
+        assistant_model['description'] = 'testString'
+        assistant_model['language'] = 'testString'
+
+        pagination_model = {} # Pagination
+        pagination_model['refresh_url'] = 'testString'
+        pagination_model['next_url'] = 'testString'
+        pagination_model['total'] = 38
+        pagination_model['matched'] = 38
+        pagination_model['refresh_cursor'] = 'testString'
+        pagination_model['next_cursor'] = 'testString'
+
+        # Construct a json representation of a AssistantCollection model
+        assistant_collection_model_json = {}
+        assistant_collection_model_json['assistants'] = [assistant_model]
+        assistant_collection_model_json['pagination'] = pagination_model
+
+        # Construct a model instance of AssistantCollection by calling from_dict on the json representation
+        assistant_collection_model = AssistantCollection.from_dict(assistant_collection_model_json)
+        assert assistant_collection_model != False
+
+        # Construct a model instance of AssistantCollection by calling from_dict on the json representation
+        assistant_collection_model_dict = AssistantCollection.from_dict(assistant_collection_model_json).__dict__
+        assistant_collection_model2 = AssistantCollection(**assistant_collection_model_dict)
+
+        # Verify the model instances are equivalent
+        assert assistant_collection_model == assistant_collection_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        assistant_collection_model_json2 = assistant_collection_model.to_dict()
+        assert assistant_collection_model_json2 == assistant_collection_model_json
+
+class TestModel_AssistantSkill():
+    """
+    Test Class for AssistantSkill
+    """
+
+    def test_assistant_skill_serialization(self):
+        """
+        Test serialization/deserialization for AssistantSkill
+        """
+
+        # Construct a json representation of a AssistantSkill model
+        assistant_skill_model_json = {}
+        assistant_skill_model_json['skill_id'] = 'testString'
+        assistant_skill_model_json['type'] = 'dialog'
+
+        # Construct a model instance of AssistantSkill by calling from_dict on the json representation
+        assistant_skill_model = AssistantSkill.from_dict(assistant_skill_model_json)
+        assert assistant_skill_model != False
+
+        # Construct a model instance of AssistantSkill by calling from_dict on the json representation
+        assistant_skill_model_dict = AssistantSkill.from_dict(assistant_skill_model_json).__dict__
+        assistant_skill_model2 = AssistantSkill(**assistant_skill_model_dict)
+
+        # Verify the model instances are equivalent
+        assert assistant_skill_model == assistant_skill_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        assistant_skill_model_json2 = assistant_skill_model.to_dict()
+        assert assistant_skill_model_json2 == assistant_skill_model_json
+
+class TestModel_AssistantState():
+    """
+    Test Class for AssistantState
+    """
+
+    def test_assistant_state_serialization(self):
+        """
+        Test serialization/deserialization for AssistantState
+        """
+
+        # Construct a json representation of a AssistantState model
+        assistant_state_model_json = {}
+        assistant_state_model_json['action_disabled'] = True
+        assistant_state_model_json['dialog_disabled'] = True
+
+        # Construct a model instance of AssistantState by calling from_dict on the json representation
+        assistant_state_model = AssistantState.from_dict(assistant_state_model_json)
+        assert assistant_state_model != False
+
+        # Construct a model instance of AssistantState by calling from_dict on the json representation
+        assistant_state_model_dict = AssistantState.from_dict(assistant_state_model_json).__dict__
+        assistant_state_model2 = AssistantState(**assistant_state_model_dict)
+
+        # Verify the model instances are equivalent
+        assert assistant_state_model == assistant_state_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        assistant_state_model_json2 = assistant_state_model.to_dict()
+        assert assistant_state_model_json2 == assistant_state_model_json
+
+class TestModel_BaseEnvironmentOrchestration():
+    """
+    Test Class for BaseEnvironmentOrchestration
+    """
+
+    def test_base_environment_orchestration_serialization(self):
+        """
+        Test serialization/deserialization for BaseEnvironmentOrchestration
+        """
+
+        # Construct a json representation of a BaseEnvironmentOrchestration model
+        base_environment_orchestration_model_json = {}
+        base_environment_orchestration_model_json['search_skill_fallback'] = True
+
+        # Construct a model instance of BaseEnvironmentOrchestration by calling from_dict on the json representation
+        base_environment_orchestration_model = BaseEnvironmentOrchestration.from_dict(base_environment_orchestration_model_json)
+        assert base_environment_orchestration_model != False
+
+        # Construct a model instance of BaseEnvironmentOrchestration by calling from_dict on the json representation
+        base_environment_orchestration_model_dict = BaseEnvironmentOrchestration.from_dict(base_environment_orchestration_model_json).__dict__
+        base_environment_orchestration_model2 = BaseEnvironmentOrchestration(**base_environment_orchestration_model_dict)
+
+        # Verify the model instances are equivalent
+        assert base_environment_orchestration_model == base_environment_orchestration_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        base_environment_orchestration_model_json2 = base_environment_orchestration_model.to_dict()
+        assert base_environment_orchestration_model_json2 == base_environment_orchestration_model_json
+
+class TestModel_BaseEnvironmentReleaseReference():
+    """
+    Test Class for BaseEnvironmentReleaseReference
+    """
+
+    def test_base_environment_release_reference_serialization(self):
+        """
+        Test serialization/deserialization for BaseEnvironmentReleaseReference
+        """
+
+        # Construct a json representation of a BaseEnvironmentReleaseReference model
+        base_environment_release_reference_model_json = {}
+        base_environment_release_reference_model_json['release'] = 'testString'
+
+        # Construct a model instance of BaseEnvironmentReleaseReference by calling from_dict on the json representation
+        base_environment_release_reference_model = BaseEnvironmentReleaseReference.from_dict(base_environment_release_reference_model_json)
+        assert base_environment_release_reference_model != False
+
+        # Construct a model instance of BaseEnvironmentReleaseReference by calling from_dict on the json representation
+        base_environment_release_reference_model_dict = BaseEnvironmentReleaseReference.from_dict(base_environment_release_reference_model_json).__dict__
+        base_environment_release_reference_model2 = BaseEnvironmentReleaseReference(**base_environment_release_reference_model_dict)
+
+        # Verify the model instances are equivalent
+        assert base_environment_release_reference_model == base_environment_release_reference_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        base_environment_release_reference_model_json2 = base_environment_release_reference_model.to_dict()
+        assert base_environment_release_reference_model_json2 == base_environment_release_reference_model_json
 
 class TestModel_BulkClassifyOutput():
     """
@@ -2305,6 +3699,11 @@ class TestModel_DialogNodeOutputOptionsElement():
         message_input_attachment_model['url'] = 'testString'
         message_input_attachment_model['media_type'] = 'testString'
 
+        request_analytics_model = {} # RequestAnalytics
+        request_analytics_model['browser'] = 'testString'
+        request_analytics_model['device'] = 'testString'
+        request_analytics_model['pageUrl'] = 'testString'
+
         message_input_options_spelling_model = {} # MessageInputOptionsSpelling
         message_input_options_spelling_model['suggestions'] = True
         message_input_options_spelling_model['auto_correct'] = True
@@ -2324,6 +3723,7 @@ class TestModel_DialogNodeOutputOptionsElement():
         message_input_model['entities'] = [runtime_entity_model]
         message_input_model['suggestion_id'] = 'testString'
         message_input_model['attachments'] = [message_input_attachment_model]
+        message_input_model['analytics'] = request_analytics_model
         message_input_model['options'] = message_input_options_model
 
         dialog_node_output_options_element_value_model = {} # DialogNodeOutputOptionsElementValue
@@ -2420,6 +3820,11 @@ class TestModel_DialogNodeOutputOptionsElementValue():
         message_input_attachment_model['url'] = 'testString'
         message_input_attachment_model['media_type'] = 'testString'
 
+        request_analytics_model = {} # RequestAnalytics
+        request_analytics_model['browser'] = 'testString'
+        request_analytics_model['device'] = 'testString'
+        request_analytics_model['pageUrl'] = 'testString'
+
         message_input_options_spelling_model = {} # MessageInputOptionsSpelling
         message_input_options_spelling_model['suggestions'] = True
         message_input_options_spelling_model['auto_correct'] = True
@@ -2439,6 +3844,7 @@ class TestModel_DialogNodeOutputOptionsElementValue():
         message_input_model['entities'] = [runtime_entity_model]
         message_input_model['suggestion_id'] = 'testString'
         message_input_model['attachments'] = [message_input_attachment_model]
+        message_input_model['analytics'] = request_analytics_model
         message_input_model['options'] = message_input_options_model
 
         # Construct a json representation of a DialogNodeOutputOptionsElementValue model
@@ -2562,6 +3968,11 @@ class TestModel_DialogSuggestion():
         message_input_attachment_model['url'] = 'testString'
         message_input_attachment_model['media_type'] = 'testString'
 
+        request_analytics_model = {} # RequestAnalytics
+        request_analytics_model['browser'] = 'testString'
+        request_analytics_model['device'] = 'testString'
+        request_analytics_model['pageUrl'] = 'testString'
+
         message_input_options_spelling_model = {} # MessageInputOptionsSpelling
         message_input_options_spelling_model['suggestions'] = True
         message_input_options_spelling_model['auto_correct'] = True
@@ -2581,6 +3992,7 @@ class TestModel_DialogSuggestion():
         message_input_model['entities'] = [runtime_entity_model]
         message_input_model['suggestion_id'] = 'testString'
         message_input_model['attachments'] = [message_input_attachment_model]
+        message_input_model['analytics'] = request_analytics_model
         message_input_model['options'] = message_input_options_model
 
         dialog_suggestion_value_model = {} # DialogSuggestionValue
@@ -2678,6 +4090,11 @@ class TestModel_DialogSuggestionValue():
         message_input_attachment_model['url'] = 'testString'
         message_input_attachment_model['media_type'] = 'testString'
 
+        request_analytics_model = {} # RequestAnalytics
+        request_analytics_model['browser'] = 'testString'
+        request_analytics_model['device'] = 'testString'
+        request_analytics_model['pageUrl'] = 'testString'
+
         message_input_options_spelling_model = {} # MessageInputOptionsSpelling
         message_input_options_spelling_model['suggestions'] = True
         message_input_options_spelling_model['auto_correct'] = True
@@ -2697,6 +4114,7 @@ class TestModel_DialogSuggestionValue():
         message_input_model['entities'] = [runtime_entity_model]
         message_input_model['suggestion_id'] = 'testString'
         message_input_model['attachments'] = [message_input_attachment_model]
+        message_input_model['analytics'] = request_analytics_model
         message_input_model['options'] = message_input_options_model
 
         # Construct a json representation of a DialogSuggestionValue model
@@ -2730,25 +4148,19 @@ class TestModel_Environment():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        integration_reference_model = {} # IntegrationReference
-        integration_reference_model['integration_id'] = 'testString'
-        integration_reference_model['type'] = 'testString'
-
-        skill_reference_model = {} # SkillReference
-        skill_reference_model['skill_id'] = 'testString'
-        skill_reference_model['type'] = 'dialog'
-        skill_reference_model['disabled'] = True
-        skill_reference_model['snapshot'] = 'testString'
-        skill_reference_model['skill_reference'] = 'testString'
+        environment_skill_model = {} # EnvironmentSkill
+        environment_skill_model['skill_id'] = 'testString'
+        environment_skill_model['type'] = 'dialog'
+        environment_skill_model['disabled'] = True
+        environment_skill_model['snapshot'] = 'testString'
+        environment_skill_model['skill_reference'] = 'testString'
 
         # Construct a json representation of a Environment model
         environment_model_json = {}
         environment_model_json['name'] = 'testString'
         environment_model_json['description'] = 'testString'
-        environment_model_json['language'] = 'testString'
-        environment_model_json['session_timeout'] = 38
-        environment_model_json['integration_references'] = [integration_reference_model]
-        environment_model_json['skill_references'] = [skill_reference_model]
+        environment_model_json['session_timeout'] = 10
+        environment_model_json['skill_references'] = [environment_skill_model]
 
         # Construct a model instance of Environment by calling from_dict on the json representation
         environment_model = Environment.from_dict(environment_model_json)
@@ -2777,24 +4189,18 @@ class TestModel_EnvironmentCollection():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        integration_reference_model = {} # IntegrationReference
-        integration_reference_model['integration_id'] = 'testString'
-        integration_reference_model['type'] = 'testString'
-
-        skill_reference_model = {} # SkillReference
-        skill_reference_model['skill_id'] = 'testString'
-        skill_reference_model['type'] = 'dialog'
-        skill_reference_model['disabled'] = True
-        skill_reference_model['snapshot'] = 'testString'
-        skill_reference_model['skill_reference'] = 'testString'
+        environment_skill_model = {} # EnvironmentSkill
+        environment_skill_model['skill_id'] = 'testString'
+        environment_skill_model['type'] = 'dialog'
+        environment_skill_model['disabled'] = True
+        environment_skill_model['snapshot'] = 'testString'
+        environment_skill_model['skill_reference'] = 'testString'
 
         environment_model = {} # Environment
         environment_model['name'] = 'testString'
         environment_model['description'] = 'testString'
-        environment_model['language'] = 'testString'
-        environment_model['session_timeout'] = 38
-        environment_model['integration_references'] = [integration_reference_model]
-        environment_model['skill_references'] = [skill_reference_model]
+        environment_model['session_timeout'] = 10
+        environment_model['skill_references'] = [environment_skill_model]
 
         pagination_model = {} # Pagination
         pagination_model['refresh_url'] = 'testString'
@@ -2823,35 +4229,6 @@ class TestModel_EnvironmentCollection():
         # Convert model instance back to dict and verify no loss of data
         environment_collection_model_json2 = environment_collection_model.to_dict()
         assert environment_collection_model_json2 == environment_collection_model_json
-
-class TestModel_EnvironmentOrchestration():
-    """
-    Test Class for EnvironmentOrchestration
-    """
-
-    def test_environment_orchestration_serialization(self):
-        """
-        Test serialization/deserialization for EnvironmentOrchestration
-        """
-
-        # Construct a json representation of a EnvironmentOrchestration model
-        environment_orchestration_model_json = {}
-        environment_orchestration_model_json['search_skill_fallback'] = True
-
-        # Construct a model instance of EnvironmentOrchestration by calling from_dict on the json representation
-        environment_orchestration_model = EnvironmentOrchestration.from_dict(environment_orchestration_model_json)
-        assert environment_orchestration_model != False
-
-        # Construct a model instance of EnvironmentOrchestration by calling from_dict on the json representation
-        environment_orchestration_model_dict = EnvironmentOrchestration.from_dict(environment_orchestration_model_json).__dict__
-        environment_orchestration_model2 = EnvironmentOrchestration(**environment_orchestration_model_dict)
-
-        # Verify the model instances are equivalent
-        assert environment_orchestration_model == environment_orchestration_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        environment_orchestration_model_json2 = environment_orchestration_model.to_dict()
-        assert environment_orchestration_model_json2 == environment_orchestration_model_json
 
 class TestModel_EnvironmentReference():
     """
@@ -2882,34 +4259,38 @@ class TestModel_EnvironmentReference():
         environment_reference_model_json2 = environment_reference_model.to_dict()
         assert environment_reference_model_json2 == environment_reference_model_json
 
-class TestModel_EnvironmentReleaseReference():
+class TestModel_EnvironmentSkill():
     """
-    Test Class for EnvironmentReleaseReference
+    Test Class for EnvironmentSkill
     """
 
-    def test_environment_release_reference_serialization(self):
+    def test_environment_skill_serialization(self):
         """
-        Test serialization/deserialization for EnvironmentReleaseReference
+        Test serialization/deserialization for EnvironmentSkill
         """
 
-        # Construct a json representation of a EnvironmentReleaseReference model
-        environment_release_reference_model_json = {}
-        environment_release_reference_model_json['release'] = 'testString'
+        # Construct a json representation of a EnvironmentSkill model
+        environment_skill_model_json = {}
+        environment_skill_model_json['skill_id'] = 'testString'
+        environment_skill_model_json['type'] = 'dialog'
+        environment_skill_model_json['disabled'] = True
+        environment_skill_model_json['snapshot'] = 'testString'
+        environment_skill_model_json['skill_reference'] = 'testString'
 
-        # Construct a model instance of EnvironmentReleaseReference by calling from_dict on the json representation
-        environment_release_reference_model = EnvironmentReleaseReference.from_dict(environment_release_reference_model_json)
-        assert environment_release_reference_model != False
+        # Construct a model instance of EnvironmentSkill by calling from_dict on the json representation
+        environment_skill_model = EnvironmentSkill.from_dict(environment_skill_model_json)
+        assert environment_skill_model != False
 
-        # Construct a model instance of EnvironmentReleaseReference by calling from_dict on the json representation
-        environment_release_reference_model_dict = EnvironmentReleaseReference.from_dict(environment_release_reference_model_json).__dict__
-        environment_release_reference_model2 = EnvironmentReleaseReference(**environment_release_reference_model_dict)
+        # Construct a model instance of EnvironmentSkill by calling from_dict on the json representation
+        environment_skill_model_dict = EnvironmentSkill.from_dict(environment_skill_model_json).__dict__
+        environment_skill_model2 = EnvironmentSkill(**environment_skill_model_dict)
 
         # Verify the model instances are equivalent
-        assert environment_release_reference_model == environment_release_reference_model2
+        assert environment_skill_model == environment_skill_model2
 
         # Convert model instance back to dict and verify no loss of data
-        environment_release_reference_model_json2 = environment_release_reference_model.to_dict()
-        assert environment_release_reference_model_json2 == environment_release_reference_model_json
+        environment_skill_model_json2 = environment_skill_model.to_dict()
+        assert environment_skill_model_json2 == environment_skill_model_json
 
 class TestModel_IntegrationReference():
     """
@@ -3012,6 +4393,11 @@ class TestModel_Log():
         message_input_attachment_model['url'] = 'testString'
         message_input_attachment_model['media_type'] = 'testString'
 
+        request_analytics_model = {} # RequestAnalytics
+        request_analytics_model['browser'] = 'testString'
+        request_analytics_model['device'] = 'testString'
+        request_analytics_model['pageUrl'] = 'testString'
+
         message_input_options_spelling_model = {} # MessageInputOptionsSpelling
         message_input_options_spelling_model['suggestions'] = True
         message_input_options_spelling_model['auto_correct'] = True
@@ -3031,6 +4417,7 @@ class TestModel_Log():
         message_input_model['entities'] = [runtime_entity_model]
         message_input_model['suggestion_id'] = 'testString'
         message_input_model['attachments'] = [message_input_attachment_model]
+        message_input_model['analytics'] = request_analytics_model
         message_input_model['options'] = message_input_options_model
 
         message_context_global_system_model = {} # MessageContextGlobalSystem
@@ -3106,6 +4493,7 @@ class TestModel_Log():
         message_output_debug_turn_event_model['action_start_time'] = 'testString'
         message_output_debug_turn_event_model['condition_type'] = 'user_defined'
         message_output_debug_turn_event_model['reason'] = 'intent'
+        message_output_debug_turn_event_model['result_variable'] = 'testString'
 
         message_output_debug_model = {} # MessageOutputDebug
         message_output_debug_model['nodes_visited'] = [dialog_node_visited_model]
@@ -3233,6 +4621,11 @@ class TestModel_LogCollection():
         message_input_attachment_model['url'] = 'testString'
         message_input_attachment_model['media_type'] = 'testString'
 
+        request_analytics_model = {} # RequestAnalytics
+        request_analytics_model['browser'] = 'testString'
+        request_analytics_model['device'] = 'testString'
+        request_analytics_model['pageUrl'] = 'testString'
+
         message_input_options_spelling_model = {} # MessageInputOptionsSpelling
         message_input_options_spelling_model['suggestions'] = True
         message_input_options_spelling_model['auto_correct'] = True
@@ -3252,6 +4645,7 @@ class TestModel_LogCollection():
         message_input_model['entities'] = [runtime_entity_model]
         message_input_model['suggestion_id'] = 'testString'
         message_input_model['attachments'] = [message_input_attachment_model]
+        message_input_model['analytics'] = request_analytics_model
         message_input_model['options'] = message_input_options_model
 
         message_context_global_system_model = {} # MessageContextGlobalSystem
@@ -3327,6 +4721,7 @@ class TestModel_LogCollection():
         message_output_debug_turn_event_model['action_start_time'] = 'testString'
         message_output_debug_turn_event_model['condition_type'] = 'user_defined'
         message_output_debug_turn_event_model['reason'] = 'intent'
+        message_output_debug_turn_event_model['result_variable'] = 'testString'
 
         message_output_debug_model = {} # MessageOutputDebug
         message_output_debug_model['nodes_visited'] = [dialog_node_visited_model]
@@ -3798,6 +5193,11 @@ class TestModel_MessageInput():
         message_input_attachment_model['url'] = 'testString'
         message_input_attachment_model['media_type'] = 'testString'
 
+        request_analytics_model = {} # RequestAnalytics
+        request_analytics_model['browser'] = 'testString'
+        request_analytics_model['device'] = 'testString'
+        request_analytics_model['pageUrl'] = 'testString'
+
         message_input_options_spelling_model = {} # MessageInputOptionsSpelling
         message_input_options_spelling_model['suggestions'] = True
         message_input_options_spelling_model['auto_correct'] = True
@@ -3818,6 +5218,7 @@ class TestModel_MessageInput():
         message_input_model_json['entities'] = [runtime_entity_model]
         message_input_model_json['suggestion_id'] = 'testString'
         message_input_model_json['attachments'] = [message_input_attachment_model]
+        message_input_model_json['analytics'] = request_analytics_model
         message_input_model_json['options'] = message_input_options_model
 
         # Construct a model instance of MessageInput by calling from_dict on the json representation
@@ -4044,6 +5445,11 @@ class TestModel_MessageInputStateless():
         message_input_attachment_model['url'] = 'testString'
         message_input_attachment_model['media_type'] = 'testString'
 
+        request_analytics_model = {} # RequestAnalytics
+        request_analytics_model['browser'] = 'testString'
+        request_analytics_model['device'] = 'testString'
+        request_analytics_model['pageUrl'] = 'testString'
+
         message_input_options_spelling_model = {} # MessageInputOptionsSpelling
         message_input_options_spelling_model['suggestions'] = True
         message_input_options_spelling_model['auto_correct'] = True
@@ -4062,6 +5468,7 @@ class TestModel_MessageInputStateless():
         message_input_stateless_model_json['entities'] = [runtime_entity_model]
         message_input_stateless_model_json['suggestion_id'] = 'testString'
         message_input_stateless_model_json['attachments'] = [message_input_attachment_model]
+        message_input_stateless_model_json['analytics'] = request_analytics_model
         message_input_stateless_model_json['options'] = message_input_options_stateless_model
 
         # Construct a model instance of MessageInputStateless by calling from_dict on the json representation
@@ -4188,6 +5595,7 @@ class TestModel_MessageOutput():
         message_output_debug_turn_event_model['action_start_time'] = 'testString'
         message_output_debug_turn_event_model['condition_type'] = 'user_defined'
         message_output_debug_turn_event_model['reason'] = 'intent'
+        message_output_debug_turn_event_model['result_variable'] = 'testString'
 
         message_output_debug_model = {} # MessageOutputDebug
         message_output_debug_model['nodes_visited'] = [dialog_node_visited_model]
@@ -4265,6 +5673,7 @@ class TestModel_MessageOutputDebug():
         message_output_debug_turn_event_model['action_start_time'] = 'testString'
         message_output_debug_turn_event_model['condition_type'] = 'user_defined'
         message_output_debug_turn_event_model['reason'] = 'intent'
+        message_output_debug_turn_event_model['result_variable'] = 'testString'
 
         # Construct a json representation of a MessageOutputDebug model
         message_output_debug_model_json = {}
@@ -4391,6 +5800,11 @@ class TestModel_MessageRequest():
         message_input_attachment_model['url'] = 'testString'
         message_input_attachment_model['media_type'] = 'testString'
 
+        request_analytics_model = {} # RequestAnalytics
+        request_analytics_model['browser'] = 'testString'
+        request_analytics_model['device'] = 'testString'
+        request_analytics_model['pageUrl'] = 'testString'
+
         message_input_options_spelling_model = {} # MessageInputOptionsSpelling
         message_input_options_spelling_model['suggestions'] = True
         message_input_options_spelling_model['auto_correct'] = True
@@ -4410,6 +5824,7 @@ class TestModel_MessageRequest():
         message_input_model['entities'] = [runtime_entity_model]
         message_input_model['suggestion_id'] = 'testString'
         message_input_model['attachments'] = [message_input_attachment_model]
+        message_input_model['analytics'] = request_analytics_model
         message_input_model['options'] = message_input_options_model
 
         message_context_global_system_model = {} # MessageContextGlobalSystem
@@ -4568,6 +5983,7 @@ class TestModel_MessageResponse():
         message_output_debug_turn_event_model['action_start_time'] = 'testString'
         message_output_debug_turn_event_model['condition_type'] = 'user_defined'
         message_output_debug_turn_event_model['reason'] = 'intent'
+        message_output_debug_turn_event_model['result_variable'] = 'testString'
 
         message_output_debug_model = {} # MessageOutputDebug
         message_output_debug_model['nodes_visited'] = [dialog_node_visited_model]
@@ -4746,6 +6162,7 @@ class TestModel_MessageResponseStateless():
         message_output_debug_turn_event_model['action_start_time'] = 'testString'
         message_output_debug_turn_event_model['condition_type'] = 'user_defined'
         message_output_debug_turn_event_model['reason'] = 'intent'
+        message_output_debug_turn_event_model['result_variable'] = 'testString'
 
         message_output_debug_model = {} # MessageOutputDebug
         message_output_debug_model['nodes_visited'] = [dialog_node_visited_model]
@@ -4862,9 +6279,7 @@ class TestModel_Release():
 
         # Construct a json representation of a Release model
         release_model_json = {}
-        release_model_json['release'] = 'testString'
         release_model_json['description'] = 'testString'
-        release_model_json['status'] = 'Available'
 
         # Construct a model instance of Release by calling from_dict on the json representation
         release_model = Release.from_dict(release_model_json)
@@ -4894,9 +6309,7 @@ class TestModel_ReleaseCollection():
         # Construct dict forms of any model objects needed in order to build this model.
 
         release_model = {} # Release
-        release_model['release'] = 'testString'
         release_model['description'] = 'testString'
-        release_model['status'] = 'Available'
 
         pagination_model = {} # Pagination
         pagination_model['refresh_url'] = 'testString'
@@ -4954,36 +6367,67 @@ class TestModel_ReleaseContent():
         release_content_model_json2 = release_content_model.to_dict()
         assert release_content_model_json2 == release_content_model_json
 
-class TestModel_ReleaseSkillReference():
+class TestModel_ReleaseSkill():
     """
-    Test Class for ReleaseSkillReference
+    Test Class for ReleaseSkill
     """
 
-    def test_release_skill_reference_serialization(self):
+    def test_release_skill_serialization(self):
         """
-        Test serialization/deserialization for ReleaseSkillReference
+        Test serialization/deserialization for ReleaseSkill
         """
 
-        # Construct a json representation of a ReleaseSkillReference model
-        release_skill_reference_model_json = {}
-        release_skill_reference_model_json['skill_id'] = 'testString'
-        release_skill_reference_model_json['type'] = 'dialog'
-        release_skill_reference_model_json['snapshot'] = 'testString'
+        # Construct a json representation of a ReleaseSkill model
+        release_skill_model_json = {}
+        release_skill_model_json['skill_id'] = 'testString'
+        release_skill_model_json['type'] = 'dialog'
+        release_skill_model_json['snapshot'] = 'testString'
 
-        # Construct a model instance of ReleaseSkillReference by calling from_dict on the json representation
-        release_skill_reference_model = ReleaseSkillReference.from_dict(release_skill_reference_model_json)
-        assert release_skill_reference_model != False
+        # Construct a model instance of ReleaseSkill by calling from_dict on the json representation
+        release_skill_model = ReleaseSkill.from_dict(release_skill_model_json)
+        assert release_skill_model != False
 
-        # Construct a model instance of ReleaseSkillReference by calling from_dict on the json representation
-        release_skill_reference_model_dict = ReleaseSkillReference.from_dict(release_skill_reference_model_json).__dict__
-        release_skill_reference_model2 = ReleaseSkillReference(**release_skill_reference_model_dict)
+        # Construct a model instance of ReleaseSkill by calling from_dict on the json representation
+        release_skill_model_dict = ReleaseSkill.from_dict(release_skill_model_json).__dict__
+        release_skill_model2 = ReleaseSkill(**release_skill_model_dict)
 
         # Verify the model instances are equivalent
-        assert release_skill_reference_model == release_skill_reference_model2
+        assert release_skill_model == release_skill_model2
 
         # Convert model instance back to dict and verify no loss of data
-        release_skill_reference_model_json2 = release_skill_reference_model.to_dict()
-        assert release_skill_reference_model_json2 == release_skill_reference_model_json
+        release_skill_model_json2 = release_skill_model.to_dict()
+        assert release_skill_model_json2 == release_skill_model_json
+
+class TestModel_RequestAnalytics():
+    """
+    Test Class for RequestAnalytics
+    """
+
+    def test_request_analytics_serialization(self):
+        """
+        Test serialization/deserialization for RequestAnalytics
+        """
+
+        # Construct a json representation of a RequestAnalytics model
+        request_analytics_model_json = {}
+        request_analytics_model_json['browser'] = 'testString'
+        request_analytics_model_json['device'] = 'testString'
+        request_analytics_model_json['pageUrl'] = 'testString'
+
+        # Construct a model instance of RequestAnalytics by calling from_dict on the json representation
+        request_analytics_model = RequestAnalytics.from_dict(request_analytics_model_json)
+        assert request_analytics_model != False
+
+        # Construct a model instance of RequestAnalytics by calling from_dict on the json representation
+        request_analytics_model_dict = RequestAnalytics.from_dict(request_analytics_model_json).__dict__
+        request_analytics_model2 = RequestAnalytics(**request_analytics_model_dict)
+
+        # Verify the model instances are equivalent
+        assert request_analytics_model == request_analytics_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        request_analytics_model_json2 = request_analytics_model.to_dict()
+        assert request_analytics_model_json2 == request_analytics_model_json
 
 class TestModel_ResponseGenericChannel():
     """
@@ -5389,6 +6833,37 @@ class TestModel_SearchResultMetadata():
         search_result_metadata_model_json2 = search_result_metadata_model.to_dict()
         assert search_result_metadata_model_json2 == search_result_metadata_model_json
 
+class TestModel_SearchSkillWarning():
+    """
+    Test Class for SearchSkillWarning
+    """
+
+    def test_search_skill_warning_serialization(self):
+        """
+        Test serialization/deserialization for SearchSkillWarning
+        """
+
+        # Construct a json representation of a SearchSkillWarning model
+        search_skill_warning_model_json = {}
+        search_skill_warning_model_json['code'] = 'testString'
+        search_skill_warning_model_json['path'] = 'testString'
+        search_skill_warning_model_json['message'] = 'testString'
+
+        # Construct a model instance of SearchSkillWarning by calling from_dict on the json representation
+        search_skill_warning_model = SearchSkillWarning.from_dict(search_skill_warning_model_json)
+        assert search_skill_warning_model != False
+
+        # Construct a model instance of SearchSkillWarning by calling from_dict on the json representation
+        search_skill_warning_model_dict = SearchSkillWarning.from_dict(search_skill_warning_model_json).__dict__
+        search_skill_warning_model2 = SearchSkillWarning(**search_skill_warning_model_dict)
+
+        # Verify the model instances are equivalent
+        assert search_skill_warning_model == search_skill_warning_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        search_skill_warning_model_json2 = search_skill_warning_model.to_dict()
+        assert search_skill_warning_model_json2 == search_skill_warning_model_json
+
 class TestModel_SessionResponse():
     """
     Test Class for SessionResponse
@@ -5418,38 +6893,177 @@ class TestModel_SessionResponse():
         session_response_model_json2 = session_response_model.to_dict()
         assert session_response_model_json2 == session_response_model_json
 
-class TestModel_SkillReference():
+class TestModel_Skill():
     """
-    Test Class for SkillReference
+    Test Class for Skill
     """
 
-    def test_skill_reference_serialization(self):
+    def test_skill_serialization(self):
         """
-        Test serialization/deserialization for SkillReference
+        Test serialization/deserialization for Skill
         """
 
-        # Construct a json representation of a SkillReference model
-        skill_reference_model_json = {}
-        skill_reference_model_json['skill_id'] = 'testString'
-        skill_reference_model_json['type'] = 'dialog'
-        skill_reference_model_json['disabled'] = True
-        skill_reference_model_json['snapshot'] = 'testString'
-        skill_reference_model_json['skill_reference'] = 'testString'
+        # Construct a json representation of a Skill model
+        skill_model_json = {}
+        skill_model_json['name'] = 'testString'
+        skill_model_json['description'] = 'testString'
+        skill_model_json['workspace'] = {'foo': 'bar'}
+        skill_model_json['dialog_settings'] = {'foo': 'bar'}
+        skill_model_json['search_settings'] = {'foo': 'bar'}
+        skill_model_json['language'] = 'testString'
+        skill_model_json['type'] = 'action'
 
-        # Construct a model instance of SkillReference by calling from_dict on the json representation
-        skill_reference_model = SkillReference.from_dict(skill_reference_model_json)
-        assert skill_reference_model != False
+        # Construct a model instance of Skill by calling from_dict on the json representation
+        skill_model = Skill.from_dict(skill_model_json)
+        assert skill_model != False
 
-        # Construct a model instance of SkillReference by calling from_dict on the json representation
-        skill_reference_model_dict = SkillReference.from_dict(skill_reference_model_json).__dict__
-        skill_reference_model2 = SkillReference(**skill_reference_model_dict)
+        # Construct a model instance of Skill by calling from_dict on the json representation
+        skill_model_dict = Skill.from_dict(skill_model_json).__dict__
+        skill_model2 = Skill(**skill_model_dict)
 
         # Verify the model instances are equivalent
-        assert skill_reference_model == skill_reference_model2
+        assert skill_model == skill_model2
 
         # Convert model instance back to dict and verify no loss of data
-        skill_reference_model_json2 = skill_reference_model.to_dict()
-        assert skill_reference_model_json2 == skill_reference_model_json
+        skill_model_json2 = skill_model.to_dict()
+        assert skill_model_json2 == skill_model_json
+
+class TestModel_SkillImport():
+    """
+    Test Class for SkillImport
+    """
+
+    def test_skill_import_serialization(self):
+        """
+        Test serialization/deserialization for SkillImport
+        """
+
+        # Construct a json representation of a SkillImport model
+        skill_import_model_json = {}
+        skill_import_model_json['name'] = 'testString'
+        skill_import_model_json['description'] = 'testString'
+        skill_import_model_json['workspace'] = {'foo': 'bar'}
+        skill_import_model_json['dialog_settings'] = {'foo': 'bar'}
+        skill_import_model_json['search_settings'] = {'foo': 'bar'}
+        skill_import_model_json['language'] = 'testString'
+        skill_import_model_json['type'] = 'action'
+
+        # Construct a model instance of SkillImport by calling from_dict on the json representation
+        skill_import_model = SkillImport.from_dict(skill_import_model_json)
+        assert skill_import_model != False
+
+        # Construct a model instance of SkillImport by calling from_dict on the json representation
+        skill_import_model_dict = SkillImport.from_dict(skill_import_model_json).__dict__
+        skill_import_model2 = SkillImport(**skill_import_model_dict)
+
+        # Verify the model instances are equivalent
+        assert skill_import_model == skill_import_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        skill_import_model_json2 = skill_import_model.to_dict()
+        assert skill_import_model_json2 == skill_import_model_json
+
+class TestModel_SkillsAsyncRequestStatus():
+    """
+    Test Class for SkillsAsyncRequestStatus
+    """
+
+    def test_skills_async_request_status_serialization(self):
+        """
+        Test serialization/deserialization for SkillsAsyncRequestStatus
+        """
+
+        # Construct a json representation of a SkillsAsyncRequestStatus model
+        skills_async_request_status_model_json = {}
+
+        # Construct a model instance of SkillsAsyncRequestStatus by calling from_dict on the json representation
+        skills_async_request_status_model = SkillsAsyncRequestStatus.from_dict(skills_async_request_status_model_json)
+        assert skills_async_request_status_model != False
+
+        # Construct a model instance of SkillsAsyncRequestStatus by calling from_dict on the json representation
+        skills_async_request_status_model_dict = SkillsAsyncRequestStatus.from_dict(skills_async_request_status_model_json).__dict__
+        skills_async_request_status_model2 = SkillsAsyncRequestStatus(**skills_async_request_status_model_dict)
+
+        # Verify the model instances are equivalent
+        assert skills_async_request_status_model == skills_async_request_status_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        skills_async_request_status_model_json2 = skills_async_request_status_model.to_dict()
+        assert skills_async_request_status_model_json2 == skills_async_request_status_model_json
+
+class TestModel_SkillsExport():
+    """
+    Test Class for SkillsExport
+    """
+
+    def test_skills_export_serialization(self):
+        """
+        Test serialization/deserialization for SkillsExport
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        skill_model = {} # Skill
+        skill_model['name'] = 'testString'
+        skill_model['description'] = 'testString'
+        skill_model['workspace'] = {'foo': 'bar'}
+        skill_model['dialog_settings'] = {'foo': 'bar'}
+        skill_model['search_settings'] = {'foo': 'bar'}
+        skill_model['language'] = 'testString'
+        skill_model['type'] = 'action'
+
+        assistant_state_model = {} # AssistantState
+        assistant_state_model['action_disabled'] = True
+        assistant_state_model['dialog_disabled'] = True
+
+        # Construct a json representation of a SkillsExport model
+        skills_export_model_json = {}
+        skills_export_model_json['assistant_skills'] = [skill_model]
+        skills_export_model_json['assistant_state'] = assistant_state_model
+
+        # Construct a model instance of SkillsExport by calling from_dict on the json representation
+        skills_export_model = SkillsExport.from_dict(skills_export_model_json)
+        assert skills_export_model != False
+
+        # Construct a model instance of SkillsExport by calling from_dict on the json representation
+        skills_export_model_dict = SkillsExport.from_dict(skills_export_model_json).__dict__
+        skills_export_model2 = SkillsExport(**skills_export_model_dict)
+
+        # Verify the model instances are equivalent
+        assert skills_export_model == skills_export_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        skills_export_model_json2 = skills_export_model.to_dict()
+        assert skills_export_model_json2 == skills_export_model_json
+
+class TestModel_StatusError():
+    """
+    Test Class for StatusError
+    """
+
+    def test_status_error_serialization(self):
+        """
+        Test serialization/deserialization for StatusError
+        """
+
+        # Construct a json representation of a StatusError model
+        status_error_model_json = {}
+        status_error_model_json['message'] = 'testString'
+
+        # Construct a model instance of StatusError by calling from_dict on the json representation
+        status_error_model = StatusError.from_dict(status_error_model_json)
+        assert status_error_model != False
+
+        # Construct a model instance of StatusError by calling from_dict on the json representation
+        status_error_model_dict = StatusError.from_dict(status_error_model_json).__dict__
+        status_error_model2 = StatusError(**status_error_model_dict)
+
+        # Verify the model instances are equivalent
+        assert status_error_model == status_error_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        status_error_model_json2 = status_error_model.to_dict()
+        assert status_error_model_json2 == status_error_model_json
 
 class TestModel_TurnEventActionSource():
     """
@@ -5497,6 +7111,7 @@ class TestModel_TurnEventCalloutCallout():
         turn_event_callout_callout_model_json = {}
         turn_event_callout_callout_model_json['type'] = 'integration_interaction'
         turn_event_callout_callout_model_json['internal'] = {'foo': 'bar'}
+        turn_event_callout_callout_model_json['result_variable'] = 'testString'
 
         # Construct a model instance of TurnEventCalloutCallout by calling from_dict on the json representation
         turn_event_callout_callout_model = TurnEventCalloutCallout.from_dict(turn_event_callout_callout_model_json)
@@ -5793,6 +7408,7 @@ class TestModel_MessageOutputDebugTurnEventTurnEventActionVisited():
         message_output_debug_turn_event_turn_event_action_visited_model_json['action_start_time'] = 'testString'
         message_output_debug_turn_event_turn_event_action_visited_model_json['condition_type'] = 'user_defined'
         message_output_debug_turn_event_turn_event_action_visited_model_json['reason'] = 'intent'
+        message_output_debug_turn_event_turn_event_action_visited_model_json['result_variable'] = 'testString'
 
         # Construct a model instance of MessageOutputDebugTurnEventTurnEventActionVisited by calling from_dict on the json representation
         message_output_debug_turn_event_turn_event_action_visited_model = MessageOutputDebugTurnEventTurnEventActionVisited.from_dict(message_output_debug_turn_event_turn_event_action_visited_model_json)
@@ -5830,6 +7446,7 @@ class TestModel_MessageOutputDebugTurnEventTurnEventCallout():
         turn_event_callout_callout_model = {} # TurnEventCalloutCallout
         turn_event_callout_callout_model['type'] = 'integration_interaction'
         turn_event_callout_callout_model['internal'] = {'foo': 'bar'}
+        turn_event_callout_callout_model['result_variable'] = 'testString'
 
         turn_event_callout_error_model = {} # TurnEventCalloutError
         turn_event_callout_error_model['message'] = 'testString'
@@ -6368,6 +7985,11 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeOption():
         message_input_attachment_model['url'] = 'testString'
         message_input_attachment_model['media_type'] = 'testString'
 
+        request_analytics_model = {} # RequestAnalytics
+        request_analytics_model['browser'] = 'testString'
+        request_analytics_model['device'] = 'testString'
+        request_analytics_model['pageUrl'] = 'testString'
+
         message_input_options_spelling_model = {} # MessageInputOptionsSpelling
         message_input_options_spelling_model['suggestions'] = True
         message_input_options_spelling_model['auto_correct'] = True
@@ -6387,6 +8009,7 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeOption():
         message_input_model['entities'] = [runtime_entity_model]
         message_input_model['suggestion_id'] = 'testString'
         message_input_model['attachments'] = [message_input_attachment_model]
+        message_input_model['analytics'] = request_analytics_model
         message_input_model['options'] = message_input_options_model
 
         dialog_node_output_options_element_value_model = {} # DialogNodeOutputOptionsElementValue
@@ -6592,6 +8215,11 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeSuggestion():
         message_input_attachment_model['url'] = 'testString'
         message_input_attachment_model['media_type'] = 'testString'
 
+        request_analytics_model = {} # RequestAnalytics
+        request_analytics_model['browser'] = 'testString'
+        request_analytics_model['device'] = 'testString'
+        request_analytics_model['pageUrl'] = 'testString'
+
         message_input_options_spelling_model = {} # MessageInputOptionsSpelling
         message_input_options_spelling_model['suggestions'] = True
         message_input_options_spelling_model['auto_correct'] = True
@@ -6611,6 +8239,7 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeSuggestion():
         message_input_model['entities'] = [runtime_entity_model]
         message_input_model['suggestion_id'] = 'testString'
         message_input_model['attachments'] = [message_input_attachment_model]
+        message_input_model['analytics'] = request_analytics_model
         message_input_model['options'] = message_input_options_model
 
         dialog_suggestion_value_model = {} # DialogSuggestionValue
