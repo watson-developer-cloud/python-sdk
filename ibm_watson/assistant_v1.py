@@ -4467,6 +4467,8 @@ class Context():
     the previous response.
 
     :attr str conversation_id: (optional) The unique identifier of the conversation.
+          The conversation ID cannot contain any of the following characters: `+` `=` `&&`
+          `||` `>` `<` `!` `(` `)` `{` `}` `[` `]` `^` `"` `~` `*` `?` `:` `\` `/`.
     :attr dict system: (optional) For internal use only.
     :attr MessageContextMetadata metadata: (optional) Metadata related to the
           message.
@@ -4485,7 +4487,9 @@ class Context():
         Initialize a Context object.
 
         :param str conversation_id: (optional) The unique identifier of the
-               conversation.
+               conversation. The conversation ID cannot contain any of the following
+               characters: `+` `=` `&&` `||` `>` `<` `!` `(` `)` `{` `}` `[` `]` `^` `"`
+               `~` `*` `?` `:` `\` `/`.
         :param dict system: (optional) For internal use only.
         :param MessageContextMetadata metadata: (optional) Metadata related to the
                message.
@@ -4662,7 +4666,8 @@ class CounterexampleCollection():
 
     :attr List[Counterexample] counterexamples: An array of objects describing the
           examples marked as irrelevant input.
-    :attr Pagination pagination: The pagination data for the returned objects.
+    :attr Pagination pagination: The pagination data for the returned objects. For
+          more information about using pagination, see [Pagination](#pagination).
     """
 
     def __init__(self, counterexamples: List['Counterexample'],
@@ -4673,6 +4678,7 @@ class CounterexampleCollection():
         :param List[Counterexample] counterexamples: An array of objects describing
                the examples marked as irrelevant input.
         :param Pagination pagination: The pagination data for the returned objects.
+               For more information about using pagination, see [Pagination](#pagination).
         """
         self.counterexamples = counterexamples
         self.pagination = pagination
@@ -5591,7 +5597,8 @@ class DialogNodeCollection():
 
     :attr List[DialogNode] dialog_nodes: An array of objects describing the dialog
           nodes defined for the workspace.
-    :attr Pagination pagination: The pagination data for the returned objects.
+    :attr Pagination pagination: The pagination data for the returned objects. For
+          more information about using pagination, see [Pagination](#pagination).
     """
 
     def __init__(self, dialog_nodes: List['DialogNode'],
@@ -5602,6 +5609,7 @@ class DialogNodeCollection():
         :param List[DialogNode] dialog_nodes: An array of objects describing the
                dialog nodes defined for the workspace.
         :param Pagination pagination: The pagination data for the returned objects.
+               For more information about using pagination, see [Pagination](#pagination).
         """
         self.dialog_nodes = dialog_nodes
         self.pagination = pagination
@@ -6591,6 +6599,9 @@ class DialogSuggestion():
     :attr DialogSuggestionValue value: An object defining the message input,
           intents, and entities to be sent to the Watson Assistant service if the user
           selects the corresponding disambiguation option.
+           **Note:** These properties must be included in the request body of the next
+          message sent to the assistant. Do not modify or remove any of the included
+          properties.
     :attr dict output: (optional) The dialog output that will be returned from the
           Watson Assistant service if the user selects the corresponding option.
     :attr str dialog_node: (optional) The unique ID of the dialog node that the
@@ -6613,6 +6624,9 @@ class DialogSuggestion():
         :param DialogSuggestionValue value: An object defining the message input,
                intents, and entities to be sent to the Watson Assistant service if the
                user selects the corresponding disambiguation option.
+                **Note:** These properties must be included in the request body of the
+               next message sent to the assistant. Do not modify or remove any of the
+               included properties.
         :param dict output: (optional) The dialog output that will be returned from
                the Watson Assistant service if the user selects the corresponding option.
         :param str dialog_node: (optional) The unique ID of the dialog node that
@@ -6690,6 +6704,8 @@ class DialogSuggestionValue():
     """
     An object defining the message input, intents, and entities to be sent to the Watson
     Assistant service if the user selects the corresponding disambiguation option.
+     **Note:** These properties must be included in the request body of the next message
+    sent to the assistant. Do not modify or remove any of the included properties.
 
     :attr MessageInput input: (optional) An input object that includes the input
           text.
@@ -6918,7 +6934,8 @@ class EntityCollection():
 
     :attr List[Entity] entities: An array of objects describing the entities defined
           for the workspace.
-    :attr Pagination pagination: The pagination data for the returned objects.
+    :attr Pagination pagination: The pagination data for the returned objects. For
+          more information about using pagination, see [Pagination](#pagination).
     """
 
     def __init__(self, entities: List['Entity'],
@@ -6929,6 +6946,7 @@ class EntityCollection():
         :param List[Entity] entities: An array of objects describing the entities
                defined for the workspace.
         :param Pagination pagination: The pagination data for the returned objects.
+               For more information about using pagination, see [Pagination](#pagination).
         """
         self.entities = entities
         self.pagination = pagination
@@ -7082,7 +7100,8 @@ class EntityMentionCollection():
 
     :attr List[EntityMention] examples: An array of objects describing the entity
           mentions defined for an entity.
-    :attr Pagination pagination: The pagination data for the returned objects.
+    :attr Pagination pagination: The pagination data for the returned objects. For
+          more information about using pagination, see [Pagination](#pagination).
     """
 
     def __init__(self, examples: List['EntityMention'],
@@ -7093,6 +7112,7 @@ class EntityMentionCollection():
         :param List[EntityMention] examples: An array of objects describing the
                entity mentions defined for an entity.
         :param Pagination pagination: The pagination data for the returned objects.
+               For more information about using pagination, see [Pagination](#pagination).
         """
         self.examples = examples
         self.pagination = pagination
@@ -7262,7 +7282,8 @@ class ExampleCollection():
 
     :attr List[Example] examples: An array of objects describing the examples
           defined for the intent.
-    :attr Pagination pagination: The pagination data for the returned objects.
+    :attr Pagination pagination: The pagination data for the returned objects. For
+          more information about using pagination, see [Pagination](#pagination).
     """
 
     def __init__(self, examples: List['Example'],
@@ -7273,6 +7294,7 @@ class ExampleCollection():
         :param List[Example] examples: An array of objects describing the examples
                defined for the intent.
         :param Pagination pagination: The pagination data for the returned objects.
+               For more information about using pagination, see [Pagination](#pagination).
         """
         self.examples = examples
         self.pagination = pagination
@@ -7455,7 +7477,8 @@ class IntentCollection():
 
     :attr List[Intent] intents: An array of objects describing the intents defined
           for the workspace.
-    :attr Pagination pagination: The pagination data for the returned objects.
+    :attr Pagination pagination: The pagination data for the returned objects. For
+          more information about using pagination, see [Pagination](#pagination).
     """
 
     def __init__(self, intents: List['Intent'],
@@ -7466,6 +7489,7 @@ class IntentCollection():
         :param List[Intent] intents: An array of objects describing the intents
                defined for the workspace.
         :param Pagination pagination: The pagination data for the returned objects.
+               For more information about using pagination, see [Pagination](#pagination).
         """
         self.intents = intents
         self.pagination = pagination
@@ -7678,6 +7702,7 @@ class LogCollection():
 
     :attr List[Log] logs: An array of objects describing log events.
     :attr LogPagination pagination: The pagination data for the returned objects.
+          For more information about using pagination, see [Pagination](#pagination).
     """
 
     def __init__(self, logs: List['Log'], pagination: 'LogPagination') -> None:
@@ -7686,7 +7711,8 @@ class LogCollection():
 
         :param List[Log] logs: An array of objects describing log events.
         :param LogPagination pagination: The pagination data for the returned
-               objects.
+               objects. For more information about using pagination, see
+               [Pagination](#pagination).
         """
         self.logs = logs
         self.pagination = pagination
@@ -7929,7 +7955,8 @@ class LogMessageSource():
 
 class LogPagination():
     """
-    The pagination data for the returned objects.
+    The pagination data for the returned objects. For more information about using
+    pagination, see [Pagination](#pagination).
 
     :attr str next_url: (optional) The URL that will return the next page of
           results, if any.
@@ -8856,7 +8883,8 @@ class OutputData():
 
 class Pagination():
     """
-    The pagination data for the returned objects.
+    The pagination data for the returned objects. For more information about using
+    pagination, see [Pagination](#pagination).
 
     :attr str refresh_url: The URL that will return the same page of results.
     :attr str next_url: (optional) The URL that will return the next page of
@@ -8968,6 +8996,7 @@ class ResponseGenericChannel():
     ResponseGenericChannel.
 
     :attr str channel: (optional) A channel for which the response is intended.
+           **Note:** On IBM Cloud Pak for Data, only `chat` is supported.
     """
 
     def __init__(self, *, channel: str = None) -> None:
@@ -8976,6 +9005,7 @@ class ResponseGenericChannel():
 
         :param str channel: (optional) A channel for which the response is
                intended.
+                **Note:** On IBM Cloud Pak for Data, only `chat` is supported.
         """
         self.channel = channel
 
@@ -9020,6 +9050,7 @@ class ResponseGenericChannel():
     class ChannelEnum(str, Enum):
         """
         A channel for which the response is intended.
+         **Note:** On IBM Cloud Pak for Data, only `chat` is supported.
         """
         CHAT = 'chat'
         FACEBOOK = 'facebook'
@@ -10004,7 +10035,8 @@ class SynonymCollection():
     SynonymCollection.
 
     :attr List[Synonym] synonyms: An array of synonyms.
-    :attr Pagination pagination: The pagination data for the returned objects.
+    :attr Pagination pagination: The pagination data for the returned objects. For
+          more information about using pagination, see [Pagination](#pagination).
     """
 
     def __init__(self, synonyms: List['Synonym'],
@@ -10014,6 +10046,7 @@ class SynonymCollection():
 
         :param List[Synonym] synonyms: An array of synonyms.
         :param Pagination pagination: The pagination data for the returned objects.
+               For more information about using pagination, see [Pagination](#pagination).
         """
         self.synonyms = synonyms
         self.pagination = pagination
@@ -10224,7 +10257,8 @@ class ValueCollection():
     ValueCollection.
 
     :attr List[Value] values: An array of entity values.
-    :attr Pagination pagination: The pagination data for the returned objects.
+    :attr Pagination pagination: The pagination data for the returned objects. For
+          more information about using pagination, see [Pagination](#pagination).
     """
 
     def __init__(self, values: List['Value'], pagination: 'Pagination') -> None:
@@ -10233,6 +10267,7 @@ class ValueCollection():
 
         :param List[Value] values: An array of entity values.
         :param Pagination pagination: The pagination data for the returned objects.
+               For more information about using pagination, see [Pagination](#pagination).
         """
         self.values = values
         self.pagination = pagination
@@ -10765,7 +10800,8 @@ class WorkspaceCollection():
 
     :attr List[Workspace] workspaces: An array of objects describing the workspaces
           associated with the service instance.
-    :attr Pagination pagination: The pagination data for the returned objects.
+    :attr Pagination pagination: The pagination data for the returned objects. For
+          more information about using pagination, see [Pagination](#pagination).
     """
 
     def __init__(self, workspaces: List['Workspace'],
@@ -10776,6 +10812,7 @@ class WorkspaceCollection():
         :param List[Workspace] workspaces: An array of objects describing the
                workspaces associated with the service instance.
         :param Pagination pagination: The pagination data for the returned objects.
+               For more information about using pagination, see [Pagination](#pagination).
         """
         self.workspaces = workspaces
         self.pagination = pagination
@@ -11268,9 +11305,11 @@ class WorkspaceSystemSettingsNlp():
     the skill.
 
     :attr str model: (optional) The policy the skill follows for selecting the
-          algorithm version to use:
-           - `baseline`: the latest mature version
-           - `beta`: the latest beta version.
+          algorithm version to use. For more information, see the
+          [documentation](/docs/watson-assistant?topic=watson-assistant-algorithm-version).
+           On IBM Cloud, you can specify `latest`, `previous`, or `beta`.
+           On IBM Cloud Pak for Data, you can specify either `beta` or the date of the
+          version you want to use, in `YYYY-MM-DD` format.
     """
 
     def __init__(self, *, model: str = None) -> None:
@@ -11278,9 +11317,11 @@ class WorkspaceSystemSettingsNlp():
         Initialize a WorkspaceSystemSettingsNlp object.
 
         :param str model: (optional) The policy the skill follows for selecting the
-               algorithm version to use:
-                - `baseline`: the latest mature version
-                - `beta`: the latest beta version.
+               algorithm version to use. For more information, see the
+               [documentation](/docs/watson-assistant?topic=watson-assistant-algorithm-version).
+                On IBM Cloud, you can specify `latest`, `previous`, or `beta`.
+                On IBM Cloud Pak for Data, you can specify either `beta` or the date of
+               the version you want to use, in `YYYY-MM-DD` format.
         """
         self.model = model
 
@@ -11321,15 +11362,6 @@ class WorkspaceSystemSettingsNlp():
     def __ne__(self, other: 'WorkspaceSystemSettingsNlp') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
-
-    class ModelEnum(str, Enum):
-        """
-        The policy the skill follows for selecting the algorithm version to use:
-         - `baseline`: the latest mature version
-         - `beta`: the latest beta version.
-        """
-        BASELINE = 'baseline'
-        BETA = 'beta'
 
 
 class WorkspaceSystemSettingsOffTopic():
@@ -11652,6 +11684,8 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeChannelTransfer(
 
     :attr str response_type: The type of response returned by the dialog node. The
           specified response type must be supported by the client application or channel.
+           **Note:** The `channel_transfer` response type is not supported on IBM Cloud
+          Pak for Data.
     :attr str message_to_user: The message to display to the user when initiating a
           channel transfer.
     :attr ChannelTransferInfo transfer_info: Information used by an integration to
@@ -11672,6 +11706,8 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeChannelTransfer(
         :param str response_type: The type of response returned by the dialog node.
                The specified response type must be supported by the client application or
                channel.
+                **Note:** The `channel_transfer` response type is not supported on IBM
+               Cloud Pak for Data.
         :param str message_to_user: The message to display to the user when
                initiating a channel transfer.
         :param ChannelTransferInfo transfer_info: Information used by an
@@ -13157,6 +13193,8 @@ class RuntimeResponseGenericRuntimeResponseTypeChannelTransfer(
 
     :attr str response_type: The type of response returned by the dialog node. The
           specified response type must be supported by the client application or channel.
+           **Note:** The `channel_transfer` response type is not supported on IBM Cloud
+          Pak for Data.
     :attr str message_to_user: The message to display to the user when initiating a
           channel transfer.
     :attr ChannelTransferInfo transfer_info: Information used by an integration to
@@ -13179,6 +13217,8 @@ class RuntimeResponseGenericRuntimeResponseTypeChannelTransfer(
         :param str response_type: The type of response returned by the dialog node.
                The specified response type must be supported by the client application or
                channel.
+                **Note:** The `channel_transfer` response type is not supported on IBM
+               Cloud Pak for Data.
         :param str message_to_user: The message to display to the user when
                initiating a channel transfer.
         :param ChannelTransferInfo transfer_info: Information used by an

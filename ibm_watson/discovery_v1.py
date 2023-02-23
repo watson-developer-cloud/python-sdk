@@ -9997,7 +9997,7 @@ class PdfSettings():
 
 class QueryAggregation():
     """
-    An aggregation produced by  Discovery to analyze the input provided.
+    An aggregation produced by Discovery to analyze the input provided.
 
     :attr str type: The type of aggregation command used. For example: term, filter,
           max, min, etc.
