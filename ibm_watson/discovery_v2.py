@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2019, 2022.
+# (C) Copyright IBM Corp. 2019, 2023.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 3.53.0-9710cac3-20220713-193508
+# IBM OpenAPI SDK Code Generator Version: 3.64.1-cee95189-20230124-211647
 """
 IBM Watson&trade; Discovery is a cognitive search and content analytics engine that you
 can add to applications to identify patterns, trends and actionable insights to drive
@@ -99,7 +99,9 @@ class DiscoveryV2(BaseService):
                                       operation_id='list_projects')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -151,12 +153,14 @@ class DiscoveryV2(BaseService):
                                       operation_id='create_project')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         data = {
             'name': name,
             'type': type,
-            'default_query_parameters': default_query_parameters
+            'default_query_parameters': default_query_parameters,
         }
         data = {k: v for (k, v) in data.items() if v is not None}
         data = json.dumps(data)
@@ -190,7 +194,7 @@ class DiscoveryV2(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `ProjectDetails` object
         """
 
-        if project_id is None:
+        if not project_id:
             raise ValueError('project_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -198,7 +202,9 @@ class DiscoveryV2(BaseService):
                                       operation_id='get_project')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -235,7 +241,7 @@ class DiscoveryV2(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `ProjectDetails` object
         """
 
-        if project_id is None:
+        if not project_id:
             raise ValueError('project_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -243,9 +249,13 @@ class DiscoveryV2(BaseService):
                                       operation_id='update_project')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
-        data = {'name': name}
+        data = {
+            'name': name,
+        }
         data = {k: v for (k, v) in data.items() if v is not None}
         data = json.dumps(data)
         headers['content-type'] = 'application/json'
@@ -283,7 +293,7 @@ class DiscoveryV2(BaseService):
         :rtype: DetailedResponse
         """
 
-        if project_id is None:
+        if not project_id:
             raise ValueError('project_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -291,7 +301,9 @@ class DiscoveryV2(BaseService):
                                       operation_id='delete_project')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -330,7 +342,7 @@ class DiscoveryV2(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `ListFieldsResponse` object
         """
 
-        if project_id is None:
+        if not project_id:
             raise ValueError('project_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -340,7 +352,7 @@ class DiscoveryV2(BaseService):
 
         params = {
             'version': self.version,
-            'collection_ids': convert_list(collection_ids)
+            'collection_ids': convert_list(collection_ids),
         }
 
         if 'headers' in kwargs:
@@ -377,7 +389,7 @@ class DiscoveryV2(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `ListCollectionsResponse` object
         """
 
-        if project_id is None:
+        if not project_id:
             raise ValueError('project_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -385,7 +397,9 @@ class DiscoveryV2(BaseService):
                                       operation_id='list_collections')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -411,8 +425,6 @@ class DiscoveryV2(BaseService):
                           description: str = None,
                           language: str = None,
                           enrichments: List['CollectionEnrichment'] = None,
-                          smart_document_understanding:
-                          'CollectionDetailsSmartDocumentUnderstanding' = None,
                           **kwargs) -> DetailedResponse:
         """
         Create a collection.
@@ -434,37 +446,32 @@ class DiscoveryV2(BaseService):
                enrichments for the project type are applied. For more information about
                project default settings, see the [product
                documentation](/docs/discovery-data?topic=discovery-data-project-defaults).
-        :param CollectionDetailsSmartDocumentUnderstanding
-               smart_document_understanding: (optional) An object that describes the Smart
-               Document Understanding model for a collection.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `CollectionDetails` object
         """
 
-        if project_id is None:
+        if not project_id:
             raise ValueError('project_id must be provided')
         if name is None:
             raise ValueError('name must be provided')
         if enrichments is not None:
             enrichments = [convert_model(x) for x in enrichments]
-        if smart_document_understanding is not None:
-            smart_document_understanding = convert_model(
-                smart_document_understanding)
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V2',
                                       operation_id='create_collection')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         data = {
             'name': name,
             'description': description,
             'language': language,
             'enrichments': enrichments,
-            'smart_document_understanding': smart_document_understanding
         }
         data = {k: v for (k, v) in data.items() if v is not None}
         data = json.dumps(data)
@@ -503,9 +510,9 @@ class DiscoveryV2(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `CollectionDetails` object
         """
 
-        if project_id is None:
+        if not project_id:
             raise ValueError('project_id must be provided')
-        if collection_id is None:
+        if not collection_id:
             raise ValueError('collection_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -513,7 +520,9 @@ class DiscoveryV2(BaseService):
                                       operation_id='get_collection')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -558,9 +567,9 @@ class DiscoveryV2(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `CollectionDetails` object
         """
 
-        if project_id is None:
+        if not project_id:
             raise ValueError('project_id must be provided')
-        if collection_id is None:
+        if not collection_id:
             raise ValueError('collection_id must be provided')
         if enrichments is not None:
             enrichments = [convert_model(x) for x in enrichments]
@@ -570,12 +579,14 @@ class DiscoveryV2(BaseService):
                                       operation_id='update_collection')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         data = {
             'name': name,
             'description': description,
-            'enrichments': enrichments
+            'enrichments': enrichments,
         }
         data = {k: v for (k, v) in data.items() if v is not None}
         data = json.dumps(data)
@@ -616,9 +627,9 @@ class DiscoveryV2(BaseService):
         :rtype: DetailedResponse
         """
 
-        if project_id is None:
+        if not project_id:
             raise ValueError('project_id must be provided')
-        if collection_id is None:
+        if not collection_id:
             raise ValueError('collection_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -626,7 +637,9 @@ class DiscoveryV2(BaseService):
                                       operation_id='delete_collection')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -711,9 +724,9 @@ class DiscoveryV2(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `ListDocumentsResponse` object
         """
 
-        if project_id is None:
+        if not project_id:
             raise ValueError('project_id must be provided')
-        if collection_id is None:
+        if not collection_id:
             raise ValueError('collection_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -728,7 +741,7 @@ class DiscoveryV2(BaseService):
             'has_notices': has_notices,
             'is_parent': is_parent,
             'parent_document_id': parent_document_id,
-            'sha256': sha256
+            'sha256': sha256,
         }
 
         if 'headers' in kwargs:
@@ -814,17 +827,21 @@ class DiscoveryV2(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `DocumentAccepted` object
         """
 
-        if project_id is None:
+        if not project_id:
             raise ValueError('project_id must be provided')
-        if collection_id is None:
+        if not collection_id:
             raise ValueError('collection_id must be provided')
-        headers = {'X-Watson-Discovery-Force': x_watson_discovery_force}
+        headers = {
+            'X-Watson-Discovery-Force': x_watson_discovery_force,
+        }
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V2',
                                       operation_id='add_document')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         form_data = []
         if file:
@@ -876,11 +893,11 @@ class DiscoveryV2(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `DocumentDetails` object
         """
 
-        if project_id is None:
+        if not project_id:
             raise ValueError('project_id must be provided')
-        if collection_id is None:
+        if not collection_id:
             raise ValueError('collection_id must be provided')
-        if document_id is None:
+        if not document_id:
             raise ValueError('document_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -888,7 +905,9 @@ class DiscoveryV2(BaseService):
                                       operation_id='get_document')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -967,19 +986,23 @@ class DiscoveryV2(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `DocumentAccepted` object
         """
 
-        if project_id is None:
+        if not project_id:
             raise ValueError('project_id must be provided')
-        if collection_id is None:
+        if not collection_id:
             raise ValueError('collection_id must be provided')
-        if document_id is None:
+        if not document_id:
             raise ValueError('document_id must be provided')
-        headers = {'X-Watson-Discovery-Force': x_watson_discovery_force}
+        headers = {
+            'X-Watson-Discovery-Force': x_watson_discovery_force,
+        }
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V2',
                                       operation_id='update_document')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         form_data = []
         if file:
@@ -1043,19 +1066,23 @@ class DiscoveryV2(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `DeleteDocumentResponse` object
         """
 
-        if project_id is None:
+        if not project_id:
             raise ValueError('project_id must be provided')
-        if collection_id is None:
+        if not collection_id:
             raise ValueError('collection_id must be provided')
-        if document_id is None:
+        if not document_id:
             raise ValueError('document_id must be provided')
-        headers = {'X-Watson-Discovery-Force': x_watson_discovery_force}
+        headers = {
+            'X-Watson-Discovery-Force': x_watson_discovery_force,
+        }
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V2',
                                       operation_id='delete_document')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -1179,7 +1206,7 @@ class DiscoveryV2(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `QueryResponse` object
         """
 
-        if project_id is None:
+        if not project_id:
             raise ValueError('project_id must be provided')
         if table_results is not None:
             table_results = convert_model(table_results)
@@ -1195,7 +1222,9 @@ class DiscoveryV2(BaseService):
                                       operation_id='query')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         data = {
             'collection_ids': collection_ids,
@@ -1212,7 +1241,7 @@ class DiscoveryV2(BaseService):
             'table_results': table_results,
             'suggested_refinements': suggested_refinements,
             'passages': passages,
-            'similar': similar
+            'similar': similar,
         }
         data = {k: v for (k, v) in data.items() if v is not None}
         data = json.dumps(data)
@@ -1265,9 +1294,9 @@ class DiscoveryV2(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `Completions` object
         """
 
-        if project_id is None:
+        if not project_id:
             raise ValueError('project_id must be provided')
-        if prefix is None:
+        if not prefix:
             raise ValueError('prefix must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -1280,7 +1309,7 @@ class DiscoveryV2(BaseService):
             'prefix': prefix,
             'collection_ids': convert_list(collection_ids),
             'field': field,
-            'count': count
+            'count': count,
         }
 
         if 'headers' in kwargs:
@@ -1346,9 +1375,9 @@ class DiscoveryV2(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `QueryNoticesResponse` object
         """
 
-        if project_id is None:
+        if not project_id:
             raise ValueError('project_id must be provided')
-        if collection_id is None:
+        if not collection_id:
             raise ValueError('collection_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -1362,7 +1391,7 @@ class DiscoveryV2(BaseService):
             'query': query,
             'natural_language_query': natural_language_query,
             'count': count,
-            'offset': offset
+            'offset': offset,
         }
 
         if 'headers' in kwargs:
@@ -1426,7 +1455,7 @@ class DiscoveryV2(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `QueryNoticesResponse` object
         """
 
-        if project_id is None:
+        if not project_id:
             raise ValueError('project_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -1440,7 +1469,7 @@ class DiscoveryV2(BaseService):
             'query': query,
             'natural_language_query': natural_language_query,
             'count': count,
-            'offset': offset
+            'offset': offset,
         }
 
         if 'headers' in kwargs:
@@ -1481,9 +1510,9 @@ class DiscoveryV2(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `StopWordList` object
         """
 
-        if project_id is None:
+        if not project_id:
             raise ValueError('project_id must be provided')
-        if collection_id is None:
+        if not collection_id:
             raise ValueError('collection_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -1491,7 +1520,9 @@ class DiscoveryV2(BaseService):
                                       operation_id='get_stopword_list')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -1543,9 +1574,9 @@ class DiscoveryV2(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `StopWordList` object
         """
 
-        if project_id is None:
+        if not project_id:
             raise ValueError('project_id must be provided')
-        if collection_id is None:
+        if not collection_id:
             raise ValueError('collection_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -1553,9 +1584,13 @@ class DiscoveryV2(BaseService):
                                       operation_id='create_stopword_list')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
-        data = {'stopwords': stopwords}
+        data = {
+            'stopwords': stopwords,
+        }
         data = {k: v for (k, v) in data.items() if v is not None}
         data = json.dumps(data)
         headers['content-type'] = 'application/json'
@@ -1596,9 +1631,9 @@ class DiscoveryV2(BaseService):
         :rtype: DetailedResponse
         """
 
-        if project_id is None:
+        if not project_id:
             raise ValueError('project_id must be provided')
-        if collection_id is None:
+        if not collection_id:
             raise ValueError('collection_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -1606,7 +1641,9 @@ class DiscoveryV2(BaseService):
                                       operation_id='delete_stopword_list')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -1641,9 +1678,9 @@ class DiscoveryV2(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `Expansions` object
         """
 
-        if project_id is None:
+        if not project_id:
             raise ValueError('project_id must be provided')
-        if collection_id is None:
+        if not collection_id:
             raise ValueError('collection_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -1651,7 +1688,9 @@ class DiscoveryV2(BaseService):
                                       operation_id='list_expansions')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -1704,9 +1743,9 @@ class DiscoveryV2(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `Expansions` object
         """
 
-        if project_id is None:
+        if not project_id:
             raise ValueError('project_id must be provided')
-        if collection_id is None:
+        if not collection_id:
             raise ValueError('collection_id must be provided')
         if expansions is None:
             raise ValueError('expansions must be provided')
@@ -1717,9 +1756,13 @@ class DiscoveryV2(BaseService):
                                       operation_id='create_expansions')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
-        data = {'expansions': expansions}
+        data = {
+            'expansions': expansions,
+        }
         data = {k: v for (k, v) in data.items() if v is not None}
         data = json.dumps(data)
         headers['content-type'] = 'application/json'
@@ -1759,9 +1802,9 @@ class DiscoveryV2(BaseService):
         :rtype: DetailedResponse
         """
 
-        if project_id is None:
+        if not project_id:
             raise ValueError('project_id must be provided')
-        if collection_id is None:
+        if not collection_id:
             raise ValueError('collection_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -1769,7 +1812,9 @@ class DiscoveryV2(BaseService):
                                       operation_id='delete_expansions')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -1806,7 +1851,7 @@ class DiscoveryV2(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `ComponentSettingsResponse` object
         """
 
-        if project_id is None:
+        if not project_id:
             raise ValueError('project_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -1814,7 +1859,9 @@ class DiscoveryV2(BaseService):
                                       operation_id='get_component_settings')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -1852,7 +1899,7 @@ class DiscoveryV2(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `TrainingQuerySet` object
         """
 
-        if project_id is None:
+        if not project_id:
             raise ValueError('project_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -1860,7 +1907,9 @@ class DiscoveryV2(BaseService):
                                       operation_id='list_training_queries')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -1894,7 +1943,7 @@ class DiscoveryV2(BaseService):
         :rtype: DetailedResponse
         """
 
-        if project_id is None:
+        if not project_id:
             raise ValueError('project_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -1902,7 +1951,9 @@ class DiscoveryV2(BaseService):
                                       operation_id='delete_training_queries')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -1946,7 +1997,7 @@ class DiscoveryV2(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `TrainingQuery` object
         """
 
-        if project_id is None:
+        if not project_id:
             raise ValueError('project_id must be provided')
         if natural_language_query is None:
             raise ValueError('natural_language_query must be provided')
@@ -1959,12 +2010,14 @@ class DiscoveryV2(BaseService):
                                       operation_id='create_training_query')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         data = {
             'natural_language_query': natural_language_query,
             'examples': examples,
-            'filter': filter
+            'filter': filter,
         }
         data = {k: v for (k, v) in data.items() if v is not None}
         data = json.dumps(data)
@@ -2005,9 +2058,9 @@ class DiscoveryV2(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `TrainingQuery` object
         """
 
-        if project_id is None:
+        if not project_id:
             raise ValueError('project_id must be provided')
-        if query_id is None:
+        if not query_id:
             raise ValueError('query_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -2015,7 +2068,9 @@ class DiscoveryV2(BaseService):
                                       operation_id='get_training_query')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -2061,9 +2116,9 @@ class DiscoveryV2(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `TrainingQuery` object
         """
 
-        if project_id is None:
+        if not project_id:
             raise ValueError('project_id must be provided')
-        if query_id is None:
+        if not query_id:
             raise ValueError('query_id must be provided')
         if natural_language_query is None:
             raise ValueError('natural_language_query must be provided')
@@ -2076,12 +2131,14 @@ class DiscoveryV2(BaseService):
                                       operation_id='update_training_query')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         data = {
             'natural_language_query': natural_language_query,
             'examples': examples,
-            'filter': filter
+            'filter': filter,
         }
         data = {k: v for (k, v) in data.items() if v is not None}
         data = json.dumps(data)
@@ -2122,9 +2179,9 @@ class DiscoveryV2(BaseService):
         :rtype: DetailedResponse
         """
 
-        if project_id is None:
+        if not project_id:
             raise ValueError('project_id must be provided')
-        if query_id is None:
+        if not query_id:
             raise ValueError('query_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -2132,7 +2189,9 @@ class DiscoveryV2(BaseService):
                                       operation_id='delete_training_query')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -2170,7 +2229,7 @@ class DiscoveryV2(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `Enrichments` object
         """
 
-        if project_id is None:
+        if not project_id:
             raise ValueError('project_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -2178,7 +2237,9 @@ class DiscoveryV2(BaseService):
                                       operation_id='list_enrichments')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -2225,7 +2286,7 @@ class DiscoveryV2(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `Enrichment` object
         """
 
-        if project_id is None:
+        if not project_id:
             raise ValueError('project_id must be provided')
         if enrichment is None:
             raise ValueError('enrichment must be provided')
@@ -2235,7 +2296,9 @@ class DiscoveryV2(BaseService):
                                       operation_id='create_enrichment')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         form_data = []
         form_data.append(
@@ -2276,9 +2339,9 @@ class DiscoveryV2(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `Enrichment` object
         """
 
-        if project_id is None:
+        if not project_id:
             raise ValueError('project_id must be provided')
-        if enrichment_id is None:
+        if not enrichment_id:
             raise ValueError('enrichment_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -2286,7 +2349,9 @@ class DiscoveryV2(BaseService):
                                       operation_id='get_enrichment')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -2328,9 +2393,9 @@ class DiscoveryV2(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `Enrichment` object
         """
 
-        if project_id is None:
+        if not project_id:
             raise ValueError('project_id must be provided')
-        if enrichment_id is None:
+        if not enrichment_id:
             raise ValueError('enrichment_id must be provided')
         if name is None:
             raise ValueError('name must be provided')
@@ -2340,9 +2405,14 @@ class DiscoveryV2(BaseService):
                                       operation_id='update_enrichment')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
-        data = {'name': name, 'description': description}
+        data = {
+            'name': name,
+            'description': description,
+        }
         data = {k: v for (k, v) in data.items() if v is not None}
         data = json.dumps(data)
         headers['content-type'] = 'application/json'
@@ -2382,9 +2452,9 @@ class DiscoveryV2(BaseService):
         :rtype: DetailedResponse
         """
 
-        if project_id is None:
+        if not project_id:
             raise ValueError('project_id must be provided')
-        if enrichment_id is None:
+        if not enrichment_id:
             raise ValueError('enrichment_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -2392,7 +2462,9 @@ class DiscoveryV2(BaseService):
                                       operation_id='delete_enrichment')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -2430,7 +2502,7 @@ class DiscoveryV2(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `DocumentClassifiers` object
         """
 
-        if project_id is None:
+        if not project_id:
             raise ValueError('project_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -2438,7 +2510,9 @@ class DiscoveryV2(BaseService):
                                       operation_id='list_document_classifiers')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -2496,7 +2570,7 @@ class DiscoveryV2(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `DocumentClassifier` object
         """
 
-        if project_id is None:
+        if not project_id:
             raise ValueError('project_id must be provided')
         if training_data is None:
             raise ValueError('training_data must be provided')
@@ -2508,7 +2582,9 @@ class DiscoveryV2(BaseService):
                                       operation_id='create_document_classifier')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         form_data = []
         form_data.append(('training_data', (None, training_data, 'text/csv')))
@@ -2551,9 +2627,9 @@ class DiscoveryV2(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `DocumentClassifier` object
         """
 
-        if project_id is None:
+        if not project_id:
             raise ValueError('project_id must be provided')
-        if classifier_id is None:
+        if not classifier_id:
             raise ValueError('classifier_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -2561,7 +2637,9 @@ class DiscoveryV2(BaseService):
                                       operation_id='get_document_classifier')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -2617,9 +2695,9 @@ class DiscoveryV2(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `DocumentClassifier` object
         """
 
-        if project_id is None:
+        if not project_id:
             raise ValueError('project_id must be provided')
-        if classifier_id is None:
+        if not classifier_id:
             raise ValueError('classifier_id must be provided')
         if classifier is None:
             raise ValueError('classifier must be provided')
@@ -2629,7 +2707,9 @@ class DiscoveryV2(BaseService):
                                       operation_id='update_document_classifier')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         form_data = []
         form_data.append(
@@ -2674,9 +2754,9 @@ class DiscoveryV2(BaseService):
         :rtype: DetailedResponse
         """
 
-        if project_id is None:
+        if not project_id:
             raise ValueError('project_id must be provided')
-        if classifier_id is None:
+        if not classifier_id:
             raise ValueError('classifier_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -2684,7 +2764,9 @@ class DiscoveryV2(BaseService):
                                       operation_id='delete_document_classifier')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -2724,9 +2806,9 @@ class DiscoveryV2(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `DocumentClassifierModels` object
         """
 
-        if project_id is None:
+        if not project_id:
             raise ValueError('project_id must be provided')
-        if classifier_id is None:
+        if not classifier_id:
             raise ValueError('classifier_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(
@@ -2735,7 +2817,9 @@ class DiscoveryV2(BaseService):
             operation_id='list_document_classifier_models')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -2808,9 +2892,9 @@ class DiscoveryV2(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `DocumentClassifierModel` object
         """
 
-        if project_id is None:
+        if not project_id:
             raise ValueError('project_id must be provided')
-        if classifier_id is None:
+        if not classifier_id:
             raise ValueError('classifier_id must be provided')
         if name is None:
             raise ValueError('name must be provided')
@@ -2821,7 +2905,9 @@ class DiscoveryV2(BaseService):
             operation_id='create_document_classifier_model')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         data = {
             'name': name,
@@ -2830,7 +2916,7 @@ class DiscoveryV2(BaseService):
             'l1_regularization_strengths': l1_regularization_strengths,
             'l2_regularization_strengths': l2_regularization_strengths,
             'training_max_steps': training_max_steps,
-            'improvement_ratio': improvement_ratio
+            'improvement_ratio': improvement_ratio,
         }
         data = {k: v for (k, v) in data.items() if v is not None}
         data = json.dumps(data)
@@ -2872,11 +2958,11 @@ class DiscoveryV2(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `DocumentClassifierModel` object
         """
 
-        if project_id is None:
+        if not project_id:
             raise ValueError('project_id must be provided')
-        if classifier_id is None:
+        if not classifier_id:
             raise ValueError('classifier_id must be provided')
-        if model_id is None:
+        if not model_id:
             raise ValueError('model_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(
@@ -2885,7 +2971,9 @@ class DiscoveryV2(BaseService):
             operation_id='get_document_classifier_model')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -2930,11 +3018,11 @@ class DiscoveryV2(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `DocumentClassifierModel` object
         """
 
-        if project_id is None:
+        if not project_id:
             raise ValueError('project_id must be provided')
-        if classifier_id is None:
+        if not classifier_id:
             raise ValueError('classifier_id must be provided')
-        if model_id is None:
+        if not model_id:
             raise ValueError('model_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(
@@ -2943,9 +3031,14 @@ class DiscoveryV2(BaseService):
             operation_id='update_document_classifier_model')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
-        data = {'name': name, 'description': description}
+        data = {
+            'name': name,
+            'description': description,
+        }
         data = {k: v for (k, v) in data.items() if v is not None}
         data = json.dumps(data)
         headers['content-type'] = 'application/json'
@@ -2987,11 +3080,11 @@ class DiscoveryV2(BaseService):
         :rtype: DetailedResponse
         """
 
-        if project_id is None:
+        if not project_id:
             raise ValueError('project_id must be provided')
-        if classifier_id is None:
+        if not classifier_id:
             raise ValueError('classifier_id must be provided')
-        if model_id is None:
+        if not model_id:
             raise ValueError('model_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(
@@ -3000,7 +3093,9 @@ class DiscoveryV2(BaseService):
             operation_id='delete_document_classifier_model')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -3074,9 +3169,9 @@ class DiscoveryV2(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `AnalyzedDocument` object
         """
 
-        if project_id is None:
+        if not project_id:
             raise ValueError('project_id must be provided')
-        if collection_id is None:
+        if not collection_id:
             raise ValueError('collection_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -3084,7 +3179,9 @@ class DiscoveryV2(BaseService):
                                       operation_id='analyze_document')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         form_data = []
         if file:
@@ -3139,7 +3236,7 @@ class DiscoveryV2(BaseService):
         :rtype: DetailedResponse
         """
 
-        if customer_id is None:
+        if not customer_id:
             raise ValueError('customer_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -3147,7 +3244,10 @@ class DiscoveryV2(BaseService):
                                       operation_id='delete_user_data')
         headers.update(sdk_headers)
 
-        params = {'version': self.version, 'customer_id': customer_id}
+        params = {
+            'version': self.version,
+            'customer_id': customer_id,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -3249,7 +3349,7 @@ class AnalyzedDocument():
         args = {}
         if 'notices' in _dict:
             args['notices'] = [
-                Notice.from_dict(x) for x in _dict.get('notices')
+                Notice.from_dict(v) for v in _dict.get('notices')
             ]
         if 'result' in _dict:
             args['result'] = AnalyzedResult.from_dict(_dict.get('result'))
@@ -3264,9 +3364,18 @@ class AnalyzedDocument():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'notices') and self.notices is not None:
-            _dict['notices'] = [x.to_dict() for x in self.notices]
+            notices_list = []
+            for v in self.notices:
+                if isinstance(v, dict):
+                    notices_list.append(v)
+                else:
+                    notices_list.append(v.to_dict())
+            _dict['notices'] = notices_list
         if hasattr(self, 'result') and self.result is not None:
-            _dict['result'] = self.result.to_dict()
+            if isinstance(self.result, dict):
+                _dict['result'] = self.result
+            else:
+                _dict['result'] = self.result.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -3334,8 +3443,7 @@ class AnalyzedResult():
                 k for k in vars(self).keys()
                 if k not in AnalyzedResult._properties
         ]:
-            if getattr(self, _key, None) is not None:
-                _dict[_key] = getattr(self, _key)
+            _dict[_key] = getattr(self, _key)
         return _dict
 
     def _to_dict(self):
@@ -3499,8 +3607,8 @@ class ClassifierModelEvaluation():
             )
         if 'per_class' in _dict:
             args['per_class'] = [
-                PerClassModelEvaluation.from_dict(x)
-                for x in _dict.get('per_class')
+                PerClassModelEvaluation.from_dict(v)
+                for v in _dict.get('per_class')
             ]
         else:
             raise ValueError(
@@ -3517,11 +3625,23 @@ class ClassifierModelEvaluation():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'micro_average') and self.micro_average is not None:
-            _dict['micro_average'] = self.micro_average.to_dict()
+            if isinstance(self.micro_average, dict):
+                _dict['micro_average'] = self.micro_average
+            else:
+                _dict['micro_average'] = self.micro_average.to_dict()
         if hasattr(self, 'macro_average') and self.macro_average is not None:
-            _dict['macro_average'] = self.macro_average.to_dict()
+            if isinstance(self.macro_average, dict):
+                _dict['macro_average'] = self.macro_average
+            else:
+                _dict['macro_average'] = self.macro_average.to_dict()
         if hasattr(self, 'per_class') and self.per_class is not None:
-            _dict['per_class'] = [x.to_dict() for x in self.per_class]
+            per_class_list = []
+            for v in self.per_class:
+                if isinstance(v, dict):
+                    per_class_list.append(v)
+                else:
+                    per_class_list.append(v.to_dict())
+            _dict['per_class'] = per_class_list
         return _dict
 
     def _to_dict(self):
@@ -3655,9 +3775,6 @@ class CollectionDetails():
                enrichments for the project type are applied. For more information about
                project default settings, see the [product
                documentation](/docs/discovery-data?topic=discovery-data-project-defaults).
-        :param CollectionDetailsSmartDocumentUnderstanding
-               smart_document_understanding: (optional) An object that describes the Smart
-               Document Understanding model for a collection.
         """
         self.collection_id = collection_id
         self.name = name
@@ -3687,8 +3804,8 @@ class CollectionDetails():
             args['language'] = _dict.get('language')
         if 'enrichments' in _dict:
             args['enrichments'] = [
-                CollectionEnrichment.from_dict(x)
-                for x in _dict.get('enrichments')
+                CollectionEnrichment.from_dict(v)
+                for v in _dict.get('enrichments')
             ]
         if 'smart_document_understanding' in _dict:
             args[
@@ -3716,12 +3833,21 @@ class CollectionDetails():
         if hasattr(self, 'language') and self.language is not None:
             _dict['language'] = self.language
         if hasattr(self, 'enrichments') and self.enrichments is not None:
-            _dict['enrichments'] = [x.to_dict() for x in self.enrichments]
-        if hasattr(self, 'smart_document_understanding'
-                  ) and self.smart_document_understanding is not None:
-            _dict[
-                'smart_document_understanding'] = self.smart_document_understanding.to_dict(
-                )
+            enrichments_list = []
+            for v in self.enrichments:
+                if isinstance(v, dict):
+                    enrichments_list.append(v)
+                else:
+                    enrichments_list.append(v.to_dict())
+            _dict['enrichments'] = enrichments_list
+        if hasattr(self, 'smart_document_understanding') and getattr(
+                self, 'smart_document_understanding') is not None:
+            if isinstance(getattr(self, 'smart_document_understanding'), dict):
+                _dict['smart_document_understanding'] = getattr(
+                    self, 'smart_document_understanding')
+            else:
+                _dict['smart_document_understanding'] = getattr(
+                    self, 'smart_document_understanding').to_dict()
         return _dict
 
     def _to_dict(self):
@@ -4128,9 +4254,15 @@ class ComponentSettingsFieldsShown():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'body') and self.body is not None:
-            _dict['body'] = self.body.to_dict()
+            if isinstance(self.body, dict):
+                _dict['body'] = self.body
+            else:
+                _dict['body'] = self.body.to_dict()
         if hasattr(self, 'title') and self.title is not None:
-            _dict['title'] = self.title.to_dict()
+            if isinstance(self.title, dict):
+                _dict['title'] = self.title
+            else:
+                _dict['title'] = self.title.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -4323,8 +4455,8 @@ class ComponentSettingsResponse():
             args['results_per_page'] = _dict.get('results_per_page')
         if 'aggregations' in _dict:
             args['aggregations'] = [
-                ComponentSettingsAggregation.from_dict(x)
-                for x in _dict.get('aggregations')
+                ComponentSettingsAggregation.from_dict(v)
+                for v in _dict.get('aggregations')
             ]
         return cls(**args)
 
@@ -4337,7 +4469,10 @@ class ComponentSettingsResponse():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'fields_shown') and self.fields_shown is not None:
-            _dict['fields_shown'] = self.fields_shown.to_dict()
+            if isinstance(self.fields_shown, dict):
+                _dict['fields_shown'] = self.fields_shown
+            else:
+                _dict['fields_shown'] = self.fields_shown.to_dict()
         if hasattr(self, 'autocomplete') and self.autocomplete is not None:
             _dict['autocomplete'] = self.autocomplete
         if hasattr(self,
@@ -4347,7 +4482,13 @@ class ComponentSettingsResponse():
                    'results_per_page') and self.results_per_page is not None:
             _dict['results_per_page'] = self.results_per_page
         if hasattr(self, 'aggregations') and self.aggregations is not None:
-            _dict['aggregations'] = [x.to_dict() for x in self.aggregations]
+            aggregations_list = []
+            for v in self.aggregations:
+                if isinstance(v, dict):
+                    aggregations_list.append(v)
+                else:
+                    aggregations_list.append(v.to_dict())
+            _dict['aggregations'] = aggregations_list
         return _dict
 
     def _to_dict(self):
@@ -4452,8 +4593,8 @@ class CreateDocumentClassifier():
             )
         if 'enrichments' in _dict:
             args['enrichments'] = [
-                DocumentClassifierEnrichment.from_dict(x)
-                for x in _dict.get('enrichments')
+                DocumentClassifierEnrichment.from_dict(v)
+                for v in _dict.get('enrichments')
             ]
         if 'federated_classification' in _dict:
             args[
@@ -4478,12 +4619,22 @@ class CreateDocumentClassifier():
         if hasattr(self, 'answer_field') and self.answer_field is not None:
             _dict['answer_field'] = self.answer_field
         if hasattr(self, 'enrichments') and self.enrichments is not None:
-            _dict['enrichments'] = [x.to_dict() for x in self.enrichments]
+            enrichments_list = []
+            for v in self.enrichments:
+                if isinstance(v, dict):
+                    enrichments_list.append(v)
+                else:
+                    enrichments_list.append(v.to_dict())
+            _dict['enrichments'] = enrichments_list
         if hasattr(self, 'federated_classification'
                   ) and self.federated_classification is not None:
-            _dict[
-                'federated_classification'] = self.federated_classification.to_dict(
-                )
+            if isinstance(self.federated_classification, dict):
+                _dict[
+                    'federated_classification'] = self.federated_classification
+            else:
+                _dict[
+                    'federated_classification'] = self.federated_classification.to_dict(
+                    )
         return _dict
 
     def _to_dict(self):
@@ -4604,7 +4755,10 @@ class CreateEnrichment():
         if hasattr(self, 'type') and self.type is not None:
             _dict['type'] = self.type
         if hasattr(self, 'options') and self.options is not None:
-            _dict['options'] = self.options.to_dict()
+            if isinstance(self.options, dict):
+                _dict['options'] = self.options
+            else:
+                _dict['options'] = self.options.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -4773,15 +4927,25 @@ class DefaultQueryParams():
         if hasattr(self, 'collection_ids') and self.collection_ids is not None:
             _dict['collection_ids'] = self.collection_ids
         if hasattr(self, 'passages') and self.passages is not None:
-            _dict['passages'] = self.passages.to_dict()
+            if isinstance(self.passages, dict):
+                _dict['passages'] = self.passages
+            else:
+                _dict['passages'] = self.passages.to_dict()
         if hasattr(self, 'table_results') and self.table_results is not None:
-            _dict['table_results'] = self.table_results.to_dict()
+            if isinstance(self.table_results, dict):
+                _dict['table_results'] = self.table_results
+            else:
+                _dict['table_results'] = self.table_results.to_dict()
         if hasattr(self, 'aggregation') and self.aggregation is not None:
             _dict['aggregation'] = self.aggregation
         if hasattr(self, 'suggested_refinements'
                   ) and self.suggested_refinements is not None:
-            _dict['suggested_refinements'] = self.suggested_refinements.to_dict(
-            )
+            if isinstance(self.suggested_refinements, dict):
+                _dict['suggested_refinements'] = self.suggested_refinements
+            else:
+                _dict[
+                    'suggested_refinements'] = self.suggested_refinements.to_dict(
+                    )
         if hasattr(self, 'spelling_suggestions'
                   ) and self.spelling_suggestions is not None:
             _dict['spelling_suggestions'] = self.spelling_suggestions
@@ -5270,7 +5434,10 @@ class DocumentAttribute():
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         if hasattr(self, 'location') and self.location is not None:
-            _dict['location'] = self.location.to_dict()
+            if isinstance(self.location, dict):
+                _dict['location'] = self.location
+            else:
+                _dict['location'] = self.location.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -5400,8 +5567,8 @@ class DocumentClassifier():
             args['language'] = _dict.get('language')
         if 'enrichments' in _dict:
             args['enrichments'] = [
-                DocumentClassifierEnrichment.from_dict(x)
-                for x in _dict.get('enrichments')
+                DocumentClassifierEnrichment.from_dict(v)
+                for v in _dict.get('enrichments')
             ]
         if 'recognized_fields' in _dict:
             args['recognized_fields'] = _dict.get('recognized_fields')
@@ -5437,7 +5604,13 @@ class DocumentClassifier():
         if hasattr(self, 'language') and self.language is not None:
             _dict['language'] = self.language
         if hasattr(self, 'enrichments') and self.enrichments is not None:
-            _dict['enrichments'] = [x.to_dict() for x in self.enrichments]
+            enrichments_list = []
+            for v in self.enrichments:
+                if isinstance(v, dict):
+                    enrichments_list.append(v)
+                else:
+                    enrichments_list.append(v.to_dict())
+            _dict['enrichments'] = enrichments_list
         if hasattr(self,
                    'recognized_fields') and self.recognized_fields is not None:
             _dict['recognized_fields'] = self.recognized_fields
@@ -5451,9 +5624,13 @@ class DocumentClassifier():
             _dict['test_data_file'] = self.test_data_file
         if hasattr(self, 'federated_classification'
                   ) and self.federated_classification is not None:
-            _dict[
-                'federated_classification'] = self.federated_classification.to_dict(
-                )
+            if isinstance(self.federated_classification, dict):
+                _dict[
+                    'federated_classification'] = self.federated_classification
+            else:
+                _dict[
+                    'federated_classification'] = self.federated_classification.to_dict(
+                    )
         return _dict
 
     def _to_dict(self):
@@ -5676,7 +5853,10 @@ class DocumentClassifierModel():
         if hasattr(self, 'status') and self.status is not None:
             _dict['status'] = self.status
         if hasattr(self, 'evaluation') and self.evaluation is not None:
-            _dict['evaluation'] = self.evaluation.to_dict()
+            if isinstance(self.evaluation, dict):
+                _dict['evaluation'] = self.evaluation
+            else:
+                _dict['evaluation'] = self.evaluation.to_dict()
         if hasattr(self, 'enrichment_id') and self.enrichment_id is not None:
             _dict['enrichment_id'] = self.enrichment_id
         if hasattr(self, 'deployed_at') and getattr(self,
@@ -5737,8 +5917,8 @@ class DocumentClassifierModels():
         args = {}
         if 'models' in _dict:
             args['models'] = [
-                DocumentClassifierModel.from_dict(x)
-                for x in _dict.get('models')
+                DocumentClassifierModel.from_dict(v)
+                for v in _dict.get('models')
             ]
         return cls(**args)
 
@@ -5751,7 +5931,13 @@ class DocumentClassifierModels():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'models') and self.models is not None:
-            _dict['models'] = [x.to_dict() for x in self.models]
+            models_list = []
+            for v in self.models:
+                if isinstance(v, dict):
+                    models_list.append(v)
+                else:
+                    models_list.append(v.to_dict())
+            _dict['models'] = models_list
         return _dict
 
     def _to_dict(self):
@@ -5798,8 +5984,8 @@ class DocumentClassifiers():
         args = {}
         if 'classifiers' in _dict:
             args['classifiers'] = [
-                DocumentClassifier.from_dict(x)
-                for x in _dict.get('classifiers')
+                DocumentClassifier.from_dict(v)
+                for v in _dict.get('classifiers')
             ]
         return cls(**args)
 
@@ -5812,7 +5998,13 @@ class DocumentClassifiers():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'classifiers') and self.classifiers is not None:
-            _dict['classifiers'] = [x.to_dict() for x in self.classifiers]
+            classifiers_list = []
+            for v in self.classifiers:
+                if isinstance(v, dict):
+                    classifiers_list.append(v)
+                else:
+                    classifiers_list.append(v.to_dict())
+            _dict['classifiers'] = classifiers_list
         return _dict
 
     def _to_dict(self):
@@ -5928,7 +6120,7 @@ class DocumentDetails():
             args['status'] = _dict.get('status')
         if 'notices' in _dict:
             args['notices'] = [
-                Notice.from_dict(x) for x in _dict.get('notices')
+                Notice.from_dict(v) for v in _dict.get('notices')
             ]
         if 'children' in _dict:
             args['children'] = DocumentDetailsChildren.from_dict(
@@ -5959,9 +6151,18 @@ class DocumentDetails():
         if hasattr(self, 'status') and self.status is not None:
             _dict['status'] = self.status
         if hasattr(self, 'notices') and self.notices is not None:
-            _dict['notices'] = [x.to_dict() for x in self.notices]
+            notices_list = []
+            for v in self.notices:
+                if isinstance(v, dict):
+                    notices_list.append(v)
+                else:
+                    notices_list.append(v.to_dict())
+            _dict['notices'] = notices_list
         if hasattr(self, 'children') and self.children is not None:
-            _dict['children'] = self.children.to_dict()
+            if isinstance(self.children, dict):
+                _dict['children'] = self.children
+            else:
+                _dict['children'] = self.children.to_dict()
         if hasattr(self, 'filename') and self.filename is not None:
             _dict['filename'] = self.filename
         if hasattr(self, 'file_type') and self.file_type is not None:
@@ -6141,7 +6342,10 @@ class Enrichment():
         if hasattr(self, 'type') and self.type is not None:
             _dict['type'] = self.type
         if hasattr(self, 'options') and self.options is not None:
-            _dict['options'] = self.options.to_dict()
+            if isinstance(self.options, dict):
+                _dict['options'] = self.options
+            else:
+                _dict['options'] = self.options.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -6362,7 +6566,7 @@ class Enrichments():
         args = {}
         if 'enrichments' in _dict:
             args['enrichments'] = [
-                Enrichment.from_dict(x) for x in _dict.get('enrichments')
+                Enrichment.from_dict(v) for v in _dict.get('enrichments')
             ]
         return cls(**args)
 
@@ -6375,7 +6579,13 @@ class Enrichments():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'enrichments') and self.enrichments is not None:
-            _dict['enrichments'] = [x.to_dict() for x in self.enrichments]
+            enrichments_list = []
+            for v in self.enrichments:
+                if isinstance(v, dict):
+                    enrichments_list.append(v)
+                else:
+                    enrichments_list.append(v.to_dict())
+            _dict['enrichments'] = enrichments_list
         return _dict
 
     def _to_dict(self):
@@ -6521,7 +6731,7 @@ class Expansions():
         args = {}
         if 'expansions' in _dict:
             args['expansions'] = [
-                Expansion.from_dict(x) for x in _dict.get('expansions')
+                Expansion.from_dict(v) for v in _dict.get('expansions')
             ]
         else:
             raise ValueError(
@@ -6538,7 +6748,13 @@ class Expansions():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'expansions') and self.expansions is not None:
-            _dict['expansions'] = [x.to_dict() for x in self.expansions]
+            expansions_list = []
+            for v in self.expansions:
+                if isinstance(v, dict):
+                    expansions_list.append(v)
+                else:
+                    expansions_list.append(v.to_dict())
+            _dict['expansions'] = expansions_list
         return _dict
 
     def _to_dict(self):
@@ -6670,7 +6886,7 @@ class ListCollectionsResponse():
         args = {}
         if 'collections' in _dict:
             args['collections'] = [
-                Collection.from_dict(x) for x in _dict.get('collections')
+                Collection.from_dict(v) for v in _dict.get('collections')
             ]
         return cls(**args)
 
@@ -6683,7 +6899,13 @@ class ListCollectionsResponse():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'collections') and self.collections is not None:
-            _dict['collections'] = [x.to_dict() for x in self.collections]
+            collections_list = []
+            for v in self.collections:
+                if isinstance(v, dict):
+                    collections_list.append(v)
+                else:
+                    collections_list.append(v.to_dict())
+            _dict['collections'] = collections_list
         return _dict
 
     def _to_dict(self):
@@ -6742,7 +6964,7 @@ class ListDocumentsResponse():
             args['matching_results'] = _dict.get('matching_results')
         if 'documents' in _dict:
             args['documents'] = [
-                DocumentDetails.from_dict(x) for x in _dict.get('documents')
+                DocumentDetails.from_dict(v) for v in _dict.get('documents')
             ]
         return cls(**args)
 
@@ -6758,7 +6980,13 @@ class ListDocumentsResponse():
                    'matching_results') and self.matching_results is not None:
             _dict['matching_results'] = self.matching_results
         if hasattr(self, 'documents') and self.documents is not None:
-            _dict['documents'] = [x.to_dict() for x in self.documents]
+            documents_list = []
+            for v in self.documents:
+                if isinstance(v, dict):
+                    documents_list.append(v)
+                else:
+                    documents_list.append(v.to_dict())
+            _dict['documents'] = documents_list
         return _dict
 
     def _to_dict(self):
@@ -6808,7 +7036,7 @@ class ListFieldsResponse():
         """Initialize a ListFieldsResponse object from a json dictionary."""
         args = {}
         if 'fields' in _dict:
-            args['fields'] = [Field.from_dict(x) for x in _dict.get('fields')]
+            args['fields'] = [Field.from_dict(v) for v in _dict.get('fields')]
         return cls(**args)
 
     @classmethod
@@ -6820,7 +7048,13 @@ class ListFieldsResponse():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'fields') and self.fields is not None:
-            _dict['fields'] = [x.to_dict() for x in self.fields]
+            fields_list = []
+            for v in self.fields:
+                if isinstance(v, dict):
+                    fields_list.append(v)
+                else:
+                    fields_list.append(v.to_dict())
+            _dict['fields'] = fields_list
         return _dict
 
     def _to_dict(self):
@@ -6864,7 +7098,7 @@ class ListProjectsResponse():
         args = {}
         if 'projects' in _dict:
             args['projects'] = [
-                ProjectListDetails.from_dict(x) for x in _dict.get('projects')
+                ProjectListDetails.from_dict(v) for v in _dict.get('projects')
             ]
         return cls(**args)
 
@@ -6877,7 +7111,13 @@ class ListProjectsResponse():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'projects') and self.projects is not None:
-            _dict['projects'] = [x.to_dict() for x in self.projects]
+            projects_list = []
+            for v in self.projects:
+                if isinstance(v, dict):
+                    projects_list.append(v)
+                else:
+                    projects_list.append(v.to_dict())
+            _dict['projects'] = projects_list
         return _dict
 
     def _to_dict(self):
@@ -7357,8 +7597,6 @@ class ProjectDetails():
                project and the `other` type is a *Custom* project.
                The `content_mining` and `content_intelligence` types are available with
                Premium plan managed deployments and installed deployments only.
-        :param ProjectListDetailsRelevancyTrainingStatus relevancy_training_status:
-               (optional) Relevancy training status information for this project.
         :param DefaultQueryParams default_query_parameters: (optional) Default
                query parameters for this project.
         """
@@ -7405,19 +7643,26 @@ class ProjectDetails():
             _dict['name'] = self.name
         if hasattr(self, 'type') and self.type is not None:
             _dict['type'] = self.type
-        if hasattr(self, 'relevancy_training_status'
-                  ) and self.relevancy_training_status is not None:
-            _dict[
-                'relevancy_training_status'] = self.relevancy_training_status.to_dict(
-                )
+        if hasattr(self, 'relevancy_training_status') and getattr(
+                self, 'relevancy_training_status') is not None:
+            if isinstance(getattr(self, 'relevancy_training_status'), dict):
+                _dict['relevancy_training_status'] = getattr(
+                    self, 'relevancy_training_status')
+            else:
+                _dict['relevancy_training_status'] = getattr(
+                    self, 'relevancy_training_status').to_dict()
         if hasattr(self, 'collection_count') and getattr(
                 self, 'collection_count') is not None:
             _dict['collection_count'] = getattr(self, 'collection_count')
         if hasattr(self, 'default_query_parameters'
                   ) and self.default_query_parameters is not None:
-            _dict[
-                'default_query_parameters'] = self.default_query_parameters.to_dict(
-                )
+            if isinstance(self.default_query_parameters, dict):
+                _dict[
+                    'default_query_parameters'] = self.default_query_parameters
+            else:
+                _dict[
+                    'default_query_parameters'] = self.default_query_parameters.to_dict(
+                    )
         return _dict
 
     def _to_dict(self):
@@ -7487,8 +7732,6 @@ class ProjectListDetails():
                project and the `other` type is a *Custom* project.
                The `content_mining` and `content_intelligence` types are available with
                Premium plan managed deployments and installed deployments only.
-        :param ProjectListDetailsRelevancyTrainingStatus relevancy_training_status:
-               (optional) Relevancy training status information for this project.
         """
         self.project_id = project_id
         self.name = name
@@ -7529,11 +7772,14 @@ class ProjectListDetails():
             _dict['name'] = self.name
         if hasattr(self, 'type') and self.type is not None:
             _dict['type'] = self.type
-        if hasattr(self, 'relevancy_training_status'
-                  ) and self.relevancy_training_status is not None:
-            _dict[
-                'relevancy_training_status'] = self.relevancy_training_status.to_dict(
-                )
+        if hasattr(self, 'relevancy_training_status') and getattr(
+                self, 'relevancy_training_status') is not None:
+            if isinstance(getattr(self, 'relevancy_training_status'), dict):
+                _dict['relevancy_training_status'] = getattr(
+                    self, 'relevancy_training_status')
+            else:
+                _dict['relevancy_training_status'] = getattr(
+                    self, 'relevancy_training_status').to_dict()
         if hasattr(self, 'collection_count') and getattr(
                 self, 'collection_count') is not None:
             _dict['collection_count'] = getattr(self, 'collection_count')
@@ -7884,7 +8130,7 @@ class QueryGroupByAggregationResult():
                 'estimated_matching_documents')
         if 'aggregations' in _dict:
             args['aggregations'] = [
-                QueryAggregation.from_dict(x) for x in _dict.get('aggregations')
+                QueryAggregation.from_dict(v) for v in _dict.get('aggregations')
             ]
         return cls(**args)
 
@@ -7911,7 +8157,13 @@ class QueryGroupByAggregationResult():
             _dict[
                 'estimated_matching_documents'] = self.estimated_matching_documents
         if hasattr(self, 'aggregations') and self.aggregations is not None:
-            _dict['aggregations'] = [x.to_dict() for x in self.aggregations]
+            aggregations_list = []
+            for v in self.aggregations:
+                if isinstance(v, dict):
+                    aggregations_list.append(v)
+                else:
+                    aggregations_list.append(v.to_dict())
+            _dict['aggregations'] = aggregations_list
         return _dict
 
     def _to_dict(self):
@@ -7980,7 +8232,7 @@ class QueryHistogramAggregationResult():
             )
         if 'aggregations' in _dict:
             args['aggregations'] = [
-                QueryAggregation.from_dict(x) for x in _dict.get('aggregations')
+                QueryAggregation.from_dict(v) for v in _dict.get('aggregations')
             ]
         return cls(**args)
 
@@ -7998,7 +8250,13 @@ class QueryHistogramAggregationResult():
                    'matching_results') and self.matching_results is not None:
             _dict['matching_results'] = self.matching_results
         if hasattr(self, 'aggregations') and self.aggregations is not None:
-            _dict['aggregations'] = [x.to_dict() for x in self.aggregations]
+            aggregations_list = []
+            for v in self.aggregations:
+                if isinstance(v, dict):
+                    aggregations_list.append(v)
+                else:
+                    aggregations_list.append(v.to_dict())
+            _dict['aggregations'] = aggregations_list
         return _dict
 
     def _to_dict(self):
@@ -8436,7 +8694,7 @@ class QueryNoticesResponse():
             args['matching_results'] = _dict.get('matching_results')
         if 'notices' in _dict:
             args['notices'] = [
-                Notice.from_dict(x) for x in _dict.get('notices')
+                Notice.from_dict(v) for v in _dict.get('notices')
             ]
         return cls(**args)
 
@@ -8452,7 +8710,13 @@ class QueryNoticesResponse():
                    'matching_results') and self.matching_results is not None:
             _dict['matching_results'] = self.matching_results
         if hasattr(self, 'notices') and self.notices is not None:
-            _dict['notices'] = [x.to_dict() for x in self.notices]
+            notices_list = []
+            for v in self.notices:
+                if isinstance(v, dict):
+                    notices_list.append(v)
+                else:
+                    notices_list.append(v.to_dict())
+            _dict['notices'] = notices_list
         return _dict
 
     def _to_dict(self):
@@ -8488,9 +8752,10 @@ class QueryResponse():
           type information.
     :attr str suggested_query: (optional) Suggested correction to the submitted
           **natural_language_query** value.
-    :attr List[QuerySuggestedRefinement] suggested_refinements: (optional) Array of
-          suggested refinements. **Note**: The `suggested_refinements` parameter that
-          identified dynamic facets from the data is deprecated.
+    :attr List[QuerySuggestedRefinement] suggested_refinements: (optional)
+          Deprecated: Array of suggested refinements. **Note**: The
+          `suggested_refinements` parameter that identified dynamic facets from the data
+          is deprecated.
     :attr List[QueryTableResult] table_results: (optional) Array of table results.
     :attr List[QueryResponsePassage] passages: (optional) Passages that best match
           the query from across all of the collections in the project.
@@ -8521,8 +8786,9 @@ class QueryResponse():
         :param str suggested_query: (optional) Suggested correction to the
                submitted **natural_language_query** value.
         :param List[QuerySuggestedRefinement] suggested_refinements: (optional)
-               Array of suggested refinements. **Note**: The `suggested_refinements`
-               parameter that identified dynamic facets from the data is deprecated.
+               Deprecated: Array of suggested refinements. **Note**: The
+               `suggested_refinements` parameter that identified dynamic facets from the
+               data is deprecated.
         :param List[QueryTableResult] table_results: (optional) Array of table
                results.
         :param List[QueryResponsePassage] passages: (optional) Passages that best
@@ -8545,11 +8811,11 @@ class QueryResponse():
             args['matching_results'] = _dict.get('matching_results')
         if 'results' in _dict:
             args['results'] = [
-                QueryResult.from_dict(x) for x in _dict.get('results')
+                QueryResult.from_dict(v) for v in _dict.get('results')
             ]
         if 'aggregations' in _dict:
             args['aggregations'] = [
-                QueryAggregation.from_dict(x) for x in _dict.get('aggregations')
+                QueryAggregation.from_dict(v) for v in _dict.get('aggregations')
             ]
         if 'retrieval_details' in _dict:
             args['retrieval_details'] = RetrievalDetails.from_dict(
@@ -8558,17 +8824,17 @@ class QueryResponse():
             args['suggested_query'] = _dict.get('suggested_query')
         if 'suggested_refinements' in _dict:
             args['suggested_refinements'] = [
-                QuerySuggestedRefinement.from_dict(x)
-                for x in _dict.get('suggested_refinements')
+                QuerySuggestedRefinement.from_dict(v)
+                for v in _dict.get('suggested_refinements')
             ]
         if 'table_results' in _dict:
             args['table_results'] = [
-                QueryTableResult.from_dict(x)
-                for x in _dict.get('table_results')
+                QueryTableResult.from_dict(v)
+                for v in _dict.get('table_results')
             ]
         if 'passages' in _dict:
             args['passages'] = [
-                QueryResponsePassage.from_dict(x) for x in _dict.get('passages')
+                QueryResponsePassage.from_dict(v) for v in _dict.get('passages')
             ]
         return cls(**args)
 
@@ -8584,24 +8850,55 @@ class QueryResponse():
                    'matching_results') and self.matching_results is not None:
             _dict['matching_results'] = self.matching_results
         if hasattr(self, 'results') and self.results is not None:
-            _dict['results'] = [x.to_dict() for x in self.results]
+            results_list = []
+            for v in self.results:
+                if isinstance(v, dict):
+                    results_list.append(v)
+                else:
+                    results_list.append(v.to_dict())
+            _dict['results'] = results_list
         if hasattr(self, 'aggregations') and self.aggregations is not None:
-            _dict['aggregations'] = [x.to_dict() for x in self.aggregations]
+            aggregations_list = []
+            for v in self.aggregations:
+                if isinstance(v, dict):
+                    aggregations_list.append(v)
+                else:
+                    aggregations_list.append(v.to_dict())
+            _dict['aggregations'] = aggregations_list
         if hasattr(self,
                    'retrieval_details') and self.retrieval_details is not None:
-            _dict['retrieval_details'] = self.retrieval_details.to_dict()
+            if isinstance(self.retrieval_details, dict):
+                _dict['retrieval_details'] = self.retrieval_details
+            else:
+                _dict['retrieval_details'] = self.retrieval_details.to_dict()
         if hasattr(self,
                    'suggested_query') and self.suggested_query is not None:
             _dict['suggested_query'] = self.suggested_query
         if hasattr(self, 'suggested_refinements'
                   ) and self.suggested_refinements is not None:
-            _dict['suggested_refinements'] = [
-                x.to_dict() for x in self.suggested_refinements
-            ]
+            suggested_refinements_list = []
+            for v in self.suggested_refinements:
+                if isinstance(v, dict):
+                    suggested_refinements_list.append(v)
+                else:
+                    suggested_refinements_list.append(v.to_dict())
+            _dict['suggested_refinements'] = suggested_refinements_list
         if hasattr(self, 'table_results') and self.table_results is not None:
-            _dict['table_results'] = [x.to_dict() for x in self.table_results]
+            table_results_list = []
+            for v in self.table_results:
+                if isinstance(v, dict):
+                    table_results_list.append(v)
+                else:
+                    table_results_list.append(v.to_dict())
+            _dict['table_results'] = table_results_list
         if hasattr(self, 'passages') and self.passages is not None:
-            _dict['passages'] = [x.to_dict() for x in self.passages]
+            passages_list = []
+            for v in self.passages:
+                if isinstance(v, dict):
+                    passages_list.append(v)
+                else:
+                    passages_list.append(v.to_dict())
+            _dict['passages'] = passages_list
         return _dict
 
     def _to_dict(self):
@@ -8713,7 +9010,7 @@ class QueryResponsePassage():
             args['confidence'] = _dict.get('confidence')
         if 'answers' in _dict:
             args['answers'] = [
-                ResultPassageAnswer.from_dict(x) for x in _dict.get('answers')
+                ResultPassageAnswer.from_dict(v) for v in _dict.get('answers')
             ]
         return cls(**args)
 
@@ -8742,7 +9039,13 @@ class QueryResponsePassage():
         if hasattr(self, 'confidence') and self.confidence is not None:
             _dict['confidence'] = self.confidence
         if hasattr(self, 'answers') and self.answers is not None:
-            _dict['answers'] = [x.to_dict() for x in self.answers]
+            answers_list = []
+            for v in self.answers:
+                if isinstance(v, dict):
+                    answers_list.append(v)
+                else:
+                    answers_list.append(v.to_dict())
+            _dict['answers'] = answers_list
         return _dict
 
     def _to_dict(self):
@@ -8824,8 +9127,8 @@ class QueryResult():
             )
         if 'document_passages' in _dict:
             args['document_passages'] = [
-                QueryResultPassage.from_dict(x)
-                for x in _dict.get('document_passages')
+                QueryResultPassage.from_dict(v)
+                for v in _dict.get('document_passages')
             ]
         args.update(
             {k: v for (k, v) in _dict.items() if k not in cls._properties})
@@ -8845,17 +9148,23 @@ class QueryResult():
             _dict['metadata'] = self.metadata
         if hasattr(self,
                    'result_metadata') and self.result_metadata is not None:
-            _dict['result_metadata'] = self.result_metadata.to_dict()
+            if isinstance(self.result_metadata, dict):
+                _dict['result_metadata'] = self.result_metadata
+            else:
+                _dict['result_metadata'] = self.result_metadata.to_dict()
         if hasattr(self,
                    'document_passages') and self.document_passages is not None:
-            _dict['document_passages'] = [
-                x.to_dict() for x in self.document_passages
-            ]
+            document_passages_list = []
+            for v in self.document_passages:
+                if isinstance(v, dict):
+                    document_passages_list.append(v)
+                else:
+                    document_passages_list.append(v.to_dict())
+            _dict['document_passages'] = document_passages_list
         for _key in [
                 k for k in vars(self).keys() if k not in QueryResult._properties
         ]:
-            if getattr(self, _key, None) is not None:
-                _dict[_key] = getattr(self, _key)
+            _dict[_key] = getattr(self, _key)
         return _dict
 
     def _to_dict(self):
@@ -9062,7 +9371,7 @@ class QueryResultPassage():
             args['confidence'] = _dict.get('confidence')
         if 'answers' in _dict:
             args['answers'] = [
-                ResultPassageAnswer.from_dict(x) for x in _dict.get('answers')
+                ResultPassageAnswer.from_dict(v) for v in _dict.get('answers')
             ]
         return cls(**args)
 
@@ -9085,7 +9394,13 @@ class QueryResultPassage():
         if hasattr(self, 'confidence') and self.confidence is not None:
             _dict['confidence'] = self.confidence
         if hasattr(self, 'answers') and self.answers is not None:
-            _dict['answers'] = [x.to_dict() for x in self.answers]
+            answers_list = []
+            for v in self.answers:
+                if isinstance(v, dict):
+                    answers_list.append(v)
+                else:
+                    answers_list.append(v.to_dict())
+            _dict['answers'] = answers_list
         return _dict
 
     def _to_dict(self):
@@ -9247,7 +9562,10 @@ class QueryTableResult():
                    'table_html_offset') and self.table_html_offset is not None:
             _dict['table_html_offset'] = self.table_html_offset
         if hasattr(self, 'table') and self.table is not None:
-            _dict['table'] = self.table.to_dict()
+            if isinstance(self.table, dict):
+                _dict['table'] = self.table
+            else:
+                _dict['table'] = self.table.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -9344,7 +9662,7 @@ class QueryTermAggregationResult():
                 'estimated_matching_documents')
         if 'aggregations' in _dict:
             args['aggregations'] = [
-                QueryAggregation.from_dict(x) for x in _dict.get('aggregations')
+                QueryAggregation.from_dict(v) for v in _dict.get('aggregations')
             ]
         return cls(**args)
 
@@ -9371,7 +9689,13 @@ class QueryTermAggregationResult():
             _dict[
                 'estimated_matching_documents'] = self.estimated_matching_documents
         if hasattr(self, 'aggregations') and self.aggregations is not None:
-            _dict['aggregations'] = [x.to_dict() for x in self.aggregations]
+            aggregations_list = []
+            for v in self.aggregations:
+                if isinstance(v, dict):
+                    aggregations_list.append(v)
+                else:
+                    aggregations_list.append(v.to_dict())
+            _dict['aggregations'] = aggregations_list
         return _dict
 
     def _to_dict(self):
@@ -9454,7 +9778,7 @@ class QueryTimesliceAggregationResult():
             )
         if 'aggregations' in _dict:
             args['aggregations'] = [
-                QueryAggregation.from_dict(x) for x in _dict.get('aggregations')
+                QueryAggregation.from_dict(v) for v in _dict.get('aggregations')
             ]
         return cls(**args)
 
@@ -9474,7 +9798,13 @@ class QueryTimesliceAggregationResult():
                    'matching_results') and self.matching_results is not None:
             _dict['matching_results'] = self.matching_results
         if hasattr(self, 'aggregations') and self.aggregations is not None:
-            _dict['aggregations'] = [x.to_dict() for x in self.aggregations]
+            aggregations_list = []
+            for v in self.aggregations:
+                if isinstance(v, dict):
+                    aggregations_list.append(v)
+                else:
+                    aggregations_list.append(v.to_dict())
+            _dict['aggregations'] = aggregations_list
         return _dict
 
     def _to_dict(self):
@@ -9912,37 +10242,37 @@ class TableBodyCells():
             args['column_index_end'] = _dict.get('column_index_end')
         if 'row_header_ids' in _dict:
             args['row_header_ids'] = [
-                TableRowHeaderIds.from_dict(x)
-                for x in _dict.get('row_header_ids')
+                TableRowHeaderIds.from_dict(v)
+                for v in _dict.get('row_header_ids')
             ]
         if 'row_header_texts' in _dict:
             args['row_header_texts'] = [
-                TableRowHeaderTexts.from_dict(x)
-                for x in _dict.get('row_header_texts')
+                TableRowHeaderTexts.from_dict(v)
+                for v in _dict.get('row_header_texts')
             ]
         if 'row_header_texts_normalized' in _dict:
             args['row_header_texts_normalized'] = [
-                TableRowHeaderTextsNormalized.from_dict(x)
-                for x in _dict.get('row_header_texts_normalized')
+                TableRowHeaderTextsNormalized.from_dict(v)
+                for v in _dict.get('row_header_texts_normalized')
             ]
         if 'column_header_ids' in _dict:
             args['column_header_ids'] = [
-                TableColumnHeaderIds.from_dict(x)
-                for x in _dict.get('column_header_ids')
+                TableColumnHeaderIds.from_dict(v)
+                for v in _dict.get('column_header_ids')
             ]
         if 'column_header_texts' in _dict:
             args['column_header_texts'] = [
-                TableColumnHeaderTexts.from_dict(x)
-                for x in _dict.get('column_header_texts')
+                TableColumnHeaderTexts.from_dict(v)
+                for v in _dict.get('column_header_texts')
             ]
         if 'column_header_texts_normalized' in _dict:
             args['column_header_texts_normalized'] = [
-                TableColumnHeaderTextsNormalized.from_dict(x)
-                for x in _dict.get('column_header_texts_normalized')
+                TableColumnHeaderTextsNormalized.from_dict(v)
+                for v in _dict.get('column_header_texts_normalized')
             ]
         if 'attributes' in _dict:
             args['attributes'] = [
-                DocumentAttribute.from_dict(x) for x in _dict.get('attributes')
+                DocumentAttribute.from_dict(v) for v in _dict.get('attributes')
             ]
         return cls(**args)
 
@@ -9957,7 +10287,10 @@ class TableBodyCells():
         if hasattr(self, 'cell_id') and self.cell_id is not None:
             _dict['cell_id'] = self.cell_id
         if hasattr(self, 'location') and self.location is not None:
-            _dict['location'] = self.location.to_dict()
+            if isinstance(self.location, dict):
+                _dict['location'] = self.location
+            else:
+                _dict['location'] = self.location.to_dict()
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         if hasattr(self,
@@ -9973,35 +10306,69 @@ class TableBodyCells():
                    'column_index_end') and self.column_index_end is not None:
             _dict['column_index_end'] = self.column_index_end
         if hasattr(self, 'row_header_ids') and self.row_header_ids is not None:
-            _dict['row_header_ids'] = [x.to_dict() for x in self.row_header_ids]
+            row_header_ids_list = []
+            for v in self.row_header_ids:
+                if isinstance(v, dict):
+                    row_header_ids_list.append(v)
+                else:
+                    row_header_ids_list.append(v.to_dict())
+            _dict['row_header_ids'] = row_header_ids_list
         if hasattr(self,
                    'row_header_texts') and self.row_header_texts is not None:
-            _dict['row_header_texts'] = [
-                x.to_dict() for x in self.row_header_texts
-            ]
+            row_header_texts_list = []
+            for v in self.row_header_texts:
+                if isinstance(v, dict):
+                    row_header_texts_list.append(v)
+                else:
+                    row_header_texts_list.append(v.to_dict())
+            _dict['row_header_texts'] = row_header_texts_list
         if hasattr(self, 'row_header_texts_normalized'
                   ) and self.row_header_texts_normalized is not None:
-            _dict['row_header_texts_normalized'] = [
-                x.to_dict() for x in self.row_header_texts_normalized
-            ]
+            row_header_texts_normalized_list = []
+            for v in self.row_header_texts_normalized:
+                if isinstance(v, dict):
+                    row_header_texts_normalized_list.append(v)
+                else:
+                    row_header_texts_normalized_list.append(v.to_dict())
+            _dict[
+                'row_header_texts_normalized'] = row_header_texts_normalized_list
         if hasattr(self,
                    'column_header_ids') and self.column_header_ids is not None:
-            _dict['column_header_ids'] = [
-                x.to_dict() for x in self.column_header_ids
-            ]
+            column_header_ids_list = []
+            for v in self.column_header_ids:
+                if isinstance(v, dict):
+                    column_header_ids_list.append(v)
+                else:
+                    column_header_ids_list.append(v.to_dict())
+            _dict['column_header_ids'] = column_header_ids_list
         if hasattr(
                 self,
                 'column_header_texts') and self.column_header_texts is not None:
-            _dict['column_header_texts'] = [
-                x.to_dict() for x in self.column_header_texts
-            ]
+            column_header_texts_list = []
+            for v in self.column_header_texts:
+                if isinstance(v, dict):
+                    column_header_texts_list.append(v)
+                else:
+                    column_header_texts_list.append(v.to_dict())
+            _dict['column_header_texts'] = column_header_texts_list
         if hasattr(self, 'column_header_texts_normalized'
                   ) and self.column_header_texts_normalized is not None:
-            _dict['column_header_texts_normalized'] = [
-                x.to_dict() for x in self.column_header_texts_normalized
-            ]
+            column_header_texts_normalized_list = []
+            for v in self.column_header_texts_normalized:
+                if isinstance(v, dict):
+                    column_header_texts_normalized_list.append(v)
+                else:
+                    column_header_texts_normalized_list.append(v.to_dict())
+            _dict[
+                'column_header_texts_normalized'] = column_header_texts_normalized_list
         if hasattr(self, 'attributes') and self.attributes is not None:
-            _dict['attributes'] = [x.to_dict() for x in self.attributes]
+            attributes_list = []
+            for v in self.attributes:
+                if isinstance(v, dict):
+                    attributes_list.append(v)
+                else:
+                    attributes_list.append(v.to_dict())
+            _dict['attributes'] = attributes_list
         return _dict
 
     def _to_dict(self):
@@ -10078,7 +10445,10 @@ class TableCellKey():
         if hasattr(self, 'cell_id') and self.cell_id is not None:
             _dict['cell_id'] = self.cell_id
         if hasattr(self, 'location') and self.location is not None:
-            _dict['location'] = self.location.to_dict()
+            if isinstance(self.location, dict):
+                _dict['location'] = self.location
+            else:
+                _dict['location'] = self.location.to_dict()
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         return _dict
@@ -10157,7 +10527,10 @@ class TableCellValues():
         if hasattr(self, 'cell_id') and self.cell_id is not None:
             _dict['cell_id'] = self.cell_id
         if hasattr(self, 'location') and self.location is not None:
-            _dict['location'] = self.location.to_dict()
+            if isinstance(self.location, dict):
+                _dict['location'] = self.location
+            else:
+                _dict['location'] = self.location.to_dict()
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         return _dict
@@ -10355,7 +10728,7 @@ class TableColumnHeaders():
     itself, of the current table.
 
     :attr str cell_id: (optional) The unique ID of the cell in the current table.
-    :attr object location: (optional) The location of the column header cell in the
+    :attr dict location: (optional) The location of the column header cell in the
           current table as defined by its `begin` and `end` offsets, respectfully, in the
           input document.
     :attr str text: (optional) The textual contents of this cell from the input
@@ -10376,7 +10749,7 @@ class TableColumnHeaders():
     def __init__(self,
                  *,
                  cell_id: str = None,
-                 location: object = None,
+                 location: dict = None,
                  text: str = None,
                  text_normalized: str = None,
                  row_index_begin: int = None,
@@ -10388,8 +10761,8 @@ class TableColumnHeaders():
 
         :param str cell_id: (optional) The unique ID of the cell in the current
                table.
-        :param object location: (optional) The location of the column header cell
-               in the current table as defined by its `begin` and `end` offsets,
+        :param dict location: (optional) The location of the column header cell in
+               the current table as defined by its `begin` and `end` offsets,
                respectfully, in the input document.
         :param str text: (optional) The textual contents of this cell from the
                input document without associated markup content.
@@ -10561,7 +10934,7 @@ class TableHeaders():
     The contents of the current table's header.
 
     :attr str cell_id: (optional) The unique ID of the cell in the current table.
-    :attr object location: (optional) The location of the table header cell in the
+    :attr dict location: (optional) The location of the table header cell in the
           current table as defined by its `begin` and `end` offsets, respectfully, in the
           input document.
     :attr str text: (optional) The textual contents of the cell from the input
@@ -10579,7 +10952,7 @@ class TableHeaders():
     def __init__(self,
                  *,
                  cell_id: str = None,
-                 location: object = None,
+                 location: dict = None,
                  text: str = None,
                  row_index_begin: int = None,
                  row_index_end: int = None,
@@ -10590,7 +10963,7 @@ class TableHeaders():
 
         :param str cell_id: (optional) The unique ID of the cell in the current
                table.
-        :param object location: (optional) The location of the table header cell in
+        :param dict location: (optional) The location of the table header cell in
                the current table as defined by its `begin` and `end` offsets,
                respectfully, in the input document.
         :param str text: (optional) The textual contents of the cell from the input
@@ -10710,7 +11083,7 @@ class TableKeyValuePairs():
             args['key'] = TableCellKey.from_dict(_dict.get('key'))
         if 'value' in _dict:
             args['value'] = [
-                TableCellValues.from_dict(x) for x in _dict.get('value')
+                TableCellValues.from_dict(v) for v in _dict.get('value')
             ]
         return cls(**args)
 
@@ -10723,9 +11096,18 @@ class TableKeyValuePairs():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'key') and self.key is not None:
-            _dict['key'] = self.key.to_dict()
+            if isinstance(self.key, dict):
+                _dict['key'] = self.key
+            else:
+                _dict['key'] = self.key.to_dict()
         if hasattr(self, 'value') and self.value is not None:
-            _dict['value'] = [x.to_dict() for x in self.value]
+            value_list = []
+            for v in self.value:
+                if isinstance(v, dict):
+                    value_list.append(v)
+                else:
+                    value_list.append(v.to_dict())
+            _dict['value'] = value_list
         return _dict
 
     def _to_dict(self):
@@ -10845,29 +11227,29 @@ class TableResultTable():
             args['title'] = TableTextLocation.from_dict(_dict.get('title'))
         if 'table_headers' in _dict:
             args['table_headers'] = [
-                TableHeaders.from_dict(x) for x in _dict.get('table_headers')
+                TableHeaders.from_dict(v) for v in _dict.get('table_headers')
             ]
         if 'row_headers' in _dict:
             args['row_headers'] = [
-                TableRowHeaders.from_dict(x) for x in _dict.get('row_headers')
+                TableRowHeaders.from_dict(v) for v in _dict.get('row_headers')
             ]
         if 'column_headers' in _dict:
             args['column_headers'] = [
-                TableColumnHeaders.from_dict(x)
-                for x in _dict.get('column_headers')
+                TableColumnHeaders.from_dict(v)
+                for v in _dict.get('column_headers')
             ]
         if 'key_value_pairs' in _dict:
             args['key_value_pairs'] = [
-                TableKeyValuePairs.from_dict(x)
-                for x in _dict.get('key_value_pairs')
+                TableKeyValuePairs.from_dict(v)
+                for v in _dict.get('key_value_pairs')
             ]
         if 'body_cells' in _dict:
             args['body_cells'] = [
-                TableBodyCells.from_dict(x) for x in _dict.get('body_cells')
+                TableBodyCells.from_dict(v) for v in _dict.get('body_cells')
             ]
         if 'contexts' in _dict:
             args['contexts'] = [
-                TableTextLocation.from_dict(x) for x in _dict.get('contexts')
+                TableTextLocation.from_dict(v) for v in _dict.get('contexts')
             ]
         return cls(**args)
 
@@ -10880,28 +11262,71 @@ class TableResultTable():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'location') and self.location is not None:
-            _dict['location'] = self.location.to_dict()
+            if isinstance(self.location, dict):
+                _dict['location'] = self.location
+            else:
+                _dict['location'] = self.location.to_dict()
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         if hasattr(self, 'section_title') and self.section_title is not None:
-            _dict['section_title'] = self.section_title.to_dict()
+            if isinstance(self.section_title, dict):
+                _dict['section_title'] = self.section_title
+            else:
+                _dict['section_title'] = self.section_title.to_dict()
         if hasattr(self, 'title') and self.title is not None:
-            _dict['title'] = self.title.to_dict()
+            if isinstance(self.title, dict):
+                _dict['title'] = self.title
+            else:
+                _dict['title'] = self.title.to_dict()
         if hasattr(self, 'table_headers') and self.table_headers is not None:
-            _dict['table_headers'] = [x.to_dict() for x in self.table_headers]
+            table_headers_list = []
+            for v in self.table_headers:
+                if isinstance(v, dict):
+                    table_headers_list.append(v)
+                else:
+                    table_headers_list.append(v.to_dict())
+            _dict['table_headers'] = table_headers_list
         if hasattr(self, 'row_headers') and self.row_headers is not None:
-            _dict['row_headers'] = [x.to_dict() for x in self.row_headers]
+            row_headers_list = []
+            for v in self.row_headers:
+                if isinstance(v, dict):
+                    row_headers_list.append(v)
+                else:
+                    row_headers_list.append(v.to_dict())
+            _dict['row_headers'] = row_headers_list
         if hasattr(self, 'column_headers') and self.column_headers is not None:
-            _dict['column_headers'] = [x.to_dict() for x in self.column_headers]
+            column_headers_list = []
+            for v in self.column_headers:
+                if isinstance(v, dict):
+                    column_headers_list.append(v)
+                else:
+                    column_headers_list.append(v.to_dict())
+            _dict['column_headers'] = column_headers_list
         if hasattr(self,
                    'key_value_pairs') and self.key_value_pairs is not None:
-            _dict['key_value_pairs'] = [
-                x.to_dict() for x in self.key_value_pairs
-            ]
+            key_value_pairs_list = []
+            for v in self.key_value_pairs:
+                if isinstance(v, dict):
+                    key_value_pairs_list.append(v)
+                else:
+                    key_value_pairs_list.append(v.to_dict())
+            _dict['key_value_pairs'] = key_value_pairs_list
         if hasattr(self, 'body_cells') and self.body_cells is not None:
-            _dict['body_cells'] = [x.to_dict() for x in self.body_cells]
+            body_cells_list = []
+            for v in self.body_cells:
+                if isinstance(v, dict):
+                    body_cells_list.append(v)
+                else:
+                    body_cells_list.append(v.to_dict())
+            _dict['body_cells'] = body_cells_list
         if hasattr(self, 'contexts') and self.contexts is not None:
-            _dict['contexts'] = [x.to_dict() for x in self.contexts]
+            contexts_list = []
+            for v in self.contexts:
+                if isinstance(v, dict):
+                    contexts_list.append(v)
+                else:
+                    contexts_list.append(v.to_dict())
+            _dict['contexts'] = contexts_list
         return _dict
 
     def _to_dict(self):
@@ -11190,7 +11615,10 @@ class TableRowHeaders():
         if hasattr(self, 'cell_id') and self.cell_id is not None:
             _dict['cell_id'] = self.cell_id
         if hasattr(self, 'location') and self.location is not None:
-            _dict['location'] = self.location.to_dict()
+            if isinstance(self.location, dict):
+                _dict['location'] = self.location
+            else:
+                _dict['location'] = self.location.to_dict()
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         if hasattr(self,
@@ -11276,7 +11704,10 @@ class TableTextLocation():
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         if hasattr(self, 'location') and self.location is not None:
-            _dict['location'] = self.location.to_dict()
+            if isinstance(self.location, dict):
+                _dict['location'] = self.location
+            else:
+                _dict['location'] = self.location.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -11457,7 +11888,7 @@ class TrainingQuery():
             args['updated'] = string_to_datetime(_dict.get('updated'))
         if 'examples' in _dict:
             args['examples'] = [
-                TrainingExample.from_dict(x) for x in _dict.get('examples')
+                TrainingExample.from_dict(v) for v in _dict.get('examples')
             ]
         else:
             raise ValueError(
@@ -11485,7 +11916,13 @@ class TrainingQuery():
         if hasattr(self, 'updated') and getattr(self, 'updated') is not None:
             _dict['updated'] = datetime_to_string(getattr(self, 'updated'))
         if hasattr(self, 'examples') and self.examples is not None:
-            _dict['examples'] = [x.to_dict() for x in self.examples]
+            examples_list = []
+            for v in self.examples:
+                if isinstance(v, dict):
+                    examples_list.append(v)
+                else:
+                    examples_list.append(v.to_dict())
+            _dict['examples'] = examples_list
         return _dict
 
     def _to_dict(self):
@@ -11532,7 +11969,7 @@ class TrainingQuerySet():
         args = {}
         if 'queries' in _dict:
             args['queries'] = [
-                TrainingQuery.from_dict(x) for x in _dict.get('queries')
+                TrainingQuery.from_dict(v) for v in _dict.get('queries')
             ]
         return cls(**args)
 
@@ -11545,7 +11982,13 @@ class TrainingQuerySet():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'queries') and self.queries is not None:
-            _dict['queries'] = [x.to_dict() for x in self.queries]
+            queries_list = []
+            for v in self.queries:
+                if isinstance(v, dict):
+                    queries_list.append(v)
+                else:
+                    queries_list.append(v.to_dict())
+            _dict['queries'] = queries_list
         return _dict
 
     def _to_dict(self):
@@ -11765,7 +12208,7 @@ class QueryFilterAggregation(QueryAggregation):
             )
         if 'aggregations' in _dict:
             args['aggregations'] = [
-                QueryAggregation.from_dict(x) for x in _dict.get('aggregations')
+                QueryAggregation.from_dict(v) for v in _dict.get('aggregations')
             ]
         return cls(**args)
 
@@ -11785,7 +12228,13 @@ class QueryFilterAggregation(QueryAggregation):
                    'matching_results') and self.matching_results is not None:
             _dict['matching_results'] = self.matching_results
         if hasattr(self, 'aggregations') and self.aggregations is not None:
-            _dict['aggregations'] = [x.to_dict() for x in self.aggregations]
+            aggregations_list = []
+            for v in self.aggregations:
+                if isinstance(v, dict):
+                    aggregations_list.append(v)
+                else:
+                    aggregations_list.append(v.to_dict())
+            _dict['aggregations'] = aggregations_list
         return _dict
 
     def _to_dict(self):
@@ -11843,8 +12292,8 @@ class QueryGroupByAggregation(QueryAggregation):
             )
         if 'results' in _dict:
             args['results'] = [
-                QueryGroupByAggregationResult.from_dict(x)
-                for x in _dict.get('results')
+                QueryGroupByAggregationResult.from_dict(v)
+                for v in _dict.get('results')
             ]
         return cls(**args)
 
@@ -11859,7 +12308,13 @@ class QueryGroupByAggregation(QueryAggregation):
         if hasattr(self, 'type') and self.type is not None:
             _dict['type'] = self.type
         if hasattr(self, 'results') and self.results is not None:
-            _dict['results'] = [x.to_dict() for x in self.results]
+            results_list = []
+            for v in self.results:
+                if isinstance(v, dict):
+                    results_list.append(v)
+                else:
+                    results_list.append(v.to_dict())
+            _dict['results'] = results_list
         return _dict
 
     def _to_dict(self):
@@ -11948,8 +12403,8 @@ class QueryHistogramAggregation(QueryAggregation):
             args['name'] = _dict.get('name')
         if 'results' in _dict:
             args['results'] = [
-                QueryHistogramAggregationResult.from_dict(x)
-                for x in _dict.get('results')
+                QueryHistogramAggregationResult.from_dict(v)
+                for v in _dict.get('results')
             ]
         return cls(**args)
 
@@ -11970,7 +12425,13 @@ class QueryHistogramAggregation(QueryAggregation):
         if hasattr(self, 'name') and self.name is not None:
             _dict['name'] = self.name
         if hasattr(self, 'results') and self.results is not None:
-            _dict['results'] = [x.to_dict() for x in self.results]
+            results_list = []
+            for v in self.results:
+                if isinstance(v, dict):
+                    results_list.append(v)
+                else:
+                    results_list.append(v.to_dict())
+            _dict['results'] = results_list
         return _dict
 
     def _to_dict(self):
@@ -12052,7 +12513,7 @@ class QueryNestedAggregation(QueryAggregation):
             )
         if 'aggregations' in _dict:
             args['aggregations'] = [
-                QueryAggregation.from_dict(x) for x in _dict.get('aggregations')
+                QueryAggregation.from_dict(v) for v in _dict.get('aggregations')
             ]
         return cls(**args)
 
@@ -12072,7 +12533,13 @@ class QueryNestedAggregation(QueryAggregation):
                    'matching_results') and self.matching_results is not None:
             _dict['matching_results'] = self.matching_results
         if hasattr(self, 'aggregations') and self.aggregations is not None:
-            _dict['aggregations'] = [x.to_dict() for x in self.aggregations]
+            aggregations_list = []
+            for v in self.aggregations:
+                if isinstance(v, dict):
+                    aggregations_list.append(v)
+                else:
+                    aggregations_list.append(v.to_dict())
+            _dict['aggregations'] = aggregations_list
         return _dict
 
     def _to_dict(self):
@@ -12155,8 +12622,8 @@ class QueryTermAggregation(QueryAggregation):
             args['name'] = _dict.get('name')
         if 'results' in _dict:
             args['results'] = [
-                QueryTermAggregationResult.from_dict(x)
-                for x in _dict.get('results')
+                QueryTermAggregationResult.from_dict(v)
+                for v in _dict.get('results')
             ]
         return cls(**args)
 
@@ -12177,7 +12644,13 @@ class QueryTermAggregation(QueryAggregation):
         if hasattr(self, 'name') and self.name is not None:
             _dict['name'] = self.name
         if hasattr(self, 'results') and self.results is not None:
-            _dict['results'] = [x.to_dict() for x in self.results]
+            results_list = []
+            for v in self.results:
+                if isinstance(v, dict):
+                    results_list.append(v)
+                else:
+                    results_list.append(v.to_dict())
+            _dict['results'] = results_list
         return _dict
 
     def _to_dict(self):
@@ -12266,8 +12739,8 @@ class QueryTimesliceAggregation(QueryAggregation):
             args['name'] = _dict.get('name')
         if 'results' in _dict:
             args['results'] = [
-                QueryTimesliceAggregationResult.from_dict(x)
-                for x in _dict.get('results')
+                QueryTimesliceAggregationResult.from_dict(v)
+                for v in _dict.get('results')
             ]
         return cls(**args)
 
@@ -12288,7 +12761,13 @@ class QueryTimesliceAggregation(QueryAggregation):
         if hasattr(self, 'name') and self.name is not None:
             _dict['name'] = self.name
         if hasattr(self, 'results') and self.results is not None:
-            _dict['results'] = [x.to_dict() for x in self.results]
+            results_list = []
+            for v in self.results:
+                if isinstance(v, dict):
+                    results_list.append(v)
+                else:
+                    results_list.append(v.to_dict())
+            _dict['results'] = results_list
         return _dict
 
     def _to_dict(self):
@@ -12380,7 +12859,10 @@ class QueryTopHitsAggregation(QueryAggregation):
         if hasattr(self, 'name') and self.name is not None:
             _dict['name'] = self.name
         if hasattr(self, 'hits') and self.hits is not None:
-            _dict['hits'] = self.hits.to_dict()
+            if isinstance(self.hits, dict):
+                _dict['hits'] = self.hits
+            else:
+                _dict['hits'] = self.hits.to_dict()
         return _dict
 
     def _to_dict(self):

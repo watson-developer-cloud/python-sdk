@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2018, 2022.
+# (C) Copyright IBM Corp. 2018, 2023.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ version = '2018-05-01'
 
 _service = LanguageTranslatorV3(
     authenticator=NoAuthAuthenticator(),
-    version=version
+    version=version,
 )
 
 _base_url = 'https://api.us-south.language-translator.watson.cloud.ibm.com'

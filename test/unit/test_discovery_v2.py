@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2022.
+# (C) Copyright IBM Corp. 2019, 2023.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ version = 'testString'
 
 _service = DiscoveryV2(
     authenticator=NoAuthAuthenticator(),
-    version=version
+    version=version,
 )
 
 _base_url = 'https://api.us-south.discovery.watson.cloud.ibm.com'
@@ -785,18 +785,12 @@ class TestCreateCollection():
         collection_enrichment_model['enrichment_id'] = 'testString'
         collection_enrichment_model['fields'] = ['testString']
 
-        # Construct a dict representation of a CollectionDetailsSmartDocumentUnderstanding model
-        collection_details_smart_document_understanding_model = {}
-        collection_details_smart_document_understanding_model['enabled'] = True
-        collection_details_smart_document_understanding_model['model'] = 'custom'
-
         # Set up parameter values
         project_id = 'testString'
         name = 'testString'
         description = 'testString'
         language = 'en'
         enrichments = [collection_enrichment_model]
-        smart_document_understanding = collection_details_smart_document_understanding_model
 
         # Invoke method
         response = _service.create_collection(
@@ -805,7 +799,6 @@ class TestCreateCollection():
             description=description,
             language=language,
             enrichments=enrichments,
-            smart_document_understanding=smart_document_understanding,
             headers={}
         )
 
@@ -818,7 +811,6 @@ class TestCreateCollection():
         assert req_body['description'] == 'testString'
         assert req_body['language'] == 'en'
         assert req_body['enrichments'] == [collection_enrichment_model]
-        assert req_body['smart_document_understanding'] == collection_details_smart_document_understanding_model
 
     def test_create_collection_all_params_with_retries(self):
         # Enable retries and run test_create_collection_all_params.
@@ -848,18 +840,12 @@ class TestCreateCollection():
         collection_enrichment_model['enrichment_id'] = 'testString'
         collection_enrichment_model['fields'] = ['testString']
 
-        # Construct a dict representation of a CollectionDetailsSmartDocumentUnderstanding model
-        collection_details_smart_document_understanding_model = {}
-        collection_details_smart_document_understanding_model['enabled'] = True
-        collection_details_smart_document_understanding_model['model'] = 'custom'
-
         # Set up parameter values
         project_id = 'testString'
         name = 'testString'
         description = 'testString'
         language = 'en'
         enrichments = [collection_enrichment_model]
-        smart_document_understanding = collection_details_smart_document_understanding_model
 
         # Pass in all but one required param and check for a ValueError
         req_param_dict = {
@@ -1781,7 +1767,7 @@ class TestQuery():
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/query')
-        mock_response = '{"matching_results": 16, "results": [{"document_id": "document_id", "metadata": {"mapKey": "anyValue"}, "result_metadata": {"document_retrieval_source": "search", "collection_id": "collection_id", "confidence": 10}, "document_passages": [{"passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field", "confidence": 0, "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query", "suggested_refinements": [{"text": "text"}], "table_results": [{"table_id": "table_id", "source_document_id": "source_document_id", "collection_id": "collection_id", "table_html": "table_html", "table_html_offset": 17, "table": {"location": {"begin": 5, "end": 3}, "text": "text", "section_title": {"text": "text", "location": {"begin": 5, "end": 3}}, "title": {"text": "text", "location": {"begin": 5, "end": 3}}, "table_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "row_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "column_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "key_value_pairs": [{"key": {"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}, "value": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}]}], "body_cells": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16, "row_header_ids": [{"id": "id"}], "row_header_texts": [{"text": "text"}], "row_header_texts_normalized": [{"text_normalized": "text_normalized"}], "column_header_ids": [{"id": "id"}], "column_header_texts": [{"text": "text"}], "column_header_texts_normalized": [{"text_normalized": "text_normalized"}], "attributes": [{"type": "type", "text": "text", "location": {"begin": 5, "end": 3}}]}], "contexts": [{"text": "text", "location": {"begin": 5, "end": 3}}]}}], "passages": [{"passage_text": "passage_text", "passage_score": 13, "document_id": "document_id", "collection_id": "collection_id", "start_offset": 12, "end_offset": 10, "field": "field", "confidence": 0, "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}'
+        mock_response = '{"matching_results": 16, "results": [{"document_id": "document_id", "metadata": {"anyKey": "anyValue"}, "result_metadata": {"document_retrieval_source": "search", "collection_id": "collection_id", "confidence": 10}, "document_passages": [{"passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field", "confidence": 0, "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query", "suggested_refinements": [{"text": "text"}], "table_results": [{"table_id": "table_id", "source_document_id": "source_document_id", "collection_id": "collection_id", "table_html": "table_html", "table_html_offset": 17, "table": {"location": {"begin": 5, "end": 3}, "text": "text", "section_title": {"text": "text", "location": {"begin": 5, "end": 3}}, "title": {"text": "text", "location": {"begin": 5, "end": 3}}, "table_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "row_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "column_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "key_value_pairs": [{"key": {"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}, "value": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}]}], "body_cells": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16, "row_header_ids": [{"id": "id"}], "row_header_texts": [{"text": "text"}], "row_header_texts_normalized": [{"text_normalized": "text_normalized"}], "column_header_ids": [{"id": "id"}], "column_header_texts": [{"text": "text"}], "column_header_texts_normalized": [{"text_normalized": "text_normalized"}], "attributes": [{"type": "type", "text": "text", "location": {"begin": 5, "end": 3}}]}], "contexts": [{"text": "text", "location": {"begin": 5, "end": 3}}]}}], "passages": [{"passage_text": "passage_text", "passage_score": 13, "document_id": "document_id", "collection_id": "collection_id", "start_offset": 12, "end_offset": 10, "field": "field", "confidence": 0, "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -1891,7 +1877,7 @@ class TestQuery():
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/query')
-        mock_response = '{"matching_results": 16, "results": [{"document_id": "document_id", "metadata": {"mapKey": "anyValue"}, "result_metadata": {"document_retrieval_source": "search", "collection_id": "collection_id", "confidence": 10}, "document_passages": [{"passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field", "confidence": 0, "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query", "suggested_refinements": [{"text": "text"}], "table_results": [{"table_id": "table_id", "source_document_id": "source_document_id", "collection_id": "collection_id", "table_html": "table_html", "table_html_offset": 17, "table": {"location": {"begin": 5, "end": 3}, "text": "text", "section_title": {"text": "text", "location": {"begin": 5, "end": 3}}, "title": {"text": "text", "location": {"begin": 5, "end": 3}}, "table_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "row_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "column_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "key_value_pairs": [{"key": {"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}, "value": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}]}], "body_cells": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16, "row_header_ids": [{"id": "id"}], "row_header_texts": [{"text": "text"}], "row_header_texts_normalized": [{"text_normalized": "text_normalized"}], "column_header_ids": [{"id": "id"}], "column_header_texts": [{"text": "text"}], "column_header_texts_normalized": [{"text_normalized": "text_normalized"}], "attributes": [{"type": "type", "text": "text", "location": {"begin": 5, "end": 3}}]}], "contexts": [{"text": "text", "location": {"begin": 5, "end": 3}}]}}], "passages": [{"passage_text": "passage_text", "passage_score": 13, "document_id": "document_id", "collection_id": "collection_id", "start_offset": 12, "end_offset": 10, "field": "field", "confidence": 0, "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}'
+        mock_response = '{"matching_results": 16, "results": [{"document_id": "document_id", "metadata": {"anyKey": "anyValue"}, "result_metadata": {"document_retrieval_source": "search", "collection_id": "collection_id", "confidence": 10}, "document_passages": [{"passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field", "confidence": 0, "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query", "suggested_refinements": [{"text": "text"}], "table_results": [{"table_id": "table_id", "source_document_id": "source_document_id", "collection_id": "collection_id", "table_html": "table_html", "table_html_offset": 17, "table": {"location": {"begin": 5, "end": 3}, "text": "text", "section_title": {"text": "text", "location": {"begin": 5, "end": 3}}, "title": {"text": "text", "location": {"begin": 5, "end": 3}}, "table_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "row_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "column_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "key_value_pairs": [{"key": {"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}, "value": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}]}], "body_cells": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16, "row_header_ids": [{"id": "id"}], "row_header_texts": [{"text": "text"}], "row_header_texts_normalized": [{"text_normalized": "text_normalized"}], "column_header_ids": [{"id": "id"}], "column_header_texts": [{"text": "text"}], "column_header_texts_normalized": [{"text_normalized": "text_normalized"}], "attributes": [{"type": "type", "text": "text", "location": {"begin": 5, "end": 3}}]}], "contexts": [{"text": "text", "location": {"begin": 5, "end": 3}}]}}], "passages": [{"passage_text": "passage_text", "passage_score": 13, "document_id": "document_id", "collection_id": "collection_id", "start_offset": 12, "end_offset": 10, "field": "field", "confidence": 0, "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -1927,7 +1913,7 @@ class TestQuery():
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/query')
-        mock_response = '{"matching_results": 16, "results": [{"document_id": "document_id", "metadata": {"mapKey": "anyValue"}, "result_metadata": {"document_retrieval_source": "search", "collection_id": "collection_id", "confidence": 10}, "document_passages": [{"passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field", "confidence": 0, "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query", "suggested_refinements": [{"text": "text"}], "table_results": [{"table_id": "table_id", "source_document_id": "source_document_id", "collection_id": "collection_id", "table_html": "table_html", "table_html_offset": 17, "table": {"location": {"begin": 5, "end": 3}, "text": "text", "section_title": {"text": "text", "location": {"begin": 5, "end": 3}}, "title": {"text": "text", "location": {"begin": 5, "end": 3}}, "table_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "row_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "column_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "key_value_pairs": [{"key": {"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}, "value": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}]}], "body_cells": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16, "row_header_ids": [{"id": "id"}], "row_header_texts": [{"text": "text"}], "row_header_texts_normalized": [{"text_normalized": "text_normalized"}], "column_header_ids": [{"id": "id"}], "column_header_texts": [{"text": "text"}], "column_header_texts_normalized": [{"text_normalized": "text_normalized"}], "attributes": [{"type": "type", "text": "text", "location": {"begin": 5, "end": 3}}]}], "contexts": [{"text": "text", "location": {"begin": 5, "end": 3}}]}}], "passages": [{"passage_text": "passage_text", "passage_score": 13, "document_id": "document_id", "collection_id": "collection_id", "start_offset": 12, "end_offset": 10, "field": "field", "confidence": 0, "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}'
+        mock_response = '{"matching_results": 16, "results": [{"document_id": "document_id", "metadata": {"anyKey": "anyValue"}, "result_metadata": {"document_retrieval_source": "search", "collection_id": "collection_id", "confidence": 10}, "document_passages": [{"passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field", "confidence": 0, "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query", "suggested_refinements": [{"text": "text"}], "table_results": [{"table_id": "table_id", "source_document_id": "source_document_id", "collection_id": "collection_id", "table_html": "table_html", "table_html_offset": 17, "table": {"location": {"begin": 5, "end": 3}, "text": "text", "section_title": {"text": "text", "location": {"begin": 5, "end": 3}}, "title": {"text": "text", "location": {"begin": 5, "end": 3}}, "table_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "row_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "column_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "key_value_pairs": [{"key": {"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}, "value": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}]}], "body_cells": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16, "row_header_ids": [{"id": "id"}], "row_header_texts": [{"text": "text"}], "row_header_texts_normalized": [{"text_normalized": "text_normalized"}], "column_header_ids": [{"id": "id"}], "column_header_texts": [{"text": "text"}], "column_header_texts_normalized": [{"text_normalized": "text_normalized"}], "attributes": [{"type": "type", "text": "text", "location": {"begin": 5, "end": 3}}]}], "contexts": [{"text": "text", "location": {"begin": 5, "end": 3}}]}}], "passages": [{"passage_text": "passage_text", "passage_score": 13, "document_id": "document_id", "collection_id": "collection_id", "start_offset": 12, "end_offset": 10, "field": "field", "confidence": 0, "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -5049,7 +5035,7 @@ class TestAnalyzeDocument():
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections/testString/analyze')
-        mock_response = '{"notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}], "result": {"metadata": {"mapKey": "anyValue"}}}'
+        mock_response = '{"notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}], "result": {"metadata": {"anyKey": "anyValue"}}}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -5095,7 +5081,7 @@ class TestAnalyzeDocument():
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections/testString/analyze')
-        mock_response = '{"notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}], "result": {"metadata": {"mapKey": "anyValue"}}}'
+        mock_response = '{"notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}], "result": {"metadata": {"anyKey": "anyValue"}}}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -5133,7 +5119,7 @@ class TestAnalyzeDocument():
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections/testString/analyze')
-        mock_response = '{"notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}], "result": {"metadata": {"mapKey": "anyValue"}}}'
+        mock_response = '{"notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}], "result": {"metadata": {"anyKey": "anyValue"}}}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -5270,18 +5256,10 @@ class TestModel_AnalyzedDocument():
         # Construct dict forms of any model objects needed in order to build this model.
 
         notice_model = {} # Notice
-        notice_model['notice_id'] = 'testString'
-        notice_model['created'] = '2019-01-01T12:00:00Z'
-        notice_model['document_id'] = 'testString'
-        notice_model['collection_id'] = 'testString'
-        notice_model['query_id'] = 'testString'
-        notice_model['severity'] = 'warning'
-        notice_model['step'] = 'testString'
-        notice_model['description'] = 'testString'
 
         analyzed_result_model = {} # AnalyzedResult
-        analyzed_result_model['metadata'] = {'key1': 'testString'}
-        analyzed_result_model['foo'] = {'foo': 'bar'}
+        analyzed_result_model['metadata'] = {'foo': 'bar'}
+        analyzed_result_model['foo'] = 'testString'
 
         # Construct a json representation of a AnalyzedDocument model
         analyzed_document_model_json = {}
@@ -5315,8 +5293,8 @@ class TestModel_AnalyzedResult():
 
         # Construct a json representation of a AnalyzedResult model
         analyzed_result_model_json = {}
-        analyzed_result_model_json['metadata'] = {'key1': 'testString'}
-        analyzed_result_model_json['foo'] = {'foo': 'bar'}
+        analyzed_result_model_json['metadata'] = {'foo': 'bar'}
+        analyzed_result_model_json['foo'] = 'testString'
 
         # Construct a model instance of AnalyzedResult by calling from_dict on the json representation
         analyzed_result_model = AnalyzedResult.from_dict(analyzed_result_model_json)
@@ -5338,7 +5316,7 @@ class TestModel_AnalyzedResult():
         actual_dict = analyzed_result_model.get_properties()
         assert actual_dict == {}
 
-        expected_dict = {'foo': {'foo': 'bar'}}
+        expected_dict = {'foo': 'testString'}
         analyzed_result_model.set_properties(expected_dict)
         actual_dict = analyzed_result_model.get_properties()
         assert actual_dict == expected_dict
@@ -5433,7 +5411,6 @@ class TestModel_Collection():
 
         # Construct a json representation of a Collection model
         collection_model_json = {}
-        collection_model_json['collection_id'] = 'testString'
         collection_model_json['name'] = 'testString'
 
         # Construct a model instance of Collection by calling from_dict on the json representation
@@ -5467,19 +5444,12 @@ class TestModel_CollectionDetails():
         collection_enrichment_model['enrichment_id'] = 'testString'
         collection_enrichment_model['fields'] = ['testString']
 
-        collection_details_smart_document_understanding_model = {} # CollectionDetailsSmartDocumentUnderstanding
-        collection_details_smart_document_understanding_model['enabled'] = True
-        collection_details_smart_document_understanding_model['model'] = 'custom'
-
         # Construct a json representation of a CollectionDetails model
         collection_details_model_json = {}
-        collection_details_model_json['collection_id'] = 'testString'
         collection_details_model_json['name'] = 'testString'
         collection_details_model_json['description'] = 'testString'
-        collection_details_model_json['created'] = '2019-01-01T12:00:00Z'
         collection_details_model_json['language'] = 'en'
         collection_details_model_json['enrichments'] = [collection_enrichment_model]
-        collection_details_model_json['smart_document_understanding'] = collection_details_smart_document_understanding_model
 
         # Construct a model instance of CollectionDetails by calling from_dict on the json representation
         collection_details_model = CollectionDetails.from_dict(collection_details_model_json)
@@ -6124,10 +6094,8 @@ class TestModel_DocumentClassifier():
 
         # Construct a json representation of a DocumentClassifier model
         document_classifier_model_json = {}
-        document_classifier_model_json['classifier_id'] = 'testString'
         document_classifier_model_json['name'] = 'testString'
         document_classifier_model_json['description'] = 'testString'
-        document_classifier_model_json['created'] = '2019-01-01T12:00:00Z'
         document_classifier_model_json['language'] = 'en'
         document_classifier_model_json['enrichments'] = [document_classifier_enrichment_model]
         document_classifier_model_json['recognized_fields'] = ['testString']
@@ -6216,17 +6184,13 @@ class TestModel_DocumentClassifierModel():
 
         # Construct a json representation of a DocumentClassifierModel model
         document_classifier_model_model_json = {}
-        document_classifier_model_model_json['model_id'] = 'testString'
         document_classifier_model_model_json['name'] = 'testString'
         document_classifier_model_model_json['description'] = 'testString'
-        document_classifier_model_model_json['created'] = '2019-01-01T12:00:00Z'
-        document_classifier_model_model_json['updated'] = '2019-01-01T12:00:00Z'
         document_classifier_model_model_json['training_data_file'] = 'testString'
         document_classifier_model_model_json['test_data_file'] = 'testString'
         document_classifier_model_model_json['status'] = 'training'
         document_classifier_model_model_json['evaluation'] = classifier_model_evaluation_model
         document_classifier_model_model_json['enrichment_id'] = 'testString'
-        document_classifier_model_model_json['deployed_at'] = '2019-01-01T12:00:00Z'
 
         # Construct a model instance of DocumentClassifierModel by calling from_dict on the json representation
         document_classifier_model_model = DocumentClassifierModel.from_dict(document_classifier_model_model_json)
@@ -6277,17 +6241,13 @@ class TestModel_DocumentClassifierModels():
         classifier_model_evaluation_model['per_class'] = [per_class_model_evaluation_model]
 
         document_classifier_model_model = {} # DocumentClassifierModel
-        document_classifier_model_model['model_id'] = 'testString'
         document_classifier_model_model['name'] = 'testString'
         document_classifier_model_model['description'] = 'testString'
-        document_classifier_model_model['created'] = '2019-01-01T12:00:00Z'
-        document_classifier_model_model['updated'] = '2019-01-01T12:00:00Z'
         document_classifier_model_model['training_data_file'] = 'testString'
         document_classifier_model_model['test_data_file'] = 'testString'
         document_classifier_model_model['status'] = 'training'
         document_classifier_model_model['evaluation'] = classifier_model_evaluation_model
         document_classifier_model_model['enrichment_id'] = 'testString'
-        document_classifier_model_model['deployed_at'] = '2019-01-01T12:00:00Z'
 
         # Construct a json representation of a DocumentClassifierModels model
         document_classifier_models_model_json = {}
@@ -6328,10 +6288,8 @@ class TestModel_DocumentClassifiers():
         classifier_federated_model_model['field'] = 'testString'
 
         document_classifier_model = {} # DocumentClassifier
-        document_classifier_model['classifier_id'] = 'testString'
         document_classifier_model['name'] = 'testString'
         document_classifier_model['description'] = 'testString'
-        document_classifier_model['created'] = '2019-01-01T12:00:00Z'
         document_classifier_model['language'] = 'en'
         document_classifier_model['enrichments'] = [document_classifier_enrichment_model]
         document_classifier_model['recognized_fields'] = ['testString']
@@ -6372,14 +6330,6 @@ class TestModel_DocumentDetails():
         # Construct dict forms of any model objects needed in order to build this model.
 
         notice_model = {} # Notice
-        notice_model['notice_id'] = 'testString'
-        notice_model['created'] = '2019-01-01T12:00:00Z'
-        notice_model['document_id'] = 'testString'
-        notice_model['collection_id'] = 'testString'
-        notice_model['query_id'] = 'testString'
-        notice_model['severity'] = 'warning'
-        notice_model['step'] = 'testString'
-        notice_model['description'] = 'testString'
 
         document_details_children_model = {} # DocumentDetailsChildren
         document_details_children_model['have_notices'] = True
@@ -6387,9 +6337,6 @@ class TestModel_DocumentDetails():
 
         # Construct a json representation of a DocumentDetails model
         document_details_model_json = {}
-        document_details_model_json['document_id'] = 'testString'
-        document_details_model_json['created'] = '2019-01-01T12:00:00Z'
-        document_details_model_json['updated'] = '2019-01-01T12:00:00Z'
         document_details_model_json['status'] = 'available'
         document_details_model_json['notices'] = [notice_model]
         document_details_model_json['children'] = document_details_children_model
@@ -6466,7 +6413,6 @@ class TestModel_Enrichment():
 
         # Construct a json representation of a Enrichment model
         enrichment_model_json = {}
-        enrichment_model_json['enrichment_id'] = 'testString'
         enrichment_model_json['name'] = 'testString'
         enrichment_model_json['description'] = 'testString'
         enrichment_model_json['type'] = 'part_of_speech'
@@ -6546,7 +6492,6 @@ class TestModel_Enrichments():
         enrichment_options_model['top_k'] = 38
 
         enrichment_model = {} # Enrichment
-        enrichment_model['enrichment_id'] = 'testString'
         enrichment_model['name'] = 'testString'
         enrichment_model['description'] = 'testString'
         enrichment_model['type'] = 'part_of_speech'
@@ -6648,9 +6593,6 @@ class TestModel_Field():
 
         # Construct a json representation of a Field model
         field_model_json = {}
-        field_model_json['field'] = 'testString'
-        field_model_json['type'] = 'nested'
-        field_model_json['collection_id'] = 'testString'
 
         # Construct a model instance of Field by calling from_dict on the json representation
         field_model = Field.from_dict(field_model_json)
@@ -6680,7 +6622,6 @@ class TestModel_ListCollectionsResponse():
         # Construct dict forms of any model objects needed in order to build this model.
 
         collection_model = {} # Collection
-        collection_model['collection_id'] = 'f1360220-ea2d-4271-9d62-89a910b13c37'
         collection_model['name'] = 'example'
 
         # Construct a json representation of a ListCollectionsResponse model
@@ -6715,23 +6656,12 @@ class TestModel_ListDocumentsResponse():
         # Construct dict forms of any model objects needed in order to build this model.
 
         notice_model = {} # Notice
-        notice_model['notice_id'] = 'testString'
-        notice_model['created'] = '2019-01-01T12:00:00Z'
-        notice_model['document_id'] = 'testString'
-        notice_model['collection_id'] = 'testString'
-        notice_model['query_id'] = 'testString'
-        notice_model['severity'] = 'warning'
-        notice_model['step'] = 'testString'
-        notice_model['description'] = 'testString'
 
         document_details_children_model = {} # DocumentDetailsChildren
         document_details_children_model['have_notices'] = True
         document_details_children_model['count'] = 38
 
         document_details_model = {} # DocumentDetails
-        document_details_model['document_id'] = '4ffcfd8052005b99469e632506763bac_0'
-        document_details_model['created'] = '2019-01-01T12:00:00Z'
-        document_details_model['updated'] = '2019-01-01T12:00:00Z'
         document_details_model['status'] = 'available'
         document_details_model['notices'] = [notice_model]
         document_details_model['children'] = document_details_children_model
@@ -6772,9 +6702,6 @@ class TestModel_ListFieldsResponse():
         # Construct dict forms of any model objects needed in order to build this model.
 
         field_model = {} # Field
-        field_model['field'] = 'testString'
-        field_model['type'] = 'nested'
-        field_model['collection_id'] = 'testString'
 
         # Construct a json representation of a ListFieldsResponse model
         list_fields_response_model_json = {}
@@ -6807,23 +6734,9 @@ class TestModel_ListProjectsResponse():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        project_list_details_relevancy_training_status_model = {} # ProjectListDetailsRelevancyTrainingStatus
-        project_list_details_relevancy_training_status_model['data_updated'] = 'testString'
-        project_list_details_relevancy_training_status_model['total_examples'] = 38
-        project_list_details_relevancy_training_status_model['sufficient_label_diversity'] = True
-        project_list_details_relevancy_training_status_model['processing'] = True
-        project_list_details_relevancy_training_status_model['minimum_examples_added'] = True
-        project_list_details_relevancy_training_status_model['successfully_trained'] = 'testString'
-        project_list_details_relevancy_training_status_model['available'] = True
-        project_list_details_relevancy_training_status_model['notices'] = 38
-        project_list_details_relevancy_training_status_model['minimum_queries_added'] = True
-
         project_list_details_model = {} # ProjectListDetails
-        project_list_details_model['project_id'] = 'testString'
         project_list_details_model['name'] = 'testString'
         project_list_details_model['type'] = 'document_retrieval'
-        project_list_details_model['relevancy_training_status'] = project_list_details_relevancy_training_status_model
-        project_list_details_model['collection_count'] = 38
 
         # Construct a json representation of a ListProjectsResponse model
         list_projects_response_model_json = {}
@@ -6918,14 +6831,6 @@ class TestModel_Notice():
 
         # Construct a json representation of a Notice model
         notice_model_json = {}
-        notice_model_json['notice_id'] = 'testString'
-        notice_model_json['created'] = '2019-01-01T12:00:00Z'
-        notice_model_json['document_id'] = 'testString'
-        notice_model_json['collection_id'] = 'testString'
-        notice_model_json['query_id'] = 'testString'
-        notice_model_json['severity'] = 'warning'
-        notice_model_json['step'] = 'testString'
-        notice_model_json['description'] = 'testString'
 
         # Construct a model instance of Notice by calling from_dict on the json representation
         notice_model = Notice.from_dict(notice_model_json)
@@ -6986,17 +6891,6 @@ class TestModel_ProjectDetails():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        project_list_details_relevancy_training_status_model = {} # ProjectListDetailsRelevancyTrainingStatus
-        project_list_details_relevancy_training_status_model['data_updated'] = 'testString'
-        project_list_details_relevancy_training_status_model['total_examples'] = 38
-        project_list_details_relevancy_training_status_model['sufficient_label_diversity'] = True
-        project_list_details_relevancy_training_status_model['processing'] = True
-        project_list_details_relevancy_training_status_model['minimum_examples_added'] = True
-        project_list_details_relevancy_training_status_model['successfully_trained'] = 'testString'
-        project_list_details_relevancy_training_status_model['available'] = True
-        project_list_details_relevancy_training_status_model['notices'] = 38
-        project_list_details_relevancy_training_status_model['minimum_queries_added'] = True
-
         default_query_params_passages_model = {} # DefaultQueryParamsPassages
         default_query_params_passages_model['enabled'] = True
         default_query_params_passages_model['count'] = 38
@@ -7028,11 +6922,8 @@ class TestModel_ProjectDetails():
 
         # Construct a json representation of a ProjectDetails model
         project_details_model_json = {}
-        project_details_model_json['project_id'] = 'testString'
         project_details_model_json['name'] = 'testString'
         project_details_model_json['type'] = 'document_retrieval'
-        project_details_model_json['relevancy_training_status'] = project_list_details_relevancy_training_status_model
-        project_details_model_json['collection_count'] = 38
         project_details_model_json['default_query_parameters'] = default_query_params_model
 
         # Construct a model instance of ProjectDetails by calling from_dict on the json representation
@@ -7060,26 +6951,10 @@ class TestModel_ProjectListDetails():
         Test serialization/deserialization for ProjectListDetails
         """
 
-        # Construct dict forms of any model objects needed in order to build this model.
-
-        project_list_details_relevancy_training_status_model = {} # ProjectListDetailsRelevancyTrainingStatus
-        project_list_details_relevancy_training_status_model['data_updated'] = 'testString'
-        project_list_details_relevancy_training_status_model['total_examples'] = 38
-        project_list_details_relevancy_training_status_model['sufficient_label_diversity'] = True
-        project_list_details_relevancy_training_status_model['processing'] = True
-        project_list_details_relevancy_training_status_model['minimum_examples_added'] = True
-        project_list_details_relevancy_training_status_model['successfully_trained'] = 'testString'
-        project_list_details_relevancy_training_status_model['available'] = True
-        project_list_details_relevancy_training_status_model['notices'] = 38
-        project_list_details_relevancy_training_status_model['minimum_queries_added'] = True
-
         # Construct a json representation of a ProjectListDetails model
         project_list_details_model_json = {}
-        project_list_details_model_json['project_id'] = 'testString'
         project_list_details_model_json['name'] = 'testString'
         project_list_details_model_json['type'] = 'document_retrieval'
-        project_list_details_model_json['relevancy_training_status'] = project_list_details_relevancy_training_status_model
-        project_list_details_model_json['collection_count'] = 38
 
         # Construct a model instance of ProjectListDetails by calling from_dict on the json representation
         project_list_details_model = ProjectListDetails.from_dict(project_list_details_model_json)
@@ -7381,14 +7256,6 @@ class TestModel_QueryNoticesResponse():
         # Construct dict forms of any model objects needed in order to build this model.
 
         notice_model = {} # Notice
-        notice_model['notice_id'] = 'testString'
-        notice_model['created'] = '2019-01-01T12:00:00Z'
-        notice_model['document_id'] = 'testString'
-        notice_model['collection_id'] = 'testString'
-        notice_model['query_id'] = 'testString'
-        notice_model['severity'] = 'warning'
-        notice_model['step'] = 'testString'
-        notice_model['description'] = 'testString'
 
         # Construct a json representation of a QueryNoticesResponse model
         query_notices_response_model_json = {}
@@ -7443,10 +7310,10 @@ class TestModel_QueryResponse():
 
         query_result_model = {} # QueryResult
         query_result_model['document_id'] = 'testString'
-        query_result_model['metadata'] = {'key1': 'testString'}
+        query_result_model['metadata'] = {'foo': 'bar'}
         query_result_model['result_metadata'] = query_result_metadata_model
         query_result_model['document_passages'] = [query_result_passage_model]
-        query_result_model['id'] = {'foo': 'bar'}
+        query_result_model['id'] = 'watson-generated ID'
 
         query_aggregation_model = {} # QueryFilterAggregation
         query_aggregation_model['type'] = 'filter'
@@ -7685,10 +7552,10 @@ class TestModel_QueryResult():
         # Construct a json representation of a QueryResult model
         query_result_model_json = {}
         query_result_model_json['document_id'] = 'testString'
-        query_result_model_json['metadata'] = {'key1': 'testString'}
+        query_result_model_json['metadata'] = {'foo': 'bar'}
         query_result_model_json['result_metadata'] = query_result_metadata_model
         query_result_model_json['document_passages'] = [query_result_passage_model]
-        query_result_model_json['foo'] = {'foo': 'bar'}
+        query_result_model_json['foo'] = 'testString'
 
         # Construct a model instance of QueryResult by calling from_dict on the json representation
         query_result_model = QueryResult.from_dict(query_result_model_json)
@@ -7710,7 +7577,7 @@ class TestModel_QueryResult():
         actual_dict = query_result_model.get_properties()
         assert actual_dict == {}
 
-        expected_dict = {'foo': {'foo': 'bar'}}
+        expected_dict = {'foo': 'testString'}
         query_result_model.set_properties(expected_dict)
         actual_dict = query_result_model.get_properties()
         assert actual_dict == expected_dict
@@ -8048,7 +7915,7 @@ class TestModel_QueryTopHitsAggregationResult():
         # Construct a json representation of a QueryTopHitsAggregationResult model
         query_top_hits_aggregation_result_model_json = {}
         query_top_hits_aggregation_result_model_json['matching_results'] = 38
-        query_top_hits_aggregation_result_model_json['hits'] = [{'key1': 'testString'}]
+        query_top_hits_aggregation_result_model_json['hits'] = [{'foo': 'bar'}]
 
         # Construct a model instance of QueryTopHitsAggregationResult by calling from_dict on the json representation
         query_top_hits_aggregation_result_model = QueryTopHitsAggregationResult.from_dict(query_top_hits_aggregation_result_model_json)
@@ -8844,8 +8711,6 @@ class TestModel_TrainingExample():
         training_example_model_json['document_id'] = 'testString'
         training_example_model_json['collection_id'] = 'testString'
         training_example_model_json['relevance'] = 38
-        training_example_model_json['created'] = '2019-01-01T12:00:00Z'
-        training_example_model_json['updated'] = '2019-01-01T12:00:00Z'
 
         # Construct a model instance of TrainingExample by calling from_dict on the json representation
         training_example_model = TrainingExample.from_dict(training_example_model_json)
@@ -8878,16 +8743,11 @@ class TestModel_TrainingQuery():
         training_example_model['document_id'] = 'testString'
         training_example_model['collection_id'] = 'testString'
         training_example_model['relevance'] = 38
-        training_example_model['created'] = '2019-01-01T12:00:00Z'
-        training_example_model['updated'] = '2019-01-01T12:00:00Z'
 
         # Construct a json representation of a TrainingQuery model
         training_query_model_json = {}
-        training_query_model_json['query_id'] = 'testString'
         training_query_model_json['natural_language_query'] = 'testString'
         training_query_model_json['filter'] = 'testString'
-        training_query_model_json['created'] = '2019-01-01T12:00:00Z'
-        training_query_model_json['updated'] = '2019-01-01T12:00:00Z'
         training_query_model_json['examples'] = [training_example_model]
 
         # Construct a model instance of TrainingQuery by calling from_dict on the json representation
@@ -8921,15 +8781,10 @@ class TestModel_TrainingQuerySet():
         training_example_model['document_id'] = 'testString'
         training_example_model['collection_id'] = 'testString'
         training_example_model['relevance'] = 38
-        training_example_model['created'] = '2019-01-01T12:00:00Z'
-        training_example_model['updated'] = '2019-01-01T12:00:00Z'
 
         training_query_model = {} # TrainingQuery
-        training_query_model['query_id'] = 'testString'
         training_query_model['natural_language_query'] = 'testString'
         training_query_model['filter'] = 'testString'
-        training_query_model['created'] = '2019-01-01T12:00:00Z'
-        training_query_model['updated'] = '2019-01-01T12:00:00Z'
         training_query_model['examples'] = [training_example_model]
 
         # Construct a json representation of a TrainingQuerySet model
@@ -9213,7 +9068,7 @@ class TestModel_QueryTopHitsAggregation():
 
         query_top_hits_aggregation_result_model = {} # QueryTopHitsAggregationResult
         query_top_hits_aggregation_result_model['matching_results'] = 38
-        query_top_hits_aggregation_result_model['hits'] = [{'key1': 'testString'}]
+        query_top_hits_aggregation_result_model['hits'] = [{'foo': 'bar'}]
 
         # Construct a json representation of a QueryTopHitsAggregation model
         query_top_hits_aggregation_model_json = {}

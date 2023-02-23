@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2015, 2022.
+# (C) Copyright IBM Corp. 2015, 2023.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 3.53.0-9710cac3-20220713-193508
+# IBM OpenAPI SDK Code Generator Version: 3.64.1-cee95189-20230124-211647
 """
 The IBM Watson&trade; Text to Speech service provides APIs that use IBM's speech-synthesis
 capabilities to synthesize text into natural-sounding speech in a variety of languages,
@@ -170,7 +170,7 @@ class TextToSpeechV1(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `Voice` object
         """
 
-        if voice is None:
+        if not voice:
             raise ValueError('voice must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -178,7 +178,9 @@ class TextToSpeechV1(BaseService):
                                       operation_id='get_voice')
         headers.update(sdk_headers)
 
-        params = {'customization_id': customization_id}
+        params = {
+            'customization_id': customization_id,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -324,7 +326,9 @@ class TextToSpeechV1(BaseService):
 
         if text is None:
             raise ValueError('text must be provided')
-        headers = {'Accept': accept}
+        headers = {
+            'Accept': accept,
+        }
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='synthesize')
@@ -333,10 +337,12 @@ class TextToSpeechV1(BaseService):
         params = {
             'voice': voice,
             'customization_id': customization_id,
-            'spell_out_mode': spell_out_mode
+            'spell_out_mode': spell_out_mode,
         }
 
-        data = {'text': text}
+        data = {
+            'text': text,
+        }
         data = {k: v for (k, v) in data.items() if v is not None}
         data = json.dumps(data)
         headers['content-type'] = 'application/json'
@@ -411,7 +417,7 @@ class TextToSpeechV1(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `Pronunciation` object
         """
 
-        if text is None:
+        if not text:
             raise ValueError('text must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -423,7 +429,7 @@ class TextToSpeechV1(BaseService):
             'text': text,
             'voice': voice,
             'format': format,
-            'customization_id': customization_id
+            'customization_id': customization_id,
         }
 
         if 'headers' in kwargs:
@@ -488,7 +494,11 @@ class TextToSpeechV1(BaseService):
                                       operation_id='create_custom_model')
         headers.update(sdk_headers)
 
-        data = {'name': name, 'language': language, 'description': description}
+        data = {
+            'name': name,
+            'language': language,
+            'description': description,
+        }
         data = {k: v for (k, v) in data.items() if v is not None}
         data = json.dumps(data)
         headers['content-type'] = 'application/json'
@@ -537,7 +547,9 @@ class TextToSpeechV1(BaseService):
                                       operation_id='list_custom_models')
         headers.update(sdk_headers)
 
-        params = {'language': language}
+        params = {
+            'language': language,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -600,7 +612,7 @@ class TextToSpeechV1(BaseService):
         :rtype: DetailedResponse
         """
 
-        if customization_id is None:
+        if not customization_id:
             raise ValueError('customization_id must be provided')
         if words is not None:
             words = [convert_model(x) for x in words]
@@ -610,7 +622,11 @@ class TextToSpeechV1(BaseService):
                                       operation_id='update_custom_model')
         headers.update(sdk_headers)
 
-        data = {'name': name, 'description': description, 'words': words}
+        data = {
+            'name': name,
+            'description': description,
+            'words': words,
+        }
         data = {k: v for (k, v) in data.items() if v is not None}
         data = json.dumps(data)
         headers['content-type'] = 'application/json'
@@ -653,7 +669,7 @@ class TextToSpeechV1(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `CustomModel` object
         """
 
-        if customization_id is None:
+        if not customization_id:
             raise ValueError('customization_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -693,7 +709,7 @@ class TextToSpeechV1(BaseService):
         :rtype: DetailedResponse
         """
 
-        if customization_id is None:
+        if not customization_id:
             raise ValueError('customization_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -764,7 +780,7 @@ class TextToSpeechV1(BaseService):
         :rtype: DetailedResponse
         """
 
-        if customization_id is None:
+        if not customization_id:
             raise ValueError('customization_id must be provided')
         if words is None:
             raise ValueError('words must be provided')
@@ -775,7 +791,9 @@ class TextToSpeechV1(BaseService):
                                       operation_id='add_words')
         headers.update(sdk_headers)
 
-        data = {'words': words}
+        data = {
+            'words': words,
+        }
         data = {k: v for (k, v) in data.items() if v is not None}
         data = json.dumps(data)
         headers['content-type'] = 'application/json'
@@ -816,7 +834,7 @@ class TextToSpeechV1(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `Words` object
         """
 
-        if customization_id is None:
+        if not customization_id:
             raise ValueError('customization_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -895,9 +913,9 @@ class TextToSpeechV1(BaseService):
         :rtype: DetailedResponse
         """
 
-        if customization_id is None:
+        if not customization_id:
             raise ValueError('customization_id must be provided')
-        if word is None:
+        if not word:
             raise ValueError('word must be provided')
         if translation is None:
             raise ValueError('translation must be provided')
@@ -907,7 +925,10 @@ class TextToSpeechV1(BaseService):
                                       operation_id='add_word')
         headers.update(sdk_headers)
 
-        data = {'translation': translation, 'part_of_speech': part_of_speech}
+        data = {
+            'translation': translation,
+            'part_of_speech': part_of_speech,
+        }
         data = {k: v for (k, v) in data.items() if v is not None}
         data = json.dumps(data)
         headers['content-type'] = 'application/json'
@@ -949,9 +970,9 @@ class TextToSpeechV1(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `Translation` object
         """
 
-        if customization_id is None:
+        if not customization_id:
             raise ValueError('customization_id must be provided')
-        if word is None:
+        if not word:
             raise ValueError('word must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -993,9 +1014,9 @@ class TextToSpeechV1(BaseService):
         :rtype: DetailedResponse
         """
 
-        if customization_id is None:
+        if not customization_id:
             raise ValueError('customization_id must be provided')
-        if word is None:
+        if not word:
             raise ValueError('word must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -1048,7 +1069,7 @@ class TextToSpeechV1(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `Prompts` object
         """
 
-        if customization_id is None:
+        if not customization_id:
             raise ValueError('customization_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -1176,9 +1197,9 @@ class TextToSpeechV1(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `Prompt` object
         """
 
-        if customization_id is None:
+        if not customization_id:
             raise ValueError('customization_id must be provided')
-        if prompt_id is None:
+        if not prompt_id:
             raise ValueError('prompt_id must be provided')
         if metadata is None:
             raise ValueError('metadata must be provided')
@@ -1235,9 +1256,9 @@ class TextToSpeechV1(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `Prompt` object
         """
 
-        if customization_id is None:
+        if not customization_id:
             raise ValueError('customization_id must be provided')
-        if prompt_id is None:
+        if not prompt_id:
             raise ValueError('prompt_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -1285,9 +1306,9 @@ class TextToSpeechV1(BaseService):
         :rtype: DetailedResponse
         """
 
-        if customization_id is None:
+        if not customization_id:
             raise ValueError('customization_id must be provided')
-        if prompt_id is None:
+        if not prompt_id:
             raise ValueError('prompt_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -1415,7 +1436,7 @@ class TextToSpeechV1(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `SpeakerModel` object
         """
 
-        if speaker_name is None:
+        if not speaker_name:
             raise ValueError('speaker_name must be provided')
         if audio is None:
             raise ValueError('audio must be provided')
@@ -1425,7 +1446,9 @@ class TextToSpeechV1(BaseService):
                                       operation_id='create_speaker_model')
         headers.update(sdk_headers)
 
-        params = {'speaker_name': speaker_name}
+        params = {
+            'speaker_name': speaker_name,
+        }
 
         data = audio
         headers['content-type'] = 'audio/wav'
@@ -1468,7 +1491,7 @@ class TextToSpeechV1(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `SpeakerCustomModels` object
         """
 
-        if speaker_id is None:
+        if not speaker_id:
             raise ValueError('speaker_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -1516,7 +1539,7 @@ class TextToSpeechV1(BaseService):
         :rtype: DetailedResponse
         """
 
-        if speaker_id is None:
+        if not speaker_id:
             raise ValueError('speaker_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -1568,7 +1591,7 @@ class TextToSpeechV1(BaseService):
         :rtype: DetailedResponse
         """
 
-        if customer_id is None:
+        if not customer_id:
             raise ValueError('customer_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -1576,7 +1599,9 @@ class TextToSpeechV1(BaseService):
                                       operation_id='delete_user_data')
         headers.update(sdk_headers)
 
-        params = {'customer_id': customer_id}
+        params = {
+            'customer_id': customer_id,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -1961,10 +1986,10 @@ class CustomModel():
         if 'description' in _dict:
             args['description'] = _dict.get('description')
         if 'words' in _dict:
-            args['words'] = [Word.from_dict(x) for x in _dict.get('words')]
+            args['words'] = [Word.from_dict(v) for v in _dict.get('words')]
         if 'prompts' in _dict:
             args['prompts'] = [
-                Prompt.from_dict(x) for x in _dict.get('prompts')
+                Prompt.from_dict(v) for v in _dict.get('prompts')
             ]
         return cls(**args)
 
@@ -1992,9 +2017,21 @@ class CustomModel():
         if hasattr(self, 'description') and self.description is not None:
             _dict['description'] = self.description
         if hasattr(self, 'words') and self.words is not None:
-            _dict['words'] = [x.to_dict() for x in self.words]
+            words_list = []
+            for v in self.words:
+                if isinstance(v, dict):
+                    words_list.append(v)
+                else:
+                    words_list.append(v.to_dict())
+            _dict['words'] = words_list
         if hasattr(self, 'prompts') and self.prompts is not None:
-            _dict['prompts'] = [x.to_dict() for x in self.prompts]
+            prompts_list = []
+            for v in self.prompts:
+                if isinstance(v, dict):
+                    prompts_list.append(v)
+                else:
+                    prompts_list.append(v.to_dict())
+            _dict['prompts'] = prompts_list
         return _dict
 
     def _to_dict(self):
@@ -2043,7 +2080,7 @@ class CustomModels():
         args = {}
         if 'customizations' in _dict:
             args['customizations'] = [
-                CustomModel.from_dict(x) for x in _dict.get('customizations')
+                CustomModel.from_dict(v) for v in _dict.get('customizations')
             ]
         else:
             raise ValueError(
@@ -2060,7 +2097,13 @@ class CustomModels():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'customizations') and self.customizations is not None:
-            _dict['customizations'] = [x.to_dict() for x in self.customizations]
+            customizations_list = []
+            for v in self.customizations:
+                if isinstance(v, dict):
+                    customizations_list.append(v)
+                else:
+                    customizations_list.append(v.to_dict())
+            _dict['customizations'] = customizations_list
         return _dict
 
     def _to_dict(self):
@@ -2305,7 +2348,7 @@ class Prompts():
         args = {}
         if 'prompts' in _dict:
             args['prompts'] = [
-                Prompt.from_dict(x) for x in _dict.get('prompts')
+                Prompt.from_dict(v) for v in _dict.get('prompts')
             ]
         else:
             raise ValueError(
@@ -2321,7 +2364,13 @@ class Prompts():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'prompts') and self.prompts is not None:
-            _dict['prompts'] = [x.to_dict() for x in self.prompts]
+            prompts_list = []
+            for v in self.prompts:
+                if isinstance(v, dict):
+                    prompts_list.append(v)
+                else:
+                    prompts_list.append(v.to_dict())
+            _dict['prompts'] = prompts_list
         return _dict
 
     def _to_dict(self):
@@ -2509,7 +2558,7 @@ class SpeakerCustomModel():
             )
         if 'prompts' in _dict:
             args['prompts'] = [
-                SpeakerPrompt.from_dict(x) for x in _dict.get('prompts')
+                SpeakerPrompt.from_dict(v) for v in _dict.get('prompts')
             ]
         else:
             raise ValueError(
@@ -2529,7 +2578,13 @@ class SpeakerCustomModel():
                    'customization_id') and self.customization_id is not None:
             _dict['customization_id'] = self.customization_id
         if hasattr(self, 'prompts') and self.prompts is not None:
-            _dict['prompts'] = [x.to_dict() for x in self.prompts]
+            prompts_list = []
+            for v in self.prompts:
+                if isinstance(v, dict):
+                    prompts_list.append(v)
+                else:
+                    prompts_list.append(v.to_dict())
+            _dict['prompts'] = prompts_list
         return _dict
 
     def _to_dict(self):
@@ -2579,8 +2634,8 @@ class SpeakerCustomModels():
         args = {}
         if 'customizations' in _dict:
             args['customizations'] = [
-                SpeakerCustomModel.from_dict(x)
-                for x in _dict.get('customizations')
+                SpeakerCustomModel.from_dict(v)
+                for v in _dict.get('customizations')
             ]
         else:
             raise ValueError(
@@ -2597,7 +2652,13 @@ class SpeakerCustomModels():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'customizations') and self.customizations is not None:
-            _dict['customizations'] = [x.to_dict() for x in self.customizations]
+            customizations_list = []
+            for v in self.customizations:
+                if isinstance(v, dict):
+                    customizations_list.append(v)
+                else:
+                    customizations_list.append(v.to_dict())
+            _dict['customizations'] = customizations_list
         return _dict
 
     def _to_dict(self):
@@ -2811,7 +2872,7 @@ class Speakers():
         args = {}
         if 'speakers' in _dict:
             args['speakers'] = [
-                Speaker.from_dict(x) for x in _dict.get('speakers')
+                Speaker.from_dict(v) for v in _dict.get('speakers')
             ]
         else:
             raise ValueError(
@@ -2827,7 +2888,13 @@ class Speakers():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'speakers') and self.speakers is not None:
-            _dict['speakers'] = [x.to_dict() for x in self.speakers]
+            speakers_list = []
+            for v in self.speakers:
+                if isinstance(v, dict):
+                    speakers_list.append(v)
+                else:
+                    speakers_list.append(v.to_dict())
+            _dict['speakers'] = speakers_list
         return _dict
 
     def _to_dict(self):
@@ -3172,9 +3239,15 @@ class Voice():
         if hasattr(
                 self,
                 'supported_features') and self.supported_features is not None:
-            _dict['supported_features'] = self.supported_features.to_dict()
+            if isinstance(self.supported_features, dict):
+                _dict['supported_features'] = self.supported_features
+            else:
+                _dict['supported_features'] = self.supported_features.to_dict()
         if hasattr(self, 'customization') and self.customization is not None:
-            _dict['customization'] = self.customization.to_dict()
+            if isinstance(self.customization, dict):
+                _dict['customization'] = self.customization
+            else:
+                _dict['customization'] = self.customization.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -3216,7 +3289,7 @@ class Voices():
         """Initialize a Voices object from a json dictionary."""
         args = {}
         if 'voices' in _dict:
-            args['voices'] = [Voice.from_dict(x) for x in _dict.get('voices')]
+            args['voices'] = [Voice.from_dict(v) for v in _dict.get('voices')]
         else:
             raise ValueError(
                 'Required property \'voices\' not present in Voices JSON')
@@ -3231,7 +3304,13 @@ class Voices():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'voices') and self.voices is not None:
-            _dict['voices'] = [x.to_dict() for x in self.voices]
+            voices_list = []
+            for v in self.voices:
+                if isinstance(v, dict):
+                    voices_list.append(v)
+                else:
+                    voices_list.append(v.to_dict())
+            _dict['voices'] = voices_list
         return _dict
 
     def _to_dict(self):
@@ -3418,7 +3497,7 @@ class Words():
         """Initialize a Words object from a json dictionary."""
         args = {}
         if 'words' in _dict:
-            args['words'] = [Word.from_dict(x) for x in _dict.get('words')]
+            args['words'] = [Word.from_dict(v) for v in _dict.get('words')]
         else:
             raise ValueError(
                 'Required property \'words\' not present in Words JSON')
@@ -3433,7 +3512,13 @@ class Words():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'words') and self.words is not None:
-            _dict['words'] = [x.to_dict() for x in self.words]
+            words_list = []
+            for v in self.words:
+                if isinstance(v, dict):
+                    words_list.append(v)
+                else:
+                    words_list.append(v.to_dict())
+            _dict['words'] = words_list
         return _dict
 
     def _to_dict(self):

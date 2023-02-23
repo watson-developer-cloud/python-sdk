@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2019, 2022.
+# (C) Copyright IBM Corp. 2019, 2023.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 3.53.0-9710cac3-20220713-193508
+# IBM OpenAPI SDK Code Generator Version: 3.64.1-cee95189-20230124-211647
 """
 IBM Watson&trade; Language Translator translates text from one language to another. The
 service offers multiple IBM-provided translation models that you can customize based on
@@ -103,7 +103,9 @@ class LanguageTranslatorV3(BaseService):
                                       operation_id='list_languages')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -169,13 +171,15 @@ class LanguageTranslatorV3(BaseService):
                                       operation_id='translate')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         data = {
             'text': text,
             'model_id': model_id,
             'source': source,
-            'target': target
+            'target': target,
         }
         data = {k: v for (k, v) in data.items() if v is not None}
         data = json.dumps(data, ensure_ascii=False).encode('utf-8')
@@ -219,7 +223,9 @@ class LanguageTranslatorV3(BaseService):
             operation_id='list_identifiable_languages')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -247,7 +253,7 @@ class LanguageTranslatorV3(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `IdentifiedLanguages` object
         """
 
-        if text is None:
+        if not text:
             raise ValueError('text must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -255,7 +261,9 @@ class LanguageTranslatorV3(BaseService):
                                       operation_id='identify')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         data = text
         headers['content-type'] = 'text/plain'
@@ -314,7 +322,7 @@ class LanguageTranslatorV3(BaseService):
             'version': self.version,
             'source': source,
             'target': target,
-            'default': default
+            'default': default,
         }
 
         if 'headers' in kwargs:
@@ -440,7 +448,7 @@ class LanguageTranslatorV3(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `TranslationModel` object
         """
 
-        if base_model_id is None:
+        if not base_model_id:
             raise ValueError('base_model_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -451,7 +459,7 @@ class LanguageTranslatorV3(BaseService):
         params = {
             'version': self.version,
             'base_model_id': base_model_id,
-            'name': name
+            'name': name,
         }
 
         form_data = []
@@ -493,7 +501,7 @@ class LanguageTranslatorV3(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `DeleteModelResult` object
         """
 
-        if model_id is None:
+        if not model_id:
             raise ValueError('model_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -501,7 +509,9 @@ class LanguageTranslatorV3(BaseService):
                                       operation_id='delete_model')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -534,7 +544,7 @@ class LanguageTranslatorV3(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `TranslationModel` object
         """
 
-        if model_id is None:
+        if not model_id:
             raise ValueError('model_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -542,7 +552,9 @@ class LanguageTranslatorV3(BaseService):
                                       operation_id='get_model')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -582,7 +594,9 @@ class LanguageTranslatorV3(BaseService):
                                       operation_id='list_documents')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -654,7 +668,9 @@ class LanguageTranslatorV3(BaseService):
                                       operation_id='translate_document')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         form_data = []
         if not filename and hasattr(file, 'name'):
@@ -700,7 +716,7 @@ class LanguageTranslatorV3(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `DocumentStatus` object
         """
 
-        if document_id is None:
+        if not document_id:
             raise ValueError('document_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -708,7 +724,9 @@ class LanguageTranslatorV3(BaseService):
                                       operation_id='get_document_status')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -739,7 +757,7 @@ class LanguageTranslatorV3(BaseService):
         :rtype: DetailedResponse
         """
 
-        if document_id is None:
+        if not document_id:
             raise ValueError('document_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -747,7 +765,9 @@ class LanguageTranslatorV3(BaseService):
                                       operation_id='delete_document')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -796,15 +816,19 @@ class LanguageTranslatorV3(BaseService):
         :rtype: DetailedResponse with `BinaryIO` result
         """
 
-        if document_id is None:
+        if not document_id:
             raise ValueError('document_id must be provided')
-        headers = {'Accept': accept}
+        headers = {
+            'Accept': accept,
+        }
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V3',
                                       operation_id='get_translated_document')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -1019,7 +1043,7 @@ class DocumentList():
         args = {}
         if 'documents' in _dict:
             args['documents'] = [
-                DocumentStatus.from_dict(x) for x in _dict.get('documents')
+                DocumentStatus.from_dict(v) for v in _dict.get('documents')
             ]
         else:
             raise ValueError(
@@ -1036,7 +1060,13 @@ class DocumentList():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'documents') and self.documents is not None:
-            _dict['documents'] = [x.to_dict() for x in self.documents]
+            documents_list = []
+            for v in self.documents:
+                if isinstance(v, dict):
+                    documents_list.append(v)
+                else:
+                    documents_list.append(v.to_dict())
+            _dict['documents'] = documents_list
         return _dict
 
     def _to_dict(self):
@@ -1357,8 +1387,8 @@ class IdentifiableLanguages():
         args = {}
         if 'languages' in _dict:
             args['languages'] = [
-                IdentifiableLanguage.from_dict(x)
-                for x in _dict.get('languages')
+                IdentifiableLanguage.from_dict(v)
+                for v in _dict.get('languages')
             ]
         else:
             raise ValueError(
@@ -1375,7 +1405,13 @@ class IdentifiableLanguages():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'languages') and self.languages is not None:
-            _dict['languages'] = [x.to_dict() for x in self.languages]
+            languages_list = []
+            for v in self.languages:
+                if isinstance(v, dict):
+                    languages_list.append(v)
+                else:
+                    languages_list.append(v.to_dict())
+            _dict['languages'] = languages_list
         return _dict
 
     def _to_dict(self):
@@ -1489,7 +1525,7 @@ class IdentifiedLanguages():
         args = {}
         if 'languages' in _dict:
             args['languages'] = [
-                IdentifiedLanguage.from_dict(x) for x in _dict.get('languages')
+                IdentifiedLanguage.from_dict(v) for v in _dict.get('languages')
             ]
         else:
             raise ValueError(
@@ -1506,7 +1542,13 @@ class IdentifiedLanguages():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'languages') and self.languages is not None:
-            _dict['languages'] = [x.to_dict() for x in self.languages]
+            languages_list = []
+            for v in self.languages:
+                if isinstance(v, dict):
+                    languages_list.append(v)
+                else:
+                    languages_list.append(v.to_dict())
+            _dict['languages'] = languages_list
         return _dict
 
     def _to_dict(self):
@@ -1703,7 +1745,7 @@ class Languages():
         args = {}
         if 'languages' in _dict:
             args['languages'] = [
-                Language.from_dict(x) for x in _dict.get('languages')
+                Language.from_dict(v) for v in _dict.get('languages')
             ]
         else:
             raise ValueError(
@@ -1719,7 +1761,13 @@ class Languages():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'languages') and self.languages is not None:
-            _dict['languages'] = [x.to_dict() for x in self.languages]
+            languages_list = []
+            for v in self.languages:
+                if isinstance(v, dict):
+                    languages_list.append(v)
+                else:
+                    languages_list.append(v.to_dict())
+            _dict['languages'] = languages_list
         return _dict
 
     def _to_dict(self):
@@ -1987,7 +2035,7 @@ class TranslationModels():
         args = {}
         if 'models' in _dict:
             args['models'] = [
-                TranslationModel.from_dict(x) for x in _dict.get('models')
+                TranslationModel.from_dict(v) for v in _dict.get('models')
             ]
         else:
             raise ValueError(
@@ -2004,7 +2052,13 @@ class TranslationModels():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'models') and self.models is not None:
-            _dict['models'] = [x.to_dict() for x in self.models]
+            models_list = []
+            for v in self.models:
+                if isinstance(v, dict):
+                    models_list.append(v)
+                else:
+                    models_list.append(v.to_dict())
+            _dict['models'] = models_list
         return _dict
 
     def _to_dict(self):
@@ -2093,7 +2147,7 @@ class TranslationResult():
                 'detected_language_confidence')
         if 'translations' in _dict:
             args['translations'] = [
-                Translation.from_dict(x) for x in _dict.get('translations')
+                Translation.from_dict(v) for v in _dict.get('translations')
             ]
         else:
             raise ValueError(
@@ -2122,7 +2176,13 @@ class TranslationResult():
             _dict[
                 'detected_language_confidence'] = self.detected_language_confidence
         if hasattr(self, 'translations') and self.translations is not None:
-            _dict['translations'] = [x.to_dict() for x in self.translations]
+            translations_list = []
+            for v in self.translations:
+                if isinstance(v, dict):
+                    translations_list.append(v)
+                else:
+                    translations_list.append(v.to_dict())
+            _dict['translations'] = translations_list
         return _dict
 
     def _to_dict(self):

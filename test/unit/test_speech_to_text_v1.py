@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2015, 2022.
+# (C) Copyright IBM Corp. 2015, 2023.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -220,9 +220,9 @@ class TestRecognize():
         customization_weight = 72.5
         inactivity_timeout = 38
         keywords = ['testString']
-        keywords_threshold = 72.5
+        keywords_threshold = 36.0
         max_alternatives = 38
-        word_alternatives_threshold = 72.5
+        word_alternatives_threshold = 36.0
         word_confidence = False
         timestamps = False
         profanity_filter = True
@@ -233,10 +233,10 @@ class TestRecognize():
         audio_metrics = False
         end_of_phrase_silence_time = 72.5
         split_transcript_at_phrase_end = False
-        speech_detector_sensitivity = 72.5
-        background_audio_suppression = 72.5
+        speech_detector_sensitivity = 36.0
+        background_audio_suppression = 36.0
         low_latency = False
-        character_insertion_bias = 72.5
+        character_insertion_bias = 36.0
 
         # Invoke method
         response = _service.recognize(
@@ -282,9 +282,7 @@ class TestRecognize():
         assert 'customization_weight={}'.format(customization_weight) in query_string
         assert 'inactivity_timeout={}'.format(inactivity_timeout) in query_string
         assert 'keywords={}'.format(','.join(keywords)) in query_string
-        assert 'keywords_threshold={}'.format(keywords_threshold) in query_string
         assert 'max_alternatives={}'.format(max_alternatives) in query_string
-        assert 'word_alternatives_threshold={}'.format(word_alternatives_threshold) in query_string
         assert 'word_confidence={}'.format('true' if word_confidence else 'false') in query_string
         assert 'timestamps={}'.format('true' if timestamps else 'false') in query_string
         assert 'profanity_filter={}'.format('true' if profanity_filter else 'false') in query_string
@@ -295,10 +293,7 @@ class TestRecognize():
         assert 'audio_metrics={}'.format('true' if audio_metrics else 'false') in query_string
         assert 'end_of_phrase_silence_time={}'.format(end_of_phrase_silence_time) in query_string
         assert 'split_transcript_at_phrase_end={}'.format('true' if split_transcript_at_phrase_end else 'false') in query_string
-        assert 'speech_detector_sensitivity={}'.format(speech_detector_sensitivity) in query_string
-        assert 'background_audio_suppression={}'.format(background_audio_suppression) in query_string
         assert 'low_latency={}'.format('true' if low_latency else 'false') in query_string
-        assert 'character_insertion_bias={}'.format(character_insertion_bias) in query_string
         # Validate body params
 
     def test_recognize_all_params_with_retries(self):
@@ -622,9 +617,9 @@ class TestCreateJob():
         customization_weight = 72.5
         inactivity_timeout = 38
         keywords = ['testString']
-        keywords_threshold = 72.5
+        keywords_threshold = 36.0
         max_alternatives = 38
-        word_alternatives_threshold = 72.5
+        word_alternatives_threshold = 36.0
         word_confidence = False
         timestamps = False
         profanity_filter = True
@@ -633,14 +628,14 @@ class TestCreateJob():
         grammar_name = 'testString'
         redaction = False
         processing_metrics = False
-        processing_metrics_interval = 72.5
+        processing_metrics_interval = 36.0
         audio_metrics = False
         end_of_phrase_silence_time = 72.5
         split_transcript_at_phrase_end = False
-        speech_detector_sensitivity = 72.5
-        background_audio_suppression = 72.5
+        speech_detector_sensitivity = 36.0
+        background_audio_suppression = 36.0
         low_latency = False
-        character_insertion_bias = 72.5
+        character_insertion_bias = 36.0
 
         # Invoke method
         response = _service.create_job(
@@ -696,9 +691,7 @@ class TestCreateJob():
         assert 'customization_weight={}'.format(customization_weight) in query_string
         assert 'inactivity_timeout={}'.format(inactivity_timeout) in query_string
         assert 'keywords={}'.format(','.join(keywords)) in query_string
-        assert 'keywords_threshold={}'.format(keywords_threshold) in query_string
         assert 'max_alternatives={}'.format(max_alternatives) in query_string
-        assert 'word_alternatives_threshold={}'.format(word_alternatives_threshold) in query_string
         assert 'word_confidence={}'.format('true' if word_confidence else 'false') in query_string
         assert 'timestamps={}'.format('true' if timestamps else 'false') in query_string
         assert 'profanity_filter={}'.format('true' if profanity_filter else 'false') in query_string
@@ -707,14 +700,10 @@ class TestCreateJob():
         assert 'grammar_name={}'.format(grammar_name) in query_string
         assert 'redaction={}'.format('true' if redaction else 'false') in query_string
         assert 'processing_metrics={}'.format('true' if processing_metrics else 'false') in query_string
-        assert 'processing_metrics_interval={}'.format(processing_metrics_interval) in query_string
         assert 'audio_metrics={}'.format('true' if audio_metrics else 'false') in query_string
         assert 'end_of_phrase_silence_time={}'.format(end_of_phrase_silence_time) in query_string
         assert 'split_transcript_at_phrase_end={}'.format('true' if split_transcript_at_phrase_end else 'false') in query_string
-        assert 'speech_detector_sensitivity={}'.format(speech_detector_sensitivity) in query_string
-        assert 'background_audio_suppression={}'.format(background_audio_suppression) in query_string
         assert 'low_latency={}'.format('true' if low_latency else 'false') in query_string
-        assert 'character_insertion_bias={}'.format(character_insertion_bias) in query_string
         # Validate body params
 
     def test_create_job_all_params_with_retries(self):
@@ -4022,16 +4011,16 @@ class TestModel_AudioMetrics():
         # Construct dict forms of any model objects needed in order to build this model.
 
         audio_metrics_histogram_bin_model = {} # AudioMetricsHistogramBin
-        audio_metrics_histogram_bin_model['begin'] = 72.5
-        audio_metrics_histogram_bin_model['end'] = 72.5
+        audio_metrics_histogram_bin_model['begin'] = 36.0
+        audio_metrics_histogram_bin_model['end'] = 36.0
         audio_metrics_histogram_bin_model['count'] = 38
 
         audio_metrics_details_model = {} # AudioMetricsDetails
         audio_metrics_details_model['final'] = True
-        audio_metrics_details_model['end_time'] = 72.5
-        audio_metrics_details_model['signal_to_noise_ratio'] = 72.5
-        audio_metrics_details_model['speech_ratio'] = 72.5
-        audio_metrics_details_model['high_frequency_loss'] = 72.5
+        audio_metrics_details_model['end_time'] = 36.0
+        audio_metrics_details_model['signal_to_noise_ratio'] = 36.0
+        audio_metrics_details_model['speech_ratio'] = 36.0
+        audio_metrics_details_model['high_frequency_loss'] = 36.0
         audio_metrics_details_model['direct_current_offset'] = [audio_metrics_histogram_bin_model]
         audio_metrics_details_model['clipping_rate'] = [audio_metrics_histogram_bin_model]
         audio_metrics_details_model['speech_level'] = [audio_metrics_histogram_bin_model]
@@ -4039,7 +4028,7 @@ class TestModel_AudioMetrics():
 
         # Construct a json representation of a AudioMetrics model
         audio_metrics_model_json = {}
-        audio_metrics_model_json['sampling_interval'] = 72.5
+        audio_metrics_model_json['sampling_interval'] = 36.0
         audio_metrics_model_json['accumulated'] = audio_metrics_details_model
 
         # Construct a model instance of AudioMetrics by calling from_dict on the json representation
@@ -4070,17 +4059,17 @@ class TestModel_AudioMetricsDetails():
         # Construct dict forms of any model objects needed in order to build this model.
 
         audio_metrics_histogram_bin_model = {} # AudioMetricsHistogramBin
-        audio_metrics_histogram_bin_model['begin'] = 72.5
-        audio_metrics_histogram_bin_model['end'] = 72.5
+        audio_metrics_histogram_bin_model['begin'] = 36.0
+        audio_metrics_histogram_bin_model['end'] = 36.0
         audio_metrics_histogram_bin_model['count'] = 38
 
         # Construct a json representation of a AudioMetricsDetails model
         audio_metrics_details_model_json = {}
         audio_metrics_details_model_json['final'] = True
-        audio_metrics_details_model_json['end_time'] = 72.5
-        audio_metrics_details_model_json['signal_to_noise_ratio'] = 72.5
-        audio_metrics_details_model_json['speech_ratio'] = 72.5
-        audio_metrics_details_model_json['high_frequency_loss'] = 72.5
+        audio_metrics_details_model_json['end_time'] = 36.0
+        audio_metrics_details_model_json['signal_to_noise_ratio'] = 36.0
+        audio_metrics_details_model_json['speech_ratio'] = 36.0
+        audio_metrics_details_model_json['high_frequency_loss'] = 36.0
         audio_metrics_details_model_json['direct_current_offset'] = [audio_metrics_histogram_bin_model]
         audio_metrics_details_model_json['clipping_rate'] = [audio_metrics_histogram_bin_model]
         audio_metrics_details_model_json['speech_level'] = [audio_metrics_histogram_bin_model]
@@ -4113,8 +4102,8 @@ class TestModel_AudioMetricsHistogramBin():
 
         # Construct a json representation of a AudioMetricsHistogramBin model
         audio_metrics_histogram_bin_model_json = {}
-        audio_metrics_histogram_bin_model_json['begin'] = 72.5
-        audio_metrics_histogram_bin_model_json['end'] = 72.5
+        audio_metrics_histogram_bin_model_json['begin'] = 36.0
+        audio_metrics_histogram_bin_model_json['end'] = 36.0
         audio_metrics_histogram_bin_model_json['count'] = 38
 
         # Construct a model instance of AudioMetricsHistogramBin by calling from_dict on the json representation
@@ -4520,10 +4509,10 @@ class TestModel_ProcessedAudio():
 
         # Construct a json representation of a ProcessedAudio model
         processed_audio_model_json = {}
-        processed_audio_model_json['received'] = 72.5
-        processed_audio_model_json['seen_by_engine'] = 72.5
-        processed_audio_model_json['transcription'] = 72.5
-        processed_audio_model_json['speaker_labels'] = 72.5
+        processed_audio_model_json['received'] = 36.0
+        processed_audio_model_json['seen_by_engine'] = 36.0
+        processed_audio_model_json['transcription'] = 36.0
+        processed_audio_model_json['speaker_labels'] = 36.0
 
         # Construct a model instance of ProcessedAudio by calling from_dict on the json representation
         processed_audio_model = ProcessedAudio.from_dict(processed_audio_model_json)
@@ -4553,15 +4542,15 @@ class TestModel_ProcessingMetrics():
         # Construct dict forms of any model objects needed in order to build this model.
 
         processed_audio_model = {} # ProcessedAudio
-        processed_audio_model['received'] = 72.5
-        processed_audio_model['seen_by_engine'] = 72.5
-        processed_audio_model['transcription'] = 72.5
-        processed_audio_model['speaker_labels'] = 72.5
+        processed_audio_model['received'] = 36.0
+        processed_audio_model['seen_by_engine'] = 36.0
+        processed_audio_model['transcription'] = 36.0
+        processed_audio_model['speaker_labels'] = 36.0
 
         # Construct a json representation of a ProcessingMetrics model
         processing_metrics_model_json = {}
         processing_metrics_model_json['processed_audio'] = processed_audio_model
-        processing_metrics_model_json['wall_clock_since_first_byte_received'] = 72.5
+        processing_metrics_model_json['wall_clock_since_first_byte_received'] = 36.0
         processing_metrics_model_json['periodic'] = True
 
         # Construct a model instance of ProcessingMetrics by calling from_dict on the json representation
@@ -4620,41 +4609,41 @@ class TestModel_RecognitionJob():
         speech_recognition_result_model['end_of_utterance'] = 'end_of_data'
 
         speaker_labels_result_model = {} # SpeakerLabelsResult
-        speaker_labels_result_model['from'] = 72.5
-        speaker_labels_result_model['to'] = 72.5
+        speaker_labels_result_model['from'] = 36.0
+        speaker_labels_result_model['to'] = 36.0
         speaker_labels_result_model['speaker'] = 38
-        speaker_labels_result_model['confidence'] = 72.5
+        speaker_labels_result_model['confidence'] = 36.0
         speaker_labels_result_model['final'] = True
 
         processed_audio_model = {} # ProcessedAudio
-        processed_audio_model['received'] = 72.5
-        processed_audio_model['seen_by_engine'] = 72.5
-        processed_audio_model['transcription'] = 72.5
-        processed_audio_model['speaker_labels'] = 72.5
+        processed_audio_model['received'] = 36.0
+        processed_audio_model['seen_by_engine'] = 36.0
+        processed_audio_model['transcription'] = 36.0
+        processed_audio_model['speaker_labels'] = 36.0
 
         processing_metrics_model = {} # ProcessingMetrics
         processing_metrics_model['processed_audio'] = processed_audio_model
-        processing_metrics_model['wall_clock_since_first_byte_received'] = 72.5
+        processing_metrics_model['wall_clock_since_first_byte_received'] = 36.0
         processing_metrics_model['periodic'] = True
 
         audio_metrics_histogram_bin_model = {} # AudioMetricsHistogramBin
-        audio_metrics_histogram_bin_model['begin'] = 72.5
-        audio_metrics_histogram_bin_model['end'] = 72.5
+        audio_metrics_histogram_bin_model['begin'] = 36.0
+        audio_metrics_histogram_bin_model['end'] = 36.0
         audio_metrics_histogram_bin_model['count'] = 38
 
         audio_metrics_details_model = {} # AudioMetricsDetails
         audio_metrics_details_model['final'] = True
-        audio_metrics_details_model['end_time'] = 72.5
-        audio_metrics_details_model['signal_to_noise_ratio'] = 72.5
-        audio_metrics_details_model['speech_ratio'] = 72.5
-        audio_metrics_details_model['high_frequency_loss'] = 72.5
+        audio_metrics_details_model['end_time'] = 36.0
+        audio_metrics_details_model['signal_to_noise_ratio'] = 36.0
+        audio_metrics_details_model['speech_ratio'] = 36.0
+        audio_metrics_details_model['high_frequency_loss'] = 36.0
         audio_metrics_details_model['direct_current_offset'] = [audio_metrics_histogram_bin_model]
         audio_metrics_details_model['clipping_rate'] = [audio_metrics_histogram_bin_model]
         audio_metrics_details_model['speech_level'] = [audio_metrics_histogram_bin_model]
         audio_metrics_details_model['non_speech_level'] = [audio_metrics_histogram_bin_model]
 
         audio_metrics_model = {} # AudioMetrics
-        audio_metrics_model['sampling_interval'] = 72.5
+        audio_metrics_model['sampling_interval'] = 36.0
         audio_metrics_model['accumulated'] = audio_metrics_details_model
 
         speech_recognition_results_model = {} # SpeechRecognitionResults
@@ -4732,41 +4721,41 @@ class TestModel_RecognitionJobs():
         speech_recognition_result_model['end_of_utterance'] = 'end_of_data'
 
         speaker_labels_result_model = {} # SpeakerLabelsResult
-        speaker_labels_result_model['from'] = 72.5
-        speaker_labels_result_model['to'] = 72.5
+        speaker_labels_result_model['from'] = 36.0
+        speaker_labels_result_model['to'] = 36.0
         speaker_labels_result_model['speaker'] = 38
-        speaker_labels_result_model['confidence'] = 72.5
+        speaker_labels_result_model['confidence'] = 36.0
         speaker_labels_result_model['final'] = True
 
         processed_audio_model = {} # ProcessedAudio
-        processed_audio_model['received'] = 72.5
-        processed_audio_model['seen_by_engine'] = 72.5
-        processed_audio_model['transcription'] = 72.5
-        processed_audio_model['speaker_labels'] = 72.5
+        processed_audio_model['received'] = 36.0
+        processed_audio_model['seen_by_engine'] = 36.0
+        processed_audio_model['transcription'] = 36.0
+        processed_audio_model['speaker_labels'] = 36.0
 
         processing_metrics_model = {} # ProcessingMetrics
         processing_metrics_model['processed_audio'] = processed_audio_model
-        processing_metrics_model['wall_clock_since_first_byte_received'] = 72.5
+        processing_metrics_model['wall_clock_since_first_byte_received'] = 36.0
         processing_metrics_model['periodic'] = True
 
         audio_metrics_histogram_bin_model = {} # AudioMetricsHistogramBin
-        audio_metrics_histogram_bin_model['begin'] = 72.5
-        audio_metrics_histogram_bin_model['end'] = 72.5
+        audio_metrics_histogram_bin_model['begin'] = 36.0
+        audio_metrics_histogram_bin_model['end'] = 36.0
         audio_metrics_histogram_bin_model['count'] = 38
 
         audio_metrics_details_model = {} # AudioMetricsDetails
         audio_metrics_details_model['final'] = True
-        audio_metrics_details_model['end_time'] = 72.5
-        audio_metrics_details_model['signal_to_noise_ratio'] = 72.5
-        audio_metrics_details_model['speech_ratio'] = 72.5
-        audio_metrics_details_model['high_frequency_loss'] = 72.5
+        audio_metrics_details_model['end_time'] = 36.0
+        audio_metrics_details_model['signal_to_noise_ratio'] = 36.0
+        audio_metrics_details_model['speech_ratio'] = 36.0
+        audio_metrics_details_model['high_frequency_loss'] = 36.0
         audio_metrics_details_model['direct_current_offset'] = [audio_metrics_histogram_bin_model]
         audio_metrics_details_model['clipping_rate'] = [audio_metrics_histogram_bin_model]
         audio_metrics_details_model['speech_level'] = [audio_metrics_histogram_bin_model]
         audio_metrics_details_model['non_speech_level'] = [audio_metrics_histogram_bin_model]
 
         audio_metrics_model = {} # AudioMetrics
-        audio_metrics_model['sampling_interval'] = 72.5
+        audio_metrics_model['sampling_interval'] = 36.0
         audio_metrics_model['accumulated'] = audio_metrics_details_model
 
         speech_recognition_results_model = {} # SpeechRecognitionResults
@@ -4848,10 +4837,10 @@ class TestModel_SpeakerLabelsResult():
 
         # Construct a json representation of a SpeakerLabelsResult model
         speaker_labels_result_model_json = {}
-        speaker_labels_result_model_json['from'] = 72.5
-        speaker_labels_result_model_json['to'] = 72.5
+        speaker_labels_result_model_json['from'] = 36.0
+        speaker_labels_result_model_json['to'] = 36.0
         speaker_labels_result_model_json['speaker'] = 38
-        speaker_labels_result_model_json['confidence'] = 72.5
+        speaker_labels_result_model_json['confidence'] = 36.0
         speaker_labels_result_model_json['final'] = True
 
         # Construct a model instance of SpeakerLabelsResult by calling from_dict on the json representation
@@ -5085,41 +5074,41 @@ class TestModel_SpeechRecognitionResults():
         speech_recognition_result_model['end_of_utterance'] = 'end_of_data'
 
         speaker_labels_result_model = {} # SpeakerLabelsResult
-        speaker_labels_result_model['from'] = 72.5
-        speaker_labels_result_model['to'] = 72.5
+        speaker_labels_result_model['from'] = 36.0
+        speaker_labels_result_model['to'] = 36.0
         speaker_labels_result_model['speaker'] = 38
-        speaker_labels_result_model['confidence'] = 72.5
+        speaker_labels_result_model['confidence'] = 36.0
         speaker_labels_result_model['final'] = True
 
         processed_audio_model = {} # ProcessedAudio
-        processed_audio_model['received'] = 72.5
-        processed_audio_model['seen_by_engine'] = 72.5
-        processed_audio_model['transcription'] = 72.5
-        processed_audio_model['speaker_labels'] = 72.5
+        processed_audio_model['received'] = 36.0
+        processed_audio_model['seen_by_engine'] = 36.0
+        processed_audio_model['transcription'] = 36.0
+        processed_audio_model['speaker_labels'] = 36.0
 
         processing_metrics_model = {} # ProcessingMetrics
         processing_metrics_model['processed_audio'] = processed_audio_model
-        processing_metrics_model['wall_clock_since_first_byte_received'] = 72.5
+        processing_metrics_model['wall_clock_since_first_byte_received'] = 36.0
         processing_metrics_model['periodic'] = True
 
         audio_metrics_histogram_bin_model = {} # AudioMetricsHistogramBin
-        audio_metrics_histogram_bin_model['begin'] = 72.5
-        audio_metrics_histogram_bin_model['end'] = 72.5
+        audio_metrics_histogram_bin_model['begin'] = 36.0
+        audio_metrics_histogram_bin_model['end'] = 36.0
         audio_metrics_histogram_bin_model['count'] = 38
 
         audio_metrics_details_model = {} # AudioMetricsDetails
         audio_metrics_details_model['final'] = True
-        audio_metrics_details_model['end_time'] = 72.5
-        audio_metrics_details_model['signal_to_noise_ratio'] = 72.5
-        audio_metrics_details_model['speech_ratio'] = 72.5
-        audio_metrics_details_model['high_frequency_loss'] = 72.5
+        audio_metrics_details_model['end_time'] = 36.0
+        audio_metrics_details_model['signal_to_noise_ratio'] = 36.0
+        audio_metrics_details_model['speech_ratio'] = 36.0
+        audio_metrics_details_model['high_frequency_loss'] = 36.0
         audio_metrics_details_model['direct_current_offset'] = [audio_metrics_histogram_bin_model]
         audio_metrics_details_model['clipping_rate'] = [audio_metrics_histogram_bin_model]
         audio_metrics_details_model['speech_level'] = [audio_metrics_histogram_bin_model]
         audio_metrics_details_model['non_speech_level'] = [audio_metrics_histogram_bin_model]
 
         audio_metrics_model = {} # AudioMetrics
-        audio_metrics_model['sampling_interval'] = 72.5
+        audio_metrics_model['sampling_interval'] = 36.0
         audio_metrics_model['accumulated'] = audio_metrics_details_model
 
         # Construct a json representation of a SpeechRecognitionResults model

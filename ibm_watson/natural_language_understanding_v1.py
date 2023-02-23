@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2017, 2022.
+# (C) Copyright IBM Corp. 2017, 2023.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 3.53.0-9710cac3-20220713-193508
+# IBM OpenAPI SDK Code Generator Version: 3.64.1-cee95189-20230124-211647
 """
 Analyze various features of text content at scale. Provide text, raw HTML, or a public URL
 and IBM Watson Natural Language Understanding will give you results for the features you
@@ -156,7 +156,9 @@ class NaturalLanguageUnderstandingV1(BaseService):
                                       operation_id='analyze')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         data = {
             'features': features,
@@ -168,7 +170,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
             'fallback_to_raw': fallback_to_raw,
             'return_analyzed_text': return_analyzed_text,
             'language': language,
-            'limit_text_characters': limit_text_characters
+            'limit_text_characters': limit_text_characters,
         }
         data = {k: v for (k, v) in data.items() if v is not None}
         data = json.dumps(data)
@@ -212,7 +214,9 @@ class NaturalLanguageUnderstandingV1(BaseService):
                                       operation_id='list_models')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -240,7 +244,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `DeleteModelResults` object
         """
 
-        if model_id is None:
+        if not model_id:
             raise ValueError('model_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -248,7 +252,9 @@ class NaturalLanguageUnderstandingV1(BaseService):
                                       operation_id='delete_model')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -303,7 +309,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `SentimentModel` object
         """
 
-        if language is None:
+        if not language:
             raise ValueError('language must be provided')
         if training_data is None:
             raise ValueError('training_data must be provided')
@@ -313,7 +319,9 @@ class NaturalLanguageUnderstandingV1(BaseService):
                                       operation_id='create_sentiment_model')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         form_data = []
         form_data.append(('language', (None, language, 'text/plain')))
@@ -364,7 +372,9 @@ class NaturalLanguageUnderstandingV1(BaseService):
                                       operation_id='list_sentiment_models')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -392,7 +402,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `SentimentModel` object
         """
 
-        if model_id is None:
+        if not model_id:
             raise ValueError('model_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -400,7 +410,9 @@ class NaturalLanguageUnderstandingV1(BaseService):
                                       operation_id='get_sentiment_model')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -452,9 +464,9 @@ class NaturalLanguageUnderstandingV1(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `SentimentModel` object
         """
 
-        if model_id is None:
+        if not model_id:
             raise ValueError('model_id must be provided')
-        if language is None:
+        if not language:
             raise ValueError('language must be provided')
         if training_data is None:
             raise ValueError('training_data must be provided')
@@ -464,7 +476,9 @@ class NaturalLanguageUnderstandingV1(BaseService):
                                       operation_id='update_sentiment_model')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         form_data = []
         form_data.append(('language', (None, language, 'text/plain')))
@@ -515,7 +529,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `DeleteModelResults` object
         """
 
-        if model_id is None:
+        if not model_id:
             raise ValueError('model_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -523,7 +537,9 @@ class NaturalLanguageUnderstandingV1(BaseService):
                                       operation_id='delete_sentiment_model')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -581,7 +597,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `CategoriesModel` object
         """
 
-        if language is None:
+        if not language:
             raise ValueError('language must be provided')
         if training_data is None:
             raise ValueError('training_data must be provided')
@@ -591,7 +607,9 @@ class NaturalLanguageUnderstandingV1(BaseService):
                                       operation_id='create_categories_model')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         form_data = []
         form_data.append(('language', (None, language, 'text/plain')))
@@ -644,7 +662,9 @@ class NaturalLanguageUnderstandingV1(BaseService):
                                       operation_id='list_categories_models')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -672,7 +692,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `CategoriesModel` object
         """
 
-        if model_id is None:
+        if not model_id:
             raise ValueError('model_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -680,7 +700,9 @@ class NaturalLanguageUnderstandingV1(BaseService):
                                       operation_id='get_categories_model')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -735,9 +757,9 @@ class NaturalLanguageUnderstandingV1(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `CategoriesModel` object
         """
 
-        if model_id is None:
+        if not model_id:
             raise ValueError('model_id must be provided')
-        if language is None:
+        if not language:
             raise ValueError('language must be provided')
         if training_data is None:
             raise ValueError('training_data must be provided')
@@ -747,7 +769,9 @@ class NaturalLanguageUnderstandingV1(BaseService):
                                       operation_id='update_categories_model')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         form_data = []
         form_data.append(('language', (None, language, 'text/plain')))
@@ -800,7 +824,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `DeleteModelResults` object
         """
 
-        if model_id is None:
+        if not model_id:
             raise ValueError('model_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -808,7 +832,9 @@ class NaturalLanguageUnderstandingV1(BaseService):
                                       operation_id='delete_categories_model')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -871,7 +897,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `ClassificationsModel` object
         """
 
-        if language is None:
+        if not language:
             raise ValueError('language must be provided')
         if training_data is None:
             raise ValueError('training_data must be provided')
@@ -882,7 +908,9 @@ class NaturalLanguageUnderstandingV1(BaseService):
             operation_id='create_classifications_model')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         form_data = []
         form_data.append(('language', (None, language, 'text/plain')))
@@ -940,7 +968,9 @@ class NaturalLanguageUnderstandingV1(BaseService):
             operation_id='list_classifications_models')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -969,7 +999,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `ClassificationsModel` object
         """
 
-        if model_id is None:
+        if not model_id:
             raise ValueError('model_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -977,7 +1007,9 @@ class NaturalLanguageUnderstandingV1(BaseService):
                                       operation_id='get_classifications_model')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -1037,9 +1069,9 @@ class NaturalLanguageUnderstandingV1(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `ClassificationsModel` object
         """
 
-        if model_id is None:
+        if not model_id:
             raise ValueError('model_id must be provided')
-        if language is None:
+        if not language:
             raise ValueError('language must be provided')
         if training_data is None:
             raise ValueError('training_data must be provided')
@@ -1050,7 +1082,9 @@ class NaturalLanguageUnderstandingV1(BaseService):
             operation_id='update_classifications_model')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         form_data = []
         form_data.append(('language', (None, language, 'text/plain')))
@@ -1107,7 +1141,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `DeleteModelResults` object
         """
 
-        if model_id is None:
+        if not model_id:
             raise ValueError('model_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(
@@ -1116,7 +1150,9 @@ class NaturalLanguageUnderstandingV1(BaseService):
             operation_id='delete_classifications_model')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -1302,24 +1338,24 @@ class AnalysisResults():
             args['usage'] = AnalysisResultsUsage.from_dict(_dict.get('usage'))
         if 'concepts' in _dict:
             args['concepts'] = [
-                ConceptsResult.from_dict(x) for x in _dict.get('concepts')
+                ConceptsResult.from_dict(v) for v in _dict.get('concepts')
             ]
         if 'entities' in _dict:
             args['entities'] = [
-                EntitiesResult.from_dict(x) for x in _dict.get('entities')
+                EntitiesResult.from_dict(v) for v in _dict.get('entities')
             ]
         if 'keywords' in _dict:
             args['keywords'] = [
-                KeywordsResult.from_dict(x) for x in _dict.get('keywords')
+                KeywordsResult.from_dict(v) for v in _dict.get('keywords')
             ]
         if 'categories' in _dict:
             args['categories'] = [
-                CategoriesResult.from_dict(x) for x in _dict.get('categories')
+                CategoriesResult.from_dict(v) for v in _dict.get('categories')
             ]
         if 'classifications' in _dict:
             args['classifications'] = [
-                ClassificationsResult.from_dict(x)
-                for x in _dict.get('classifications')
+                ClassificationsResult.from_dict(v)
+                for v in _dict.get('classifications')
             ]
         if 'emotion' in _dict:
             args['emotion'] = EmotionResult.from_dict(_dict.get('emotion'))
@@ -1328,12 +1364,12 @@ class AnalysisResults():
                 _dict.get('metadata'))
         if 'relations' in _dict:
             args['relations'] = [
-                RelationsResult.from_dict(x) for x in _dict.get('relations')
+                RelationsResult.from_dict(v) for v in _dict.get('relations')
             ]
         if 'semantic_roles' in _dict:
             args['semantic_roles'] = [
-                SemanticRolesResult.from_dict(x)
-                for x in _dict.get('semantic_roles')
+                SemanticRolesResult.from_dict(v)
+                for v in _dict.get('semantic_roles')
             ]
         if 'sentiment' in _dict:
             args['sentiment'] = SentimentResult.from_dict(
@@ -1357,32 +1393,87 @@ class AnalysisResults():
         if hasattr(self, 'retrieved_url') and self.retrieved_url is not None:
             _dict['retrieved_url'] = self.retrieved_url
         if hasattr(self, 'usage') and self.usage is not None:
-            _dict['usage'] = self.usage.to_dict()
+            if isinstance(self.usage, dict):
+                _dict['usage'] = self.usage
+            else:
+                _dict['usage'] = self.usage.to_dict()
         if hasattr(self, 'concepts') and self.concepts is not None:
-            _dict['concepts'] = [x.to_dict() for x in self.concepts]
+            concepts_list = []
+            for v in self.concepts:
+                if isinstance(v, dict):
+                    concepts_list.append(v)
+                else:
+                    concepts_list.append(v.to_dict())
+            _dict['concepts'] = concepts_list
         if hasattr(self, 'entities') and self.entities is not None:
-            _dict['entities'] = [x.to_dict() for x in self.entities]
+            entities_list = []
+            for v in self.entities:
+                if isinstance(v, dict):
+                    entities_list.append(v)
+                else:
+                    entities_list.append(v.to_dict())
+            _dict['entities'] = entities_list
         if hasattr(self, 'keywords') and self.keywords is not None:
-            _dict['keywords'] = [x.to_dict() for x in self.keywords]
+            keywords_list = []
+            for v in self.keywords:
+                if isinstance(v, dict):
+                    keywords_list.append(v)
+                else:
+                    keywords_list.append(v.to_dict())
+            _dict['keywords'] = keywords_list
         if hasattr(self, 'categories') and self.categories is not None:
-            _dict['categories'] = [x.to_dict() for x in self.categories]
+            categories_list = []
+            for v in self.categories:
+                if isinstance(v, dict):
+                    categories_list.append(v)
+                else:
+                    categories_list.append(v.to_dict())
+            _dict['categories'] = categories_list
         if hasattr(self,
                    'classifications') and self.classifications is not None:
-            _dict['classifications'] = [
-                x.to_dict() for x in self.classifications
-            ]
+            classifications_list = []
+            for v in self.classifications:
+                if isinstance(v, dict):
+                    classifications_list.append(v)
+                else:
+                    classifications_list.append(v.to_dict())
+            _dict['classifications'] = classifications_list
         if hasattr(self, 'emotion') and self.emotion is not None:
-            _dict['emotion'] = self.emotion.to_dict()
+            if isinstance(self.emotion, dict):
+                _dict['emotion'] = self.emotion
+            else:
+                _dict['emotion'] = self.emotion.to_dict()
         if hasattr(self, 'metadata') and self.metadata is not None:
-            _dict['metadata'] = self.metadata.to_dict()
+            if isinstance(self.metadata, dict):
+                _dict['metadata'] = self.metadata
+            else:
+                _dict['metadata'] = self.metadata.to_dict()
         if hasattr(self, 'relations') and self.relations is not None:
-            _dict['relations'] = [x.to_dict() for x in self.relations]
+            relations_list = []
+            for v in self.relations:
+                if isinstance(v, dict):
+                    relations_list.append(v)
+                else:
+                    relations_list.append(v.to_dict())
+            _dict['relations'] = relations_list
         if hasattr(self, 'semantic_roles') and self.semantic_roles is not None:
-            _dict['semantic_roles'] = [x.to_dict() for x in self.semantic_roles]
+            semantic_roles_list = []
+            for v in self.semantic_roles:
+                if isinstance(v, dict):
+                    semantic_roles_list.append(v)
+                else:
+                    semantic_roles_list.append(v.to_dict())
+            _dict['semantic_roles'] = semantic_roles_list
         if hasattr(self, 'sentiment') and self.sentiment is not None:
-            _dict['sentiment'] = self.sentiment.to_dict()
+            if isinstance(self.sentiment, dict):
+                _dict['sentiment'] = self.sentiment
+            else:
+                _dict['sentiment'] = self.sentiment.to_dict()
         if hasattr(self, 'syntax') and self.syntax is not None:
-            _dict['syntax'] = self.syntax.to_dict()
+            if isinstance(self.syntax, dict):
+                _dict['syntax'] = self.syntax
+            else:
+                _dict['syntax'] = self.syntax.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -1656,7 +1747,7 @@ class CategoriesModel():
             )
         if 'notices' in _dict:
             args['notices'] = [
-                Notice.from_dict(x) for x in _dict.get('notices')
+                Notice.from_dict(v) for v in _dict.get('notices')
             ]
         if 'last_trained' in _dict:
             args['last_trained'] = string_to_datetime(_dict.get('last_trained'))
@@ -1698,7 +1789,13 @@ class CategoriesModel():
         if hasattr(self, 'created') and self.created is not None:
             _dict['created'] = datetime_to_string(self.created)
         if hasattr(self, 'notices') and self.notices is not None:
-            _dict['notices'] = [x.to_dict() for x in self.notices]
+            notices_list = []
+            for v in self.notices:
+                if isinstance(v, dict):
+                    notices_list.append(v)
+                else:
+                    notices_list.append(v.to_dict())
+            _dict['notices'] = notices_list
         if hasattr(self, 'last_trained') and self.last_trained is not None:
             _dict['last_trained'] = datetime_to_string(self.last_trained)
         if hasattr(self, 'last_deployed') and self.last_deployed is not None:
@@ -1756,7 +1853,7 @@ class CategoriesModelList():
         args = {}
         if 'models' in _dict:
             args['models'] = [
-                CategoriesModel.from_dict(x) for x in _dict.get('models')
+                CategoriesModel.from_dict(v) for v in _dict.get('models')
             ]
         return cls(**args)
 
@@ -1769,7 +1866,13 @@ class CategoriesModelList():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'models') and self.models is not None:
-            _dict['models'] = [x.to_dict() for x in self.models]
+            models_list = []
+            for v in self.models:
+                if isinstance(v, dict):
+                    models_list.append(v)
+                else:
+                    models_list.append(v.to_dict())
+            _dict['models'] = models_list
         return _dict
 
     def _to_dict(self):
@@ -1991,7 +2094,10 @@ class CategoriesResult():
         if hasattr(self, 'score') and self.score is not None:
             _dict['score'] = self.score
         if hasattr(self, 'explanation') and self.explanation is not None:
-            _dict['explanation'] = self.explanation.to_dict()
+            if isinstance(self.explanation, dict):
+                _dict['explanation'] = self.explanation
+            else:
+                _dict['explanation'] = self.explanation.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -2042,8 +2148,8 @@ class CategoriesResultExplanation():
         args = {}
         if 'relevant_text' in _dict:
             args['relevant_text'] = [
-                CategoriesRelevantText.from_dict(x)
-                for x in _dict.get('relevant_text')
+                CategoriesRelevantText.from_dict(v)
+                for v in _dict.get('relevant_text')
             ]
         return cls(**args)
 
@@ -2056,7 +2162,13 @@ class CategoriesResultExplanation():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'relevant_text') and self.relevant_text is not None:
-            _dict['relevant_text'] = [x.to_dict() for x in self.relevant_text]
+            relevant_text_list = []
+            for v in self.relevant_text:
+                if isinstance(v, dict):
+                    relevant_text_list.append(v)
+                else:
+                    relevant_text_list.append(v.to_dict())
+            _dict['relevant_text'] = relevant_text_list
         return _dict
 
     def _to_dict(self):
@@ -2202,7 +2314,7 @@ class ClassificationsModel():
             )
         if 'notices' in _dict:
             args['notices'] = [
-                Notice.from_dict(x) for x in _dict.get('notices')
+                Notice.from_dict(v) for v in _dict.get('notices')
             ]
         if 'last_trained' in _dict:
             args['last_trained'] = string_to_datetime(_dict.get('last_trained'))
@@ -2244,7 +2356,13 @@ class ClassificationsModel():
         if hasattr(self, 'created') and self.created is not None:
             _dict['created'] = datetime_to_string(self.created)
         if hasattr(self, 'notices') and self.notices is not None:
-            _dict['notices'] = [x.to_dict() for x in self.notices]
+            notices_list = []
+            for v in self.notices:
+                if isinstance(v, dict):
+                    notices_list.append(v)
+                else:
+                    notices_list.append(v.to_dict())
+            _dict['notices'] = notices_list
         if hasattr(self, 'last_trained') and self.last_trained is not None:
             _dict['last_trained'] = datetime_to_string(self.last_trained)
         if hasattr(self, 'last_deployed') and self.last_deployed is not None:
@@ -2303,7 +2421,7 @@ class ClassificationsModelList():
         args = {}
         if 'models' in _dict:
             args['models'] = [
-                ClassificationsModel.from_dict(x) for x in _dict.get('models')
+                ClassificationsModel.from_dict(v) for v in _dict.get('models')
             ]
         return cls(**args)
 
@@ -2316,7 +2434,13 @@ class ClassificationsModelList():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'models') and self.models is not None:
-            _dict['models'] = [x.to_dict() for x in self.models]
+            models_list = []
+            for v in self.models:
+                if isinstance(v, dict):
+                    models_list.append(v)
+                else:
+                    models_list.append(v.to_dict())
+            _dict['models'] = models_list
         return _dict
 
     def _to_dict(self):
@@ -2830,7 +2954,10 @@ class DocumentEmotionResults():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'emotion') and self.emotion is not None:
-            _dict['emotion'] = self.emotion.to_dict()
+            if isinstance(self.emotion, dict):
+                _dict['emotion'] = self.emotion
+            else:
+                _dict['emotion'] = self.emotion.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -3025,8 +3152,8 @@ class EmotionResult():
                 _dict.get('document'))
         if 'targets' in _dict:
             args['targets'] = [
-                TargetedEmotionResults.from_dict(x)
-                for x in _dict.get('targets')
+                TargetedEmotionResults.from_dict(v)
+                for v in _dict.get('targets')
             ]
         return cls(**args)
 
@@ -3039,9 +3166,18 @@ class EmotionResult():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'document') and self.document is not None:
-            _dict['document'] = self.document.to_dict()
+            if isinstance(self.document, dict):
+                _dict['document'] = self.document
+            else:
+                _dict['document'] = self.document.to_dict()
         if hasattr(self, 'targets') and self.targets is not None:
-            _dict['targets'] = [x.to_dict() for x in self.targets]
+            targets_list = []
+            for v in self.targets:
+                if isinstance(v, dict):
+                    targets_list.append(v)
+                else:
+                    targets_list.append(v.to_dict())
+            _dict['targets'] = targets_list
         return _dict
 
     def _to_dict(self):
@@ -3344,7 +3480,7 @@ class EntitiesResult():
             args['confidence'] = _dict.get('confidence')
         if 'mentions' in _dict:
             args['mentions'] = [
-                EntityMention.from_dict(x) for x in _dict.get('mentions')
+                EntityMention.from_dict(v) for v in _dict.get('mentions')
             ]
         if 'count' in _dict:
             args['count'] = _dict.get('count')
@@ -3375,15 +3511,30 @@ class EntitiesResult():
         if hasattr(self, 'confidence') and self.confidence is not None:
             _dict['confidence'] = self.confidence
         if hasattr(self, 'mentions') and self.mentions is not None:
-            _dict['mentions'] = [x.to_dict() for x in self.mentions]
+            mentions_list = []
+            for v in self.mentions:
+                if isinstance(v, dict):
+                    mentions_list.append(v)
+                else:
+                    mentions_list.append(v.to_dict())
+            _dict['mentions'] = mentions_list
         if hasattr(self, 'count') and self.count is not None:
             _dict['count'] = self.count
         if hasattr(self, 'emotion') and self.emotion is not None:
-            _dict['emotion'] = self.emotion.to_dict()
+            if isinstance(self.emotion, dict):
+                _dict['emotion'] = self.emotion
+            else:
+                _dict['emotion'] = self.emotion.to_dict()
         if hasattr(self, 'sentiment') and self.sentiment is not None:
-            _dict['sentiment'] = self.sentiment.to_dict()
+            if isinstance(self.sentiment, dict):
+                _dict['sentiment'] = self.sentiment
+            else:
+                _dict['sentiment'] = self.sentiment.to_dict()
         if hasattr(self, 'disambiguation') and self.disambiguation is not None:
-            _dict['disambiguation'] = self.disambiguation.to_dict()
+            if isinstance(self.disambiguation, dict):
+                _dict['disambiguation'] = self.disambiguation
+            else:
+                _dict['disambiguation'] = self.disambiguation.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -3729,29 +3880,62 @@ class Features():
         _dict = {}
         if hasattr(self,
                    'classifications') and self.classifications is not None:
-            _dict['classifications'] = self.classifications.to_dict()
+            if isinstance(self.classifications, dict):
+                _dict['classifications'] = self.classifications
+            else:
+                _dict['classifications'] = self.classifications.to_dict()
         if hasattr(self, 'concepts') and self.concepts is not None:
-            _dict['concepts'] = self.concepts.to_dict()
+            if isinstance(self.concepts, dict):
+                _dict['concepts'] = self.concepts
+            else:
+                _dict['concepts'] = self.concepts.to_dict()
         if hasattr(self, 'emotion') and self.emotion is not None:
-            _dict['emotion'] = self.emotion.to_dict()
+            if isinstance(self.emotion, dict):
+                _dict['emotion'] = self.emotion
+            else:
+                _dict['emotion'] = self.emotion.to_dict()
         if hasattr(self, 'entities') and self.entities is not None:
-            _dict['entities'] = self.entities.to_dict()
+            if isinstance(self.entities, dict):
+                _dict['entities'] = self.entities
+            else:
+                _dict['entities'] = self.entities.to_dict()
         if hasattr(self, 'keywords') and self.keywords is not None:
-            _dict['keywords'] = self.keywords.to_dict()
+            if isinstance(self.keywords, dict):
+                _dict['keywords'] = self.keywords
+            else:
+                _dict['keywords'] = self.keywords.to_dict()
         if hasattr(self, 'metadata') and self.metadata is not None:
             _dict['metadata'] = self.metadata
         if hasattr(self, 'relations') and self.relations is not None:
-            _dict['relations'] = self.relations.to_dict()
+            if isinstance(self.relations, dict):
+                _dict['relations'] = self.relations
+            else:
+                _dict['relations'] = self.relations.to_dict()
         if hasattr(self, 'semantic_roles') and self.semantic_roles is not None:
-            _dict['semantic_roles'] = self.semantic_roles.to_dict()
+            if isinstance(self.semantic_roles, dict):
+                _dict['semantic_roles'] = self.semantic_roles
+            else:
+                _dict['semantic_roles'] = self.semantic_roles.to_dict()
         if hasattr(self, 'sentiment') and self.sentiment is not None:
-            _dict['sentiment'] = self.sentiment.to_dict()
+            if isinstance(self.sentiment, dict):
+                _dict['sentiment'] = self.sentiment
+            else:
+                _dict['sentiment'] = self.sentiment.to_dict()
         if hasattr(self, 'summarization') and self.summarization is not None:
-            _dict['summarization'] = self.summarization.to_dict()
+            if isinstance(self.summarization, dict):
+                _dict['summarization'] = self.summarization
+            else:
+                _dict['summarization'] = self.summarization.to_dict()
         if hasattr(self, 'categories') and self.categories is not None:
-            _dict['categories'] = self.categories.to_dict()
+            if isinstance(self.categories, dict):
+                _dict['categories'] = self.categories
+            else:
+                _dict['categories'] = self.categories.to_dict()
         if hasattr(self, 'syntax') and self.syntax is not None:
-            _dict['syntax'] = self.syntax.to_dict()
+            if isinstance(self.syntax, dict):
+                _dict['syntax'] = self.syntax
+            else:
+                _dict['syntax'] = self.syntax.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -3814,7 +3998,7 @@ class FeaturesResultsMetadata():
         args = {}
         if 'authors' in _dict:
             args['authors'] = [
-                Author.from_dict(x) for x in _dict.get('authors')
+                Author.from_dict(v) for v in _dict.get('authors')
             ]
         if 'publication_date' in _dict:
             args['publication_date'] = _dict.get('publication_date')
@@ -3823,7 +4007,7 @@ class FeaturesResultsMetadata():
         if 'image' in _dict:
             args['image'] = _dict.get('image')
         if 'feeds' in _dict:
-            args['feeds'] = [Feed.from_dict(x) for x in _dict.get('feeds')]
+            args['feeds'] = [Feed.from_dict(v) for v in _dict.get('feeds')]
         return cls(**args)
 
     @classmethod
@@ -3835,7 +4019,13 @@ class FeaturesResultsMetadata():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'authors') and self.authors is not None:
-            _dict['authors'] = [x.to_dict() for x in self.authors]
+            authors_list = []
+            for v in self.authors:
+                if isinstance(v, dict):
+                    authors_list.append(v)
+                else:
+                    authors_list.append(v.to_dict())
+            _dict['authors'] = authors_list
         if hasattr(self,
                    'publication_date') and self.publication_date is not None:
             _dict['publication_date'] = self.publication_date
@@ -3844,7 +4034,13 @@ class FeaturesResultsMetadata():
         if hasattr(self, 'image') and self.image is not None:
             _dict['image'] = self.image
         if hasattr(self, 'feeds') and self.feeds is not None:
-            _dict['feeds'] = [x.to_dict() for x in self.feeds]
+            feeds_list = []
+            for v in self.feeds:
+                if isinstance(v, dict):
+                    feeds_list.append(v)
+                else:
+                    feeds_list.append(v.to_dict())
+            _dict['feeds'] = feeds_list
         return _dict
 
     def _to_dict(self):
@@ -4071,9 +4267,15 @@ class KeywordsResult():
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         if hasattr(self, 'emotion') and self.emotion is not None:
-            _dict['emotion'] = self.emotion.to_dict()
+            if isinstance(self.emotion, dict):
+                _dict['emotion'] = self.emotion
+            else:
+                _dict['emotion'] = self.emotion.to_dict()
         if hasattr(self, 'sentiment') and self.sentiment is not None:
-            _dict['sentiment'] = self.sentiment.to_dict()
+            if isinstance(self.sentiment, dict):
+                _dict['sentiment'] = self.sentiment
+            else:
+                _dict['sentiment'] = self.sentiment.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -4115,7 +4317,7 @@ class ListModelsResults():
         """Initialize a ListModelsResults object from a json dictionary."""
         args = {}
         if 'models' in _dict:
-            args['models'] = [Model.from_dict(x) for x in _dict.get('models')]
+            args['models'] = [Model.from_dict(v) for v in _dict.get('models')]
         return cls(**args)
 
     @classmethod
@@ -4127,7 +4329,13 @@ class ListModelsResults():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'models') and self.models is not None:
-            _dict['models'] = [x.to_dict() for x in self.models]
+            models_list = []
+            for v in self.models:
+                if isinstance(v, dict):
+                    models_list.append(v)
+                else:
+                    models_list.append(v.to_dict())
+            _dict['models'] = models_list
         return _dict
 
     def _to_dict(self):
@@ -4170,7 +4378,7 @@ class ListSentimentModelsResponse():
         args = {}
         if 'models' in _dict:
             args['models'] = [
-                SentimentModel.from_dict(x) for x in _dict.get('models')
+                SentimentModel.from_dict(v) for v in _dict.get('models')
             ]
         return cls(**args)
 
@@ -4183,7 +4391,13 @@ class ListSentimentModelsResponse():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'models') and self.models is not None:
-            _dict['models'] = [x.to_dict() for x in self.models]
+            models_list = []
+            for v in self.models:
+                if isinstance(v, dict):
+                    models_list.append(v)
+                else:
+                    models_list.append(v.to_dict())
+            _dict['models'] = models_list
         return _dict
 
     def _to_dict(self):
@@ -4219,7 +4433,7 @@ class Model():
           that deployed this model to Natural Language Understanding.
     :attr str model_version: (optional) The model version, if it was manually
           provided in Watson Knowledge Studio.
-    :attr str version: (optional) Deprecated — use `model_version`.
+    :attr str version: (optional) Deprecated: Deprecated — use `model_version`.
     :attr str version_description: (optional) The description of the version, if it
           was manually provided in Watson Knowledge Studio.
     :attr datetime created: (optional) A dateTime indicating when the model was
@@ -4250,7 +4464,8 @@ class Model():
                workspace that deployed this model to Natural Language Understanding.
         :param str model_version: (optional) The model version, if it was manually
                provided in Watson Knowledge Studio.
-        :param str version: (optional) Deprecated — use `model_version`.
+        :param str version: (optional) Deprecated: Deprecated — use
+               `model_version`.
         :param str version_description: (optional) The description of the version,
                if it was manually provided in Watson Knowledge Studio.
         :param datetime created: (optional) A dateTime indicating when the model
@@ -4438,7 +4653,7 @@ class RelationArgument():
         args = {}
         if 'entities' in _dict:
             args['entities'] = [
-                RelationEntity.from_dict(x) for x in _dict.get('entities')
+                RelationEntity.from_dict(v) for v in _dict.get('entities')
             ]
         if 'location' in _dict:
             args['location'] = _dict.get('location')
@@ -4455,7 +4670,13 @@ class RelationArgument():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'entities') and self.entities is not None:
-            _dict['entities'] = [x.to_dict() for x in self.entities]
+            entities_list = []
+            for v in self.entities:
+                if isinstance(v, dict):
+                    entities_list.append(v)
+                else:
+                    entities_list.append(v.to_dict())
+            _dict['entities'] = entities_list
         if hasattr(self, 'location') and self.location is not None:
             _dict['location'] = self.location
         if hasattr(self, 'text') and self.text is not None:
@@ -4650,7 +4871,7 @@ class RelationsResult():
             args['type'] = _dict.get('type')
         if 'arguments' in _dict:
             args['arguments'] = [
-                RelationArgument.from_dict(x) for x in _dict.get('arguments')
+                RelationArgument.from_dict(v) for v in _dict.get('arguments')
             ]
         return cls(**args)
 
@@ -4669,7 +4890,13 @@ class RelationsResult():
         if hasattr(self, 'type') and self.type is not None:
             _dict['type'] = self.type
         if hasattr(self, 'arguments') and self.arguments is not None:
-            _dict['arguments'] = [x.to_dict() for x in self.arguments]
+            arguments_list = []
+            for v in self.arguments:
+                if isinstance(v, dict):
+                    arguments_list.append(v)
+                else:
+                    arguments_list.append(v.to_dict())
+            _dict['arguments'] = arguments_list
         return _dict
 
     def _to_dict(self):
@@ -4949,11 +5176,20 @@ class SemanticRolesResult():
         if hasattr(self, 'sentence') and self.sentence is not None:
             _dict['sentence'] = self.sentence
         if hasattr(self, 'subject') and self.subject is not None:
-            _dict['subject'] = self.subject.to_dict()
+            if isinstance(self.subject, dict):
+                _dict['subject'] = self.subject
+            else:
+                _dict['subject'] = self.subject.to_dict()
         if hasattr(self, 'action') and self.action is not None:
-            _dict['action'] = self.action.to_dict()
+            if isinstance(self.action, dict):
+                _dict['action'] = self.action
+            else:
+                _dict['action'] = self.action.to_dict()
         if hasattr(self, 'object') and self.object is not None:
-            _dict['object'] = self.object.to_dict()
+            if isinstance(self.object, dict):
+                _dict['object'] = self.object
+            else:
+                _dict['object'] = self.object.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -5025,7 +5261,10 @@ class SemanticRolesResultAction():
         if hasattr(self, 'normalized') and self.normalized is not None:
             _dict['normalized'] = self.normalized
         if hasattr(self, 'verb') and self.verb is not None:
-            _dict['verb'] = self.verb.to_dict()
+            if isinstance(self.verb, dict):
+                _dict['verb'] = self.verb
+            else:
+                _dict['verb'] = self.verb.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -5078,7 +5317,7 @@ class SemanticRolesResultObject():
             args['text'] = _dict.get('text')
         if 'keywords' in _dict:
             args['keywords'] = [
-                SemanticRolesKeyword.from_dict(x) for x in _dict.get('keywords')
+                SemanticRolesKeyword.from_dict(v) for v in _dict.get('keywords')
             ]
         return cls(**args)
 
@@ -5093,7 +5332,13 @@ class SemanticRolesResultObject():
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         if hasattr(self, 'keywords') and self.keywords is not None:
-            _dict['keywords'] = [x.to_dict() for x in self.keywords]
+            keywords_list = []
+            for v in self.keywords:
+                if isinstance(v, dict):
+                    keywords_list.append(v)
+                else:
+                    keywords_list.append(v.to_dict())
+            _dict['keywords'] = keywords_list
         return _dict
 
     def _to_dict(self):
@@ -5152,11 +5397,11 @@ class SemanticRolesResultSubject():
             args['text'] = _dict.get('text')
         if 'entities' in _dict:
             args['entities'] = [
-                SemanticRolesEntity.from_dict(x) for x in _dict.get('entities')
+                SemanticRolesEntity.from_dict(v) for v in _dict.get('entities')
             ]
         if 'keywords' in _dict:
             args['keywords'] = [
-                SemanticRolesKeyword.from_dict(x) for x in _dict.get('keywords')
+                SemanticRolesKeyword.from_dict(v) for v in _dict.get('keywords')
             ]
         return cls(**args)
 
@@ -5171,9 +5416,21 @@ class SemanticRolesResultSubject():
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         if hasattr(self, 'entities') and self.entities is not None:
-            _dict['entities'] = [x.to_dict() for x in self.entities]
+            entities_list = []
+            for v in self.entities:
+                if isinstance(v, dict):
+                    entities_list.append(v)
+                else:
+                    entities_list.append(v.to_dict())
+            _dict['entities'] = entities_list
         if hasattr(self, 'keywords') and self.keywords is not None:
-            _dict['keywords'] = [x.to_dict() for x in self.keywords]
+            keywords_list = []
+            for v in self.keywords:
+                if isinstance(v, dict):
+                    keywords_list.append(v)
+                else:
+                    keywords_list.append(v.to_dict())
+            _dict['keywords'] = keywords_list
         return _dict
 
     def _to_dict(self):
@@ -5431,7 +5688,7 @@ class SentimentModel():
             args['model_version'] = _dict.get('model_version')
         if 'notices' in _dict:
             args['notices'] = [
-                Notice.from_dict(x) for x in _dict.get('notices')
+                Notice.from_dict(v) for v in _dict.get('notices')
             ]
         if 'workspace_id' in _dict:
             args['workspace_id'] = _dict.get('workspace_id')
@@ -5470,7 +5727,13 @@ class SentimentModel():
         if hasattr(self, 'model_version') and self.model_version is not None:
             _dict['model_version'] = self.model_version
         if hasattr(self, 'notices') and self.notices is not None:
-            _dict['notices'] = [x.to_dict() for x in self.notices]
+            notices_list = []
+            for v in self.notices:
+                if isinstance(v, dict):
+                    notices_list.append(v)
+                else:
+                    notices_list.append(v.to_dict())
+            _dict['notices'] = notices_list
         if hasattr(self, 'workspace_id') and self.workspace_id is not None:
             _dict['workspace_id'] = self.workspace_id
         if hasattr(
@@ -5631,8 +5894,8 @@ class SentimentResult():
                 _dict.get('document'))
         if 'targets' in _dict:
             args['targets'] = [
-                TargetedSentimentResults.from_dict(x)
-                for x in _dict.get('targets')
+                TargetedSentimentResults.from_dict(v)
+                for v in _dict.get('targets')
             ]
         return cls(**args)
 
@@ -5645,9 +5908,18 @@ class SentimentResult():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'document') and self.document is not None:
-            _dict['document'] = self.document.to_dict()
+            if isinstance(self.document, dict):
+                _dict['document'] = self.document
+            else:
+                _dict['document'] = self.document.to_dict()
         if hasattr(self, 'targets') and self.targets is not None:
-            _dict['targets'] = [x.to_dict() for x in self.targets]
+            targets_list = []
+            for v in self.targets:
+                if isinstance(v, dict):
+                    targets_list.append(v)
+                else:
+                    targets_list.append(v.to_dict())
+            _dict['targets'] = targets_list
         return _dict
 
     def _to_dict(self):
@@ -5766,7 +6038,10 @@ class SyntaxOptions():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'tokens') and self.tokens is not None:
-            _dict['tokens'] = self.tokens.to_dict()
+            if isinstance(self.tokens, dict):
+                _dict['tokens'] = self.tokens
+            else:
+                _dict['tokens'] = self.tokens.to_dict()
         if hasattr(self, 'sentences') and self.sentences is not None:
             _dict['sentences'] = self.sentences
         return _dict
@@ -5885,11 +6160,11 @@ class SyntaxResult():
         args = {}
         if 'tokens' in _dict:
             args['tokens'] = [
-                TokenResult.from_dict(x) for x in _dict.get('tokens')
+                TokenResult.from_dict(v) for v in _dict.get('tokens')
             ]
         if 'sentences' in _dict:
             args['sentences'] = [
-                SentenceResult.from_dict(x) for x in _dict.get('sentences')
+                SentenceResult.from_dict(v) for v in _dict.get('sentences')
             ]
         return cls(**args)
 
@@ -5902,9 +6177,21 @@ class SyntaxResult():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'tokens') and self.tokens is not None:
-            _dict['tokens'] = [x.to_dict() for x in self.tokens]
+            tokens_list = []
+            for v in self.tokens:
+                if isinstance(v, dict):
+                    tokens_list.append(v)
+                else:
+                    tokens_list.append(v.to_dict())
+            _dict['tokens'] = tokens_list
         if hasattr(self, 'sentences') and self.sentences is not None:
-            _dict['sentences'] = [x.to_dict() for x in self.sentences]
+            sentences_list = []
+            for v in self.sentences:
+                if isinstance(v, dict):
+                    sentences_list.append(v)
+                else:
+                    sentences_list.append(v.to_dict())
+            _dict['sentences'] = sentences_list
         return _dict
 
     def _to_dict(self):
@@ -5969,7 +6256,10 @@ class TargetedEmotionResults():
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         if hasattr(self, 'emotion') and self.emotion is not None:
-            _dict['emotion'] = self.emotion.to_dict()
+            if isinstance(self.emotion, dict):
+                _dict['emotion'] = self.emotion
+            else:
+                _dict['emotion'] = self.emotion.to_dict()
         return _dict
 
     def _to_dict(self):

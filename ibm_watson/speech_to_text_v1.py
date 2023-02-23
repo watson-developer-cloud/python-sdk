@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2015, 2022.
+# (C) Copyright IBM Corp. 2015, 2023.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 3.53.0-9710cac3-20220713-193508
+# IBM OpenAPI SDK Code Generator Version: 3.64.1-cee95189-20230124-211647
 """
 The IBM Watson&trade; Speech to Text service provides APIs that use IBM's
 speech-recognition capabilities to produce transcripts of spoken audio.  The service can
@@ -148,7 +148,7 @@ class SpeechToTextV1(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `SpeechModel` object
         """
 
-        if model_id is None:
+        if not model_id:
             raise ValueError('model_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -577,7 +577,9 @@ class SpeechToTextV1(BaseService):
 
         if audio is None:
             raise ValueError('audio must be provided')
-        headers = {'Content-Type': content_type}
+        headers = {
+            'Content-Type': content_type,
+        }
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='recognize')
@@ -607,7 +609,7 @@ class SpeechToTextV1(BaseService):
             'speech_detector_sensitivity': speech_detector_sensitivity,
             'background_audio_suppression': background_audio_suppression,
             'low_latency': low_latency,
-            'character_insertion_bias': character_insertion_bias
+            'character_insertion_bias': character_insertion_bias,
         }
 
         data = audio
@@ -685,7 +687,7 @@ class SpeechToTextV1(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `RegisterStatus` object
         """
 
-        if callback_url is None:
+        if not callback_url:
             raise ValueError('callback_url must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -693,7 +695,10 @@ class SpeechToTextV1(BaseService):
                                       operation_id='register_callback')
         headers.update(sdk_headers)
 
-        params = {'callback_url': callback_url, 'user_secret': user_secret}
+        params = {
+            'callback_url': callback_url,
+            'user_secret': user_secret,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -727,7 +732,7 @@ class SpeechToTextV1(BaseService):
         :rtype: DetailedResponse
         """
 
-        if callback_url is None:
+        if not callback_url:
             raise ValueError('callback_url must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -735,7 +740,9 @@ class SpeechToTextV1(BaseService):
                                       operation_id='unregister_callback')
         headers.update(sdk_headers)
 
-        params = {'callback_url': callback_url}
+        params = {
+            'callback_url': callback_url,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -1229,7 +1236,9 @@ class SpeechToTextV1(BaseService):
 
         if audio is None:
             raise ValueError('audio must be provided')
-        headers = {'Content-Type': content_type}
+        headers = {
+            'Content-Type': content_type,
+        }
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='create_job')
@@ -1265,7 +1274,7 @@ class SpeechToTextV1(BaseService):
             'speech_detector_sensitivity': speech_detector_sensitivity,
             'background_audio_suppression': background_audio_suppression,
             'low_latency': low_latency,
-            'character_insertion_bias': character_insertion_bias
+            'character_insertion_bias': character_insertion_bias,
         }
 
         data = audio
@@ -1347,7 +1356,7 @@ class SpeechToTextV1(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `RecognitionJob` object
         """
 
-        if id is None:
+        if not id:
             raise ValueError('id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -1389,7 +1398,7 @@ class SpeechToTextV1(BaseService):
         :rtype: DetailedResponse
         """
 
-        if id is None:
+        if not id:
             raise ValueError('id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -1498,7 +1507,7 @@ class SpeechToTextV1(BaseService):
             'name': name,
             'base_model_name': base_model_name,
             'dialect': dialect,
-            'description': description
+            'description': description,
         }
         data = {k: v for (k, v) in data.items() if v is not None}
         data = json.dumps(data)
@@ -1557,7 +1566,9 @@ class SpeechToTextV1(BaseService):
                                       operation_id='list_language_models')
         headers.update(sdk_headers)
 
-        params = {'language': language}
+        params = {
+            'language': language,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -1595,7 +1606,7 @@ class SpeechToTextV1(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `LanguageModel` object
         """
 
-        if customization_id is None:
+        if not customization_id:
             raise ValueError('customization_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -1641,7 +1652,7 @@ class SpeechToTextV1(BaseService):
         :rtype: DetailedResponse
         """
 
-        if customization_id is None:
+        if not customization_id:
             raise ValueError('customization_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -1751,7 +1762,7 @@ class SpeechToTextV1(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `TrainingResponse` object
         """
 
-        if customization_id is None:
+        if not customization_id:
             raise ValueError('customization_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -1762,7 +1773,7 @@ class SpeechToTextV1(BaseService):
         params = {
             'word_type_to_add': word_type_to_add,
             'customization_weight': customization_weight,
-            'strict': strict
+            'strict': strict,
         }
 
         if 'headers' in kwargs:
@@ -1809,7 +1820,7 @@ class SpeechToTextV1(BaseService):
         :rtype: DetailedResponse
         """
 
-        if customization_id is None:
+        if not customization_id:
             raise ValueError('customization_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -1867,7 +1878,7 @@ class SpeechToTextV1(BaseService):
         :rtype: DetailedResponse
         """
 
-        if customization_id is None:
+        if not customization_id:
             raise ValueError('customization_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -1915,7 +1926,7 @@ class SpeechToTextV1(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `Corpora` object
         """
 
-        if customization_id is None:
+        if not customization_id:
             raise ValueError('customization_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -2038,9 +2049,9 @@ class SpeechToTextV1(BaseService):
         :rtype: DetailedResponse
         """
 
-        if customization_id is None:
+        if not customization_id:
             raise ValueError('customization_id must be provided')
-        if corpus_name is None:
+        if not corpus_name:
             raise ValueError('corpus_name must be provided')
         if corpus_file is None:
             raise ValueError('corpus_file must be provided')
@@ -2050,7 +2061,9 @@ class SpeechToTextV1(BaseService):
                                       operation_id='add_corpus')
         headers.update(sdk_headers)
 
-        params = {'allow_overwrite': allow_overwrite}
+        params = {
+            'allow_overwrite': allow_overwrite,
+        }
 
         form_data = []
         form_data.append(('corpus_file', (None, corpus_file, 'text/plain')))
@@ -2098,9 +2111,9 @@ class SpeechToTextV1(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `Corpus` object
         """
 
-        if customization_id is None:
+        if not customization_id:
             raise ValueError('customization_id must be provided')
-        if corpus_name is None:
+        if not corpus_name:
             raise ValueError('corpus_name must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -2151,9 +2164,9 @@ class SpeechToTextV1(BaseService):
         :rtype: DetailedResponse
         """
 
-        if customization_id is None:
+        if not customization_id:
             raise ValueError('customization_id must be provided')
-        if corpus_name is None:
+        if not corpus_name:
             raise ValueError('corpus_name must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -2233,7 +2246,7 @@ class SpeechToTextV1(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `Words` object
         """
 
-        if customization_id is None:
+        if not customization_id:
             raise ValueError('customization_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -2241,7 +2254,10 @@ class SpeechToTextV1(BaseService):
                                       operation_id='list_words')
         headers.update(sdk_headers)
 
-        params = {'word_type': word_type, 'sort': sort}
+        params = {
+            'word_type': word_type,
+            'sort': sort,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -2340,7 +2356,7 @@ class SpeechToTextV1(BaseService):
         :rtype: DetailedResponse
         """
 
-        if customization_id is None:
+        if not customization_id:
             raise ValueError('customization_id must be provided')
         if words is None:
             raise ValueError('words must be provided')
@@ -2351,7 +2367,9 @@ class SpeechToTextV1(BaseService):
                                       operation_id='add_words')
         headers.update(sdk_headers)
 
-        data = {'words': words}
+        data = {
+            'words': words,
+        }
         data = {k: v for (k, v) in data.items() if v is not None}
         data = json.dumps(data)
         headers['content-type'] = 'application/json'
@@ -2471,9 +2489,9 @@ class SpeechToTextV1(BaseService):
         :rtype: DetailedResponse
         """
 
-        if customization_id is None:
+        if not customization_id:
             raise ValueError('customization_id must be provided')
-        if word_name is None:
+        if not word_name:
             raise ValueError('word_name must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -2484,7 +2502,7 @@ class SpeechToTextV1(BaseService):
         data = {
             'word': word,
             'sounds_like': sounds_like,
-            'display_as': display_as
+            'display_as': display_as,
         }
         data = {k: v for (k, v) in data.items() if v is not None}
         data = json.dumps(data)
@@ -2532,9 +2550,9 @@ class SpeechToTextV1(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `Word` object
         """
 
-        if customization_id is None:
+        if not customization_id:
             raise ValueError('customization_id must be provided')
-        if word_name is None:
+        if not word_name:
             raise ValueError('word_name must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -2585,9 +2603,9 @@ class SpeechToTextV1(BaseService):
         :rtype: DetailedResponse
         """
 
-        if customization_id is None:
+        if not customization_id:
             raise ValueError('customization_id must be provided')
-        if word_name is None:
+        if not word_name:
             raise ValueError('word_name must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -2641,7 +2659,7 @@ class SpeechToTextV1(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `Grammars` object
         """
 
-        if customization_id is None:
+        if not customization_id:
             raise ValueError('customization_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -2757,21 +2775,25 @@ class SpeechToTextV1(BaseService):
         :rtype: DetailedResponse
         """
 
-        if customization_id is None:
+        if not customization_id:
             raise ValueError('customization_id must be provided')
-        if grammar_name is None:
+        if not grammar_name:
             raise ValueError('grammar_name must be provided')
         if grammar_file is None:
             raise ValueError('grammar_file must be provided')
-        if content_type is None:
+        if not content_type:
             raise ValueError('content_type must be provided')
-        headers = {'Content-Type': content_type}
+        headers = {
+            'Content-Type': content_type,
+        }
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='add_grammar')
         headers.update(sdk_headers)
 
-        params = {'allow_overwrite': allow_overwrite}
+        params = {
+            'allow_overwrite': allow_overwrite,
+        }
 
         data = grammar_file
 
@@ -2822,9 +2844,9 @@ class SpeechToTextV1(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `Grammar` object
         """
 
-        if customization_id is None:
+        if not customization_id:
             raise ValueError('customization_id must be provided')
-        if grammar_name is None:
+        if not grammar_name:
             raise ValueError('grammar_name must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -2879,9 +2901,9 @@ class SpeechToTextV1(BaseService):
         :rtype: DetailedResponse
         """
 
-        if customization_id is None:
+        if not customization_id:
             raise ValueError('customization_id must be provided')
-        if grammar_name is None:
+        if not grammar_name:
             raise ValueError('grammar_name must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -2973,7 +2995,7 @@ class SpeechToTextV1(BaseService):
         data = {
             'name': name,
             'base_model_name': base_model_name,
-            'description': description
+            'description': description,
         }
         data = {k: v for (k, v) in data.items() if v is not None}
         data = json.dumps(data)
@@ -3031,7 +3053,9 @@ class SpeechToTextV1(BaseService):
                                       operation_id='list_acoustic_models')
         headers.update(sdk_headers)
 
-        params = {'language': language}
+        params = {
+            'language': language,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -3068,7 +3092,7 @@ class SpeechToTextV1(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `AcousticModel` object
         """
 
-        if customization_id is None:
+        if not customization_id:
             raise ValueError('customization_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -3114,7 +3138,7 @@ class SpeechToTextV1(BaseService):
         :rtype: DetailedResponse
         """
 
-        if customization_id is None:
+        if not customization_id:
             raise ValueError('customization_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -3226,7 +3250,7 @@ class SpeechToTextV1(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `TrainingResponse` object
         """
 
-        if customization_id is None:
+        if not customization_id:
             raise ValueError('customization_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -3236,7 +3260,7 @@ class SpeechToTextV1(BaseService):
 
         params = {
             'custom_language_model_id': custom_language_model_id,
-            'strict': strict
+            'strict': strict,
         }
 
         if 'headers' in kwargs:
@@ -3284,7 +3308,7 @@ class SpeechToTextV1(BaseService):
         :rtype: DetailedResponse
         """
 
-        if customization_id is None:
+        if not customization_id:
             raise ValueError('customization_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -3365,7 +3389,7 @@ class SpeechToTextV1(BaseService):
         :rtype: DetailedResponse
         """
 
-        if customization_id is None:
+        if not customization_id:
             raise ValueError('customization_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -3375,7 +3399,7 @@ class SpeechToTextV1(BaseService):
 
         params = {
             'custom_language_model_id': custom_language_model_id,
-            'force': force
+            'force': force,
         }
 
         if 'headers' in kwargs:
@@ -3424,7 +3448,7 @@ class SpeechToTextV1(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `AudioResources` object
         """
 
-        if customization_id is None:
+        if not customization_id:
             raise ValueError('customization_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -3595,22 +3619,24 @@ class SpeechToTextV1(BaseService):
         :rtype: DetailedResponse
         """
 
-        if customization_id is None:
+        if not customization_id:
             raise ValueError('customization_id must be provided')
-        if audio_name is None:
+        if not audio_name:
             raise ValueError('audio_name must be provided')
         if audio_resource is None:
             raise ValueError('audio_resource must be provided')
         headers = {
             'Content-Type': content_type,
-            'Contained-Content-Type': contained_content_type
+            'Contained-Content-Type': contained_content_type,
         }
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='add_audio')
         headers.update(sdk_headers)
 
-        params = {'allow_overwrite': allow_overwrite}
+        params = {
+            'allow_overwrite': allow_overwrite,
+        }
 
         data = audio_resource
 
@@ -3672,9 +3698,9 @@ class SpeechToTextV1(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `AudioListing` object
         """
 
-        if customization_id is None:
+        if not customization_id:
             raise ValueError('customization_id must be provided')
-        if audio_name is None:
+        if not audio_name:
             raise ValueError('audio_name must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -3727,9 +3753,9 @@ class SpeechToTextV1(BaseService):
         :rtype: DetailedResponse
         """
 
-        if customization_id is None:
+        if not customization_id:
             raise ValueError('customization_id must be provided')
-        if audio_name is None:
+        if not audio_name:
             raise ValueError('audio_name must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -3784,7 +3810,7 @@ class SpeechToTextV1(BaseService):
         :rtype: DetailedResponse
         """
 
-        if customer_id is None:
+        if not customer_id:
             raise ValueError('customer_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -3792,7 +3818,9 @@ class SpeechToTextV1(BaseService):
                                       operation_id='delete_user_data')
         headers.update(sdk_headers)
 
-        params = {'customer_id': customer_id}
+        params = {
+            'customer_id': customer_id,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -4634,7 +4662,7 @@ class AcousticModels():
         args = {}
         if 'customizations' in _dict:
             args['customizations'] = [
-                AcousticModel.from_dict(x) for x in _dict.get('customizations')
+                AcousticModel.from_dict(v) for v in _dict.get('customizations')
             ]
         else:
             raise ValueError(
@@ -4651,7 +4679,13 @@ class AcousticModels():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'customizations') and self.customizations is not None:
-            _dict['customizations'] = [x.to_dict() for x in self.customizations]
+            customizations_list = []
+            for v in self.customizations:
+                if isinstance(v, dict):
+                    customizations_list.append(v)
+                else:
+                    customizations_list.append(v.to_dict())
+            _dict['customizations'] = customizations_list
         return _dict
 
     def _to_dict(self):
@@ -4895,7 +4929,7 @@ class AudioListing():
             args['container'] = AudioResource.from_dict(_dict.get('container'))
         if 'audio' in _dict:
             args['audio'] = [
-                AudioResource.from_dict(x) for x in _dict.get('audio')
+                AudioResource.from_dict(v) for v in _dict.get('audio')
             ]
         return cls(**args)
 
@@ -4912,13 +4946,25 @@ class AudioListing():
         if hasattr(self, 'name') and self.name is not None:
             _dict['name'] = self.name
         if hasattr(self, 'details') and self.details is not None:
-            _dict['details'] = self.details.to_dict()
+            if isinstance(self.details, dict):
+                _dict['details'] = self.details
+            else:
+                _dict['details'] = self.details.to_dict()
         if hasattr(self, 'status') and self.status is not None:
             _dict['status'] = self.status
         if hasattr(self, 'container') and self.container is not None:
-            _dict['container'] = self.container.to_dict()
+            if isinstance(self.container, dict):
+                _dict['container'] = self.container
+            else:
+                _dict['container'] = self.container.to_dict()
         if hasattr(self, 'audio') and self.audio is not None:
-            _dict['audio'] = [x.to_dict() for x in self.audio]
+            audio_list = []
+            for v in self.audio:
+                if isinstance(v, dict):
+                    audio_list.append(v)
+                else:
+                    audio_list.append(v.to_dict())
+            _dict['audio'] = audio_list
         return _dict
 
     def _to_dict(self):
@@ -5017,7 +5063,10 @@ class AudioMetrics():
                    'sampling_interval') and self.sampling_interval is not None:
             _dict['sampling_interval'] = self.sampling_interval
         if hasattr(self, 'accumulated') and self.accumulated is not None:
-            _dict['accumulated'] = self.accumulated.to_dict()
+            if isinstance(self.accumulated, dict):
+                _dict['accumulated'] = self.accumulated
+            else:
+                _dict['accumulated'] = self.accumulated.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -5185,8 +5234,8 @@ class AudioMetricsDetails():
             )
         if 'direct_current_offset' in _dict:
             args['direct_current_offset'] = [
-                AudioMetricsHistogramBin.from_dict(x)
-                for x in _dict.get('direct_current_offset')
+                AudioMetricsHistogramBin.from_dict(v)
+                for v in _dict.get('direct_current_offset')
             ]
         else:
             raise ValueError(
@@ -5194,8 +5243,8 @@ class AudioMetricsDetails():
             )
         if 'clipping_rate' in _dict:
             args['clipping_rate'] = [
-                AudioMetricsHistogramBin.from_dict(x)
-                for x in _dict.get('clipping_rate')
+                AudioMetricsHistogramBin.from_dict(v)
+                for v in _dict.get('clipping_rate')
             ]
         else:
             raise ValueError(
@@ -5203,8 +5252,8 @@ class AudioMetricsDetails():
             )
         if 'speech_level' in _dict:
             args['speech_level'] = [
-                AudioMetricsHistogramBin.from_dict(x)
-                for x in _dict.get('speech_level')
+                AudioMetricsHistogramBin.from_dict(v)
+                for v in _dict.get('speech_level')
             ]
         else:
             raise ValueError(
@@ -5212,8 +5261,8 @@ class AudioMetricsDetails():
             )
         if 'non_speech_level' in _dict:
             args['non_speech_level'] = [
-                AudioMetricsHistogramBin.from_dict(x)
-                for x in _dict.get('non_speech_level')
+                AudioMetricsHistogramBin.from_dict(v)
+                for v in _dict.get('non_speech_level')
             ]
         else:
             raise ValueError(
@@ -5244,18 +5293,38 @@ class AudioMetricsDetails():
             _dict['high_frequency_loss'] = self.high_frequency_loss
         if hasattr(self, 'direct_current_offset'
                   ) and self.direct_current_offset is not None:
-            _dict['direct_current_offset'] = [
-                x.to_dict() for x in self.direct_current_offset
-            ]
+            direct_current_offset_list = []
+            for v in self.direct_current_offset:
+                if isinstance(v, dict):
+                    direct_current_offset_list.append(v)
+                else:
+                    direct_current_offset_list.append(v.to_dict())
+            _dict['direct_current_offset'] = direct_current_offset_list
         if hasattr(self, 'clipping_rate') and self.clipping_rate is not None:
-            _dict['clipping_rate'] = [x.to_dict() for x in self.clipping_rate]
+            clipping_rate_list = []
+            for v in self.clipping_rate:
+                if isinstance(v, dict):
+                    clipping_rate_list.append(v)
+                else:
+                    clipping_rate_list.append(v.to_dict())
+            _dict['clipping_rate'] = clipping_rate_list
         if hasattr(self, 'speech_level') and self.speech_level is not None:
-            _dict['speech_level'] = [x.to_dict() for x in self.speech_level]
+            speech_level_list = []
+            for v in self.speech_level:
+                if isinstance(v, dict):
+                    speech_level_list.append(v)
+                else:
+                    speech_level_list.append(v.to_dict())
+            _dict['speech_level'] = speech_level_list
         if hasattr(self,
                    'non_speech_level') and self.non_speech_level is not None:
-            _dict['non_speech_level'] = [
-                x.to_dict() for x in self.non_speech_level
-            ]
+            non_speech_level_list = []
+            for v in self.non_speech_level:
+                if isinstance(v, dict):
+                    non_speech_level_list.append(v)
+                else:
+                    non_speech_level_list.append(v.to_dict())
+            _dict['non_speech_level'] = non_speech_level_list
         return _dict
 
     def _to_dict(self):
@@ -5457,7 +5526,10 @@ class AudioResource():
         if hasattr(self, 'name') and self.name is not None:
             _dict['name'] = self.name
         if hasattr(self, 'details') and self.details is not None:
-            _dict['details'] = self.details.to_dict()
+            if isinstance(self.details, dict):
+                _dict['details'] = self.details
+            else:
+                _dict['details'] = self.details.to_dict()
         if hasattr(self, 'status') and self.status is not None:
             _dict['status'] = self.status
         return _dict
@@ -5539,7 +5611,7 @@ class AudioResources():
             )
         if 'audio' in _dict:
             args['audio'] = [
-                AudioResource.from_dict(x) for x in _dict.get('audio')
+                AudioResource.from_dict(v) for v in _dict.get('audio')
             ]
         else:
             raise ValueError(
@@ -5559,7 +5631,13 @@ class AudioResources():
                   ) and self.total_minutes_of_audio is not None:
             _dict['total_minutes_of_audio'] = self.total_minutes_of_audio
         if hasattr(self, 'audio') and self.audio is not None:
-            _dict['audio'] = [x.to_dict() for x in self.audio]
+            audio_list = []
+            for v in self.audio:
+                if isinstance(v, dict):
+                    audio_list.append(v)
+                else:
+                    audio_list.append(v.to_dict())
+            _dict['audio'] = audio_list
         return _dict
 
     def _to_dict(self):
@@ -5606,7 +5684,7 @@ class Corpora():
         args = {}
         if 'corpora' in _dict:
             args['corpora'] = [
-                Corpus.from_dict(x) for x in _dict.get('corpora')
+                Corpus.from_dict(v) for v in _dict.get('corpora')
             ]
         else:
             raise ValueError(
@@ -5622,7 +5700,13 @@ class Corpora():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'corpora') and self.corpora is not None:
-            _dict['corpora'] = [x.to_dict() for x in self.corpora]
+            corpora_list = []
+            for v in self.corpora:
+                if isinstance(v, dict):
+                    corpora_list.append(v)
+                else:
+                    corpora_list.append(v.to_dict())
+            _dict['corpora'] = corpora_list
         return _dict
 
     def _to_dict(self):
@@ -6059,7 +6143,7 @@ class Grammars():
         args = {}
         if 'grammars' in _dict:
             args['grammars'] = [
-                Grammar.from_dict(x) for x in _dict.get('grammars')
+                Grammar.from_dict(v) for v in _dict.get('grammars')
             ]
         else:
             raise ValueError(
@@ -6075,7 +6159,13 @@ class Grammars():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'grammars') and self.grammars is not None:
-            _dict['grammars'] = [x.to_dict() for x in self.grammars]
+            grammars_list = []
+            for v in self.grammars:
+                if isinstance(v, dict):
+                    grammars_list.append(v)
+                else:
+                    grammars_list.append(v.to_dict())
+            _dict['grammars'] = grammars_list
         return _dict
 
     def _to_dict(self):
@@ -6509,7 +6599,7 @@ class LanguageModels():
         args = {}
         if 'customizations' in _dict:
             args['customizations'] = [
-                LanguageModel.from_dict(x) for x in _dict.get('customizations')
+                LanguageModel.from_dict(v) for v in _dict.get('customizations')
             ]
         else:
             raise ValueError(
@@ -6526,7 +6616,13 @@ class LanguageModels():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'customizations') and self.customizations is not None:
-            _dict['customizations'] = [x.to_dict() for x in self.customizations]
+            customizations_list = []
+            for v in self.customizations:
+                if isinstance(v, dict):
+                    customizations_list.append(v)
+                else:
+                    customizations_list.append(v.to_dict())
+            _dict['customizations'] = customizations_list
         return _dict
 
     def _to_dict(self):
@@ -6770,7 +6866,10 @@ class ProcessingMetrics():
         _dict = {}
         if hasattr(self,
                    'processed_audio') and self.processed_audio is not None:
-            _dict['processed_audio'] = self.processed_audio.to_dict()
+            if isinstance(self.processed_audio, dict):
+                _dict['processed_audio'] = self.processed_audio
+            else:
+                _dict['processed_audio'] = self.processed_audio.to_dict()
         if hasattr(self, 'wall_clock_since_first_byte_received'
                   ) and self.wall_clock_since_first_byte_received is not None:
             _dict[
@@ -6932,8 +7031,8 @@ class RecognitionJob():
             args['user_token'] = _dict.get('user_token')
         if 'results' in _dict:
             args['results'] = [
-                SpeechRecognitionResults.from_dict(x)
-                for x in _dict.get('results')
+                SpeechRecognitionResults.from_dict(v)
+                for v in _dict.get('results')
             ]
         if 'warnings' in _dict:
             args['warnings'] = _dict.get('warnings')
@@ -6960,7 +7059,13 @@ class RecognitionJob():
         if hasattr(self, 'user_token') and self.user_token is not None:
             _dict['user_token'] = self.user_token
         if hasattr(self, 'results') and self.results is not None:
-            _dict['results'] = [x.to_dict() for x in self.results]
+            results_list = []
+            for v in self.results:
+                if isinstance(v, dict):
+                    results_list.append(v)
+                else:
+                    results_list.append(v.to_dict())
+            _dict['results'] = results_list
         if hasattr(self, 'warnings') and self.warnings is not None:
             _dict['warnings'] = self.warnings
         return _dict
@@ -7028,7 +7133,7 @@ class RecognitionJobs():
         args = {}
         if 'recognitions' in _dict:
             args['recognitions'] = [
-                RecognitionJob.from_dict(x) for x in _dict.get('recognitions')
+                RecognitionJob.from_dict(v) for v in _dict.get('recognitions')
             ]
         else:
             raise ValueError(
@@ -7045,7 +7150,13 @@ class RecognitionJobs():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'recognitions') and self.recognitions is not None:
-            _dict['recognitions'] = [x.to_dict() for x in self.recognitions]
+            recognitions_list = []
+            for v in self.recognitions:
+                if isinstance(v, dict):
+                    recognitions_list.append(v)
+                else:
+                    recognitions_list.append(v.to_dict())
+            _dict['recognitions'] = recognitions_list
         return _dict
 
     def _to_dict(self):
@@ -7374,7 +7485,10 @@ class SpeechModel():
         if hasattr(
                 self,
                 'supported_features') and self.supported_features is not None:
-            _dict['supported_features'] = self.supported_features.to_dict()
+            if isinstance(self.supported_features, dict):
+                _dict['supported_features'] = self.supported_features
+            else:
+                _dict['supported_features'] = self.supported_features.to_dict()
         if hasattr(self, 'description') and self.description is not None:
             _dict['description'] = self.description
         return _dict
@@ -7421,7 +7535,7 @@ class SpeechModels():
         args = {}
         if 'models' in _dict:
             args['models'] = [
-                SpeechModel.from_dict(x) for x in _dict.get('models')
+                SpeechModel.from_dict(v) for v in _dict.get('models')
             ]
         else:
             raise ValueError(
@@ -7437,7 +7551,13 @@ class SpeechModels():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'models') and self.models is not None:
-            _dict['models'] = [x.to_dict() for x in self.models]
+            models_list = []
+            for v in self.models:
+                if isinstance(v, dict):
+                    models_list.append(v)
+                else:
+                    models_list.append(v.to_dict())
+            _dict['models'] = models_list
         return _dict
 
     def _to_dict(self):
@@ -7664,8 +7784,8 @@ class SpeechRecognitionResult():
             )
         if 'alternatives' in _dict:
             args['alternatives'] = [
-                SpeechRecognitionAlternative.from_dict(x)
-                for x in _dict.get('alternatives')
+                SpeechRecognitionAlternative.from_dict(v)
+                for v in _dict.get('alternatives')
             ]
         else:
             raise ValueError(
@@ -7675,8 +7795,8 @@ class SpeechRecognitionResult():
             args['keywords_result'] = _dict.get('keywords_result')
         if 'word_alternatives' in _dict:
             args['word_alternatives'] = [
-                WordAlternativeResults.from_dict(x)
-                for x in _dict.get('word_alternatives')
+                WordAlternativeResults.from_dict(v)
+                for v in _dict.get('word_alternatives')
             ]
         if 'end_of_utterance' in _dict:
             args['end_of_utterance'] = _dict.get('end_of_utterance')
@@ -7693,15 +7813,25 @@ class SpeechRecognitionResult():
         if hasattr(self, 'final') and self.final is not None:
             _dict['final'] = self.final
         if hasattr(self, 'alternatives') and self.alternatives is not None:
-            _dict['alternatives'] = [x.to_dict() for x in self.alternatives]
+            alternatives_list = []
+            for v in self.alternatives:
+                if isinstance(v, dict):
+                    alternatives_list.append(v)
+                else:
+                    alternatives_list.append(v.to_dict())
+            _dict['alternatives'] = alternatives_list
         if hasattr(self,
                    'keywords_result') and self.keywords_result is not None:
             _dict['keywords_result'] = self.keywords_result
         if hasattr(self,
                    'word_alternatives') and self.word_alternatives is not None:
-            _dict['word_alternatives'] = [
-                x.to_dict() for x in self.word_alternatives
-            ]
+            word_alternatives_list = []
+            for v in self.word_alternatives:
+                if isinstance(v, dict):
+                    word_alternatives_list.append(v)
+                else:
+                    word_alternatives_list.append(v.to_dict())
+            _dict['word_alternatives'] = word_alternatives_list
         if hasattr(self,
                    'end_of_utterance') and self.end_of_utterance is not None:
             _dict['end_of_utterance'] = self.end_of_utterance
@@ -7865,15 +7995,15 @@ class SpeechRecognitionResults():
         args = {}
         if 'results' in _dict:
             args['results'] = [
-                SpeechRecognitionResult.from_dict(x)
-                for x in _dict.get('results')
+                SpeechRecognitionResult.from_dict(v)
+                for v in _dict.get('results')
             ]
         if 'result_index' in _dict:
             args['result_index'] = _dict.get('result_index')
         if 'speaker_labels' in _dict:
             args['speaker_labels'] = [
-                SpeakerLabelsResult.from_dict(x)
-                for x in _dict.get('speaker_labels')
+                SpeakerLabelsResult.from_dict(v)
+                for v in _dict.get('speaker_labels')
             ]
         if 'processing_metrics' in _dict:
             args['processing_metrics'] = ProcessingMetrics.from_dict(
@@ -7894,17 +8024,35 @@ class SpeechRecognitionResults():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'results') and self.results is not None:
-            _dict['results'] = [x.to_dict() for x in self.results]
+            results_list = []
+            for v in self.results:
+                if isinstance(v, dict):
+                    results_list.append(v)
+                else:
+                    results_list.append(v.to_dict())
+            _dict['results'] = results_list
         if hasattr(self, 'result_index') and self.result_index is not None:
             _dict['result_index'] = self.result_index
         if hasattr(self, 'speaker_labels') and self.speaker_labels is not None:
-            _dict['speaker_labels'] = [x.to_dict() for x in self.speaker_labels]
+            speaker_labels_list = []
+            for v in self.speaker_labels:
+                if isinstance(v, dict):
+                    speaker_labels_list.append(v)
+                else:
+                    speaker_labels_list.append(v.to_dict())
+            _dict['speaker_labels'] = speaker_labels_list
         if hasattr(
                 self,
                 'processing_metrics') and self.processing_metrics is not None:
-            _dict['processing_metrics'] = self.processing_metrics.to_dict()
+            if isinstance(self.processing_metrics, dict):
+                _dict['processing_metrics'] = self.processing_metrics
+            else:
+                _dict['processing_metrics'] = self.processing_metrics.to_dict()
         if hasattr(self, 'audio_metrics') and self.audio_metrics is not None:
-            _dict['audio_metrics'] = self.audio_metrics.to_dict()
+            if isinstance(self.audio_metrics, dict):
+                _dict['audio_metrics'] = self.audio_metrics
+            else:
+                _dict['audio_metrics'] = self.audio_metrics.to_dict()
         if hasattr(self, 'warnings') and self.warnings is not None:
             _dict['warnings'] = self.warnings
         return _dict
@@ -8085,7 +8233,7 @@ class TrainingResponse():
         args = {}
         if 'warnings' in _dict:
             args['warnings'] = [
-                TrainingWarning.from_dict(x) for x in _dict.get('warnings')
+                TrainingWarning.from_dict(v) for v in _dict.get('warnings')
             ]
         return cls(**args)
 
@@ -8098,7 +8246,13 @@ class TrainingResponse():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'warnings') and self.warnings is not None:
-            _dict['warnings'] = [x.to_dict() for x in self.warnings]
+            warnings_list = []
+            for v in self.warnings:
+                if isinstance(v, dict):
+                    warnings_list.append(v)
+                else:
+                    warnings_list.append(v.to_dict())
+            _dict['warnings'] = warnings_list
         return _dict
 
     def _to_dict(self):
@@ -8348,7 +8502,7 @@ class Word():
             raise ValueError(
                 'Required property \'source\' not present in Word JSON')
         if 'error' in _dict:
-            args['error'] = [WordError.from_dict(x) for x in _dict.get('error')]
+            args['error'] = [WordError.from_dict(v) for v in _dict.get('error')]
         return cls(**args)
 
     @classmethod
@@ -8370,7 +8524,13 @@ class Word():
         if hasattr(self, 'source') and self.source is not None:
             _dict['source'] = self.source
         if hasattr(self, 'error') and self.error is not None:
-            _dict['error'] = [x.to_dict() for x in self.error]
+            error_list = []
+            for v in self.error:
+                if isinstance(v, dict):
+                    error_list.append(v)
+                else:
+                    error_list.append(v.to_dict())
+            _dict['error'] = error_list
         return _dict
 
     def _to_dict(self):
@@ -8509,8 +8669,8 @@ class WordAlternativeResults():
             )
         if 'alternatives' in _dict:
             args['alternatives'] = [
-                WordAlternativeResult.from_dict(x)
-                for x in _dict.get('alternatives')
+                WordAlternativeResult.from_dict(v)
+                for v in _dict.get('alternatives')
             ]
         else:
             raise ValueError(
@@ -8531,7 +8691,13 @@ class WordAlternativeResults():
         if hasattr(self, 'end_time') and self.end_time is not None:
             _dict['end_time'] = self.end_time
         if hasattr(self, 'alternatives') and self.alternatives is not None:
-            _dict['alternatives'] = [x.to_dict() for x in self.alternatives]
+            alternatives_list = []
+            for v in self.alternatives:
+                if isinstance(v, dict):
+                    alternatives_list.append(v)
+                else:
+                    alternatives_list.append(v.to_dict())
+            _dict['alternatives'] = alternatives_list
         return _dict
 
     def _to_dict(self):
@@ -8646,7 +8812,7 @@ class Words():
         """Initialize a Words object from a json dictionary."""
         args = {}
         if 'words' in _dict:
-            args['words'] = [Word.from_dict(x) for x in _dict.get('words')]
+            args['words'] = [Word.from_dict(v) for v in _dict.get('words')]
         else:
             raise ValueError(
                 'Required property \'words\' not present in Words JSON')
@@ -8661,7 +8827,13 @@ class Words():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'words') and self.words is not None:
-            _dict['words'] = [x.to_dict() for x in self.words]
+            words_list = []
+            for v in self.words:
+                if isinstance(v, dict):
+                    words_list.append(v)
+                else:
+                    words_list.append(v.to_dict())
+            _dict['words'] = words_list
         return _dict
 
     def _to_dict(self):
