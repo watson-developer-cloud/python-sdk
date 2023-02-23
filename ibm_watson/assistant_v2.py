@@ -78,10 +78,187 @@ class AssistantV2(BaseService):
         self.configure_service(service_name)
 
     #########################
+    # Assistants
+    #########################
+
+    def create_assistant(self,
+                         *,
+                         language: str = None,
+                         name: str = None,
+                         description: str = None,
+                         **kwargs) -> DetailedResponse:
+        """
+        Create an assistant.
+
+        Create a new assistant.
+        This method is available only with Enterprise plans.
+
+        :param str language: (optional) The language of the assistant.
+        :param str name: (optional) The name of the assistant. This string cannot
+               contain carriage return, newline, or tab characters.
+        :param str description: (optional) The description of the assistant. This
+               string cannot contain carriage return, newline, or tab characters.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `Assistant` object
+        """
+
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='create_assistant')
+        headers.update(sdk_headers)
+
+        params = {
+            'version': self.version,
+        }
+
+        data = {
+            'language': language,
+            'name': name,
+            'description': description,
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        url = '/v2/assistants'
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data)
+
+        response = self.send(request, **kwargs)
+        return response
+
+    def list_assistants(self,
+                        *,
+                        page_limit: int = None,
+                        include_count: bool = None,
+                        sort: str = None,
+                        cursor: str = None,
+                        include_audit: bool = None,
+                        **kwargs) -> DetailedResponse:
+        """
+        List assistants.
+
+        List the assistants associated with a Watson Assistant service instance.
+        This method is available only with Enterprise plans.
+
+        :param int page_limit: (optional) The number of records to return in each
+               page of results.
+        :param bool include_count: (optional) Whether to include information about
+               the number of records that satisfy the request, regardless of the page
+               limit. If this parameter is `true`, the `pagination` object in the response
+               includes the `total` property.
+        :param str sort: (optional) The attribute by which returned assistants will
+               be sorted. To reverse the sort order, prefix the value with a minus sign
+               (`-`).
+        :param str cursor: (optional) A token identifying the page of results to
+               retrieve.
+        :param bool include_audit: (optional) Whether to include the audit
+               properties (`created` and `updated` timestamps) in the response.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `AssistantCollection` object
+        """
+
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='list_assistants')
+        headers.update(sdk_headers)
+
+        params = {
+            'page_limit': page_limit,
+            'include_count': include_count,
+            'sort': sort,
+            'cursor': cursor,
+            'include_audit': include_audit,
+        }
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        url = '/v2/assistants'
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request, **kwargs)
+        return response
+
+    def delete_assistant(self, assistant_id: str, **kwargs) -> DetailedResponse:
+        """
+        Delete assistant.
+
+        Delete an assistant.
+        This method is available only with Enterprise plans.
+
+        :param str assistant_id: The assistant ID or the environment ID of the
+               environment where the assistant is deployed, depending on the type of
+               request:
+                - For message, session, and log requests, specify the environment ID of
+               the environment where the assistant is deployed.
+                - For all other requests, specify the assistant ID of the assistant.
+                To find the environment ID or assistant ID in the Watson Assistant user
+               interface, open the assistant settings and scroll to the **Environments**
+               section.
+               **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID. To find the assistant ID in the user interface, open
+               the assistant settings and click API Details.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if not assistant_id:
+            raise ValueError('assistant_id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='delete_assistant')
+        headers.update(sdk_headers)
+
+        params = {
+            'version': self.version,
+        }
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['assistant_id']
+        path_param_values = self.encode_path_vars(assistant_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/assistants/{assistant_id}'.format(**path_param_dict)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request, **kwargs)
+        return response
+
+    #########################
     # Sessions
     #########################
 
-    def create_session(self, assistant_id: str, **kwargs) -> DetailedResponse:
+    def create_session(self,
+                       assistant_id: str,
+                       *,
+                       analytics: 'RequestAnalytics' = None,
+                       **kwargs) -> DetailedResponse:
         """
         Create a session.
 
@@ -91,13 +268,21 @@ class AssistantV2(BaseService):
         information, see the
         [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-assistant-settings).
 
-        :param str assistant_id: Unique identifier of the assistant. To find the
-               assistant ID in the Watson Assistant user interface, open the assistant
-               settings and click **API Details**. For information about creating
-               assistants, see the
-               [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-assistant-add#assistant-add-task).
-               **Note:** Currently, the v2 API does not support creating assistants.
-        :param dict request_body: (optional)
+        :param str assistant_id: The assistant ID or the environment ID of the
+               environment where the assistant is deployed, depending on the type of
+               request:
+                - For message, session, and log requests, specify the environment ID of
+               the environment where the assistant is deployed.
+                - For all other requests, specify the assistant ID of the assistant.
+                To find the environment ID or assistant ID in the Watson Assistant user
+               interface, open the assistant settings and scroll to the **Environments**
+               section.
+               **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID. To find the assistant ID in the user interface, open
+               the assistant settings and click API Details.
+        :param RequestAnalytics analytics: (optional) An optional object containing
+               analytics data. Currently, this data is used only for events sent to the
+               Segment extension.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `SessionResponse` object
@@ -105,6 +290,8 @@ class AssistantV2(BaseService):
 
         if not assistant_id:
             raise ValueError('assistant_id must be provided')
+        if analytics is not None:
+            analytics = convert_model(analytics)
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V2',
@@ -115,7 +302,9 @@ class AssistantV2(BaseService):
             'version': self.version,
         }
 
-        data = {}
+        data = {
+            'analytics': analytics,
+        }
         data = {k: v for (k, v) in data.items() if v is not None}
         data = json.dumps(data)
         headers['content-type'] = 'application/json'
@@ -147,12 +336,18 @@ class AssistantV2(BaseService):
         session inactivity timeout, see the
         [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-assistant-settings)).
 
-        :param str assistant_id: Unique identifier of the assistant. To find the
-               assistant ID in the Watson Assistant user interface, open the assistant
-               settings and click **API Details**. For information about creating
-               assistants, see the
-               [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-assistant-add#assistant-add-task).
-               **Note:** Currently, the v2 API does not support creating assistants.
+        :param str assistant_id: The assistant ID or the environment ID of the
+               environment where the assistant is deployed, depending on the type of
+               request:
+                - For message, session, and log requests, specify the environment ID of
+               the environment where the assistant is deployed.
+                - For all other requests, specify the assistant ID of the assistant.
+                To find the environment ID or assistant ID in the Watson Assistant user
+               interface, open the assistant settings and scroll to the **Environments**
+               section.
+               **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID. To find the assistant ID in the user interface, open
+               the assistant settings and click API Details.
         :param str session_id: Unique identifier of the session.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -210,12 +405,18 @@ class AssistantV2(BaseService):
         (including context data) stored by Watson Assistant for the duration of the
         session.
 
-        :param str assistant_id: Unique identifier of the assistant. To find the
-               assistant ID in the Watson Assistant user interface, open the assistant
-               settings and click **API Details**. For information about creating
-               assistants, see the
-               [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-assistant-add#assistant-add-task).
-               **Note:** Currently, the v2 API does not support creating assistants.
+        :param str assistant_id: The assistant ID or the environment ID of the
+               environment where the assistant is deployed, depending on the type of
+               request:
+                - For message, session, and log requests, specify the environment ID of
+               the environment where the assistant is deployed.
+                - For all other requests, specify the assistant ID of the assistant.
+                To find the environment ID or assistant ID in the Watson Assistant user
+               interface, open the assistant settings and scroll to the **Environments**
+               section.
+               **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID. To find the assistant ID in the user interface, open
+               the assistant settings and click API Details.
         :param str session_id: Unique identifier of the session.
         :param MessageInput input: (optional) An input object that includes the
                input text.
@@ -299,12 +500,18 @@ class AssistantV2(BaseService):
         Send user input to an assistant and receive a response, with conversation state
         (including context data) managed by your application.
 
-        :param str assistant_id: Unique identifier of the assistant. To find the
-               assistant ID in the Watson Assistant user interface, open the assistant
-               settings and click **API Details**. For information about creating
-               assistants, see the
-               [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-assistant-add#assistant-add-task).
-               **Note:** Currently, the v2 API does not support creating assistants.
+        :param str assistant_id: The assistant ID or the environment ID of the
+               environment where the assistant is deployed, depending on the type of
+               request:
+                - For message, session, and log requests, specify the environment ID of
+               the environment where the assistant is deployed.
+                - For all other requests, specify the assistant ID of the assistant.
+                To find the environment ID or assistant ID in the Watson Assistant user
+               interface, open the assistant settings and scroll to the **Environments**
+               section.
+               **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID. To find the assistant ID in the user interface, open
+               the assistant settings and click API Details.
         :param MessageInputStateless input: (optional) An input object that
                includes the input text.
         :param MessageContextStateless context: (optional) Context data for the
@@ -454,18 +661,25 @@ class AssistantV2(BaseService):
         List log events for an assistant.
 
         List the events from the log of an assistant.
-        This method requires Manager access, and is available only with Enterprise plans.
+        This method requires Manager access, and is available only with Plus and
+        Enterprise plans.
         **Note:** If you use the **cursor** parameter to retrieve results one page at a
         time, subsequent requests must be no more than 5 minutes apart. Any returned value
         for the **cursor** parameter becomes invalid after 5 minutes. For more information
         about using pagination, see [Pagination](#pagination).
 
-        :param str assistant_id: Unique identifier of the assistant. To find the
-               assistant ID in the Watson Assistant user interface, open the assistant
-               settings and click **API Details**. For information about creating
-               assistants, see the
-               [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-assistant-add#assistant-add-task).
-               **Note:** Currently, the v2 API does not support creating assistants.
+        :param str assistant_id: The assistant ID or the environment ID of the
+               environment where the assistant is deployed, depending on the type of
+               request:
+                - For message, session, and log requests, specify the environment ID of
+               the environment where the assistant is deployed.
+                - For all other requests, specify the assistant ID of the assistant.
+                To find the environment ID or assistant ID in the Watson Assistant user
+               interface, open the assistant settings and scroll to the **Environments**
+               section.
+               **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID. To find the assistant ID in the user interface, open
+               the assistant settings and click API Details.
         :param str sort: (optional) How to sort the returned log events. You can
                sort by **request_timestamp**. To reverse the sort order, prefix the
                parameter value with a minus sign (`-`).
@@ -585,13 +799,20 @@ class AssistantV2(BaseService):
         List environments.
 
         List the environments associated with an assistant.
+        This method is available only with Enterprise plans.
 
-        :param str assistant_id: Unique identifier of the assistant. To find the
-               assistant ID in the Watson Assistant user interface, open the assistant
-               settings and click **API Details**. For information about creating
-               assistants, see the
-               [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-assistant-add#assistant-add-task).
-               **Note:** Currently, the v2 API does not support creating assistants.
+        :param str assistant_id: The assistant ID or the environment ID of the
+               environment where the assistant is deployed, depending on the type of
+               request:
+                - For message, session, and log requests, specify the environment ID of
+               the environment where the assistant is deployed.
+                - For all other requests, specify the assistant ID of the assistant.
+                To find the environment ID or assistant ID in the Watson Assistant user
+               interface, open the assistant settings and scroll to the **Environments**
+               section.
+               **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID. To find the assistant ID in the user interface, open
+               the assistant settings and click API Details.
         :param int page_limit: (optional) The number of records to return in each
                page of results.
         :param bool include_count: (optional) Whether to include information about
@@ -656,13 +877,20 @@ class AssistantV2(BaseService):
 
         Get information about an environment. For more information about environments, see
         [Environments](https://cloud.ibm.com/docs/watson-assistant?topic=watson-assistant-publish-overview#environments).
+        This method is available only with Enterprise plans.
 
-        :param str assistant_id: Unique identifier of the assistant. To find the
-               assistant ID in the Watson Assistant user interface, open the assistant
-               settings and click **API Details**. For information about creating
-               assistants, see the
-               [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-assistant-add#assistant-add-task).
-               **Note:** Currently, the v2 API does not support creating assistants.
+        :param str assistant_id: The assistant ID or the environment ID of the
+               environment where the assistant is deployed, depending on the type of
+               request:
+                - For message, session, and log requests, specify the environment ID of
+               the environment where the assistant is deployed.
+                - For all other requests, specify the assistant ID of the assistant.
+                To find the environment ID or assistant ID in the Watson Assistant user
+               interface, open the assistant settings and scroll to the **Environments**
+               section.
+               **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID. To find the assistant ID in the user interface, open
+               the assistant settings and click API Details.
         :param str environment_id: Unique identifier of the environment. To find
                the environment ID in the Watson Assistant user interface, open the
                environment settings and click **API Details**. **Note:** Currently, the
@@ -707,9 +935,167 @@ class AssistantV2(BaseService):
         response = self.send(request, **kwargs)
         return response
 
+    def update_environment(self,
+                           assistant_id: str,
+                           environment_id: str,
+                           *,
+                           name: str = None,
+                           description: str = None,
+                           session_timeout: int = None,
+                           skill_references: List['EnvironmentSkill'] = None,
+                           **kwargs) -> DetailedResponse:
+        """
+        Update environment.
+
+        Update an environment with new or modified data. For more information about
+        environments, see
+        [Environments](https://cloud.ibm.com/docs/watson-assistant?topic=watson-assistant-publish-overview#environments).
+        This method is available only with Enterprise plans.
+
+        :param str assistant_id: The assistant ID or the environment ID of the
+               environment where the assistant is deployed, depending on the type of
+               request:
+                - For message, session, and log requests, specify the environment ID of
+               the environment where the assistant is deployed.
+                - For all other requests, specify the assistant ID of the assistant.
+                To find the environment ID or assistant ID in the Watson Assistant user
+               interface, open the assistant settings and scroll to the **Environments**
+               section.
+               **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID. To find the assistant ID in the user interface, open
+               the assistant settings and click API Details.
+        :param str environment_id: Unique identifier of the environment. To find
+               the environment ID in the Watson Assistant user interface, open the
+               environment settings and click **API Details**. **Note:** Currently, the
+               API does not support creating environments.
+        :param str name: (optional) The name of the environment.
+        :param str description: (optional) The description of the environment.
+        :param int session_timeout: (optional) The session inactivity timeout
+               setting for the environment (in seconds).
+        :param List[EnvironmentSkill] skill_references: (optional) An array of
+               objects identifying the skills (such as action and dialog) that exist in
+               the environment.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `Environment` object
+        """
+
+        if not assistant_id:
+            raise ValueError('assistant_id must be provided')
+        if not environment_id:
+            raise ValueError('environment_id must be provided')
+        if skill_references is not None:
+            skill_references = [convert_model(x) for x in skill_references]
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='update_environment')
+        headers.update(sdk_headers)
+
+        params = {
+            'version': self.version,
+        }
+
+        data = {
+            'name': name,
+            'description': description,
+            'session_timeout': session_timeout,
+            'skill_references': skill_references,
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['assistant_id', 'environment_id']
+        path_param_values = self.encode_path_vars(assistant_id, environment_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/assistants/{assistant_id}/environments/{environment_id}'.format(
+            **path_param_dict)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data)
+
+        response = self.send(request, **kwargs)
+        return response
+
     #########################
     # Releases
     #########################
+
+    def create_release(self,
+                       assistant_id: str,
+                       *,
+                       description: str = None,
+                       **kwargs) -> DetailedResponse:
+        """
+        Create release.
+
+        Create a new release using the current content of the dialog and action skills in
+        the draft environment. (In the Watson Assistant user interface, a release is
+        called a *version*.)
+        This method is available only with Enterprise plans.
+
+        :param str assistant_id: The assistant ID or the environment ID of the
+               environment where the assistant is deployed, depending on the type of
+               request:
+                - For message, session, and log requests, specify the environment ID of
+               the environment where the assistant is deployed.
+                - For all other requests, specify the assistant ID of the assistant.
+                To find the environment ID or assistant ID in the Watson Assistant user
+               interface, open the assistant settings and scroll to the **Environments**
+               section.
+               **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID. To find the assistant ID in the user interface, open
+               the assistant settings and click API Details.
+        :param str description: (optional) The description of the release.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `Release` object
+        """
+
+        if not assistant_id:
+            raise ValueError('assistant_id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='create_release')
+        headers.update(sdk_headers)
+
+        params = {
+            'version': self.version,
+        }
+
+        data = {
+            'description': description,
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['assistant_id']
+        path_param_values = self.encode_path_vars(assistant_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/assistants/{assistant_id}/releases'.format(**path_param_dict)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data)
+
+        response = self.send(request, **kwargs)
+        return response
 
     def list_releases(self,
                       assistant_id: str,
@@ -724,14 +1110,21 @@ class AssistantV2(BaseService):
         List releases.
 
         List the releases associated with an assistant. (In the Watson Assistant user
-        interface, a release is called a *version*.).
+        interface, a release is called a *version*.)
+        This method is available only with Enterprise plans.
 
-        :param str assistant_id: Unique identifier of the assistant. To find the
-               assistant ID in the Watson Assistant user interface, open the assistant
-               settings and click **API Details**. For information about creating
-               assistants, see the
-               [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-assistant-add#assistant-add-task).
-               **Note:** Currently, the v2 API does not support creating assistants.
+        :param str assistant_id: The assistant ID or the environment ID of the
+               environment where the assistant is deployed, depending on the type of
+               request:
+                - For message, session, and log requests, specify the environment ID of
+               the environment where the assistant is deployed.
+                - For all other requests, specify the assistant ID of the assistant.
+                To find the environment ID or assistant ID in the Watson Assistant user
+               interface, open the assistant settings and scroll to the **Environments**
+               section.
+               **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID. To find the assistant ID in the user interface, open
+               the assistant settings and click API Details.
         :param int page_limit: (optional) The number of records to return in each
                page of results.
         :param bool include_count: (optional) Whether to include information about
@@ -798,13 +1191,20 @@ class AssistantV2(BaseService):
         publishing is still in progress, you can continue to poll by calling the same
         request again and checking the value of the **status** property. When processing
         has completed, the request returns the release data.
+        This method is available only with Enterprise plans.
 
-        :param str assistant_id: Unique identifier of the assistant. To find the
-               assistant ID in the Watson Assistant user interface, open the assistant
-               settings and click **API Details**. For information about creating
-               assistants, see the
-               [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-assistant-add#assistant-add-task).
-               **Note:** Currently, the v2 API does not support creating assistants.
+        :param str assistant_id: The assistant ID or the environment ID of the
+               environment where the assistant is deployed, depending on the type of
+               request:
+                - For message, session, and log requests, specify the environment ID of
+               the environment where the assistant is deployed.
+                - For all other requests, specify the assistant ID of the assistant.
+                To find the environment ID or assistant ID in the Watson Assistant user
+               interface, open the assistant settings and scroll to the **Environments**
+               section.
+               **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID. To find the assistant ID in the user interface, open
+               the assistant settings and click API Details.
         :param str release: Unique identifier of the release.
         :param bool include_audit: (optional) Whether to include the audit
                properties (`created` and `updated` timestamps) in the response.
@@ -846,6 +1246,65 @@ class AssistantV2(BaseService):
         response = self.send(request, **kwargs)
         return response
 
+    def delete_release(self, assistant_id: str, release: str,
+                       **kwargs) -> DetailedResponse:
+        """
+        Delete release.
+
+        Delete a release. (In the Watson Assistant user interface, a release is called a
+        *version*.)
+        This method is available only with Enterprise plans.
+
+        :param str assistant_id: The assistant ID or the environment ID of the
+               environment where the assistant is deployed, depending on the type of
+               request:
+                - For message, session, and log requests, specify the environment ID of
+               the environment where the assistant is deployed.
+                - For all other requests, specify the assistant ID of the assistant.
+                To find the environment ID or assistant ID in the Watson Assistant user
+               interface, open the assistant settings and scroll to the **Environments**
+               section.
+               **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID. To find the assistant ID in the user interface, open
+               the assistant settings and click API Details.
+        :param str release: Unique identifier of the release.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if not assistant_id:
+            raise ValueError('assistant_id must be provided')
+        if not release:
+            raise ValueError('release must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='delete_release')
+        headers.update(sdk_headers)
+
+        params = {
+            'version': self.version,
+        }
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['assistant_id', 'release']
+        path_param_values = self.encode_path_vars(assistant_id, release)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/assistants/{assistant_id}/releases/{release}'.format(
+            **path_param_dict)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request, **kwargs)
+        return response
+
     def deploy_release(self,
                        assistant_id: str,
                        release: str,
@@ -858,13 +1317,20 @@ class AssistantV2(BaseService):
 
         Update the environment with the content of the release. All snapshots saved as
         part of the release become active in the environment.
+        This method is available only with Enterprise plans.
 
-        :param str assistant_id: Unique identifier of the assistant. To find the
-               assistant ID in the Watson Assistant user interface, open the assistant
-               settings and click **API Details**. For information about creating
-               assistants, see the
-               [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-assistant-add#assistant-add-task).
-               **Note:** Currently, the v2 API does not support creating assistants.
+        :param str assistant_id: The assistant ID or the environment ID of the
+               environment where the assistant is deployed, depending on the type of
+               request:
+                - For message, session, and log requests, specify the environment ID of
+               the environment where the assistant is deployed.
+                - For all other requests, specify the assistant ID of the assistant.
+                To find the environment ID or assistant ID in the Watson Assistant user
+               interface, open the assistant settings and scroll to the **Environments**
+               section.
+               **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID. To find the assistant ID in the user interface, open
+               the assistant settings and click API Details.
         :param str release: Unique identifier of the release.
         :param str environment_id: The environment ID of the environment where the
                release is to be deployed.
@@ -917,6 +1383,396 @@ class AssistantV2(BaseService):
 
         response = self.send(request, **kwargs)
         return response
+
+    #########################
+    # Skills
+    #########################
+
+    def get_skill(self, assistant_id: str, skill_id: str,
+                  **kwargs) -> DetailedResponse:
+        """
+        Get skill.
+
+        Get information about a skill.
+        This method is available only with Enterprise plans.
+
+        :param str assistant_id: The assistant ID or the environment ID of the
+               environment where the assistant is deployed, depending on the type of
+               request:
+                - For message, session, and log requests, specify the environment ID of
+               the environment where the assistant is deployed.
+                - For all other requests, specify the assistant ID of the assistant.
+                To find the environment ID or assistant ID in the Watson Assistant user
+               interface, open the assistant settings and scroll to the **Environments**
+               section.
+               **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID. To find the assistant ID in the user interface, open
+               the assistant settings and click API Details.
+        :param str skill_id: Unique identifier of the skill. To find the skill ID
+               in the Watson Assistant user interface, open the skill settings and click
+               **API Details**.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `Skill` object
+        """
+
+        if not assistant_id:
+            raise ValueError('assistant_id must be provided')
+        if not skill_id:
+            raise ValueError('skill_id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='get_skill')
+        headers.update(sdk_headers)
+
+        params = {
+            'version': self.version,
+        }
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['assistant_id', 'skill_id']
+        path_param_values = self.encode_path_vars(assistant_id, skill_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/assistants/{assistant_id}/skills/{skill_id}'.format(
+            **path_param_dict)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request, **kwargs)
+        return response
+
+    def update_skill(self,
+                     assistant_id: str,
+                     skill_id: str,
+                     *,
+                     name: str = None,
+                     description: str = None,
+                     workspace: dict = None,
+                     dialog_settings: dict = None,
+                     search_settings: dict = None,
+                     **kwargs) -> DetailedResponse:
+        """
+        Update skill.
+
+        Update a skill with new or modified data.
+          **Note:** The update is performed asynchronously; you can see the status of the
+        update by calling the **Get skill** method and checking the value of the
+        **status** property.
+        This method is available only with Enterprise plans.
+
+        :param str assistant_id: The assistant ID or the environment ID of the
+               environment where the assistant is deployed, depending on the type of
+               request:
+                - For message, session, and log requests, specify the environment ID of
+               the environment where the assistant is deployed.
+                - For all other requests, specify the assistant ID of the assistant.
+                To find the environment ID or assistant ID in the Watson Assistant user
+               interface, open the assistant settings and scroll to the **Environments**
+               section.
+               **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID. To find the assistant ID in the user interface, open
+               the assistant settings and click API Details.
+        :param str skill_id: Unique identifier of the skill. To find the skill ID
+               in the Watson Assistant user interface, open the skill settings and click
+               **API Details**.
+        :param str name: (optional) The name of the skill. This string cannot
+               contain carriage return, newline, or tab characters.
+        :param str description: (optional) The description of the skill. This
+               string cannot contain carriage return, newline, or tab characters.
+        :param dict workspace: (optional) An object containing the conversational
+               content of an action or dialog skill.
+        :param dict dialog_settings: (optional) For internal use only.
+        :param dict search_settings: (optional) A JSON object describing the search
+               skill configuration.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `Skill` object
+        """
+
+        if not assistant_id:
+            raise ValueError('assistant_id must be provided')
+        if not skill_id:
+            raise ValueError('skill_id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='update_skill')
+        headers.update(sdk_headers)
+
+        params = {
+            'version': self.version,
+        }
+
+        data = {
+            'name': name,
+            'description': description,
+            'workspace': workspace,
+            'dialog_settings': dialog_settings,
+            'search_settings': search_settings,
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['assistant_id', 'skill_id']
+        path_param_values = self.encode_path_vars(assistant_id, skill_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/assistants/{assistant_id}/skills/{skill_id}'.format(
+            **path_param_dict)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data)
+
+        response = self.send(request, **kwargs)
+        return response
+
+    def export_skills(self,
+                      assistant_id: str,
+                      *,
+                      include_audit: bool = None,
+                      **kwargs) -> DetailedResponse:
+        """
+        Export skills.
+
+        Asynchronously export the action skill and dialog skill (if enabled) for the
+        assistant. Use this method to save all skill data so that you can import it to a
+        different assistant using the **Import skills** method.
+         A successful call to this method only initiates an asynchronous export. The
+        exported JSON data is not available until processing completes.
+         After the initial request is submitted, you can poll the status of the operation
+        by calling the same request again and checking the value of the **status**
+        property. If an error occurs (indicated by a **status** value of `Failed`), the
+        `status_description` property provides more information about the error, and the
+        `status_errors` property contains an array of error messages that caused the
+        failure.
+         When processing has completed, the request returns the exported JSON data.
+        Remember that the usual rate limits apply.
+        This method is available only with Enterprise plans.
+
+        :param str assistant_id: The assistant ID or the environment ID of the
+               environment where the assistant is deployed, depending on the type of
+               request:
+                - For message, session, and log requests, specify the environment ID of
+               the environment where the assistant is deployed.
+                - For all other requests, specify the assistant ID of the assistant.
+                To find the environment ID or assistant ID in the Watson Assistant user
+               interface, open the assistant settings and scroll to the **Environments**
+               section.
+               **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID. To find the assistant ID in the user interface, open
+               the assistant settings and click API Details.
+        :param bool include_audit: (optional) Whether to include the audit
+               properties (`created` and `updated` timestamps) in the response.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `SkillsExport` object
+        """
+
+        if not assistant_id:
+            raise ValueError('assistant_id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='export_skills')
+        headers.update(sdk_headers)
+
+        params = {
+            'version': self.version,
+            'include_audit': include_audit,
+        }
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['assistant_id']
+        path_param_values = self.encode_path_vars(assistant_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/assistants/{assistant_id}/skills_export'.format(
+            **path_param_dict)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request, **kwargs)
+        return response
+
+    def import_skills(self,
+                      assistant_id: str,
+                      assistant_skills: List['SkillImport'],
+                      assistant_state: 'AssistantState',
+                      *,
+                      include_audit: bool = None,
+                      **kwargs) -> DetailedResponse:
+        """
+        Import skills.
+
+        Asynchronously import skills into an existing assistant from a previously exported
+        file.
+         The request body for this method should contain the response data that was
+        received from a previous call to the **Export skills** method, without
+        modification.
+         A successful call to this method initiates an asynchronous import. The updated
+        skills belonging to the assistant are not available until processing completes. To
+        check the status of the asynchronous import operation, use the **Get status of
+        skills import** method.
+        This method is available only with Enterprise plans.
+
+        :param str assistant_id: The assistant ID or the environment ID of the
+               environment where the assistant is deployed, depending on the type of
+               request:
+                - For message, session, and log requests, specify the environment ID of
+               the environment where the assistant is deployed.
+                - For all other requests, specify the assistant ID of the assistant.
+                To find the environment ID or assistant ID in the Watson Assistant user
+               interface, open the assistant settings and scroll to the **Environments**
+               section.
+               **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID. To find the assistant ID in the user interface, open
+               the assistant settings and click API Details.
+        :param List[SkillImport] assistant_skills: An array of objects describing
+               the skills for the assistant. Included in responses only if
+               **status**=`Available`.
+        :param AssistantState assistant_state: Status information about the skills
+               for the assistant. Included in responses only if **status**=`Available`.
+        :param bool include_audit: (optional) Whether to include the audit
+               properties (`created` and `updated` timestamps) in the response.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `SkillsAsyncRequestStatus` object
+        """
+
+        if not assistant_id:
+            raise ValueError('assistant_id must be provided')
+        if assistant_skills is None:
+            raise ValueError('assistant_skills must be provided')
+        if assistant_state is None:
+            raise ValueError('assistant_state must be provided')
+        assistant_skills = [convert_model(x) for x in assistant_skills]
+        assistant_state = convert_model(assistant_state)
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='import_skills')
+        headers.update(sdk_headers)
+
+        params = {
+            'version': self.version,
+            'include_audit': include_audit,
+        }
+
+        data = {
+            'assistant_skills': assistant_skills,
+            'assistant_state': assistant_state,
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['assistant_id']
+        path_param_values = self.encode_path_vars(assistant_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/assistants/{assistant_id}/skills_import'.format(
+            **path_param_dict)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data)
+
+        response = self.send(request, **kwargs)
+        return response
+
+    def import_skills_status(self, assistant_id: str,
+                             **kwargs) -> DetailedResponse:
+        """
+        Get status of skills import.
+
+        Retrieve the status of an asynchronous import operation previously initiated by
+        using the **Import skills** method.
+        This method is available only with Enterprise plans.
+
+        :param str assistant_id: The assistant ID or the environment ID of the
+               environment where the assistant is deployed, depending on the type of
+               request:
+                - For message, session, and log requests, specify the environment ID of
+               the environment where the assistant is deployed.
+                - For all other requests, specify the assistant ID of the assistant.
+                To find the environment ID or assistant ID in the Watson Assistant user
+               interface, open the assistant settings and scroll to the **Environments**
+               section.
+               **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID. To find the assistant ID in the user interface, open
+               the assistant settings and click API Details.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `SkillsAsyncRequestStatus` object
+        """
+
+        if not assistant_id:
+            raise ValueError('assistant_id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='import_skills_status')
+        headers.update(sdk_headers)
+
+        params = {
+            'version': self.version,
+        }
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['assistant_id']
+        path_param_values = self.encode_path_vars(assistant_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/assistants/{assistant_id}/skills_import/status'.format(
+            **path_param_dict)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request, **kwargs)
+        return response
+
+
+class ListAssistantsEnums:
+    """
+    Enums for list_assistants parameters.
+    """
+
+    class Sort(str, Enum):
+        """
+        The attribute by which returned assistants will be sorted. To reverse the sort
+        order, prefix the value with a minus sign (`-`).
+        """
+        NAME = 'name'
+        UPDATED = 'updated'
 
 
 class ListEnvironmentsEnums:
@@ -1002,6 +1858,480 @@ class AgentAvailabilityMessage():
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'AgentAvailabilityMessage') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class Assistant():
+    """
+    Assistant.
+
+    :attr str assistant_id: (optional) The unique identifier of the assistant.
+    :attr str name: (optional) The name of the assistant. This string cannot contain
+          carriage return, newline, or tab characters.
+    :attr str description: (optional) The description of the assistant. This string
+          cannot contain carriage return, newline, or tab characters.
+    :attr str language: The language of the assistant.
+    :attr List[AssistantSkill] assistant_skills: (optional) An array of skill
+          references identifying the skills associated with the assistant.
+    :attr List[EnvironmentReference] assistant_environments: (optional) An array of
+          objects describing the environments defined for the assistant.
+    """
+
+    def __init__(
+            self,
+            language: str,
+            *,
+            assistant_id: str = None,
+            name: str = None,
+            description: str = None,
+            assistant_skills: List['AssistantSkill'] = None,
+            assistant_environments: List['EnvironmentReference'] = None
+    ) -> None:
+        """
+        Initialize a Assistant object.
+
+        :param str language: The language of the assistant.
+        :param str name: (optional) The name of the assistant. This string cannot
+               contain carriage return, newline, or tab characters.
+        :param str description: (optional) The description of the assistant. This
+               string cannot contain carriage return, newline, or tab characters.
+        """
+        self.assistant_id = assistant_id
+        self.name = name
+        self.description = description
+        self.language = language
+        self.assistant_skills = assistant_skills
+        self.assistant_environments = assistant_environments
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'Assistant':
+        """Initialize a Assistant object from a json dictionary."""
+        args = {}
+        if 'assistant_id' in _dict:
+            args['assistant_id'] = _dict.get('assistant_id')
+        if 'name' in _dict:
+            args['name'] = _dict.get('name')
+        if 'description' in _dict:
+            args['description'] = _dict.get('description')
+        if 'language' in _dict:
+            args['language'] = _dict.get('language')
+        else:
+            raise ValueError(
+                'Required property \'language\' not present in Assistant JSON')
+        if 'assistant_skills' in _dict:
+            args['assistant_skills'] = [
+                AssistantSkill.from_dict(v)
+                for v in _dict.get('assistant_skills')
+            ]
+        if 'assistant_environments' in _dict:
+            args['assistant_environments'] = [
+                EnvironmentReference.from_dict(v)
+                for v in _dict.get('assistant_environments')
+            ]
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Assistant object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'assistant_id') and getattr(
+                self, 'assistant_id') is not None:
+            _dict['assistant_id'] = getattr(self, 'assistant_id')
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
+        if hasattr(self, 'language') and self.language is not None:
+            _dict['language'] = self.language
+        if hasattr(self, 'assistant_skills') and getattr(
+                self, 'assistant_skills') is not None:
+            assistant_skills_list = []
+            for v in getattr(self, 'assistant_skills'):
+                if isinstance(v, dict):
+                    assistant_skills_list.append(v)
+                else:
+                    assistant_skills_list.append(v.to_dict())
+            _dict['assistant_skills'] = assistant_skills_list
+        if hasattr(self, 'assistant_environments') and getattr(
+                self, 'assistant_environments') is not None:
+            assistant_environments_list = []
+            for v in getattr(self, 'assistant_environments'):
+                if isinstance(v, dict):
+                    assistant_environments_list.append(v)
+                else:
+                    assistant_environments_list.append(v.to_dict())
+            _dict['assistant_environments'] = assistant_environments_list
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this Assistant object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'Assistant') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'Assistant') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class AssistantCollection():
+    """
+    AssistantCollection.
+
+    :attr List[Assistant] assistants: An array of objects describing the assistants
+          associated with the instance.
+    :attr Pagination pagination: The pagination data for the returned objects. For
+          more information about using pagination, see [Pagination](#pagination).
+    """
+
+    def __init__(self, assistants: List['Assistant'],
+                 pagination: 'Pagination') -> None:
+        """
+        Initialize a AssistantCollection object.
+
+        :param List[Assistant] assistants: An array of objects describing the
+               assistants associated with the instance.
+        :param Pagination pagination: The pagination data for the returned objects.
+               For more information about using pagination, see [Pagination](#pagination).
+        """
+        self.assistants = assistants
+        self.pagination = pagination
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'AssistantCollection':
+        """Initialize a AssistantCollection object from a json dictionary."""
+        args = {}
+        if 'assistants' in _dict:
+            args['assistants'] = [
+                Assistant.from_dict(v) for v in _dict.get('assistants')
+            ]
+        else:
+            raise ValueError(
+                'Required property \'assistants\' not present in AssistantCollection JSON'
+            )
+        if 'pagination' in _dict:
+            args['pagination'] = Pagination.from_dict(_dict.get('pagination'))
+        else:
+            raise ValueError(
+                'Required property \'pagination\' not present in AssistantCollection JSON'
+            )
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a AssistantCollection object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'assistants') and self.assistants is not None:
+            assistants_list = []
+            for v in self.assistants:
+                if isinstance(v, dict):
+                    assistants_list.append(v)
+                else:
+                    assistants_list.append(v.to_dict())
+            _dict['assistants'] = assistants_list
+        if hasattr(self, 'pagination') and self.pagination is not None:
+            if isinstance(self.pagination, dict):
+                _dict['pagination'] = self.pagination
+            else:
+                _dict['pagination'] = self.pagination.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this AssistantCollection object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'AssistantCollection') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'AssistantCollection') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class AssistantSkill():
+    """
+    AssistantSkill.
+
+    :attr str skill_id: The skill ID of the skill.
+    :attr str type: (optional) The type of the skill.
+    """
+
+    def __init__(self, skill_id: str, *, type: str = None) -> None:
+        """
+        Initialize a AssistantSkill object.
+
+        :param str skill_id: The skill ID of the skill.
+        :param str type: (optional) The type of the skill.
+        """
+        self.skill_id = skill_id
+        self.type = type
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'AssistantSkill':
+        """Initialize a AssistantSkill object from a json dictionary."""
+        args = {}
+        if 'skill_id' in _dict:
+            args['skill_id'] = _dict.get('skill_id')
+        else:
+            raise ValueError(
+                'Required property \'skill_id\' not present in AssistantSkill JSON'
+            )
+        if 'type' in _dict:
+            args['type'] = _dict.get('type')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a AssistantSkill object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'skill_id') and self.skill_id is not None:
+            _dict['skill_id'] = self.skill_id
+        if hasattr(self, 'type') and self.type is not None:
+            _dict['type'] = self.type
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this AssistantSkill object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'AssistantSkill') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'AssistantSkill') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class TypeEnum(str, Enum):
+        """
+        The type of the skill.
+        """
+        DIALOG = 'dialog'
+        ACTION = 'action'
+        SEARCH = 'search'
+
+
+class AssistantState():
+    """
+    Status information about the skills for the assistant. Included in responses only if
+    **status**=`Available`.
+
+    :attr bool action_disabled: Whether the action skill is disabled in the draft
+          environment.
+    :attr bool dialog_disabled: Whether the dialog skill is disabled in the draft
+          environment.
+    """
+
+    def __init__(self, action_disabled: bool, dialog_disabled: bool) -> None:
+        """
+        Initialize a AssistantState object.
+
+        :param bool action_disabled: Whether the action skill is disabled in the
+               draft environment.
+        :param bool dialog_disabled: Whether the dialog skill is disabled in the
+               draft environment.
+        """
+        self.action_disabled = action_disabled
+        self.dialog_disabled = dialog_disabled
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'AssistantState':
+        """Initialize a AssistantState object from a json dictionary."""
+        args = {}
+        if 'action_disabled' in _dict:
+            args['action_disabled'] = _dict.get('action_disabled')
+        else:
+            raise ValueError(
+                'Required property \'action_disabled\' not present in AssistantState JSON'
+            )
+        if 'dialog_disabled' in _dict:
+            args['dialog_disabled'] = _dict.get('dialog_disabled')
+        else:
+            raise ValueError(
+                'Required property \'dialog_disabled\' not present in AssistantState JSON'
+            )
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a AssistantState object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self,
+                   'action_disabled') and self.action_disabled is not None:
+            _dict['action_disabled'] = self.action_disabled
+        if hasattr(self,
+                   'dialog_disabled') and self.dialog_disabled is not None:
+            _dict['dialog_disabled'] = self.dialog_disabled
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this AssistantState object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'AssistantState') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'AssistantState') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class BaseEnvironmentOrchestration():
+    """
+    The search skill orchestration settings for the environment.
+
+    :attr bool search_skill_fallback: (optional) Whether assistants deployed to the
+          environment fall back to a search skill when responding to messages that do not
+          match any intent. If no search skill is configured for the assistant, this
+          property is ignored.
+    """
+
+    def __init__(self, *, search_skill_fallback: bool = None) -> None:
+        """
+        Initialize a BaseEnvironmentOrchestration object.
+
+        :param bool search_skill_fallback: (optional) Whether assistants deployed
+               to the environment fall back to a search skill when responding to messages
+               that do not match any intent. If no search skill is configured for the
+               assistant, this property is ignored.
+        """
+        self.search_skill_fallback = search_skill_fallback
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'BaseEnvironmentOrchestration':
+        """Initialize a BaseEnvironmentOrchestration object from a json dictionary."""
+        args = {}
+        if 'search_skill_fallback' in _dict:
+            args['search_skill_fallback'] = _dict.get('search_skill_fallback')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a BaseEnvironmentOrchestration object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'search_skill_fallback'
+                  ) and self.search_skill_fallback is not None:
+            _dict['search_skill_fallback'] = self.search_skill_fallback
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this BaseEnvironmentOrchestration object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'BaseEnvironmentOrchestration') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'BaseEnvironmentOrchestration') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class BaseEnvironmentReleaseReference():
+    """
+    An object describing the release that is currently deployed in the environment.
+
+    :attr str release: (optional) The name of the deployed release.
+    """
+
+    def __init__(self, *, release: str = None) -> None:
+        """
+        Initialize a BaseEnvironmentReleaseReference object.
+
+        :param str release: (optional) The name of the deployed release.
+        """
+        self.release = release
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'BaseEnvironmentReleaseReference':
+        """Initialize a BaseEnvironmentReleaseReference object from a json dictionary."""
+        args = {}
+        if 'release' in _dict:
+            args['release'] = _dict.get('release')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a BaseEnvironmentReleaseReference object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'release') and self.release is not None:
+            _dict['release'] = self.release
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this BaseEnvironmentReleaseReference object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'BaseEnvironmentReleaseReference') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'BaseEnvironmentReleaseReference') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1975,6 +3305,9 @@ class DialogSuggestion():
     :attr DialogSuggestionValue value: An object defining the message input to be
           sent to the assistant if the user selects the corresponding disambiguation
           option.
+           **Note:** This entire message input object must be included in the request body
+          of the next message sent to the assistant. Do not modify or remove any of the
+          included properties.
     :attr dict output: (optional) The dialog output that will be returned from the
           Watson Assistant service if the user selects the corresponding option.
     """
@@ -1993,6 +3326,9 @@ class DialogSuggestion():
         :param DialogSuggestionValue value: An object defining the message input to
                be sent to the assistant if the user selects the corresponding
                disambiguation option.
+                **Note:** This entire message input object must be included in the request
+               body of the next message sent to the assistant. Do not modify or remove any
+               of the included properties.
         :param dict output: (optional) The dialog output that will be returned from
                the Watson Assistant service if the user selects the corresponding option.
         """
@@ -2062,6 +3398,9 @@ class DialogSuggestionValue():
     """
     An object defining the message input to be sent to the assistant if the user selects
     the corresponding disambiguation option.
+     **Note:** This entire message input object must be included in the request body of
+    the next message sent to the assistant. Do not modify or remove any of the included
+    properties.
 
     :attr MessageInput input: (optional) An input object that includes the input
           text.
@@ -2124,63 +3463,53 @@ class Environment():
 
     :attr str name: (optional) The name of the environment.
     :attr str description: (optional) The description of the environment.
-    :attr str language: (optional) The language of the environment. An environment
-          is always created with the same language as the assistant it is associated with.
     :attr str assistant_id: (optional) The assistant ID of the assistant the
           environment is associated with.
     :attr str environment_id: (optional) The environment ID of the environment.
     :attr str environment: (optional) The type of the environment. All environments
           other than the `draft` and `live` environments have the type `staging`.
-    :attr EnvironmentReleaseReference release_reference: (optional) An object
+    :attr BaseEnvironmentReleaseReference release_reference: (optional) An object
           describing the release that is currently deployed in the environment.
-    :attr EnvironmentOrchestration orchestration: (optional) The search skill
+    :attr BaseEnvironmentOrchestration orchestration: (optional) The search skill
           orchestration settings for the environment.
-    :attr int session_timeout: (optional) The session inactivity timeout setting for
-          the environment.
+    :attr int session_timeout: The session inactivity timeout setting for the
+          environment (in seconds).
     :attr List[IntegrationReference] integration_references: (optional) An array of
           objects describing the integrations that exist in the environment.
-    :attr List[SkillReference] skill_references: (optional) An array of objects
-          describing the skills (such as actions and dialog) that exist in the
-          environment.
+    :attr List[EnvironmentSkill] skill_references: An array of objects identifying
+          the skills (such as action and dialog) that exist in the environment.
     :attr datetime created: (optional) The timestamp for creation of the object.
     :attr datetime updated: (optional) The timestamp for the most recent update to
           the object.
     """
 
     def __init__(self,
+                 session_timeout: int,
+                 skill_references: List['EnvironmentSkill'],
                  *,
                  name: str = None,
                  description: str = None,
-                 language: str = None,
                  assistant_id: str = None,
                  environment_id: str = None,
                  environment: str = None,
-                 release_reference: 'EnvironmentReleaseReference' = None,
-                 orchestration: 'EnvironmentOrchestration' = None,
-                 session_timeout: int = None,
+                 release_reference: 'BaseEnvironmentReleaseReference' = None,
+                 orchestration: 'BaseEnvironmentOrchestration' = None,
                  integration_references: List['IntegrationReference'] = None,
-                 skill_references: List['SkillReference'] = None,
                  created: datetime = None,
                  updated: datetime = None) -> None:
         """
         Initialize a Environment object.
 
+        :param int session_timeout: The session inactivity timeout setting for the
+               environment (in seconds).
+        :param List[EnvironmentSkill] skill_references: An array of objects
+               identifying the skills (such as action and dialog) that exist in the
+               environment.
         :param str name: (optional) The name of the environment.
         :param str description: (optional) The description of the environment.
-        :param str language: (optional) The language of the environment. An
-               environment is always created with the same language as the assistant it is
-               associated with.
-        :param int session_timeout: (optional) The session inactivity timeout
-               setting for the environment.
-        :param List[IntegrationReference] integration_references: (optional) An
-               array of objects describing the integrations that exist in the environment.
-        :param List[SkillReference] skill_references: (optional) An array of
-               objects describing the skills (such as actions and dialog) that exist in
-               the environment.
         """
         self.name = name
         self.description = description
-        self.language = language
         self.assistant_id = assistant_id
         self.environment_id = environment_id
         self.environment = environment
@@ -2200,8 +3529,6 @@ class Environment():
             args['name'] = _dict.get('name')
         if 'description' in _dict:
             args['description'] = _dict.get('description')
-        if 'language' in _dict:
-            args['language'] = _dict.get('language')
         if 'assistant_id' in _dict:
             args['assistant_id'] = _dict.get('assistant_id')
         if 'environment_id' in _dict:
@@ -2209,13 +3536,18 @@ class Environment():
         if 'environment' in _dict:
             args['environment'] = _dict.get('environment')
         if 'release_reference' in _dict:
-            args['release_reference'] = EnvironmentReleaseReference.from_dict(
-                _dict.get('release_reference'))
+            args[
+                'release_reference'] = BaseEnvironmentReleaseReference.from_dict(
+                    _dict.get('release_reference'))
         if 'orchestration' in _dict:
-            args['orchestration'] = EnvironmentOrchestration.from_dict(
+            args['orchestration'] = BaseEnvironmentOrchestration.from_dict(
                 _dict.get('orchestration'))
         if 'session_timeout' in _dict:
             args['session_timeout'] = _dict.get('session_timeout')
+        else:
+            raise ValueError(
+                'Required property \'session_timeout\' not present in Environment JSON'
+            )
         if 'integration_references' in _dict:
             args['integration_references'] = [
                 IntegrationReference.from_dict(v)
@@ -2223,9 +3555,13 @@ class Environment():
             ]
         if 'skill_references' in _dict:
             args['skill_references'] = [
-                SkillReference.from_dict(v)
+                EnvironmentSkill.from_dict(v)
                 for v in _dict.get('skill_references')
             ]
+        else:
+            raise ValueError(
+                'Required property \'skill_references\' not present in Environment JSON'
+            )
         if 'created' in _dict:
             args['created'] = string_to_datetime(_dict.get('created'))
         if 'updated' in _dict:
@@ -2244,8 +3580,6 @@ class Environment():
             _dict['name'] = self.name
         if hasattr(self, 'description') and self.description is not None:
             _dict['description'] = self.description
-        if hasattr(self, 'language') and self.language is not None:
-            _dict['language'] = self.language
         if hasattr(self, 'assistant_id') and getattr(
                 self, 'assistant_id') is not None:
             _dict['assistant_id'] = getattr(self, 'assistant_id')
@@ -2272,10 +3606,10 @@ class Environment():
         if hasattr(self,
                    'session_timeout') and self.session_timeout is not None:
             _dict['session_timeout'] = self.session_timeout
-        if hasattr(self, 'integration_references'
-                  ) and self.integration_references is not None:
+        if hasattr(self, 'integration_references') and getattr(
+                self, 'integration_references') is not None:
             integration_references_list = []
-            for v in self.integration_references:
+            for v in getattr(self, 'integration_references'):
                 if isinstance(v, dict):
                     integration_references_list.append(v)
                 else:
@@ -2321,7 +3655,8 @@ class EnvironmentCollection():
 
     :attr List[Environment] environments: An array of objects describing the
           environments associated with an assistant.
-    :attr Pagination pagination: The pagination data for the returned objects.
+    :attr Pagination pagination: The pagination data for the returned objects. For
+          more information about using pagination, see [Pagination](#pagination).
     """
 
     def __init__(self, environments: List['Environment'],
@@ -2332,6 +3667,7 @@ class EnvironmentCollection():
         :param List[Environment] environments: An array of objects describing the
                environments associated with an assistant.
         :param Pagination pagination: The pagination data for the returned objects.
+               For more information about using pagination, see [Pagination](#pagination).
         """
         self.environments = environments
         self.pagination = pagination
@@ -2398,76 +3734,14 @@ class EnvironmentCollection():
         return not self == other
 
 
-class EnvironmentOrchestration():
-    """
-    The search skill orchestration settings for the environment.
-
-    :attr bool search_skill_fallback: (optional) Whether assistants deployed to the
-          environment fall back to a search skill when responding to messages that do not
-          match any intent. If no search skill is configured for the assistant, this
-          property is ignored.
-    """
-
-    def __init__(self, *, search_skill_fallback: bool = None) -> None:
-        """
-        Initialize a EnvironmentOrchestration object.
-
-        :param bool search_skill_fallback: (optional) Whether assistants deployed
-               to the environment fall back to a search skill when responding to messages
-               that do not match any intent. If no search skill is configured for the
-               assistant, this property is ignored.
-        """
-        self.search_skill_fallback = search_skill_fallback
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'EnvironmentOrchestration':
-        """Initialize a EnvironmentOrchestration object from a json dictionary."""
-        args = {}
-        if 'search_skill_fallback' in _dict:
-            args['search_skill_fallback'] = _dict.get('search_skill_fallback')
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a EnvironmentOrchestration object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'search_skill_fallback'
-                  ) and self.search_skill_fallback is not None:
-            _dict['search_skill_fallback'] = self.search_skill_fallback
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this EnvironmentOrchestration object."""
-        return json.dumps(self.to_dict(), indent=2)
-
-    def __eq__(self, other: 'EnvironmentOrchestration') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'EnvironmentOrchestration') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
 class EnvironmentReference():
     """
     EnvironmentReference.
 
-    :attr str name: (optional) The name of the deployed environment.
-    :attr str environment_id: (optional) The environment ID of the deployed
-          environment.
-    :attr str environment: (optional) The type of the deployed environment. All
-          environments other than the draft and live environments have the type `staging`.
+    :attr str name: (optional) The name of the environment.
+    :attr str environment_id: (optional) The unique identifier of the environment.
+    :attr str environment: (optional) The type of the environment. All environments
+          other than the draft and live environments have the type `staging`.
     """
 
     def __init__(self,
@@ -2478,7 +3752,7 @@ class EnvironmentReference():
         """
         Initialize a EnvironmentReference object.
 
-        :param str name: (optional) The name of the deployed environment.
+        :param str name: (optional) The name of the environment.
         """
         self.name = name
         self.environment_id = environment_id
@@ -2534,47 +3808,96 @@ class EnvironmentReference():
 
     class EnvironmentEnum(str, Enum):
         """
-        The type of the deployed environment. All environments other than the draft and
-        live environments have the type `staging`.
+        The type of the environment. All environments other than the draft and live
+        environments have the type `staging`.
         """
         DRAFT = 'draft'
         LIVE = 'live'
         STAGING = 'staging'
 
 
-class EnvironmentReleaseReference():
+class EnvironmentSkill():
     """
-    An object describing the release that is currently deployed in the environment.
+    EnvironmentSkill.
 
-    :attr str release: (optional) The name of the deployed release.
+    :attr str skill_id: The skill ID of the skill.
+    :attr str type: (optional) The type of the skill.
+    :attr bool disabled: (optional) Whether the skill is disabled. A disabled skill
+          in the draft environment does not handle any messages at run time, and it is not
+          included in saved releases.
+    :attr str snapshot: (optional) The name of the skill snapshot that is deployed
+          to the environment (for example, `draft` or `1`).
+    :attr str skill_reference: (optional) The type of skill identified by the skill
+          reference. The possible values are `main skill` (for a dialog skill), `actions
+          skill`, and `search skill`.
     """
 
-    def __init__(self, *, release: str = None) -> None:
+    def __init__(self,
+                 skill_id: str,
+                 *,
+                 type: str = None,
+                 disabled: bool = None,
+                 snapshot: str = None,
+                 skill_reference: str = None) -> None:
         """
-        Initialize a EnvironmentReleaseReference object.
+        Initialize a EnvironmentSkill object.
 
-        :param str release: (optional) The name of the deployed release.
+        :param str skill_id: The skill ID of the skill.
+        :param str type: (optional) The type of the skill.
+        :param bool disabled: (optional) Whether the skill is disabled. A disabled
+               skill in the draft environment does not handle any messages at run time,
+               and it is not included in saved releases.
+        :param str snapshot: (optional) The name of the skill snapshot that is
+               deployed to the environment (for example, `draft` or `1`).
+        :param str skill_reference: (optional) The type of skill identified by the
+               skill reference. The possible values are `main skill` (for a dialog skill),
+               `actions skill`, and `search skill`.
         """
-        self.release = release
+        self.skill_id = skill_id
+        self.type = type
+        self.disabled = disabled
+        self.snapshot = snapshot
+        self.skill_reference = skill_reference
 
     @classmethod
-    def from_dict(cls, _dict: Dict) -> 'EnvironmentReleaseReference':
-        """Initialize a EnvironmentReleaseReference object from a json dictionary."""
+    def from_dict(cls, _dict: Dict) -> 'EnvironmentSkill':
+        """Initialize a EnvironmentSkill object from a json dictionary."""
         args = {}
-        if 'release' in _dict:
-            args['release'] = _dict.get('release')
+        if 'skill_id' in _dict:
+            args['skill_id'] = _dict.get('skill_id')
+        else:
+            raise ValueError(
+                'Required property \'skill_id\' not present in EnvironmentSkill JSON'
+            )
+        if 'type' in _dict:
+            args['type'] = _dict.get('type')
+        if 'disabled' in _dict:
+            args['disabled'] = _dict.get('disabled')
+        if 'snapshot' in _dict:
+            args['snapshot'] = _dict.get('snapshot')
+        if 'skill_reference' in _dict:
+            args['skill_reference'] = _dict.get('skill_reference')
         return cls(**args)
 
     @classmethod
     def _from_dict(cls, _dict):
-        """Initialize a EnvironmentReleaseReference object from a json dictionary."""
+        """Initialize a EnvironmentSkill object from a json dictionary."""
         return cls.from_dict(_dict)
 
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'release') and self.release is not None:
-            _dict['release'] = self.release
+        if hasattr(self, 'skill_id') and self.skill_id is not None:
+            _dict['skill_id'] = self.skill_id
+        if hasattr(self, 'type') and self.type is not None:
+            _dict['type'] = self.type
+        if hasattr(self, 'disabled') and self.disabled is not None:
+            _dict['disabled'] = self.disabled
+        if hasattr(self, 'snapshot') and self.snapshot is not None:
+            _dict['snapshot'] = self.snapshot
+        if hasattr(self,
+                   'skill_reference') and self.skill_reference is not None:
+            _dict['skill_reference'] = self.skill_reference
         return _dict
 
     def _to_dict(self):
@@ -2582,18 +3905,26 @@ class EnvironmentReleaseReference():
         return self.to_dict()
 
     def __str__(self) -> str:
-        """Return a `str` version of this EnvironmentReleaseReference object."""
+        """Return a `str` version of this EnvironmentSkill object."""
         return json.dumps(self.to_dict(), indent=2)
 
-    def __eq__(self, other: 'EnvironmentReleaseReference') -> bool:
+    def __eq__(self, other: 'EnvironmentSkill') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other: 'EnvironmentReleaseReference') -> bool:
+    def __ne__(self, other: 'EnvironmentSkill') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
+
+    class TypeEnum(str, Enum):
+        """
+        The type of the skill.
+        """
+        DIALOG = 'dialog'
+        ACTION = 'action'
+        SEARCH = 'search'
 
 
 class IntegrationReference():
@@ -2854,6 +4185,7 @@ class LogCollection():
 
     :attr List[Log] logs: An array of objects describing log events.
     :attr LogPagination pagination: The pagination data for the returned objects.
+          For more information about using pagination, see [Pagination](#pagination).
     """
 
     def __init__(self, logs: List['Log'], pagination: 'LogPagination') -> None:
@@ -2862,7 +4194,8 @@ class LogCollection():
 
         :param List[Log] logs: An array of objects describing log events.
         :param LogPagination pagination: The pagination data for the returned
-               objects.
+               objects. For more information about using pagination, see
+               [Pagination](#pagination).
         """
         self.logs = logs
         self.pagination = pagination
@@ -2989,7 +4322,8 @@ class LogMessageSource():
 
 class LogPagination():
     """
-    The pagination data for the returned objects.
+    The pagination data for the returned objects. For more information about using
+    pagination, see [Pagination](#pagination).
 
     :attr str next_url: (optional) The URL that will return the next page of
           results, if any.
@@ -3519,8 +4853,8 @@ class MessageContextSkill():
     """
     Contains information specific to a particular skill used by the assistant. The
     property name must be the same as the name of the skill.
-    **Note:** The default skill names are `main skill` for the dialog skill (if enabled),
-    and `actions skill` for the actions skill.
+    **Note:** The default skill names are `main skill` for the dialog skill (if enabled)
+    and `actions skill` for the action skill.
 
     :attr dict user_defined: (optional) Arbitrary variables that can be read and
           written by a particular skill.
@@ -3787,7 +5121,7 @@ class MessageInput():
 
     :attr str message_type: (optional) The type of the message:
           - `text`: The user input is processed normally by the assistant.
-          - `search`: Only search results are returned. (Any dialog or actions skill is
+          - `search`: Only search results are returned. (Any dialog or action skill is
           bypassed.)
           **Note:** A `search` message results in an error if no search skill is
           configured for the assistant.
@@ -3801,9 +5135,13 @@ class MessageInput():
           entities rather than detecting entities in the new input.
     :attr str suggestion_id: (optional) For internal use only.
     :attr List[MessageInputAttachment] attachments: (optional) An array of
-          multimedia attachments to be sent with the message.
-          **Note:** Attachments are not processed by the assistant itself, but can be sent
-          to external services by webhooks.
+          multimedia attachments to be sent with the message. Attachments are not
+          processed by the assistant itself, but can be sent to external services by
+          webhooks.
+           **Note:** Attachments are not supported on IBM Cloud Pak for Data.
+    :attr RequestAnalytics analytics: (optional) An optional object containing
+          analytics data. Currently, this data is used only for events sent to the Segment
+          extension.
     :attr MessageInputOptions options: (optional) Optional properties that control
           how the assistant responds.
     """
@@ -3816,13 +5154,14 @@ class MessageInput():
                  entities: List['RuntimeEntity'] = None,
                  suggestion_id: str = None,
                  attachments: List['MessageInputAttachment'] = None,
+                 analytics: 'RequestAnalytics' = None,
                  options: 'MessageInputOptions' = None) -> None:
         """
         Initialize a MessageInput object.
 
         :param str message_type: (optional) The type of the message:
                - `text`: The user input is processed normally by the assistant.
-               - `search`: Only search results are returned. (Any dialog or actions skill
+               - `search`: Only search results are returned. (Any dialog or action skill
                is bypassed.)
                **Note:** A `search` message results in an error if no search skill is
                configured for the assistant.
@@ -3838,9 +5177,13 @@ class MessageInput():
                input.
         :param str suggestion_id: (optional) For internal use only.
         :param List[MessageInputAttachment] attachments: (optional) An array of
-               multimedia attachments to be sent with the message.
-               **Note:** Attachments are not processed by the assistant itself, but can be
-               sent to external services by webhooks.
+               multimedia attachments to be sent with the message. Attachments are not
+               processed by the assistant itself, but can be sent to external services by
+               webhooks.
+                **Note:** Attachments are not supported on IBM Cloud Pak for Data.
+        :param RequestAnalytics analytics: (optional) An optional object containing
+               analytics data. Currently, this data is used only for events sent to the
+               Segment extension.
         :param MessageInputOptions options: (optional) Optional properties that
                control how the assistant responds.
         """
@@ -3850,6 +5193,7 @@ class MessageInput():
         self.entities = entities
         self.suggestion_id = suggestion_id
         self.attachments = attachments
+        self.analytics = analytics
         self.options = options
 
     @classmethod
@@ -3875,6 +5219,9 @@ class MessageInput():
                 MessageInputAttachment.from_dict(v)
                 for v in _dict.get('attachments')
             ]
+        if 'analytics' in _dict:
+            args['analytics'] = RequestAnalytics.from_dict(
+                _dict.get('analytics'))
         if 'options' in _dict:
             args['options'] = MessageInputOptions.from_dict(
                 _dict.get('options'))
@@ -3918,6 +5265,11 @@ class MessageInput():
                 else:
                     attachments_list.append(v.to_dict())
             _dict['attachments'] = attachments_list
+        if hasattr(self, 'analytics') and self.analytics is not None:
+            if isinstance(self.analytics, dict):
+                _dict['analytics'] = self.analytics
+            else:
+                _dict['analytics'] = self.analytics.to_dict()
         if hasattr(self, 'options') and self.options is not None:
             if isinstance(self.options, dict):
                 _dict['options'] = self.options
@@ -3947,7 +5299,7 @@ class MessageInput():
         """
         The type of the message:
         - `text`: The user input is processed normally by the assistant.
-        - `search`: Only search results are returned. (Any dialog or actions skill is
+        - `search`: Only search results are returned. (Any dialog or action skill is
         bypassed.)
         **Note:** A `search` message results in an error if no search skill is configured
         for the assistant.
@@ -4347,7 +5699,7 @@ class MessageInputStateless():
 
     :attr str message_type: (optional) The type of the message:
           - `text`: The user input is processed normally by the assistant.
-          - `search`: Only search results are returned. (Any dialog or actions skill is
+          - `search`: Only search results are returned. (Any dialog or action skill is
           bypassed.)
           **Note:** A `search` message results in an error if no search skill is
           configured for the assistant.
@@ -4361,9 +5713,13 @@ class MessageInputStateless():
           entities rather than detecting entities in the new input.
     :attr str suggestion_id: (optional) For internal use only.
     :attr List[MessageInputAttachment] attachments: (optional) An array of
-          multimedia attachments to be sent with the message.
-          **Note:** Attachments are not processed by the assistant itself, but can be sent
-          to external services by webhooks.
+          multimedia attachments to be sent with the message. Attachments are not
+          processed by the assistant itself, but can be sent to external services by
+          webhooks.
+           **Note:** Attachments are not supported on IBM Cloud Pak for Data.
+    :attr RequestAnalytics analytics: (optional) An optional object containing
+          analytics data. Currently, this data is used only for events sent to the Segment
+          extension.
     :attr MessageInputOptionsStateless options: (optional) Optional properties that
           control how the assistant responds.
     """
@@ -4376,13 +5732,14 @@ class MessageInputStateless():
                  entities: List['RuntimeEntity'] = None,
                  suggestion_id: str = None,
                  attachments: List['MessageInputAttachment'] = None,
+                 analytics: 'RequestAnalytics' = None,
                  options: 'MessageInputOptionsStateless' = None) -> None:
         """
         Initialize a MessageInputStateless object.
 
         :param str message_type: (optional) The type of the message:
                - `text`: The user input is processed normally by the assistant.
-               - `search`: Only search results are returned. (Any dialog or actions skill
+               - `search`: Only search results are returned. (Any dialog or action skill
                is bypassed.)
                **Note:** A `search` message results in an error if no search skill is
                configured for the assistant.
@@ -4398,9 +5755,13 @@ class MessageInputStateless():
                input.
         :param str suggestion_id: (optional) For internal use only.
         :param List[MessageInputAttachment] attachments: (optional) An array of
-               multimedia attachments to be sent with the message.
-               **Note:** Attachments are not processed by the assistant itself, but can be
-               sent to external services by webhooks.
+               multimedia attachments to be sent with the message. Attachments are not
+               processed by the assistant itself, but can be sent to external services by
+               webhooks.
+                **Note:** Attachments are not supported on IBM Cloud Pak for Data.
+        :param RequestAnalytics analytics: (optional) An optional object containing
+               analytics data. Currently, this data is used only for events sent to the
+               Segment extension.
         :param MessageInputOptionsStateless options: (optional) Optional properties
                that control how the assistant responds.
         """
@@ -4410,6 +5771,7 @@ class MessageInputStateless():
         self.entities = entities
         self.suggestion_id = suggestion_id
         self.attachments = attachments
+        self.analytics = analytics
         self.options = options
 
     @classmethod
@@ -4435,6 +5797,9 @@ class MessageInputStateless():
                 MessageInputAttachment.from_dict(v)
                 for v in _dict.get('attachments')
             ]
+        if 'analytics' in _dict:
+            args['analytics'] = RequestAnalytics.from_dict(
+                _dict.get('analytics'))
         if 'options' in _dict:
             args['options'] = MessageInputOptionsStateless.from_dict(
                 _dict.get('options'))
@@ -4478,6 +5843,11 @@ class MessageInputStateless():
                 else:
                     attachments_list.append(v.to_dict())
             _dict['attachments'] = attachments_list
+        if hasattr(self, 'analytics') and self.analytics is not None:
+            if isinstance(self.analytics, dict):
+                _dict['analytics'] = self.analytics
+            else:
+                _dict['analytics'] = self.analytics.to_dict()
         if hasattr(self, 'options') and self.options is not None:
             if isinstance(self.options, dict):
                 _dict['options'] = self.options
@@ -4507,7 +5877,7 @@ class MessageInputStateless():
         """
         The type of the message:
         - `text`: The user input is processed normally by the assistant.
-        - `search`: Only search results are returned. (Any dialog or actions skill is
+        - `search`: Only search results are returned. (Any dialog or action skill is
         bypassed.)
         **Note:** A `search` message results in an error if no search skill is configured
         for the assistant.
@@ -4696,7 +6066,7 @@ class MessageOutputDebug():
     :attr List[MessageOutputDebugTurnEvent] turn_events: (optional) An array of
           objects containing detailed diagnostic information about dialog nodes and
           actions that were visited during processing of the input message.
-          This property is present only if the assistant has an actions skill.
+          This property is present only if the assistant has an action skill.
     """
 
     def __init__(
@@ -4723,7 +6093,7 @@ class MessageOutputDebug():
         :param List[MessageOutputDebugTurnEvent] turn_events: (optional) An array
                of objects containing detailed diagnostic information about dialog nodes
                and actions that were visited during processing of the input message.
-               This property is present only if the assistant has an actions skill.
+               This property is present only if the assistant has an action skill.
         """
         self.nodes_visited = nodes_visited
         self.log_messages = log_messages
@@ -5321,7 +6691,8 @@ class MessageResponseStateless():
 
 class Pagination():
     """
-    The pagination data for the returned objects.
+    The pagination data for the returned objects. For more information about using
+    pagination, see [Pagination](#pagination).
 
     :attr str refresh_url: The URL that will return the same page of results.
     :attr str next_url: (optional) The URL that will return the next page of
@@ -5437,7 +6808,7 @@ class Release():
     :attr str description: (optional) The description of the release.
     :attr List[EnvironmentReference] environment_references: (optional) An array of
           objects describing the environments where this release has been deployed.
-    :attr ReleaseContent content: (optional) An object describing the versionable
+    :attr ReleaseContent content: (optional) An object identifying the versionable
           content objects (such as skill snapshots) that are included in the release.
     :attr str status: (optional) The current status of the release:
            - **Available**: The release is available for deployment.
@@ -5460,13 +6831,7 @@ class Release():
         """
         Initialize a Release object.
 
-        :param str release: (optional) The name of the release. The name is the
-               version number (an integer), returned as a string.
         :param str description: (optional) The description of the release.
-        :param str status: (optional) The current status of the release:
-                - **Available**: The release is available for deployment.
-                - **Failed**: An asynchronous publish operation has failed.
-                - **Processing**: An asynchronous publish operation has not yet completed.
         """
         self.release = release
         self.description = description
@@ -5507,8 +6872,8 @@ class Release():
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'release') and self.release is not None:
-            _dict['release'] = self.release
+        if hasattr(self, 'release') and getattr(self, 'release') is not None:
+            _dict['release'] = getattr(self, 'release')
         if hasattr(self, 'description') and self.description is not None:
             _dict['description'] = self.description
         if hasattr(self, 'environment_references') and getattr(
@@ -5525,8 +6890,8 @@ class Release():
                 _dict['content'] = getattr(self, 'content')
             else:
                 _dict['content'] = getattr(self, 'content').to_dict()
-        if hasattr(self, 'status') and self.status is not None:
-            _dict['status'] = self.status
+        if hasattr(self, 'status') and getattr(self, 'status') is not None:
+            _dict['status'] = getattr(self, 'status')
         if hasattr(self, 'created') and getattr(self, 'created') is not None:
             _dict['created'] = datetime_to_string(getattr(self, 'created'))
         if hasattr(self, 'updated') and getattr(self, 'updated') is not None:
@@ -5569,7 +6934,8 @@ class ReleaseCollection():
 
     :attr List[Release] releases: An array of objects describing the releases
           associated with an assistant.
-    :attr Pagination pagination: The pagination data for the returned objects.
+    :attr Pagination pagination: The pagination data for the returned objects. For
+          more information about using pagination, see [Pagination](#pagination).
     """
 
     def __init__(self, releases: List['Release'],
@@ -5580,6 +6946,7 @@ class ReleaseCollection():
         :param List[Release] releases: An array of objects describing the releases
                associated with an assistant.
         :param Pagination pagination: The pagination data for the returned objects.
+               For more information about using pagination, see [Pagination](#pagination).
         """
         self.releases = releases
         self.pagination = pagination
@@ -5648,14 +7015,14 @@ class ReleaseCollection():
 
 class ReleaseContent():
     """
-    An object describing the versionable content objects (such as skill snapshots) that
+    An object identifying the versionable content objects (such as skill snapshots) that
     are included in the release.
 
-    :attr List[ReleaseSkillReference] skills: (optional) The skill snapshots that
-          are included in the release.
+    :attr List[ReleaseSkill] skills: (optional) The skill snapshots that are
+          included in the release.
     """
 
-    def __init__(self, *, skills: List['ReleaseSkillReference'] = None) -> None:
+    def __init__(self, *, skills: List['ReleaseSkill'] = None) -> None:
         """
         Initialize a ReleaseContent object.
 
@@ -5668,7 +7035,7 @@ class ReleaseContent():
         args = {}
         if 'skills' in _dict:
             args['skills'] = [
-                ReleaseSkillReference.from_dict(v) for v in _dict.get('skills')
+                ReleaseSkill.from_dict(v) for v in _dict.get('skills')
             ]
         return cls(**args)
 
@@ -5709,39 +7076,43 @@ class ReleaseContent():
         return not self == other
 
 
-class ReleaseSkillReference():
+class ReleaseSkill():
     """
-    ReleaseSkillReference.
+    ReleaseSkill.
 
-    :attr str skill_id: (optional) The skill ID of the skill.
+    :attr str skill_id: The skill ID of the skill.
     :attr str type: (optional) The type of the skill.
-    :attr str snapshot: (optional) The name of the snapshot (skill version) that is
-          saved as part of the release (for example, `draft` or `1`).
+    :attr str snapshot: (optional) The name of the skill snapshot that is saved as
+          part of the release (for example, `draft` or `1`).
     """
 
     def __init__(self,
+                 skill_id: str,
                  *,
-                 skill_id: str = None,
                  type: str = None,
                  snapshot: str = None) -> None:
         """
-        Initialize a ReleaseSkillReference object.
+        Initialize a ReleaseSkill object.
 
-        :param str skill_id: (optional) The skill ID of the skill.
+        :param str skill_id: The skill ID of the skill.
         :param str type: (optional) The type of the skill.
-        :param str snapshot: (optional) The name of the snapshot (skill version)
-               that is saved as part of the release (for example, `draft` or `1`).
+        :param str snapshot: (optional) The name of the skill snapshot that is
+               saved as part of the release (for example, `draft` or `1`).
         """
         self.skill_id = skill_id
         self.type = type
         self.snapshot = snapshot
 
     @classmethod
-    def from_dict(cls, _dict: Dict) -> 'ReleaseSkillReference':
-        """Initialize a ReleaseSkillReference object from a json dictionary."""
+    def from_dict(cls, _dict: Dict) -> 'ReleaseSkill':
+        """Initialize a ReleaseSkill object from a json dictionary."""
         args = {}
         if 'skill_id' in _dict:
             args['skill_id'] = _dict.get('skill_id')
+        else:
+            raise ValueError(
+                'Required property \'skill_id\' not present in ReleaseSkill JSON'
+            )
         if 'type' in _dict:
             args['type'] = _dict.get('type')
         if 'snapshot' in _dict:
@@ -5750,7 +7121,7 @@ class ReleaseSkillReference():
 
     @classmethod
     def _from_dict(cls, _dict):
-        """Initialize a ReleaseSkillReference object from a json dictionary."""
+        """Initialize a ReleaseSkill object from a json dictionary."""
         return cls.from_dict(_dict)
 
     def to_dict(self) -> Dict:
@@ -5769,16 +7140,16 @@ class ReleaseSkillReference():
         return self.to_dict()
 
     def __str__(self) -> str:
-        """Return a `str` version of this ReleaseSkillReference object."""
+        """Return a `str` version of this ReleaseSkill object."""
         return json.dumps(self.to_dict(), indent=2)
 
-    def __eq__(self, other: 'ReleaseSkillReference') -> bool:
+    def __eq__(self, other: 'ReleaseSkill') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other: 'ReleaseSkillReference') -> bool:
+    def __ne__(self, other: 'ReleaseSkill') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -5789,6 +7160,85 @@ class ReleaseSkillReference():
         DIALOG = 'dialog'
         ACTION = 'action'
         SEARCH = 'search'
+
+
+class RequestAnalytics():
+    """
+    An optional object containing analytics data. Currently, this data is used only for
+    events sent to the Segment extension.
+
+    :attr str browser: (optional) The browser that was used to send the message that
+          triggered the event.
+    :attr str device: (optional) The type of device that was used to send the
+          message that triggered the event.
+    :attr str page_url: (optional) The URL of the web page that was used to send the
+          message that triggered the event.
+    """
+
+    def __init__(self,
+                 *,
+                 browser: str = None,
+                 device: str = None,
+                 page_url: str = None) -> None:
+        """
+        Initialize a RequestAnalytics object.
+
+        :param str browser: (optional) The browser that was used to send the
+               message that triggered the event.
+        :param str device: (optional) The type of device that was used to send the
+               message that triggered the event.
+        :param str page_url: (optional) The URL of the web page that was used to
+               send the message that triggered the event.
+        """
+        self.browser = browser
+        self.device = device
+        self.page_url = page_url
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'RequestAnalytics':
+        """Initialize a RequestAnalytics object from a json dictionary."""
+        args = {}
+        if 'browser' in _dict:
+            args['browser'] = _dict.get('browser')
+        if 'device' in _dict:
+            args['device'] = _dict.get('device')
+        if 'pageUrl' in _dict:
+            args['page_url'] = _dict.get('pageUrl')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a RequestAnalytics object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'browser') and self.browser is not None:
+            _dict['browser'] = self.browser
+        if hasattr(self, 'device') and self.device is not None:
+            _dict['device'] = self.device
+        if hasattr(self, 'page_url') and self.page_url is not None:
+            _dict['pageUrl'] = self.page_url
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this RequestAnalytics object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'RequestAnalytics') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'RequestAnalytics') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
 
 
 class ResponseGenericChannel():
@@ -5877,9 +7327,9 @@ class RuntimeEntity():
           enabled for the skill.
     :attr str skill: (optional) The skill that recognized the entity value.
           Currently, the only possible values are `main skill` for the dialog skill (if
-          enabled) and `actions skill` for the actions skill.
+          enabled) and `actions skill` for the action skill.
           This property is present only if the assistant has both a dialog skill and an
-          actions skill.
+          action skill.
     """
 
     def __init__(self,
@@ -5926,9 +7376,9 @@ class RuntimeEntity():
                system entities are enabled for the skill.
         :param str skill: (optional) The skill that recognized the entity value.
                Currently, the only possible values are `main skill` for the dialog skill
-               (if enabled) and `actions skill` for the actions skill.
+               (if enabled) and `actions skill` for the action skill.
                This property is present only if the assistant has both a dialog skill and
-               an actions skill.
+               an action skill.
         """
         self.entity = entity
         self.location = location
@@ -6553,9 +8003,9 @@ class RuntimeIntent():
           but you do not have a calculated confidence value, specify `1`.
     :attr str skill: (optional) The skill that identified the intent. Currently, the
           only possible values are `main skill` for the dialog skill (if enabled) and
-          `actions skill` for the actions skill.
+          `actions skill` for the action skill.
           This property is present only if the assistant has both a dialog skill and an
-          actions skill.
+          action skill.
     """
 
     def __init__(self,
@@ -6573,9 +8023,9 @@ class RuntimeIntent():
                `1`.
         :param str skill: (optional) The skill that identified the intent.
                Currently, the only possible values are `main skill` for the dialog skill
-               (if enabled) and `actions skill` for the actions skill.
+               (if enabled) and `actions skill` for the action skill.
                This property is present only if the assistant has both a dialog skill and
-               an actions skill.
+               an action skill.
         """
         self.intent = intent
         self.confidence = confidence
@@ -6752,8 +8202,10 @@ class SearchResult():
           of text within the result that were identified as direct answers to the search
           query. Currently, only the single answer with the highest confidence (if any) is
           returned.
-          **Note:** This property uses the answer finding beta feature, and is available
-          only if the search skill is connected to a Discovery v2 service instance.
+          **Notes:**
+           - This property uses the answer finding beta feature, and is available only if
+          the search skill is connected to a Discovery v2 service instance.
+           - Answer finding is not supported on IBM Cloud Pak for Data.
     """
 
     def __init__(self,
@@ -6789,9 +8241,10 @@ class SearchResult():
                segments of text within the result that were identified as direct answers
                to the search query. Currently, only the single answer with the highest
                confidence (if any) is returned.
-               **Note:** This property uses the answer finding beta feature, and is
-               available only if the search skill is connected to a Discovery v2 service
-               instance.
+               **Notes:**
+                - This property uses the answer finding beta feature, and is available
+               only if the search skill is connected to a Discovery v2 service instance.
+                - Answer finding is not supported on IBM Cloud Pak for Data.
         """
         self.id = id
         self.result_metadata = result_metadata
@@ -7151,6 +8604,80 @@ class SearchResultMetadata():
         return not self == other
 
 
+class SearchSkillWarning():
+    """
+    A warning describing an error in the search skill configuration.
+
+    :attr str code: (optional) The error code.
+    :attr str path: (optional) The location of the error in the search skill
+          configuration object.
+    :attr str message: (optional) The error message.
+    """
+
+    def __init__(self,
+                 *,
+                 code: str = None,
+                 path: str = None,
+                 message: str = None) -> None:
+        """
+        Initialize a SearchSkillWarning object.
+
+        :param str code: (optional) The error code.
+        :param str path: (optional) The location of the error in the search skill
+               configuration object.
+        :param str message: (optional) The error message.
+        """
+        self.code = code
+        self.path = path
+        self.message = message
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'SearchSkillWarning':
+        """Initialize a SearchSkillWarning object from a json dictionary."""
+        args = {}
+        if 'code' in _dict:
+            args['code'] = _dict.get('code')
+        if 'path' in _dict:
+            args['path'] = _dict.get('path')
+        if 'message' in _dict:
+            args['message'] = _dict.get('message')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SearchSkillWarning object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'code') and self.code is not None:
+            _dict['code'] = self.code
+        if hasattr(self, 'path') and self.path is not None:
+            _dict['path'] = self.path
+        if hasattr(self, 'message') and self.message is not None:
+            _dict['message'] = self.message
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this SearchSkillWarning object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'SearchSkillWarning') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'SearchSkillWarning') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class SessionResponse():
     """
     SessionResponse.
@@ -7209,84 +8736,215 @@ class SessionResponse():
         return not self == other
 
 
-class SkillReference():
+class Skill():
     """
-    SkillReference.
+    Skill.
 
+    :attr str name: (optional) The name of the skill. This string cannot contain
+          carriage return, newline, or tab characters.
+    :attr str description: (optional) The description of the skill. This string
+          cannot contain carriage return, newline, or tab characters.
+    :attr dict workspace: (optional) An object containing the conversational content
+          of an action or dialog skill.
     :attr str skill_id: (optional) The skill ID of the skill.
-    :attr str type: (optional) The type of the skill.
-    :attr bool disabled: (optional) Whether the skill is disabled. A disabled skill
-          in the draft environment does not handle any messages at run time, and it is not
-          included in saved releases.
-    :attr str snapshot: (optional) The name of the snapshot (skill version) that is
-          saved as part of the release (for example, `draft` or `1`).
-    :attr str skill_reference: (optional) The type of skill identified by the skill
-          reference. The possible values are `main skill` (for a dialog skill), `actions
-          skill`, and `search skill`.
+    :attr str status: (optional) The current status of the skill:
+           - **Available**: The skill is available and ready to process messages.
+           - **Failed**: An asynchronous operation has failed. See the **status_errors**
+          property for more information about the cause of the failure.
+           - **Non Existent**: The skill does not exist.
+           - **Processing**: An asynchronous operation has not yet completed.
+           - **Training**: The skill is training based on new data.
+    :attr List[StatusError] status_errors: (optional) An array of messages about
+          errors that caused an asynchronous operation to fail. Included only if
+          **status**=`Failed`.
+    :attr str status_description: (optional) The description of the failed
+          asynchronous operation. Included only if **status**=`Failed`.
+    :attr dict dialog_settings: (optional) For internal use only.
+    :attr str assistant_id: (optional) The unique identifier of the assistant the
+          skill is associated with.
+    :attr str workspace_id: (optional) The unique identifier of the workspace that
+          contains the skill content. Included only for action and dialog skills.
+    :attr str environment_id: (optional) The unique identifier of the environment
+          where the skill is defined. For action and dialog skills, this is always the
+          draft environment.
+    :attr bool valid: (optional) Whether the skill is structurally valid.
+    :attr str next_snapshot_version: (optional) The name that will be given to the
+          next snapshot that is created for the skill. A snapshot of each versionable
+          skill is saved for each new release of an assistant.
+    :attr dict search_settings: (optional) A JSON object describing the search skill
+          configuration.
+    :attr List[SearchSkillWarning] warnings: (optional) An array of warnings
+          describing errors with the search skill configuration. Included only for search
+          skills.
+    :attr str language: The language of the skill.
+    :attr str type: The type of skill.
     """
 
     def __init__(self,
+                 language: str,
+                 type: str,
                  *,
+                 name: str = None,
+                 description: str = None,
+                 workspace: dict = None,
                  skill_id: str = None,
-                 type: str = None,
-                 disabled: bool = None,
-                 snapshot: str = None,
-                 skill_reference: str = None) -> None:
+                 status: str = None,
+                 status_errors: List['StatusError'] = None,
+                 status_description: str = None,
+                 dialog_settings: dict = None,
+                 assistant_id: str = None,
+                 workspace_id: str = None,
+                 environment_id: str = None,
+                 valid: bool = None,
+                 next_snapshot_version: str = None,
+                 search_settings: dict = None,
+                 warnings: List['SearchSkillWarning'] = None) -> None:
         """
-        Initialize a SkillReference object.
+        Initialize a Skill object.
 
-        :param str skill_id: (optional) The skill ID of the skill.
-        :param str type: (optional) The type of the skill.
-        :param bool disabled: (optional) Whether the skill is disabled. A disabled
-               skill in the draft environment does not handle any messages at run time,
-               and it is not included in saved releases.
-        :param str snapshot: (optional) The name of the snapshot (skill version)
-               that is saved as part of the release (for example, `draft` or `1`).
-        :param str skill_reference: (optional) The type of skill identified by the
-               skill reference. The possible values are `main skill` (for a dialog skill),
-               `actions skill`, and `search skill`.
+        :param str language: The language of the skill.
+        :param str type: The type of skill.
+        :param str name: (optional) The name of the skill. This string cannot
+               contain carriage return, newline, or tab characters.
+        :param str description: (optional) The description of the skill. This
+               string cannot contain carriage return, newline, or tab characters.
+        :param dict workspace: (optional) An object containing the conversational
+               content of an action or dialog skill.
+        :param dict dialog_settings: (optional) For internal use only.
+        :param dict search_settings: (optional) A JSON object describing the search
+               skill configuration.
         """
+        self.name = name
+        self.description = description
+        self.workspace = workspace
         self.skill_id = skill_id
+        self.status = status
+        self.status_errors = status_errors
+        self.status_description = status_description
+        self.dialog_settings = dialog_settings
+        self.assistant_id = assistant_id
+        self.workspace_id = workspace_id
+        self.environment_id = environment_id
+        self.valid = valid
+        self.next_snapshot_version = next_snapshot_version
+        self.search_settings = search_settings
+        self.warnings = warnings
+        self.language = language
         self.type = type
-        self.disabled = disabled
-        self.snapshot = snapshot
-        self.skill_reference = skill_reference
 
     @classmethod
-    def from_dict(cls, _dict: Dict) -> 'SkillReference':
-        """Initialize a SkillReference object from a json dictionary."""
+    def from_dict(cls, _dict: Dict) -> 'Skill':
+        """Initialize a Skill object from a json dictionary."""
         args = {}
+        if 'name' in _dict:
+            args['name'] = _dict.get('name')
+        if 'description' in _dict:
+            args['description'] = _dict.get('description')
+        if 'workspace' in _dict:
+            args['workspace'] = _dict.get('workspace')
         if 'skill_id' in _dict:
             args['skill_id'] = _dict.get('skill_id')
+        if 'status' in _dict:
+            args['status'] = _dict.get('status')
+        if 'status_errors' in _dict:
+            args['status_errors'] = [
+                StatusError.from_dict(v) for v in _dict.get('status_errors')
+            ]
+        if 'status_description' in _dict:
+            args['status_description'] = _dict.get('status_description')
+        if 'dialog_settings' in _dict:
+            args['dialog_settings'] = _dict.get('dialog_settings')
+        if 'assistant_id' in _dict:
+            args['assistant_id'] = _dict.get('assistant_id')
+        if 'workspace_id' in _dict:
+            args['workspace_id'] = _dict.get('workspace_id')
+        if 'environment_id' in _dict:
+            args['environment_id'] = _dict.get('environment_id')
+        if 'valid' in _dict:
+            args['valid'] = _dict.get('valid')
+        if 'next_snapshot_version' in _dict:
+            args['next_snapshot_version'] = _dict.get('next_snapshot_version')
+        if 'search_settings' in _dict:
+            args['search_settings'] = _dict.get('search_settings')
+        if 'warnings' in _dict:
+            args['warnings'] = [
+                SearchSkillWarning.from_dict(v) for v in _dict.get('warnings')
+            ]
+        if 'language' in _dict:
+            args['language'] = _dict.get('language')
+        else:
+            raise ValueError(
+                'Required property \'language\' not present in Skill JSON')
         if 'type' in _dict:
             args['type'] = _dict.get('type')
-        if 'disabled' in _dict:
-            args['disabled'] = _dict.get('disabled')
-        if 'snapshot' in _dict:
-            args['snapshot'] = _dict.get('snapshot')
-        if 'skill_reference' in _dict:
-            args['skill_reference'] = _dict.get('skill_reference')
+        else:
+            raise ValueError(
+                'Required property \'type\' not present in Skill JSON')
         return cls(**args)
 
     @classmethod
     def _from_dict(cls, _dict):
-        """Initialize a SkillReference object from a json dictionary."""
+        """Initialize a Skill object from a json dictionary."""
         return cls.from_dict(_dict)
 
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'skill_id') and self.skill_id is not None:
-            _dict['skill_id'] = self.skill_id
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
+        if hasattr(self, 'workspace') and self.workspace is not None:
+            _dict['workspace'] = self.workspace
+        if hasattr(self, 'skill_id') and getattr(self, 'skill_id') is not None:
+            _dict['skill_id'] = getattr(self, 'skill_id')
+        if hasattr(self, 'status') and getattr(self, 'status') is not None:
+            _dict['status'] = getattr(self, 'status')
+        if hasattr(self, 'status_errors') and getattr(
+                self, 'status_errors') is not None:
+            status_errors_list = []
+            for v in getattr(self, 'status_errors'):
+                if isinstance(v, dict):
+                    status_errors_list.append(v)
+                else:
+                    status_errors_list.append(v.to_dict())
+            _dict['status_errors'] = status_errors_list
+        if hasattr(self, 'status_description') and getattr(
+                self, 'status_description') is not None:
+            _dict['status_description'] = getattr(self, 'status_description')
+        if hasattr(self,
+                   'dialog_settings') and self.dialog_settings is not None:
+            _dict['dialog_settings'] = self.dialog_settings
+        if hasattr(self, 'assistant_id') and getattr(
+                self, 'assistant_id') is not None:
+            _dict['assistant_id'] = getattr(self, 'assistant_id')
+        if hasattr(self, 'workspace_id') and getattr(
+                self, 'workspace_id') is not None:
+            _dict['workspace_id'] = getattr(self, 'workspace_id')
+        if hasattr(self, 'environment_id') and getattr(
+                self, 'environment_id') is not None:
+            _dict['environment_id'] = getattr(self, 'environment_id')
+        if hasattr(self, 'valid') and getattr(self, 'valid') is not None:
+            _dict['valid'] = getattr(self, 'valid')
+        if hasattr(self, 'next_snapshot_version') and getattr(
+                self, 'next_snapshot_version') is not None:
+            _dict['next_snapshot_version'] = getattr(self,
+                                                     'next_snapshot_version')
+        if hasattr(self,
+                   'search_settings') and self.search_settings is not None:
+            _dict['search_settings'] = self.search_settings
+        if hasattr(self, 'warnings') and getattr(self, 'warnings') is not None:
+            warnings_list = []
+            for v in getattr(self, 'warnings'):
+                if isinstance(v, dict):
+                    warnings_list.append(v)
+                else:
+                    warnings_list.append(v.to_dict())
+            _dict['warnings'] = warnings_list
+        if hasattr(self, 'language') and self.language is not None:
+            _dict['language'] = self.language
         if hasattr(self, 'type') and self.type is not None:
             _dict['type'] = self.type
-        if hasattr(self, 'disabled') and self.disabled is not None:
-            _dict['disabled'] = self.disabled
-        if hasattr(self, 'snapshot') and self.snapshot is not None:
-            _dict['snapshot'] = self.snapshot
-        if hasattr(self,
-                   'skill_reference') and self.skill_reference is not None:
-            _dict['skill_reference'] = self.skill_reference
         return _dict
 
     def _to_dict(self):
@@ -7294,26 +8952,549 @@ class SkillReference():
         return self.to_dict()
 
     def __str__(self) -> str:
-        """Return a `str` version of this SkillReference object."""
+        """Return a `str` version of this Skill object."""
         return json.dumps(self.to_dict(), indent=2)
 
-    def __eq__(self, other: 'SkillReference') -> bool:
+    def __eq__(self, other: 'Skill') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other: 'SkillReference') -> bool:
+    def __ne__(self, other: 'Skill') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class StatusEnum(str, Enum):
+        """
+        The current status of the skill:
+         - **Available**: The skill is available and ready to process messages.
+         - **Failed**: An asynchronous operation has failed. See the **status_errors**
+        property for more information about the cause of the failure.
+         - **Non Existent**: The skill does not exist.
+         - **Processing**: An asynchronous operation has not yet completed.
+         - **Training**: The skill is training based on new data.
+        """
+        AVAILABLE = 'Available'
+        FAILED = 'Failed'
+        NON_EXISTENT = 'Non Existent'
+        PROCESSING = 'Processing'
+        TRAINING = 'Training'
+        UNAVAILABLE = 'Unavailable'
+
     class TypeEnum(str, Enum):
         """
-        The type of the skill.
+        The type of skill.
         """
-        DIALOG = 'dialog'
         ACTION = 'action'
+        DIALOG = 'dialog'
         SEARCH = 'search'
+
+
+class SkillImport():
+    """
+    SkillImport.
+
+    :attr str name: (optional) The name of the skill. This string cannot contain
+          carriage return, newline, or tab characters.
+    :attr str description: (optional) The description of the skill. This string
+          cannot contain carriage return, newline, or tab characters.
+    :attr dict workspace: (optional) An object containing the conversational content
+          of an action or dialog skill.
+    :attr str skill_id: (optional) The skill ID of the skill.
+    :attr str status: (optional) The current status of the skill:
+           - **Available**: The skill is available and ready to process messages.
+           - **Failed**: An asynchronous operation has failed. See the **status_errors**
+          property for more information about the cause of the failure.
+           - **Non Existent**: The skill does not exist.
+           - **Processing**: An asynchronous operation has not yet completed.
+           - **Training**: The skill is training based on new data.
+    :attr List[StatusError] status_errors: (optional) An array of messages about
+          errors that caused an asynchronous operation to fail. Included only if
+          **status**=`Failed`.
+    :attr str status_description: (optional) The description of the failed
+          asynchronous operation. Included only if **status**=`Failed`.
+    :attr dict dialog_settings: (optional) For internal use only.
+    :attr str assistant_id: (optional) The unique identifier of the assistant the
+          skill is associated with.
+    :attr str workspace_id: (optional) The unique identifier of the workspace that
+          contains the skill content. Included only for action and dialog skills.
+    :attr str environment_id: (optional) The unique identifier of the environment
+          where the skill is defined. For action and dialog skills, this is always the
+          draft environment.
+    :attr bool valid: (optional) Whether the skill is structurally valid.
+    :attr str next_snapshot_version: (optional) The name that will be given to the
+          next snapshot that is created for the skill. A snapshot of each versionable
+          skill is saved for each new release of an assistant.
+    :attr dict search_settings: (optional) A JSON object describing the search skill
+          configuration.
+    :attr List[SearchSkillWarning] warnings: (optional) An array of warnings
+          describing errors with the search skill configuration. Included only for search
+          skills.
+    :attr str language: The language of the skill.
+    :attr str type: The type of skill.
+    """
+
+    def __init__(self,
+                 language: str,
+                 type: str,
+                 *,
+                 name: str = None,
+                 description: str = None,
+                 workspace: dict = None,
+                 skill_id: str = None,
+                 status: str = None,
+                 status_errors: List['StatusError'] = None,
+                 status_description: str = None,
+                 dialog_settings: dict = None,
+                 assistant_id: str = None,
+                 workspace_id: str = None,
+                 environment_id: str = None,
+                 valid: bool = None,
+                 next_snapshot_version: str = None,
+                 search_settings: dict = None,
+                 warnings: List['SearchSkillWarning'] = None) -> None:
+        """
+        Initialize a SkillImport object.
+
+        :param str language: The language of the skill.
+        :param str type: The type of skill.
+        :param str name: (optional) The name of the skill. This string cannot
+               contain carriage return, newline, or tab characters.
+        :param str description: (optional) The description of the skill. This
+               string cannot contain carriage return, newline, or tab characters.
+        :param dict workspace: (optional) An object containing the conversational
+               content of an action or dialog skill.
+        :param dict dialog_settings: (optional) For internal use only.
+        :param dict search_settings: (optional) A JSON object describing the search
+               skill configuration.
+        """
+        self.name = name
+        self.description = description
+        self.workspace = workspace
+        self.skill_id = skill_id
+        self.status = status
+        self.status_errors = status_errors
+        self.status_description = status_description
+        self.dialog_settings = dialog_settings
+        self.assistant_id = assistant_id
+        self.workspace_id = workspace_id
+        self.environment_id = environment_id
+        self.valid = valid
+        self.next_snapshot_version = next_snapshot_version
+        self.search_settings = search_settings
+        self.warnings = warnings
+        self.language = language
+        self.type = type
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'SkillImport':
+        """Initialize a SkillImport object from a json dictionary."""
+        args = {}
+        if 'name' in _dict:
+            args['name'] = _dict.get('name')
+        if 'description' in _dict:
+            args['description'] = _dict.get('description')
+        if 'workspace' in _dict:
+            args['workspace'] = _dict.get('workspace')
+        if 'skill_id' in _dict:
+            args['skill_id'] = _dict.get('skill_id')
+        if 'status' in _dict:
+            args['status'] = _dict.get('status')
+        if 'status_errors' in _dict:
+            args['status_errors'] = [
+                StatusError.from_dict(v) for v in _dict.get('status_errors')
+            ]
+        if 'status_description' in _dict:
+            args['status_description'] = _dict.get('status_description')
+        if 'dialog_settings' in _dict:
+            args['dialog_settings'] = _dict.get('dialog_settings')
+        if 'assistant_id' in _dict:
+            args['assistant_id'] = _dict.get('assistant_id')
+        if 'workspace_id' in _dict:
+            args['workspace_id'] = _dict.get('workspace_id')
+        if 'environment_id' in _dict:
+            args['environment_id'] = _dict.get('environment_id')
+        if 'valid' in _dict:
+            args['valid'] = _dict.get('valid')
+        if 'next_snapshot_version' in _dict:
+            args['next_snapshot_version'] = _dict.get('next_snapshot_version')
+        if 'search_settings' in _dict:
+            args['search_settings'] = _dict.get('search_settings')
+        if 'warnings' in _dict:
+            args['warnings'] = [
+                SearchSkillWarning.from_dict(v) for v in _dict.get('warnings')
+            ]
+        if 'language' in _dict:
+            args['language'] = _dict.get('language')
+        else:
+            raise ValueError(
+                'Required property \'language\' not present in SkillImport JSON'
+            )
+        if 'type' in _dict:
+            args['type'] = _dict.get('type')
+        else:
+            raise ValueError(
+                'Required property \'type\' not present in SkillImport JSON')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SkillImport object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
+        if hasattr(self, 'workspace') and self.workspace is not None:
+            _dict['workspace'] = self.workspace
+        if hasattr(self, 'skill_id') and getattr(self, 'skill_id') is not None:
+            _dict['skill_id'] = getattr(self, 'skill_id')
+        if hasattr(self, 'status') and getattr(self, 'status') is not None:
+            _dict['status'] = getattr(self, 'status')
+        if hasattr(self, 'status_errors') and getattr(
+                self, 'status_errors') is not None:
+            status_errors_list = []
+            for v in getattr(self, 'status_errors'):
+                if isinstance(v, dict):
+                    status_errors_list.append(v)
+                else:
+                    status_errors_list.append(v.to_dict())
+            _dict['status_errors'] = status_errors_list
+        if hasattr(self, 'status_description') and getattr(
+                self, 'status_description') is not None:
+            _dict['status_description'] = getattr(self, 'status_description')
+        if hasattr(self,
+                   'dialog_settings') and self.dialog_settings is not None:
+            _dict['dialog_settings'] = self.dialog_settings
+        if hasattr(self, 'assistant_id') and getattr(
+                self, 'assistant_id') is not None:
+            _dict['assistant_id'] = getattr(self, 'assistant_id')
+        if hasattr(self, 'workspace_id') and getattr(
+                self, 'workspace_id') is not None:
+            _dict['workspace_id'] = getattr(self, 'workspace_id')
+        if hasattr(self, 'environment_id') and getattr(
+                self, 'environment_id') is not None:
+            _dict['environment_id'] = getattr(self, 'environment_id')
+        if hasattr(self, 'valid') and getattr(self, 'valid') is not None:
+            _dict['valid'] = getattr(self, 'valid')
+        if hasattr(self, 'next_snapshot_version') and getattr(
+                self, 'next_snapshot_version') is not None:
+            _dict['next_snapshot_version'] = getattr(self,
+                                                     'next_snapshot_version')
+        if hasattr(self,
+                   'search_settings') and self.search_settings is not None:
+            _dict['search_settings'] = self.search_settings
+        if hasattr(self, 'warnings') and getattr(self, 'warnings') is not None:
+            warnings_list = []
+            for v in getattr(self, 'warnings'):
+                if isinstance(v, dict):
+                    warnings_list.append(v)
+                else:
+                    warnings_list.append(v.to_dict())
+            _dict['warnings'] = warnings_list
+        if hasattr(self, 'language') and self.language is not None:
+            _dict['language'] = self.language
+        if hasattr(self, 'type') and self.type is not None:
+            _dict['type'] = self.type
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this SkillImport object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'SkillImport') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'SkillImport') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class StatusEnum(str, Enum):
+        """
+        The current status of the skill:
+         - **Available**: The skill is available and ready to process messages.
+         - **Failed**: An asynchronous operation has failed. See the **status_errors**
+        property for more information about the cause of the failure.
+         - **Non Existent**: The skill does not exist.
+         - **Processing**: An asynchronous operation has not yet completed.
+         - **Training**: The skill is training based on new data.
+        """
+        AVAILABLE = 'Available'
+        FAILED = 'Failed'
+        NON_EXISTENT = 'Non Existent'
+        PROCESSING = 'Processing'
+        TRAINING = 'Training'
+        UNAVAILABLE = 'Unavailable'
+
+    class TypeEnum(str, Enum):
+        """
+        The type of skill.
+        """
+        ACTION = 'action'
+        DIALOG = 'dialog'
+        SEARCH = 'search'
+
+
+class SkillsAsyncRequestStatus():
+    """
+    SkillsAsyncRequestStatus.
+
+    :attr str assistant_id: (optional) The assistant ID of the assistant.
+    :attr str status: (optional) The current status of the asynchronous operation:
+           - **Available**: The export is available.
+           - **Failed**: An asynchronous export operation has failed. See the
+          **status_errors** property for more information about the cause of the failure.
+           - **Processing**: An asynchronous export operation has not yet completed.
+    :attr str status_description: (optional) The description of the failed
+          asynchronous operation. Included only if **status**=`Failed`.
+    :attr List[StatusError] status_errors: (optional) An array of messages about
+          errors that caused an asynchronous operation to fail. Included only if
+          **status**=`Failed`.
+    """
+
+    def __init__(self,
+                 *,
+                 assistant_id: str = None,
+                 status: str = None,
+                 status_description: str = None,
+                 status_errors: List['StatusError'] = None) -> None:
+        """
+        Initialize a SkillsAsyncRequestStatus object.
+
+        """
+        self.assistant_id = assistant_id
+        self.status = status
+        self.status_description = status_description
+        self.status_errors = status_errors
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'SkillsAsyncRequestStatus':
+        """Initialize a SkillsAsyncRequestStatus object from a json dictionary."""
+        args = {}
+        if 'assistant_id' in _dict:
+            args['assistant_id'] = _dict.get('assistant_id')
+        if 'status' in _dict:
+            args['status'] = _dict.get('status')
+        if 'status_description' in _dict:
+            args['status_description'] = _dict.get('status_description')
+        if 'status_errors' in _dict:
+            args['status_errors'] = [
+                StatusError.from_dict(v) for v in _dict.get('status_errors')
+            ]
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SkillsAsyncRequestStatus object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'assistant_id') and getattr(
+                self, 'assistant_id') is not None:
+            _dict['assistant_id'] = getattr(self, 'assistant_id')
+        if hasattr(self, 'status') and getattr(self, 'status') is not None:
+            _dict['status'] = getattr(self, 'status')
+        if hasattr(self, 'status_description') and getattr(
+                self, 'status_description') is not None:
+            _dict['status_description'] = getattr(self, 'status_description')
+        if hasattr(self, 'status_errors') and getattr(
+                self, 'status_errors') is not None:
+            status_errors_list = []
+            for v in getattr(self, 'status_errors'):
+                if isinstance(v, dict):
+                    status_errors_list.append(v)
+                else:
+                    status_errors_list.append(v.to_dict())
+            _dict['status_errors'] = status_errors_list
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this SkillsAsyncRequestStatus object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'SkillsAsyncRequestStatus') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'SkillsAsyncRequestStatus') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class StatusEnum(str, Enum):
+        """
+        The current status of the asynchronous operation:
+         - **Available**: The export is available.
+         - **Failed**: An asynchronous export operation has failed. See the
+        **status_errors** property for more information about the cause of the failure.
+         - **Processing**: An asynchronous export operation has not yet completed.
+        """
+        AVAILABLE = 'Available'
+        FAILED = 'Failed'
+        PROCESSING = 'Processing'
+
+
+class SkillsExport():
+    """
+    SkillsExport.
+
+    :attr List[Skill] assistant_skills: An array of objects describing the skills
+          for the assistant. Included in responses only if **status**=`Available`.
+    :attr AssistantState assistant_state: Status information about the skills for
+          the assistant. Included in responses only if **status**=`Available`.
+    """
+
+    def __init__(self, assistant_skills: List['Skill'],
+                 assistant_state: 'AssistantState') -> None:
+        """
+        Initialize a SkillsExport object.
+
+        :param List[Skill] assistant_skills: An array of objects describing the
+               skills for the assistant. Included in responses only if
+               **status**=`Available`.
+        :param AssistantState assistant_state: Status information about the skills
+               for the assistant. Included in responses only if **status**=`Available`.
+        """
+        self.assistant_skills = assistant_skills
+        self.assistant_state = assistant_state
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'SkillsExport':
+        """Initialize a SkillsExport object from a json dictionary."""
+        args = {}
+        if 'assistant_skills' in _dict:
+            args['assistant_skills'] = [
+                Skill.from_dict(v) for v in _dict.get('assistant_skills')
+            ]
+        else:
+            raise ValueError(
+                'Required property \'assistant_skills\' not present in SkillsExport JSON'
+            )
+        if 'assistant_state' in _dict:
+            args['assistant_state'] = AssistantState.from_dict(
+                _dict.get('assistant_state'))
+        else:
+            raise ValueError(
+                'Required property \'assistant_state\' not present in SkillsExport JSON'
+            )
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SkillsExport object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self,
+                   'assistant_skills') and self.assistant_skills is not None:
+            assistant_skills_list = []
+            for v in self.assistant_skills:
+                if isinstance(v, dict):
+                    assistant_skills_list.append(v)
+                else:
+                    assistant_skills_list.append(v.to_dict())
+            _dict['assistant_skills'] = assistant_skills_list
+        if hasattr(self,
+                   'assistant_state') and self.assistant_state is not None:
+            if isinstance(self.assistant_state, dict):
+                _dict['assistant_state'] = self.assistant_state
+            else:
+                _dict['assistant_state'] = self.assistant_state.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this SkillsExport object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'SkillsExport') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'SkillsExport') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class StatusError():
+    """
+    An object describing an error that occurred during processing of an asynchronous
+    operation.
+
+    :attr str message: (optional) The text of the error message.
+    """
+
+    def __init__(self, *, message: str = None) -> None:
+        """
+        Initialize a StatusError object.
+
+        :param str message: (optional) The text of the error message.
+        """
+        self.message = message
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'StatusError':
+        """Initialize a StatusError object from a json dictionary."""
+        args = {}
+        if 'message' in _dict:
+            args['message'] = _dict.get('message')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a StatusError object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'message') and self.message is not None:
+            _dict['message'] = self.message
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this StatusError object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'StatusError') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'StatusError') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
 
 
 class TurnEventActionSource():
@@ -7409,19 +9590,30 @@ class TurnEventCalloutCallout():
     """
     TurnEventCalloutCallout.
 
-    :attr str type: (optional) callout type.
+    :attr str type: (optional) The type of callout. Currently, the only supported
+          value is `integration_interaction` (for calls to extensions).
     :attr dict internal: (optional) For internal use only.
+    :attr str result_variable: (optional) The name of the variable where the callout
+          result is stored.
     """
 
-    def __init__(self, *, type: str = None, internal: dict = None) -> None:
+    def __init__(self,
+                 *,
+                 type: str = None,
+                 internal: dict = None,
+                 result_variable: str = None) -> None:
         """
         Initialize a TurnEventCalloutCallout object.
 
-        :param str type: (optional) callout type.
+        :param str type: (optional) The type of callout. Currently, the only
+               supported value is `integration_interaction` (for calls to extensions).
         :param dict internal: (optional) For internal use only.
+        :param str result_variable: (optional) The name of the variable where the
+               callout result is stored.
         """
         self.type = type
         self.internal = internal
+        self.result_variable = result_variable
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'TurnEventCalloutCallout':
@@ -7431,6 +9623,8 @@ class TurnEventCalloutCallout():
             args['type'] = _dict.get('type')
         if 'internal' in _dict:
             args['internal'] = _dict.get('internal')
+        if 'result_variable' in _dict:
+            args['result_variable'] = _dict.get('result_variable')
         return cls(**args)
 
     @classmethod
@@ -7445,6 +9639,9 @@ class TurnEventCalloutCallout():
             _dict['type'] = self.type
         if hasattr(self, 'internal') and self.internal is not None:
             _dict['internal'] = self.internal
+        if hasattr(self,
+                   'result_variable') and self.result_variable is not None:
+            _dict['result_variable'] = self.result_variable
         return _dict
 
     def _to_dict(self):
@@ -7467,7 +9664,8 @@ class TurnEventCalloutCallout():
 
     class TypeEnum(str, Enum):
         """
-        callout type.
+        The type of callout. Currently, the only supported value is
+        `integration_interaction` (for calls to extensions).
         """
         INTEGRATION_INTERACTION = 'integration_interaction'
 
@@ -8156,6 +10354,8 @@ class MessageOutputDebugTurnEventTurnEventActionVisited(
     :attr str condition_type: (optional) The type of condition (if any) that is
           defined for the action.
     :attr str reason: (optional) The reason the action was visited.
+    :attr str result_variable: (optional) The variable where the result of the call
+          to the action is stored. Included only if **reason**=`subaction_return`.
     """
 
     def __init__(self,
@@ -8164,7 +10364,8 @@ class MessageOutputDebugTurnEventTurnEventActionVisited(
                  source: 'TurnEventActionSource' = None,
                  action_start_time: str = None,
                  condition_type: str = None,
-                 reason: str = None) -> None:
+                 reason: str = None,
+                 result_variable: str = None) -> None:
         """
         Initialize a MessageOutputDebugTurnEventTurnEventActionVisited object.
 
@@ -8175,6 +10376,9 @@ class MessageOutputDebugTurnEventTurnEventActionVisited(
         :param str condition_type: (optional) The type of condition (if any) that
                is defined for the action.
         :param str reason: (optional) The reason the action was visited.
+        :param str result_variable: (optional) The variable where the result of the
+               call to the action is stored. Included only if
+               **reason**=`subaction_return`.
         """
         # pylint: disable=super-init-not-called
         self.event = event
@@ -8182,6 +10386,7 @@ class MessageOutputDebugTurnEventTurnEventActionVisited(
         self.action_start_time = action_start_time
         self.condition_type = condition_type
         self.reason = reason
+        self.result_variable = result_variable
 
     @classmethod
     def from_dict(
@@ -8200,6 +10405,8 @@ class MessageOutputDebugTurnEventTurnEventActionVisited(
             args['condition_type'] = _dict.get('condition_type')
         if 'reason' in _dict:
             args['reason'] = _dict.get('reason')
+        if 'result_variable' in _dict:
+            args['result_variable'] = _dict.get('result_variable')
         return cls(**args)
 
     @classmethod
@@ -8224,6 +10431,9 @@ class MessageOutputDebugTurnEventTurnEventActionVisited(
             _dict['condition_type'] = self.condition_type
         if hasattr(self, 'reason') and self.reason is not None:
             _dict['reason'] = self.reason
+        if hasattr(self,
+                   'result_variable') and self.result_variable is not None:
+            _dict['result_variable'] = self.result_variable
         return _dict
 
     def _to_dict(self):
@@ -9010,6 +11220,8 @@ class RuntimeResponseGenericRuntimeResponseTypeChannelTransfer(
 
     :attr str response_type: The type of response returned by the dialog node. The
           specified response type must be supported by the client application or channel.
+           **Note:** The `channel_transfer` response type is not supported on IBM Cloud
+          Pak for Data.
     :attr str message_to_user: The message to display to the user when initiating a
           channel transfer.
     :attr ChannelTransferInfo transfer_info: Information used by an integration to
@@ -9032,6 +11244,8 @@ class RuntimeResponseGenericRuntimeResponseTypeChannelTransfer(
         :param str response_type: The type of response returned by the dialog node.
                The specified response type must be supported by the client application or
                channel.
+                **Note:** The `channel_transfer` response type is not supported on IBM
+               Cloud Pak for Data.
         :param str message_to_user: The message to display to the user when
                initiating a channel transfer.
         :param ChannelTransferInfo transfer_info: Information used by an
