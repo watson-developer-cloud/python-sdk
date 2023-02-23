@@ -18,7 +18,7 @@
 """
 The IBM Watson&trade; Text to Speech service provides APIs that use IBM's speech-synthesis
 capabilities to synthesize text into natural-sounding speech in a variety of languages,
-dialects, and voices.  The service supports at least one male or female voice, sometimes
+dialects, and voices. The service supports at least one male or female voice, sometimes
 both, for each language. The audio is streamed back to the client with minimal delay.
 For speech synthesis, the service supports a synchronous HTTP Representational State
 Transfer (REST) interface and a WebSocket interface. Both interfaces support plain text
@@ -35,11 +35,10 @@ Australian English, Korean, and Swedish voices support only IPA, not SPR.
 The service also offers a Tune by Example feature that lets you define custom prompts. You
 can also define speaker models to improve the quality of your custom prompts. The service
 support custom prompts only for US English custom models and voices.
-Effective 31 March 2022, all neural voices are deprecated. The deprecated voices remain
-available to existing users until 31 March 2023, when they will be removed from the
-service and the documentation. The neural voices are supported only for IBM Cloud; they
-are not available for IBM Cloud Pak for Data. All enhanced neural voices remain available
-to all users. For more information, see the [31 March 2022 service
+Effective **31 March 2022**, all *neural voices* are deprecated. The deprecated voices
+remain available to existing users until 31 March 2023, when they will be removed from the
+service and the documentation. *No enhanced neural voices or expressive neural voices are
+deprecated.* For more information, see the [31 March 2022 service
 update](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-release-notes#text-to-speech-31march2022)
 in the release notes for {{site.data.keyword.texttospeechshort}} for
 {{site.data.keyword.cloud_notm}}.{: deprecated}
@@ -102,16 +101,15 @@ class TextToSpeechV1(BaseService):
         list of voices can change from call to call; do not rely on an alphabetized or
         static list of voices. To see information about a specific voice, use the [Get a
         voice](#getvoice).
-        **Note:** Effective 31 March 2022, all neural voices are deprecated. The
+        **Note:** Effective **31 March 2022**, all *neural voices* are deprecated. The
         deprecated voices remain available to existing users until 31 March 2023, when
-        they will be removed from the service and the documentation. The neural voices are
-        supported only for IBM Cloud; they are not available for IBM Cloud Pak for Data.
-        All enhanced neural voices remain available to all users. For more information,
-        see the [31 March 2022 service
+        they will be removed from the service and the documentation. *No enhanced neural
+        voices or expressive neural voices are deprecated.* For more information, see the
+        [31 March 2022 service
         update](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-release-notes#text-to-speech-31march2022)
         in the release notes.
-        **See also:** [Listing all available
-        voices](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-voices#listVoices).
+        **See also:** [Listing all
+        voices](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-voices-list#list-all-voices).
 
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -149,13 +147,12 @@ class TextToSpeechV1(BaseService):
         specified voice. To list information about all available voices, use the [List
         voices](#listvoices) method.
         **See also:** [Listing a specific
-        voice](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-voices#listVoice).
-        **Note:** Effective 31 March 2022, all neural voices are deprecated. The
+        voice](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-voices-list#list-specific-voice).
+        **Note:** Effective **31 March 2022**, all *neural voices* are deprecated. The
         deprecated voices remain available to existing users until 31 March 2023, when
-        they will be removed from the service and the documentation. The neural voices are
-        supported only for IBM Cloud; they are not available for IBM Cloud Pak for Data.
-        All enhanced neural voices remain available to all users. For more information,
-        see the [31 March 2022 service
+        they will be removed from the service and the documentation. *No enhanced neural
+        voices or expressive neural voices are deprecated.* For more information, see the
+        [31 March 2022 service
         update](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-release-notes#text-to-speech-31march2022)
         in the release notes.
 
@@ -210,6 +207,8 @@ class TextToSpeechV1(BaseService):
                    voice: str = None,
                    customization_id: str = None,
                    spell_out_mode: str = None,
+                   rate_percentage: int = None,
+                   pitch_percentage: int = None,
                    **kwargs) -> DetailedResponse:
         """
         Synthesize audio.
@@ -222,12 +221,11 @@ class TextToSpeechV1(BaseService):
         specify. The service returns the synthesized audio stream as an array of bytes.
         **See also:** [The HTTP
         interface](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-usingHTTP#usingHTTP).
-        **Note:** Effective 31 March 2022, all neural voices are deprecated. The
+        **Note:** Effective **31 March 2022**, all *neural voices* are deprecated. The
         deprecated voices remain available to existing users until 31 March 2023, when
-        they will be removed from the service and the documentation. The neural voices are
-        supported only for IBM Cloud; they are not available for IBM Cloud Pak for Data.
-        All enhanced neural voices remain available to all users. For more information,
-        see the [31 March 2022 service
+        they will be removed from the service and the documentation. *No enhanced neural
+        voices or expressive neural voices are deprecated.* For more information, see the
+        [31 March 2022 service
         update](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-release-notes#text-to-speech-31march2022)
         in the release notes.
         ### Audio formats (accept types)
@@ -274,6 +272,11 @@ class TextToSpeechV1(BaseService):
         For more information about specifying an audio format, including additional
         details about some of the formats, see [Using audio
         formats](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-audio-formats).
+        **Note:** By default, the service returns audio in the Ogg audio format with the
+        Opus codec (`audio/ogg;codecs=opus`). However, the Ogg audio format is not
+        supported with the Safari browser. If you are using the service with the Safari
+        browser, you must use the `Accept` request header or the `accept` query parameter
+        specify a different format in which you want the service to return the audio.
         ### Warning messages
          If a request includes invalid query parameters, the service returns a `Warnings`
         response header that provides messages about the invalid parameters. The warning
@@ -294,10 +297,10 @@ class TextToSpeechV1(BaseService):
                `en-US_MichaelV3Voice`, you must either specify a voice with the request or
                specify a new default voice for your installation of the service.
                **See also:**
-               * [Using languages and
+               * [Languages and
                voices](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-voices)
-               * [The default
-               voice](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-voices#specify-voice-default).
+               * [Using the default
+               voice](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-voices-use#specify-voice-default).
         :param str customization_id: (optional) The customization ID (GUID) of a
                custom model to use for the synthesis. If a custom model is specified, it
                works only if it matches the language of the indicated voice. You must make
@@ -316,9 +319,38 @@ class TextToSpeechV1(BaseService):
                pause between each pair.
                * `triples` - The service reads the characters three at a time, with a
                brief pause between each triplet.
-               The parameter is available only for IBM Cloud.
-               **See also:** [Specifying how strings are spelled
+               For more information, see [Specifying how strings are spelled
                out](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-synthesis-params#params-spell-out-mode).
+        :param int rate_percentage: (optional) The percentage change from the
+               default speaking rate of the voice that is used for speech synthesis. Each
+               voice has a default speaking rate that is optimized to represent a normal
+               rate of speech. The parameter accepts an integer that represents the
+               percentage change from the voice's default rate:
+               * Specify a signed negative integer to reduce the speaking rate by that
+               percentage. For example, -10 reduces the rate by ten percent.
+               * Specify an unsigned or signed positive integer to increase the speaking
+               rate by that percentage. For example, 10 and +10 increase the rate by ten
+               percent.
+               * Specify 0 or omit the parameter to get the default speaking rate for the
+               voice.
+               The parameter affects the rate for an entire request.
+               For more information, see [Modifying the speaking
+               rate](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-synthesis-params#params-rate-percentage).
+        :param int pitch_percentage: (optional) The percentage change from the
+               default speaking pitch of the voice that is used for speech synthesis. Each
+               voice has a default speaking pitch that is optimized to represent a normal
+               tone of voice. The parameter accepts an integer that represents the
+               percentage change from the voice's default tone:
+               * Specify a signed negative integer to lower the voice's pitch by that
+               percentage. For example, -5 reduces the tone by five percent.
+               * Specify an unsigned or signed positive integer to increase the voice's
+               pitch by that percentage. For example, 5 and +5 increase the tone by five
+               percent.
+               * Specify 0 or omit the parameter to get the default speaking pitch for the
+               voice.
+               The parameter affects the pitch for an entire request.
+               For more information, see [Modifying the speaking
+               pitch](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-synthesis-params#params-pitch-percentage).
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `BinaryIO` result
@@ -338,6 +370,8 @@ class TextToSpeechV1(BaseService):
             'voice': voice,
             'customization_id': customization_id,
             'spell_out_mode': spell_out_mode,
+            'rate_percentage': rate_percentage,
+            'pitch_percentage': pitch_percentage,
         }
 
         data = {
@@ -379,12 +413,11 @@ class TextToSpeechV1(BaseService):
         pronunciation for a specific format. You can also request the pronunciation for a
         specific voice to see the default translation for the language of that voice or
         for a specific custom model to see the translation for that model.
-        **Note:** Effective 31 March 2022, all neural voices are deprecated. The
+        **Note:** Effective **31 March 2022**, all *neural voices* are deprecated. The
         deprecated voices remain available to existing users until 31 March 2023, when
-        they will be removed from the service and the documentation. The neural voices are
-        supported only for IBM Cloud; they are not available for IBM Cloud Pak for Data.
-        All enhanced neural voices remain available to all users. For more information,
-        see the [31 March 2022 service
+        they will be removed from the service and the documentation. *No enhanced neural
+        voices or expressive neural voices are deprecated.* For more information, see the
+        [31 March 2022 service
         update](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-release-notes#text-to-speech-31march2022)
         in the release notes.
         **See also:** [Querying a word from a
@@ -398,8 +431,8 @@ class TextToSpeechV1(BaseService):
                _For IBM Cloud Pak for Data,_ if you do not install the
                `en-US_MichaelV3Voice`, you must either specify a voice with the request or
                specify a new default voice for your installation of the service.
-               **See also:** [The default
-               voice](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-voices#specify-voice-default).
+               **See also:** [Using the default
+               voice](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-voices-use#specify-voice-default).
         :param str format: (optional) The phoneme format in which to return the
                pronunciation. The Arabic, Chinese, Dutch, Australian English, and Korean
                languages support only IPA. Omit the parameter to obtain the pronunciation
@@ -465,22 +498,28 @@ class TextToSpeechV1(BaseService):
         used to create it.
         **See also:** [Creating a custom
         model](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customModels#cuModelsCreate).
-        **Note:** Effective 31 March 2022, all neural voices are deprecated. The
+        **Note:** Effective **31 March 2022**, all *neural voices* are deprecated. The
         deprecated voices remain available to existing users until 31 March 2023, when
-        they will be removed from the service and the documentation. The neural voices are
-        supported only for IBM Cloud; they are not available for IBM Cloud Pak for Data.
-        All enhanced neural voices remain available to all users. For more information,
-        see the [31 March 2022 service
+        they will be removed from the service and the documentation. *No enhanced neural
+        voices or expressive neural voices are deprecated.* For more information, see the
+        [31 March 2022 service
         update](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-release-notes#text-to-speech-31march2022)
         in the release notes.
 
-        :param str name: The name of the new custom model.
+        :param str name: The name of the new custom model. Use a localized name
+               that matches the language of the custom model. Use a name that describes
+               the purpose of the custom model, such as `Medical custom model` or `Legal
+               custom model`. Use a name that is unique among all custom models that you
+               own.
+               Include a maximum of 256 characters in the name. Do not use backslashes,
+               slashes, colons, equal signs, ampersands, or question marks in the name.
         :param str language: (optional) The language of the new custom model. You
                create a custom model for a specific language, not for a specific voice. A
                custom model can be used with any voice for its specified language. Omit
                the parameter to use the the default language, `en-US`.
-        :param str description: (optional) A description of the new custom model.
-               Specifying a description is recommended.
+        :param str description: (optional) A recommended description of the new
+               custom model. Use a localized description that matches the language of the
+               custom model. Include a maximum of 128 characters in the description.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `CustomModel` object
@@ -1637,11 +1676,15 @@ class GetVoiceEnums:
         EN_GB_CHARLOTTEV3VOICE = 'en-GB_CharlotteV3Voice'
         EN_GB_JAMESV3VOICE = 'en-GB_JamesV3Voice'
         EN_GB_KATEV3VOICE = 'en-GB_KateV3Voice'
+        EN_US_ALLISONEXPRESSIVE = 'en-US_AllisonExpressive'
         EN_US_ALLISONV3VOICE = 'en-US_AllisonV3Voice'
         EN_US_EMILYV3VOICE = 'en-US_EmilyV3Voice'
+        EN_US_EMMAEXPRESSIVE = 'en-US_EmmaExpressive'
         EN_US_HENRYV3VOICE = 'en-US_HenryV3Voice'
         EN_US_KEVINV3VOICE = 'en-US_KevinV3Voice'
+        EN_US_LISAEXPRESSIVE = 'en-US_LisaExpressive'
         EN_US_LISAV3VOICE = 'en-US_LisaV3Voice'
+        EN_US_MICHAELEXPRESSIVE = 'en-US_MichaelExpressive'
         EN_US_MICHAELV3VOICE = 'en-US_MichaelV3Voice'
         EN_US_OLIVIAV3VOICE = 'en-US_OliviaV3Voice'
         ES_ES_ENRIQUEV3VOICE = 'es-ES_EnriqueV3Voice'
@@ -1703,10 +1746,10 @@ class SynthesizeEnums:
         you must either specify a voice with the request or specify a new default voice
         for your installation of the service.
         **See also:**
-        * [Using languages and
+        * [Languages and
         voices](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-voices)
-        * [The default
-        voice](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-voices#specify-voice-default).
+        * [Using the default
+        voice](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-voices-use#specify-voice-default).
         """
         AR_MS_OMARVOICE = 'ar-MS_OmarVoice'
         CS_CZ_ALENAVOICE = 'cs-CZ_AlenaVoice'
@@ -1719,11 +1762,15 @@ class SynthesizeEnums:
         EN_GB_CHARLOTTEV3VOICE = 'en-GB_CharlotteV3Voice'
         EN_GB_JAMESV3VOICE = 'en-GB_JamesV3Voice'
         EN_GB_KATEV3VOICE = 'en-GB_KateV3Voice'
+        EN_US_ALLISONEXPRESSIVE = 'en-US_AllisonExpressive'
         EN_US_ALLISONV3VOICE = 'en-US_AllisonV3Voice'
         EN_US_EMILYV3VOICE = 'en-US_EmilyV3Voice'
+        EN_US_EMMAEXPRESSIVE = 'en-US_EmmaExpressive'
         EN_US_HENRYV3VOICE = 'en-US_HenryV3Voice'
         EN_US_KEVINV3VOICE = 'en-US_KevinV3Voice'
+        EN_US_LISAEXPRESSIVE = 'en-US_LisaExpressive'
         EN_US_LISAV3VOICE = 'en-US_LisaV3Voice'
+        EN_US_MICHAELEXPRESSIVE = 'en-US_MichaelExpressive'
         EN_US_MICHAELV3VOICE = 'en-US_MichaelV3Voice'
         EN_US_OLIVIAV3VOICE = 'en-US_OliviaV3Voice'
         ES_ES_ENRIQUEV3VOICE = 'es-ES_EnriqueV3Voice'
@@ -1763,8 +1810,7 @@ class SynthesizeEnums:
         between each pair.
         * `triples` - The service reads the characters three at a time, with a brief pause
         between each triplet.
-        The parameter is available only for IBM Cloud.
-        **See also:** [Specifying how strings are spelled
+        For more information, see [Specifying how strings are spelled
         out](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-synthesis-params#params-spell-out-mode).
         """
         DEFAULT = 'default'
@@ -1787,8 +1833,8 @@ class GetPronunciationEnums:
         _For IBM Cloud Pak for Data,_ if you do not install the `en-US_MichaelV3Voice`,
         you must either specify a voice with the request or specify a new default voice
         for your installation of the service.
-        **See also:** [The default
-        voice](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-voices#specify-voice-default).
+        **See also:** [Using the default
+        voice](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-voices-use#specify-voice-default).
         """
         AR_MS_OMARVOICE = 'ar-MS_OmarVoice'
         CS_CZ_ALENAVOICE = 'cs-CZ_AlenaVoice'
@@ -1801,11 +1847,15 @@ class GetPronunciationEnums:
         EN_GB_CHARLOTTEV3VOICE = 'en-GB_CharlotteV3Voice'
         EN_GB_JAMESV3VOICE = 'en-GB_JamesV3Voice'
         EN_GB_KATEV3VOICE = 'en-GB_KateV3Voice'
+        EN_US_ALLISONEXPRESSIVE = 'en-US_AllisonExpressive'
         EN_US_ALLISONV3VOICE = 'en-US_AllisonV3Voice'
         EN_US_EMILYV3VOICE = 'en-US_EmilyV3Voice'
+        EN_US_EMMAEXPRESSIVE = 'en-US_EmmaExpressive'
         EN_US_HENRYV3VOICE = 'en-US_HenryV3Voice'
         EN_US_KEVINV3VOICE = 'en-US_KevinV3Voice'
+        EN_US_LISAEXPRESSIVE = 'en-US_LisaExpressive'
         EN_US_LISAV3VOICE = 'en-US_LisaV3Voice'
+        EN_US_MICHAELEXPRESSIVE = 'en-US_MichaelExpressive'
         EN_US_MICHAELV3VOICE = 'en-US_MichaelV3Voice'
         EN_US_OLIVIAV3VOICE = 'en-US_OliviaV3Voice'
         ES_ES_ENRIQUEV3VOICE = 'es-ES_EnriqueV3Voice'

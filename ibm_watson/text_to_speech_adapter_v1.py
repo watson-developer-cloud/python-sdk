@@ -31,6 +31,8 @@ class TextToSpeechV1Adapter(TextToSpeechV1):
                                    timings=None,
                                    customization_id=None,
                                    spell_out_mode=None,
+                                   rate_percentage= None,
+                                   pitch_percentage= None,
                                    http_proxy_host=None,
                                    http_proxy_port=None,
                                    **kwargs):
@@ -76,6 +78,36 @@ class TextToSpeechV1Adapter(TextToSpeechV1):
         The parameter is available only for IBM Cloud.
         **See also:** [Specifying how strings are spelled
         out](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-synthesis-params#params-spell-out-mode).
+        :param int rate_percentage: (optional) The percentage change from the
+        default speaking rate of the voice that is used for speech synthesis. Each
+        voice has a default speaking rate that is optimized to represent a normal
+        rate of speech. The parameter accepts an integer that represents the
+        percentage change from the voice's default rate:
+        * Specify a signed negative integer to reduce the speaking rate by that
+        percentage. For example, -10 reduces the rate by ten percent.
+        * Specify an unsigned or signed positive integer to increase the speaking
+        rate by that percentage. For example, 10 and +10 increase the rate by ten
+        percent.
+        * Specify 0 or omit the parameter to get the default speaking rate for the
+        voice.
+        The parameter affects the rate for an entire request.
+        For more information, see [Modifying the speaking
+        rate](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-synthesis-params#params-rate-percentage).
+        :param int pitch_percentage: (optional) The percentage change from the
+        default speaking pitch of the voice that is used for speech synthesis. Each
+        voice has a default speaking pitch that is optimized to represent a normal
+        tone of voice. The parameter accepts an integer that represents the
+        percentage change from the voice's default tone:
+        * Specify a signed negative integer to lower the voice's pitch by that
+        percentage. For example, -5 reduces the tone by five percent.
+        * Specify an unsigned or signed positive integer to increase the voice's
+        pitch by that percentage. For example, 5 and +5 increase the tone by five
+        percent.
+        * Specify 0 or omit the parameter to get the default speaking pitch for the
+        voice.
+        The parameter affects the pitch for an entire request.
+        For more information, see [Modifying the speaking
+        pitch](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-synthesis-params#params-pitch-percentage).
         :param str http_proxy_host: http proxy host name.
         :param str http_proxy_port: http proxy port. If not set, set to 80.
         :param dict headers: A `dict` containing the request headers
@@ -106,7 +138,9 @@ class TextToSpeechV1Adapter(TextToSpeechV1):
         params = {
             'voice': voice,
             'customization_id': customization_id,
-            'spell_out_mode': spell_out_mode
+            'spell_out_mode': spell_out_mode,
+            'rate_percentage': rate_percentage,
+            'pitch_percentage': pitch_percentage
         }
         params = {k: v for k, v in params.items() if v is not None}
         url += '/v1/synthesize?{0}'.format(urlencode(params))

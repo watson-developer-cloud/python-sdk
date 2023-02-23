@@ -258,6 +258,8 @@ class TestSynthesize():
         voice = 'en-US_MichaelV3Voice'
         customization_id = 'testString'
         spell_out_mode = 'default'
+        rate_percentage = 38
+        pitch_percentage = 38
 
         # Invoke method
         response = _service.synthesize(
@@ -266,6 +268,8 @@ class TestSynthesize():
             voice=voice,
             customization_id=customization_id,
             spell_out_mode=spell_out_mode,
+            rate_percentage=rate_percentage,
+            pitch_percentage=pitch_percentage,
             headers={}
         )
 
@@ -278,6 +282,8 @@ class TestSynthesize():
         assert 'voice={}'.format(voice) in query_string
         assert 'customization_id={}'.format(customization_id) in query_string
         assert 'spell_out_mode={}'.format(spell_out_mode) in query_string
+        assert 'rate_percentage={}'.format(rate_percentage) in query_string
+        assert 'pitch_percentage={}'.format(pitch_percentage) in query_string
         # Validate body params
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['text'] == 'testString'
