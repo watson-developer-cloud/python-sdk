@@ -176,6 +176,7 @@ class AssistantV2(BaseService):
         headers.update(sdk_headers)
 
         params = {
+            'version': self.version,
             'page_limit': page_limit,
             'include_count': include_count,
             'sort': sort,
@@ -1456,7 +1457,7 @@ class AssistantV2(BaseService):
                      description: str = None,
                      workspace: dict = None,
                      dialog_settings: dict = None,
-                     search_settings: dict = None,
+                     search_settings: 'SearchSettings' = None,
                      **kwargs) -> DetailedResponse:
         """
         Update skill.
@@ -1489,8 +1490,8 @@ class AssistantV2(BaseService):
         :param dict workspace: (optional) An object containing the conversational
                content of an action or dialog skill.
         :param dict dialog_settings: (optional) For internal use only.
-        :param dict search_settings: (optional) A JSON object describing the search
-               skill configuration.
+        :param SearchSettings search_settings: (optional) An object describing the
+               search skill configuration.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `Skill` object
@@ -1500,6 +1501,8 @@ class AssistantV2(BaseService):
             raise ValueError('assistant_id must be provided')
         if not skill_id:
             raise ValueError('skill_id must be provided')
+        if search_settings is not None:
+            search_settings = convert_model(search_settings)
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V2',
@@ -4402,8 +4405,8 @@ class MessageContext():
 
     :attr MessageContextGlobal global_: (optional) Session context data that is
           shared by all skills used by the assistant.
-    :attr dict skills: (optional) Information specific to particular skills used by
-          the assistant.
+    :attr MessageContextSkills skills: (optional) Context data specific to
+          particular skills used by the assistant.
     :attr dict integrations: (optional) An object containing context data that is
           specific to particular integrations. For more information, see the
           [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-dialog-integrations).
@@ -4412,15 +4415,15 @@ class MessageContext():
     def __init__(self,
                  *,
                  global_: 'MessageContextGlobal' = None,
-                 skills: dict = None,
+                 skills: 'MessageContextSkills' = None,
                  integrations: dict = None) -> None:
         """
         Initialize a MessageContext object.
 
         :param MessageContextGlobal global_: (optional) Session context data that
                is shared by all skills used by the assistant.
-        :param dict skills: (optional) Information specific to particular skills
-               used by the assistant.
+        :param MessageContextSkills skills: (optional) Context data specific to
+               particular skills used by the assistant.
         :param dict integrations: (optional) An object containing context data that
                is specific to particular integrations. For more information, see the
                [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-dialog-integrations).
@@ -4437,10 +4440,7 @@ class MessageContext():
             args['global_'] = MessageContextGlobal.from_dict(
                 _dict.get('global'))
         if 'skills' in _dict:
-            args['skills'] = {
-                k: MessageContextSkill.from_dict(v)
-                for k, v in _dict.get('skills').items()
-            }
+            args['skills'] = MessageContextSkills.from_dict(_dict.get('skills'))
         if 'integrations' in _dict:
             args['integrations'] = _dict.get('integrations')
         return cls(**args)
@@ -4459,13 +4459,10 @@ class MessageContext():
             else:
                 _dict['global'] = self.global_.to_dict()
         if hasattr(self, 'skills') and self.skills is not None:
-            skills_map = {}
-            for k, v in self.skills.items():
-                if isinstance(v, dict):
-                    skills_map[k] = v
-                else:
-                    skills_map[k] = v.to_dict()
-            _dict['skills'] = skills_map
+            if isinstance(self.skills, dict):
+                _dict['skills'] = self.skills
+            else:
+                _dict['skills'] = self.skills.to_dict()
         if hasattr(self, 'integrations') and self.integrations is not None:
             _dict['integrations'] = self.integrations
         return _dict
@@ -4849,15 +4846,112 @@ class MessageContextGlobalSystem():
         ZH_TW = 'zh-tw'
 
 
-class MessageContextSkill():
+class MessageContextSkillAction():
     """
-    Contains information specific to a particular skill used by the assistant. The
-    property name must be the same as the name of the skill.
-    **Note:** The default skill names are `main skill` for the dialog skill (if enabled)
-    and `actions skill` for the action skill.
+    Context variables that are used by the action skill.
 
-    :attr dict user_defined: (optional) Arbitrary variables that can be read and
-          written by a particular skill.
+    :attr dict user_defined: (optional) An object containing any arbitrary variables
+          that can be read and written by a particular skill.
+    :attr MessageContextSkillSystem system: (optional) System context data used by
+          the skill.
+    :attr dict action_variables: (optional) An object containing action variables.
+          Action variables can be accessed only by steps in the same action, and do not
+          persist after the action ends.
+    :attr dict skill_variables: (optional) An object containing skill variables. (In
+          the Watson Assistant user interface, skill variables are called _session
+          variables_.) Skill variables can be accessed by any action and persist for the
+          duration of the session.
+    """
+
+    def __init__(self,
+                 *,
+                 user_defined: dict = None,
+                 system: 'MessageContextSkillSystem' = None,
+                 action_variables: dict = None,
+                 skill_variables: dict = None) -> None:
+        """
+        Initialize a MessageContextSkillAction object.
+
+        :param dict user_defined: (optional) An object containing any arbitrary
+               variables that can be read and written by a particular skill.
+        :param MessageContextSkillSystem system: (optional) System context data
+               used by the skill.
+        :param dict action_variables: (optional) An object containing action
+               variables. Action variables can be accessed only by steps in the same
+               action, and do not persist after the action ends.
+        :param dict skill_variables: (optional) An object containing skill
+               variables. (In the Watson Assistant user interface, skill variables are
+               called _session variables_.) Skill variables can be accessed by any action
+               and persist for the duration of the session.
+        """
+        self.user_defined = user_defined
+        self.system = system
+        self.action_variables = action_variables
+        self.skill_variables = skill_variables
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'MessageContextSkillAction':
+        """Initialize a MessageContextSkillAction object from a json dictionary."""
+        args = {}
+        if 'user_defined' in _dict:
+            args['user_defined'] = _dict.get('user_defined')
+        if 'system' in _dict:
+            args['system'] = MessageContextSkillSystem.from_dict(
+                _dict.get('system'))
+        if 'action_variables' in _dict:
+            args['action_variables'] = _dict.get('action_variables')
+        if 'skill_variables' in _dict:
+            args['skill_variables'] = _dict.get('skill_variables')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a MessageContextSkillAction object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'user_defined') and self.user_defined is not None:
+            _dict['user_defined'] = self.user_defined
+        if hasattr(self, 'system') and self.system is not None:
+            if isinstance(self.system, dict):
+                _dict['system'] = self.system
+            else:
+                _dict['system'] = self.system.to_dict()
+        if hasattr(self,
+                   'action_variables') and self.action_variables is not None:
+            _dict['action_variables'] = self.action_variables
+        if hasattr(self,
+                   'skill_variables') and self.skill_variables is not None:
+            _dict['skill_variables'] = self.skill_variables
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this MessageContextSkillAction object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'MessageContextSkillAction') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'MessageContextSkillAction') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class MessageContextSkillDialog():
+    """
+    Context variables that are used by the dialog skill.
+
+    :attr dict user_defined: (optional) An object containing any arbitrary variables
+          that can be read and written by a particular skill.
     :attr MessageContextSkillSystem system: (optional) System context data used by
           the skill.
     """
@@ -4867,10 +4961,10 @@ class MessageContextSkill():
                  user_defined: dict = None,
                  system: 'MessageContextSkillSystem' = None) -> None:
         """
-        Initialize a MessageContextSkill object.
+        Initialize a MessageContextSkillDialog object.
 
-        :param dict user_defined: (optional) Arbitrary variables that can be read
-               and written by a particular skill.
+        :param dict user_defined: (optional) An object containing any arbitrary
+               variables that can be read and written by a particular skill.
         :param MessageContextSkillSystem system: (optional) System context data
                used by the skill.
         """
@@ -4878,8 +4972,8 @@ class MessageContextSkill():
         self.system = system
 
     @classmethod
-    def from_dict(cls, _dict: Dict) -> 'MessageContextSkill':
-        """Initialize a MessageContextSkill object from a json dictionary."""
+    def from_dict(cls, _dict: Dict) -> 'MessageContextSkillDialog':
+        """Initialize a MessageContextSkillDialog object from a json dictionary."""
         args = {}
         if 'user_defined' in _dict:
             args['user_defined'] = _dict.get('user_defined')
@@ -4890,7 +4984,7 @@ class MessageContextSkill():
 
     @classmethod
     def _from_dict(cls, _dict):
-        """Initialize a MessageContextSkill object from a json dictionary."""
+        """Initialize a MessageContextSkillDialog object from a json dictionary."""
         return cls.from_dict(_dict)
 
     def to_dict(self) -> Dict:
@@ -4910,16 +5004,16 @@ class MessageContextSkill():
         return self.to_dict()
 
     def __str__(self) -> str:
-        """Return a `str` version of this MessageContextSkill object."""
+        """Return a `str` version of this MessageContextSkillDialog object."""
         return json.dumps(self.to_dict(), indent=2)
 
-    def __eq__(self, other: 'MessageContextSkill') -> bool:
+    def __eq__(self, other: 'MessageContextSkillDialog') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other: 'MessageContextSkill') -> bool:
+    def __ne__(self, other: 'MessageContextSkillDialog') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -5022,14 +5116,90 @@ class MessageContextSkillSystem():
         return not self == other
 
 
+class MessageContextSkills():
+    """
+    Context data specific to particular skills used by the assistant.
+
+    :attr MessageContextSkillDialog main_skill: (optional) Context variables that
+          are used by the dialog skill.
+    :attr MessageContextSkillAction actions_skill: (optional) Context variables that
+          are used by the action skill.
+    """
+
+    def __init__(self,
+                 *,
+                 main_skill: 'MessageContextSkillDialog' = None,
+                 actions_skill: 'MessageContextSkillAction' = None) -> None:
+        """
+        Initialize a MessageContextSkills object.
+
+        :param MessageContextSkillDialog main_skill: (optional) Context variables
+               that are used by the dialog skill.
+        :param MessageContextSkillAction actions_skill: (optional) Context
+               variables that are used by the action skill.
+        """
+        self.main_skill = main_skill
+        self.actions_skill = actions_skill
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'MessageContextSkills':
+        """Initialize a MessageContextSkills object from a json dictionary."""
+        args = {}
+        if 'main skill' in _dict:
+            args['main_skill'] = MessageContextSkillDialog.from_dict(
+                _dict.get('main skill'))
+        if 'actions skill' in _dict:
+            args['actions_skill'] = MessageContextSkillAction.from_dict(
+                _dict.get('actions skill'))
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a MessageContextSkills object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'main_skill') and self.main_skill is not None:
+            if isinstance(self.main_skill, dict):
+                _dict['main skill'] = self.main_skill
+            else:
+                _dict['main skill'] = self.main_skill.to_dict()
+        if hasattr(self, 'actions_skill') and self.actions_skill is not None:
+            if isinstance(self.actions_skill, dict):
+                _dict['actions skill'] = self.actions_skill
+            else:
+                _dict['actions skill'] = self.actions_skill.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this MessageContextSkills object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'MessageContextSkills') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'MessageContextSkills') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class MessageContextStateless():
     """
     MessageContextStateless.
 
     :attr MessageContextGlobalStateless global_: (optional) Session context data
           that is shared by all skills used by the assistant.
-    :attr dict skills: (optional) Information specific to particular skills used by
-          the assistant.
+    :attr MessageContextSkills skills: (optional) Context data specific to
+          particular skills used by the assistant.
     :attr dict integrations: (optional) An object containing context data that is
           specific to particular integrations. For more information, see the
           [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-dialog-integrations).
@@ -5038,15 +5208,15 @@ class MessageContextStateless():
     def __init__(self,
                  *,
                  global_: 'MessageContextGlobalStateless' = None,
-                 skills: dict = None,
+                 skills: 'MessageContextSkills' = None,
                  integrations: dict = None) -> None:
         """
         Initialize a MessageContextStateless object.
 
         :param MessageContextGlobalStateless global_: (optional) Session context
                data that is shared by all skills used by the assistant.
-        :param dict skills: (optional) Information specific to particular skills
-               used by the assistant.
+        :param MessageContextSkills skills: (optional) Context data specific to
+               particular skills used by the assistant.
         :param dict integrations: (optional) An object containing context data that
                is specific to particular integrations. For more information, see the
                [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-dialog-integrations).
@@ -5063,10 +5233,7 @@ class MessageContextStateless():
             args['global_'] = MessageContextGlobalStateless.from_dict(
                 _dict.get('global'))
         if 'skills' in _dict:
-            args['skills'] = {
-                k: MessageContextSkill.from_dict(v)
-                for k, v in _dict.get('skills').items()
-            }
+            args['skills'] = MessageContextSkills.from_dict(_dict.get('skills'))
         if 'integrations' in _dict:
             args['integrations'] = _dict.get('integrations')
         return cls(**args)
@@ -5085,13 +5252,10 @@ class MessageContextStateless():
             else:
                 _dict['global'] = self.global_.to_dict()
         if hasattr(self, 'skills') and self.skills is not None:
-            skills_map = {}
-            for k, v in self.skills.items():
-                if isinstance(v, dict):
-                    skills_map[k] = v
-                else:
-                    skills_map[k] = v.to_dict()
-            _dict['skills'] = skills_map
+            if isinstance(self.skills, dict):
+                _dict['skills'] = self.skills
+            else:
+                _dict['skills'] = self.skills.to_dict()
         if hasattr(self, 'integrations') and self.integrations is not None:
             _dict['integrations'] = self.integrations
         return _dict
@@ -8203,8 +8367,8 @@ class SearchResult():
           query. Currently, only the single answer with the highest confidence (if any) is
           returned.
           **Notes:**
-           - This property uses the answer finding beta feature, and is available only if
-          the search skill is connected to a Discovery v2 service instance.
+           - Answer finding is available only if the search skill is connected to a
+          Discovery v2 service instance.
            - Answer finding is not supported on IBM Cloud Pak for Data.
     """
 
@@ -8242,8 +8406,8 @@ class SearchResult():
                to the search query. Currently, only the single answer with the highest
                confidence (if any) is returned.
                **Notes:**
-                - This property uses the answer finding beta feature, and is available
-               only if the search skill is connected to a Discovery v2 service instance.
+                - Answer finding is available only if the search skill is connected to a
+               Discovery v2 service instance.
                 - Answer finding is not supported on IBM Cloud Pak for Data.
         """
         self.id = id
@@ -8604,6 +8768,525 @@ class SearchResultMetadata():
         return not self == other
 
 
+class SearchSettings():
+    """
+    An object describing the search skill configuration.
+
+    :attr SearchSettingsDiscovery discovery: Configuration settings for the Watson
+          Discovery service instance used by the search integration.
+    :attr SearchSettingsMessages messages: The messages included with responses from
+          the search integration.
+    :attr SearchSettingsSchemaMapping schema_mapping: The mapping between fields in
+          the Watson Discovery collection and properties in the search response.
+    """
+
+    def __init__(self, discovery: 'SearchSettingsDiscovery',
+                 messages: 'SearchSettingsMessages',
+                 schema_mapping: 'SearchSettingsSchemaMapping') -> None:
+        """
+        Initialize a SearchSettings object.
+
+        :param SearchSettingsDiscovery discovery: Configuration settings for the
+               Watson Discovery service instance used by the search integration.
+        :param SearchSettingsMessages messages: The messages included with
+               responses from the search integration.
+        :param SearchSettingsSchemaMapping schema_mapping: The mapping between
+               fields in the Watson Discovery collection and properties in the search
+               response.
+        """
+        self.discovery = discovery
+        self.messages = messages
+        self.schema_mapping = schema_mapping
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'SearchSettings':
+        """Initialize a SearchSettings object from a json dictionary."""
+        args = {}
+        if 'discovery' in _dict:
+            args['discovery'] = SearchSettingsDiscovery.from_dict(
+                _dict.get('discovery'))
+        else:
+            raise ValueError(
+                'Required property \'discovery\' not present in SearchSettings JSON'
+            )
+        if 'messages' in _dict:
+            args['messages'] = SearchSettingsMessages.from_dict(
+                _dict.get('messages'))
+        else:
+            raise ValueError(
+                'Required property \'messages\' not present in SearchSettings JSON'
+            )
+        if 'schema_mapping' in _dict:
+            args['schema_mapping'] = SearchSettingsSchemaMapping.from_dict(
+                _dict.get('schema_mapping'))
+        else:
+            raise ValueError(
+                'Required property \'schema_mapping\' not present in SearchSettings JSON'
+            )
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SearchSettings object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'discovery') and self.discovery is not None:
+            if isinstance(self.discovery, dict):
+                _dict['discovery'] = self.discovery
+            else:
+                _dict['discovery'] = self.discovery.to_dict()
+        if hasattr(self, 'messages') and self.messages is not None:
+            if isinstance(self.messages, dict):
+                _dict['messages'] = self.messages
+            else:
+                _dict['messages'] = self.messages.to_dict()
+        if hasattr(self, 'schema_mapping') and self.schema_mapping is not None:
+            if isinstance(self.schema_mapping, dict):
+                _dict['schema_mapping'] = self.schema_mapping
+            else:
+                _dict['schema_mapping'] = self.schema_mapping.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this SearchSettings object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'SearchSettings') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'SearchSettings') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class SearchSettingsDiscovery():
+    """
+    Configuration settings for the Watson Discovery service instance used by the search
+    integration.
+
+    :attr str instance_id: The ID for the Watson Discovery service instance.
+    :attr str project_id: The ID for the Watson Discovery project.
+    :attr str url: The URL for the Watson Discovery service instance.
+    :attr int max_primary_results: (optional) The maximum number of primary results
+          to include in the response.
+    :attr int max_total_results: (optional) The maximum total number of primary and
+          additional results to include in the response.
+    :attr float confidence_threshold: (optional) The minimum confidence threshold
+          for included results. Any results with a confidence below this threshold will be
+          discarded.
+    :attr bool highlight: (optional) Whether to include the most relevant passages
+          of text in the **highlight** property of each result.
+    :attr bool find_answers: (optional) Whether to use the answer finding feature to
+          emphasize answers within highlighted passages. This property is ignored if
+          **highlight**=`false`.
+          **Notes:**
+           - Answer finding is available only if the search skill is connected to a
+          Discovery v2 service instance.
+           - Answer finding is not supported on IBM Cloud Pak for Data.
+    :attr SearchSettingsDiscoveryAuthentication authentication: Authentication
+          information for the Watson Discovery service. For more information, see the
+          [Watson Discovery
+          documentation](https://cloud.ibm.com/apidocs/discovery-data#authentication).
+           **Note:** You must specify either **basic** or **bearer**, but not both.
+    """
+
+    def __init__(self,
+                 instance_id: str,
+                 project_id: str,
+                 url: str,
+                 authentication: 'SearchSettingsDiscoveryAuthentication',
+                 *,
+                 max_primary_results: int = None,
+                 max_total_results: int = None,
+                 confidence_threshold: float = None,
+                 highlight: bool = None,
+                 find_answers: bool = None) -> None:
+        """
+        Initialize a SearchSettingsDiscovery object.
+
+        :param str instance_id: The ID for the Watson Discovery service instance.
+        :param str project_id: The ID for the Watson Discovery project.
+        :param str url: The URL for the Watson Discovery service instance.
+        :param SearchSettingsDiscoveryAuthentication authentication: Authentication
+               information for the Watson Discovery service. For more information, see the
+               [Watson Discovery
+               documentation](https://cloud.ibm.com/apidocs/discovery-data#authentication).
+                **Note:** You must specify either **basic** or **bearer**, but not both.
+        :param int max_primary_results: (optional) The maximum number of primary
+               results to include in the response.
+        :param int max_total_results: (optional) The maximum total number of
+               primary and additional results to include in the response.
+        :param float confidence_threshold: (optional) The minimum confidence
+               threshold for included results. Any results with a confidence below this
+               threshold will be discarded.
+        :param bool highlight: (optional) Whether to include the most relevant
+               passages of text in the **highlight** property of each result.
+        :param bool find_answers: (optional) Whether to use the answer finding
+               feature to emphasize answers within highlighted passages. This property is
+               ignored if **highlight**=`false`.
+               **Notes:**
+                - Answer finding is available only if the search skill is connected to a
+               Discovery v2 service instance.
+                - Answer finding is not supported on IBM Cloud Pak for Data.
+        """
+        self.instance_id = instance_id
+        self.project_id = project_id
+        self.url = url
+        self.max_primary_results = max_primary_results
+        self.max_total_results = max_total_results
+        self.confidence_threshold = confidence_threshold
+        self.highlight = highlight
+        self.find_answers = find_answers
+        self.authentication = authentication
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'SearchSettingsDiscovery':
+        """Initialize a SearchSettingsDiscovery object from a json dictionary."""
+        args = {}
+        if 'instance_id' in _dict:
+            args['instance_id'] = _dict.get('instance_id')
+        else:
+            raise ValueError(
+                'Required property \'instance_id\' not present in SearchSettingsDiscovery JSON'
+            )
+        if 'project_id' in _dict:
+            args['project_id'] = _dict.get('project_id')
+        else:
+            raise ValueError(
+                'Required property \'project_id\' not present in SearchSettingsDiscovery JSON'
+            )
+        if 'url' in _dict:
+            args['url'] = _dict.get('url')
+        else:
+            raise ValueError(
+                'Required property \'url\' not present in SearchSettingsDiscovery JSON'
+            )
+        if 'max_primary_results' in _dict:
+            args['max_primary_results'] = _dict.get('max_primary_results')
+        if 'max_total_results' in _dict:
+            args['max_total_results'] = _dict.get('max_total_results')
+        if 'confidence_threshold' in _dict:
+            args['confidence_threshold'] = _dict.get('confidence_threshold')
+        if 'highlight' in _dict:
+            args['highlight'] = _dict.get('highlight')
+        if 'find_answers' in _dict:
+            args['find_answers'] = _dict.get('find_answers')
+        if 'authentication' in _dict:
+            args[
+                'authentication'] = SearchSettingsDiscoveryAuthentication.from_dict(
+                    _dict.get('authentication'))
+        else:
+            raise ValueError(
+                'Required property \'authentication\' not present in SearchSettingsDiscovery JSON'
+            )
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SearchSettingsDiscovery object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'instance_id') and self.instance_id is not None:
+            _dict['instance_id'] = self.instance_id
+        if hasattr(self, 'project_id') and self.project_id is not None:
+            _dict['project_id'] = self.project_id
+        if hasattr(self, 'url') and self.url is not None:
+            _dict['url'] = self.url
+        if hasattr(
+                self,
+                'max_primary_results') and self.max_primary_results is not None:
+            _dict['max_primary_results'] = self.max_primary_results
+        if hasattr(self,
+                   'max_total_results') and self.max_total_results is not None:
+            _dict['max_total_results'] = self.max_total_results
+        if hasattr(self, 'confidence_threshold'
+                  ) and self.confidence_threshold is not None:
+            _dict['confidence_threshold'] = self.confidence_threshold
+        if hasattr(self, 'highlight') and self.highlight is not None:
+            _dict['highlight'] = self.highlight
+        if hasattr(self, 'find_answers') and self.find_answers is not None:
+            _dict['find_answers'] = self.find_answers
+        if hasattr(self, 'authentication') and self.authentication is not None:
+            if isinstance(self.authentication, dict):
+                _dict['authentication'] = self.authentication
+            else:
+                _dict['authentication'] = self.authentication.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this SearchSettingsDiscovery object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'SearchSettingsDiscovery') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'SearchSettingsDiscovery') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class SearchSettingsDiscoveryAuthentication():
+    """
+    Authentication information for the Watson Discovery service. For more information, see
+    the [Watson Discovery
+    documentation](https://cloud.ibm.com/apidocs/discovery-data#authentication).
+     **Note:** You must specify either **basic** or **bearer**, but not both.
+
+    :attr str basic: (optional) The HTTP basic authentication credentials for Watson
+          Discovery. Specify your Watson Discovery API key in the format
+          `apikey:{apikey}`.
+    :attr str bearer: (optional) The authentication bearer token for Watson
+          Discovery.
+    """
+
+    def __init__(self, *, basic: str = None, bearer: str = None) -> None:
+        """
+        Initialize a SearchSettingsDiscoveryAuthentication object.
+
+        :param str basic: (optional) The HTTP basic authentication credentials for
+               Watson Discovery. Specify your Watson Discovery API key in the format
+               `apikey:{apikey}`.
+        :param str bearer: (optional) The authentication bearer token for Watson
+               Discovery.
+        """
+        self.basic = basic
+        self.bearer = bearer
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'SearchSettingsDiscoveryAuthentication':
+        """Initialize a SearchSettingsDiscoveryAuthentication object from a json dictionary."""
+        args = {}
+        if 'basic' in _dict:
+            args['basic'] = _dict.get('basic')
+        if 'bearer' in _dict:
+            args['bearer'] = _dict.get('bearer')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SearchSettingsDiscoveryAuthentication object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'basic') and self.basic is not None:
+            _dict['basic'] = self.basic
+        if hasattr(self, 'bearer') and self.bearer is not None:
+            _dict['bearer'] = self.bearer
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this SearchSettingsDiscoveryAuthentication object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'SearchSettingsDiscoveryAuthentication') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'SearchSettingsDiscoveryAuthentication') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class SearchSettingsMessages():
+    """
+    The messages included with responses from the search integration.
+
+    :attr str success: The message to include in the response to a successful query.
+    :attr str error: The message to include in the response when the query
+          encounters an error.
+    :attr str no_result: The message to include in the response when there is no
+          result from the query.
+    """
+
+    def __init__(self, success: str, error: str, no_result: str) -> None:
+        """
+        Initialize a SearchSettingsMessages object.
+
+        :param str success: The message to include in the response to a successful
+               query.
+        :param str error: The message to include in the response when the query
+               encounters an error.
+        :param str no_result: The message to include in the response when there is
+               no result from the query.
+        """
+        self.success = success
+        self.error = error
+        self.no_result = no_result
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'SearchSettingsMessages':
+        """Initialize a SearchSettingsMessages object from a json dictionary."""
+        args = {}
+        if 'success' in _dict:
+            args['success'] = _dict.get('success')
+        else:
+            raise ValueError(
+                'Required property \'success\' not present in SearchSettingsMessages JSON'
+            )
+        if 'error' in _dict:
+            args['error'] = _dict.get('error')
+        else:
+            raise ValueError(
+                'Required property \'error\' not present in SearchSettingsMessages JSON'
+            )
+        if 'no_result' in _dict:
+            args['no_result'] = _dict.get('no_result')
+        else:
+            raise ValueError(
+                'Required property \'no_result\' not present in SearchSettingsMessages JSON'
+            )
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SearchSettingsMessages object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'success') and self.success is not None:
+            _dict['success'] = self.success
+        if hasattr(self, 'error') and self.error is not None:
+            _dict['error'] = self.error
+        if hasattr(self, 'no_result') and self.no_result is not None:
+            _dict['no_result'] = self.no_result
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this SearchSettingsMessages object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'SearchSettingsMessages') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'SearchSettingsMessages') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class SearchSettingsSchemaMapping():
+    """
+    The mapping between fields in the Watson Discovery collection and properties in the
+    search response.
+
+    :attr str url: The field in the collection to map to the **url** property of the
+          response.
+    :attr str body: The field in the collection to map to the **body** property in
+          the response.
+    :attr str title: The field in the collection to map to the **title** property
+          for the schema.
+    """
+
+    def __init__(self, url: str, body: str, title: str) -> None:
+        """
+        Initialize a SearchSettingsSchemaMapping object.
+
+        :param str url: The field in the collection to map to the **url** property
+               of the response.
+        :param str body: The field in the collection to map to the **body**
+               property in the response.
+        :param str title: The field in the collection to map to the **title**
+               property for the schema.
+        """
+        self.url = url
+        self.body = body
+        self.title = title
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'SearchSettingsSchemaMapping':
+        """Initialize a SearchSettingsSchemaMapping object from a json dictionary."""
+        args = {}
+        if 'url' in _dict:
+            args['url'] = _dict.get('url')
+        else:
+            raise ValueError(
+                'Required property \'url\' not present in SearchSettingsSchemaMapping JSON'
+            )
+        if 'body' in _dict:
+            args['body'] = _dict.get('body')
+        else:
+            raise ValueError(
+                'Required property \'body\' not present in SearchSettingsSchemaMapping JSON'
+            )
+        if 'title' in _dict:
+            args['title'] = _dict.get('title')
+        else:
+            raise ValueError(
+                'Required property \'title\' not present in SearchSettingsSchemaMapping JSON'
+            )
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SearchSettingsSchemaMapping object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'url') and self.url is not None:
+            _dict['url'] = self.url
+        if hasattr(self, 'body') and self.body is not None:
+            _dict['body'] = self.body
+        if hasattr(self, 'title') and self.title is not None:
+            _dict['title'] = self.title
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this SearchSettingsSchemaMapping object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'SearchSettingsSchemaMapping') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'SearchSettingsSchemaMapping') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class SearchSkillWarning():
     """
     A warning describing an error in the search skill configuration.
@@ -8771,8 +9454,8 @@ class Skill():
     :attr str next_snapshot_version: (optional) The name that will be given to the
           next snapshot that is created for the skill. A snapshot of each versionable
           skill is saved for each new release of an assistant.
-    :attr dict search_settings: (optional) A JSON object describing the search skill
-          configuration.
+    :attr SearchSettings search_settings: (optional) An object describing the search
+          skill configuration.
     :attr List[SearchSkillWarning] warnings: (optional) An array of warnings
           describing errors with the search skill configuration. Included only for search
           skills.
@@ -8797,7 +9480,7 @@ class Skill():
                  environment_id: str = None,
                  valid: bool = None,
                  next_snapshot_version: str = None,
-                 search_settings: dict = None,
+                 search_settings: 'SearchSettings' = None,
                  warnings: List['SearchSkillWarning'] = None) -> None:
         """
         Initialize a Skill object.
@@ -8811,8 +9494,8 @@ class Skill():
         :param dict workspace: (optional) An object containing the conversational
                content of an action or dialog skill.
         :param dict dialog_settings: (optional) For internal use only.
-        :param dict search_settings: (optional) A JSON object describing the search
-               skill configuration.
+        :param SearchSettings search_settings: (optional) An object describing the
+               search skill configuration.
         """
         self.name = name
         self.description = description
@@ -8865,7 +9548,8 @@ class Skill():
         if 'next_snapshot_version' in _dict:
             args['next_snapshot_version'] = _dict.get('next_snapshot_version')
         if 'search_settings' in _dict:
-            args['search_settings'] = _dict.get('search_settings')
+            args['search_settings'] = SearchSettings.from_dict(
+                _dict.get('search_settings'))
         if 'warnings' in _dict:
             args['warnings'] = [
                 SearchSkillWarning.from_dict(v) for v in _dict.get('warnings')
@@ -8932,7 +9616,10 @@ class Skill():
                                                      'next_snapshot_version')
         if hasattr(self,
                    'search_settings') and self.search_settings is not None:
-            _dict['search_settings'] = self.search_settings
+            if isinstance(self.search_settings, dict):
+                _dict['search_settings'] = self.search_settings
+            else:
+                _dict['search_settings'] = self.search_settings.to_dict()
         if hasattr(self, 'warnings') and getattr(self, 'warnings') is not None:
             warnings_list = []
             for v in getattr(self, 'warnings'):
@@ -9026,8 +9713,8 @@ class SkillImport():
     :attr str next_snapshot_version: (optional) The name that will be given to the
           next snapshot that is created for the skill. A snapshot of each versionable
           skill is saved for each new release of an assistant.
-    :attr dict search_settings: (optional) A JSON object describing the search skill
-          configuration.
+    :attr SearchSettings search_settings: (optional) An object describing the search
+          skill configuration.
     :attr List[SearchSkillWarning] warnings: (optional) An array of warnings
           describing errors with the search skill configuration. Included only for search
           skills.
@@ -9052,7 +9739,7 @@ class SkillImport():
                  environment_id: str = None,
                  valid: bool = None,
                  next_snapshot_version: str = None,
-                 search_settings: dict = None,
+                 search_settings: 'SearchSettings' = None,
                  warnings: List['SearchSkillWarning'] = None) -> None:
         """
         Initialize a SkillImport object.
@@ -9066,8 +9753,8 @@ class SkillImport():
         :param dict workspace: (optional) An object containing the conversational
                content of an action or dialog skill.
         :param dict dialog_settings: (optional) For internal use only.
-        :param dict search_settings: (optional) A JSON object describing the search
-               skill configuration.
+        :param SearchSettings search_settings: (optional) An object describing the
+               search skill configuration.
         """
         self.name = name
         self.description = description
@@ -9120,7 +9807,8 @@ class SkillImport():
         if 'next_snapshot_version' in _dict:
             args['next_snapshot_version'] = _dict.get('next_snapshot_version')
         if 'search_settings' in _dict:
-            args['search_settings'] = _dict.get('search_settings')
+            args['search_settings'] = SearchSettings.from_dict(
+                _dict.get('search_settings'))
         if 'warnings' in _dict:
             args['warnings'] = [
                 SearchSkillWarning.from_dict(v) for v in _dict.get('warnings')
@@ -9188,7 +9876,10 @@ class SkillImport():
                                                      'next_snapshot_version')
         if hasattr(self,
                    'search_settings') and self.search_settings is not None:
-            _dict['search_settings'] = self.search_settings
+            if isinstance(self.search_settings, dict):
+                _dict['search_settings'] = self.search_settings
+            else:
+                _dict['search_settings'] = self.search_settings.to_dict()
         if hasattr(self, 'warnings') and getattr(self, 'warnings') is not None:
             warnings_list = []
             for v in getattr(self, 'warnings'):
@@ -9253,10 +9944,11 @@ class SkillsAsyncRequestStatus():
 
     :attr str assistant_id: (optional) The assistant ID of the assistant.
     :attr str status: (optional) The current status of the asynchronous operation:
-           - **Available**: The export is available.
-           - **Failed**: An asynchronous export operation has failed. See the
-          **status_errors** property for more information about the cause of the failure.
-           - **Processing**: An asynchronous export operation has not yet completed.
+           - `Available`: An asynchronous export is available.
+           - `Completed`: An asynchronous import operation has completed successfully.
+           - `Failed`: An asynchronous operation has failed. See the **status_errors**
+          property for more information about the cause of the failure.
+           - `Processing`: An asynchronous operation has not yet completed.
     :attr str status_description: (optional) The description of the failed
           asynchronous operation. Included only if **status**=`Failed`.
     :attr List[StatusError] status_errors: (optional) An array of messages about
@@ -9343,12 +10035,14 @@ class SkillsAsyncRequestStatus():
     class StatusEnum(str, Enum):
         """
         The current status of the asynchronous operation:
-         - **Available**: The export is available.
-         - **Failed**: An asynchronous export operation has failed. See the
-        **status_errors** property for more information about the cause of the failure.
-         - **Processing**: An asynchronous export operation has not yet completed.
+         - `Available`: An asynchronous export is available.
+         - `Completed`: An asynchronous import operation has completed successfully.
+         - `Failed`: An asynchronous operation has failed. See the **status_errors**
+        property for more information about the cause of the failure.
+         - `Processing`: An asynchronous operation has not yet completed.
         """
         AVAILABLE = 'Available'
+        COMPLETED = 'Completed'
         FAILED = 'Failed'
         PROCESSING = 'Processing'
 
