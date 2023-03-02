@@ -12,24 +12,6 @@
 
 Python client library to quickly get started with the various [Watson APIs][wdc] services.
 
-## Announcements
-
-### Tone Analyzer Deprecation
-
-As of this major release, 6.0.0, the Tone Analyzer api has been removed in preparation for deprecation. If you wish to continue using this sdk to make calls to Tone Analyzer until its final deprecation, you will have to use a previous version.
-
-On 24 February 2022, IBM announced the deprecation of the Tone Analyzer service. The service will no longer be available as of 24 February 2023. As of 24 February 2022, you will not be able to create new instances. Existing instances will be supported until 24 February 2023.
-
-As an alternative, we encourage you to consider migrating to the Natural Language Understanding service on IBM Cloud. With Natural Language Understanding, tone analysis is done by using a pre-built classifications model, which provides an easy way to detect language tones in written text. For more information, see [Migrating from Watson Tone Analyzer Customer Engagement endpoint to Natural Language Understanding](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-tone_analytics).
-
-### Natural Language Classifier Deprecation
-
-As of this major release, 6.0.0, the NLC api has been removed in preparation for deprecation. If you wish to continue using this sdk to make calls to NLC until its final deprecation, you will have to use a previous version.
-
-On 9 August 2021, IBM announced the deprecation of the Natural Language Classifier service. The service will no longer be available from 8 August 2022. As of 9 September 2021, you will not be able to create new instances. Existing instances will be supported until 8 August 2022. Any instance that still exists on that date will be deleted.
-
-As an alternative, we encourage you to consider migrating to the Natural Language Understanding service on IBM Cloud that uses deep learning to extract data and insights from text such as keywords, categories, sentiment, emotion, and syntax, along with advanced multi-label text classification capabilities, to provide even richer insights for your business or industry. For more information, see [Migrating to Natural Language Understanding](https://cloud.ibm.com/docs/natural-language-classifier?topic=natural-language-classifier-migrating).
-
 ## Before you begin
 
 - You need an [IBM Cloud][ibm-cloud-onboarding] account. We now only support `python 3.5` and above
@@ -219,63 +201,11 @@ discovery.set_service_url('<url_as_per_region>')
 
 ## Python version
 
-Tested on Python 3.5, 3.6, and 3.7.
+Tested on Python 3.9, 3.10, and 3.11.
 
 ## Questions
 
 If you have issues with the APIs or have a question about the Watson services, see [Stack Overflow](https://stackoverflow.com/questions/tagged/ibm-watson+python).
-
-## Changes for v1.0
-
-Version 1.0 focuses on the move to programmatically-generated code for many of the services. See the [changelog](https://github.com/watson-developer-cloud/python-sdk/wiki/Changelog) for the details.
-
-## Changes for v2.0
-
-`DetailedResponse` which contains the result, headers and HTTP status code is now the default response for all methods.
-
-```python
-from ibm_watson import AssistantV1
-
-assistant = AssistantV1(
-    username='xxx',
-    password='yyy',
-    url='<url_as_per_region>',
-    version='2018-07-10')
-
-response = assistant.list_workspaces(headers={'Custom-Header': 'custom_value'})
-print(response.get_result())
-print(response.get_headers())
-print(response.get_status_code())
-```
-
-See the [changelog](https://github.com/watson-developer-cloud/python-sdk/wiki/Changelog) for the details.
-
-## Changes for v3.0
-
-The SDK is generated using OpenAPI Specification(OAS3). Changes are basic reordering of parameters in function calls.
-
-The package is renamed to ibm_watson. See the [changelog](https://github.com/watson-developer-cloud/python-sdk/wiki/Changelog) for the details.
-
-## Changes for v4.0
-
-Authenticator variable indicates the type of authentication to be used.
-
-```python
-from ibm_watson import AssistantV1
-from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
-
-authenticator = IAMAuthenticator('your apikey')
-assistant = AssistantV1(
-    version='2018-07-10',
-    authenticator=authenticator)
-assistant.set_service_url('<url as per region>')
-```
-
-For more information, follow the [MIGRATION-V4](https://github.com/watson-developer-cloud/python-sdk/blob/master/MIGRATION-V4.md)
-
-## Migration
-
-To move from v3.x to v4.0, refer to the [MIGRATION-V4](https://github.com/watson-developer-cloud/python-sdk/blob/master/MIGRATION-V4.md).
 
 ## Configuring the http client (Supported from v1.1.0)
 
@@ -558,33 +488,13 @@ HTTPConnection.debuglevel = 1
 - `python_dateutil` >= 2.5.3
 - [responses] for testing
 - Following for web sockets support in speech to text
-  - `websocket-client` 0.48.0
-- `ibm_cloud_sdk_core` == 1.0.0
+  - `websocket-client` 1.1.0
+- `ibm_cloud_sdk_core` >= 3.16.2
 
 ## Contributing
 
 See [CONTRIBUTING.md][contributing].
 
-## Featured Projects
-
-Here are some projects that have been using the SDK:
-
-- [NLC ICD-10 Classifier](https://github.com/IBM/nlc-icd10-classifier)
-- [Cognitive Moderator Service](https://github.com/IBM/cognitive-moderator-service)
-
-We'd love to highlight cool open-source projects that use this SDK! If you'd like to get your project added to the list, feel free to make an issue linking us to it.
-
 ## License
 
 This library is licensed under the [Apache 2.0 license][license].
-
-[wdc]: http://www.ibm.com/watson/developercloud/
-[ibm_cloud]: https://cloud.ibm.com/
-[watson-dashboard]: https://cloud.ibm.com/catalog?category=ai
-[responses]: https://github.com/getsentry/responses
-[requests]: http://docs.python-requests.org/en/latest/
-[examples]: https://github.com/watson-developer-cloud/python-sdk/tree/master/examples
-[contributing]: https://github.com/watson-developer-cloud/python-sdk/blob/master/CONTRIBUTING.md
-[license]: http://www.apache.org/licenses/LICENSE-2.0
-[vcap_services]: https://cloud.ibm.com/docs/watson?topic=watson-vcapServices
-[ibm-cloud-onboarding]: https://cloud.ibm.com/registration?target=/developer/watson&cm_sp=WatsonPlatform-WatsonServices-_-OnPageNavLink-IBMWatson_SDKs-_-Python
