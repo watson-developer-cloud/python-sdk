@@ -27,11 +27,10 @@ the terms `Multimedia` and `Telephony` in their names. Broadband and multimedia 
 have minimum sampling rates of 16 kHz. Narrowband and telephony models have minimum
 sampling rates of 8 kHz. The next-generation models offer high throughput and greater
 transcription accuracy.
-Effective **15 March 2022**, previous-generation models for all languages other than
-Arabic and Japanese are deprecated. The deprecated models remain available until **31 July
-2023**, when they will be removed from the service and the documentation. You must migrate
-to the equivalent next-generation model by the end of service date. For more information,
-see [Migrating to next-generation
+Effective **31 July 2023**, all previous-generation models will be removed from the
+service and the documentation. Most previous-generation models were deprecated on 15 March
+2022. You must migrate to the equivalent next-generation model by 31 July 2023. For more
+information, see [Migrating to next-generation
 models](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-models-migrate).{:
 deprecated}
 For speech recognition, the service supports synchronous and asynchronous HTTP
@@ -278,11 +277,10 @@ class SpeechToTextV1(BaseService):
         * `keywords` and `keywords_threshold`
         * `processing_metrics` and `processing_metrics_interval`
         * `word_alternatives_threshold`
-        **Important:** Effective **15 March 2022**, previous-generation models for all
-        languages other than Arabic and Japanese are deprecated. The deprecated models
-        remain available until **31 July 2023**, when they will be removed from the
-        service and the documentation. You must migrate to the equivalent next-generation
-        model by the end of service date. For more information, see [Migrating to
+        **Important:** Effective **31 July 2023**, all previous-generation models will be
+        removed from the service and the documentation. Most previous-generation models
+        were deprecated on 15 March 2022. You must migrate to the equivalent
+        next-generation model by 31 July 2023. For more information, see [Migrating to
         next-generation
         models](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-models-migrate).
         **See also:**
@@ -352,14 +350,18 @@ class SpeechToTextV1(BaseService):
                to words from the custom language model compared to those from the base
                model for the current request.
                Specify a value between 0.0 and 1.0. Unless a different customization
-               weight was specified for the custom model when it was trained, the default
-               value is 0.3. A customization weight that you specify overrides a weight
-               that was specified when the custom model was trained.
-               The default value yields the best performance in general. Assign a higher
-               value if your audio makes frequent use of OOV words from the custom model.
-               Use caution when setting the weight: a higher value can improve the
-               accuracy of phrases from the custom model's domain, but it can negatively
-               affect performance on non-domain phrases.
+               weight was specified for the custom model when the model was trained, the
+               default value is:
+               * 0.3 for previous-generation models
+               * 0.2 for most next-generation models
+               * 0.1 for next-generation English and Japanese models
+               A customization weight that you specify overrides a weight that was
+               specified when the custom model was trained. The default value yields the
+               best performance in general. Assign a higher value if your audio makes
+               frequent use of OOV words from the custom model. Use caution when setting
+               the weight: a higher value can improve the accuracy of phrases from the
+               custom model's domain, but it can negatively affect performance on
+               non-domain phrases.
                See [Using customization
                weight](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-languageUse#weight).
         :param int inactivity_timeout: (optional) The time in seconds after which,
@@ -466,12 +468,12 @@ class SpeechToTextV1(BaseService):
                default, the service returns no audio metrics.
                See [Audio
                metrics](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-metrics#audio-metrics).
-        :param float end_of_phrase_silence_time: (optional) If `true`, specifies
-               the duration of the pause interval at which the service splits a transcript
-               into multiple final results. If the service detects pauses or extended
-               silence before it reaches the end of the audio stream, its response can
-               include multiple final results. Silence indicates a point at which the
-               speaker pauses between spoken words or phrases.
+        :param float end_of_phrase_silence_time: (optional) Specifies the duration
+               of the pause interval at which the service splits a transcript into
+               multiple final results. If the service detects pauses or extended silence
+               before it reaches the end of the audio stream, its response can include
+               multiple final results. Silence indicates a point at which the speaker
+               pauses between spoken words or phrases.
                Specify a value for the pause interval in the range of 0.0 to 120.0.
                * A value greater than 0 specifies the interval that the service is to use
                for speech recognition.
@@ -545,13 +547,11 @@ class SpeechToTextV1(BaseService):
                * For more information about the `low_latency` parameter, see [Low
                latency](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-interim#low-latency).
         :param float character_insertion_bias: (optional) For next-generation
-               `Multimedia` and `Telephony` models, an indication of whether the service
-               is biased to recognize shorter or longer strings of characters when
-               developing transcription hypotheses. By default, the service is optimized
-               for each individual model to balance its recognition of strings of
-               different lengths. The model-specific bias is equivalent to 0.0.
-               The value that you specify represents a change from a model's default bias.
-               The allowable range of values is -1.0 to 1.0.
+               models, an indication of whether the service is biased to recognize shorter
+               or longer strings of characters when developing transcription hypotheses.
+               By default, the service is optimized to produce the best balance of strings
+               of different lengths.
+               The default bias is 0.0. The allowable range of values is -1.0 to 1.0.
                * Negative values bias the service to favor hypotheses with shorter strings
                of characters.
                * Positive values bias the service to favor hypotheses with longer strings
@@ -562,8 +562,7 @@ class SpeechToTextV1(BaseService):
                -0.1, -0.05, 0.05, or 0.1, and assess how the value impacts the
                transcription results. Then experiment with different values as necessary,
                adjusting the value by small increments.
-               The parameter is not available for previous-generation `Broadband` and
-               `Narrowband` models.
+               The parameter is not available for previous-generation models.
                See [Character insertion
                bias](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-parsing#insertion-bias).
         :param dict headers: A `dict` containing the request headers
@@ -891,11 +890,10 @@ class SpeechToTextV1(BaseService):
         * `keywords` and `keywords_threshold`
         * `processing_metrics` and `processing_metrics_interval`
         * `word_alternatives_threshold`
-        **Important:** Effective **15 March 2022**, previous-generation models for all
-        languages other than Arabic and Japanese are deprecated. The deprecated models
-        remain available until **31 July 2023**, when they will be removed from the
-        service and the documentation. You must migrate to the equivalent next-generation
-        model by the end of service date. For more information, see  [Migrating to
+        **Important:** Effective **31 July 2023**, all previous-generation models will be
+        removed from the service and the documentation. Most previous-generation models
+        were deprecated on 15 March 2022. You must migrate to the equivalent
+        next-generation model by 31 July 2023. For more information, see [Migrating to
         next-generation
         models](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-models-migrate).
         **See also:**
@@ -987,14 +985,18 @@ class SpeechToTextV1(BaseService):
                to words from the custom language model compared to those from the base
                model for the current request.
                Specify a value between 0.0 and 1.0. Unless a different customization
-               weight was specified for the custom model when it was trained, the default
-               value is 0.3. A customization weight that you specify overrides a weight
-               that was specified when the custom model was trained.
-               The default value yields the best performance in general. Assign a higher
-               value if your audio makes frequent use of OOV words from the custom model.
-               Use caution when setting the weight: a higher value can improve the
-               accuracy of phrases from the custom model's domain, but it can negatively
-               affect performance on non-domain phrases.
+               weight was specified for the custom model when the model was trained, the
+               default value is:
+               * 0.3 for previous-generation models
+               * 0.2 for most next-generation models
+               * 0.1 for next-generation English and Japanese models
+               A customization weight that you specify overrides a weight that was
+               specified when the custom model was trained. The default value yields the
+               best performance in general. Assign a higher value if your audio makes
+               frequent use of OOV words from the custom model. Use caution when setting
+               the weight: a higher value can improve the accuracy of phrases from the
+               custom model's domain, but it can negatively affect performance on
+               non-domain phrases.
                See [Using customization
                weight](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-languageUse#weight).
         :param int inactivity_timeout: (optional) The time in seconds after which,
@@ -1123,12 +1125,12 @@ class SpeechToTextV1(BaseService):
                default, the service returns no audio metrics.
                See [Audio
                metrics](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-metrics#audio-metrics).
-        :param float end_of_phrase_silence_time: (optional) If `true`, specifies
-               the duration of the pause interval at which the service splits a transcript
-               into multiple final results. If the service detects pauses or extended
-               silence before it reaches the end of the audio stream, its response can
-               include multiple final results. Silence indicates a point at which the
-               speaker pauses between spoken words or phrases.
+        :param float end_of_phrase_silence_time: (optional) Specifies the duration
+               of the pause interval at which the service splits a transcript into
+               multiple final results. If the service detects pauses or extended silence
+               before it reaches the end of the audio stream, its response can include
+               multiple final results. Silence indicates a point at which the speaker
+               pauses between spoken words or phrases.
                Specify a value for the pause interval in the range of 0.0 to 120.0.
                * A value greater than 0 specifies the interval that the service is to use
                for speech recognition.
@@ -1202,13 +1204,11 @@ class SpeechToTextV1(BaseService):
                * For more information about the `low_latency` parameter, see [Low
                latency](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-interim#low-latency).
         :param float character_insertion_bias: (optional) For next-generation
-               `Multimedia` and `Telephony` models, an indication of whether the service
-               is biased to recognize shorter or longer strings of characters when
-               developing transcription hypotheses. By default, the service is optimized
-               for each individual model to balance its recognition of strings of
-               different lengths. The model-specific bias is equivalent to 0.0.
-               The value that you specify represents a change from a model's default bias.
-               The allowable range of values is -1.0 to 1.0.
+               models, an indication of whether the service is biased to recognize shorter
+               or longer strings of characters when developing transcription hypotheses.
+               By default, the service is optimized to produce the best balance of strings
+               of different lengths.
+               The default bias is 0.0. The allowable range of values is -1.0 to 1.0.
                * Negative values bias the service to favor hypotheses with shorter strings
                of characters.
                * Positive values bias the service to favor hypotheses with longer strings
@@ -1219,8 +1219,7 @@ class SpeechToTextV1(BaseService):
                -0.1, -0.05, 0.05, or 0.1, and assess how the value impacts the
                transcription results. Then experiment with different values as necessary,
                adjusting the value by small increments.
-               The parameter is not available for previous-generation `Broadband` and
-               `Narrowband` models.
+               The parameter is not available for previous-generation models.
                See [Character insertion
                bias](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-parsing#insertion-bias).
         :param dict headers: A `dict` containing the request headers
@@ -1437,11 +1436,10 @@ class SpeechToTextV1(BaseService):
         The service returns an error if you attempt to create more than 1024 models. You
         do not lose any models, but you cannot create any more until your model count is
         below the limit.
-        **Important:** Effective **15 March 2022**, previous-generation models for all
-        languages other than Arabic and Japanese are deprecated. The deprecated models
-        remain available until **31 July 2023**, when they will be removed from the
-        service and the documentation. You must migrate to the equivalent next-generation
-        model by the end of service date. For more information, see [Migrating to
+        **Important:** Effective **31 July 2023**, all previous-generation models will be
+        removed from the service and the documentation. Most previous-generation models
+        were deprecated on 15 March 2022. You must migrate to the equivalent
+        next-generation model by 31 July 2023. For more information, see [Migrating to
         next-generation
         models](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-models-migrate).
         **See also:**
@@ -1738,7 +1736,10 @@ class SpeechToTextV1(BaseService):
                weight for the custom language model. The customization weight tells the
                service how much weight to give to words from the custom language model
                compared to those from the base model for speech recognition. Specify a
-               value between 0.0 and 1.0; the default is 0.3.
+               value between 0.0 and 1.0. The default value is:
+               * 0.3 for previous-generation models
+               * 0.2 for most next-generation models
+               * 0.1 for next-generation English and Japanese models
                The default value yields the best performance in general. Assign a higher
                value if your audio makes frequent use of OOV words from the custom model.
                Use caution when setting the weight: a higher value can improve the
@@ -2950,11 +2951,10 @@ class SpeechToTextV1(BaseService):
         below the limit.
         **Note:** Acoustic model customization is supported only for use with
         previous-generation models. It is not supported for next-generation models.
-        **Important:** Effective **15 March 2022**, previous-generation models for all
-        languages other than Arabic and Japanese are deprecated. The deprecated models
-        remain available until **31 July 2023**, when they will be removed from the
-        service and the documentation. You must migrate to the equivalent next-generation
-        model by the end of service date. For more information, see [Migrating to
+        **Important:** Effective **31 July 2023**, all previous-generation models will be
+        removed from the service and the documentation. Most previous-generation models
+        were deprecated on 15 March 2022. You must migrate to the equivalent
+        next-generation model by 31 July 2023. For more information, see [Migrating to
         next-generation
         models](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-models-migrate).
         **See also:** [Create a custom acoustic
@@ -3907,6 +3907,7 @@ class GetModelEnums:
         JA_JP_BROADBANDMODEL = 'ja-JP_BroadbandModel'
         JA_JP_MULTIMEDIA = 'ja-JP_Multimedia'
         JA_JP_NARROWBANDMODEL = 'ja-JP_NarrowbandModel'
+        JA_JP_TELEPHONY = 'ja-JP_Telephony'
         KO_KR_BROADBANDMODEL = 'ko-KR_BroadbandModel'
         KO_KR_MULTIMEDIA = 'ko-KR_Multimedia'
         KO_KR_NARROWBANDMODEL = 'ko-KR_NarrowbandModel'
@@ -4019,6 +4020,7 @@ class RecognizeEnums:
         JA_JP_BROADBANDMODEL = 'ja-JP_BroadbandModel'
         JA_JP_MULTIMEDIA = 'ja-JP_Multimedia'
         JA_JP_NARROWBANDMODEL = 'ja-JP_NarrowbandModel'
+        JA_JP_TELEPHONY = 'ja-JP_Telephony'
         KO_KR_BROADBANDMODEL = 'ko-KR_BroadbandModel'
         KO_KR_MULTIMEDIA = 'ko-KR_Multimedia'
         KO_KR_NARROWBANDMODEL = 'ko-KR_NarrowbandModel'
@@ -4131,6 +4133,7 @@ class CreateJobEnums:
         JA_JP_BROADBANDMODEL = 'ja-JP_BroadbandModel'
         JA_JP_MULTIMEDIA = 'ja-JP_Multimedia'
         JA_JP_NARROWBANDMODEL = 'ja-JP_NarrowbandModel'
+        JA_JP_TELEPHONY = 'ja-JP_Telephony'
         KO_KR_BROADBANDMODEL = 'ko-KR_BroadbandModel'
         KO_KR_MULTIMEDIA = 'ko-KR_Multimedia'
         KO_KR_NARROWBANDMODEL = 'ko-KR_NarrowbandModel'
