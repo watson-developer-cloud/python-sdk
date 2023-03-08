@@ -5252,18 +5252,12 @@ class SentimentOptions():
           sentiment results.
     :attr List[str] targets: (optional) Sentiment results will be returned for each
           target string that is found in the document.
-    :attr str model: (optional) (Beta) Enter a [custom
-          model](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-customizing)
-          ID to override the standard sentiment model for all sentiment analysis
-          operations in the request, including targeted sentiment for entities and
-          keywords.
     """
 
     def __init__(self,
                  *,
                  document: bool = None,
-                 targets: List[str] = None,
-                 model: str = None) -> None:
+                 targets: List[str] = None) -> None:
         """
         Initialize a SentimentOptions object.
 
@@ -5271,15 +5265,9 @@ class SentimentOptions():
                sentiment results.
         :param List[str] targets: (optional) Sentiment results will be returned for
                each target string that is found in the document.
-        :param str model: (optional) (Beta) Enter a [custom
-               model](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-customizing)
-               ID to override the standard sentiment model for all sentiment analysis
-               operations in the request, including targeted sentiment for entities and
-               keywords.
         """
         self.document = document
         self.targets = targets
-        self.model = model
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'SentimentOptions':
@@ -5289,8 +5277,6 @@ class SentimentOptions():
             args['document'] = _dict.get('document')
         if 'targets' in _dict:
             args['targets'] = _dict.get('targets')
-        if 'model' in _dict:
-            args['model'] = _dict.get('model')
         return cls(**args)
 
     @classmethod
@@ -5305,8 +5291,6 @@ class SentimentOptions():
             _dict['document'] = self.document
         if hasattr(self, 'targets') and self.targets is not None:
             _dict['targets'] = self.targets
-        if hasattr(self, 'model') and self.model is not None:
-            _dict['model'] = self.model
         return _dict
 
     def _to_dict(self):
