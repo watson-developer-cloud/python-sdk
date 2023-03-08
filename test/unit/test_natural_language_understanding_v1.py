@@ -133,7 +133,6 @@ class TestAnalyze():
         sentiment_options_model = {}
         sentiment_options_model['document'] = True
         sentiment_options_model['targets'] = ['testString']
-        sentiment_options_model['model'] = 'testString'
 
         # Construct a dict representation of a SummarizationOptions model
         summarization_options_model = {}
@@ -277,7 +276,6 @@ class TestAnalyze():
         sentiment_options_model = {}
         sentiment_options_model['document'] = True
         sentiment_options_model['targets'] = ['testString']
-        sentiment_options_model['model'] = 'testString'
 
         # Construct a dict representation of a SummarizationOptions model
         summarization_options_model = {}
@@ -2678,7 +2676,6 @@ class TestModel_Features():
         sentiment_options_model = {} # SentimentOptions
         sentiment_options_model['document'] = True
         sentiment_options_model['targets'] = ['testString']
-        sentiment_options_model['model'] = 'testString'
 
         summarization_options_model = {} # SummarizationOptions
         summarization_options_model['limit'] = 10
@@ -3453,7 +3450,6 @@ class TestModel_SentimentOptions():
         sentiment_options_model_json = {}
         sentiment_options_model_json['document'] = True
         sentiment_options_model_json['targets'] = ['testString']
-        sentiment_options_model_json['model'] = 'testString'
 
         # Construct a model instance of SentimentOptions by calling from_dict on the json representation
         sentiment_options_model = SentimentOptions.from_dict(sentiment_options_model_json)
