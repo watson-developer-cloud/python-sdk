@@ -3220,37 +3220,6 @@ class TestModel_AgentAvailabilityMessage():
         agent_availability_message_model_json2 = agent_availability_message_model.to_dict()
         assert agent_availability_message_model_json2 == agent_availability_message_model_json
 
-class TestModel_Assistant():
-    """
-    Test Class for Assistant
-    """
-
-    def test_assistant_serialization(self):
-        """
-        Test serialization/deserialization for Assistant
-        """
-
-        # Construct a json representation of a Assistant model
-        assistant_model_json = {}
-        assistant_model_json['name'] = 'testString'
-        assistant_model_json['description'] = 'testString'
-        assistant_model_json['language'] = 'testString'
-
-        # Construct a model instance of Assistant by calling from_dict on the json representation
-        assistant_model = Assistant.from_dict(assistant_model_json)
-        assert assistant_model != False
-
-        # Construct a model instance of Assistant by calling from_dict on the json representation
-        assistant_model_dict = Assistant.from_dict(assistant_model_json).__dict__
-        assistant_model2 = Assistant(**assistant_model_dict)
-
-        # Verify the model instances are equivalent
-        assert assistant_model == assistant_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        assistant_model_json2 = assistant_model.to_dict()
-        assert assistant_model_json2 == assistant_model_json
-
 class TestModel_AssistantCollection():
     """
     Test Class for AssistantCollection
@@ -3263,10 +3232,10 @@ class TestModel_AssistantCollection():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        assistant_model = {} # Assistant
-        assistant_model['name'] = 'testString'
-        assistant_model['description'] = 'testString'
-        assistant_model['language'] = 'testString'
+        assistant_data_model = {} # AssistantData
+        assistant_data_model['name'] = 'testString'
+        assistant_data_model['description'] = 'testString'
+        assistant_data_model['language'] = 'testString'
 
         pagination_model = {} # Pagination
         pagination_model['refresh_url'] = 'testString'
@@ -3278,7 +3247,7 @@ class TestModel_AssistantCollection():
 
         # Construct a json representation of a AssistantCollection model
         assistant_collection_model_json = {}
-        assistant_collection_model_json['assistants'] = [assistant_model]
+        assistant_collection_model_json['assistants'] = [assistant_data_model]
         assistant_collection_model_json['pagination'] = pagination_model
 
         # Construct a model instance of AssistantCollection by calling from_dict on the json representation
@@ -3295,6 +3264,37 @@ class TestModel_AssistantCollection():
         # Convert model instance back to dict and verify no loss of data
         assistant_collection_model_json2 = assistant_collection_model.to_dict()
         assert assistant_collection_model_json2 == assistant_collection_model_json
+
+class TestModel_AssistantData():
+    """
+    Test Class for AssistantData
+    """
+
+    def test_assistant_data_serialization(self):
+        """
+        Test serialization/deserialization for AssistantData
+        """
+
+        # Construct a json representation of a AssistantData model
+        assistant_data_model_json = {}
+        assistant_data_model_json['name'] = 'testString'
+        assistant_data_model_json['description'] = 'testString'
+        assistant_data_model_json['language'] = 'testString'
+
+        # Construct a model instance of AssistantData by calling from_dict on the json representation
+        assistant_data_model = AssistantData.from_dict(assistant_data_model_json)
+        assert assistant_data_model != False
+
+        # Construct a model instance of AssistantData by calling from_dict on the json representation
+        assistant_data_model_dict = AssistantData.from_dict(assistant_data_model_json).__dict__
+        assistant_data_model2 = AssistantData(**assistant_data_model_dict)
+
+        # Verify the model instances are equivalent
+        assert assistant_data_model == assistant_data_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        assistant_data_model_json2 = assistant_data_model.to_dict()
+        assert assistant_data_model_json2 == assistant_data_model_json
 
 class TestModel_AssistantSkill():
     """

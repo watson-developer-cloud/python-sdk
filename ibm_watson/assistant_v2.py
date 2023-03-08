@@ -100,7 +100,7 @@ class AssistantV2(BaseService):
                string cannot contain carriage return, newline, or tab characters.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `Assistant` object
+        :rtype: DetailedResponse with `dict` result representing a `AssistantData` object
         """
 
         headers = {}
@@ -1865,147 +1865,22 @@ class AgentAvailabilityMessage():
         return not self == other
 
 
-class Assistant():
-    """
-    Assistant.
-
-    :attr str assistant_id: (optional) The unique identifier of the assistant.
-    :attr str name: (optional) The name of the assistant. This string cannot contain
-          carriage return, newline, or tab characters.
-    :attr str description: (optional) The description of the assistant. This string
-          cannot contain carriage return, newline, or tab characters.
-    :attr str language: The language of the assistant.
-    :attr List[AssistantSkill] assistant_skills: (optional) An array of skill
-          references identifying the skills associated with the assistant.
-    :attr List[EnvironmentReference] assistant_environments: (optional) An array of
-          objects describing the environments defined for the assistant.
-    """
-
-    def __init__(
-            self,
-            language: str,
-            *,
-            assistant_id: str = None,
-            name: str = None,
-            description: str = None,
-            assistant_skills: List['AssistantSkill'] = None,
-            assistant_environments: List['EnvironmentReference'] = None
-    ) -> None:
-        """
-        Initialize a Assistant object.
-
-        :param str language: The language of the assistant.
-        :param str name: (optional) The name of the assistant. This string cannot
-               contain carriage return, newline, or tab characters.
-        :param str description: (optional) The description of the assistant. This
-               string cannot contain carriage return, newline, or tab characters.
-        """
-        self.assistant_id = assistant_id
-        self.name = name
-        self.description = description
-        self.language = language
-        self.assistant_skills = assistant_skills
-        self.assistant_environments = assistant_environments
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'Assistant':
-        """Initialize a Assistant object from a json dictionary."""
-        args = {}
-        if 'assistant_id' in _dict:
-            args['assistant_id'] = _dict.get('assistant_id')
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
-        if 'description' in _dict:
-            args['description'] = _dict.get('description')
-        if 'language' in _dict:
-            args['language'] = _dict.get('language')
-        else:
-            raise ValueError(
-                'Required property \'language\' not present in Assistant JSON')
-        if 'assistant_skills' in _dict:
-            args['assistant_skills'] = [
-                AssistantSkill.from_dict(v)
-                for v in _dict.get('assistant_skills')
-            ]
-        if 'assistant_environments' in _dict:
-            args['assistant_environments'] = [
-                EnvironmentReference.from_dict(v)
-                for v in _dict.get('assistant_environments')
-            ]
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a Assistant object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'assistant_id') and getattr(
-                self, 'assistant_id') is not None:
-            _dict['assistant_id'] = getattr(self, 'assistant_id')
-        if hasattr(self, 'name') and self.name is not None:
-            _dict['name'] = self.name
-        if hasattr(self, 'description') and self.description is not None:
-            _dict['description'] = self.description
-        if hasattr(self, 'language') and self.language is not None:
-            _dict['language'] = self.language
-        if hasattr(self, 'assistant_skills') and getattr(
-                self, 'assistant_skills') is not None:
-            assistant_skills_list = []
-            for v in getattr(self, 'assistant_skills'):
-                if isinstance(v, dict):
-                    assistant_skills_list.append(v)
-                else:
-                    assistant_skills_list.append(v.to_dict())
-            _dict['assistant_skills'] = assistant_skills_list
-        if hasattr(self, 'assistant_environments') and getattr(
-                self, 'assistant_environments') is not None:
-            assistant_environments_list = []
-            for v in getattr(self, 'assistant_environments'):
-                if isinstance(v, dict):
-                    assistant_environments_list.append(v)
-                else:
-                    assistant_environments_list.append(v.to_dict())
-            _dict['assistant_environments'] = assistant_environments_list
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this Assistant object."""
-        return json.dumps(self.to_dict(), indent=2)
-
-    def __eq__(self, other: 'Assistant') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'Assistant') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
 class AssistantCollection():
     """
     AssistantCollection.
 
-    :attr List[Assistant] assistants: An array of objects describing the assistants
-          associated with the instance.
+    :attr List[AssistantData] assistants: An array of objects describing the
+          assistants associated with the instance.
     :attr Pagination pagination: The pagination data for the returned objects. For
           more information about using pagination, see [Pagination](#pagination).
     """
 
-    def __init__(self, assistants: List['Assistant'],
+    def __init__(self, assistants: List['AssistantData'],
                  pagination: 'Pagination') -> None:
         """
         Initialize a AssistantCollection object.
 
-        :param List[Assistant] assistants: An array of objects describing the
+        :param List[AssistantData] assistants: An array of objects describing the
                assistants associated with the instance.
         :param Pagination pagination: The pagination data for the returned objects.
                For more information about using pagination, see [Pagination](#pagination).
@@ -2019,7 +1894,7 @@ class AssistantCollection():
         args = {}
         if 'assistants' in _dict:
             args['assistants'] = [
-                Assistant.from_dict(v) for v in _dict.get('assistants')
+                AssistantData.from_dict(v) for v in _dict.get('assistants')
             ]
         else:
             raise ValueError(
@@ -2071,6 +1946,132 @@ class AssistantCollection():
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'AssistantCollection') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class AssistantData():
+    """
+    AssistantData.
+
+    :attr str assistant_id: (optional) The unique identifier of the assistant.
+    :attr str name: (optional) The name of the assistant. This string cannot contain
+          carriage return, newline, or tab characters.
+    :attr str description: (optional) The description of the assistant. This string
+          cannot contain carriage return, newline, or tab characters.
+    :attr str language: The language of the assistant.
+    :attr List[AssistantSkill] assistant_skills: (optional) An array of skill
+          references identifying the skills associated with the assistant.
+    :attr List[EnvironmentReference] assistant_environments: (optional) An array of
+          objects describing the environments defined for the assistant.
+    """
+
+    def __init__(
+            self,
+            language: str,
+            *,
+            assistant_id: str = None,
+            name: str = None,
+            description: str = None,
+            assistant_skills: List['AssistantSkill'] = None,
+            assistant_environments: List['EnvironmentReference'] = None
+    ) -> None:
+        """
+        Initialize a AssistantData object.
+
+        :param str language: The language of the assistant.
+        :param str name: (optional) The name of the assistant. This string cannot
+               contain carriage return, newline, or tab characters.
+        :param str description: (optional) The description of the assistant. This
+               string cannot contain carriage return, newline, or tab characters.
+        """
+        self.assistant_id = assistant_id
+        self.name = name
+        self.description = description
+        self.language = language
+        self.assistant_skills = assistant_skills
+        self.assistant_environments = assistant_environments
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'AssistantData':
+        """Initialize a AssistantData object from a json dictionary."""
+        args = {}
+        if 'assistant_id' in _dict:
+            args['assistant_id'] = _dict.get('assistant_id')
+        if 'name' in _dict:
+            args['name'] = _dict.get('name')
+        if 'description' in _dict:
+            args['description'] = _dict.get('description')
+        if 'language' in _dict:
+            args['language'] = _dict.get('language')
+        else:
+            raise ValueError(
+                'Required property \'language\' not present in AssistantData JSON'
+            )
+        if 'assistant_skills' in _dict:
+            args['assistant_skills'] = [
+                AssistantSkill.from_dict(v)
+                for v in _dict.get('assistant_skills')
+            ]
+        if 'assistant_environments' in _dict:
+            args['assistant_environments'] = [
+                EnvironmentReference.from_dict(v)
+                for v in _dict.get('assistant_environments')
+            ]
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a AssistantData object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'assistant_id') and getattr(
+                self, 'assistant_id') is not None:
+            _dict['assistant_id'] = getattr(self, 'assistant_id')
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
+        if hasattr(self, 'language') and self.language is not None:
+            _dict['language'] = self.language
+        if hasattr(self, 'assistant_skills') and getattr(
+                self, 'assistant_skills') is not None:
+            assistant_skills_list = []
+            for v in getattr(self, 'assistant_skills'):
+                if isinstance(v, dict):
+                    assistant_skills_list.append(v)
+                else:
+                    assistant_skills_list.append(v.to_dict())
+            _dict['assistant_skills'] = assistant_skills_list
+        if hasattr(self, 'assistant_environments') and getattr(
+                self, 'assistant_environments') is not None:
+            assistant_environments_list = []
+            for v in getattr(self, 'assistant_environments'):
+                if isinstance(v, dict):
+                    assistant_environments_list.append(v)
+                else:
+                    assistant_environments_list.append(v.to_dict())
+            _dict['assistant_environments'] = assistant_environments_list
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this AssistantData object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'AssistantData') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'AssistantData') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 

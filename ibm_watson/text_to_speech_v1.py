@@ -38,8 +38,8 @@ support custom prompts only for US English custom models and voices.
 Effective **31 March 2022**, all *neural voices* are deprecated. The deprecated voices
 remain available to existing users until 31 March 2023, when they will be removed from the
 service and the documentation. *No enhanced neural voices or expressive neural voices are
-deprecated.* For more information, see the [31 March 2022 service
-update](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-release-notes#text-to-speech-31march2022)
+deprecated.*<br/><br/> For more information, see the [1 March 2023 service
+update](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-release-notes#text-to-speech-1march2023)
 in the release notes for {{site.data.keyword.texttospeechshort}} for
 {{site.data.keyword.cloud_notm}}.{: deprecated}
 
@@ -105,8 +105,8 @@ class TextToSpeechV1(BaseService):
         deprecated voices remain available to existing users until 31 March 2023, when
         they will be removed from the service and the documentation. *No enhanced neural
         voices or expressive neural voices are deprecated.* For more information, see the
-        [31 March 2022 service
-        update](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-release-notes#text-to-speech-31march2022)
+        [1 March 2023 service
+        update](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-release-notes#text-to-speech-1march2023)
         in the release notes.
         **See also:** [Listing all
         voices](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-voices-list#list-all-voices).
@@ -152,8 +152,8 @@ class TextToSpeechV1(BaseService):
         deprecated voices remain available to existing users until 31 March 2023, when
         they will be removed from the service and the documentation. *No enhanced neural
         voices or expressive neural voices are deprecated.* For more information, see the
-        [31 March 2022 service
-        update](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-release-notes#text-to-speech-31march2022)
+        [1 March 2023 service
+        update](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-release-notes#text-to-speech-1march2023)
         in the release notes.
 
         :param str voice: The voice for which information is to be returned.
@@ -225,8 +225,8 @@ class TextToSpeechV1(BaseService):
         deprecated voices remain available to existing users until 31 March 2023, when
         they will be removed from the service and the documentation. *No enhanced neural
         voices or expressive neural voices are deprecated.* For more information, see the
-        [31 March 2022 service
-        update](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-release-notes#text-to-speech-31march2022)
+        [1 March 2023 service
+        update](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-release-notes#text-to-speech-1march2023)
         in the release notes.
         ### Audio formats (accept types)
          The service can return audio in the following formats (MIME types).
@@ -417,8 +417,8 @@ class TextToSpeechV1(BaseService):
         deprecated voices remain available to existing users until 31 March 2023, when
         they will be removed from the service and the documentation. *No enhanced neural
         voices or expressive neural voices are deprecated.* For more information, see the
-        [31 March 2022 service
-        update](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-release-notes#text-to-speech-31march2022)
+        [1 March 2023 service
+        update](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-release-notes#text-to-speech-1march2023)
         in the release notes.
         **See also:** [Querying a word from a
         language](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customWords#cuWordsQueryLanguage).
@@ -502,8 +502,8 @@ class TextToSpeechV1(BaseService):
         deprecated voices remain available to existing users until 31 March 2023, when
         they will be removed from the service and the documentation. *No enhanced neural
         voices or expressive neural voices are deprecated.* For more information, see the
-        [31 March 2022 service
-        update](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-release-notes#text-to-speech-31march2022)
+        [1 March 2023 service
+        update](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-release-notes#text-to-speech-1march2023)
         in the release notes.
 
         :param str name: The name of the new custom model. Use a localized name
