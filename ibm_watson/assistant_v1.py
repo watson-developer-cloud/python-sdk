@@ -674,8 +674,8 @@ class AssistantV1(BaseService):
         workspace components defining the content of the new workspace.
         A successful call to this method only initiates asynchronous creation of the
         workspace. The new workspace is not available until processing completes. To check
-        the status of the asynchronous operation, use the **Export workspace
-        asynchronously** method.
+        the status of the asynchronous operation, use the **Get information about a
+        workspace** method.
 
         :param str name: (optional) The name of the workspace. This string cannot
                contain carriage return, newline, or tab characters.
@@ -781,8 +781,8 @@ class AssistantV1(BaseService):
         provide component objects defining the content of the updated workspace.
         A successful call to this method only initiates an asynchronous update of the
         workspace. The updated workspace is not available until processing completes. To
-        check the status of the asynchronous operation, use the **Export workspace
-        asynchronously** method.
+        check the status of the asynchronous operation, use the **Get information about a
+        workspace** method.
 
         :param str workspace_id: Unique identifier of the workspace.
         :param str name: (optional) The name of the workspace. This string cannot
@@ -10519,11 +10519,9 @@ class Workspace():
     :attr str status: (optional) The current status of the workspace:
            - **Available**: The workspace is available and ready to process messages.
            - **Failed**: An asynchronous operation has failed. See the **status_errors**
-          property for more information about the cause of the failure. Returned only by
-          the **Export workspace asynchronously** method.
+          property for more information about the cause of the failure.
            - **Non Existent**: The workspace does not exist.
-           - **Processing**: An asynchronous operation has not yet completed. Returned
-          only by the **Export workspace asynchronously** method.
+           - **Processing**: An asynchronous operation has not yet completed.
            - **Training**: The workspace is training based on new data such as intents or
           examples.
     :attr List[StatusError] status_errors: (optional) An array of messages about
@@ -10778,11 +10776,9 @@ class Workspace():
         The current status of the workspace:
          - **Available**: The workspace is available and ready to process messages.
          - **Failed**: An asynchronous operation has failed. See the **status_errors**
-        property for more information about the cause of the failure. Returned only by the
-        **Export workspace asynchronously** method.
+        property for more information about the cause of the failure.
          - **Non Existent**: The workspace does not exist.
-         - **Processing**: An asynchronous operation has not yet completed. Returned only
-        by the **Export workspace asynchronously** method.
+         - **Processing**: An asynchronous operation has not yet completed.
          - **Training**: The workspace is training based on new data such as intents or
         examples.
         """
