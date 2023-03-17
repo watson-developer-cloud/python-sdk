@@ -577,11 +577,13 @@ class TestCreateCategoriesModel():
         # Set up parameter values
         language = 'testString'
         training_data = io.BytesIO(b'This is a mock file.').getvalue()
+        training_data_content_type = 'application/json'
 
         # Invoke method
         response = _service.create_categories_model(
             language,
             training_data,
+            training_data_content_type,
             headers={}
         )
 
@@ -615,11 +617,13 @@ class TestCreateCategoriesModel():
         # Set up parameter values
         language = 'testString'
         training_data = io.BytesIO(b'This is a mock file.').getvalue()
+        training_data_content_type = 'application/json'
 
         # Pass in all but one required param and check for a ValueError
         req_param_dict = {
             "language": language,
             "training_data": training_data,
+            "training_data_content_type": training_data_content_type,
         }
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
@@ -853,12 +857,14 @@ class TestUpdateCategoriesModel():
         model_id = 'testString'
         language = 'testString'
         training_data = io.BytesIO(b'This is a mock file.').getvalue()
+        training_data_content_type = 'application/json'
 
         # Invoke method
         response = _service.update_categories_model(
             model_id,
             language,
             training_data,
+            training_data_content_type,
             headers={}
         )
 
@@ -893,12 +899,14 @@ class TestUpdateCategoriesModel():
         model_id = 'testString'
         language = 'testString'
         training_data = io.BytesIO(b'This is a mock file.').getvalue()
+        training_data_content_type = 'application/json'
 
         # Pass in all but one required param and check for a ValueError
         req_param_dict = {
             "model_id": model_id,
             "language": language,
             "training_data": training_data,
+            "training_data_content_type": training_data_content_type,
         }
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
@@ -1078,11 +1086,13 @@ class TestCreateClassificationsModel():
         # Set up parameter values
         language = 'testString'
         training_data = io.BytesIO(b'This is a mock file.').getvalue()
+        training_data_content_type = 'application/json'
 
         # Invoke method
         response = _service.create_classifications_model(
             language,
             training_data,
+            training_data_content_type,
             headers={}
         )
 
@@ -1116,11 +1126,13 @@ class TestCreateClassificationsModel():
         # Set up parameter values
         language = 'testString'
         training_data = io.BytesIO(b'This is a mock file.').getvalue()
+        training_data_content_type = 'application/json'
 
         # Pass in all but one required param and check for a ValueError
         req_param_dict = {
             "language": language,
             "training_data": training_data,
+            "training_data_content_type": training_data_content_type,
         }
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
@@ -1360,12 +1372,14 @@ class TestUpdateClassificationsModel():
         model_id = 'testString'
         language = 'testString'
         training_data = io.BytesIO(b'This is a mock file.').getvalue()
+        training_data_content_type = 'application/json'
 
         # Invoke method
         response = _service.update_classifications_model(
             model_id,
             language,
             training_data,
+            training_data_content_type,
             headers={}
         )
 
@@ -1400,12 +1414,14 @@ class TestUpdateClassificationsModel():
         model_id = 'testString'
         language = 'testString'
         training_data = io.BytesIO(b'This is a mock file.').getvalue()
+        training_data_content_type = 'application/json'
 
         # Pass in all but one required param and check for a ValueError
         req_param_dict = {
             "model_id": model_id,
             "language": language,
             "training_data": training_data,
+            "training_data_content_type": training_data_content_type
         }
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
