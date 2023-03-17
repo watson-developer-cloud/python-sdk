@@ -289,8 +289,8 @@ class NaturalLanguageUnderstandingV1(BaseService):
     def create_categories_model(self,
                                 language: str,
                                 training_data: BinaryIO,
+                                training_data_content_type: str,
                                 *,
-                                training_data_content_type: str = None,
                                 name: str = None,
                                 description: str = None,
                                 model_version: str = None,
@@ -325,6 +325,8 @@ class NaturalLanguageUnderstandingV1(BaseService):
             raise ValueError('language must be provided')
         if training_data is None:
             raise ValueError('training_data must be provided')
+        if not training_data_content_type:
+            raise ValueError('training_data_content_type must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
@@ -449,8 +451,8 @@ class NaturalLanguageUnderstandingV1(BaseService):
                                 model_id: str,
                                 language: str,
                                 training_data: BinaryIO,
+                                training_data_content_type: str,
                                 *,
-                                training_data_content_type: str = None,
                                 name: str = None,
                                 description: str = None,
                                 model_version: str = None,
@@ -487,6 +489,8 @@ class NaturalLanguageUnderstandingV1(BaseService):
             raise ValueError('language must be provided')
         if training_data is None:
             raise ValueError('training_data must be provided')
+        if not training_data_content_type:
+            raise ValueError('training_data_content_type must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
@@ -585,8 +589,8 @@ class NaturalLanguageUnderstandingV1(BaseService):
             self,
             language: str,
             training_data: BinaryIO,
+            training_data_content_type: str,
             *,
-            training_data_content_type: str = None,
             name: str = None,
             description: str = None,
             model_version: str = None,
@@ -625,6 +629,8 @@ class NaturalLanguageUnderstandingV1(BaseService):
             raise ValueError('language must be provided')
         if training_data is None:
             raise ValueError('training_data must be provided')
+        if not training_data_content_type:
+            raise ValueError('training_data_content_type must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(
             service_name=self.DEFAULT_SERVICE_NAME,
@@ -757,8 +763,8 @@ class NaturalLanguageUnderstandingV1(BaseService):
             model_id: str,
             language: str,
             training_data: BinaryIO,
+            training_data_content_type: str,
             *,
-            training_data_content_type: str = None,
             name: str = None,
             description: str = None,
             model_version: str = None,
@@ -799,6 +805,8 @@ class NaturalLanguageUnderstandingV1(BaseService):
             raise ValueError('language must be provided')
         if training_data is None:
             raise ValueError('training_data must be provided')
+        if not training_data_content_type:
+            raise ValueError('training_data_content_type must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(
             service_name=self.DEFAULT_SERVICE_NAME,
