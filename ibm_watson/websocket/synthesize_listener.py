@@ -120,7 +120,7 @@ class SynthesizeListener(object):
         """
         self.callback.on_error(error)
 
-    def on_close(self, ws, **kwargs):
+    def on_close(self, ws, *args, **kwargs):
         """
         Callback executed when websocket connection is closed
 

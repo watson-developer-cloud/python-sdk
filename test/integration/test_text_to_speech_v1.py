@@ -163,7 +163,7 @@ class TestIntegrationTextToSpeechV1(unittest.TestCase):
             'She sells seashells by the seashore',
             test_callback,
             accept='audio/wav',
-            voice='en-AU_CraigVoice')
+            voice='en-GB_JamesV3Voice')
         assert test_callback.error is None
         assert test_callback.fd is not None
         assert os.stat(file).st_size > 0

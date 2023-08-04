@@ -140,7 +140,7 @@ class TestSpeechToTextV1(TestCase):
              interim_results=False, low_latency=False)
             assert test_callback.error is None
             assert test_callback.transcript is not None
-            assert test_callback.transcript[0][0]['transcript'] == 'isolated tornadoes '
+            assert test_callback.transcript[0][0]['transcript'] in ['isolated tornadoes ', 'isolated tornados ']
             assert test_callback.transcript[1][0]['transcript'] == 'and heavy rain '
 
     def test_on_transcription_interim_results_true(self):
