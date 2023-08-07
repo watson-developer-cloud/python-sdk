@@ -1,3 +1,136 @@
+## [7.0.1](https://github.com/watson-developer-cloud/python-sdk/compare/v7.0.0...v7.0.1) (2022-08-07)
+
+
+### Bug Fixes
+
+* **tts,stt,version:** unpinned websocket-client ([75432a6](https://github.com/watson-developer-cloud/python-sdk/commit/75432a6ab4b737a3a7afd8009e70f68e6f02d312))
+
+# [7.0.0](https://github.com/watson-developer-cloud/python-sdk/compare/v6.0.1...v7.0.0) (2023-03-17)
+
+
+### Bug Fixes
+
+* **assistantv2:** use original createSession method signature ([ac82c45](https://github.com/watson-developer-cloud/python-sdk/commit/ac82c45c14ddcd0d608496d1193da09d555b6f15))
+* **nlu:** require training_data_content_type ([d91f007](https://github.com/watson-developer-cloud/python-sdk/commit/d91f007fafd568cc30abf15d54c53935f32197a8))
+* **version:** change version strings for release ([aee877c](https://github.com/watson-developer-cloud/python-sdk/commit/aee877ce8ae50f495f1dacfd7cbd26a117aab594))
+
+
+### Features
+
+* **assistant-v1:** update models and add new methods ([fbcebd0](https://github.com/watson-developer-cloud/python-sdk/commit/fbcebd088c205070e9bae22821b2a2e8920a07c5))
+* **assistant-v2:** update models and add new methods ([a1586ec](https://github.com/watson-developer-cloud/python-sdk/commit/a1586ec6750e5130493fa8d08ac01d13a36e3715))
+* **assistantv2:** add several new functions ([d2d6fbf](https://github.com/watson-developer-cloud/python-sdk/commit/d2d6fbfce304bdb197b665e612022d4c4cc6b5bd))
+* **assistantv2:** improved typing ([a84cd6c](https://github.com/watson-developer-cloud/python-sdk/commit/a84cd6c983d913811b7943e579126e6a1c71781f))
+* **discov2:** new aggregation types ([41cb185](https://github.com/watson-developer-cloud/python-sdk/commit/41cb1853267528dcedfd49f42710ff28e6885d37))
+* **discovery-v2:** update models and add several new methods ([972a1ae](https://github.com/watson-developer-cloud/python-sdk/commit/972a1ae6f774a4849ffc6e8fe1a77e04090a7441))
+* **nlu:** add trainingParameters ([c8e056c](https://github.com/watson-developer-cloud/python-sdk/commit/c8e056c8d503656271bde6315b84838771975179))
+* **nlu:** remove all sentimentModel functions ([d6e342f](https://github.com/watson-developer-cloud/python-sdk/commit/d6e342f7fc34fdc82cf6042f585d3110bd38abfd))
+* **nlu:** remove beta model param from Sentiment ([1469190](https://github.com/watson-developer-cloud/python-sdk/commit/1469190590cdaff60156816964b88822fef5e933))
+* **release:** trigger release ([c08a117](https://github.com/watson-developer-cloud/python-sdk/commit/c08a117294c9d2a52b8493c1cec55b8826621abc))
+* **stt, tts:** add more models ([8b9f6a8](https://github.com/watson-developer-cloud/python-sdk/commit/8b9f6a897e2e9d3fdb43aa0ce1adc8b2a581f4e9))
+* **stt:** add and remove models ([14fd5f2](https://github.com/watson-developer-cloud/python-sdk/commit/14fd5f22096ac83e99a5c6092fbead23cf309f45))
+* **stt:** update parameters ([e40c06c](https://github.com/watson-developer-cloud/python-sdk/commit/e40c06c52ec00168d9a5f7f0e174c8a1fef65d21))
+* **tts:** add parameters ([b300c55](https://github.com/watson-developer-cloud/python-sdk/commit/b300c5527794eee5ab692a51eb858164dddfef93))
+* **tts:** add params and add model constants ([546796d](https://github.com/watson-developer-cloud/python-sdk/commit/546796d3db37f4af52a7745a62f24e769094b567))
+* **wss:** add and remove websocket params ([1b5f171](https://github.com/watson-developer-cloud/python-sdk/commit/1b5f1715ad92573bc8fce2e44ba8b6e5efda3780))
+
+
+### BREAKING CHANGES
+
+* **release:** trigger release
+* **assistantv2:** createSession param removed
+* **assistantv2:** removing and changing of classes
+* **discov2:** confidence property removed
+* **discov2:** smartDocumentUnderstanding param removed
+* **discov2:** QueryAggregation structure changed
+* **nlu:** remove all sentimentModel functions and models
+
+# [6.1.0](https://github.com/watson-developer-cloud/python-sdk/compare/v6.0.1...v6.1.0) (2022-08-10)
+
+
+### Bug Fixes
+
+* **assistantv2:** use original createSession method signature ([ac82c45](https://github.com/watson-developer-cloud/python-sdk/commit/ac82c45c14ddcd0d608496d1193da09d555b6f15))
+
+
+### Features
+
+* **assistant-v1:** update models and add new methods ([fbcebd0](https://github.com/watson-developer-cloud/python-sdk/commit/fbcebd088c205070e9bae22821b2a2e8920a07c5))
+* **assistant-v2:** update models and add new methods ([a1586ec](https://github.com/watson-developer-cloud/python-sdk/commit/a1586ec6750e5130493fa8d08ac01d13a36e3715))
+* **discovery-v2:** update models and add several new methods ([972a1ae](https://github.com/watson-developer-cloud/python-sdk/commit/972a1ae6f774a4849ffc6e8fe1a77e04090a7441))
+* **nlu:** add trainingParameters ([c8e056c](https://github.com/watson-developer-cloud/python-sdk/commit/c8e056c8d503656271bde6315b84838771975179))
+* **stt:** update parameters ([e40c06c](https://github.com/watson-developer-cloud/python-sdk/commit/e40c06c52ec00168d9a5f7f0e174c8a1fef65d21))
+* **tts:** add parameters ([b300c55](https://github.com/watson-developer-cloud/python-sdk/commit/b300c5527794eee5ab692a51eb858164dddfef93))
+* **wss:** add and remove websocket params ([1b5f171](https://github.com/watson-developer-cloud/python-sdk/commit/1b5f1715ad92573bc8fce2e44ba8b6e5efda3780))
+
+# [6.0.0](https://github.com/watson-developer-cloud/python-sdk/compare/v5.3.0...v6.0.0) (2022-03-21)
+
+
+### Bug Fixes
+
+* **ws:** remove websocket debug code ([21399b7](https://github.com/watson-developer-cloud/python-sdk/commit/21399b769608a25f00fe4790b850ced77a8fc748))
+
+
+* Major release 2022 (#816) ([97de097](https://github.com/watson-developer-cloud/python-sdk/commit/97de097b8c86622ab2f30f5386bb74321d28addf)), closes [#816](https://github.com/watson-developer-cloud/python-sdk/issues/816)
+
+
+### BREAKING CHANGES
+
+* OutputData: required text property removed, RuntimeEntity: optional metadata property removed
+RuntimeResponseGeneric: Three new response types added
+Workspace: workspaceID changed form required to optional
+
+* feat(assistantv2): add three new response types, rename model, remove properties
+* RuntimeEntity: optional metadata property removed, MessageOutputDebug: nodesVisited type DialogNodesVisited changed to DialogNodeVisited.
+MessageContext: integrations property added
+MessageContextGlobalSystem: skipUserInput property added
+MessageContextStateless: integrations property added
+MessageInput: attachments property added
+MessageInputStateless: attachments property added
+RuntimeResponseGeneric: Three new response types added
+
+* refactor(cc): remove compare and comply ヾ(･‿･)
+
+* refactor(nlc): remove nlc ヾ(･‿･)
+
+* feat(nlu): remove MetadataOptions model
+
+* refactor(lt): comment change and test updates
+
+* refactor(pi): remove personality insights ヾ(･‿･)
+
+* feat(stt/tts): add new property and comment changes
+
+* refactor(ta/visrec): remove ta and visrec ヾ(･‿･)
+
+* refactor(all): remove remaining traces of removed services
+
+* feat(assistantv1): add new dialogNode models and additional properties for Workspace
+
+* feat(discov1): update QueryAggregation subclasses
+* QueryAggregation: QueryAggregation subclasses changed.
+DocumentStatus: documentID, status, and statusDescription are now optional
+
+* feat(stt): change grammarFile property type
+* addGrammar parameter grammarFile changed from String to Data type
+
+SupportedFeatures: customAcousticModel property added
+
+* chore: copyright changes
+
+* build(secrets): upload detect-secrets baseline
+
+* docs(readme): add deprecation note and remove old references
+
+* ci(version): remove python 3.6 support and add 3.9 support
+
+## [5.3.1](https://github.com/watson-developer-cloud/python-sdk/compare/v5.3.0...v5.3.1) (2022-01-26)
+
+
+### Bug Fixes
+
+* **ws:** remove websocket debug code ([21399b7](https://github.com/watson-developer-cloud/python-sdk/commit/21399b769608a25f00fe4790b850ced77a8fc748))
+
 # [5.3.0](https://github.com/watson-developer-cloud/python-sdk/compare/v5.2.3...v5.3.0) (2021-09-14)
 
 
