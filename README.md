@@ -209,7 +209,7 @@ If you have issues with the APIs or have a question about the Watson services, s
 
 ## Configuring the http client (Supported from v1.1.0)
 
-To set client configs like timeout use the `set_http_config()` function and pass it a dictionary of configs. See this [documentation](https://2.python-requests.org/en/master/api/#requests.request) for more information about the options. All options shown except `method`, `url`, `headers`, `params`, `data`, and `auth` are configurable via `set_http_config()`. For example for a Assistant service instance
+To set client configs like timeout use the `set_http_config()` function and pass it a dictionary of configs. See this [documentation](https://requests.readthedocs.io/en/latest/api/) for more information about the options. All options shown except `method`, `url`, `headers`, `params`, `data`, and `auth` are configurable via `set_http_config()`. For example for a Assistant service instance
 
 ```python
 from ibm_watson import AssistantV1
