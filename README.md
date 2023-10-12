@@ -2,7 +2,6 @@
 
 [![Build and Test](https://github.com/watson-developer-cloud/python-sdk/workflows/Build%20and%20Test/badge.svg?branch=master)](https://github.com/watson-developer-cloud/python-sdk/actions?query=workflow%3A"Build+and+Test")
 [![Deploy and Publish](https://github.com/watson-developer-cloud/python-sdk/workflows/Deploy%20and%20Publish/badge.svg?branch=master)](https://github.com/watson-developer-cloud/python-sdk/actions?query=workflow%3A%22Deploy+and+Publish%22)
-[![Slack](https://wdc-slack-inviter.mybluemix.net/badge.svg)](https://wdc-slack-inviter.mybluemix.net)
 [![Latest Stable Version](https://img.shields.io/pypi/v/ibm-watson.svg)](https://pypi.python.org/pypi/ibm-watson)
 [![CLA assistant](https://cla-assistant.io/readme/badge/watson-developer-cloud/python-sdk)](https://cla-assistant.io/watson-developer-cloud/python-sdk)
 
