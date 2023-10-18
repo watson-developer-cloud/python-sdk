@@ -9,11 +9,11 @@
 
 [![Build Status](https://travis-ci.org/watson-developer-cloud/python-sdk.svg?branch=master)](https://travis-ci.org/watson-developer-cloud/python-sdk)
 
-Python client library to quickly get started with the various [Watson APIs][wdc] services.
+Python client library to quickly get started with the various [Watson APIs](https://cloud.ibm.com/developer/watson/documentation) wdc services.
 
 ## Before you begin
 
-- You need an [IBM Cloud][ibm-cloud-onboarding] account. We now only support `python 3.5` and above
+- You need an [IBM Cloud onboarding account](https://www.ibm.com/cloud/architecture/architectures/customer-account-opening-onboarding/). We now only support `python 3.5` and above
 
 ## Installation
 
