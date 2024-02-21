@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2019, 2023.
+# (C) Copyright IBM Corp. 2019, 2024.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -61,7 +61,7 @@ class DiscoveryV2(BaseService):
         Construct a new client for the Discovery service.
 
         :param str version: Release date of the version of the API you want to use.
-               Specify dates in YYYY-MM-DD format. The current version is `2020-08-30`.
+               Specify dates in YYYY-MM-DD format. The current version is `2023-03-31`.
 
         :param Authenticator authenticator: The authenticator specifies the authentication mechanism.
                Get up to date information from https://github.com/IBM/python-sdk-core/blob/main/README.md
@@ -557,7 +557,7 @@ class DiscoveryV2(BaseService):
         **kwargs,
     ) -> DetailedResponse:
         """
-        Get collection.
+        Get collection details.
 
         Get details about the specified collection.
 
@@ -618,7 +618,19 @@ class DiscoveryV2(BaseService):
         """
         Update a collection.
 
-        Updates the specified collection's name, description, and enrichments.
+        Updates the specified collection's name, description, enrichments, and
+        configuration.
+        If you apply normalization rules to data in an existing collection, you must
+        initiate reprocessing of the collection. To do so, from the *Manage fields* page
+        in the product user interface, temporarily change the data type of a field to
+        enable the reprocess button. Change the data type of the field back to its
+        original value, and then click **Apply changes and reprocess**.
+        To remove a configuration that applies JSON normalization operations as part of
+        the conversion phase of ingestion, specify an empty `json_normalizations` object
+        (`[]`) in the request.
+        To remove a configuration that applies JSON normalization operations after
+        enrichments are applied, specify an empty `normalizations` object (`[]`) in the
+        request.
 
         :param str project_id: The ID of the project. This information can be found
                from the *Integrate and Deploy* page in Discovery.
@@ -758,8 +770,7 @@ class DiscoveryV2(BaseService):
         Lists the documents in the specified collection. The list includes only the
         document ID of each document and returns information for up to 10,000 documents.
         **Note**: This method is available only from Cloud Pak for Data version 4.0.9 and
-        later installed instances and from Plus and Enterprise plan IBM Cloud-managed
-        instances. It is not currently available from Premium plan instances.
+        later installed instances, and from IBM Cloud-managed instances.
 
         :param str project_id: The ID of the project. This information can be found
                from the *Integrate and Deploy* page in Discovery.
@@ -885,12 +896,13 @@ class DiscoveryV2(BaseService):
         :param str project_id: The ID of the project. This information can be found
                from the *Integrate and Deploy* page in Discovery.
         :param str collection_id: The ID of the collection.
-        :param BinaryIO file: (optional) When adding a document, the content of the
-               document to ingest. For maximum supported file size limits, see [the
-               documentation](/docs/discovery-data?topic=discovery-data-collections#collections-doc-limits).
-               When analyzing a document, the content of the document to analyze but not
-               ingest. Only the `application/json` content type is supported currently.
-               For maximum supported file size limits, see [the product
+        :param BinaryIO file: (optional) **Add a document**: The content of the
+               document to ingest. For the supported file types and maximum supported file
+               size limits when adding a document, see [the
+               documentation](/docs/discovery-data?topic=discovery-data-collections#supportedfiletypes).
+               **Analyze a document**: The content of the document to analyze but not
+               ingest. Only the `application/json` content type is supported by the
+               Analyze API. For maximum supported file size limits, see [the product
                documentation](/docs/discovery-data?topic=discovery-data-analyzeapi#analyzeapi-limits).
         :param str filename: (optional) The filename for file.
         :param str file_content_type: (optional) The content type of file.
@@ -975,8 +987,7 @@ class DiscoveryV2(BaseService):
         Get details about a specific document, whether the document is added by uploading
         a file or by crawling an external data source.
         **Note**: This method is available only from Cloud Pak for Data version 4.0.9 and
-        later installed instances and from Plus and Enterprise plan IBM Cloud-managed
-        instances. It is not currently available from Premium plan instances.
+        later installed instances, and from IBM Cloud-managed instances.
 
         :param str project_id: The ID of the project. This information can be found
                from the *Integrate and Deploy* page in Discovery.
@@ -1059,12 +1070,13 @@ class DiscoveryV2(BaseService):
                from the *Integrate and Deploy* page in Discovery.
         :param str collection_id: The ID of the collection.
         :param str document_id: The ID of the document.
-        :param BinaryIO file: (optional) When adding a document, the content of the
-               document to ingest. For maximum supported file size limits, see [the
-               documentation](/docs/discovery-data?topic=discovery-data-collections#collections-doc-limits).
-               When analyzing a document, the content of the document to analyze but not
-               ingest. Only the `application/json` content type is supported currently.
-               For maximum supported file size limits, see [the product
+        :param BinaryIO file: (optional) **Add a document**: The content of the
+               document to ingest. For the supported file types and maximum supported file
+               size limits when adding a document, see [the
+               documentation](/docs/discovery-data?topic=discovery-data-collections#supportedfiletypes).
+               **Analyze a document**: The content of the document to analyze but not
+               ingest. Only the `application/json` content type is supported by the
+               Analyze API. For maximum supported file size limits, see [the product
                documentation](/docs/discovery-data?topic=discovery-data-analyzeapi#analyzeapi-limits).
         :param str filename: (optional) The filename for file.
         :param str file_content_type: (optional) The content type of file.
@@ -1272,10 +1284,14 @@ class DiscoveryV2(BaseService):
                Discovery Query Language and returns all matching documents in your data
                set with full enrichments and full text, and with the most relevant
                documents listed first. Use a query search when you want to find the most
-               relevant search results.
+               relevant search results. You can use this parameter or the
+               **natural_language_query** parameter to specify the query input, but not
+               both.
         :param str natural_language_query: (optional) A natural language query that
                returns relevant documents by using training data and natural language
-               understanding.
+               understanding. You can use this parameter or the **query** parameter to
+               specify the query input, but not both. To filter the results based on
+               criteria you specify, include the **filter** parameter in the request.
         :param str aggregation: (optional) An aggregation search that returns an
                exact answer by combining query search with filters. Useful for
                applications to build lists, tables, and time series. For more information
@@ -1399,6 +1415,9 @@ class DiscoveryV2(BaseService):
         Get Autocomplete Suggestions.
 
         Returns completion query suggestions for the specified prefix.
+        Suggested words are based on terms from the project documents. Suggestions are not
+        based on terms from the project's search history, and the project does not learn
+        from previous user choices.
 
         :param str project_id: The ID of the project. This information can be found
                from the *Integrate and Deploy* page in Discovery.
@@ -1487,10 +1506,14 @@ class DiscoveryV2(BaseService):
         :param str query: (optional) A query search that is written in the
                Discovery Query Language and returns all matching documents in your data
                set with full enrichments and full text, and with the most relevant
-               documents listed first.
+               documents listed first. You can use this parameter or the
+               **natural_language_query** parameter to specify the query input, but not
+               both.
         :param str natural_language_query: (optional) A natural language query that
-               returns relevant documents by using training data and natural language
-               understanding.
+               returns relevant documents by using natural language understanding. You can
+               use this parameter or the **query** parameter to specify the query input,
+               but not both. To filter the results based on criteria you specify, include
+               the **filter** parameter in the request.
         :param int count: (optional) Number of results to return. The maximum for
                the **count** and **offset** values together in any one query is
                **10,000**.
@@ -1573,10 +1596,14 @@ class DiscoveryV2(BaseService):
         :param str query: (optional) A query search that is written in the
                Discovery Query Language and returns all matching documents in your data
                set with full enrichments and full text, and with the most relevant
-               documents listed first.
+               documents listed first. You can use this parameter or the
+               **natural_language_query** parameter to specify the query input, but not
+               both.
         :param str natural_language_query: (optional) A natural language query that
-               returns relevant documents by using training data and natural language
-               understanding.
+               returns relevant documents by using natural language understanding. You can
+               use this parameter or the **query** parameter to specify the query input,
+               but not both. To filter the results based on criteria you specify, include
+               the **filter** parameter in the request.
         :param int count: (optional) Number of results to return. The maximum for
                the **count** and **offset** values together in any one query is
                **10,000**.
@@ -2184,10 +2211,11 @@ class DiscoveryV2(BaseService):
         **kwargs,
     ) -> DetailedResponse:
         """
-        Create training query.
+        Create a training query.
 
         Add a query to the training data for this project. The query can contain a filter
         and natural language query.
+        **Note**: You cannot apply relevancy training to a `content_mining` project type.
 
         :param str project_id: The ID of the project. This information can be found
                from the *Integrate and Deploy* page in Discovery.
@@ -2195,7 +2223,11 @@ class DiscoveryV2(BaseService):
                the training query.
         :param List[TrainingExample] examples: Array of training examples.
         :param str filter: (optional) The filter used on the collection before the
-               **natural_language_query** is applied.
+               **natural_language_query** is applied. Only specify a filter if the
+               documents that you consider to be most relevant are not included in the top
+               100 results when you submit test queries. If you specify a filter during
+               training, apply the same filter to queries that are submitted at runtime
+               for optimal ranking results.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `TrainingQuery` object
@@ -2319,7 +2351,8 @@ class DiscoveryV2(BaseService):
         """
         Update a training query.
 
-        Updates an existing training query and it's examples.
+        Updates an existing training query and its examples. You must resubmit all of the
+        examples with the update request.
 
         :param str project_id: The ID of the project. This information can be found
                from the *Integrate and Deploy* page in Discovery.
@@ -2328,7 +2361,11 @@ class DiscoveryV2(BaseService):
                the training query.
         :param List[TrainingExample] examples: Array of training examples.
         :param str filter: (optional) The filter used on the collection before the
-               **natural_language_query** is applied.
+               **natural_language_query** is applied. Only specify a filter if the
+               documents that you consider to be most relevant are not included in the top
+               100 results when you submit test queries. If you specify a filter during
+               training, apply the same filter to queries that are submitted at runtime
+               for optimal ranking results.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `TrainingQuery` object
@@ -2396,6 +2433,8 @@ class DiscoveryV2(BaseService):
 
         Removes details from a training data query, including the query string and all
         examples.
+        To delete an example, use the *Update a training query* method and omit the
+        example that you want to delete from the example set.
 
         :param str project_id: The ID of the project. This information can be found
                from the *Integrate and Deploy* page in Discovery.
@@ -2517,7 +2556,8 @@ class DiscoveryV2(BaseService):
                enrichment.
         :param BinaryIO file: (optional) The enrichment file to upload. Expected
                file types per enrichment are as follows:
-               * CSV for `dictionary`
+               * CSV for `dictionary` and `sentence_classifier` (the training data CSV
+               file to upload).
                * PEAR for `uima_annotator` and `rule_based` (Explorer)
                * ZIP for `watson_knowledge_studio_model` and `rule_based` (Studio Advanced
                Rule Editor).
@@ -3461,7 +3501,7 @@ class DiscoveryV2(BaseService):
         **kwargs,
     ) -> DetailedResponse:
         """
-        Analyze a Document.
+        Analyze a document.
 
         Process a document and return it for realtime use. Supports JSON files only.
         The file is not stored in the collection, but is processed according to the
@@ -3471,18 +3511,23 @@ class DiscoveryV2(BaseService):
         enrichments to the `Quote` field in the collection configuration. Then, when you
         analyze the file, the text in the `Quote` field is analyzed and results are
         written to a field named `enriched_Quote`.
+        Submit a request against only one collection at a time. Remember, the documents in
+        the collection are not significant. It is the enrichments that are defined for the
+        collection that matter. If you submit requests to several collections, then
+        several models are initiated at the same time, which can cause request failures.
         **Note:** This method is supported with Enterprise plan deployments and installed
         deployments only.
 
         :param str project_id: The ID of the project. This information can be found
                from the *Integrate and Deploy* page in Discovery.
         :param str collection_id: The ID of the collection.
-        :param BinaryIO file: (optional) When adding a document, the content of the
-               document to ingest. For maximum supported file size limits, see [the
-               documentation](/docs/discovery-data?topic=discovery-data-collections#collections-doc-limits).
-               When analyzing a document, the content of the document to analyze but not
-               ingest. Only the `application/json` content type is supported currently.
-               For maximum supported file size limits, see [the product
+        :param BinaryIO file: (optional) **Add a document**: The content of the
+               document to ingest. For the supported file types and maximum supported file
+               size limits when adding a document, see [the
+               documentation](/docs/discovery-data?topic=discovery-data-collections#supportedfiletypes).
+               **Analyze a document**: The content of the document to analyze but not
+               ingest. Only the `application/json` content type is supported by the
+               Analyze API. For maximum supported file size limits, see [the product
                documentation](/docs/discovery-data?topic=discovery-data-analyzeapi#analyzeapi-limits).
         :param str filename: (optional) The filename for file.
         :param str file_content_type: (optional) The content type of file.
@@ -5068,6 +5113,14 @@ class CreateEnrichment:
               * Rule-based model that is created in Watson Knowledge Studio.
           * `watson_knowledge_studio_model`: Creates an enrichment from a Watson Knowledge
           Studio machine learning model that is defined in a ZIP file.
+          * `webhook`: Connects to an external enrichment application by using a webhook.
+          The feature is available from IBM Cloud-managed instances only. The external
+          enrichment feature is beta functionality. Beta features are not supported by the
+          SDKs.
+          * `sentence_classifier`: Use sentence classifier to classify sentences in your
+          documents. This feature is available in IBM Cloud-managed instances only. The
+          sentence classifier feature is beta functionality. Beta features are not
+          supported by the SDKs.
     :param EnrichmentOptions options: (optional) An object that contains options for
           the current enrichment. Starting with version `2020-08-30`, the enrichment
           options are not included in responses from the List Enrichments method.
@@ -5105,6 +5158,14 @@ class CreateEnrichment:
                    * Rule-based model that is created in Watson Knowledge Studio.
                * `watson_knowledge_studio_model`: Creates an enrichment from a Watson
                Knowledge Studio machine learning model that is defined in a ZIP file.
+               * `webhook`: Connects to an external enrichment application by using a
+               webhook. The feature is available from IBM Cloud-managed instances only.
+               The external enrichment feature is beta functionality. Beta features are
+               not supported by the SDKs.
+               * `sentence_classifier`: Use sentence classifier to classify sentences in
+               your documents. This feature is available in IBM Cloud-managed instances
+               only. The sentence classifier feature is beta functionality. Beta features
+               are not supported by the SDKs.
         :param EnrichmentOptions options: (optional) An object that contains
                options for the current enrichment. Starting with version `2020-08-30`, the
                enrichment options are not included in responses from the List Enrichments
@@ -5188,6 +5249,14 @@ class CreateEnrichment:
             * Rule-based model that is created in Watson Knowledge Studio.
         * `watson_knowledge_studio_model`: Creates an enrichment from a Watson Knowledge
         Studio machine learning model that is defined in a ZIP file.
+        * `webhook`: Connects to an external enrichment application by using a webhook.
+        The feature is available from IBM Cloud-managed instances only. The external
+        enrichment feature is beta functionality. Beta features are not supported by the
+        SDKs.
+        * `sentence_classifier`: Use sentence classifier to classify sentences in your
+        documents. This feature is available in IBM Cloud-managed instances only. The
+        sentence classifier feature is beta functionality. Beta features are not supported
+        by the SDKs.
         """
 
         CLASSIFIER = 'classifier'
@@ -5196,6 +5265,8 @@ class CreateEnrichment:
         UIMA_ANNOTATOR = 'uima_annotator'
         RULE_BASED = 'rule_based'
         WATSON_KNOWLEDGE_STUDIO_MODEL = 'watson_knowledge_studio_model'
+        WEBHOOK = 'webhook'
+        SENTENCE_CLASSIFIER = 'sentence_classifier'
 
 
 class DefaultQueryParams:
@@ -6811,6 +6882,8 @@ class Enrichment:
         RULE_BASED = 'rule_based'
         WATSON_KNOWLEDGE_STUDIO_MODEL = 'watson_knowledge_studio_model'
         CLASSIFIER = 'classifier'
+        WEBHOOK = 'webhook'
+        SENTENCE_CLASSIFIER = 'sentence_classifier'
 
 
 class EnrichmentOptions:
@@ -6849,6 +6922,25 @@ class EnrichmentOptions:
           **confidence_threshold** is used to determine the predicted classes. Optional
           when **type** is `classifier`. Not valid when creating any other type of
           enrichment.
+    :param str url: (optional) A URL that uses the SSL protocol (begins with https)
+          for the webhook. Required when type is `webhook`. Not valid when creating any
+          other type of enrichment.
+    :param str version: (optional) The Discovery API version that allows to
+          distinguish the schema. The version is specified in the `yyyy-mm-dd` format.
+          Optional when `type` is `webhook`. Not valid when creating any other type of
+          enrichment.
+    :param str secret: (optional) A private key can be included in the request to
+          authenticate with the external service. The maximum length is 1,024 characters.
+          Optional when `type` is `webhook`. Not valid when creating any other type of
+          enrichment.
+    :param WebhookHeader headers_: (optional) An array of headers to pass with the
+          HTTP request. Optional when `type` is `webhook`. Not valid when creating any
+          other type of enrichment.
+    :param str location_encoding: (optional) Discovery calculates offsets of the
+          text's location with this encoding type in documents. Use the same location
+          encoding type in both Discovery and external enrichment for a document.
+           These encoding types are supported: `utf-8`, `utf-16`, and `utf-32`. Optional
+          when `type` is `webhook`. Not valid when creating any other type of enrichment.
     """
 
     def __init__(
@@ -6862,6 +6954,11 @@ class EnrichmentOptions:
         model_id: Optional[str] = None,
         confidence_threshold: Optional[float] = None,
         top_k: Optional[int] = None,
+        url: Optional[str] = None,
+        version: Optional[str] = None,
+        secret: Optional[str] = None,
+        headers_: Optional['WebhookHeader'] = None,
+        location_encoding: Optional[str] = None,
     ) -> None:
         """
         Initialize a EnrichmentOptions object.
@@ -6897,6 +6994,27 @@ class EnrichmentOptions:
                **confidence_threshold** is used to determine the predicted classes.
                Optional when **type** is `classifier`. Not valid when creating any other
                type of enrichment.
+        :param str url: (optional) A URL that uses the SSL protocol (begins with
+               https) for the webhook. Required when type is `webhook`. Not valid when
+               creating any other type of enrichment.
+        :param str version: (optional) The Discovery API version that allows to
+               distinguish the schema. The version is specified in the `yyyy-mm-dd`
+               format. Optional when `type` is `webhook`. Not valid when creating any
+               other type of enrichment.
+        :param str secret: (optional) A private key can be included in the request
+               to authenticate with the external service. The maximum length is 1,024
+               characters. Optional when `type` is `webhook`. Not valid when creating any
+               other type of enrichment.
+        :param WebhookHeader headers_: (optional) An array of headers to pass with
+               the HTTP request. Optional when `type` is `webhook`. Not valid when
+               creating any other type of enrichment.
+        :param str location_encoding: (optional) Discovery calculates offsets of
+               the text's location with this encoding type in documents. Use the same
+               location encoding type in both Discovery and external enrichment for a
+               document.
+                These encoding types are supported: `utf-8`, `utf-16`, and `utf-32`.
+               Optional when `type` is `webhook`. Not valid when creating any other type
+               of enrichment.
         """
         self.languages = languages
         self.entity_type = entity_type
@@ -6906,6 +7024,11 @@ class EnrichmentOptions:
         self.model_id = model_id
         self.confidence_threshold = confidence_threshold
         self.top_k = top_k
+        self.url = url
+        self.version = version
+        self.secret = secret
+        self.headers_ = headers_
+        self.location_encoding = location_encoding
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'EnrichmentOptions':
@@ -6928,6 +7051,16 @@ class EnrichmentOptions:
             args['confidence_threshold'] = confidence_threshold
         if (top_k := _dict.get('top_k')) is not None:
             args['top_k'] = top_k
+        if (url := _dict.get('url')) is not None:
+            args['url'] = url
+        if (version := _dict.get('version')) is not None:
+            args['version'] = version
+        if (secret := _dict.get('secret')) is not None:
+            args['secret'] = secret
+        if (headers_ := _dict.get('headers')) is not None:
+            args['headers_'] = WebhookHeader.from_dict(headers_)
+        if (location_encoding := _dict.get('location_encoding')) is not None:
+            args['location_encoding'] = location_encoding
         return cls(**args)
 
     @classmethod
@@ -6957,6 +7090,20 @@ class EnrichmentOptions:
             _dict['confidence_threshold'] = self.confidence_threshold
         if hasattr(self, 'top_k') and self.top_k is not None:
             _dict['top_k'] = self.top_k
+        if hasattr(self, 'url') and self.url is not None:
+            _dict['url'] = self.url
+        if hasattr(self, 'version') and self.version is not None:
+            _dict['version'] = self.version
+        if hasattr(self, 'secret') and self.secret is not None:
+            _dict['secret'] = self.secret
+        if hasattr(self, 'headers_') and self.headers_ is not None:
+            if isinstance(self.headers_, dict):
+                _dict['headers'] = self.headers_
+            else:
+                _dict['headers'] = self.headers_.to_dict()
+        if hasattr(self,
+                   'location_encoding') and self.location_encoding is not None:
+            _dict['location_encoding'] = self.location_encoding
         return _dict
 
     def _to_dict(self):
@@ -12803,6 +12950,78 @@ class UpdateDocumentClassifier:
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'UpdateDocumentClassifier') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class WebhookHeader:
+    """
+    An array of headers to pass with the HTTP request. Optional when `type` is `webhook`.
+    Not valid when creating any other type of enrichment.
+
+    :param str name: The name of an HTTP header.
+    :param str value: The value of an HTTP header.
+    """
+
+    def __init__(
+        self,
+        name: str,
+        value: str,
+    ) -> None:
+        """
+        Initialize a WebhookHeader object.
+
+        :param str name: The name of an HTTP header.
+        :param str value: The value of an HTTP header.
+        """
+        self.name = name
+        self.value = value
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'WebhookHeader':
+        """Initialize a WebhookHeader object from a json dictionary."""
+        args = {}
+        if (name := _dict.get('name')) is not None:
+            args['name'] = name
+        else:
+            raise ValueError(
+                'Required property \'name\' not present in WebhookHeader JSON')
+        if (value := _dict.get('value')) is not None:
+            args['value'] = value
+        else:
+            raise ValueError(
+                'Required property \'value\' not present in WebhookHeader JSON')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a WebhookHeader object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
+        if hasattr(self, 'value') and self.value is not None:
+            _dict['value'] = self.value
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this WebhookHeader object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'WebhookHeader') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'WebhookHeader') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
