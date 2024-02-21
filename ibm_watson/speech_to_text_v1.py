@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2015, 2023.
+# (C) Copyright IBM Corp. 2015, 2024.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -209,6 +209,7 @@ class SpeechToTextV1(BaseService):
         timestamps: Optional[bool] = None,
         profanity_filter: Optional[bool] = None,
         smart_formatting: Optional[bool] = None,
+        smart_formatting_version: Optional[bool] = None,
         speaker_labels: Optional[bool] = None,
         grammar_name: Optional[str] = None,
         redaction: Optional[bool] = None,
@@ -446,6 +447,9 @@ class SpeechToTextV1(BaseService):
                (all dialects) transcription only.
                See [Smart
                formatting](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-formatting#smart-formatting).
+        :param bool smart_formatting_version: (optional) Smart formatting version
+               is for next-generation models and that is supported in US English,
+               Brazilian Portuguese, French and German languages.
         :param bool speaker_labels: (optional) If `true`, the response includes
                labels that identify which words were spoken by which participants in a
                multi-person exchange. By default, the service returns no speaker labels.
@@ -618,6 +622,7 @@ class SpeechToTextV1(BaseService):
             'timestamps': timestamps,
             'profanity_filter': profanity_filter,
             'smart_formatting': smart_formatting,
+            'smart_formatting_version': smart_formatting_version,
             'speaker_labels': speaker_labels,
             'grammar_name': grammar_name,
             'redaction': redaction,
@@ -813,6 +818,7 @@ class SpeechToTextV1(BaseService):
         timestamps: Optional[bool] = None,
         profanity_filter: Optional[bool] = None,
         smart_formatting: Optional[bool] = None,
+        smart_formatting_version: Optional[bool] = None,
         speaker_labels: Optional[bool] = None,
         grammar_name: Optional[str] = None,
         redaction: Optional[bool] = None,
@@ -1100,6 +1106,9 @@ class SpeechToTextV1(BaseService):
                (all dialects) transcription only.
                See [Smart
                formatting](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-formatting#smart-formatting).
+        :param bool smart_formatting_version: (optional) Smart formatting version
+               is for next-generation models and that is supported in US English,
+               Brazilian Portuguese, French and German languages.
         :param bool speaker_labels: (optional) If `true`, the response includes
                labels that identify which words were spoken by which participants in a
                multi-person exchange. By default, the service returns no speaker labels.
@@ -1298,6 +1307,7 @@ class SpeechToTextV1(BaseService):
             'timestamps': timestamps,
             'profanity_filter': profanity_filter,
             'smart_formatting': smart_formatting,
+            'smart_formatting_version': smart_formatting_version,
             'speaker_labels': speaker_labels,
             'grammar_name': grammar_name,
             'redaction': redaction,
@@ -1776,6 +1786,7 @@ class SpeechToTextV1(BaseService):
         word_type_to_add: Optional[str] = None,
         customization_weight: Optional[float] = None,
         strict: Optional[bool] = None,
+        force: Optional[bool] = None,
         **kwargs,
     ) -> DetailedResponse:
         """
@@ -1863,6 +1874,15 @@ class SpeechToTextV1(BaseService):
                lists any invalid resources. By default (`true`), training of a custom
                language model fails (status code 400) if the model contains one or more
                invalid resources (corpus files, grammar files, or custom words).
+        :param bool force: (optional) If `true`, forces the training of the custom
+               language model regardless of whether it contains any changes (is in the
+               `ready` or `available` state). By default (`false`), the model must be in
+               the `ready` state to be trained. You can use the parameter to train and
+               thus upgrade a custom model that is based on an improved next-generation
+               model. *The parameter is available only for IBM Cloud, not for IBM Cloud
+               Pak for Data.*
+               See [Upgrading a custom language model based on an improved next-generation
+               model](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-custom-upgrade#custom-upgrade-language-ng).
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `TrainingResponse` object
@@ -1882,6 +1902,7 @@ class SpeechToTextV1(BaseService):
             'word_type_to_add': word_type_to_add,
             'customization_weight': customization_weight,
             'strict': strict,
+            'force': force,
         }
 
         if 'headers' in kwargs:
@@ -2491,6 +2512,13 @@ class SpeechToTextV1(BaseService):
         omit the `sounds_like` field, the service attempts to set the field to its
         pronunciation of the word. It cannot generate a pronunciation for all words, so
         you must review the word's definition to ensure that it is complete and valid.
+        * The `mapping_only` field provides parameter for custom words. You can use the
+        'mapping_only' key in custom words as a form of post processing. This key
+        parameter has a boolean value to determine whether 'sounds_like' (for non-Japanese
+        models) or word (for Japanese) is not used for the model fine-tuning, but for the
+        replacement for 'display_as'. This feature helps you when you use custom words
+        exclusively to map 'sounds_like' (or word) to 'display_as' value. When you use
+        custom words solely for post-processing purposes that does not need fine-tuning.
         If you add a custom word that already exists in the words resource for the custom
         model, the new definition overwrites the existing data for the word. If the
         service encounters an error with the input data, it returns a failure code and
@@ -2580,6 +2608,7 @@ class SpeechToTextV1(BaseService):
         word_name: str,
         *,
         word: Optional[str] = None,
+        mapping_only: Optional[List[str]] = None,
         sounds_like: Optional[List[str]] = None,
         display_as: Optional[str] = None,
         **kwargs,
@@ -2638,16 +2667,30 @@ class SpeechToTextV1(BaseService):
                request with credentials for the instance of the service that owns the
                custom model.
         :param str word_name: The custom word that is to be added to or updated in
-               the custom language model. Do not include spaces in the word. Use a `-`
+               the custom language model. Do not use characters that need to be
+               URL-encoded, for example, spaces, slashes, backslashes, colons, ampersands,
+               double quotes, plus signs, equals signs, or question marks. Use a `-`
                (dash) or `_` (underscore) to connect the tokens of compound words.
                URL-encode the word if it includes non-ASCII characters. For more
                information, see [Character
                encoding](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-corporaWords#charEncoding).
         :param str word: (optional) For the [Add custom words](#addwords) method,
                you must specify the custom word that is to be added to or updated in the
-               custom model. Do not include spaces in the word. Use a `-` (dash) or `_`
-               (underscore) to connect the tokens of compound words.
+               custom model. Do not use characters that need to be URL-encoded, for
+               example, spaces, slashes, backslashes, colons, ampersands, double quotes,
+               plus signs, equals signs, or question marks. Use a `-` (dash) or `_`
+               (underscore) to connect the tokens of compound words. A Japanese custom
+               word can include at most 25 characters, not including leading or trailing
+               spaces.
                Omit this parameter for the [Add a custom word](#addword) method.
+        :param List[str] mapping_only: (optional) Parameter for custom words. You
+               can use the 'mapping_only' key in custom words as a form of post
+               processing. This key parameter has a boolean value to determine whether
+               'sounds_like' (for non-Japanese models) or word (for Japanese) is not used
+               for the model fine-tuning, but for the replacement for 'display_as'. This
+               feature helps you when you use custom words exclusively to map
+               'sounds_like' (or word) to 'display_as' value. When you use custom words
+               solely for post-processing purposes that does not need fine-tuning.
         :param List[str] sounds_like: (optional) As array of sounds-like
                pronunciations for the custom word. Specify how words that are difficult to
                pronounce, foreign words, acronyms, and so on can be pronounced by users.
@@ -2660,7 +2703,9 @@ class SpeechToTextV1(BaseService):
                default pronunciation of a word; pronunciations you add augment the
                pronunciation from the base vocabulary.
                A word can have at most five sounds-like pronunciations. A pronunciation
-               can include at most 40 characters not including spaces.
+               can include at most 40 characters, not including leading or trailing
+               spaces. A Japanese pronunciation can include at most 25 characters, not
+               including leading or trailing spaces.
         :param str display_as: (optional) An alternative spelling for the custom
                word when it appears in a transcript. Use the parameter when you want the
                word to have a spelling that is different from its usual representation or
@@ -2687,6 +2732,7 @@ class SpeechToTextV1(BaseService):
 
         data = {
             'word': word,
+            'mapping_only': mapping_only,
             'sounds_like': sounds_like,
             'display_as': display_as,
         }
@@ -6266,9 +6312,20 @@ class CustomWord:
 
     :param str word: (optional) For the [Add custom words](#addwords) method, you
           must specify the custom word that is to be added to or updated in the custom
-          model. Do not include spaces in the word. Use a `-` (dash) or `_` (underscore)
-          to connect the tokens of compound words.
+          model. Do not use characters that need to be URL-encoded, for example, spaces,
+          slashes, backslashes, colons, ampersands, double quotes, plus signs, equals
+          signs, or question marks. Use a `-` (dash) or `_` (underscore) to connect the
+          tokens of compound words. A Japanese custom word can include at most 25
+          characters, not including leading or trailing spaces.
           Omit this parameter for the [Add a custom word](#addword) method.
+    :param List[str] mapping_only: (optional) Parameter for custom words. You can
+          use the 'mapping_only' key in custom words as a form of post processing. This
+          key parameter has a boolean value to determine whether 'sounds_like' (for
+          non-Japanese models) or word (for Japanese) is not used for the model
+          fine-tuning, but for the replacement for 'display_as'. This feature helps you
+          when you use custom words exclusively to map 'sounds_like' (or word) to
+          'display_as' value. When you use custom words solely for post-processing
+          purposes that does not need fine-tuning.
     :param List[str] sounds_like: (optional) As array of sounds-like pronunciations
           for the custom word. Specify how words that are difficult to pronounce, foreign
           words, acronyms, and so on can be pronounced by users.
@@ -6280,7 +6337,9 @@ class CustomWord:
           pronunciation of a word; pronunciations you add augment the pronunciation from
           the base vocabulary.
           A word can have at most five sounds-like pronunciations. A pronunciation can
-          include at most 40 characters not including spaces.
+          include at most 40 characters, not including leading or trailing spaces. A
+          Japanese pronunciation can include at most 25 characters, not including leading
+          or trailing spaces.
     :param str display_as: (optional) An alternative spelling for the custom word
           when it appears in a transcript. Use the parameter when you want the word to
           have a spelling that is different from its usual representation or from its
@@ -6293,6 +6352,7 @@ class CustomWord:
         self,
         *,
         word: Optional[str] = None,
+        mapping_only: Optional[List[str]] = None,
         sounds_like: Optional[List[str]] = None,
         display_as: Optional[str] = None,
     ) -> None:
@@ -6301,9 +6361,21 @@ class CustomWord:
 
         :param str word: (optional) For the [Add custom words](#addwords) method,
                you must specify the custom word that is to be added to or updated in the
-               custom model. Do not include spaces in the word. Use a `-` (dash) or `_`
-               (underscore) to connect the tokens of compound words.
+               custom model. Do not use characters that need to be URL-encoded, for
+               example, spaces, slashes, backslashes, colons, ampersands, double quotes,
+               plus signs, equals signs, or question marks. Use a `-` (dash) or `_`
+               (underscore) to connect the tokens of compound words. A Japanese custom
+               word can include at most 25 characters, not including leading or trailing
+               spaces.
                Omit this parameter for the [Add a custom word](#addword) method.
+        :param List[str] mapping_only: (optional) Parameter for custom words. You
+               can use the 'mapping_only' key in custom words as a form of post
+               processing. This key parameter has a boolean value to determine whether
+               'sounds_like' (for non-Japanese models) or word (for Japanese) is not used
+               for the model fine-tuning, but for the replacement for 'display_as'. This
+               feature helps you when you use custom words exclusively to map
+               'sounds_like' (or word) to 'display_as' value. When you use custom words
+               solely for post-processing purposes that does not need fine-tuning.
         :param List[str] sounds_like: (optional) As array of sounds-like
                pronunciations for the custom word. Specify how words that are difficult to
                pronounce, foreign words, acronyms, and so on can be pronounced by users.
@@ -6316,7 +6388,9 @@ class CustomWord:
                default pronunciation of a word; pronunciations you add augment the
                pronunciation from the base vocabulary.
                A word can have at most five sounds-like pronunciations. A pronunciation
-               can include at most 40 characters not including spaces.
+               can include at most 40 characters, not including leading or trailing
+               spaces. A Japanese pronunciation can include at most 25 characters, not
+               including leading or trailing spaces.
         :param str display_as: (optional) An alternative spelling for the custom
                word when it appears in a transcript. Use the parameter when you want the
                word to have a spelling that is different from its usual representation or
@@ -6326,6 +6400,7 @@ class CustomWord:
                field.
         """
         self.word = word
+        self.mapping_only = mapping_only
         self.sounds_like = sounds_like
         self.display_as = display_as
 
@@ -6335,6 +6410,8 @@ class CustomWord:
         args = {}
         if (word := _dict.get('word')) is not None:
             args['word'] = word
+        if (mapping_only := _dict.get('mapping_only')) is not None:
+            args['mapping_only'] = mapping_only
         if (sounds_like := _dict.get('sounds_like')) is not None:
             args['sounds_like'] = sounds_like
         if (display_as := _dict.get('display_as')) is not None:
@@ -6351,6 +6428,8 @@ class CustomWord:
         _dict = {}
         if hasattr(self, 'word') and self.word is not None:
             _dict['word'] = self.word
+        if hasattr(self, 'mapping_only') and self.mapping_only is not None:
+            _dict['mapping_only'] = self.mapping_only
         if hasattr(self, 'sounds_like') and self.sounds_like is not None:
             _dict['sounds_like'] = self.sounds_like
         if hasattr(self, 'display_as') and self.display_as is not None:
@@ -8817,6 +8896,13 @@ class Word:
 
     :param str word: A word from the custom model's words resource. The spelling of
           the word is used to train the model.
+    :param List[str] mapping_only: (optional) (Optional) Parameter for custom words.
+          You can use the 'mapping_only' key in custom words as a form of post processing.
+          A boolean value that indicates whether the added word should be used to
+          fine-tune the mode for selected next-gen models. This field appears in the
+          response body only when it's 'For a custom model that is based on a
+          previous-generation model', the mapping_only field is populated with the value
+          set by the user, but would not be used.
     :param List[str] sounds_like: An array of as many as five pronunciations for the
           word.
           * _For a custom model that is based on a previous-generation model_, in addition
@@ -8867,6 +8953,7 @@ class Word:
         count: int,
         source: List[str],
         *,
+        mapping_only: Optional[List[str]] = None,
         error: Optional[List['WordError']] = None,
     ) -> None:
         """
@@ -8912,11 +8999,19 @@ class Word:
                shows only `user` for custom words that were added directly to the custom
                model. Words from corpora and grammars are not added to the words resource
                for custom models that are based on next-generation models.
+        :param List[str] mapping_only: (optional) (Optional) Parameter for custom
+               words. You can use the 'mapping_only' key in custom words as a form of post
+               processing. A boolean value that indicates whether the added word should be
+               used to fine-tune the mode for selected next-gen models. This field appears
+               in the response body only when it's 'For a custom model that is based on a
+               previous-generation model', the mapping_only field is populated with the
+               value set by the user, but would not be used.
         :param List[WordError] error: (optional) If the service discovered one or
                more problems that you need to correct for the word's definition, an array
                that describes each of the errors.
         """
         self.word = word
+        self.mapping_only = mapping_only
         self.sounds_like = sounds_like
         self.display_as = display_as
         self.count = count
@@ -8932,6 +9027,8 @@ class Word:
         else:
             raise ValueError(
                 'Required property \'word\' not present in Word JSON')
+        if (mapping_only := _dict.get('mapping_only')) is not None:
+            args['mapping_only'] = mapping_only
         if (sounds_like := _dict.get('sounds_like')) is not None:
             args['sounds_like'] = sounds_like
         else:
@@ -8966,6 +9063,8 @@ class Word:
         _dict = {}
         if hasattr(self, 'word') and self.word is not None:
             _dict['word'] = self.word
+        if hasattr(self, 'mapping_only') and self.mapping_only is not None:
+            _dict['mapping_only'] = self.mapping_only
         if hasattr(self, 'sounds_like') and self.sounds_like is not None:
             _dict['sounds_like'] = self.sounds_like
         if hasattr(self, 'display_as') and self.display_as is not None:
