@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2015, 2023.
+# (C) Copyright IBM Corp. 2015, 2024.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -30,18 +30,10 @@ phonetic translations for words. A sounds-like translation consists of one or mo
 that, when combined, sound like the word. A phonetic translation is based on the SSML
 phoneme format for representing a word. You can specify a phonetic translation in standard
 International Phonetic Alphabet (IPA) representation or in the proprietary IBM Symbolic
-Phonetic Representation (SPR). For phonetic translation, the Arabic, Chinese, Dutch,
-Australian English, Korean, and Swedish voices support only IPA, not SPR.
+Phonetic Representation (SPR).
 The service also offers a Tune by Example feature that lets you define custom prompts. You
 can also define speaker models to improve the quality of your custom prompts. The service
-support custom prompts only for US English custom models and voices.
-Effective **31 March 2022**, all *neural voices* are deprecated. The deprecated voices
-remain available to existing users until 31 March 2023, when they will be removed from the
-service and the documentation. *No enhanced neural voices or expressive neural voices are
-deprecated.*<br/><br/> For more information, see the [1 March 2023 service
-update](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-release-notes#text-to-speech-1march2023)
-in the release notes for {{site.data.keyword.texttospeechshort}} for
-{{site.data.keyword.cloud_notm}}.{: deprecated}
+supports custom prompts only for US English custom models and voices.
 
 API Version: 1.0.0
 See: https://cloud.ibm.com/docs/text-to-speech
@@ -104,13 +96,6 @@ class TextToSpeechV1(BaseService):
         list of voices can change from call to call; do not rely on an alphabetized or
         static list of voices. To see information about a specific voice, use the [Get a
         voice](#getvoice).
-        **Note:** Effective **31 March 2022**, all *neural voices* are deprecated. The
-        deprecated voices remain available to existing users until 31 March 2023, when
-        they will be removed from the service and the documentation. *No enhanced neural
-        voices or expressive neural voices are deprecated.* For more information, see the
-        [1 March 2023 service
-        update](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-release-notes#text-to-speech-1march2023)
-        in the release notes.
         **See also:** [Listing all
         voices](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-voices-list#list-all-voices).
 
@@ -159,13 +144,6 @@ class TextToSpeechV1(BaseService):
         voices](#listvoices) method.
         **See also:** [Listing a specific
         voice](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-voices-list#list-specific-voice).
-        **Note:** Effective **31 March 2022**, all *neural voices* are deprecated. The
-        deprecated voices remain available to existing users until 31 March 2023, when
-        they will be removed from the service and the documentation. *No enhanced neural
-        voices or expressive neural voices are deprecated.* For more information, see the
-        [1 March 2023 service
-        update](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-release-notes#text-to-speech-1march2023)
-        in the release notes.
 
         :param str voice: The voice for which information is to be returned.
         :param str customization_id: (optional) The customization ID (GUID) of a
@@ -238,13 +216,6 @@ class TextToSpeechV1(BaseService):
         specify. The service returns the synthesized audio stream as an array of bytes.
         **See also:** [The HTTP
         interface](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-usingHTTP#usingHTTP).
-        **Note:** Effective **31 March 2022**, all *neural voices* are deprecated. The
-        deprecated voices remain available to existing users until 31 March 2023, when
-        they will be removed from the service and the documentation. *No enhanced neural
-        voices or expressive neural voices are deprecated.* For more information, see the
-        [1 March 2023 service
-        update](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-release-notes#text-to-speech-1march2023)
-        in the release notes.
         ### Audio formats (accept types)
          The service can return audio in the following formats (MIME types).
         * Where indicated, you can optionally specify the sampling rate (`rate`) of the
@@ -436,13 +407,6 @@ class TextToSpeechV1(BaseService):
         pronunciation for a specific format. You can also request the pronunciation for a
         specific voice to see the default translation for the language of that voice or
         for a specific custom model to see the translation for that model.
-        **Note:** Effective **31 March 2022**, all *neural voices* are deprecated. The
-        deprecated voices remain available to existing users until 31 March 2023, when
-        they will be removed from the service and the documentation. *No enhanced neural
-        voices or expressive neural voices are deprecated.* For more information, see the
-        [1 March 2023 service
-        update](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-release-notes#text-to-speech-1march2023)
-        in the release notes.
         **See also:** [Querying a word from a
         language](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customWords#cuWordsQueryLanguage).
 
@@ -457,9 +421,8 @@ class TextToSpeechV1(BaseService):
                **See also:** [Using the default
                voice](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-voices-use#specify-voice-default).
         :param str format: (optional) The phoneme format in which to return the
-               pronunciation. The Arabic, Chinese, Dutch, Australian English, and Korean
-               languages support only IPA. Omit the parameter to obtain the pronunciation
-               in the default format.
+               pronunciation. Omit the parameter to obtain the pronunciation in the
+               default format.
         :param str customization_id: (optional) The customization ID (GUID) of a
                custom model for which the pronunciation is to be returned. The language of
                a specified custom model must match the language of the specified voice. If
@@ -527,13 +490,6 @@ class TextToSpeechV1(BaseService):
         used to create it.
         **See also:** [Creating a custom
         model](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customModels#cuModelsCreate).
-        **Note:** Effective **31 March 2022**, all *neural voices* are deprecated. The
-        deprecated voices remain available to existing users until 31 March 2023, when
-        they will be removed from the service and the documentation. *No enhanced neural
-        voices or expressive neural voices are deprecated.* For more information, see the
-        [1 March 2023 service
-        update](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-release-notes#text-to-speech-1march2023)
-        in the release notes.
 
         :param str name: The name of the new custom model. Use a localized name
                that matches the language of the custom model. Use a name that describes
@@ -1018,9 +974,8 @@ class TextToSpeechV1(BaseService):
         :param str translation: The phonetic or sounds-like translation for the
                word. A phonetic translation is based on the SSML format for representing
                the phonetic string of a word either as an IPA translation or as an IBM SPR
-               translation. The Arabic, Chinese, Dutch, Australian English, and Korean
-               languages support only IPA. A sounds-like is one or more words that, when
-               combined, sound like the word.
+               translation. A sounds-like is one or more words that, when combined, sound
+               like the word.
         :param str part_of_speech: (optional) **Japanese only.** The part of speech
                for the word. The service uses the value to produce the correct intonation
                for the word. You can create only a single entry, with or without a single
@@ -1847,16 +1802,11 @@ class GetVoiceEnums:
         The voice for which information is to be returned.
         """
 
-        AR_MS_OMARVOICE = 'ar-MS_OmarVoice'
-        CS_CZ_ALENAVOICE = 'cs-CZ_AlenaVoice'
         DE_DE_BIRGITV3VOICE = 'de-DE_BirgitV3Voice'
         DE_DE_DIETERV3VOICE = 'de-DE_DieterV3Voice'
         DE_DE_ERIKAV3VOICE = 'de-DE_ErikaV3Voice'
-        EN_AU_CRAIGVOICE = 'en-AU_CraigVoice'
         EN_AU_HEIDIEXPRESSIVE = 'en-AU_HeidiExpressive'
         EN_AU_JACKEXPRESSIVE = 'en-AU_JackExpressive'
-        EN_AU_MADISONVOICE = 'en-AU_MadisonVoice'
-        EN_AU_STEVEVOICE = 'en-AU_SteveVoice'
         EN_GB_CHARLOTTEV3VOICE = 'en-GB_CharlotteV3Voice'
         EN_GB_JAMESV3VOICE = 'en-GB_JamesV3Voice'
         EN_GB_KATEV3VOICE = 'en-GB_KateV3Voice'
@@ -1880,20 +1830,9 @@ class GetVoiceEnums:
         FR_FR_RENEEV3VOICE = 'fr-FR_ReneeV3Voice'
         IT_IT_FRANCESCAV3VOICE = 'it-IT_FrancescaV3Voice'
         JA_JP_EMIV3VOICE = 'ja-JP_EmiV3Voice'
-        KO_KR_HYUNJUNVOICE = 'ko-KR_HyunjunVoice'
         KO_KR_JINV3VOICE = 'ko-KR_JinV3Voice'
-        KO_KR_SIWOOVOICE = 'ko-KR_SiWooVoice'
-        KO_KR_YOUNGMIVOICE = 'ko-KR_YoungmiVoice'
-        KO_KR_YUNAVOICE = 'ko-KR_YunaVoice'
-        NL_BE_ADELEVOICE = 'nl-BE_AdeleVoice'
-        NL_BE_BRAMVOICE = 'nl-BE_BramVoice'
-        NL_NL_EMMAVOICE = 'nl-NL_EmmaVoice'
-        NL_NL_LIAMVOICE = 'nl-NL_LiamVoice'
+        NL_NL_MERELV3VOICE = 'nl-NL_MerelV3Voice'
         PT_BR_ISABELAV3VOICE = 'pt-BR_IsabelaV3Voice'
-        SV_SE_INGRIDVOICE = 'sv-SE_IngridVoice'
-        ZH_CN_LINAVOICE = 'zh-CN_LiNaVoice'
-        ZH_CN_WANGWEIVOICE = 'zh-CN_WangWeiVoice'
-        ZH_CN_ZHANGJINGVOICE = 'zh-CN_ZhangJingVoice'
 
 
 class SynthesizeEnums:
@@ -1938,16 +1877,11 @@ class SynthesizeEnums:
         voice](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-voices-use#specify-voice-default).
         """
 
-        AR_MS_OMARVOICE = 'ar-MS_OmarVoice'
-        CS_CZ_ALENAVOICE = 'cs-CZ_AlenaVoice'
         DE_DE_BIRGITV3VOICE = 'de-DE_BirgitV3Voice'
         DE_DE_DIETERV3VOICE = 'de-DE_DieterV3Voice'
         DE_DE_ERIKAV3VOICE = 'de-DE_ErikaV3Voice'
-        EN_AU_CRAIGVOICE = 'en-AU_CraigVoice'
         EN_AU_HEIDIEXPRESSIVE = 'en-AU_HeidiExpressive'
         EN_AU_JACKEXPRESSIVE = 'en-AU_JackExpressive'
-        EN_AU_MADISONVOICE = 'en-AU_MadisonVoice'
-        EN_AU_STEVEVOICE = 'en-AU_SteveVoice'
         EN_GB_CHARLOTTEV3VOICE = 'en-GB_CharlotteV3Voice'
         EN_GB_JAMESV3VOICE = 'en-GB_JamesV3Voice'
         EN_GB_KATEV3VOICE = 'en-GB_KateV3Voice'
@@ -1971,20 +1905,9 @@ class SynthesizeEnums:
         FR_FR_RENEEV3VOICE = 'fr-FR_ReneeV3Voice'
         IT_IT_FRANCESCAV3VOICE = 'it-IT_FrancescaV3Voice'
         JA_JP_EMIV3VOICE = 'ja-JP_EmiV3Voice'
-        KO_KR_HYUNJUNVOICE = 'ko-KR_HyunjunVoice'
         KO_KR_JINV3VOICE = 'ko-KR_JinV3Voice'
-        KO_KR_SIWOOVOICE = 'ko-KR_SiWooVoice'
-        KO_KR_YOUNGMIVOICE = 'ko-KR_YoungmiVoice'
-        KO_KR_YUNAVOICE = 'ko-KR_YunaVoice'
-        NL_BE_ADELEVOICE = 'nl-BE_AdeleVoice'
-        NL_BE_BRAMVOICE = 'nl-BE_BramVoice'
-        NL_NL_EMMAVOICE = 'nl-NL_EmmaVoice'
-        NL_NL_LIAMVOICE = 'nl-NL_LiamVoice'
+        NL_NL_MERELV3VOICE = 'nl-NL_MerelV3Voice'
         PT_BR_ISABELAV3VOICE = 'pt-BR_IsabelaV3Voice'
-        SV_SE_INGRIDVOICE = 'sv-SE_IngridVoice'
-        ZH_CN_LINAVOICE = 'zh-CN_LiNaVoice'
-        ZH_CN_WANGWEIVOICE = 'zh-CN_WangWeiVoice'
-        ZH_CN_ZHANGJINGVOICE = 'zh-CN_ZhangJingVoice'
 
     class SpellOutMode(str, Enum):
         """
@@ -2028,16 +1951,11 @@ class GetPronunciationEnums:
         voice](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-voices-use#specify-voice-default).
         """
 
-        AR_MS_OMARVOICE = 'ar-MS_OmarVoice'
-        CS_CZ_ALENAVOICE = 'cs-CZ_AlenaVoice'
         DE_DE_BIRGITV3VOICE = 'de-DE_BirgitV3Voice'
         DE_DE_DIETERV3VOICE = 'de-DE_DieterV3Voice'
         DE_DE_ERIKAV3VOICE = 'de-DE_ErikaV3Voice'
-        EN_AU_CRAIGVOICE = 'en-AU_CraigVoice'
         EN_AU_HEIDIEXPRESSIVE = 'en-AU_HeidiExpressive'
         EN_AU_JACKEXPRESSIVE = 'en-AU_JackExpressive'
-        EN_AU_MADISONVOICE = 'en-AU_MadisonVoice'
-        EN_AU_STEVEVOICE = 'en-AU_SteveVoice'
         EN_GB_CHARLOTTEV3VOICE = 'en-GB_CharlotteV3Voice'
         EN_GB_JAMESV3VOICE = 'en-GB_JamesV3Voice'
         EN_GB_KATEV3VOICE = 'en-GB_KateV3Voice'
@@ -2061,26 +1979,14 @@ class GetPronunciationEnums:
         FR_FR_RENEEV3VOICE = 'fr-FR_ReneeV3Voice'
         IT_IT_FRANCESCAV3VOICE = 'it-IT_FrancescaV3Voice'
         JA_JP_EMIV3VOICE = 'ja-JP_EmiV3Voice'
-        KO_KR_HYUNJUNVOICE = 'ko-KR_HyunjunVoice'
         KO_KR_JINV3VOICE = 'ko-KR_JinV3Voice'
-        KO_KR_SIWOOVOICE = 'ko-KR_SiWooVoice'
-        KO_KR_YOUNGMIVOICE = 'ko-KR_YoungmiVoice'
-        KO_KR_YUNAVOICE = 'ko-KR_YunaVoice'
-        NL_BE_ADELEVOICE = 'nl-BE_AdeleVoice'
-        NL_BE_BRAMVOICE = 'nl-BE_BramVoice'
-        NL_NL_EMMAVOICE = 'nl-NL_EmmaVoice'
-        NL_NL_LIAMVOICE = 'nl-NL_LiamVoice'
+        NL_NL_MERELV3VOICE = 'nl-NL_MerelV3Voice'
         PT_BR_ISABELAV3VOICE = 'pt-BR_IsabelaV3Voice'
-        SV_SE_INGRIDVOICE = 'sv-SE_IngridVoice'
-        ZH_CN_LINAVOICE = 'zh-CN_LiNaVoice'
-        ZH_CN_WANGWEIVOICE = 'zh-CN_WangWeiVoice'
-        ZH_CN_ZHANGJINGVOICE = 'zh-CN_ZhangJingVoice'
 
     class Format(str, Enum):
         """
-        The phoneme format in which to return the pronunciation. The Arabic, Chinese,
-        Dutch, Australian English, and Korean languages support only IPA. Omit the
-        parameter to obtain the pronunciation in the default format.
+        The phoneme format in which to return the pronunciation. Omit the parameter to
+        obtain the pronunciation in the default format.
         """
 
         IBM = 'ibm'
@@ -2099,8 +2005,6 @@ class ListCustomModelsEnums:
         the requester.
         """
 
-        AR_MS = 'ar-MS'
-        CS_CZ = 'cs-CZ'
         DE_DE = 'de-DE'
         EN_AU = 'en-AU'
         EN_GB = 'en-GB'
@@ -2112,12 +2016,8 @@ class ListCustomModelsEnums:
         FR_FR = 'fr-FR'
         IT_IT = 'it-IT'
         JA_JP = 'ja-JP'
-        KO_KR = 'ko-KR'
-        NL_BE = 'nl-BE'
         NL_NL = 'nl-NL'
         PT_BR = 'pt-BR'
-        SV_SE = 'sv-SE'
-        ZH_CN = 'zh-CN'
 
 
 ##############################################################################
@@ -3197,9 +3097,9 @@ class SupportedFeatures:
     :param bool custom_pronunciation: If `true`, the voice can be customized; if
           `false`, the voice cannot be customized. (Same as `customizable`.).
     :param bool voice_transformation: If `true`, the voice can be transformed by
-          using the SSML &lt;voice-transformation&gt; element; if `false`, the voice
-          cannot be transformed. The feature was available only for the now-deprecated
-          standard voices. You cannot use the feature with neural voices.
+          using the SSML `<voice-transformation>` element; if `false`, the voice cannot be
+          transformed. **Note:** The SSML `<voice-transformation>` element is obsolete.
+          You can no longer use the element with any supported voice.
     """
 
     def __init__(
@@ -3213,10 +3113,9 @@ class SupportedFeatures:
         :param bool custom_pronunciation: If `true`, the voice can be customized;
                if `false`, the voice cannot be customized. (Same as `customizable`.).
         :param bool voice_transformation: If `true`, the voice can be transformed
-               by using the SSML &lt;voice-transformation&gt; element; if `false`, the
-               voice cannot be transformed. The feature was available only for the
-               now-deprecated standard voices. You cannot use the feature with neural
-               voices.
+               by using the SSML `<voice-transformation>` element; if `false`, the voice
+               cannot be transformed. **Note:** The SSML `<voice-transformation>` element
+               is obsolete. You can no longer use the element with any supported voice.
         """
         self.custom_pronunciation = custom_pronunciation
         self.voice_transformation = voice_transformation
@@ -3282,10 +3181,8 @@ class Translation:
 
     :param str translation: The phonetic or sounds-like translation for the word. A
           phonetic translation is based on the SSML format for representing the phonetic
-          string of a word either as an IPA translation or as an IBM SPR translation. The
-          Arabic, Chinese, Dutch, Australian English, and Korean languages support only
-          IPA. A sounds-like is one or more words that, when combined, sound like the
-          word.
+          string of a word either as an IPA translation or as an IBM SPR translation. A
+          sounds-like is one or more words that, when combined, sound like the word.
     :param str part_of_speech: (optional) **Japanese only.** The part of speech for
           the word. The service uses the value to produce the correct intonation for the
           word. You can create only a single entry, with or without a single part of
@@ -3306,9 +3203,8 @@ class Translation:
         :param str translation: The phonetic or sounds-like translation for the
                word. A phonetic translation is based on the SSML format for representing
                the phonetic string of a word either as an IPA translation or as an IBM SPR
-               translation. The Arabic, Chinese, Dutch, Australian English, and Korean
-               languages support only IPA. A sounds-like is one or more words that, when
-               combined, sound like the word.
+               translation. A sounds-like is one or more words that, when combined, sound
+               like the word.
         :param str part_of_speech: (optional) **Japanese only.** The part of speech
                for the word. The service uses the value to produce the correct intonation
                for the word. You can create only a single entry, with or without a single
@@ -3630,8 +3526,7 @@ class Word:
           49 characters.
     :param str translation: The phonetic or sounds-like translation for the word. A
           phonetic translation is based on the SSML format for representing the phonetic
-          string of a word either as an IPA or IBM SPR translation. The Arabic, Chinese,
-          Dutch, Australian English, and Korean languages support only IPA. A sounds-like
+          string of a word either as an IPA or IBM SPR translation. A sounds-like
           translation consists of one or more words that, when combined, sound like the
           word. The maximum length of a translation is 499 characters.
     :param str part_of_speech: (optional) **Japanese only.** The part of speech for
@@ -3656,11 +3551,9 @@ class Word:
                word is 49 characters.
         :param str translation: The phonetic or sounds-like translation for the
                word. A phonetic translation is based on the SSML format for representing
-               the phonetic string of a word either as an IPA or IBM SPR translation. The
-               Arabic, Chinese, Dutch, Australian English, and Korean languages support
-               only IPA. A sounds-like translation consists of one or more words that,
-               when combined, sound like the word. The maximum length of a translation is
-               499 characters.
+               the phonetic string of a word either as an IPA or IBM SPR translation. A
+               sounds-like translation consists of one or more words that, when combined,
+               sound like the word. The maximum length of a translation is 499 characters.
         :param str part_of_speech: (optional) **Japanese only.** The part of speech
                for the word. The service uses the value to produce the correct intonation
                for the word. You can create only a single entry, with or without a single

@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2019, 2023.
+# (C) Copyright IBM Corp. 2019, 2024.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -3928,6 +3928,8 @@ class AssistantV1(BaseService):
                [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-filter-reference#filter-reference).
         :param int page_limit: (optional) The number of records to return in each
                page of results.
+               **Note:** If the API is not returning your data, try lowering the
+               page_limit value.
         :param str cursor: (optional) A token identifying the page of results to
                retrieve.
         :param dict headers: A `dict` containing the request headers
@@ -9506,7 +9508,7 @@ class RuntimeEntity:
           that indicate where the detected entity values begin and end in the input text.
     :param str value: The entity value that was recognized in the user input.
     :param float confidence: (optional) A decimal percentage that represents
-          Watson's confidence in the recognized entity.
+          confidence in the recognized entity.
     :param List[CaptureGroup] groups: (optional) The recognized capture groups for
           the entity, as defined by the entity pattern.
     :param RuntimeEntityInterpretation interpretation: (optional) An object
@@ -9546,7 +9548,7 @@ class RuntimeEntity:
                offsets that indicate where the detected entity values begin and end in the
                input text.
         :param float confidence: (optional) A decimal percentage that represents
-               Watson's confidence in the recognized entity.
+               confidence in the recognized entity.
         :param List[CaptureGroup] groups: (optional) The recognized capture groups
                for the entity, as defined by the entity pattern.
         :param RuntimeEntityInterpretation interpretation: (optional) An object
@@ -9677,7 +9679,7 @@ class RuntimeEntityAlternative:
     :param str value: (optional) The entity value that was recognized in the user
           input.
     :param float confidence: (optional) A decimal percentage that represents
-          Watson's confidence in the recognized entity.
+          confidence in the recognized entity.
     """
 
     def __init__(
@@ -9692,7 +9694,7 @@ class RuntimeEntityAlternative:
         :param str value: (optional) The entity value that was recognized in the
                user input.
         :param float confidence: (optional) A decimal percentage that represents
-               Watson's confidence in the recognized entity.
+               confidence in the recognized entity.
         """
         self.value = value
         self.confidence = confidence
@@ -10191,8 +10193,8 @@ class RuntimeIntent:
 
     :param str intent: The name of the recognized intent.
     :param float confidence: (optional) A decimal percentage that represents
-          Watson's confidence in the intent. If you are specifying an intent as part of a
-          request, but you do not have a calculated confidence value, specify `1`.
+          confidence in the intent. If you are specifying an intent as part of a request,
+          but you do not have a calculated confidence value, specify `1`.
     """
 
     def __init__(
@@ -10206,9 +10208,8 @@ class RuntimeIntent:
 
         :param str intent: The name of the recognized intent.
         :param float confidence: (optional) A decimal percentage that represents
-               Watson's confidence in the intent. If you are specifying an intent as part
-               of a request, but you do not have a calculated confidence value, specify
-               `1`.
+               confidence in the intent. If you are specifying an intent as part of a
+               request, but you do not have a calculated confidence value, specify `1`.
         """
         self.intent = intent
         self.confidence = confidence

@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2019, 2023.
+# (C) Copyright IBM Corp. 2019, 2024.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12297,10 +12297,10 @@ class SegmentSettings:
           document understanding fields that the document is split on. The content of the
           annotated field that the segmentation splits at is used as the **title** field
           for that segmented result. For example, if the field `sub-title` is specified,
-          when a document is uploaded each time the smart documement understanding
+          when a document is uploaded each time the smart document understanding
           conversion encounters a field of type `sub-title` the document is split at that
           point and the content of the field used as the title of the remaining content.
-          Thnis split is performed for all instances of the listed fields in the uploaded
+          This split is performed for all instances of the listed fields in the uploaded
           document. Only valid if used with a collection that has **enabled** set to
           `true` in the **smart_document_understanding** object.
     """
@@ -12328,9 +12328,9 @@ class SegmentSettings:
                the annotated field that the segmentation splits at is used as the
                **title** field for that segmented result. For example, if the field
                `sub-title` is specified, when a document is uploaded each time the smart
-               documement understanding conversion encounters a field of type `sub-title`
+               document understanding conversion encounters a field of type `sub-title`
                the document is split at that point and the content of the field used as
-               the title of the remaining content. Thnis split is performed for all
+               the title of the remaining content. This split is performed for all
                instances of the listed fields in the uploaded document. Only valid if used
                with a collection that has **enabled** set to `true` in the
                **smart_document_understanding** object.
