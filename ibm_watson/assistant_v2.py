@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2019, 2023.
+# (C) Copyright IBM Corp. 2019, 2024.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,11 +16,12 @@
 
 # IBM OpenAPI SDK Code Generator Version: 3.85.0-75c38f8f-20240206-210220
 """
-The IBM Watson&trade; Assistant service combines machine learning, natural language
+The IBM&reg; watsonx&trade; Assistant service combines machine learning, natural language
 understanding, and an integrated dialog editor to create conversation flows between your
 apps and your users.
 The Assistant v2 API provides runtime methods your client application can use to send user
 input to an assistant and receive a response.
+You need a paid Plus plan or higher to use the watsonx Assistant v2 API.
 
 API Version: 2.0
 See: https://cloud.ibm.com/docs/assistant
@@ -60,7 +61,7 @@ class AssistantV2(BaseService):
         Construct a new client for the Assistant service.
 
         :param str version: Release date of the API version you want to use.
-               Specify dates in YYYY-MM-DD format. The current version is `2021-11-27`.
+               Specify dates in YYYY-MM-DD format. The current version is `2023-06-15`.
 
         :param Authenticator authenticator: The authenticator specifies the authentication mechanism.
                Get up to date information from https://github.com/IBM/python-sdk-core/blob/main/README.md
@@ -93,7 +94,6 @@ class AssistantV2(BaseService):
         Create an assistant.
 
         Create a new assistant.
-        This method is available only with Enterprise plans.
 
         :param str language: (optional) The language of the assistant.
         :param str name: (optional) The name of the assistant. This string cannot
@@ -156,8 +156,7 @@ class AssistantV2(BaseService):
         """
         List assistants.
 
-        List the assistants associated with a Watson Assistant service instance.
-        This method is available only with Enterprise plans.
+        List the assistants associated with a watsonx Assistant service instance.
 
         :param int page_limit: (optional) The number of records to return in each
                page of results.
@@ -219,7 +218,6 @@ class AssistantV2(BaseService):
         Delete assistant.
 
         Delete an assistant.
-        This method is available only with Enterprise plans.
 
         :param str assistant_id: The assistant ID or the environment ID of the
                environment where the assistant is deployed, depending on the type of
@@ -227,7 +225,7 @@ class AssistantV2(BaseService):
                 - For message, session, and log requests, specify the environment ID of
                the environment where the assistant is deployed.
                 - For all other requests, specify the assistant ID of the assistant.
-                To find the environment ID or assistant ID in the Watson Assistant user
+                To find the environment ID or assistant ID in the watsonx Assistant user
                interface, open the assistant settings and scroll to the **Environments**
                section.
                **Note:** If you are using the classic Watson Assistant experience, always
@@ -289,7 +287,7 @@ class AssistantV2(BaseService):
         responses. It also maintains the state of the conversation. A session persists
         until it is deleted, or until it times out because of inactivity. (For more
         information, see the
-        [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-assistant-settings).
+        [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-assistant-settings).).
 
         :param str assistant_id: The assistant ID or the environment ID of the
                environment where the assistant is deployed, depending on the type of
@@ -297,7 +295,7 @@ class AssistantV2(BaseService):
                 - For message, session, and log requests, specify the environment ID of
                the environment where the assistant is deployed.
                 - For all other requests, specify the assistant ID of the assistant.
-                To find the environment ID or assistant ID in the Watson Assistant user
+                To find the environment ID or assistant ID in the watsonx Assistant user
                interface, open the assistant settings and scroll to the **Environments**
                section.
                **Note:** If you are using the classic Watson Assistant experience, always
@@ -373,7 +371,7 @@ class AssistantV2(BaseService):
                 - For message, session, and log requests, specify the environment ID of
                the environment where the assistant is deployed.
                 - For all other requests, specify the assistant ID of the assistant.
-                To find the environment ID or assistant ID in the Watson Assistant user
+                To find the environment ID or assistant ID in the watsonx Assistant user
                interface, open the assistant settings and scroll to the **Environments**
                section.
                **Note:** If you are using the classic Watson Assistant experience, always
@@ -439,7 +437,7 @@ class AssistantV2(BaseService):
         Send user input to assistant (stateful).
 
         Send user input to an assistant and receive a response, with conversation state
-        (including context data) stored by Watson Assistant for the duration of the
+        (including context data) stored by watsonx Assistant for the duration of the
         session.
 
         :param str assistant_id: The assistant ID or the environment ID of the
@@ -448,7 +446,7 @@ class AssistantV2(BaseService):
                 - For message, session, and log requests, specify the environment ID of
                the environment where the assistant is deployed.
                 - For all other requests, specify the assistant ID of the assistant.
-                To find the environment ID or assistant ID in the Watson Assistant user
+                To find the environment ID or assistant ID in the watsonx Assistant user
                interface, open the assistant settings and scroll to the **Environments**
                section.
                **Note:** If you are using the classic Watson Assistant experience, always
@@ -475,7 +473,7 @@ class AssistantV2(BaseService):
                value specified at the root is used.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `MessageResponse` object
+        :rtype: DetailedResponse with `dict` result representing a `StatefulMessageResponse` object
         """
 
         if not assistant_id:
@@ -549,15 +547,15 @@ class AssistantV2(BaseService):
                 - For message, session, and log requests, specify the environment ID of
                the environment where the assistant is deployed.
                 - For all other requests, specify the assistant ID of the assistant.
-                To find the environment ID or assistant ID in the Watson Assistant user
+                To find the environment ID or assistant ID in the watsonx Assistant user
                interface, open the assistant settings and scroll to the **Environments**
                section.
                **Note:** If you are using the classic Watson Assistant experience, always
                use the assistant ID. To find the assistant ID in the user interface, open
                the assistant settings and click API Details.
-        :param MessageInputStateless input: (optional) An input object that
+        :param StatelessMessageInput input: (optional) An input object that
                includes the input text.
-        :param MessageContextStateless context: (optional) Context data for the
+        :param StatelessMessageContext context: (optional) Context data for the
                conversation. You can use this property to set or modify context variables,
                which can also be accessed by dialog nodes. The context is not stored by
                the assistant. To maintain session state, include the context from the
@@ -576,7 +574,7 @@ class AssistantV2(BaseService):
                message request, the value specified at the root is used.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `MessageResponseStateless` object
+        :rtype: DetailedResponse with `dict` result representing a `StatelessMessageResponse` object
         """
 
         if not assistant_id:
@@ -646,7 +644,7 @@ class AssistantV2(BaseService):
         This method is available only with Enterprise with Data Isolation plans.
 
         :param str skill_id: Unique identifier of the skill. To find the skill ID
-               in the Watson Assistant user interface, open the skill settings and click
+               in the watsonx Assistant user interface, open the skill settings and click
                **API Details**.
         :param List[BulkClassifyUtterance] input: An array of input utterances to
                classify.
@@ -718,8 +716,7 @@ class AssistantV2(BaseService):
         List log events for an assistant.
 
         List the events from the log of an assistant.
-        This method requires Manager access, and is available only with Plus and
-        Enterprise plans.
+        This method requires Manager access.
         **Note:** If you use the **cursor** parameter to retrieve results one page at a
         time, subsequent requests must be no more than 5 minutes apart. Any returned value
         for the **cursor** parameter becomes invalid after 5 minutes. For more information
@@ -731,7 +728,7 @@ class AssistantV2(BaseService):
                 - For message, session, and log requests, specify the environment ID of
                the environment where the assistant is deployed.
                 - For all other requests, specify the assistant ID of the assistant.
-                To find the environment ID or assistant ID in the Watson Assistant user
+                To find the environment ID or assistant ID in the watsonx Assistant user
                interface, open the assistant settings and scroll to the **Environments**
                section.
                **Note:** If you are using the classic Watson Assistant experience, always
@@ -745,6 +742,8 @@ class AssistantV2(BaseService):
                [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-filter-reference#filter-reference).
         :param int page_limit: (optional) The number of records to return in each
                page of results.
+               **Note:** If the API is not returning your data, try lowering the
+               page_limit value.
         :param str cursor: (optional) A token identifying the page of results to
                retrieve.
         :param dict headers: A `dict` containing the request headers
@@ -810,7 +809,7 @@ class AssistantV2(BaseService):
         **Note:** This operation is intended only for deleting data associated with a
         single specific customer, not for deleting data associated with multiple customers
         or for any other purpose. For more information, see [Labeling and deleting data in
-        Watson
+        watsonx
         Assistant](https://cloud.ibm.com/docs/assistant?topic=assistant-information-security#information-security-gdpr-wa).
 
         :param str customer_id: The customer ID for which all data is to be
@@ -870,7 +869,6 @@ class AssistantV2(BaseService):
         List environments.
 
         List the environments associated with an assistant.
-        This method is available only with Enterprise plans.
 
         :param str assistant_id: The assistant ID or the environment ID of the
                environment where the assistant is deployed, depending on the type of
@@ -878,7 +876,7 @@ class AssistantV2(BaseService):
                 - For message, session, and log requests, specify the environment ID of
                the environment where the assistant is deployed.
                 - For all other requests, specify the assistant ID of the assistant.
-                To find the environment ID or assistant ID in the Watson Assistant user
+                To find the environment ID or assistant ID in the watsonx Assistant user
                interface, open the assistant settings and scroll to the **Environments**
                section.
                **Note:** If you are using the classic Watson Assistant experience, always
@@ -954,7 +952,6 @@ class AssistantV2(BaseService):
 
         Get information about an environment. For more information about environments, see
         [Environments](https://cloud.ibm.com/docs/watson-assistant?topic=watson-assistant-publish-overview#environments).
-        This method is available only with Enterprise plans.
 
         :param str assistant_id: The assistant ID or the environment ID of the
                environment where the assistant is deployed, depending on the type of
@@ -962,14 +959,14 @@ class AssistantV2(BaseService):
                 - For message, session, and log requests, specify the environment ID of
                the environment where the assistant is deployed.
                 - For all other requests, specify the assistant ID of the assistant.
-                To find the environment ID or assistant ID in the Watson Assistant user
+                To find the environment ID or assistant ID in the watsonx Assistant user
                interface, open the assistant settings and scroll to the **Environments**
                section.
                **Note:** If you are using the classic Watson Assistant experience, always
                use the assistant ID. To find the assistant ID in the user interface, open
                the assistant settings and click API Details.
         :param str environment_id: Unique identifier of the environment. To find
-               the environment ID in the Watson Assistant user interface, open the
+               the environment ID in the watsonx Assistant user interface, open the
                environment settings and click **API Details**. **Note:** Currently, the
                API does not support creating environments.
         :param bool include_audit: (optional) Whether to include the audit
@@ -1023,6 +1020,7 @@ class AssistantV2(BaseService):
         *,
         name: Optional[str] = None,
         description: Optional[str] = None,
+        orchestration: Optional['BaseEnvironmentOrchestration'] = None,
         session_timeout: Optional[int] = None,
         skill_references: Optional[List['EnvironmentSkill']] = None,
         **kwargs,
@@ -1033,7 +1031,6 @@ class AssistantV2(BaseService):
         Update an environment with new or modified data. For more information about
         environments, see
         [Environments](https://cloud.ibm.com/docs/watson-assistant?topic=watson-assistant-publish-overview#environments).
-        This method is available only with Enterprise plans.
 
         :param str assistant_id: The assistant ID or the environment ID of the
                environment where the assistant is deployed, depending on the type of
@@ -1041,18 +1038,20 @@ class AssistantV2(BaseService):
                 - For message, session, and log requests, specify the environment ID of
                the environment where the assistant is deployed.
                 - For all other requests, specify the assistant ID of the assistant.
-                To find the environment ID or assistant ID in the Watson Assistant user
+                To find the environment ID or assistant ID in the watsonx Assistant user
                interface, open the assistant settings and scroll to the **Environments**
                section.
                **Note:** If you are using the classic Watson Assistant experience, always
                use the assistant ID. To find the assistant ID in the user interface, open
                the assistant settings and click API Details.
         :param str environment_id: Unique identifier of the environment. To find
-               the environment ID in the Watson Assistant user interface, open the
+               the environment ID in the watsonx Assistant user interface, open the
                environment settings and click **API Details**. **Note:** Currently, the
                API does not support creating environments.
         :param str name: (optional) The name of the environment.
         :param str description: (optional) The description of the environment.
+        :param BaseEnvironmentOrchestration orchestration: (optional) The search
+               skill orchestration settings for the environment.
         :param int session_timeout: (optional) The session inactivity timeout
                setting for the environment (in seconds).
         :param List[EnvironmentSkill] skill_references: (optional) An array of
@@ -1067,6 +1066,8 @@ class AssistantV2(BaseService):
             raise ValueError('assistant_id must be provided')
         if not environment_id:
             raise ValueError('environment_id must be provided')
+        if orchestration is not None:
+            orchestration = convert_model(orchestration)
         if skill_references is not None:
             skill_references = [convert_model(x) for x in skill_references]
         headers = {}
@@ -1084,6 +1085,7 @@ class AssistantV2(BaseService):
         data = {
             'name': name,
             'description': description,
+            'orchestration': orchestration,
             'session_timeout': session_timeout,
             'skill_references': skill_references,
         }
@@ -1127,9 +1129,8 @@ class AssistantV2(BaseService):
         Create release.
 
         Create a new release using the current content of the dialog and action skills in
-        the draft environment. (In the Watson Assistant user interface, a release is
-        called a *version*.)
-        This method is available only with Enterprise plans.
+        the draft environment. (In the watsonx Assistant user interface, a release is
+        called a *version*.).
 
         :param str assistant_id: The assistant ID or the environment ID of the
                environment where the assistant is deployed, depending on the type of
@@ -1137,7 +1138,7 @@ class AssistantV2(BaseService):
                 - For message, session, and log requests, specify the environment ID of
                the environment where the assistant is deployed.
                 - For all other requests, specify the assistant ID of the assistant.
-                To find the environment ID or assistant ID in the Watson Assistant user
+                To find the environment ID or assistant ID in the watsonx Assistant user
                interface, open the assistant settings and scroll to the **Environments**
                section.
                **Note:** If you are using the classic Watson Assistant experience, always
@@ -1204,9 +1205,8 @@ class AssistantV2(BaseService):
         """
         List releases.
 
-        List the releases associated with an assistant. (In the Watson Assistant user
-        interface, a release is called a *version*.)
-        This method is available only with Enterprise plans.
+        List the releases associated with an assistant. (In the watsonx Assistant user
+        interface, a release is called a *version*.).
 
         :param str assistant_id: The assistant ID or the environment ID of the
                environment where the assistant is deployed, depending on the type of
@@ -1214,7 +1214,7 @@ class AssistantV2(BaseService):
                 - For message, session, and log requests, specify the environment ID of
                the environment where the assistant is deployed.
                 - For all other requests, specify the assistant ID of the assistant.
-                To find the environment ID or assistant ID in the Watson Assistant user
+                To find the environment ID or assistant ID in the watsonx Assistant user
                interface, open the assistant settings and scroll to the **Environments**
                section.
                **Note:** If you are using the classic Watson Assistant experience, always
@@ -1292,7 +1292,6 @@ class AssistantV2(BaseService):
         publishing is still in progress, you can continue to poll by calling the same
         request again and checking the value of the **status** property. When processing
         has completed, the request returns the release data.
-        This method is available only with Enterprise plans.
 
         :param str assistant_id: The assistant ID or the environment ID of the
                environment where the assistant is deployed, depending on the type of
@@ -1300,7 +1299,7 @@ class AssistantV2(BaseService):
                 - For message, session, and log requests, specify the environment ID of
                the environment where the assistant is deployed.
                 - For all other requests, specify the assistant ID of the assistant.
-                To find the environment ID or assistant ID in the Watson Assistant user
+                To find the environment ID or assistant ID in the watsonx Assistant user
                interface, open the assistant settings and scroll to the **Environments**
                section.
                **Note:** If you are using the classic Watson Assistant experience, always
@@ -1360,9 +1359,8 @@ class AssistantV2(BaseService):
         """
         Delete release.
 
-        Delete a release. (In the Watson Assistant user interface, a release is called a
-        *version*.)
-        This method is available only with Enterprise plans.
+        Delete a release. (In the watsonx Assistant user interface, a release is called a
+        *version*.).
 
         :param str assistant_id: The assistant ID or the environment ID of the
                environment where the assistant is deployed, depending on the type of
@@ -1370,7 +1368,7 @@ class AssistantV2(BaseService):
                 - For message, session, and log requests, specify the environment ID of
                the environment where the assistant is deployed.
                 - For all other requests, specify the assistant ID of the assistant.
-                To find the environment ID or assistant ID in the Watson Assistant user
+                To find the environment ID or assistant ID in the watsonx Assistant user
                interface, open the assistant settings and scroll to the **Environments**
                section.
                **Note:** If you are using the classic Watson Assistant experience, always
@@ -1432,7 +1430,6 @@ class AssistantV2(BaseService):
 
         Update the environment with the content of the release. All snapshots saved as
         part of the release become active in the environment.
-        This method is available only with Enterprise plans.
 
         :param str assistant_id: The assistant ID or the environment ID of the
                environment where the assistant is deployed, depending on the type of
@@ -1440,7 +1437,7 @@ class AssistantV2(BaseService):
                 - For message, session, and log requests, specify the environment ID of
                the environment where the assistant is deployed.
                 - For all other requests, specify the assistant ID of the assistant.
-                To find the environment ID or assistant ID in the Watson Assistant user
+                To find the environment ID or assistant ID in the watsonx Assistant user
                interface, open the assistant settings and scroll to the **Environments**
                section.
                **Note:** If you are using the classic Watson Assistant experience, always
@@ -1517,7 +1514,6 @@ class AssistantV2(BaseService):
         Get skill.
 
         Get information about a skill.
-        This method is available only with Enterprise plans.
 
         :param str assistant_id: The assistant ID or the environment ID of the
                environment where the assistant is deployed, depending on the type of
@@ -1525,14 +1521,14 @@ class AssistantV2(BaseService):
                 - For message, session, and log requests, specify the environment ID of
                the environment where the assistant is deployed.
                 - For all other requests, specify the assistant ID of the assistant.
-                To find the environment ID or assistant ID in the Watson Assistant user
+                To find the environment ID or assistant ID in the watsonx Assistant user
                interface, open the assistant settings and scroll to the **Environments**
                section.
                **Note:** If you are using the classic Watson Assistant experience, always
                use the assistant ID. To find the assistant ID in the user interface, open
                the assistant settings and click API Details.
         :param str skill_id: Unique identifier of the skill. To find the skill ID
-               in the Watson Assistant user interface, open the skill settings and click
+               in the watsonx Assistant user interface, open the skill settings and click
                **API Details**.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -1594,7 +1590,6 @@ class AssistantV2(BaseService):
           **Note:** The update is performed asynchronously; you can see the status of the
         update by calling the **Get skill** method and checking the value of the
         **status** property.
-        This method is available only with Enterprise plans.
 
         :param str assistant_id: The assistant ID or the environment ID of the
                environment where the assistant is deployed, depending on the type of
@@ -1602,14 +1597,14 @@ class AssistantV2(BaseService):
                 - For message, session, and log requests, specify the environment ID of
                the environment where the assistant is deployed.
                 - For all other requests, specify the assistant ID of the assistant.
-                To find the environment ID or assistant ID in the Watson Assistant user
+                To find the environment ID or assistant ID in the watsonx Assistant user
                interface, open the assistant settings and scroll to the **Environments**
                section.
                **Note:** If you are using the classic Watson Assistant experience, always
                use the assistant ID. To find the assistant ID in the user interface, open
                the assistant settings and click API Details.
         :param str skill_id: Unique identifier of the skill. To find the skill ID
-               in the Watson Assistant user interface, open the skill settings and click
+               in the watsonx Assistant user interface, open the skill settings and click
                **API Details**.
         :param str name: (optional) The name of the skill. This string cannot
                contain carriage return, newline, or tab characters.
@@ -1620,6 +1615,8 @@ class AssistantV2(BaseService):
         :param dict dialog_settings: (optional) For internal use only.
         :param SearchSettings search_settings: (optional) An object describing the
                search skill configuration.
+               **Note:** Search settings are not supported in **Import skills** requests,
+               and are not included in **Export skills** responses.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `Skill` object
@@ -1698,7 +1695,6 @@ class AssistantV2(BaseService):
         failure.
          When processing has completed, the request returns the exported JSON data.
         Remember that the usual rate limits apply.
-        This method is available only with Enterprise plans.
 
         :param str assistant_id: The assistant ID or the environment ID of the
                environment where the assistant is deployed, depending on the type of
@@ -1706,7 +1702,7 @@ class AssistantV2(BaseService):
                 - For message, session, and log requests, specify the environment ID of
                the environment where the assistant is deployed.
                 - For all other requests, specify the assistant ID of the assistant.
-                To find the environment ID or assistant ID in the Watson Assistant user
+                To find the environment ID or assistant ID in the watsonx Assistant user
                interface, open the assistant settings and scroll to the **Environments**
                section.
                **Note:** If you are using the classic Watson Assistant experience, always
@@ -1775,7 +1771,6 @@ class AssistantV2(BaseService):
         skills belonging to the assistant are not available until processing completes. To
         check the status of the asynchronous import operation, use the **Get status of
         skills import** method.
-        This method is available only with Enterprise plans.
 
         :param str assistant_id: The assistant ID or the environment ID of the
                environment where the assistant is deployed, depending on the type of
@@ -1783,7 +1778,7 @@ class AssistantV2(BaseService):
                 - For message, session, and log requests, specify the environment ID of
                the environment where the assistant is deployed.
                 - For all other requests, specify the assistant ID of the assistant.
-                To find the environment ID or assistant ID in the Watson Assistant user
+                To find the environment ID or assistant ID in the watsonx Assistant user
                interface, open the assistant settings and scroll to the **Environments**
                section.
                **Note:** If you are using the classic Watson Assistant experience, always
@@ -1861,7 +1856,6 @@ class AssistantV2(BaseService):
 
         Retrieve the status of an asynchronous import operation previously initiated by
         using the **Import skills** method.
-        This method is available only with Enterprise plans.
 
         :param str assistant_id: The assistant ID or the environment ID of the
                environment where the assistant is deployed, depending on the type of
@@ -1869,7 +1863,7 @@ class AssistantV2(BaseService):
                 - For message, session, and log requests, specify the environment ID of
                the environment where the assistant is deployed.
                 - For all other requests, specify the assistant ID of the assistant.
-                To find the environment ID or assistant ID in the Watson Assistant user
+                To find the environment ID or assistant ID in the watsonx Assistant user
                interface, open the assistant settings and scroll to the **Environments**
                section.
                **Note:** If you are using the classic Watson Assistant experience, always
@@ -2400,10 +2394,10 @@ class BaseEnvironmentOrchestration:
     """
     The search skill orchestration settings for the environment.
 
-    :param bool search_skill_fallback: (optional) Whether assistants deployed to the
-          environment fall back to a search skill when responding to messages that do not
-          match any intent. If no search skill is configured for the assistant, this
-          property is ignored.
+    :param bool search_skill_fallback: (optional) Whether to fall back to a search
+          skill when responding to messages that do not match any intent or action defined
+          in dialog or action skills. (If no search skill is configured for the
+          environment, this property is ignored.).
     """
 
     def __init__(
@@ -2414,10 +2408,10 @@ class BaseEnvironmentOrchestration:
         """
         Initialize a BaseEnvironmentOrchestration object.
 
-        :param bool search_skill_fallback: (optional) Whether assistants deployed
-               to the environment fall back to a search skill when responding to messages
-               that do not match any intent. If no search skill is configured for the
-               assistant, this property is ignored.
+        :param bool search_skill_fallback: (optional) Whether to fall back to a
+               search skill when responding to messages that do not match any intent or
+               action defined in dialog or action skills. (If no search skill is
+               configured for the environment, this property is ignored.).
         """
         self.search_skill_fallback = search_skill_fallback
 
@@ -3528,7 +3522,7 @@ class DialogSuggestion:
           of the next message sent to the assistant. Do not modify or remove any of the
           included properties.
     :param dict output: (optional) The dialog output that will be returned from the
-          Watson Assistant service if the user selects the corresponding option.
+          watsonx Assistant service if the user selects the corresponding option.
     """
 
     def __init__(
@@ -3551,7 +3545,7 @@ class DialogSuggestion:
                body of the next message sent to the assistant. Do not modify or remove any
                of the included properties.
         :param dict output: (optional) The dialog output that will be returned from
-               the Watson Assistant service if the user selects the corresponding option.
+               the watsonx Assistant service if the user selects the corresponding option.
         """
         self.label = label
         self.value = value
@@ -3695,7 +3689,7 @@ class Environment:
           other than the `draft` and `live` environments have the type `staging`.
     :param BaseEnvironmentReleaseReference release_reference: (optional) An object
           describing the release that is currently deployed in the environment.
-    :param BaseEnvironmentOrchestration orchestration: (optional) The search skill
+    :param BaseEnvironmentOrchestration orchestration: The search skill
           orchestration settings for the environment.
     :param int session_timeout: The session inactivity timeout setting for the
           environment (in seconds).
@@ -3710,6 +3704,7 @@ class Environment:
 
     def __init__(
         self,
+        orchestration: 'BaseEnvironmentOrchestration',
         session_timeout: int,
         skill_references: List['EnvironmentSkill'],
         *,
@@ -3719,7 +3714,6 @@ class Environment:
         environment_id: Optional[str] = None,
         environment: Optional[str] = None,
         release_reference: Optional['BaseEnvironmentReleaseReference'] = None,
-        orchestration: Optional['BaseEnvironmentOrchestration'] = None,
         integration_references: Optional[List['IntegrationReference']] = None,
         created: Optional[datetime] = None,
         updated: Optional[datetime] = None,
@@ -3727,6 +3721,8 @@ class Environment:
         """
         Initialize a Environment object.
 
+        :param BaseEnvironmentOrchestration orchestration: The search skill
+               orchestration settings for the environment.
         :param int session_timeout: The session inactivity timeout setting for the
                environment (in seconds).
         :param List[EnvironmentSkill] skill_references: An array of objects
@@ -3769,6 +3765,10 @@ class Environment:
         if (orchestration := _dict.get('orchestration')) is not None:
             args['orchestration'] = BaseEnvironmentOrchestration.from_dict(
                 orchestration)
+        else:
+            raise ValueError(
+                'Required property \'orchestration\' not present in Environment JSON'
+            )
         if (session_timeout := _dict.get('session_timeout')) is not None:
             args['session_timeout'] = session_timeout
         else:
@@ -3823,13 +3823,11 @@ class Environment:
             else:
                 _dict['release_reference'] = getattr(
                     self, 'release_reference').to_dict()
-        if hasattr(self, 'orchestration') and getattr(
-                self, 'orchestration') is not None:
-            if isinstance(getattr(self, 'orchestration'), dict):
-                _dict['orchestration'] = getattr(self, 'orchestration')
+        if hasattr(self, 'orchestration') and self.orchestration is not None:
+            if isinstance(self.orchestration, dict):
+                _dict['orchestration'] = self.orchestration
             else:
-                _dict['orchestration'] = getattr(self,
-                                                 'orchestration').to_dict()
+                _dict['orchestration'] = self.orchestration.to_dict()
         if hasattr(self,
                    'session_timeout') and self.session_timeout is not None:
             _dict['session_timeout'] = self.session_timeout
@@ -4807,7 +4805,7 @@ class MessageContextGlobalStateless:
 
     :param MessageContextGlobalSystem system: (optional) Built-in system properties
           that apply to all skills used by the assistant.
-    :param str session_id: (optional) The unique identifier of the session.
+    :param str session_id: (optional) The session ID.
     """
 
     def __init__(
@@ -5807,6 +5805,13 @@ class MessageInputOptions:
           not affect `turn_count` or any other context variables.
     :param bool alternate_intents: (optional) Whether to return more than one
           intent. Set to `true` to return all matching intents.
+    :param bool async_callout: (optional) Whether custom extension callouts are
+          executed asynchronously. Asynchronous execution means the response to the
+          extension callout will be processed on the subsequent message call, the initial
+          message response signals to the client that the operation may be long running.
+          With synchronous execution the custom extension is executed and returns the
+          response in a single message turn. **Note:** **async_callout** defaults to true
+          for API versions earlier than 2023-06-15.
     :param MessageInputOptionsSpelling spelling: (optional) Spelling correction
           options for the message. Any options specified on an individual message override
           the settings configured for the skill.
@@ -5830,6 +5835,7 @@ class MessageInputOptions:
         *,
         restart: Optional[bool] = None,
         alternate_intents: Optional[bool] = None,
+        async_callout: Optional[bool] = None,
         spelling: Optional['MessageInputOptionsSpelling'] = None,
         debug: Optional[bool] = None,
         return_context: Optional[bool] = None,
@@ -5843,6 +5849,14 @@ class MessageInputOptions:
                This does not affect `turn_count` or any other context variables.
         :param bool alternate_intents: (optional) Whether to return more than one
                intent. Set to `true` to return all matching intents.
+        :param bool async_callout: (optional) Whether custom extension callouts are
+               executed asynchronously. Asynchronous execution means the response to the
+               extension callout will be processed on the subsequent message call, the
+               initial message response signals to the client that the operation may be
+               long running. With synchronous execution the custom extension is executed
+               and returns the response in a single message turn. **Note:**
+               **async_callout** defaults to true for API versions earlier than
+               2023-06-15.
         :param MessageInputOptionsSpelling spelling: (optional) Spelling correction
                options for the message. Any options specified on an individual message
                override the settings configured for the skill.
@@ -5863,6 +5877,7 @@ class MessageInputOptions:
         """
         self.restart = restart
         self.alternate_intents = alternate_intents
+        self.async_callout = async_callout
         self.spelling = spelling
         self.debug = debug
         self.return_context = return_context
@@ -5876,6 +5891,8 @@ class MessageInputOptions:
             args['restart'] = restart
         if (alternate_intents := _dict.get('alternate_intents')) is not None:
             args['alternate_intents'] = alternate_intents
+        if (async_callout := _dict.get('async_callout')) is not None:
+            args['async_callout'] = async_callout
         if (spelling := _dict.get('spelling')) is not None:
             args['spelling'] = MessageInputOptionsSpelling.from_dict(spelling)
         if (debug := _dict.get('debug')) is not None:
@@ -5899,6 +5916,8 @@ class MessageInputOptions:
         if hasattr(self,
                    'alternate_intents') and self.alternate_intents is not None:
             _dict['alternate_intents'] = self.alternate_intents
+        if hasattr(self, 'async_callout') and self.async_callout is not None:
+            _dict['async_callout'] = self.async_callout
         if hasattr(self, 'spelling') and self.spelling is not None:
             if isinstance(self.spelling, dict):
                 _dict['spelling'] = self.spelling
@@ -7747,7 +7766,7 @@ class RuntimeEntity:
     :param str value: The term in the input text that was recognized as an entity
           value.
     :param float confidence: (optional) A decimal percentage that represents
-          Watson's confidence in the recognized entity.
+          confidence in the recognized entity.
     :param List[CaptureGroup] groups: (optional) The recognized capture groups for
           the entity, as defined by the entity pattern.
     :param RuntimeEntityInterpretation interpretation: (optional) An object
@@ -7796,7 +7815,7 @@ class RuntimeEntity:
                offsets that indicate where the detected entity values begin and end in the
                input text.
         :param float confidence: (optional) A decimal percentage that represents
-               Watson's confidence in the recognized entity.
+               confidence in the recognized entity.
         :param List[CaptureGroup] groups: (optional) The recognized capture groups
                for the entity, as defined by the entity pattern.
         :param RuntimeEntityInterpretation interpretation: (optional) An object
@@ -7939,7 +7958,7 @@ class RuntimeEntityAlternative:
     :param str value: (optional) The entity value that was recognized in the user
           input.
     :param float confidence: (optional) A decimal percentage that represents
-          Watson's confidence in the recognized entity.
+          confidence in the recognized entity.
     """
 
     def __init__(
@@ -7954,7 +7973,7 @@ class RuntimeEntityAlternative:
         :param str value: (optional) The entity value that was recognized in the
                user input.
         :param float confidence: (optional) A decimal percentage that represents
-               Watson's confidence in the recognized entity.
+               confidence in the recognized entity.
         """
         self.value = value
         self.confidence = confidence
@@ -8453,8 +8472,8 @@ class RuntimeIntent:
 
     :param str intent: The name of the recognized intent.
     :param float confidence: (optional) A decimal percentage that represents
-          Watson's confidence in the intent. If you are specifying an intent as part of a
-          request, but you do not have a calculated confidence value, specify `1`.
+          confidence in the intent. If you are specifying an intent as part of a request,
+          but you do not have a calculated confidence value, specify `1`.
     :param str skill: (optional) The skill that identified the intent. Currently,
           the only possible values are `main skill` for the dialog skill (if enabled) and
           `actions skill` for the action skill.
@@ -8474,9 +8493,8 @@ class RuntimeIntent:
 
         :param str intent: The name of the recognized intent.
         :param float confidence: (optional) A decimal percentage that represents
-               Watson's confidence in the intent. If you are specifying an intent as part
-               of a request, but you do not have a calculated confidence value, specify
-               `1`.
+               confidence in the intent. If you are specifying an intent as part of a
+               request, but you do not have a calculated confidence value, specify `1`.
         :param str skill: (optional) The skill that identified the intent.
                Currently, the only possible values are `main skill` for the dialog skill
                (if enabled) and `actions skill` for the action skill.
@@ -9068,6 +9086,8 @@ class SearchResultMetadata:
 class SearchSettings:
     """
     An object describing the search skill configuration.
+    **Note:** Search settings are not supported in **Import skills** requests, and are not
+    included in **Export skills** responses.
 
     :param SearchSettingsDiscovery discovery: Configuration settings for the Watson
           Discovery service instance used by the search integration.
@@ -9779,6 +9799,8 @@ class Skill:
           skill is saved for each new release of an assistant.
     :param SearchSettings search_settings: (optional) An object describing the
           search skill configuration.
+          **Note:** Search settings are not supported in **Import skills** requests, and
+          are not included in **Export skills** responses.
     :param List[SearchSkillWarning] warnings: (optional) An array of warnings
           describing errors with the search skill configuration. Included only for search
           skills.
@@ -9821,6 +9843,8 @@ class Skill:
         :param dict dialog_settings: (optional) For internal use only.
         :param SearchSettings search_settings: (optional) An object describing the
                search skill configuration.
+               **Note:** Search settings are not supported in **Import skills** requests,
+               and are not included in **Export skills** responses.
         """
         self.name = name
         self.description = description
@@ -10042,6 +10066,8 @@ class SkillImport:
           skill is saved for each new release of an assistant.
     :param SearchSettings search_settings: (optional) An object describing the
           search skill configuration.
+          **Note:** Search settings are not supported in **Import skills** requests, and
+          are not included in **Export skills** responses.
     :param List[SearchSkillWarning] warnings: (optional) An array of warnings
           describing errors with the search skill configuration. Included only for search
           skills.
@@ -10084,6 +10110,8 @@ class SkillImport:
         :param dict dialog_settings: (optional) For internal use only.
         :param SearchSettings search_settings: (optional) An object describing the
                search skill configuration.
+               **Note:** Search settings are not supported in **Import skills** requests,
+               and are not included in **Export skills** responses.
         """
         self.name = name
         self.description = description
@@ -10266,7 +10294,6 @@ class SkillImport:
 
         ACTION = 'action'
         DIALOG = 'dialog'
-        SEARCH = 'search'
 
 
 class SkillsAsyncRequestStatus:
