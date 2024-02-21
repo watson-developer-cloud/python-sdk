@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2017, 2023.
+# (C) Copyright IBM Corp. 2017, 2024.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ models](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-
 with Watson Knowledge Studio to detect custom entities and relations in Natural Language
 Understanding.
 IBM is sunsetting Watson Natural Language Understanding Custom Sentiment (BETA). From
-**June 1, 2023** onward, you will no longer be able to use the Custom Sentiment
+**June 3, 2023** onward, you will no longer be able to use the Custom Sentiment
 feature.<br /><br />To ensure we continue providing our clients with robust and powerful
 text classification capabilities, IBM recently announced the general availability of a new
 [single-label text classification
@@ -314,6 +314,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
         *,
         training_data_content_type: Optional[str] = 'application/json',
         name: Optional[str] = None,
+        user_metadata: Optional[dict] = None,
         description: Optional[str] = None,
         model_version: Optional[str] = None,
         workspace_id: Optional[str] = None,
@@ -334,6 +335,8 @@ class NaturalLanguageUnderstandingV1(BaseService):
         :param str training_data_content_type: (optional) The content type of
                training_data.
         :param str name: (optional) An optional name for the model.
+        :param dict user_metadata: (optional) An optional map of metadata key-value
+               pairs to store with this model.
         :param str description: (optional) An optional description of the model.
         :param str model_version: (optional) An optional version string.
         :param str workspace_id: (optional) ID of the Watson Knowledge Studio
@@ -367,6 +370,9 @@ class NaturalLanguageUnderstandingV1(BaseService):
                            'application/octet-stream')))
         if name:
             form_data.append(('name', (None, name, 'text/plain')))
+        if user_metadata:
+            form_data.append(('user_metadata', (None, json.dumps(user_metadata),
+                                                'application/json')))
         if description:
             form_data.append(('description', (None, description, 'text/plain')))
         if model_version:
@@ -495,6 +501,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
         *,
         training_data_content_type: Optional[str] = 'application/json',
         name: Optional[str] = None,
+        user_metadata: Optional[dict] = None,
         description: Optional[str] = None,
         model_version: Optional[str] = None,
         workspace_id: Optional[str] = None,
@@ -515,6 +522,8 @@ class NaturalLanguageUnderstandingV1(BaseService):
         :param str training_data_content_type: (optional) The content type of
                training_data.
         :param str name: (optional) An optional name for the model.
+        :param dict user_metadata: (optional) An optional map of metadata key-value
+               pairs to store with this model.
         :param str description: (optional) An optional description of the model.
         :param str model_version: (optional) An optional version string.
         :param str workspace_id: (optional) ID of the Watson Knowledge Studio
@@ -550,6 +559,9 @@ class NaturalLanguageUnderstandingV1(BaseService):
                            'application/octet-stream')))
         if name:
             form_data.append(('name', (None, name, 'text/plain')))
+        if user_metadata:
+            form_data.append(('user_metadata', (None, json.dumps(user_metadata),
+                                                'application/json')))
         if description:
             form_data.append(('description', (None, description, 'text/plain')))
         if model_version:
@@ -643,6 +655,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
         *,
         training_data_content_type: Optional[str] = 'application/json',
         name: Optional[str] = None,
+        user_metadata: Optional[dict] = None,
         description: Optional[str] = None,
         model_version: Optional[str] = None,
         workspace_id: Optional[str] = None,
@@ -665,6 +678,8 @@ class NaturalLanguageUnderstandingV1(BaseService):
         :param str training_data_content_type: (optional) The content type of
                training_data.
         :param str name: (optional) An optional name for the model.
+        :param dict user_metadata: (optional) An optional map of metadata key-value
+               pairs to store with this model.
         :param str description: (optional) An optional description of the model.
         :param str model_version: (optional) An optional version string.
         :param str workspace_id: (optional) ID of the Watson Knowledge Studio
@@ -701,6 +716,9 @@ class NaturalLanguageUnderstandingV1(BaseService):
                            'application/octet-stream')))
         if name:
             form_data.append(('name', (None, name, 'text/plain')))
+        if user_metadata:
+            form_data.append(('user_metadata', (None, json.dumps(user_metadata),
+                                                'application/json')))
         if description:
             form_data.append(('description', (None, description, 'text/plain')))
         if model_version:
@@ -833,6 +851,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
         *,
         training_data_content_type: Optional[str] = 'application/json',
         name: Optional[str] = None,
+        user_metadata: Optional[dict] = None,
         description: Optional[str] = None,
         model_version: Optional[str] = None,
         workspace_id: Optional[str] = None,
@@ -855,6 +874,8 @@ class NaturalLanguageUnderstandingV1(BaseService):
         :param str training_data_content_type: (optional) The content type of
                training_data.
         :param str name: (optional) An optional name for the model.
+        :param dict user_metadata: (optional) An optional map of metadata key-value
+               pairs to store with this model.
         :param str description: (optional) An optional description of the model.
         :param str model_version: (optional) An optional version string.
         :param str workspace_id: (optional) ID of the Watson Knowledge Studio
@@ -893,6 +914,9 @@ class NaturalLanguageUnderstandingV1(BaseService):
                            'application/octet-stream')))
         if name:
             form_data.append(('name', (None, name, 'text/plain')))
+        if user_metadata:
+            form_data.append(('user_metadata', (None, json.dumps(user_metadata),
+                                                'application/json')))
         if description:
             form_data.append(('description', (None, description, 'text/plain')))
         if model_version:
@@ -3162,7 +3186,7 @@ class EntitiesOptions:
     """
     Identifies people, cities, organizations, and other entities in the content. For more
     information, see [Entity types and
-    subtypes](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-entity-types).
+    subtypes](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-entity-type-systems).
     Supported languages: English, French, German, Italian, Japanese, Korean, Portuguese,
     Russian, Spanish, Swedish. Arabic, Chinese, and Dutch are supported only through
     custom models.
@@ -3580,7 +3604,7 @@ class Features:
     :param EntitiesOptions entities: (optional) Identifies people, cities,
           organizations, and other entities in the content. For more information, see
           [Entity types and
-          subtypes](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-entity-types).
+          subtypes](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-entity-type-systems).
           Supported languages: English, French, German, Italian, Japanese, Korean,
           Portuguese, Russian, Spanish, Swedish. Arabic, Chinese, and Dutch are supported
           only through custom models.
@@ -3655,7 +3679,7 @@ class Features:
         :param EntitiesOptions entities: (optional) Identifies people, cities,
                organizations, and other entities in the content. For more information, see
                [Entity types and
-               subtypes](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-entity-types).
+               subtypes](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-entity-type-systems).
                Supported languages: English, French, German, Italian, Japanese, Korean,
                Portuguese, Russian, Spanish, Swedish. Arabic, Chinese, and Dutch are
                supported only through custom models.
