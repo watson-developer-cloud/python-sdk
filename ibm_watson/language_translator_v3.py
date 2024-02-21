@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2019, 2023.
+# (C) Copyright IBM Corp. 2019, 2024.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,6 +16,12 @@
 
 # IBM OpenAPI SDK Code Generator Version: 3.85.0-75c38f8f-20240206-210220
 """
+IBM&reg; is announcing the deprecation of the Watson&reg; Language Translator service for
+IBM Cloud&reg; in all regions. As of 10 June 2023, the Language Translator tile will be
+removed from the IBM Cloud Platform for new customers; only existing customers will be
+able to access the product. As of 10 June 2024, the service will reach its End of Support
+date. As of 10 December 2024, the service will be withdrawn entirely and will no longer be
+available to any customers.{: deprecated}
 IBM Watson&trade; Language Translator translates text from one language to another. The
 service offers multiple IBM-provided translation models that you can customize based on
 your unique terminology and language. Use Language Translator to take news from across the
@@ -68,6 +74,15 @@ class LanguageTranslatorV3(BaseService):
         """
         if version is None:
             raise ValueError('version must be provided')
+        
+        print(
+            """
+            On 10 June 2023, IBM announced the deprecation of the Natural Language Translator service.
+            The service will no longer be available from 8 August 2022. As of 10 June 2024, the service will reach its End of Support
+            date. As of 10 December 2024, the service will be withdrawn entirely and will no longer be
+            available to any customers.
+            """
+        ) 
 
         if not authenticator:
             authenticator = get_authenticator_from_environment(service_name)

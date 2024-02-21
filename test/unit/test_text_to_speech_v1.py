@@ -118,7 +118,7 @@ class TestGetVoice:
         get_voice()
         """
         # Set up mock
-        url = preprocess_url('/v1/voices/ar-MS_OmarVoice')
+        url = preprocess_url('/v1/voices/de-DE_BirgitV3Voice')
         mock_response = '{"url": "url", "gender": "gender", "name": "name", "language": "language", "description": "description", "customizable": true, "supported_features": {"custom_pronunciation": true, "voice_transformation": true}, "customization": {"customization_id": "customization_id", "name": "name", "language": "language", "owner": "owner", "created": "created", "last_modified": "last_modified", "description": "description", "words": [{"word": "word", "translation": "translation", "part_of_speech": "Dosi"}], "prompts": [{"prompt": "prompt", "prompt_id": "prompt_id", "status": "status", "error": "error", "speaker_id": "speaker_id"}]}}'
         responses.add(
             responses.GET,
@@ -129,7 +129,7 @@ class TestGetVoice:
         )
 
         # Set up parameter values
-        voice = 'ar-MS_OmarVoice'
+        voice = 'de-DE_BirgitV3Voice'
         customization_id = 'testString'
 
         # Invoke method
@@ -162,7 +162,7 @@ class TestGetVoice:
         test_get_voice_required_params()
         """
         # Set up mock
-        url = preprocess_url('/v1/voices/ar-MS_OmarVoice')
+        url = preprocess_url('/v1/voices/de-DE_BirgitV3Voice')
         mock_response = '{"url": "url", "gender": "gender", "name": "name", "language": "language", "description": "description", "customizable": true, "supported_features": {"custom_pronunciation": true, "voice_transformation": true}, "customization": {"customization_id": "customization_id", "name": "name", "language": "language", "owner": "owner", "created": "created", "last_modified": "last_modified", "description": "description", "words": [{"word": "word", "translation": "translation", "part_of_speech": "Dosi"}], "prompts": [{"prompt": "prompt", "prompt_id": "prompt_id", "status": "status", "error": "error", "speaker_id": "speaker_id"}]}}'
         responses.add(
             responses.GET,
@@ -173,7 +173,7 @@ class TestGetVoice:
         )
 
         # Set up parameter values
-        voice = 'ar-MS_OmarVoice'
+        voice = 'de-DE_BirgitV3Voice'
 
         # Invoke method
         response = _service.get_voice(
@@ -200,7 +200,7 @@ class TestGetVoice:
         test_get_voice_value_error()
         """
         # Set up mock
-        url = preprocess_url('/v1/voices/ar-MS_OmarVoice')
+        url = preprocess_url('/v1/voices/de-DE_BirgitV3Voice')
         mock_response = '{"url": "url", "gender": "gender", "name": "name", "language": "language", "description": "description", "customizable": true, "supported_features": {"custom_pronunciation": true, "voice_transformation": true}, "customization": {"customization_id": "customization_id", "name": "name", "language": "language", "owner": "owner", "created": "created", "last_modified": "last_modified", "description": "description", "words": [{"word": "word", "translation": "translation", "part_of_speech": "Dosi"}], "prompts": [{"prompt": "prompt", "prompt_id": "prompt_id", "status": "status", "error": "error", "speaker_id": "speaker_id"}]}}'
         responses.add(
             responses.GET,
@@ -211,7 +211,7 @@ class TestGetVoice:
         )
 
         # Set up parameter values
-        voice = 'ar-MS_OmarVoice'
+        voice = 'de-DE_BirgitV3Voice'
 
         # Pass in all but one required param and check for a ValueError
         req_param_dict = {
@@ -660,7 +660,7 @@ class TestListCustomModels:
         )
 
         # Set up parameter values
-        language = 'ar-MS'
+        language = 'de-DE'
 
         # Invoke method
         response = _service.list_custom_models(
