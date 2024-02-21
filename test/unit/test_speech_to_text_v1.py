@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2015, 2023.
+# (C) Copyright IBM Corp. 2015, 2024.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -60,8 +60,7 @@ def preprocess_url(operation_path: str):
     # Otherwise, return a regular expression that matches one or more trailing /.
     if re.fullmatch('.*/+', request_url) is None:
         return request_url
-    else:
-        return re.compile(request_url.rstrip('/') + '/+')
+    return re.compile(request_url.rstrip('/') + '/+')
 
 
 ##############################################################################
@@ -69,7 +68,8 @@ def preprocess_url(operation_path: str):
 ##############################################################################
 # region
 
-class TestListModels():
+
+class TestListModels:
     """
     Test Class for list_models
     """
@@ -82,15 +82,16 @@ class TestListModels():
         # Set up mock
         url = preprocess_url('/v1/models')
         mock_response = '{"models": [{"name": "name", "language": "language", "rate": 4, "url": "url", "supported_features": {"custom_language_model": false, "custom_acoustic_model": false, "speaker_labels": true, "low_latency": false}, "description": "description"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Invoke method
         response = _service.list_models()
-
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -105,7 +106,8 @@ class TestListModels():
         _service.disable_retries()
         self.test_list_models_all_params()
 
-class TestGetModel():
+
+class TestGetModel:
     """
     Test Class for get_model
     """
@@ -118,11 +120,13 @@ class TestGetModel():
         # Set up mock
         url = preprocess_url('/v1/models/ar-MS_BroadbandModel')
         mock_response = '{"name": "name", "language": "language", "rate": 4, "url": "url", "supported_features": {"custom_language_model": false, "custom_acoustic_model": false, "speaker_labels": true, "low_latency": false}, "description": "description"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         model_id = 'ar-MS_BroadbandModel'
@@ -130,7 +134,7 @@ class TestGetModel():
         # Invoke method
         response = _service.get_model(
             model_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -154,11 +158,13 @@ class TestGetModel():
         # Set up mock
         url = preprocess_url('/v1/models/ar-MS_BroadbandModel')
         mock_response = '{"name": "name", "language": "language", "rate": 4, "url": "url", "supported_features": {"custom_language_model": false, "custom_acoustic_model": false, "speaker_labels": true, "low_latency": false}, "description": "description"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         model_id = 'ar-MS_BroadbandModel'
@@ -168,7 +174,7 @@ class TestGetModel():
             "model_id": model_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_model(**req_copy)
 
@@ -181,6 +187,7 @@ class TestGetModel():
         _service.disable_retries()
         self.test_get_model_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: Models
@@ -191,7 +198,8 @@ class TestGetModel():
 ##############################################################################
 # region
 
-class TestRecognize():
+
+class TestRecognize:
     """
     Test Class for recognize
     """
@@ -204,11 +212,13 @@ class TestRecognize():
         # Set up mock
         url = preprocess_url('/v1/recognize')
         mock_response = '{"results": [{"final": false, "alternatives": [{"transcript": "transcript", "confidence": 0, "timestamps": ["timestamps"], "word_confidence": ["word_confidence"]}], "keywords_result": {"mapKey": [{"normalized_text": "normalized_text", "start_time": 10, "end_time": 8, "confidence": 0}]}, "word_alternatives": [{"start_time": 10, "end_time": 8, "alternatives": [{"confidence": 0, "word": "word"}]}], "end_of_utterance": "end_of_data"}], "result_index": 12, "speaker_labels": [{"from": 5, "to": 2, "speaker": 7, "confidence": 10, "final": false}], "processing_metrics": {"processed_audio": {"received": 8, "seen_by_engine": 14, "transcription": 13, "speaker_labels": 14}, "wall_clock_since_first_byte_received": 36, "periodic": true}, "audio_metrics": {"sampling_interval": 17, "accumulated": {"final": false, "end_time": 8, "signal_to_noise_ratio": 21, "speech_ratio": 12, "high_frequency_loss": 19, "direct_current_offset": [{"begin": 5, "end": 3, "count": 5}], "clipping_rate": [{"begin": 5, "end": 3, "count": 5}], "speech_level": [{"begin": 5, "end": 3, "count": 5}], "non_speech_level": [{"begin": 5, "end": 3, "count": 5}]}}, "warnings": ["warnings"]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         audio = io.BytesIO(b'This is a mock file.').getvalue()
@@ -218,10 +228,10 @@ class TestRecognize():
         acoustic_customization_id = 'testString'
         base_model_version = 'testString'
         customization_weight = 72.5
-        inactivity_timeout = 38
+        inactivity_timeout = 30
         keywords = ['testString']
         keywords_threshold = 36.0
-        max_alternatives = 38
+        max_alternatives = 1
         word_alternatives_threshold = 36.0
         word_confidence = False
         timestamps = False
@@ -231,12 +241,12 @@ class TestRecognize():
         grammar_name = 'testString'
         redaction = False
         audio_metrics = False
-        end_of_phrase_silence_time = 72.5
+        end_of_phrase_silence_time = 0.8
         split_transcript_at_phrase_end = False
-        speech_detector_sensitivity = 36.0
-        background_audio_suppression = 36.0
+        speech_detector_sensitivity = 0.5
+        background_audio_suppression = 0.0
         low_latency = False
-        character_insertion_bias = 36.0
+        character_insertion_bias = 0.0
 
         # Invoke method
         response = _service.recognize(
@@ -266,14 +276,14 @@ class TestRecognize():
             background_audio_suppression=background_audio_suppression,
             low_latency=low_latency,
             character_insertion_bias=character_insertion_bias,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'model={}'.format(model) in query_string
         assert 'language_customization_id={}'.format(language_customization_id) in query_string
@@ -313,11 +323,13 @@ class TestRecognize():
         # Set up mock
         url = preprocess_url('/v1/recognize')
         mock_response = '{"results": [{"final": false, "alternatives": [{"transcript": "transcript", "confidence": 0, "timestamps": ["timestamps"], "word_confidence": ["word_confidence"]}], "keywords_result": {"mapKey": [{"normalized_text": "normalized_text", "start_time": 10, "end_time": 8, "confidence": 0}]}, "word_alternatives": [{"start_time": 10, "end_time": 8, "alternatives": [{"confidence": 0, "word": "word"}]}], "end_of_utterance": "end_of_data"}], "result_index": 12, "speaker_labels": [{"from": 5, "to": 2, "speaker": 7, "confidence": 10, "final": false}], "processing_metrics": {"processed_audio": {"received": 8, "seen_by_engine": 14, "transcription": 13, "speaker_labels": 14}, "wall_clock_since_first_byte_received": 36, "periodic": true}, "audio_metrics": {"sampling_interval": 17, "accumulated": {"final": false, "end_time": 8, "signal_to_noise_ratio": 21, "speech_ratio": 12, "high_frequency_loss": 19, "direct_current_offset": [{"begin": 5, "end": 3, "count": 5}], "clipping_rate": [{"begin": 5, "end": 3, "count": 5}], "speech_level": [{"begin": 5, "end": 3, "count": 5}], "non_speech_level": [{"begin": 5, "end": 3, "count": 5}]}}, "warnings": ["warnings"]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         audio = io.BytesIO(b'This is a mock file.').getvalue()
@@ -325,7 +337,7 @@ class TestRecognize():
         # Invoke method
         response = _service.recognize(
             audio,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -350,11 +362,13 @@ class TestRecognize():
         # Set up mock
         url = preprocess_url('/v1/recognize')
         mock_response = '{"results": [{"final": false, "alternatives": [{"transcript": "transcript", "confidence": 0, "timestamps": ["timestamps"], "word_confidence": ["word_confidence"]}], "keywords_result": {"mapKey": [{"normalized_text": "normalized_text", "start_time": 10, "end_time": 8, "confidence": 0}]}, "word_alternatives": [{"start_time": 10, "end_time": 8, "alternatives": [{"confidence": 0, "word": "word"}]}], "end_of_utterance": "end_of_data"}], "result_index": 12, "speaker_labels": [{"from": 5, "to": 2, "speaker": 7, "confidence": 10, "final": false}], "processing_metrics": {"processed_audio": {"received": 8, "seen_by_engine": 14, "transcription": 13, "speaker_labels": 14}, "wall_clock_since_first_byte_received": 36, "periodic": true}, "audio_metrics": {"sampling_interval": 17, "accumulated": {"final": false, "end_time": 8, "signal_to_noise_ratio": 21, "speech_ratio": 12, "high_frequency_loss": 19, "direct_current_offset": [{"begin": 5, "end": 3, "count": 5}], "clipping_rate": [{"begin": 5, "end": 3, "count": 5}], "speech_level": [{"begin": 5, "end": 3, "count": 5}], "non_speech_level": [{"begin": 5, "end": 3, "count": 5}]}}, "warnings": ["warnings"]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         audio = io.BytesIO(b'This is a mock file.').getvalue()
@@ -364,7 +378,7 @@ class TestRecognize():
             "audio": audio,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.recognize(**req_copy)
 
@@ -377,6 +391,7 @@ class TestRecognize():
         _service.disable_retries()
         self.test_recognize_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: Synchronous
@@ -387,7 +402,8 @@ class TestRecognize():
 ##############################################################################
 # region
 
-class TestRegisterCallback():
+
+class TestRegisterCallback:
     """
     Test Class for register_callback
     """
@@ -400,11 +416,13 @@ class TestRegisterCallback():
         # Set up mock
         url = preprocess_url('/v1/register_callback')
         mock_response = '{"status": "created", "url": "url"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         callback_url = 'testString'
@@ -414,14 +432,14 @@ class TestRegisterCallback():
         response = _service.register_callback(
             callback_url,
             user_secret=user_secret,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'callback_url={}'.format(callback_url) in query_string
         assert 'user_secret={}'.format(user_secret) in query_string
@@ -443,11 +461,13 @@ class TestRegisterCallback():
         # Set up mock
         url = preprocess_url('/v1/register_callback')
         mock_response = '{"status": "created", "url": "url"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         callback_url = 'testString'
@@ -455,14 +475,14 @@ class TestRegisterCallback():
         # Invoke method
         response = _service.register_callback(
             callback_url,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'callback_url={}'.format(callback_url) in query_string
 
@@ -483,11 +503,13 @@ class TestRegisterCallback():
         # Set up mock
         url = preprocess_url('/v1/register_callback')
         mock_response = '{"status": "created", "url": "url"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         callback_url = 'testString'
@@ -497,7 +519,7 @@ class TestRegisterCallback():
             "callback_url": callback_url,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.register_callback(**req_copy)
 
@@ -510,7 +532,8 @@ class TestRegisterCallback():
         _service.disable_retries()
         self.test_register_callback_value_error()
 
-class TestUnregisterCallback():
+
+class TestUnregisterCallback:
     """
     Test Class for unregister_callback
     """
@@ -522,9 +545,11 @@ class TestUnregisterCallback():
         """
         # Set up mock
         url = preprocess_url('/v1/unregister_callback')
-        responses.add(responses.POST,
-                      url,
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            status=200,
+        )
 
         # Set up parameter values
         callback_url = 'testString'
@@ -532,14 +557,14 @@ class TestUnregisterCallback():
         # Invoke method
         response = _service.unregister_callback(
             callback_url,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'callback_url={}'.format(callback_url) in query_string
 
@@ -559,9 +584,11 @@ class TestUnregisterCallback():
         """
         # Set up mock
         url = preprocess_url('/v1/unregister_callback')
-        responses.add(responses.POST,
-                      url,
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            status=200,
+        )
 
         # Set up parameter values
         callback_url = 'testString'
@@ -571,7 +598,7 @@ class TestUnregisterCallback():
             "callback_url": callback_url,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.unregister_callback(**req_copy)
 
@@ -584,7 +611,8 @@ class TestUnregisterCallback():
         _service.disable_retries()
         self.test_unregister_callback_value_error()
 
-class TestCreateJob():
+
+class TestCreateJob:
     """
     Test Class for create_job
     """
@@ -597,11 +625,13 @@ class TestCreateJob():
         # Set up mock
         url = preprocess_url('/v1/recognitions')
         mock_response = '{"id": "id", "status": "waiting", "created": "created", "updated": "updated", "url": "url", "user_token": "user_token", "results": [{"results": [{"final": false, "alternatives": [{"transcript": "transcript", "confidence": 0, "timestamps": ["timestamps"], "word_confidence": ["word_confidence"]}], "keywords_result": {"mapKey": [{"normalized_text": "normalized_text", "start_time": 10, "end_time": 8, "confidence": 0}]}, "word_alternatives": [{"start_time": 10, "end_time": 8, "alternatives": [{"confidence": 0, "word": "word"}]}], "end_of_utterance": "end_of_data"}], "result_index": 12, "speaker_labels": [{"from": 5, "to": 2, "speaker": 7, "confidence": 10, "final": false}], "processing_metrics": {"processed_audio": {"received": 8, "seen_by_engine": 14, "transcription": 13, "speaker_labels": 14}, "wall_clock_since_first_byte_received": 36, "periodic": true}, "audio_metrics": {"sampling_interval": 17, "accumulated": {"final": false, "end_time": 8, "signal_to_noise_ratio": 21, "speech_ratio": 12, "high_frequency_loss": 19, "direct_current_offset": [{"begin": 5, "end": 3, "count": 5}], "clipping_rate": [{"begin": 5, "end": 3, "count": 5}], "speech_level": [{"begin": 5, "end": 3, "count": 5}], "non_speech_level": [{"begin": 5, "end": 3, "count": 5}]}}, "warnings": ["warnings"]}], "warnings": ["warnings"]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Set up parameter values
         audio = io.BytesIO(b'This is a mock file.').getvalue()
@@ -615,10 +645,10 @@ class TestCreateJob():
         acoustic_customization_id = 'testString'
         base_model_version = 'testString'
         customization_weight = 72.5
-        inactivity_timeout = 38
+        inactivity_timeout = 30
         keywords = ['testString']
         keywords_threshold = 36.0
-        max_alternatives = 38
+        max_alternatives = 1
         word_alternatives_threshold = 36.0
         word_confidence = False
         timestamps = False
@@ -628,14 +658,14 @@ class TestCreateJob():
         grammar_name = 'testString'
         redaction = False
         processing_metrics = False
-        processing_metrics_interval = 36.0
+        processing_metrics_interval = 1.0
         audio_metrics = False
-        end_of_phrase_silence_time = 72.5
+        end_of_phrase_silence_time = 0.8
         split_transcript_at_phrase_end = False
-        speech_detector_sensitivity = 36.0
-        background_audio_suppression = 36.0
+        speech_detector_sensitivity = 0.5
+        background_audio_suppression = 0.0
         low_latency = False
-        character_insertion_bias = 36.0
+        character_insertion_bias = 0.0
 
         # Invoke method
         response = _service.create_job(
@@ -671,14 +701,14 @@ class TestCreateJob():
             background_audio_suppression=background_audio_suppression,
             low_latency=low_latency,
             character_insertion_bias=character_insertion_bias,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 201
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'model={}'.format(model) in query_string
         assert 'callback_url={}'.format(callback_url) in query_string
@@ -723,11 +753,13 @@ class TestCreateJob():
         # Set up mock
         url = preprocess_url('/v1/recognitions')
         mock_response = '{"id": "id", "status": "waiting", "created": "created", "updated": "updated", "url": "url", "user_token": "user_token", "results": [{"results": [{"final": false, "alternatives": [{"transcript": "transcript", "confidence": 0, "timestamps": ["timestamps"], "word_confidence": ["word_confidence"]}], "keywords_result": {"mapKey": [{"normalized_text": "normalized_text", "start_time": 10, "end_time": 8, "confidence": 0}]}, "word_alternatives": [{"start_time": 10, "end_time": 8, "alternatives": [{"confidence": 0, "word": "word"}]}], "end_of_utterance": "end_of_data"}], "result_index": 12, "speaker_labels": [{"from": 5, "to": 2, "speaker": 7, "confidence": 10, "final": false}], "processing_metrics": {"processed_audio": {"received": 8, "seen_by_engine": 14, "transcription": 13, "speaker_labels": 14}, "wall_clock_since_first_byte_received": 36, "periodic": true}, "audio_metrics": {"sampling_interval": 17, "accumulated": {"final": false, "end_time": 8, "signal_to_noise_ratio": 21, "speech_ratio": 12, "high_frequency_loss": 19, "direct_current_offset": [{"begin": 5, "end": 3, "count": 5}], "clipping_rate": [{"begin": 5, "end": 3, "count": 5}], "speech_level": [{"begin": 5, "end": 3, "count": 5}], "non_speech_level": [{"begin": 5, "end": 3, "count": 5}]}}, "warnings": ["warnings"]}], "warnings": ["warnings"]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Set up parameter values
         audio = io.BytesIO(b'This is a mock file.').getvalue()
@@ -735,7 +767,7 @@ class TestCreateJob():
         # Invoke method
         response = _service.create_job(
             audio,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -760,11 +792,13 @@ class TestCreateJob():
         # Set up mock
         url = preprocess_url('/v1/recognitions')
         mock_response = '{"id": "id", "status": "waiting", "created": "created", "updated": "updated", "url": "url", "user_token": "user_token", "results": [{"results": [{"final": false, "alternatives": [{"transcript": "transcript", "confidence": 0, "timestamps": ["timestamps"], "word_confidence": ["word_confidence"]}], "keywords_result": {"mapKey": [{"normalized_text": "normalized_text", "start_time": 10, "end_time": 8, "confidence": 0}]}, "word_alternatives": [{"start_time": 10, "end_time": 8, "alternatives": [{"confidence": 0, "word": "word"}]}], "end_of_utterance": "end_of_data"}], "result_index": 12, "speaker_labels": [{"from": 5, "to": 2, "speaker": 7, "confidence": 10, "final": false}], "processing_metrics": {"processed_audio": {"received": 8, "seen_by_engine": 14, "transcription": 13, "speaker_labels": 14}, "wall_clock_since_first_byte_received": 36, "periodic": true}, "audio_metrics": {"sampling_interval": 17, "accumulated": {"final": false, "end_time": 8, "signal_to_noise_ratio": 21, "speech_ratio": 12, "high_frequency_loss": 19, "direct_current_offset": [{"begin": 5, "end": 3, "count": 5}], "clipping_rate": [{"begin": 5, "end": 3, "count": 5}], "speech_level": [{"begin": 5, "end": 3, "count": 5}], "non_speech_level": [{"begin": 5, "end": 3, "count": 5}]}}, "warnings": ["warnings"]}], "warnings": ["warnings"]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Set up parameter values
         audio = io.BytesIO(b'This is a mock file.').getvalue()
@@ -774,7 +808,7 @@ class TestCreateJob():
             "audio": audio,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.create_job(**req_copy)
 
@@ -787,7 +821,8 @@ class TestCreateJob():
         _service.disable_retries()
         self.test_create_job_value_error()
 
-class TestCheckJobs():
+
+class TestCheckJobs:
     """
     Test Class for check_jobs
     """
@@ -800,15 +835,16 @@ class TestCheckJobs():
         # Set up mock
         url = preprocess_url('/v1/recognitions')
         mock_response = '{"recognitions": [{"id": "id", "status": "waiting", "created": "created", "updated": "updated", "url": "url", "user_token": "user_token", "results": [{"results": [{"final": false, "alternatives": [{"transcript": "transcript", "confidence": 0, "timestamps": ["timestamps"], "word_confidence": ["word_confidence"]}], "keywords_result": {"mapKey": [{"normalized_text": "normalized_text", "start_time": 10, "end_time": 8, "confidence": 0}]}, "word_alternatives": [{"start_time": 10, "end_time": 8, "alternatives": [{"confidence": 0, "word": "word"}]}], "end_of_utterance": "end_of_data"}], "result_index": 12, "speaker_labels": [{"from": 5, "to": 2, "speaker": 7, "confidence": 10, "final": false}], "processing_metrics": {"processed_audio": {"received": 8, "seen_by_engine": 14, "transcription": 13, "speaker_labels": 14}, "wall_clock_since_first_byte_received": 36, "periodic": true}, "audio_metrics": {"sampling_interval": 17, "accumulated": {"final": false, "end_time": 8, "signal_to_noise_ratio": 21, "speech_ratio": 12, "high_frequency_loss": 19, "direct_current_offset": [{"begin": 5, "end": 3, "count": 5}], "clipping_rate": [{"begin": 5, "end": 3, "count": 5}], "speech_level": [{"begin": 5, "end": 3, "count": 5}], "non_speech_level": [{"begin": 5, "end": 3, "count": 5}]}}, "warnings": ["warnings"]}], "warnings": ["warnings"]}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Invoke method
         response = _service.check_jobs()
-
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -823,7 +859,8 @@ class TestCheckJobs():
         _service.disable_retries()
         self.test_check_jobs_all_params()
 
-class TestCheckJob():
+
+class TestCheckJob:
     """
     Test Class for check_job
     """
@@ -836,11 +873,13 @@ class TestCheckJob():
         # Set up mock
         url = preprocess_url('/v1/recognitions/testString')
         mock_response = '{"id": "id", "status": "waiting", "created": "created", "updated": "updated", "url": "url", "user_token": "user_token", "results": [{"results": [{"final": false, "alternatives": [{"transcript": "transcript", "confidence": 0, "timestamps": ["timestamps"], "word_confidence": ["word_confidence"]}], "keywords_result": {"mapKey": [{"normalized_text": "normalized_text", "start_time": 10, "end_time": 8, "confidence": 0}]}, "word_alternatives": [{"start_time": 10, "end_time": 8, "alternatives": [{"confidence": 0, "word": "word"}]}], "end_of_utterance": "end_of_data"}], "result_index": 12, "speaker_labels": [{"from": 5, "to": 2, "speaker": 7, "confidence": 10, "final": false}], "processing_metrics": {"processed_audio": {"received": 8, "seen_by_engine": 14, "transcription": 13, "speaker_labels": 14}, "wall_clock_since_first_byte_received": 36, "periodic": true}, "audio_metrics": {"sampling_interval": 17, "accumulated": {"final": false, "end_time": 8, "signal_to_noise_ratio": 21, "speech_ratio": 12, "high_frequency_loss": 19, "direct_current_offset": [{"begin": 5, "end": 3, "count": 5}], "clipping_rate": [{"begin": 5, "end": 3, "count": 5}], "speech_level": [{"begin": 5, "end": 3, "count": 5}], "non_speech_level": [{"begin": 5, "end": 3, "count": 5}]}}, "warnings": ["warnings"]}], "warnings": ["warnings"]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         id = 'testString'
@@ -848,7 +887,7 @@ class TestCheckJob():
         # Invoke method
         response = _service.check_job(
             id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -872,11 +911,13 @@ class TestCheckJob():
         # Set up mock
         url = preprocess_url('/v1/recognitions/testString')
         mock_response = '{"id": "id", "status": "waiting", "created": "created", "updated": "updated", "url": "url", "user_token": "user_token", "results": [{"results": [{"final": false, "alternatives": [{"transcript": "transcript", "confidence": 0, "timestamps": ["timestamps"], "word_confidence": ["word_confidence"]}], "keywords_result": {"mapKey": [{"normalized_text": "normalized_text", "start_time": 10, "end_time": 8, "confidence": 0}]}, "word_alternatives": [{"start_time": 10, "end_time": 8, "alternatives": [{"confidence": 0, "word": "word"}]}], "end_of_utterance": "end_of_data"}], "result_index": 12, "speaker_labels": [{"from": 5, "to": 2, "speaker": 7, "confidence": 10, "final": false}], "processing_metrics": {"processed_audio": {"received": 8, "seen_by_engine": 14, "transcription": 13, "speaker_labels": 14}, "wall_clock_since_first_byte_received": 36, "periodic": true}, "audio_metrics": {"sampling_interval": 17, "accumulated": {"final": false, "end_time": 8, "signal_to_noise_ratio": 21, "speech_ratio": 12, "high_frequency_loss": 19, "direct_current_offset": [{"begin": 5, "end": 3, "count": 5}], "clipping_rate": [{"begin": 5, "end": 3, "count": 5}], "speech_level": [{"begin": 5, "end": 3, "count": 5}], "non_speech_level": [{"begin": 5, "end": 3, "count": 5}]}}, "warnings": ["warnings"]}], "warnings": ["warnings"]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         id = 'testString'
@@ -886,7 +927,7 @@ class TestCheckJob():
             "id": id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.check_job(**req_copy)
 
@@ -899,7 +940,8 @@ class TestCheckJob():
         _service.disable_retries()
         self.test_check_job_value_error()
 
-class TestDeleteJob():
+
+class TestDeleteJob:
     """
     Test Class for delete_job
     """
@@ -911,9 +953,11 @@ class TestDeleteJob():
         """
         # Set up mock
         url = preprocess_url('/v1/recognitions/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=204,
+        )
 
         # Set up parameter values
         id = 'testString'
@@ -921,7 +965,7 @@ class TestDeleteJob():
         # Invoke method
         response = _service.delete_job(
             id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -944,9 +988,11 @@ class TestDeleteJob():
         """
         # Set up mock
         url = preprocess_url('/v1/recognitions/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=204,
+        )
 
         # Set up parameter values
         id = 'testString'
@@ -956,7 +1002,7 @@ class TestDeleteJob():
             "id": id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_job(**req_copy)
 
@@ -969,6 +1015,7 @@ class TestDeleteJob():
         _service.disable_retries()
         self.test_delete_job_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: Asynchronous
@@ -979,7 +1026,8 @@ class TestDeleteJob():
 ##############################################################################
 # region
 
-class TestCreateLanguageModel():
+
+class TestCreateLanguageModel:
     """
     Test Class for create_language_model
     """
@@ -992,11 +1040,13 @@ class TestCreateLanguageModel():
         # Set up mock
         url = preprocess_url('/v1/customizations')
         mock_response = '{"customization_id": "customization_id", "created": "created", "updated": "updated", "language": "language", "dialect": "dialect", "versions": ["versions"], "owner": "owner", "name": "name", "description": "description", "base_model_name": "base_model_name", "status": "pending", "progress": 8, "error": "error", "warnings": "warnings"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Set up parameter values
         name = 'testString'
@@ -1010,7 +1060,7 @@ class TestCreateLanguageModel():
             base_model_name,
             dialect=dialect,
             description=description,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1040,11 +1090,13 @@ class TestCreateLanguageModel():
         # Set up mock
         url = preprocess_url('/v1/customizations')
         mock_response = '{"customization_id": "customization_id", "created": "created", "updated": "updated", "language": "language", "dialect": "dialect", "versions": ["versions"], "owner": "owner", "name": "name", "description": "description", "base_model_name": "base_model_name", "status": "pending", "progress": 8, "error": "error", "warnings": "warnings"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Set up parameter values
         name = 'testString'
@@ -1058,7 +1110,7 @@ class TestCreateLanguageModel():
             "base_model_name": base_model_name,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.create_language_model(**req_copy)
 
@@ -1071,7 +1123,8 @@ class TestCreateLanguageModel():
         _service.disable_retries()
         self.test_create_language_model_value_error()
 
-class TestListLanguageModels():
+
+class TestListLanguageModels:
     """
     Test Class for list_language_models
     """
@@ -1084,11 +1137,13 @@ class TestListLanguageModels():
         # Set up mock
         url = preprocess_url('/v1/customizations')
         mock_response = '{"customizations": [{"customization_id": "customization_id", "created": "created", "updated": "updated", "language": "language", "dialect": "dialect", "versions": ["versions"], "owner": "owner", "name": "name", "description": "description", "base_model_name": "base_model_name", "status": "pending", "progress": 8, "error": "error", "warnings": "warnings"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         language = 'ar-MS'
@@ -1096,14 +1151,14 @@ class TestListLanguageModels():
         # Invoke method
         response = _service.list_language_models(
             language=language,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'language={}'.format(language) in query_string
 
@@ -1124,15 +1179,16 @@ class TestListLanguageModels():
         # Set up mock
         url = preprocess_url('/v1/customizations')
         mock_response = '{"customizations": [{"customization_id": "customization_id", "created": "created", "updated": "updated", "language": "language", "dialect": "dialect", "versions": ["versions"], "owner": "owner", "name": "name", "description": "description", "base_model_name": "base_model_name", "status": "pending", "progress": 8, "error": "error", "warnings": "warnings"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Invoke method
         response = _service.list_language_models()
-
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -1147,7 +1203,8 @@ class TestListLanguageModels():
         _service.disable_retries()
         self.test_list_language_models_required_params()
 
-class TestGetLanguageModel():
+
+class TestGetLanguageModel:
     """
     Test Class for get_language_model
     """
@@ -1160,11 +1217,13 @@ class TestGetLanguageModel():
         # Set up mock
         url = preprocess_url('/v1/customizations/testString')
         mock_response = '{"customization_id": "customization_id", "created": "created", "updated": "updated", "language": "language", "dialect": "dialect", "versions": ["versions"], "owner": "owner", "name": "name", "description": "description", "base_model_name": "base_model_name", "status": "pending", "progress": 8, "error": "error", "warnings": "warnings"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -1172,7 +1231,7 @@ class TestGetLanguageModel():
         # Invoke method
         response = _service.get_language_model(
             customization_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1196,11 +1255,13 @@ class TestGetLanguageModel():
         # Set up mock
         url = preprocess_url('/v1/customizations/testString')
         mock_response = '{"customization_id": "customization_id", "created": "created", "updated": "updated", "language": "language", "dialect": "dialect", "versions": ["versions"], "owner": "owner", "name": "name", "description": "description", "base_model_name": "base_model_name", "status": "pending", "progress": 8, "error": "error", "warnings": "warnings"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -1210,7 +1271,7 @@ class TestGetLanguageModel():
             "customization_id": customization_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_language_model(**req_copy)
 
@@ -1223,7 +1284,8 @@ class TestGetLanguageModel():
         _service.disable_retries()
         self.test_get_language_model_value_error()
 
-class TestDeleteLanguageModel():
+
+class TestDeleteLanguageModel:
     """
     Test Class for delete_language_model
     """
@@ -1235,9 +1297,11 @@ class TestDeleteLanguageModel():
         """
         # Set up mock
         url = preprocess_url('/v1/customizations/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=200)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=200,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -1245,7 +1309,7 @@ class TestDeleteLanguageModel():
         # Invoke method
         response = _service.delete_language_model(
             customization_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1268,9 +1332,11 @@ class TestDeleteLanguageModel():
         """
         # Set up mock
         url = preprocess_url('/v1/customizations/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=200)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=200,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -1280,7 +1346,7 @@ class TestDeleteLanguageModel():
             "customization_id": customization_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_language_model(**req_copy)
 
@@ -1293,7 +1359,8 @@ class TestDeleteLanguageModel():
         _service.disable_retries()
         self.test_delete_language_model_value_error()
 
-class TestTrainLanguageModel():
+
+class TestTrainLanguageModel:
     """
     Test Class for train_language_model
     """
@@ -1306,11 +1373,13 @@ class TestTrainLanguageModel():
         # Set up mock
         url = preprocess_url('/v1/customizations/testString/train')
         mock_response = '{"warnings": [{"code": "invalid_audio_files", "message": "message"}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -1324,14 +1393,14 @@ class TestTrainLanguageModel():
             word_type_to_add=word_type_to_add,
             customization_weight=customization_weight,
             strict=strict,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'word_type_to_add={}'.format(word_type_to_add) in query_string
         assert 'customization_weight={}'.format(customization_weight) in query_string
@@ -1354,11 +1423,13 @@ class TestTrainLanguageModel():
         # Set up mock
         url = preprocess_url('/v1/customizations/testString/train')
         mock_response = '{"warnings": [{"code": "invalid_audio_files", "message": "message"}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -1366,7 +1437,7 @@ class TestTrainLanguageModel():
         # Invoke method
         response = _service.train_language_model(
             customization_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1390,11 +1461,13 @@ class TestTrainLanguageModel():
         # Set up mock
         url = preprocess_url('/v1/customizations/testString/train')
         mock_response = '{"warnings": [{"code": "invalid_audio_files", "message": "message"}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -1404,7 +1477,7 @@ class TestTrainLanguageModel():
             "customization_id": customization_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.train_language_model(**req_copy)
 
@@ -1417,7 +1490,8 @@ class TestTrainLanguageModel():
         _service.disable_retries()
         self.test_train_language_model_value_error()
 
-class TestResetLanguageModel():
+
+class TestResetLanguageModel:
     """
     Test Class for reset_language_model
     """
@@ -1429,9 +1503,11 @@ class TestResetLanguageModel():
         """
         # Set up mock
         url = preprocess_url('/v1/customizations/testString/reset')
-        responses.add(responses.POST,
-                      url,
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            status=200,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -1439,7 +1515,7 @@ class TestResetLanguageModel():
         # Invoke method
         response = _service.reset_language_model(
             customization_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1462,9 +1538,11 @@ class TestResetLanguageModel():
         """
         # Set up mock
         url = preprocess_url('/v1/customizations/testString/reset')
-        responses.add(responses.POST,
-                      url,
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            status=200,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -1474,7 +1552,7 @@ class TestResetLanguageModel():
             "customization_id": customization_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.reset_language_model(**req_copy)
 
@@ -1487,7 +1565,8 @@ class TestResetLanguageModel():
         _service.disable_retries()
         self.test_reset_language_model_value_error()
 
-class TestUpgradeLanguageModel():
+
+class TestUpgradeLanguageModel:
     """
     Test Class for upgrade_language_model
     """
@@ -1499,9 +1578,11 @@ class TestUpgradeLanguageModel():
         """
         # Set up mock
         url = preprocess_url('/v1/customizations/testString/upgrade_model')
-        responses.add(responses.POST,
-                      url,
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            status=200,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -1509,7 +1590,7 @@ class TestUpgradeLanguageModel():
         # Invoke method
         response = _service.upgrade_language_model(
             customization_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1532,9 +1613,11 @@ class TestUpgradeLanguageModel():
         """
         # Set up mock
         url = preprocess_url('/v1/customizations/testString/upgrade_model')
-        responses.add(responses.POST,
-                      url,
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            status=200,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -1544,7 +1627,7 @@ class TestUpgradeLanguageModel():
             "customization_id": customization_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.upgrade_language_model(**req_copy)
 
@@ -1557,6 +1640,7 @@ class TestUpgradeLanguageModel():
         _service.disable_retries()
         self.test_upgrade_language_model_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: CustomLanguageModels
@@ -1567,7 +1651,8 @@ class TestUpgradeLanguageModel():
 ##############################################################################
 # region
 
-class TestListCorpora():
+
+class TestListCorpora:
     """
     Test Class for list_corpora
     """
@@ -1580,11 +1665,13 @@ class TestListCorpora():
         # Set up mock
         url = preprocess_url('/v1/customizations/testString/corpora')
         mock_response = '{"corpora": [{"name": "name", "total_words": 11, "out_of_vocabulary_words": 23, "status": "analyzed", "error": "error"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -1592,7 +1679,7 @@ class TestListCorpora():
         # Invoke method
         response = _service.list_corpora(
             customization_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1616,11 +1703,13 @@ class TestListCorpora():
         # Set up mock
         url = preprocess_url('/v1/customizations/testString/corpora')
         mock_response = '{"corpora": [{"name": "name", "total_words": 11, "out_of_vocabulary_words": 23, "status": "analyzed", "error": "error"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -1630,7 +1719,7 @@ class TestListCorpora():
             "customization_id": customization_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_corpora(**req_copy)
 
@@ -1643,7 +1732,8 @@ class TestListCorpora():
         _service.disable_retries()
         self.test_list_corpora_value_error()
 
-class TestAddCorpus():
+
+class TestAddCorpus:
     """
     Test Class for add_corpus
     """
@@ -1655,9 +1745,11 @@ class TestAddCorpus():
         """
         # Set up mock
         url = preprocess_url('/v1/customizations/testString/corpora/testString')
-        responses.add(responses.POST,
-                      url,
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            status=201,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -1671,14 +1763,14 @@ class TestAddCorpus():
             corpus_name,
             corpus_file,
             allow_overwrite=allow_overwrite,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 201
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'allow_overwrite={}'.format('true' if allow_overwrite else 'false') in query_string
 
@@ -1698,9 +1790,11 @@ class TestAddCorpus():
         """
         # Set up mock
         url = preprocess_url('/v1/customizations/testString/corpora/testString')
-        responses.add(responses.POST,
-                      url,
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            status=201,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -1712,7 +1806,7 @@ class TestAddCorpus():
             customization_id,
             corpus_name,
             corpus_file,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1735,9 +1829,11 @@ class TestAddCorpus():
         """
         # Set up mock
         url = preprocess_url('/v1/customizations/testString/corpora/testString')
-        responses.add(responses.POST,
-                      url,
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            status=201,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -1751,7 +1847,7 @@ class TestAddCorpus():
             "corpus_file": corpus_file,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.add_corpus(**req_copy)
 
@@ -1764,7 +1860,8 @@ class TestAddCorpus():
         _service.disable_retries()
         self.test_add_corpus_value_error()
 
-class TestGetCorpus():
+
+class TestGetCorpus:
     """
     Test Class for get_corpus
     """
@@ -1777,11 +1874,13 @@ class TestGetCorpus():
         # Set up mock
         url = preprocess_url('/v1/customizations/testString/corpora/testString')
         mock_response = '{"name": "name", "total_words": 11, "out_of_vocabulary_words": 23, "status": "analyzed", "error": "error"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -1791,7 +1890,7 @@ class TestGetCorpus():
         response = _service.get_corpus(
             customization_id,
             corpus_name,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1815,11 +1914,13 @@ class TestGetCorpus():
         # Set up mock
         url = preprocess_url('/v1/customizations/testString/corpora/testString')
         mock_response = '{"name": "name", "total_words": 11, "out_of_vocabulary_words": 23, "status": "analyzed", "error": "error"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -1831,7 +1932,7 @@ class TestGetCorpus():
             "corpus_name": corpus_name,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_corpus(**req_copy)
 
@@ -1844,7 +1945,8 @@ class TestGetCorpus():
         _service.disable_retries()
         self.test_get_corpus_value_error()
 
-class TestDeleteCorpus():
+
+class TestDeleteCorpus:
     """
     Test Class for delete_corpus
     """
@@ -1856,9 +1958,11 @@ class TestDeleteCorpus():
         """
         # Set up mock
         url = preprocess_url('/v1/customizations/testString/corpora/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=200)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=200,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -1868,7 +1972,7 @@ class TestDeleteCorpus():
         response = _service.delete_corpus(
             customization_id,
             corpus_name,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1891,9 +1995,11 @@ class TestDeleteCorpus():
         """
         # Set up mock
         url = preprocess_url('/v1/customizations/testString/corpora/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=200)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=200,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -1905,7 +2011,7 @@ class TestDeleteCorpus():
             "corpus_name": corpus_name,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_corpus(**req_copy)
 
@@ -1918,6 +2024,7 @@ class TestDeleteCorpus():
         _service.disable_retries()
         self.test_delete_corpus_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: CustomCorpora
@@ -1928,7 +2035,8 @@ class TestDeleteCorpus():
 ##############################################################################
 # region
 
-class TestListWords():
+
+class TestListWords:
     """
     Test Class for list_words
     """
@@ -1941,11 +2049,13 @@ class TestListWords():
         # Set up mock
         url = preprocess_url('/v1/customizations/testString/words')
         mock_response = '{"words": [{"word": "word", "sounds_like": ["sounds_like"], "display_as": "display_as", "count": 5, "source": ["source"], "error": [{"element": "element"}]}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -1957,14 +2067,14 @@ class TestListWords():
             customization_id,
             word_type=word_type,
             sort=sort,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'word_type={}'.format(word_type) in query_string
         assert 'sort={}'.format(sort) in query_string
@@ -1986,11 +2096,13 @@ class TestListWords():
         # Set up mock
         url = preprocess_url('/v1/customizations/testString/words')
         mock_response = '{"words": [{"word": "word", "sounds_like": ["sounds_like"], "display_as": "display_as", "count": 5, "source": ["source"], "error": [{"element": "element"}]}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -1998,7 +2110,7 @@ class TestListWords():
         # Invoke method
         response = _service.list_words(
             customization_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -2022,11 +2134,13 @@ class TestListWords():
         # Set up mock
         url = preprocess_url('/v1/customizations/testString/words')
         mock_response = '{"words": [{"word": "word", "sounds_like": ["sounds_like"], "display_as": "display_as", "count": 5, "source": ["source"], "error": [{"element": "element"}]}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -2036,7 +2150,7 @@ class TestListWords():
             "customization_id": customization_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_words(**req_copy)
 
@@ -2049,7 +2163,8 @@ class TestListWords():
         _service.disable_retries()
         self.test_list_words_value_error()
 
-class TestAddWords():
+
+class TestAddWords:
     """
     Test Class for add_words
     """
@@ -2061,9 +2176,11 @@ class TestAddWords():
         """
         # Set up mock
         url = preprocess_url('/v1/customizations/testString/words')
-        responses.add(responses.POST,
-                      url,
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            status=201,
+        )
 
         # Construct a dict representation of a CustomWord model
         custom_word_model = {}
@@ -2079,7 +2196,7 @@ class TestAddWords():
         response = _service.add_words(
             customization_id,
             words,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -2105,9 +2222,11 @@ class TestAddWords():
         """
         # Set up mock
         url = preprocess_url('/v1/customizations/testString/words')
-        responses.add(responses.POST,
-                      url,
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            status=201,
+        )
 
         # Construct a dict representation of a CustomWord model
         custom_word_model = {}
@@ -2125,7 +2244,7 @@ class TestAddWords():
             "words": words,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.add_words(**req_copy)
 
@@ -2138,7 +2257,8 @@ class TestAddWords():
         _service.disable_retries()
         self.test_add_words_value_error()
 
-class TestAddWord():
+
+class TestAddWord:
     """
     Test Class for add_word
     """
@@ -2150,9 +2270,11 @@ class TestAddWord():
         """
         # Set up mock
         url = preprocess_url('/v1/customizations/testString/words/testString')
-        responses.add(responses.PUT,
-                      url,
-                      status=201)
+        responses.add(
+            responses.PUT,
+            url,
+            status=201,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -2168,7 +2290,7 @@ class TestAddWord():
             word=word,
             sounds_like=sounds_like,
             display_as=display_as,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -2196,9 +2318,11 @@ class TestAddWord():
         """
         # Set up mock
         url = preprocess_url('/v1/customizations/testString/words/testString')
-        responses.add(responses.PUT,
-                      url,
-                      status=201)
+        responses.add(
+            responses.PUT,
+            url,
+            status=201,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -2213,7 +2337,7 @@ class TestAddWord():
             "word_name": word_name,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.add_word(**req_copy)
 
@@ -2226,7 +2350,8 @@ class TestAddWord():
         _service.disable_retries()
         self.test_add_word_value_error()
 
-class TestGetWord():
+
+class TestGetWord:
     """
     Test Class for get_word
     """
@@ -2239,11 +2364,13 @@ class TestGetWord():
         # Set up mock
         url = preprocess_url('/v1/customizations/testString/words/testString')
         mock_response = '{"word": "word", "sounds_like": ["sounds_like"], "display_as": "display_as", "count": 5, "source": ["source"], "error": [{"element": "element"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -2253,7 +2380,7 @@ class TestGetWord():
         response = _service.get_word(
             customization_id,
             word_name,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -2277,11 +2404,13 @@ class TestGetWord():
         # Set up mock
         url = preprocess_url('/v1/customizations/testString/words/testString')
         mock_response = '{"word": "word", "sounds_like": ["sounds_like"], "display_as": "display_as", "count": 5, "source": ["source"], "error": [{"element": "element"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -2293,7 +2422,7 @@ class TestGetWord():
             "word_name": word_name,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_word(**req_copy)
 
@@ -2306,7 +2435,8 @@ class TestGetWord():
         _service.disable_retries()
         self.test_get_word_value_error()
 
-class TestDeleteWord():
+
+class TestDeleteWord:
     """
     Test Class for delete_word
     """
@@ -2318,9 +2448,11 @@ class TestDeleteWord():
         """
         # Set up mock
         url = preprocess_url('/v1/customizations/testString/words/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=200)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=200,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -2330,7 +2462,7 @@ class TestDeleteWord():
         response = _service.delete_word(
             customization_id,
             word_name,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -2353,9 +2485,11 @@ class TestDeleteWord():
         """
         # Set up mock
         url = preprocess_url('/v1/customizations/testString/words/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=200)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=200,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -2367,7 +2501,7 @@ class TestDeleteWord():
             "word_name": word_name,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_word(**req_copy)
 
@@ -2380,6 +2514,7 @@ class TestDeleteWord():
         _service.disable_retries()
         self.test_delete_word_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: CustomWords
@@ -2390,7 +2525,8 @@ class TestDeleteWord():
 ##############################################################################
 # region
 
-class TestListGrammars():
+
+class TestListGrammars:
     """
     Test Class for list_grammars
     """
@@ -2403,11 +2539,13 @@ class TestListGrammars():
         # Set up mock
         url = preprocess_url('/v1/customizations/testString/grammars')
         mock_response = '{"grammars": [{"name": "name", "out_of_vocabulary_words": 23, "status": "analyzed", "error": "error"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -2415,7 +2553,7 @@ class TestListGrammars():
         # Invoke method
         response = _service.list_grammars(
             customization_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -2439,11 +2577,13 @@ class TestListGrammars():
         # Set up mock
         url = preprocess_url('/v1/customizations/testString/grammars')
         mock_response = '{"grammars": [{"name": "name", "out_of_vocabulary_words": 23, "status": "analyzed", "error": "error"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -2453,7 +2593,7 @@ class TestListGrammars():
             "customization_id": customization_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_grammars(**req_copy)
 
@@ -2466,7 +2606,8 @@ class TestListGrammars():
         _service.disable_retries()
         self.test_list_grammars_value_error()
 
-class TestAddGrammar():
+
+class TestAddGrammar:
     """
     Test Class for add_grammar
     """
@@ -2478,9 +2619,11 @@ class TestAddGrammar():
         """
         # Set up mock
         url = preprocess_url('/v1/customizations/testString/grammars/testString')
-        responses.add(responses.POST,
-                      url,
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            status=201,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -2496,14 +2639,14 @@ class TestAddGrammar():
             grammar_file,
             content_type,
             allow_overwrite=allow_overwrite,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 201
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'allow_overwrite={}'.format('true' if allow_overwrite else 'false') in query_string
         # Validate body params
@@ -2524,9 +2667,11 @@ class TestAddGrammar():
         """
         # Set up mock
         url = preprocess_url('/v1/customizations/testString/grammars/testString')
-        responses.add(responses.POST,
-                      url,
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            status=201,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -2540,7 +2685,7 @@ class TestAddGrammar():
             grammar_name,
             grammar_file,
             content_type,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -2564,9 +2709,11 @@ class TestAddGrammar():
         """
         # Set up mock
         url = preprocess_url('/v1/customizations/testString/grammars/testString')
-        responses.add(responses.POST,
-                      url,
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            status=201,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -2582,7 +2729,7 @@ class TestAddGrammar():
             "content_type": content_type,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.add_grammar(**req_copy)
 
@@ -2595,7 +2742,8 @@ class TestAddGrammar():
         _service.disable_retries()
         self.test_add_grammar_value_error()
 
-class TestGetGrammar():
+
+class TestGetGrammar:
     """
     Test Class for get_grammar
     """
@@ -2608,11 +2756,13 @@ class TestGetGrammar():
         # Set up mock
         url = preprocess_url('/v1/customizations/testString/grammars/testString')
         mock_response = '{"name": "name", "out_of_vocabulary_words": 23, "status": "analyzed", "error": "error"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -2622,7 +2772,7 @@ class TestGetGrammar():
         response = _service.get_grammar(
             customization_id,
             grammar_name,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -2646,11 +2796,13 @@ class TestGetGrammar():
         # Set up mock
         url = preprocess_url('/v1/customizations/testString/grammars/testString')
         mock_response = '{"name": "name", "out_of_vocabulary_words": 23, "status": "analyzed", "error": "error"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -2662,7 +2814,7 @@ class TestGetGrammar():
             "grammar_name": grammar_name,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_grammar(**req_copy)
 
@@ -2675,7 +2827,8 @@ class TestGetGrammar():
         _service.disable_retries()
         self.test_get_grammar_value_error()
 
-class TestDeleteGrammar():
+
+class TestDeleteGrammar:
     """
     Test Class for delete_grammar
     """
@@ -2687,9 +2840,11 @@ class TestDeleteGrammar():
         """
         # Set up mock
         url = preprocess_url('/v1/customizations/testString/grammars/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=200)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=200,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -2699,7 +2854,7 @@ class TestDeleteGrammar():
         response = _service.delete_grammar(
             customization_id,
             grammar_name,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -2722,9 +2877,11 @@ class TestDeleteGrammar():
         """
         # Set up mock
         url = preprocess_url('/v1/customizations/testString/grammars/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=200)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=200,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -2736,7 +2893,7 @@ class TestDeleteGrammar():
             "grammar_name": grammar_name,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_grammar(**req_copy)
 
@@ -2749,6 +2906,7 @@ class TestDeleteGrammar():
         _service.disable_retries()
         self.test_delete_grammar_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: CustomGrammars
@@ -2759,7 +2917,8 @@ class TestDeleteGrammar():
 ##############################################################################
 # region
 
-class TestCreateAcousticModel():
+
+class TestCreateAcousticModel:
     """
     Test Class for create_acoustic_model
     """
@@ -2772,11 +2931,13 @@ class TestCreateAcousticModel():
         # Set up mock
         url = preprocess_url('/v1/acoustic_customizations')
         mock_response = '{"customization_id": "customization_id", "created": "created", "updated": "updated", "language": "language", "versions": ["versions"], "owner": "owner", "name": "name", "description": "description", "base_model_name": "base_model_name", "status": "pending", "progress": 8, "warnings": "warnings"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Set up parameter values
         name = 'testString'
@@ -2788,7 +2949,7 @@ class TestCreateAcousticModel():
             name,
             base_model_name,
             description=description,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -2817,11 +2978,13 @@ class TestCreateAcousticModel():
         # Set up mock
         url = preprocess_url('/v1/acoustic_customizations')
         mock_response = '{"customization_id": "customization_id", "created": "created", "updated": "updated", "language": "language", "versions": ["versions"], "owner": "owner", "name": "name", "description": "description", "base_model_name": "base_model_name", "status": "pending", "progress": 8, "warnings": "warnings"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Set up parameter values
         name = 'testString'
@@ -2834,7 +2997,7 @@ class TestCreateAcousticModel():
             "base_model_name": base_model_name,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.create_acoustic_model(**req_copy)
 
@@ -2847,7 +3010,8 @@ class TestCreateAcousticModel():
         _service.disable_retries()
         self.test_create_acoustic_model_value_error()
 
-class TestListAcousticModels():
+
+class TestListAcousticModels:
     """
     Test Class for list_acoustic_models
     """
@@ -2860,11 +3024,13 @@ class TestListAcousticModels():
         # Set up mock
         url = preprocess_url('/v1/acoustic_customizations')
         mock_response = '{"customizations": [{"customization_id": "customization_id", "created": "created", "updated": "updated", "language": "language", "versions": ["versions"], "owner": "owner", "name": "name", "description": "description", "base_model_name": "base_model_name", "status": "pending", "progress": 8, "warnings": "warnings"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         language = 'ar-MS'
@@ -2872,14 +3038,14 @@ class TestListAcousticModels():
         # Invoke method
         response = _service.list_acoustic_models(
             language=language,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'language={}'.format(language) in query_string
 
@@ -2900,15 +3066,16 @@ class TestListAcousticModels():
         # Set up mock
         url = preprocess_url('/v1/acoustic_customizations')
         mock_response = '{"customizations": [{"customization_id": "customization_id", "created": "created", "updated": "updated", "language": "language", "versions": ["versions"], "owner": "owner", "name": "name", "description": "description", "base_model_name": "base_model_name", "status": "pending", "progress": 8, "warnings": "warnings"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Invoke method
         response = _service.list_acoustic_models()
-
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -2923,7 +3090,8 @@ class TestListAcousticModels():
         _service.disable_retries()
         self.test_list_acoustic_models_required_params()
 
-class TestGetAcousticModel():
+
+class TestGetAcousticModel:
     """
     Test Class for get_acoustic_model
     """
@@ -2936,11 +3104,13 @@ class TestGetAcousticModel():
         # Set up mock
         url = preprocess_url('/v1/acoustic_customizations/testString')
         mock_response = '{"customization_id": "customization_id", "created": "created", "updated": "updated", "language": "language", "versions": ["versions"], "owner": "owner", "name": "name", "description": "description", "base_model_name": "base_model_name", "status": "pending", "progress": 8, "warnings": "warnings"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -2948,7 +3118,7 @@ class TestGetAcousticModel():
         # Invoke method
         response = _service.get_acoustic_model(
             customization_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -2972,11 +3142,13 @@ class TestGetAcousticModel():
         # Set up mock
         url = preprocess_url('/v1/acoustic_customizations/testString')
         mock_response = '{"customization_id": "customization_id", "created": "created", "updated": "updated", "language": "language", "versions": ["versions"], "owner": "owner", "name": "name", "description": "description", "base_model_name": "base_model_name", "status": "pending", "progress": 8, "warnings": "warnings"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -2986,7 +3158,7 @@ class TestGetAcousticModel():
             "customization_id": customization_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_acoustic_model(**req_copy)
 
@@ -2999,7 +3171,8 @@ class TestGetAcousticModel():
         _service.disable_retries()
         self.test_get_acoustic_model_value_error()
 
-class TestDeleteAcousticModel():
+
+class TestDeleteAcousticModel:
     """
     Test Class for delete_acoustic_model
     """
@@ -3011,9 +3184,11 @@ class TestDeleteAcousticModel():
         """
         # Set up mock
         url = preprocess_url('/v1/acoustic_customizations/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=200)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=200,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -3021,7 +3196,7 @@ class TestDeleteAcousticModel():
         # Invoke method
         response = _service.delete_acoustic_model(
             customization_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -3044,9 +3219,11 @@ class TestDeleteAcousticModel():
         """
         # Set up mock
         url = preprocess_url('/v1/acoustic_customizations/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=200)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=200,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -3056,7 +3233,7 @@ class TestDeleteAcousticModel():
             "customization_id": customization_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_acoustic_model(**req_copy)
 
@@ -3069,7 +3246,8 @@ class TestDeleteAcousticModel():
         _service.disable_retries()
         self.test_delete_acoustic_model_value_error()
 
-class TestTrainAcousticModel():
+
+class TestTrainAcousticModel:
     """
     Test Class for train_acoustic_model
     """
@@ -3082,11 +3260,13 @@ class TestTrainAcousticModel():
         # Set up mock
         url = preprocess_url('/v1/acoustic_customizations/testString/train')
         mock_response = '{"warnings": [{"code": "invalid_audio_files", "message": "message"}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -3098,14 +3278,14 @@ class TestTrainAcousticModel():
             customization_id,
             custom_language_model_id=custom_language_model_id,
             strict=strict,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'custom_language_model_id={}'.format(custom_language_model_id) in query_string
         assert 'strict={}'.format('true' if strict else 'false') in query_string
@@ -3127,11 +3307,13 @@ class TestTrainAcousticModel():
         # Set up mock
         url = preprocess_url('/v1/acoustic_customizations/testString/train')
         mock_response = '{"warnings": [{"code": "invalid_audio_files", "message": "message"}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -3139,7 +3321,7 @@ class TestTrainAcousticModel():
         # Invoke method
         response = _service.train_acoustic_model(
             customization_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -3163,11 +3345,13 @@ class TestTrainAcousticModel():
         # Set up mock
         url = preprocess_url('/v1/acoustic_customizations/testString/train')
         mock_response = '{"warnings": [{"code": "invalid_audio_files", "message": "message"}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -3177,7 +3361,7 @@ class TestTrainAcousticModel():
             "customization_id": customization_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.train_acoustic_model(**req_copy)
 
@@ -3190,7 +3374,8 @@ class TestTrainAcousticModel():
         _service.disable_retries()
         self.test_train_acoustic_model_value_error()
 
-class TestResetAcousticModel():
+
+class TestResetAcousticModel:
     """
     Test Class for reset_acoustic_model
     """
@@ -3202,9 +3387,11 @@ class TestResetAcousticModel():
         """
         # Set up mock
         url = preprocess_url('/v1/acoustic_customizations/testString/reset')
-        responses.add(responses.POST,
-                      url,
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            status=200,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -3212,7 +3399,7 @@ class TestResetAcousticModel():
         # Invoke method
         response = _service.reset_acoustic_model(
             customization_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -3235,9 +3422,11 @@ class TestResetAcousticModel():
         """
         # Set up mock
         url = preprocess_url('/v1/acoustic_customizations/testString/reset')
-        responses.add(responses.POST,
-                      url,
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            status=200,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -3247,7 +3436,7 @@ class TestResetAcousticModel():
             "customization_id": customization_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.reset_acoustic_model(**req_copy)
 
@@ -3260,7 +3449,8 @@ class TestResetAcousticModel():
         _service.disable_retries()
         self.test_reset_acoustic_model_value_error()
 
-class TestUpgradeAcousticModel():
+
+class TestUpgradeAcousticModel:
     """
     Test Class for upgrade_acoustic_model
     """
@@ -3272,9 +3462,11 @@ class TestUpgradeAcousticModel():
         """
         # Set up mock
         url = preprocess_url('/v1/acoustic_customizations/testString/upgrade_model')
-        responses.add(responses.POST,
-                      url,
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            status=200,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -3286,14 +3478,14 @@ class TestUpgradeAcousticModel():
             customization_id,
             custom_language_model_id=custom_language_model_id,
             force=force,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'custom_language_model_id={}'.format(custom_language_model_id) in query_string
         assert 'force={}'.format('true' if force else 'false') in query_string
@@ -3314,9 +3506,11 @@ class TestUpgradeAcousticModel():
         """
         # Set up mock
         url = preprocess_url('/v1/acoustic_customizations/testString/upgrade_model')
-        responses.add(responses.POST,
-                      url,
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            status=200,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -3324,7 +3518,7 @@ class TestUpgradeAcousticModel():
         # Invoke method
         response = _service.upgrade_acoustic_model(
             customization_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -3347,9 +3541,11 @@ class TestUpgradeAcousticModel():
         """
         # Set up mock
         url = preprocess_url('/v1/acoustic_customizations/testString/upgrade_model')
-        responses.add(responses.POST,
-                      url,
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            status=200,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -3359,7 +3555,7 @@ class TestUpgradeAcousticModel():
             "customization_id": customization_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.upgrade_acoustic_model(**req_copy)
 
@@ -3372,6 +3568,7 @@ class TestUpgradeAcousticModel():
         _service.disable_retries()
         self.test_upgrade_acoustic_model_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: CustomAcousticModels
@@ -3382,7 +3579,8 @@ class TestUpgradeAcousticModel():
 ##############################################################################
 # region
 
-class TestListAudio():
+
+class TestListAudio:
     """
     Test Class for list_audio
     """
@@ -3395,11 +3593,13 @@ class TestListAudio():
         # Set up mock
         url = preprocess_url('/v1/acoustic_customizations/testString/audio')
         mock_response = '{"total_minutes_of_audio": 22, "audio": [{"duration": 8, "name": "name", "details": {"type": "audio", "codec": "codec", "frequency": 9, "compression": "zip"}, "status": "ok"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -3407,7 +3607,7 @@ class TestListAudio():
         # Invoke method
         response = _service.list_audio(
             customization_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -3431,11 +3631,13 @@ class TestListAudio():
         # Set up mock
         url = preprocess_url('/v1/acoustic_customizations/testString/audio')
         mock_response = '{"total_minutes_of_audio": 22, "audio": [{"duration": 8, "name": "name", "details": {"type": "audio", "codec": "codec", "frequency": 9, "compression": "zip"}, "status": "ok"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -3445,7 +3647,7 @@ class TestListAudio():
             "customization_id": customization_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_audio(**req_copy)
 
@@ -3458,7 +3660,8 @@ class TestListAudio():
         _service.disable_retries()
         self.test_list_audio_value_error()
 
-class TestAddAudio():
+
+class TestAddAudio:
     """
     Test Class for add_audio
     """
@@ -3470,9 +3673,11 @@ class TestAddAudio():
         """
         # Set up mock
         url = preprocess_url('/v1/acoustic_customizations/testString/audio/testString')
-        responses.add(responses.POST,
-                      url,
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            status=201,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -3490,14 +3695,14 @@ class TestAddAudio():
             content_type=content_type,
             contained_content_type=contained_content_type,
             allow_overwrite=allow_overwrite,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 201
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'allow_overwrite={}'.format('true' if allow_overwrite else 'false') in query_string
         # Validate body params
@@ -3518,9 +3723,11 @@ class TestAddAudio():
         """
         # Set up mock
         url = preprocess_url('/v1/acoustic_customizations/testString/audio/testString')
-        responses.add(responses.POST,
-                      url,
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            status=201,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -3532,7 +3739,7 @@ class TestAddAudio():
             customization_id,
             audio_name,
             audio_resource,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -3556,9 +3763,11 @@ class TestAddAudio():
         """
         # Set up mock
         url = preprocess_url('/v1/acoustic_customizations/testString/audio/testString')
-        responses.add(responses.POST,
-                      url,
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            status=201,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -3572,7 +3781,7 @@ class TestAddAudio():
             "audio_resource": audio_resource,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.add_audio(**req_copy)
 
@@ -3585,7 +3794,8 @@ class TestAddAudio():
         _service.disable_retries()
         self.test_add_audio_value_error()
 
-class TestGetAudio():
+
+class TestGetAudio:
     """
     Test Class for get_audio
     """
@@ -3598,11 +3808,13 @@ class TestGetAudio():
         # Set up mock
         url = preprocess_url('/v1/acoustic_customizations/testString/audio/testString')
         mock_response = '{"duration": 8, "name": "name", "details": {"type": "audio", "codec": "codec", "frequency": 9, "compression": "zip"}, "status": "ok", "container": {"duration": 8, "name": "name", "details": {"type": "audio", "codec": "codec", "frequency": 9, "compression": "zip"}, "status": "ok"}, "audio": [{"duration": 8, "name": "name", "details": {"type": "audio", "codec": "codec", "frequency": 9, "compression": "zip"}, "status": "ok"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -3612,7 +3824,7 @@ class TestGetAudio():
         response = _service.get_audio(
             customization_id,
             audio_name,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -3636,11 +3848,13 @@ class TestGetAudio():
         # Set up mock
         url = preprocess_url('/v1/acoustic_customizations/testString/audio/testString')
         mock_response = '{"duration": 8, "name": "name", "details": {"type": "audio", "codec": "codec", "frequency": 9, "compression": "zip"}, "status": "ok", "container": {"duration": 8, "name": "name", "details": {"type": "audio", "codec": "codec", "frequency": 9, "compression": "zip"}, "status": "ok"}, "audio": [{"duration": 8, "name": "name", "details": {"type": "audio", "codec": "codec", "frequency": 9, "compression": "zip"}, "status": "ok"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -3652,7 +3866,7 @@ class TestGetAudio():
             "audio_name": audio_name,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_audio(**req_copy)
 
@@ -3665,7 +3879,8 @@ class TestGetAudio():
         _service.disable_retries()
         self.test_get_audio_value_error()
 
-class TestDeleteAudio():
+
+class TestDeleteAudio:
     """
     Test Class for delete_audio
     """
@@ -3677,9 +3892,11 @@ class TestDeleteAudio():
         """
         # Set up mock
         url = preprocess_url('/v1/acoustic_customizations/testString/audio/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=200)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=200,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -3689,7 +3906,7 @@ class TestDeleteAudio():
         response = _service.delete_audio(
             customization_id,
             audio_name,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -3712,9 +3929,11 @@ class TestDeleteAudio():
         """
         # Set up mock
         url = preprocess_url('/v1/acoustic_customizations/testString/audio/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=200)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=200,
+        )
 
         # Set up parameter values
         customization_id = 'testString'
@@ -3726,7 +3945,7 @@ class TestDeleteAudio():
             "audio_name": audio_name,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_audio(**req_copy)
 
@@ -3739,6 +3958,7 @@ class TestDeleteAudio():
         _service.disable_retries()
         self.test_delete_audio_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: CustomAudioResources
@@ -3749,7 +3969,8 @@ class TestDeleteAudio():
 ##############################################################################
 # region
 
-class TestDeleteUserData():
+
+class TestDeleteUserData:
     """
     Test Class for delete_user_data
     """
@@ -3761,9 +3982,11 @@ class TestDeleteUserData():
         """
         # Set up mock
         url = preprocess_url('/v1/user_data')
-        responses.add(responses.DELETE,
-                      url,
-                      status=200)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=200,
+        )
 
         # Set up parameter values
         customer_id = 'testString'
@@ -3771,14 +3994,14 @@ class TestDeleteUserData():
         # Invoke method
         response = _service.delete_user_data(
             customer_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'customer_id={}'.format(customer_id) in query_string
 
@@ -3798,9 +4021,11 @@ class TestDeleteUserData():
         """
         # Set up mock
         url = preprocess_url('/v1/user_data')
-        responses.add(responses.DELETE,
-                      url,
-                      status=200)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=200,
+        )
 
         # Set up parameter values
         customer_id = 'testString'
@@ -3810,7 +4035,7 @@ class TestDeleteUserData():
             "customer_id": customer_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_user_data(**req_copy)
 
@@ -3823,6 +4048,7 @@ class TestDeleteUserData():
         _service.disable_retries()
         self.test_delete_user_data_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: UserData
@@ -3833,7 +4059,9 @@ class TestDeleteUserData():
 # Start of Model Tests
 ##############################################################################
 # region
-class TestModel_AcousticModel():
+
+
+class TestModel_AcousticModel:
     """
     Test Class for AcousticModel
     """
@@ -3873,7 +4101,8 @@ class TestModel_AcousticModel():
         acoustic_model_model_json2 = acoustic_model_model.to_dict()
         assert acoustic_model_model_json2 == acoustic_model_model_json
 
-class TestModel_AcousticModels():
+
+class TestModel_AcousticModels:
     """
     Test Class for AcousticModels
     """
@@ -3885,7 +4114,7 @@ class TestModel_AcousticModels():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        acoustic_model_model = {} # AcousticModel
+        acoustic_model_model = {}  # AcousticModel
         acoustic_model_model['customization_id'] = 'testString'
         acoustic_model_model['created'] = 'testString'
         acoustic_model_model['updated'] = 'testString'
@@ -3918,7 +4147,8 @@ class TestModel_AcousticModels():
         acoustic_models_model_json2 = acoustic_models_model.to_dict()
         assert acoustic_models_model_json2 == acoustic_models_model_json
 
-class TestModel_AudioDetails():
+
+class TestModel_AudioDetails:
     """
     Test Class for AudioDetails
     """
@@ -3950,7 +4180,8 @@ class TestModel_AudioDetails():
         audio_details_model_json2 = audio_details_model.to_dict()
         assert audio_details_model_json2 == audio_details_model_json
 
-class TestModel_AudioListing():
+
+class TestModel_AudioListing:
     """
     Test Class for AudioListing
     """
@@ -3962,13 +4193,13 @@ class TestModel_AudioListing():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        audio_details_model = {} # AudioDetails
+        audio_details_model = {}  # AudioDetails
         audio_details_model['type'] = 'audio'
         audio_details_model['codec'] = 'testString'
         audio_details_model['frequency'] = 38
         audio_details_model['compression'] = 'zip'
 
-        audio_resource_model = {} # AudioResource
+        audio_resource_model = {}  # AudioResource
         audio_resource_model['duration'] = 38
         audio_resource_model['name'] = 'testString'
         audio_resource_model['details'] = audio_details_model
@@ -3998,7 +4229,8 @@ class TestModel_AudioListing():
         audio_listing_model_json2 = audio_listing_model.to_dict()
         assert audio_listing_model_json2 == audio_listing_model_json
 
-class TestModel_AudioMetrics():
+
+class TestModel_AudioMetrics:
     """
     Test Class for AudioMetrics
     """
@@ -4010,12 +4242,12 @@ class TestModel_AudioMetrics():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        audio_metrics_histogram_bin_model = {} # AudioMetricsHistogramBin
+        audio_metrics_histogram_bin_model = {}  # AudioMetricsHistogramBin
         audio_metrics_histogram_bin_model['begin'] = 36.0
         audio_metrics_histogram_bin_model['end'] = 36.0
         audio_metrics_histogram_bin_model['count'] = 38
 
-        audio_metrics_details_model = {} # AudioMetricsDetails
+        audio_metrics_details_model = {}  # AudioMetricsDetails
         audio_metrics_details_model['final'] = True
         audio_metrics_details_model['end_time'] = 36.0
         audio_metrics_details_model['signal_to_noise_ratio'] = 36.0
@@ -4046,7 +4278,8 @@ class TestModel_AudioMetrics():
         audio_metrics_model_json2 = audio_metrics_model.to_dict()
         assert audio_metrics_model_json2 == audio_metrics_model_json
 
-class TestModel_AudioMetricsDetails():
+
+class TestModel_AudioMetricsDetails:
     """
     Test Class for AudioMetricsDetails
     """
@@ -4058,7 +4291,7 @@ class TestModel_AudioMetricsDetails():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        audio_metrics_histogram_bin_model = {} # AudioMetricsHistogramBin
+        audio_metrics_histogram_bin_model = {}  # AudioMetricsHistogramBin
         audio_metrics_histogram_bin_model['begin'] = 36.0
         audio_metrics_histogram_bin_model['end'] = 36.0
         audio_metrics_histogram_bin_model['count'] = 38
@@ -4090,7 +4323,8 @@ class TestModel_AudioMetricsDetails():
         audio_metrics_details_model_json2 = audio_metrics_details_model.to_dict()
         assert audio_metrics_details_model_json2 == audio_metrics_details_model_json
 
-class TestModel_AudioMetricsHistogramBin():
+
+class TestModel_AudioMetricsHistogramBin:
     """
     Test Class for AudioMetricsHistogramBin
     """
@@ -4121,7 +4355,8 @@ class TestModel_AudioMetricsHistogramBin():
         audio_metrics_histogram_bin_model_json2 = audio_metrics_histogram_bin_model.to_dict()
         assert audio_metrics_histogram_bin_model_json2 == audio_metrics_histogram_bin_model_json
 
-class TestModel_AudioResource():
+
+class TestModel_AudioResource:
     """
     Test Class for AudioResource
     """
@@ -4133,7 +4368,7 @@ class TestModel_AudioResource():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        audio_details_model = {} # AudioDetails
+        audio_details_model = {}  # AudioDetails
         audio_details_model['type'] = 'audio'
         audio_details_model['codec'] = 'testString'
         audio_details_model['frequency'] = 38
@@ -4161,7 +4396,8 @@ class TestModel_AudioResource():
         audio_resource_model_json2 = audio_resource_model.to_dict()
         assert audio_resource_model_json2 == audio_resource_model_json
 
-class TestModel_AudioResources():
+
+class TestModel_AudioResources:
     """
     Test Class for AudioResources
     """
@@ -4173,13 +4409,13 @@ class TestModel_AudioResources():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        audio_details_model = {} # AudioDetails
+        audio_details_model = {}  # AudioDetails
         audio_details_model['type'] = 'audio'
         audio_details_model['codec'] = 'testString'
         audio_details_model['frequency'] = 38
         audio_details_model['compression'] = 'zip'
 
-        audio_resource_model = {} # AudioResource
+        audio_resource_model = {}  # AudioResource
         audio_resource_model['duration'] = 38
         audio_resource_model['name'] = 'testString'
         audio_resource_model['details'] = audio_details_model
@@ -4205,7 +4441,8 @@ class TestModel_AudioResources():
         audio_resources_model_json2 = audio_resources_model.to_dict()
         assert audio_resources_model_json2 == audio_resources_model_json
 
-class TestModel_Corpora():
+
+class TestModel_Corpora:
     """
     Test Class for Corpora
     """
@@ -4217,7 +4454,7 @@ class TestModel_Corpora():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        corpus_model = {} # Corpus
+        corpus_model = {}  # Corpus
         corpus_model['name'] = 'testString'
         corpus_model['total_words'] = 38
         corpus_model['out_of_vocabulary_words'] = 38
@@ -4243,7 +4480,8 @@ class TestModel_Corpora():
         corpora_model_json2 = corpora_model.to_dict()
         assert corpora_model_json2 == corpora_model_json
 
-class TestModel_Corpus():
+
+class TestModel_Corpus:
     """
     Test Class for Corpus
     """
@@ -4276,7 +4514,8 @@ class TestModel_Corpus():
         corpus_model_json2 = corpus_model.to_dict()
         assert corpus_model_json2 == corpus_model_json
 
-class TestModel_CustomWord():
+
+class TestModel_CustomWord:
     """
     Test Class for CustomWord
     """
@@ -4307,7 +4546,8 @@ class TestModel_CustomWord():
         custom_word_model_json2 = custom_word_model.to_dict()
         assert custom_word_model_json2 == custom_word_model_json
 
-class TestModel_Grammar():
+
+class TestModel_Grammar:
     """
     Test Class for Grammar
     """
@@ -4339,7 +4579,8 @@ class TestModel_Grammar():
         grammar_model_json2 = grammar_model.to_dict()
         assert grammar_model_json2 == grammar_model_json
 
-class TestModel_Grammars():
+
+class TestModel_Grammars:
     """
     Test Class for Grammars
     """
@@ -4351,7 +4592,7 @@ class TestModel_Grammars():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        grammar_model = {} # Grammar
+        grammar_model = {}  # Grammar
         grammar_model['name'] = 'testString'
         grammar_model['out_of_vocabulary_words'] = 38
         grammar_model['status'] = 'analyzed'
@@ -4376,7 +4617,8 @@ class TestModel_Grammars():
         grammars_model_json2 = grammars_model.to_dict()
         assert grammars_model_json2 == grammars_model_json
 
-class TestModel_KeywordResult():
+
+class TestModel_KeywordResult:
     """
     Test Class for KeywordResult
     """
@@ -4408,7 +4650,8 @@ class TestModel_KeywordResult():
         keyword_result_model_json2 = keyword_result_model.to_dict()
         assert keyword_result_model_json2 == keyword_result_model_json
 
-class TestModel_LanguageModel():
+
+class TestModel_LanguageModel:
     """
     Test Class for LanguageModel
     """
@@ -4450,7 +4693,8 @@ class TestModel_LanguageModel():
         language_model_model_json2 = language_model_model.to_dict()
         assert language_model_model_json2 == language_model_model_json
 
-class TestModel_LanguageModels():
+
+class TestModel_LanguageModels:
     """
     Test Class for LanguageModels
     """
@@ -4462,7 +4706,7 @@ class TestModel_LanguageModels():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        language_model_model = {} # LanguageModel
+        language_model_model = {}  # LanguageModel
         language_model_model['customization_id'] = 'testString'
         language_model_model['created'] = 'testString'
         language_model_model['updated'] = 'testString'
@@ -4497,7 +4741,8 @@ class TestModel_LanguageModels():
         language_models_model_json2 = language_models_model.to_dict()
         assert language_models_model_json2 == language_models_model_json
 
-class TestModel_ProcessedAudio():
+
+class TestModel_ProcessedAudio:
     """
     Test Class for ProcessedAudio
     """
@@ -4529,7 +4774,8 @@ class TestModel_ProcessedAudio():
         processed_audio_model_json2 = processed_audio_model.to_dict()
         assert processed_audio_model_json2 == processed_audio_model_json
 
-class TestModel_ProcessingMetrics():
+
+class TestModel_ProcessingMetrics:
     """
     Test Class for ProcessingMetrics
     """
@@ -4541,7 +4787,7 @@ class TestModel_ProcessingMetrics():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        processed_audio_model = {} # ProcessedAudio
+        processed_audio_model = {}  # ProcessedAudio
         processed_audio_model['received'] = 36.0
         processed_audio_model['seen_by_engine'] = 36.0
         processed_audio_model['transcription'] = 36.0
@@ -4568,7 +4814,8 @@ class TestModel_ProcessingMetrics():
         processing_metrics_model_json2 = processing_metrics_model.to_dict()
         assert processing_metrics_model_json2 == processing_metrics_model_json
 
-class TestModel_RecognitionJob():
+
+class TestModel_RecognitionJob:
     """
     Test Class for RecognitionJob
     """
@@ -4580,58 +4827,58 @@ class TestModel_RecognitionJob():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        speech_recognition_alternative_model = {} # SpeechRecognitionAlternative
+        speech_recognition_alternative_model = {}  # SpeechRecognitionAlternative
         speech_recognition_alternative_model['transcript'] = 'testString'
         speech_recognition_alternative_model['confidence'] = 0
         speech_recognition_alternative_model['timestamps'] = ['testString']
         speech_recognition_alternative_model['word_confidence'] = ['testString']
 
-        keyword_result_model = {} # KeywordResult
+        keyword_result_model = {}  # KeywordResult
         keyword_result_model['normalized_text'] = 'testString'
         keyword_result_model['start_time'] = 72.5
         keyword_result_model['end_time'] = 72.5
         keyword_result_model['confidence'] = 0
 
-        word_alternative_result_model = {} # WordAlternativeResult
+        word_alternative_result_model = {}  # WordAlternativeResult
         word_alternative_result_model['confidence'] = 0
         word_alternative_result_model['word'] = 'testString'
 
-        word_alternative_results_model = {} # WordAlternativeResults
+        word_alternative_results_model = {}  # WordAlternativeResults
         word_alternative_results_model['start_time'] = 72.5
         word_alternative_results_model['end_time'] = 72.5
         word_alternative_results_model['alternatives'] = [word_alternative_result_model]
 
-        speech_recognition_result_model = {} # SpeechRecognitionResult
+        speech_recognition_result_model = {}  # SpeechRecognitionResult
         speech_recognition_result_model['final'] = True
         speech_recognition_result_model['alternatives'] = [speech_recognition_alternative_model]
         speech_recognition_result_model['keywords_result'] = {'key1': [keyword_result_model]}
         speech_recognition_result_model['word_alternatives'] = [word_alternative_results_model]
         speech_recognition_result_model['end_of_utterance'] = 'end_of_data'
 
-        speaker_labels_result_model = {} # SpeakerLabelsResult
+        speaker_labels_result_model = {}  # SpeakerLabelsResult
         speaker_labels_result_model['from'] = 36.0
         speaker_labels_result_model['to'] = 36.0
         speaker_labels_result_model['speaker'] = 38
         speaker_labels_result_model['confidence'] = 36.0
         speaker_labels_result_model['final'] = True
 
-        processed_audio_model = {} # ProcessedAudio
+        processed_audio_model = {}  # ProcessedAudio
         processed_audio_model['received'] = 36.0
         processed_audio_model['seen_by_engine'] = 36.0
         processed_audio_model['transcription'] = 36.0
         processed_audio_model['speaker_labels'] = 36.0
 
-        processing_metrics_model = {} # ProcessingMetrics
+        processing_metrics_model = {}  # ProcessingMetrics
         processing_metrics_model['processed_audio'] = processed_audio_model
         processing_metrics_model['wall_clock_since_first_byte_received'] = 36.0
         processing_metrics_model['periodic'] = True
 
-        audio_metrics_histogram_bin_model = {} # AudioMetricsHistogramBin
+        audio_metrics_histogram_bin_model = {}  # AudioMetricsHistogramBin
         audio_metrics_histogram_bin_model['begin'] = 36.0
         audio_metrics_histogram_bin_model['end'] = 36.0
         audio_metrics_histogram_bin_model['count'] = 38
 
-        audio_metrics_details_model = {} # AudioMetricsDetails
+        audio_metrics_details_model = {}  # AudioMetricsDetails
         audio_metrics_details_model['final'] = True
         audio_metrics_details_model['end_time'] = 36.0
         audio_metrics_details_model['signal_to_noise_ratio'] = 36.0
@@ -4642,11 +4889,11 @@ class TestModel_RecognitionJob():
         audio_metrics_details_model['speech_level'] = [audio_metrics_histogram_bin_model]
         audio_metrics_details_model['non_speech_level'] = [audio_metrics_histogram_bin_model]
 
-        audio_metrics_model = {} # AudioMetrics
+        audio_metrics_model = {}  # AudioMetrics
         audio_metrics_model['sampling_interval'] = 36.0
         audio_metrics_model['accumulated'] = audio_metrics_details_model
 
-        speech_recognition_results_model = {} # SpeechRecognitionResults
+        speech_recognition_results_model = {}  # SpeechRecognitionResults
         speech_recognition_results_model['results'] = [speech_recognition_result_model]
         speech_recognition_results_model['result_index'] = 38
         speech_recognition_results_model['speaker_labels'] = [speaker_labels_result_model]
@@ -4680,7 +4927,8 @@ class TestModel_RecognitionJob():
         recognition_job_model_json2 = recognition_job_model.to_dict()
         assert recognition_job_model_json2 == recognition_job_model_json
 
-class TestModel_RecognitionJobs():
+
+class TestModel_RecognitionJobs:
     """
     Test Class for RecognitionJobs
     """
@@ -4692,58 +4940,58 @@ class TestModel_RecognitionJobs():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        speech_recognition_alternative_model = {} # SpeechRecognitionAlternative
+        speech_recognition_alternative_model = {}  # SpeechRecognitionAlternative
         speech_recognition_alternative_model['transcript'] = 'testString'
         speech_recognition_alternative_model['confidence'] = 0
         speech_recognition_alternative_model['timestamps'] = ['testString']
         speech_recognition_alternative_model['word_confidence'] = ['testString']
 
-        keyword_result_model = {} # KeywordResult
+        keyword_result_model = {}  # KeywordResult
         keyword_result_model['normalized_text'] = 'testString'
         keyword_result_model['start_time'] = 72.5
         keyword_result_model['end_time'] = 72.5
         keyword_result_model['confidence'] = 0
 
-        word_alternative_result_model = {} # WordAlternativeResult
+        word_alternative_result_model = {}  # WordAlternativeResult
         word_alternative_result_model['confidence'] = 0
         word_alternative_result_model['word'] = 'testString'
 
-        word_alternative_results_model = {} # WordAlternativeResults
+        word_alternative_results_model = {}  # WordAlternativeResults
         word_alternative_results_model['start_time'] = 72.5
         word_alternative_results_model['end_time'] = 72.5
         word_alternative_results_model['alternatives'] = [word_alternative_result_model]
 
-        speech_recognition_result_model = {} # SpeechRecognitionResult
+        speech_recognition_result_model = {}  # SpeechRecognitionResult
         speech_recognition_result_model['final'] = True
         speech_recognition_result_model['alternatives'] = [speech_recognition_alternative_model]
         speech_recognition_result_model['keywords_result'] = {'key1': [keyword_result_model]}
         speech_recognition_result_model['word_alternatives'] = [word_alternative_results_model]
         speech_recognition_result_model['end_of_utterance'] = 'end_of_data'
 
-        speaker_labels_result_model = {} # SpeakerLabelsResult
+        speaker_labels_result_model = {}  # SpeakerLabelsResult
         speaker_labels_result_model['from'] = 36.0
         speaker_labels_result_model['to'] = 36.0
         speaker_labels_result_model['speaker'] = 38
         speaker_labels_result_model['confidence'] = 36.0
         speaker_labels_result_model['final'] = True
 
-        processed_audio_model = {} # ProcessedAudio
+        processed_audio_model = {}  # ProcessedAudio
         processed_audio_model['received'] = 36.0
         processed_audio_model['seen_by_engine'] = 36.0
         processed_audio_model['transcription'] = 36.0
         processed_audio_model['speaker_labels'] = 36.0
 
-        processing_metrics_model = {} # ProcessingMetrics
+        processing_metrics_model = {}  # ProcessingMetrics
         processing_metrics_model['processed_audio'] = processed_audio_model
         processing_metrics_model['wall_clock_since_first_byte_received'] = 36.0
         processing_metrics_model['periodic'] = True
 
-        audio_metrics_histogram_bin_model = {} # AudioMetricsHistogramBin
+        audio_metrics_histogram_bin_model = {}  # AudioMetricsHistogramBin
         audio_metrics_histogram_bin_model['begin'] = 36.0
         audio_metrics_histogram_bin_model['end'] = 36.0
         audio_metrics_histogram_bin_model['count'] = 38
 
-        audio_metrics_details_model = {} # AudioMetricsDetails
+        audio_metrics_details_model = {}  # AudioMetricsDetails
         audio_metrics_details_model['final'] = True
         audio_metrics_details_model['end_time'] = 36.0
         audio_metrics_details_model['signal_to_noise_ratio'] = 36.0
@@ -4754,11 +5002,11 @@ class TestModel_RecognitionJobs():
         audio_metrics_details_model['speech_level'] = [audio_metrics_histogram_bin_model]
         audio_metrics_details_model['non_speech_level'] = [audio_metrics_histogram_bin_model]
 
-        audio_metrics_model = {} # AudioMetrics
+        audio_metrics_model = {}  # AudioMetrics
         audio_metrics_model['sampling_interval'] = 36.0
         audio_metrics_model['accumulated'] = audio_metrics_details_model
 
-        speech_recognition_results_model = {} # SpeechRecognitionResults
+        speech_recognition_results_model = {}  # SpeechRecognitionResults
         speech_recognition_results_model['results'] = [speech_recognition_result_model]
         speech_recognition_results_model['result_index'] = 38
         speech_recognition_results_model['speaker_labels'] = [speaker_labels_result_model]
@@ -4766,7 +5014,7 @@ class TestModel_RecognitionJobs():
         speech_recognition_results_model['audio_metrics'] = audio_metrics_model
         speech_recognition_results_model['warnings'] = ['testString']
 
-        recognition_job_model = {} # RecognitionJob
+        recognition_job_model = {}  # RecognitionJob
         recognition_job_model['id'] = 'testString'
         recognition_job_model['status'] = 'waiting'
         recognition_job_model['created'] = 'testString'
@@ -4795,7 +5043,8 @@ class TestModel_RecognitionJobs():
         recognition_jobs_model_json2 = recognition_jobs_model.to_dict()
         assert recognition_jobs_model_json2 == recognition_jobs_model_json
 
-class TestModel_RegisterStatus():
+
+class TestModel_RegisterStatus:
     """
     Test Class for RegisterStatus
     """
@@ -4825,7 +5074,8 @@ class TestModel_RegisterStatus():
         register_status_model_json2 = register_status_model.to_dict()
         assert register_status_model_json2 == register_status_model_json
 
-class TestModel_SpeakerLabelsResult():
+
+class TestModel_SpeakerLabelsResult:
     """
     Test Class for SpeakerLabelsResult
     """
@@ -4858,7 +5108,8 @@ class TestModel_SpeakerLabelsResult():
         speaker_labels_result_model_json2 = speaker_labels_result_model.to_dict()
         assert speaker_labels_result_model_json2 == speaker_labels_result_model_json
 
-class TestModel_SpeechModel():
+
+class TestModel_SpeechModel:
     """
     Test Class for SpeechModel
     """
@@ -4870,7 +5121,7 @@ class TestModel_SpeechModel():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        supported_features_model = {} # SupportedFeatures
+        supported_features_model = {}  # SupportedFeatures
         supported_features_model['custom_language_model'] = True
         supported_features_model['custom_acoustic_model'] = True
         supported_features_model['speaker_labels'] = True
@@ -4900,7 +5151,8 @@ class TestModel_SpeechModel():
         speech_model_model_json2 = speech_model_model.to_dict()
         assert speech_model_model_json2 == speech_model_model_json
 
-class TestModel_SpeechModels():
+
+class TestModel_SpeechModels:
     """
     Test Class for SpeechModels
     """
@@ -4912,13 +5164,13 @@ class TestModel_SpeechModels():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        supported_features_model = {} # SupportedFeatures
+        supported_features_model = {}  # SupportedFeatures
         supported_features_model['custom_language_model'] = True
         supported_features_model['custom_acoustic_model'] = True
         supported_features_model['speaker_labels'] = True
         supported_features_model['low_latency'] = True
 
-        speech_model_model = {} # SpeechModel
+        speech_model_model = {}  # SpeechModel
         speech_model_model['name'] = 'testString'
         speech_model_model['language'] = 'testString'
         speech_model_model['rate'] = 38
@@ -4945,7 +5197,8 @@ class TestModel_SpeechModels():
         speech_models_model_json2 = speech_models_model.to_dict()
         assert speech_models_model_json2 == speech_models_model_json
 
-class TestModel_SpeechRecognitionAlternative():
+
+class TestModel_SpeechRecognitionAlternative:
     """
     Test Class for SpeechRecognitionAlternative
     """
@@ -4977,7 +5230,8 @@ class TestModel_SpeechRecognitionAlternative():
         speech_recognition_alternative_model_json2 = speech_recognition_alternative_model.to_dict()
         assert speech_recognition_alternative_model_json2 == speech_recognition_alternative_model_json
 
-class TestModel_SpeechRecognitionResult():
+
+class TestModel_SpeechRecognitionResult:
     """
     Test Class for SpeechRecognitionResult
     """
@@ -4989,23 +5243,23 @@ class TestModel_SpeechRecognitionResult():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        speech_recognition_alternative_model = {} # SpeechRecognitionAlternative
+        speech_recognition_alternative_model = {}  # SpeechRecognitionAlternative
         speech_recognition_alternative_model['transcript'] = 'testString'
         speech_recognition_alternative_model['confidence'] = 0
         speech_recognition_alternative_model['timestamps'] = ['testString']
         speech_recognition_alternative_model['word_confidence'] = ['testString']
 
-        keyword_result_model = {} # KeywordResult
+        keyword_result_model = {}  # KeywordResult
         keyword_result_model['normalized_text'] = 'testString'
         keyword_result_model['start_time'] = 72.5
         keyword_result_model['end_time'] = 72.5
         keyword_result_model['confidence'] = 0
 
-        word_alternative_result_model = {} # WordAlternativeResult
+        word_alternative_result_model = {}  # WordAlternativeResult
         word_alternative_result_model['confidence'] = 0
         word_alternative_result_model['word'] = 'testString'
 
-        word_alternative_results_model = {} # WordAlternativeResults
+        word_alternative_results_model = {}  # WordAlternativeResults
         word_alternative_results_model['start_time'] = 72.5
         word_alternative_results_model['end_time'] = 72.5
         word_alternative_results_model['alternatives'] = [word_alternative_result_model]
@@ -5033,7 +5287,8 @@ class TestModel_SpeechRecognitionResult():
         speech_recognition_result_model_json2 = speech_recognition_result_model.to_dict()
         assert speech_recognition_result_model_json2 == speech_recognition_result_model_json
 
-class TestModel_SpeechRecognitionResults():
+
+class TestModel_SpeechRecognitionResults:
     """
     Test Class for SpeechRecognitionResults
     """
@@ -5045,58 +5300,58 @@ class TestModel_SpeechRecognitionResults():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        speech_recognition_alternative_model = {} # SpeechRecognitionAlternative
+        speech_recognition_alternative_model = {}  # SpeechRecognitionAlternative
         speech_recognition_alternative_model['transcript'] = 'testString'
         speech_recognition_alternative_model['confidence'] = 0
         speech_recognition_alternative_model['timestamps'] = ['testString']
         speech_recognition_alternative_model['word_confidence'] = ['testString']
 
-        keyword_result_model = {} # KeywordResult
+        keyword_result_model = {}  # KeywordResult
         keyword_result_model['normalized_text'] = 'testString'
         keyword_result_model['start_time'] = 72.5
         keyword_result_model['end_time'] = 72.5
         keyword_result_model['confidence'] = 0
 
-        word_alternative_result_model = {} # WordAlternativeResult
+        word_alternative_result_model = {}  # WordAlternativeResult
         word_alternative_result_model['confidence'] = 0
         word_alternative_result_model['word'] = 'testString'
 
-        word_alternative_results_model = {} # WordAlternativeResults
+        word_alternative_results_model = {}  # WordAlternativeResults
         word_alternative_results_model['start_time'] = 72.5
         word_alternative_results_model['end_time'] = 72.5
         word_alternative_results_model['alternatives'] = [word_alternative_result_model]
 
-        speech_recognition_result_model = {} # SpeechRecognitionResult
+        speech_recognition_result_model = {}  # SpeechRecognitionResult
         speech_recognition_result_model['final'] = True
         speech_recognition_result_model['alternatives'] = [speech_recognition_alternative_model]
         speech_recognition_result_model['keywords_result'] = {'key1': [keyword_result_model]}
         speech_recognition_result_model['word_alternatives'] = [word_alternative_results_model]
         speech_recognition_result_model['end_of_utterance'] = 'end_of_data'
 
-        speaker_labels_result_model = {} # SpeakerLabelsResult
+        speaker_labels_result_model = {}  # SpeakerLabelsResult
         speaker_labels_result_model['from'] = 36.0
         speaker_labels_result_model['to'] = 36.0
         speaker_labels_result_model['speaker'] = 38
         speaker_labels_result_model['confidence'] = 36.0
         speaker_labels_result_model['final'] = True
 
-        processed_audio_model = {} # ProcessedAudio
+        processed_audio_model = {}  # ProcessedAudio
         processed_audio_model['received'] = 36.0
         processed_audio_model['seen_by_engine'] = 36.0
         processed_audio_model['transcription'] = 36.0
         processed_audio_model['speaker_labels'] = 36.0
 
-        processing_metrics_model = {} # ProcessingMetrics
+        processing_metrics_model = {}  # ProcessingMetrics
         processing_metrics_model['processed_audio'] = processed_audio_model
         processing_metrics_model['wall_clock_since_first_byte_received'] = 36.0
         processing_metrics_model['periodic'] = True
 
-        audio_metrics_histogram_bin_model = {} # AudioMetricsHistogramBin
+        audio_metrics_histogram_bin_model = {}  # AudioMetricsHistogramBin
         audio_metrics_histogram_bin_model['begin'] = 36.0
         audio_metrics_histogram_bin_model['end'] = 36.0
         audio_metrics_histogram_bin_model['count'] = 38
 
-        audio_metrics_details_model = {} # AudioMetricsDetails
+        audio_metrics_details_model = {}  # AudioMetricsDetails
         audio_metrics_details_model['final'] = True
         audio_metrics_details_model['end_time'] = 36.0
         audio_metrics_details_model['signal_to_noise_ratio'] = 36.0
@@ -5107,7 +5362,7 @@ class TestModel_SpeechRecognitionResults():
         audio_metrics_details_model['speech_level'] = [audio_metrics_histogram_bin_model]
         audio_metrics_details_model['non_speech_level'] = [audio_metrics_histogram_bin_model]
 
-        audio_metrics_model = {} # AudioMetrics
+        audio_metrics_model = {}  # AudioMetrics
         audio_metrics_model['sampling_interval'] = 36.0
         audio_metrics_model['accumulated'] = audio_metrics_details_model
 
@@ -5135,7 +5390,8 @@ class TestModel_SpeechRecognitionResults():
         speech_recognition_results_model_json2 = speech_recognition_results_model.to_dict()
         assert speech_recognition_results_model_json2 == speech_recognition_results_model_json
 
-class TestModel_SupportedFeatures():
+
+class TestModel_SupportedFeatures:
     """
     Test Class for SupportedFeatures
     """
@@ -5167,7 +5423,8 @@ class TestModel_SupportedFeatures():
         supported_features_model_json2 = supported_features_model.to_dict()
         assert supported_features_model_json2 == supported_features_model_json
 
-class TestModel_TrainingResponse():
+
+class TestModel_TrainingResponse:
     """
     Test Class for TrainingResponse
     """
@@ -5179,7 +5436,7 @@ class TestModel_TrainingResponse():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        training_warning_model = {} # TrainingWarning
+        training_warning_model = {}  # TrainingWarning
         training_warning_model['code'] = 'invalid_audio_files'
         training_warning_model['message'] = 'testString'
 
@@ -5202,7 +5459,8 @@ class TestModel_TrainingResponse():
         training_response_model_json2 = training_response_model.to_dict()
         assert training_response_model_json2 == training_response_model_json
 
-class TestModel_TrainingWarning():
+
+class TestModel_TrainingWarning:
     """
     Test Class for TrainingWarning
     """
@@ -5232,7 +5490,8 @@ class TestModel_TrainingWarning():
         training_warning_model_json2 = training_warning_model.to_dict()
         assert training_warning_model_json2 == training_warning_model_json
 
-class TestModel_Word():
+
+class TestModel_Word:
     """
     Test Class for Word
     """
@@ -5244,7 +5503,7 @@ class TestModel_Word():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        word_error_model = {} # WordError
+        word_error_model = {}  # WordError
         word_error_model['element'] = 'testString'
 
         # Construct a json representation of a Word model
@@ -5271,7 +5530,8 @@ class TestModel_Word():
         word_model_json2 = word_model.to_dict()
         assert word_model_json2 == word_model_json
 
-class TestModel_WordAlternativeResult():
+
+class TestModel_WordAlternativeResult:
     """
     Test Class for WordAlternativeResult
     """
@@ -5301,7 +5561,8 @@ class TestModel_WordAlternativeResult():
         word_alternative_result_model_json2 = word_alternative_result_model.to_dict()
         assert word_alternative_result_model_json2 == word_alternative_result_model_json
 
-class TestModel_WordAlternativeResults():
+
+class TestModel_WordAlternativeResults:
     """
     Test Class for WordAlternativeResults
     """
@@ -5313,7 +5574,7 @@ class TestModel_WordAlternativeResults():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        word_alternative_result_model = {} # WordAlternativeResult
+        word_alternative_result_model = {}  # WordAlternativeResult
         word_alternative_result_model['confidence'] = 0
         word_alternative_result_model['word'] = 'testString'
 
@@ -5338,7 +5599,8 @@ class TestModel_WordAlternativeResults():
         word_alternative_results_model_json2 = word_alternative_results_model.to_dict()
         assert word_alternative_results_model_json2 == word_alternative_results_model_json
 
-class TestModel_WordError():
+
+class TestModel_WordError:
     """
     Test Class for WordError
     """
@@ -5367,7 +5629,8 @@ class TestModel_WordError():
         word_error_model_json2 = word_error_model.to_dict()
         assert word_error_model_json2 == word_error_model_json
 
-class TestModel_Words():
+
+class TestModel_Words:
     """
     Test Class for Words
     """
@@ -5379,10 +5642,10 @@ class TestModel_Words():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        word_error_model = {} # WordError
+        word_error_model = {}  # WordError
         word_error_model['element'] = 'testString'
 
-        word_model = {} # Word
+        word_model = {}  # Word
         word_model['word'] = 'testString'
         word_model['sounds_like'] = ['testString']
         word_model['display_as'] = 'testString'

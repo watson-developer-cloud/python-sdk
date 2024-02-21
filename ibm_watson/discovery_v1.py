@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 3.64.1-cee95189-20230124-211647
+# IBM OpenAPI SDK Code Generator Version: 3.85.0-75c38f8f-20240206-210220
 """
 IBM Watson&trade; Discovery v1 is a cognitive search and content analytics engine that you
 can add to applications to identify patterns, trends and actionable insights to drive
@@ -30,7 +30,7 @@ from datetime import date
 from datetime import datetime
 from enum import Enum
 from os.path import basename
-from typing import BinaryIO, Dict, List
+from typing import BinaryIO, Dict, List, Optional
 import json
 import sys
 
@@ -83,12 +83,14 @@ class DiscoveryV1(BaseService):
     # Environments
     #########################
 
-    def create_environment(self,
-                           name: str,
-                           *,
-                           description: str = None,
-                           size: str = None,
-                           **kwargs) -> DetailedResponse:
+    def create_environment(
+        self,
+        name: str,
+        *,
+        description: Optional[str] = None,
+        size: Optional[str] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Create an environment.
 
@@ -110,9 +112,11 @@ class DiscoveryV1(BaseService):
         if name is None:
             raise ValueError('name must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='create_environment')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='create_environment',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -134,19 +138,23 @@ class DiscoveryV1(BaseService):
         headers['Accept'] = 'application/json'
 
         url = '/v1/environments'
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       data=data)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def list_environments(self,
-                          *,
-                          name: str = None,
-                          **kwargs) -> DetailedResponse:
+    def list_environments(
+        self,
+        *,
+        name: Optional[str] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         List environments.
 
@@ -159,9 +167,11 @@ class DiscoveryV1(BaseService):
         """
 
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='list_environments')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='list_environments',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -175,16 +185,21 @@ class DiscoveryV1(BaseService):
         headers['Accept'] = 'application/json'
 
         url = '/v1/environments'
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def get_environment(self, environment_id: str,
-                        **kwargs) -> DetailedResponse:
+    def get_environment(
+        self,
+        environment_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Get environment info.
 
@@ -197,9 +212,11 @@ class DiscoveryV1(BaseService):
         if not environment_id:
             raise ValueError('environment_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='get_environment')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='get_environment',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -215,21 +232,25 @@ class DiscoveryV1(BaseService):
         path_param_values = self.encode_path_vars(environment_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}'.format(**path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def update_environment(self,
-                           environment_id: str,
-                           *,
-                           name: str = None,
-                           description: str = None,
-                           size: str = None,
-                           **kwargs) -> DetailedResponse:
+    def update_environment(
+        self,
+        environment_id: str,
+        *,
+        name: Optional[str] = None,
+        description: Optional[str] = None,
+        size: Optional[str] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Update an environment.
 
@@ -249,9 +270,11 @@ class DiscoveryV1(BaseService):
         if not environment_id:
             raise ValueError('environment_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='update_environment')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='update_environment',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -276,17 +299,22 @@ class DiscoveryV1(BaseService):
         path_param_values = self.encode_path_vars(environment_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}'.format(**path_param_dict)
-        request = self.prepare_request(method='PUT',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       data=data)
+        request = self.prepare_request(
+            method='PUT',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def delete_environment(self, environment_id: str,
-                           **kwargs) -> DetailedResponse:
+    def delete_environment(
+        self,
+        environment_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Delete environment.
 
@@ -299,9 +327,11 @@ class DiscoveryV1(BaseService):
         if not environment_id:
             raise ValueError('environment_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='delete_environment')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='delete_environment',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -317,16 +347,22 @@ class DiscoveryV1(BaseService):
         path_param_values = self.encode_path_vars(environment_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}'.format(**path_param_dict)
-        request = self.prepare_request(method='DELETE',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def list_fields(self, environment_id: str, collection_ids: List[str],
-                    **kwargs) -> DetailedResponse:
+    def list_fields(
+        self,
+        environment_id: str,
+        collection_ids: List[str],
+        **kwargs,
+    ) -> DetailedResponse:
         """
         List fields across collections.
 
@@ -346,9 +382,11 @@ class DiscoveryV1(BaseService):
         if collection_ids is None:
             raise ValueError('collection_ids must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='list_fields')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='list_fields',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -366,10 +404,12 @@ class DiscoveryV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}/fields'.format(
             **path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
@@ -379,16 +419,17 @@ class DiscoveryV1(BaseService):
     #########################
 
     def create_configuration(
-            self,
-            environment_id: str,
-            name: str,
-            *,
-            description: str = None,
-            conversions: 'Conversions' = None,
-            enrichments: List['Enrichment'] = None,
-            normalizations: List['NormalizationOperation'] = None,
-            source: 'Source' = None,
-            **kwargs) -> DetailedResponse:
+        self,
+        environment_id: str,
+        name: str,
+        *,
+        description: Optional[str] = None,
+        conversions: Optional['Conversions'] = None,
+        enrichments: Optional[List['Enrichment']] = None,
+        normalizations: Optional[List['NormalizationOperation']] = None,
+        source: Optional['Source'] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Add configuration.
 
@@ -434,9 +475,11 @@ class DiscoveryV1(BaseService):
         if source is not None:
             source = convert_model(source)
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='create_configuration')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='create_configuration',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -465,20 +508,24 @@ class DiscoveryV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}/configurations'.format(
             **path_param_dict)
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       data=data)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def list_configurations(self,
-                            environment_id: str,
-                            *,
-                            name: str = None,
-                            **kwargs) -> DetailedResponse:
+    def list_configurations(
+        self,
+        environment_id: str,
+        *,
+        name: Optional[str] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         List configurations.
 
@@ -494,9 +541,11 @@ class DiscoveryV1(BaseService):
         if not environment_id:
             raise ValueError('environment_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='list_configurations')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='list_configurations',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -514,16 +563,22 @@ class DiscoveryV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}/configurations'.format(
             **path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def get_configuration(self, environment_id: str, configuration_id: str,
-                          **kwargs) -> DetailedResponse:
+    def get_configuration(
+        self,
+        environment_id: str,
+        configuration_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Get configuration details.
 
@@ -539,9 +594,11 @@ class DiscoveryV1(BaseService):
         if not configuration_id:
             raise ValueError('configuration_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='get_configuration')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='get_configuration',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -559,26 +616,29 @@ class DiscoveryV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}/configurations/{configuration_id}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
     def update_configuration(
-            self,
-            environment_id: str,
-            configuration_id: str,
-            name: str,
-            *,
-            description: str = None,
-            conversions: 'Conversions' = None,
-            enrichments: List['Enrichment'] = None,
-            normalizations: List['NormalizationOperation'] = None,
-            source: 'Source' = None,
-            **kwargs) -> DetailedResponse:
+        self,
+        environment_id: str,
+        configuration_id: str,
+        name: str,
+        *,
+        description: Optional[str] = None,
+        conversions: Optional['Conversions'] = None,
+        enrichments: Optional[List['Enrichment']] = None,
+        normalizations: Optional[List['NormalizationOperation']] = None,
+        source: Optional['Source'] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Update a configuration.
 
@@ -626,9 +686,11 @@ class DiscoveryV1(BaseService):
         if source is not None:
             source = convert_model(source)
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='update_configuration')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='update_configuration',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -658,17 +720,23 @@ class DiscoveryV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}/configurations/{configuration_id}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='PUT',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       data=data)
+        request = self.prepare_request(
+            method='PUT',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def delete_configuration(self, environment_id: str, configuration_id: str,
-                             **kwargs) -> DetailedResponse:
+    def delete_configuration(
+        self,
+        environment_id: str,
+        configuration_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Delete a configuration.
 
@@ -691,9 +759,11 @@ class DiscoveryV1(BaseService):
         if not configuration_id:
             raise ValueError('configuration_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='delete_configuration')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='delete_configuration',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -711,10 +781,12 @@ class DiscoveryV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}/configurations/{configuration_id}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='DELETE',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
@@ -723,14 +795,16 @@ class DiscoveryV1(BaseService):
     # Collections
     #########################
 
-    def create_collection(self,
-                          environment_id: str,
-                          name: str,
-                          *,
-                          description: str = None,
-                          configuration_id: str = None,
-                          language: str = None,
-                          **kwargs) -> DetailedResponse:
+    def create_collection(
+        self,
+        environment_id: str,
+        name: str,
+        *,
+        description: Optional[str] = None,
+        configuration_id: Optional[str] = None,
+        language: Optional[str] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Create a collection.
 
@@ -751,9 +825,11 @@ class DiscoveryV1(BaseService):
         if name is None:
             raise ValueError('name must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='create_collection')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='create_collection',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -780,20 +856,24 @@ class DiscoveryV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}/collections'.format(
             **path_param_dict)
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       data=data)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def list_collections(self,
-                         environment_id: str,
-                         *,
-                         name: str = None,
-                         **kwargs) -> DetailedResponse:
+    def list_collections(
+        self,
+        environment_id: str,
+        *,
+        name: Optional[str] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         List collections.
 
@@ -809,9 +889,11 @@ class DiscoveryV1(BaseService):
         if not environment_id:
             raise ValueError('environment_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='list_collections')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='list_collections',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -829,16 +911,22 @@ class DiscoveryV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}/collections'.format(
             **path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def get_collection(self, environment_id: str, collection_id: str,
-                       **kwargs) -> DetailedResponse:
+    def get_collection(
+        self,
+        environment_id: str,
+        collection_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Get collection details.
 
@@ -854,9 +942,11 @@ class DiscoveryV1(BaseService):
         if not collection_id:
             raise ValueError('collection_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='get_collection')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='get_collection',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -873,22 +963,26 @@ class DiscoveryV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}/collections/{collection_id}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def update_collection(self,
-                          environment_id: str,
-                          collection_id: str,
-                          name: str,
-                          *,
-                          description: str = None,
-                          configuration_id: str = None,
-                          **kwargs) -> DetailedResponse:
+    def update_collection(
+        self,
+        environment_id: str,
+        collection_id: str,
+        name: str,
+        *,
+        description: Optional[str] = None,
+        configuration_id: Optional[str] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Update a collection.
 
@@ -910,9 +1004,11 @@ class DiscoveryV1(BaseService):
         if name is None:
             raise ValueError('name must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='update_collection')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='update_collection',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -938,17 +1034,23 @@ class DiscoveryV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}/collections/{collection_id}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='PUT',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       data=data)
+        request = self.prepare_request(
+            method='PUT',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def delete_collection(self, environment_id: str, collection_id: str,
-                          **kwargs) -> DetailedResponse:
+    def delete_collection(
+        self,
+        environment_id: str,
+        collection_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Delete a collection.
 
@@ -964,9 +1066,11 @@ class DiscoveryV1(BaseService):
         if not collection_id:
             raise ValueError('collection_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='delete_collection')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='delete_collection',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -983,16 +1087,22 @@ class DiscoveryV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}/collections/{collection_id}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='DELETE',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def list_collection_fields(self, environment_id: str, collection_id: str,
-                               **kwargs) -> DetailedResponse:
+    def list_collection_fields(
+        self,
+        environment_id: str,
+        collection_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         List collection fields.
 
@@ -1010,9 +1120,11 @@ class DiscoveryV1(BaseService):
         if not collection_id:
             raise ValueError('collection_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='list_collection_fields')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='list_collection_fields',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -1029,10 +1141,12 @@ class DiscoveryV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}/collections/{collection_id}/fields'.format(
             **path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
@@ -1041,8 +1155,12 @@ class DiscoveryV1(BaseService):
     # Query modifications
     #########################
 
-    def list_expansions(self, environment_id: str, collection_id: str,
-                        **kwargs) -> DetailedResponse:
+    def list_expansions(
+        self,
+        environment_id: str,
+        collection_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Get the expansion list.
 
@@ -1061,9 +1179,11 @@ class DiscoveryV1(BaseService):
         if not collection_id:
             raise ValueError('collection_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='list_expansions')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='list_expansions',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -1080,17 +1200,23 @@ class DiscoveryV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}/collections/{collection_id}/expansions'.format(
             **path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def create_expansions(self, environment_id: str, collection_id: str,
-                          expansions: List['Expansion'],
-                          **kwargs) -> DetailedResponse:
+    def create_expansions(
+        self,
+        environment_id: str,
+        collection_id: str,
+        expansions: List['Expansion'],
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Create or update expansion list.
 
@@ -1126,9 +1252,11 @@ class DiscoveryV1(BaseService):
             raise ValueError('expansions must be provided')
         expansions = [convert_model(x) for x in expansions]
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='create_expansions')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='create_expansions',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -1152,17 +1280,23 @@ class DiscoveryV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}/collections/{collection_id}/expansions'.format(
             **path_param_dict)
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       data=data)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def delete_expansions(self, environment_id: str, collection_id: str,
-                          **kwargs) -> DetailedResponse:
+    def delete_expansions(
+        self,
+        environment_id: str,
+        collection_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Delete the expansion list.
 
@@ -1181,9 +1315,11 @@ class DiscoveryV1(BaseService):
         if not collection_id:
             raise ValueError('collection_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='delete_expansions')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='delete_expansions',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -1199,17 +1335,22 @@ class DiscoveryV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}/collections/{collection_id}/expansions'.format(
             **path_param_dict)
-        request = self.prepare_request(method='DELETE',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def get_tokenization_dictionary_status(self, environment_id: str,
-                                           collection_id: str,
-                                           **kwargs) -> DetailedResponse:
+    def get_tokenization_dictionary_status(
+        self,
+        environment_id: str,
+        collection_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Get tokenization dictionary status.
 
@@ -1231,7 +1372,8 @@ class DiscoveryV1(BaseService):
         sdk_headers = get_sdk_headers(
             service_name=self.DEFAULT_SERVICE_NAME,
             service_version='V1',
-            operation_id='get_tokenization_dictionary_status')
+            operation_id='get_tokenization_dictionary_status',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -1248,21 +1390,24 @@ class DiscoveryV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}/collections/{collection_id}/word_lists/tokenization_dictionary'.format(
             **path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
     def create_tokenization_dictionary(
-            self,
-            environment_id: str,
-            collection_id: str,
-            *,
-            tokenization_rules: List['TokenDictRule'] = None,
-            **kwargs) -> DetailedResponse:
+        self,
+        environment_id: str,
+        collection_id: str,
+        *,
+        tokenization_rules: Optional[List['TokenDictRule']] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Create tokenization dictionary.
 
@@ -1289,7 +1434,8 @@ class DiscoveryV1(BaseService):
         sdk_headers = get_sdk_headers(
             service_name=self.DEFAULT_SERVICE_NAME,
             service_version='V1',
-            operation_id='create_tokenization_dictionary')
+            operation_id='create_tokenization_dictionary',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -1313,18 +1459,23 @@ class DiscoveryV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}/collections/{collection_id}/word_lists/tokenization_dictionary'.format(
             **path_param_dict)
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       data=data)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def delete_tokenization_dictionary(self, environment_id: str,
-                                       collection_id: str,
-                                       **kwargs) -> DetailedResponse:
+    def delete_tokenization_dictionary(
+        self,
+        environment_id: str,
+        collection_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Delete tokenization dictionary.
 
@@ -1345,7 +1496,8 @@ class DiscoveryV1(BaseService):
         sdk_headers = get_sdk_headers(
             service_name=self.DEFAULT_SERVICE_NAME,
             service_version='V1',
-            operation_id='delete_tokenization_dictionary')
+            operation_id='delete_tokenization_dictionary',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -1361,16 +1513,22 @@ class DiscoveryV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}/collections/{collection_id}/word_lists/tokenization_dictionary'.format(
             **path_param_dict)
-        request = self.prepare_request(method='DELETE',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def get_stopword_list_status(self, environment_id: str, collection_id: str,
-                                 **kwargs) -> DetailedResponse:
+    def get_stopword_list_status(
+        self,
+        environment_id: str,
+        collection_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Get stopword list status.
 
@@ -1388,9 +1546,11 @@ class DiscoveryV1(BaseService):
         if not collection_id:
             raise ValueError('collection_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='get_stopword_list_status')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='get_stopword_list_status',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -1407,21 +1567,25 @@ class DiscoveryV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}/collections/{collection_id}/word_lists/stopwords'.format(
             **path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def create_stopword_list(self,
-                             environment_id: str,
-                             collection_id: str,
-                             stopword_file: BinaryIO,
-                             *,
-                             stopword_filename: str = None,
-                             **kwargs) -> DetailedResponse:
+    def create_stopword_list(
+        self,
+        environment_id: str,
+        collection_id: str,
+        stopword_file: BinaryIO,
+        *,
+        stopword_filename: Optional[str] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Create stopword list.
 
@@ -1443,9 +1607,11 @@ class DiscoveryV1(BaseService):
         if stopword_file is None:
             raise ValueError('stopword_file must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='create_stopword_list')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='create_stopword_list',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -1470,17 +1636,23 @@ class DiscoveryV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}/collections/{collection_id}/word_lists/stopwords'.format(
             **path_param_dict)
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       files=form_data)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            files=form_data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def delete_stopword_list(self, environment_id: str, collection_id: str,
-                             **kwargs) -> DetailedResponse:
+    def delete_stopword_list(
+        self,
+        environment_id: str,
+        collection_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Delete a custom stopword list.
 
@@ -1499,9 +1671,11 @@ class DiscoveryV1(BaseService):
         if not collection_id:
             raise ValueError('collection_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='delete_stopword_list')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='delete_stopword_list',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -1517,10 +1691,12 @@ class DiscoveryV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}/collections/{collection_id}/word_lists/stopwords'.format(
             **path_param_dict)
-        request = self.prepare_request(method='DELETE',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
@@ -1529,15 +1705,17 @@ class DiscoveryV1(BaseService):
     # Documents
     #########################
 
-    def add_document(self,
-                     environment_id: str,
-                     collection_id: str,
-                     *,
-                     file: BinaryIO = None,
-                     filename: str = None,
-                     file_content_type: str = None,
-                     metadata: str = None,
-                     **kwargs) -> DetailedResponse:
+    def add_document(
+        self,
+        environment_id: str,
+        collection_id: str,
+        *,
+        file: Optional[BinaryIO] = None,
+        filename: Optional[str] = None,
+        file_content_type: Optional[str] = None,
+        metadata: Optional[str] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Add a document.
 
@@ -1585,9 +1763,11 @@ class DiscoveryV1(BaseService):
         if not collection_id:
             raise ValueError('collection_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='add_document')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='add_document',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -1615,17 +1795,24 @@ class DiscoveryV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}/collections/{collection_id}/documents'.format(
             **path_param_dict)
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       files=form_data)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            files=form_data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def get_document_status(self, environment_id: str, collection_id: str,
-                            document_id: str, **kwargs) -> DetailedResponse:
+    def get_document_status(
+        self,
+        environment_id: str,
+        collection_id: str,
+        document_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Get document details.
 
@@ -1649,9 +1836,11 @@ class DiscoveryV1(BaseService):
         if not document_id:
             raise ValueError('document_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='get_document_status')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='get_document_status',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -1669,24 +1858,28 @@ class DiscoveryV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}/collections/{collection_id}/documents/{document_id}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def update_document(self,
-                        environment_id: str,
-                        collection_id: str,
-                        document_id: str,
-                        *,
-                        file: BinaryIO = None,
-                        filename: str = None,
-                        file_content_type: str = None,
-                        metadata: str = None,
-                        **kwargs) -> DetailedResponse:
+    def update_document(
+        self,
+        environment_id: str,
+        collection_id: str,
+        document_id: str,
+        *,
+        file: Optional[BinaryIO] = None,
+        filename: Optional[str] = None,
+        file_content_type: Optional[str] = None,
+        metadata: Optional[str] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Update a document.
 
@@ -1721,9 +1914,11 @@ class DiscoveryV1(BaseService):
         if not document_id:
             raise ValueError('document_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='update_document')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='update_document',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -1752,17 +1947,24 @@ class DiscoveryV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}/collections/{collection_id}/documents/{document_id}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       files=form_data)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            files=form_data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def delete_document(self, environment_id: str, collection_id: str,
-                        document_id: str, **kwargs) -> DetailedResponse:
+    def delete_document(
+        self,
+        environment_id: str,
+        collection_id: str,
+        document_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Delete a document.
 
@@ -1785,9 +1987,11 @@ class DiscoveryV1(BaseService):
         if not document_id:
             raise ValueError('document_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='delete_document')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='delete_document',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -1805,10 +2009,12 @@ class DiscoveryV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}/collections/{collection_id}/documents/{document_id}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='DELETE',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
@@ -1817,32 +2023,34 @@ class DiscoveryV1(BaseService):
     # Queries
     #########################
 
-    def query(self,
-              environment_id: str,
-              collection_id: str,
-              *,
-              filter: str = None,
-              query: str = None,
-              natural_language_query: str = None,
-              passages: bool = None,
-              aggregation: str = None,
-              count: int = None,
-              return_: str = None,
-              offset: int = None,
-              sort: str = None,
-              highlight: bool = None,
-              passages_fields: str = None,
-              passages_count: int = None,
-              passages_characters: int = None,
-              deduplicate: bool = None,
-              deduplicate_field: str = None,
-              similar: bool = None,
-              similar_document_ids: str = None,
-              similar_fields: str = None,
-              bias: str = None,
-              spelling_suggestions: bool = None,
-              x_watson_logging_opt_out: bool = None,
-              **kwargs) -> DetailedResponse:
+    def query(
+        self,
+        environment_id: str,
+        collection_id: str,
+        *,
+        filter: Optional[str] = None,
+        query: Optional[str] = None,
+        natural_language_query: Optional[str] = None,
+        passages: Optional[bool] = None,
+        aggregation: Optional[str] = None,
+        count: Optional[int] = None,
+        return_: Optional[str] = None,
+        offset: Optional[int] = None,
+        sort: Optional[str] = None,
+        highlight: Optional[bool] = None,
+        passages_fields: Optional[str] = None,
+        passages_count: Optional[int] = None,
+        passages_characters: Optional[int] = None,
+        deduplicate: Optional[bool] = None,
+        deduplicate_field: Optional[str] = None,
+        similar: Optional[bool] = None,
+        similar_document_ids: Optional[str] = None,
+        similar_fields: Optional[str] = None,
+        bias: Optional[str] = None,
+        spelling_suggestions: Optional[bool] = None,
+        x_watson_logging_opt_out: Optional[bool] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Query a collection.
 
@@ -1938,9 +2146,11 @@ class DiscoveryV1(BaseService):
         headers = {
             'X-Watson-Logging-Opt-Out': x_watson_logging_opt_out,
         }
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='query')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='query',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -1983,37 +2193,41 @@ class DiscoveryV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}/collections/{collection_id}/query'.format(
             **path_param_dict)
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       data=data)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def query_notices(self,
-                      environment_id: str,
-                      collection_id: str,
-                      *,
-                      filter: str = None,
-                      query: str = None,
-                      natural_language_query: str = None,
-                      passages: bool = None,
-                      aggregation: str = None,
-                      count: int = None,
-                      return_: List[str] = None,
-                      offset: int = None,
-                      sort: List[str] = None,
-                      highlight: bool = None,
-                      passages_fields: List[str] = None,
-                      passages_count: int = None,
-                      passages_characters: int = None,
-                      deduplicate_field: str = None,
-                      similar: bool = None,
-                      similar_document_ids: List[str] = None,
-                      similar_fields: List[str] = None,
-                      **kwargs) -> DetailedResponse:
+    def query_notices(
+        self,
+        environment_id: str,
+        collection_id: str,
+        *,
+        filter: Optional[str] = None,
+        query: Optional[str] = None,
+        natural_language_query: Optional[str] = None,
+        passages: Optional[bool] = None,
+        aggregation: Optional[str] = None,
+        count: Optional[int] = None,
+        return_: Optional[List[str]] = None,
+        offset: Optional[int] = None,
+        sort: Optional[List[str]] = None,
+        highlight: Optional[bool] = None,
+        passages_fields: Optional[List[str]] = None,
+        passages_count: Optional[int] = None,
+        passages_characters: Optional[int] = None,
+        deduplicate_field: Optional[str] = None,
+        similar: Optional[bool] = None,
+        similar_document_ids: Optional[List[str]] = None,
+        similar_fields: Optional[List[str]] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Query system notices.
 
@@ -2089,9 +2303,11 @@ class DiscoveryV1(BaseService):
         if not collection_id:
             raise ValueError('collection_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='query_notices')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='query_notices',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -2125,39 +2341,43 @@ class DiscoveryV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}/collections/{collection_id}/notices'.format(
             **path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def federated_query(self,
-                        environment_id: str,
-                        collection_ids: str,
-                        *,
-                        filter: str = None,
-                        query: str = None,
-                        natural_language_query: str = None,
-                        passages: bool = None,
-                        aggregation: str = None,
-                        count: int = None,
-                        return_: str = None,
-                        offset: int = None,
-                        sort: str = None,
-                        highlight: bool = None,
-                        passages_fields: str = None,
-                        passages_count: int = None,
-                        passages_characters: int = None,
-                        deduplicate: bool = None,
-                        deduplicate_field: str = None,
-                        similar: bool = None,
-                        similar_document_ids: str = None,
-                        similar_fields: str = None,
-                        bias: str = None,
-                        x_watson_logging_opt_out: bool = None,
-                        **kwargs) -> DetailedResponse:
+    def federated_query(
+        self,
+        environment_id: str,
+        collection_ids: str,
+        *,
+        filter: Optional[str] = None,
+        query: Optional[str] = None,
+        natural_language_query: Optional[str] = None,
+        passages: Optional[bool] = None,
+        aggregation: Optional[str] = None,
+        count: Optional[int] = None,
+        return_: Optional[str] = None,
+        offset: Optional[int] = None,
+        sort: Optional[str] = None,
+        highlight: Optional[bool] = None,
+        passages_fields: Optional[str] = None,
+        passages_count: Optional[int] = None,
+        passages_characters: Optional[int] = None,
+        deduplicate: Optional[bool] = None,
+        deduplicate_field: Optional[str] = None,
+        similar: Optional[bool] = None,
+        similar_document_ids: Optional[str] = None,
+        similar_fields: Optional[str] = None,
+        bias: Optional[str] = None,
+        x_watson_logging_opt_out: Optional[bool] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Query multiple collections.
 
@@ -2248,9 +2468,11 @@ class DiscoveryV1(BaseService):
         headers = {
             'X-Watson-Logging-Opt-Out': x_watson_logging_opt_out,
         }
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='federated_query')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='federated_query',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -2293,33 +2515,37 @@ class DiscoveryV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}/query'.format(
             **path_param_dict)
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       data=data)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def federated_query_notices(self,
-                                environment_id: str,
-                                collection_ids: List[str],
-                                *,
-                                filter: str = None,
-                                query: str = None,
-                                natural_language_query: str = None,
-                                aggregation: str = None,
-                                count: int = None,
-                                return_: List[str] = None,
-                                offset: int = None,
-                                sort: List[str] = None,
-                                highlight: bool = None,
-                                deduplicate_field: str = None,
-                                similar: bool = None,
-                                similar_document_ids: List[str] = None,
-                                similar_fields: List[str] = None,
-                                **kwargs) -> DetailedResponse:
+    def federated_query_notices(
+        self,
+        environment_id: str,
+        collection_ids: List[str],
+        *,
+        filter: Optional[str] = None,
+        query: Optional[str] = None,
+        natural_language_query: Optional[str] = None,
+        aggregation: Optional[str] = None,
+        count: Optional[int] = None,
+        return_: Optional[List[str]] = None,
+        offset: Optional[int] = None,
+        sort: Optional[List[str]] = None,
+        highlight: Optional[bool] = None,
+        deduplicate_field: Optional[str] = None,
+        similar: Optional[bool] = None,
+        similar_document_ids: Optional[List[str]] = None,
+        similar_fields: Optional[List[str]] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Query multiple collection system notices.
 
@@ -2386,9 +2612,11 @@ class DiscoveryV1(BaseService):
         if collection_ids is None:
             raise ValueError('collection_ids must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='federated_query_notices')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='federated_query_notices',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -2419,22 +2647,26 @@ class DiscoveryV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}/notices'.format(
             **path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def get_autocompletion(self,
-                           environment_id: str,
-                           collection_id: str,
-                           prefix: str,
-                           *,
-                           field: str = None,
-                           count: int = None,
-                           **kwargs) -> DetailedResponse:
+    def get_autocompletion(
+        self,
+        environment_id: str,
+        collection_id: str,
+        prefix: str,
+        *,
+        field: Optional[str] = None,
+        count: Optional[int] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Get Autocomplete Suggestions.
 
@@ -2462,9 +2694,11 @@ class DiscoveryV1(BaseService):
         if not prefix:
             raise ValueError('prefix must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='get_autocompletion')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='get_autocompletion',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -2484,10 +2718,12 @@ class DiscoveryV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}/collections/{collection_id}/autocompletion'.format(
             **path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
@@ -2496,8 +2732,12 @@ class DiscoveryV1(BaseService):
     # Training data
     #########################
 
-    def list_training_data(self, environment_id: str, collection_id: str,
-                           **kwargs) -> DetailedResponse:
+    def list_training_data(
+        self,
+        environment_id: str,
+        collection_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         List training data.
 
@@ -2515,9 +2755,11 @@ class DiscoveryV1(BaseService):
         if not collection_id:
             raise ValueError('collection_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='list_training_data')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='list_training_data',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -2534,22 +2776,26 @@ class DiscoveryV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}/collections/{collection_id}/training_data'.format(
             **path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def add_training_data(self,
-                          environment_id: str,
-                          collection_id: str,
-                          *,
-                          natural_language_query: str = None,
-                          filter: str = None,
-                          examples: List['TrainingExample'] = None,
-                          **kwargs) -> DetailedResponse:
+    def add_training_data(
+        self,
+        environment_id: str,
+        collection_id: str,
+        *,
+        natural_language_query: Optional[str] = None,
+        filter: Optional[str] = None,
+        examples: Optional[List['TrainingExample']] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Add query to training data.
 
@@ -2576,9 +2822,11 @@ class DiscoveryV1(BaseService):
         if examples is not None:
             examples = [convert_model(x) for x in examples]
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='add_training_data')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='add_training_data',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -2604,17 +2852,23 @@ class DiscoveryV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}/collections/{collection_id}/training_data'.format(
             **path_param_dict)
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       data=data)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def delete_all_training_data(self, environment_id: str, collection_id: str,
-                                 **kwargs) -> DetailedResponse:
+    def delete_all_training_data(
+        self,
+        environment_id: str,
+        collection_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Delete all training data.
 
@@ -2632,9 +2886,11 @@ class DiscoveryV1(BaseService):
         if not collection_id:
             raise ValueError('collection_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='delete_all_training_data')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='delete_all_training_data',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -2650,16 +2906,23 @@ class DiscoveryV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}/collections/{collection_id}/training_data'.format(
             **path_param_dict)
-        request = self.prepare_request(method='DELETE',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def get_training_data(self, environment_id: str, collection_id: str,
-                          query_id: str, **kwargs) -> DetailedResponse:
+    def get_training_data(
+        self,
+        environment_id: str,
+        collection_id: str,
+        query_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Get details about a query.
 
@@ -2681,9 +2944,11 @@ class DiscoveryV1(BaseService):
         if not query_id:
             raise ValueError('query_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='get_training_data')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='get_training_data',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -2701,16 +2966,23 @@ class DiscoveryV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}/collections/{collection_id}/training_data/{query_id}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def delete_training_data(self, environment_id: str, collection_id: str,
-                             query_id: str, **kwargs) -> DetailedResponse:
+    def delete_training_data(
+        self,
+        environment_id: str,
+        collection_id: str,
+        query_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Delete a training data query.
 
@@ -2732,9 +3004,11 @@ class DiscoveryV1(BaseService):
         if not query_id:
             raise ValueError('query_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='delete_training_data')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='delete_training_data',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -2751,16 +3025,23 @@ class DiscoveryV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}/collections/{collection_id}/training_data/{query_id}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='DELETE',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def list_training_examples(self, environment_id: str, collection_id: str,
-                               query_id: str, **kwargs) -> DetailedResponse:
+    def list_training_examples(
+        self,
+        environment_id: str,
+        collection_id: str,
+        query_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         List examples for a training data query.
 
@@ -2781,9 +3062,11 @@ class DiscoveryV1(BaseService):
         if not query_id:
             raise ValueError('query_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='list_training_examples')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='list_training_examples',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -2801,23 +3084,27 @@ class DiscoveryV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}/collections/{collection_id}/training_data/{query_id}/examples'.format(
             **path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def create_training_example(self,
-                                environment_id: str,
-                                collection_id: str,
-                                query_id: str,
-                                *,
-                                document_id: str = None,
-                                cross_reference: str = None,
-                                relevance: int = None,
-                                **kwargs) -> DetailedResponse:
+    def create_training_example(
+        self,
+        environment_id: str,
+        collection_id: str,
+        query_id: str,
+        *,
+        document_id: Optional[str] = None,
+        cross_reference: Optional[str] = None,
+        relevance: Optional[int] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Add example to training data query.
 
@@ -2843,9 +3130,11 @@ class DiscoveryV1(BaseService):
         if not query_id:
             raise ValueError('query_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='create_training_example')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='create_training_example',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -2872,18 +3161,25 @@ class DiscoveryV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}/collections/{collection_id}/training_data/{query_id}/examples'.format(
             **path_param_dict)
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       data=data)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def delete_training_example(self, environment_id: str, collection_id: str,
-                                query_id: str, example_id: str,
-                                **kwargs) -> DetailedResponse:
+    def delete_training_example(
+        self,
+        environment_id: str,
+        collection_id: str,
+        query_id: str,
+        example_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Delete example for training data query.
 
@@ -2907,9 +3203,11 @@ class DiscoveryV1(BaseService):
         if not example_id:
             raise ValueError('example_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='delete_training_example')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='delete_training_example',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -2928,23 +3226,27 @@ class DiscoveryV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}/collections/{collection_id}/training_data/{query_id}/examples/{example_id}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='DELETE',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def update_training_example(self,
-                                environment_id: str,
-                                collection_id: str,
-                                query_id: str,
-                                example_id: str,
-                                *,
-                                cross_reference: str = None,
-                                relevance: int = None,
-                                **kwargs) -> DetailedResponse:
+    def update_training_example(
+        self,
+        environment_id: str,
+        collection_id: str,
+        query_id: str,
+        example_id: str,
+        *,
+        cross_reference: Optional[str] = None,
+        relevance: Optional[int] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Change label or cross reference for example.
 
@@ -2970,9 +3272,11 @@ class DiscoveryV1(BaseService):
         if not example_id:
             raise ValueError('example_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='update_training_example')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='update_training_example',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -3000,18 +3304,25 @@ class DiscoveryV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}/collections/{collection_id}/training_data/{query_id}/examples/{example_id}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='PUT',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       data=data)
+        request = self.prepare_request(
+            method='PUT',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def get_training_example(self, environment_id: str, collection_id: str,
-                             query_id: str, example_id: str,
-                             **kwargs) -> DetailedResponse:
+    def get_training_example(
+        self,
+        environment_id: str,
+        collection_id: str,
+        query_id: str,
+        example_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Get details for training data example.
 
@@ -3035,9 +3346,11 @@ class DiscoveryV1(BaseService):
         if not example_id:
             raise ValueError('example_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='get_training_example')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='get_training_example',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -3057,10 +3370,12 @@ class DiscoveryV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}/collections/{collection_id}/training_data/{query_id}/examples/{example_id}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
@@ -3069,7 +3384,11 @@ class DiscoveryV1(BaseService):
     # User data
     #########################
 
-    def delete_user_data(self, customer_id: str, **kwargs) -> DetailedResponse:
+    def delete_user_data(
+        self,
+        customer_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Delete labeled data.
 
@@ -3090,9 +3409,11 @@ class DiscoveryV1(BaseService):
         if not customer_id:
             raise ValueError('customer_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='delete_user_data')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='delete_user_data',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -3105,10 +3426,12 @@ class DiscoveryV1(BaseService):
             del kwargs['headers']
 
         url = '/v1/user_data'
-        request = self.prepare_request(method='DELETE',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
@@ -3117,8 +3440,12 @@ class DiscoveryV1(BaseService):
     # Events and feedback
     #########################
 
-    def create_event(self, type: str, data: 'EventData',
-                     **kwargs) -> DetailedResponse:
+    def create_event(
+        self,
+        type: str,
+        data: 'EventData',
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Create event.
 
@@ -3139,9 +3466,11 @@ class DiscoveryV1(BaseService):
             raise ValueError('data must be provided')
         data = convert_model(data)
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='create_event')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='create_event',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -3162,23 +3491,27 @@ class DiscoveryV1(BaseService):
         headers['Accept'] = 'application/json'
 
         url = '/v1/events'
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       data=data)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def query_log(self,
-                  *,
-                  filter: str = None,
-                  query: str = None,
-                  count: int = None,
-                  offset: int = None,
-                  sort: List[str] = None,
-                  **kwargs) -> DetailedResponse:
+    def query_log(
+        self,
+        *,
+        filter: Optional[str] = None,
+        query: Optional[str] = None,
+        count: Optional[int] = None,
+        offset: Optional[int] = None,
+        sort: Optional[List[str]] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Search the query and event log.
 
@@ -3208,9 +3541,11 @@ class DiscoveryV1(BaseService):
         """
 
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='query_log')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='query_log',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -3228,20 +3563,24 @@ class DiscoveryV1(BaseService):
         headers['Accept'] = 'application/json'
 
         url = '/v1/logs'
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def get_metrics_query(self,
-                          *,
-                          start_time: datetime = None,
-                          end_time: datetime = None,
-                          result_type: str = None,
-                          **kwargs) -> DetailedResponse:
+    def get_metrics_query(
+        self,
+        *,
+        start_time: Optional[datetime] = None,
+        end_time: Optional[datetime] = None,
+        result_type: Optional[str] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Number of queries over time.
 
@@ -3260,9 +3599,11 @@ class DiscoveryV1(BaseService):
         """
 
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='get_metrics_query')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='get_metrics_query',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -3278,20 +3619,24 @@ class DiscoveryV1(BaseService):
         headers['Accept'] = 'application/json'
 
         url = '/v1/metrics/number_of_queries'
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def get_metrics_query_event(self,
-                                *,
-                                start_time: datetime = None,
-                                end_time: datetime = None,
-                                result_type: str = None,
-                                **kwargs) -> DetailedResponse:
+    def get_metrics_query_event(
+        self,
+        *,
+        start_time: Optional[datetime] = None,
+        end_time: Optional[datetime] = None,
+        result_type: Optional[str] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Number of queries with an event over time.
 
@@ -3311,9 +3656,11 @@ class DiscoveryV1(BaseService):
         """
 
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='get_metrics_query_event')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='get_metrics_query_event',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -3329,20 +3676,24 @@ class DiscoveryV1(BaseService):
         headers['Accept'] = 'application/json'
 
         url = '/v1/metrics/number_of_queries_with_event'
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def get_metrics_query_no_results(self,
-                                     *,
-                                     start_time: datetime = None,
-                                     end_time: datetime = None,
-                                     result_type: str = None,
-                                     **kwargs) -> DetailedResponse:
+    def get_metrics_query_no_results(
+        self,
+        *,
+        start_time: Optional[datetime] = None,
+        end_time: Optional[datetime] = None,
+        result_type: Optional[str] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Number of queries with no search results over time.
 
@@ -3364,7 +3715,8 @@ class DiscoveryV1(BaseService):
         sdk_headers = get_sdk_headers(
             service_name=self.DEFAULT_SERVICE_NAME,
             service_version='V1',
-            operation_id='get_metrics_query_no_results')
+            operation_id='get_metrics_query_no_results',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -3380,20 +3732,24 @@ class DiscoveryV1(BaseService):
         headers['Accept'] = 'application/json'
 
         url = '/v1/metrics/number_of_queries_with_no_search_results'
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def get_metrics_event_rate(self,
-                               *,
-                               start_time: datetime = None,
-                               end_time: datetime = None,
-                               result_type: str = None,
-                               **kwargs) -> DetailedResponse:
+    def get_metrics_event_rate(
+        self,
+        *,
+        start_time: Optional[datetime] = None,
+        end_time: Optional[datetime] = None,
+        result_type: Optional[str] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Percentage of queries with an associated event.
 
@@ -3413,9 +3769,11 @@ class DiscoveryV1(BaseService):
         """
 
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='get_metrics_event_rate')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='get_metrics_event_rate',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -3431,18 +3789,22 @@ class DiscoveryV1(BaseService):
         headers['Accept'] = 'application/json'
 
         url = '/v1/metrics/event_rate'
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def get_metrics_query_token_event(self,
-                                      *,
-                                      count: int = None,
-                                      **kwargs) -> DetailedResponse:
+    def get_metrics_query_token_event(
+        self,
+        *,
+        count: Optional[int] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Most frequent query tokens with an event.
 
@@ -3462,7 +3824,8 @@ class DiscoveryV1(BaseService):
         sdk_headers = get_sdk_headers(
             service_name=self.DEFAULT_SERVICE_NAME,
             service_version='V1',
-            operation_id='get_metrics_query_token_event')
+            operation_id='get_metrics_query_token_event',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -3476,10 +3839,12 @@ class DiscoveryV1(BaseService):
         headers['Accept'] = 'application/json'
 
         url = '/v1/metrics/top_query_tokens_with_event_rate'
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
@@ -3488,8 +3853,11 @@ class DiscoveryV1(BaseService):
     # Credentials
     #########################
 
-    def list_credentials(self, environment_id: str,
-                         **kwargs) -> DetailedResponse:
+    def list_credentials(
+        self,
+        environment_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         List credentials.
 
@@ -3506,9 +3874,11 @@ class DiscoveryV1(BaseService):
         if not environment_id:
             raise ValueError('environment_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='list_credentials')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='list_credentials',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -3525,21 +3895,25 @@ class DiscoveryV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}/credentials'.format(
             **path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def create_credentials(self,
-                           environment_id: str,
-                           *,
-                           source_type: str = None,
-                           credential_details: 'CredentialDetails' = None,
-                           status: 'StatusDetails' = None,
-                           **kwargs) -> DetailedResponse:
+    def create_credentials(
+        self,
+        environment_id: str,
+        *,
+        source_type: Optional[str] = None,
+        credential_details: Optional['CredentialDetails'] = None,
+        status: Optional['StatusDetails'] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Create credentials.
 
@@ -3577,9 +3951,11 @@ class DiscoveryV1(BaseService):
         if status is not None:
             status = convert_model(status)
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='create_credentials')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='create_credentials',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -3605,17 +3981,23 @@ class DiscoveryV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}/credentials'.format(
             **path_param_dict)
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       data=data)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def get_credentials(self, environment_id: str, credential_id: str,
-                        **kwargs) -> DetailedResponse:
+    def get_credentials(
+        self,
+        environment_id: str,
+        credential_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         View Credentials.
 
@@ -3636,9 +4018,11 @@ class DiscoveryV1(BaseService):
         if not credential_id:
             raise ValueError('credential_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='get_credentials')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='get_credentials',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -3655,22 +4039,26 @@ class DiscoveryV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}/credentials/{credential_id}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def update_credentials(self,
-                           environment_id: str,
-                           credential_id: str,
-                           *,
-                           source_type: str = None,
-                           credential_details: 'CredentialDetails' = None,
-                           status: 'StatusDetails' = None,
-                           **kwargs) -> DetailedResponse:
+    def update_credentials(
+        self,
+        environment_id: str,
+        credential_id: str,
+        *,
+        source_type: Optional[str] = None,
+        credential_details: Optional['CredentialDetails'] = None,
+        status: Optional['StatusDetails'] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Update credentials.
 
@@ -3711,9 +4099,11 @@ class DiscoveryV1(BaseService):
         if status is not None:
             status = convert_model(status)
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='update_credentials')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='update_credentials',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -3739,17 +4129,23 @@ class DiscoveryV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}/credentials/{credential_id}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='PUT',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       data=data)
+        request = self.prepare_request(
+            method='PUT',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def delete_credentials(self, environment_id: str, credential_id: str,
-                           **kwargs) -> DetailedResponse:
+    def delete_credentials(
+        self,
+        environment_id: str,
+        credential_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Delete credentials.
 
@@ -3768,9 +4164,11 @@ class DiscoveryV1(BaseService):
         if not credential_id:
             raise ValueError('credential_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='delete_credentials')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='delete_credentials',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -3787,10 +4185,12 @@ class DiscoveryV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}/credentials/{credential_id}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='DELETE',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
@@ -3799,7 +4199,11 @@ class DiscoveryV1(BaseService):
     # gatewayConfiguration
     #########################
 
-    def list_gateways(self, environment_id: str, **kwargs) -> DetailedResponse:
+    def list_gateways(
+        self,
+        environment_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         List Gateways.
 
@@ -3814,9 +4218,11 @@ class DiscoveryV1(BaseService):
         if not environment_id:
             raise ValueError('environment_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='list_gateways')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='list_gateways',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -3833,19 +4239,23 @@ class DiscoveryV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}/gateways'.format(
             **path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def create_gateway(self,
-                       environment_id: str,
-                       *,
-                       name: str = None,
-                       **kwargs) -> DetailedResponse:
+    def create_gateway(
+        self,
+        environment_id: str,
+        *,
+        name: Optional[str] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Create Gateway.
 
@@ -3861,9 +4271,11 @@ class DiscoveryV1(BaseService):
         if not environment_id:
             raise ValueError('environment_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='create_gateway')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='create_gateway',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -3887,17 +4299,23 @@ class DiscoveryV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}/gateways'.format(
             **path_param_dict)
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       data=data)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def get_gateway(self, environment_id: str, gateway_id: str,
-                    **kwargs) -> DetailedResponse:
+    def get_gateway(
+        self,
+        environment_id: str,
+        gateway_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         List Gateway Details.
 
@@ -3915,9 +4333,11 @@ class DiscoveryV1(BaseService):
         if not gateway_id:
             raise ValueError('gateway_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='get_gateway')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='get_gateway',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -3934,16 +4354,22 @@ class DiscoveryV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}/gateways/{gateway_id}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def delete_gateway(self, environment_id: str, gateway_id: str,
-                       **kwargs) -> DetailedResponse:
+    def delete_gateway(
+        self,
+        environment_id: str,
+        gateway_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Delete Gateway.
 
@@ -3961,9 +4387,11 @@ class DiscoveryV1(BaseService):
         if not gateway_id:
             raise ValueError('gateway_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='delete_gateway')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='delete_gateway',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -3980,10 +4408,12 @@ class DiscoveryV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/environments/{environment_id}/gateways/{gateway_id}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='DELETE',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
@@ -3998,6 +4428,7 @@ class AddDocumentEnums:
         """
         The content type of file.
         """
+
         APPLICATION_JSON = 'application/json'
         APPLICATION_MSWORD = 'application/msword'
         APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_WORDPROCESSINGML_DOCUMENT = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
@@ -4015,6 +4446,7 @@ class UpdateDocumentEnums:
         """
         The content type of file.
         """
+
         APPLICATION_JSON = 'application/json'
         APPLICATION_MSWORD = 'application/msword'
         APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_WORDPROCESSINGML_DOCUMENT = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
@@ -4032,6 +4464,7 @@ class GetMetricsQueryEnums:
         """
         The type of result to consider when calculating the metric.
         """
+
         DOCUMENT = 'document'
 
 
@@ -4044,6 +4477,7 @@ class GetMetricsQueryEventEnums:
         """
         The type of result to consider when calculating the metric.
         """
+
         DOCUMENT = 'document'
 
 
@@ -4056,6 +4490,7 @@ class GetMetricsQueryNoResultsEnums:
         """
         The type of result to consider when calculating the metric.
         """
+
         DOCUMENT = 'document'
 
 
@@ -4068,6 +4503,7 @@ class GetMetricsEventRateEnums:
         """
         The type of result to consider when calculating the metric.
         """
+
         DOCUMENT = 'document'
 
 
@@ -4076,49 +4512,51 @@ class GetMetricsEventRateEnums:
 ##############################################################################
 
 
-class Collection():
+class Collection:
     """
     A collection for storing documents.
 
-    :attr str collection_id: (optional) The unique identifier of the collection.
-    :attr str name: (optional) The name of the collection.
-    :attr str description: (optional) The description of the collection.
-    :attr datetime created: (optional) The creation date of the collection in the
+    :param str collection_id: (optional) The unique identifier of the collection.
+    :param str name: (optional) The name of the collection.
+    :param str description: (optional) The description of the collection.
+    :param datetime created: (optional) The creation date of the collection in the
           format yyyy-MM-dd'T'HH:mmcon:ss.SSS'Z'.
-    :attr datetime updated: (optional) The timestamp of when the collection was last
-          updated in the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
-    :attr str status: (optional) The status of the collection.
-    :attr str configuration_id: (optional) The unique identifier of the collection's
-          configuration.
-    :attr str language: (optional) The language of the documents stored in the
+    :param datetime updated: (optional) The timestamp of when the collection was
+          last updated in the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
+    :param str status: (optional) The status of the collection.
+    :param str configuration_id: (optional) The unique identifier of the
+          collection's configuration.
+    :param str language: (optional) The language of the documents stored in the
           collection. Permitted values include `en` (English), `de` (German), and `es`
           (Spanish).
-    :attr DocumentCounts document_counts: (optional) Object containing collection
+    :param DocumentCounts document_counts: (optional) Object containing collection
           document count information.
-    :attr CollectionDiskUsage disk_usage: (optional) Summary of the disk usage
+    :param CollectionDiskUsage disk_usage: (optional) Summary of the disk usage
           statistics for this collection.
-    :attr TrainingStatus training_status: (optional) Training status details.
-    :attr CollectionCrawlStatus crawl_status: (optional) Object containing
+    :param TrainingStatus training_status: (optional) Training status details.
+    :param CollectionCrawlStatus crawl_status: (optional) Object containing
           information about the crawl status of this collection.
-    :attr SduStatus smart_document_understanding: (optional) Object containing smart
-          document understanding information for this collection.
+    :param SduStatus smart_document_understanding: (optional) Object containing
+          smart document understanding information for this collection.
     """
 
-    def __init__(self,
-                 *,
-                 collection_id: str = None,
-                 name: str = None,
-                 description: str = None,
-                 created: datetime = None,
-                 updated: datetime = None,
-                 status: str = None,
-                 configuration_id: str = None,
-                 language: str = None,
-                 document_counts: 'DocumentCounts' = None,
-                 disk_usage: 'CollectionDiskUsage' = None,
-                 training_status: 'TrainingStatus' = None,
-                 crawl_status: 'CollectionCrawlStatus' = None,
-                 smart_document_understanding: 'SduStatus' = None) -> None:
+    def __init__(
+        self,
+        *,
+        collection_id: Optional[str] = None,
+        name: Optional[str] = None,
+        description: Optional[str] = None,
+        created: Optional[datetime] = None,
+        updated: Optional[datetime] = None,
+        status: Optional[str] = None,
+        configuration_id: Optional[str] = None,
+        language: Optional[str] = None,
+        document_counts: Optional['DocumentCounts'] = None,
+        disk_usage: Optional['CollectionDiskUsage'] = None,
+        training_status: Optional['TrainingStatus'] = None,
+        crawl_status: Optional['CollectionCrawlStatus'] = None,
+        smart_document_understanding: Optional['SduStatus'] = None,
+    ) -> None:
         """
         Initialize a Collection object.
 
@@ -4157,37 +4595,34 @@ class Collection():
     def from_dict(cls, _dict: Dict) -> 'Collection':
         """Initialize a Collection object from a json dictionary."""
         args = {}
-        if 'collection_id' in _dict:
-            args['collection_id'] = _dict.get('collection_id')
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
-        if 'description' in _dict:
-            args['description'] = _dict.get('description')
-        if 'created' in _dict:
-            args['created'] = string_to_datetime(_dict.get('created'))
-        if 'updated' in _dict:
-            args['updated'] = string_to_datetime(_dict.get('updated'))
-        if 'status' in _dict:
-            args['status'] = _dict.get('status')
-        if 'configuration_id' in _dict:
-            args['configuration_id'] = _dict.get('configuration_id')
-        if 'language' in _dict:
-            args['language'] = _dict.get('language')
-        if 'document_counts' in _dict:
-            args['document_counts'] = DocumentCounts.from_dict(
-                _dict.get('document_counts'))
-        if 'disk_usage' in _dict:
-            args['disk_usage'] = CollectionDiskUsage.from_dict(
-                _dict.get('disk_usage'))
-        if 'training_status' in _dict:
-            args['training_status'] = TrainingStatus.from_dict(
-                _dict.get('training_status'))
-        if 'crawl_status' in _dict:
-            args['crawl_status'] = CollectionCrawlStatus.from_dict(
-                _dict.get('crawl_status'))
-        if 'smart_document_understanding' in _dict:
+        if (collection_id := _dict.get('collection_id')) is not None:
+            args['collection_id'] = collection_id
+        if (name := _dict.get('name')) is not None:
+            args['name'] = name
+        if (description := _dict.get('description')) is not None:
+            args['description'] = description
+        if (created := _dict.get('created')) is not None:
+            args['created'] = string_to_datetime(created)
+        if (updated := _dict.get('updated')) is not None:
+            args['updated'] = string_to_datetime(updated)
+        if (status := _dict.get('status')) is not None:
+            args['status'] = status
+        if (configuration_id := _dict.get('configuration_id')) is not None:
+            args['configuration_id'] = configuration_id
+        if (language := _dict.get('language')) is not None:
+            args['language'] = language
+        if (document_counts := _dict.get('document_counts')) is not None:
+            args['document_counts'] = DocumentCounts.from_dict(document_counts)
+        if (disk_usage := _dict.get('disk_usage')) is not None:
+            args['disk_usage'] = CollectionDiskUsage.from_dict(disk_usage)
+        if (training_status := _dict.get('training_status')) is not None:
+            args['training_status'] = TrainingStatus.from_dict(training_status)
+        if (crawl_status := _dict.get('crawl_status')) is not None:
+            args['crawl_status'] = CollectionCrawlStatus.from_dict(crawl_status)
+        if (smart_document_understanding :=
+                _dict.get('smart_document_understanding')) is not None:
             args['smart_document_understanding'] = SduStatus.from_dict(
-                _dict.get('smart_document_understanding'))
+                smart_document_understanding)
         return cls(**args)
 
     @classmethod
@@ -4271,20 +4706,25 @@ class Collection():
         """
         The status of the collection.
         """
+
         ACTIVE = 'active'
         PENDING = 'pending'
         MAINTENANCE = 'maintenance'
 
 
-class CollectionCrawlStatus():
+class CollectionCrawlStatus:
     """
     Object containing information about the crawl status of this collection.
 
-    :attr SourceStatus source_crawl: (optional) Object containing source crawl
+    :param SourceStatus source_crawl: (optional) Object containing source crawl
           status information.
     """
 
-    def __init__(self, *, source_crawl: 'SourceStatus' = None) -> None:
+    def __init__(
+        self,
+        *,
+        source_crawl: Optional['SourceStatus'] = None,
+    ) -> None:
         """
         Initialize a CollectionCrawlStatus object.
 
@@ -4297,9 +4737,8 @@ class CollectionCrawlStatus():
     def from_dict(cls, _dict: Dict) -> 'CollectionCrawlStatus':
         """Initialize a CollectionCrawlStatus object from a json dictionary."""
         args = {}
-        if 'source_crawl' in _dict:
-            args['source_crawl'] = SourceStatus.from_dict(
-                _dict.get('source_crawl'))
+        if (source_crawl := _dict.get('source_crawl')) is not None:
+            args['source_crawl'] = SourceStatus.from_dict(source_crawl)
         return cls(**args)
 
     @classmethod
@@ -4336,14 +4775,18 @@ class CollectionCrawlStatus():
         return not self == other
 
 
-class CollectionDiskUsage():
+class CollectionDiskUsage:
     """
     Summary of the disk usage statistics for this collection.
 
-    :attr int used_bytes: (optional) Number of bytes used by the collection.
+    :param int used_bytes: (optional) Number of bytes used by the collection.
     """
 
-    def __init__(self, *, used_bytes: int = None) -> None:
+    def __init__(
+        self,
+        *,
+        used_bytes: Optional[int] = None,
+    ) -> None:
         """
         Initialize a CollectionDiskUsage object.
 
@@ -4354,8 +4797,8 @@ class CollectionDiskUsage():
     def from_dict(cls, _dict: Dict) -> 'CollectionDiskUsage':
         """Initialize a CollectionDiskUsage object from a json dictionary."""
         args = {}
-        if 'used_bytes' in _dict:
-            args['used_bytes'] = _dict.get('used_bytes')
+        if (used_bytes := _dict.get('used_bytes')) is not None:
+            args['used_bytes'] = used_bytes
         return cls(**args)
 
     @classmethod
@@ -4390,19 +4833,22 @@ class CollectionDiskUsage():
         return not self == other
 
 
-class CollectionUsage():
+class CollectionUsage:
     """
     Summary of the collection usage in the environment.
 
-    :attr int available: (optional) Number of active collections in the environment.
-    :attr int maximum_allowed: (optional) Total number of collections allowed in the
+    :param int available: (optional) Number of active collections in the
           environment.
+    :param int maximum_allowed: (optional) Total number of collections allowed in
+          the environment.
     """
 
-    def __init__(self,
-                 *,
-                 available: int = None,
-                 maximum_allowed: int = None) -> None:
+    def __init__(
+        self,
+        *,
+        available: Optional[int] = None,
+        maximum_allowed: Optional[int] = None,
+    ) -> None:
         """
         Initialize a CollectionUsage object.
 
@@ -4414,10 +4860,10 @@ class CollectionUsage():
     def from_dict(cls, _dict: Dict) -> 'CollectionUsage':
         """Initialize a CollectionUsage object from a json dictionary."""
         args = {}
-        if 'available' in _dict:
-            args['available'] = _dict.get('available')
-        if 'maximum_allowed' in _dict:
-            args['maximum_allowed'] = _dict.get('maximum_allowed')
+        if (available := _dict.get('available')) is not None:
+            args['available'] = available
+        if (maximum_allowed := _dict.get('maximum_allowed')) is not None:
+            args['maximum_allowed'] = maximum_allowed
         return cls(**args)
 
     @classmethod
@@ -4455,15 +4901,19 @@ class CollectionUsage():
         return not self == other
 
 
-class Completions():
+class Completions:
     """
     An object containing an array of autocompletion suggestions.
 
-    :attr List[str] completions: (optional) Array of autcomplete suggestion based on
-          the provided prefix.
+    :param List[str] completions: (optional) Array of autcomplete suggestion based
+          on the provided prefix.
     """
 
-    def __init__(self, *, completions: List[str] = None) -> None:
+    def __init__(
+        self,
+        *,
+        completions: Optional[List[str]] = None,
+    ) -> None:
         """
         Initialize a Completions object.
 
@@ -4476,8 +4926,8 @@ class Completions():
     def from_dict(cls, _dict: Dict) -> 'Completions':
         """Initialize a Completions object from a json dictionary."""
         args = {}
-        if 'completions' in _dict:
-            args['completions'] = _dict.get('completions')
+        if (completions := _dict.get('completions')) is not None:
+            args['completions'] = completions
         return cls(**args)
 
     @classmethod
@@ -4511,40 +4961,42 @@ class Completions():
         return not self == other
 
 
-class Configuration():
+class Configuration:
     """
     A custom configuration for the environment.
 
-    :attr str configuration_id: (optional) The unique identifier of the
+    :param str configuration_id: (optional) The unique identifier of the
           configuration.
-    :attr str name: The name of the configuration.
-    :attr datetime created: (optional) The creation date of the configuration in the
-          format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
-    :attr datetime updated: (optional) The timestamp of when the configuration was
+    :param str name: The name of the configuration.
+    :param datetime created: (optional) The creation date of the configuration in
+          the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
+    :param datetime updated: (optional) The timestamp of when the configuration was
           last updated in the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
-    :attr str description: (optional) The description of the configuration, if
+    :param str description: (optional) The description of the configuration, if
           available.
-    :attr Conversions conversions: (optional) Document conversion settings.
-    :attr List[Enrichment] enrichments: (optional) An array of document enrichment
+    :param Conversions conversions: (optional) Document conversion settings.
+    :param List[Enrichment] enrichments: (optional) An array of document enrichment
           settings for the configuration.
-    :attr List[NormalizationOperation] normalizations: (optional) Defines operations
-          that can be used to transform the final output JSON into a normalized form.
-          Operations are executed in the order that they appear in the array.
-    :attr Source source: (optional) Object containing source parameters for the
+    :param List[NormalizationOperation] normalizations: (optional) Defines
+          operations that can be used to transform the final output JSON into a normalized
+          form. Operations are executed in the order that they appear in the array.
+    :param Source source: (optional) Object containing source parameters for the
           configuration.
     """
 
-    def __init__(self,
-                 name: str,
-                 *,
-                 configuration_id: str = None,
-                 created: datetime = None,
-                 updated: datetime = None,
-                 description: str = None,
-                 conversions: 'Conversions' = None,
-                 enrichments: List['Enrichment'] = None,
-                 normalizations: List['NormalizationOperation'] = None,
-                 source: 'Source' = None) -> None:
+    def __init__(
+        self,
+        name: str,
+        *,
+        configuration_id: Optional[str] = None,
+        created: Optional[datetime] = None,
+        updated: Optional[datetime] = None,
+        description: Optional[str] = None,
+        conversions: Optional['Conversions'] = None,
+        enrichments: Optional[List['Enrichment']] = None,
+        normalizations: Optional[List['NormalizationOperation']] = None,
+        source: Optional['Source'] = None,
+    ) -> None:
         """
         Initialize a Configuration object.
 
@@ -4575,33 +5027,29 @@ class Configuration():
     def from_dict(cls, _dict: Dict) -> 'Configuration':
         """Initialize a Configuration object from a json dictionary."""
         args = {}
-        if 'configuration_id' in _dict:
-            args['configuration_id'] = _dict.get('configuration_id')
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
+        if (configuration_id := _dict.get('configuration_id')) is not None:
+            args['configuration_id'] = configuration_id
+        if (name := _dict.get('name')) is not None:
+            args['name'] = name
         else:
             raise ValueError(
                 'Required property \'name\' not present in Configuration JSON')
-        if 'created' in _dict:
-            args['created'] = string_to_datetime(_dict.get('created'))
-        if 'updated' in _dict:
-            args['updated'] = string_to_datetime(_dict.get('updated'))
-        if 'description' in _dict:
-            args['description'] = _dict.get('description')
-        if 'conversions' in _dict:
-            args['conversions'] = Conversions.from_dict(
-                _dict.get('conversions'))
-        if 'enrichments' in _dict:
-            args['enrichments'] = [
-                Enrichment.from_dict(v) for v in _dict.get('enrichments')
-            ]
-        if 'normalizations' in _dict:
+        if (created := _dict.get('created')) is not None:
+            args['created'] = string_to_datetime(created)
+        if (updated := _dict.get('updated')) is not None:
+            args['updated'] = string_to_datetime(updated)
+        if (description := _dict.get('description')) is not None:
+            args['description'] = description
+        if (conversions := _dict.get('conversions')) is not None:
+            args['conversions'] = Conversions.from_dict(conversions)
+        if (enrichments := _dict.get('enrichments')) is not None:
+            args['enrichments'] = [Enrichment.from_dict(v) for v in enrichments]
+        if (normalizations := _dict.get('normalizations')) is not None:
             args['normalizations'] = [
-                NormalizationOperation.from_dict(v)
-                for v in _dict.get('normalizations')
+                NormalizationOperation.from_dict(v) for v in normalizations
             ]
-        if 'source' in _dict:
-            args['source'] = Source.from_dict(_dict.get('source'))
+        if (source := _dict.get('source')) is not None:
+            args['source'] = Source.from_dict(source)
         return cls(**args)
 
     @classmethod
@@ -4670,19 +5118,19 @@ class Configuration():
         return not self == other
 
 
-class Conversions():
+class Conversions:
     """
     Document conversion settings.
 
-    :attr PdfSettings pdf: (optional) A list of PDF conversion settings.
-    :attr WordSettings word: (optional) A list of Word conversion settings.
-    :attr HtmlSettings html: (optional) A list of HTML conversion settings.
-    :attr SegmentSettings segment: (optional) A list of Document Segmentation
+    :param PdfSettings pdf: (optional) A list of PDF conversion settings.
+    :param WordSettings word: (optional) A list of Word conversion settings.
+    :param HtmlSettings html: (optional) A list of HTML conversion settings.
+    :param SegmentSettings segment: (optional) A list of Document Segmentation
           settings.
-    :attr List[NormalizationOperation] json_normalizations: (optional) Defines
+    :param List[NormalizationOperation] json_normalizations: (optional) Defines
           operations that can be used to transform the final output JSON into a normalized
           form. Operations are executed in the order that they appear in the array.
-    :attr bool image_text_recognition: (optional) When `true`, automatic text
+    :param bool image_text_recognition: (optional) When `true`, automatic text
           extraction from images (this includes images embedded in supported document
           formats, for example PDF, and suppported image formats, for example TIFF) is
           performed on documents uploaded to the collection. This field is supported on
@@ -4690,14 +5138,16 @@ class Conversions():
           recognition.
     """
 
-    def __init__(self,
-                 *,
-                 pdf: 'PdfSettings' = None,
-                 word: 'WordSettings' = None,
-                 html: 'HtmlSettings' = None,
-                 segment: 'SegmentSettings' = None,
-                 json_normalizations: List['NormalizationOperation'] = None,
-                 image_text_recognition: bool = None) -> None:
+    def __init__(
+        self,
+        *,
+        pdf: Optional['PdfSettings'] = None,
+        word: Optional['WordSettings'] = None,
+        html: Optional['HtmlSettings'] = None,
+        segment: Optional['SegmentSettings'] = None,
+        json_normalizations: Optional[List['NormalizationOperation']] = None,
+        image_text_recognition: Optional[bool] = None,
+    ) -> None:
         """
         Initialize a Conversions object.
 
@@ -4728,21 +5178,22 @@ class Conversions():
     def from_dict(cls, _dict: Dict) -> 'Conversions':
         """Initialize a Conversions object from a json dictionary."""
         args = {}
-        if 'pdf' in _dict:
-            args['pdf'] = PdfSettings.from_dict(_dict.get('pdf'))
-        if 'word' in _dict:
-            args['word'] = WordSettings.from_dict(_dict.get('word'))
-        if 'html' in _dict:
-            args['html'] = HtmlSettings.from_dict(_dict.get('html'))
-        if 'segment' in _dict:
-            args['segment'] = SegmentSettings.from_dict(_dict.get('segment'))
-        if 'json_normalizations' in _dict:
+        if (pdf := _dict.get('pdf')) is not None:
+            args['pdf'] = PdfSettings.from_dict(pdf)
+        if (word := _dict.get('word')) is not None:
+            args['word'] = WordSettings.from_dict(word)
+        if (html := _dict.get('html')) is not None:
+            args['html'] = HtmlSettings.from_dict(html)
+        if (segment := _dict.get('segment')) is not None:
+            args['segment'] = SegmentSettings.from_dict(segment)
+        if (json_normalizations :=
+                _dict.get('json_normalizations')) is not None:
             args['json_normalizations'] = [
-                NormalizationOperation.from_dict(v)
-                for v in _dict.get('json_normalizations')
+                NormalizationOperation.from_dict(v) for v in json_normalizations
             ]
-        if 'image_text_recognition' in _dict:
-            args['image_text_recognition'] = _dict.get('image_text_recognition')
+        if (image_text_recognition :=
+                _dict.get('image_text_recognition')) is not None:
+            args['image_text_recognition'] = image_text_recognition
         return cls(**args)
 
     @classmethod
@@ -4807,15 +5258,20 @@ class Conversions():
         return not self == other
 
 
-class CreateEventResponse():
+class CreateEventResponse:
     """
     An object defining the event being created.
 
-    :attr str type: (optional) The event type that was created.
-    :attr EventData data: (optional) Query event data object.
+    :param str type: (optional) The event type that was created.
+    :param EventData data: (optional) Query event data object.
     """
 
-    def __init__(self, *, type: str = None, data: 'EventData' = None) -> None:
+    def __init__(
+        self,
+        *,
+        type: Optional[str] = None,
+        data: Optional['EventData'] = None,
+    ) -> None:
         """
         Initialize a CreateEventResponse object.
 
@@ -4829,10 +5285,10 @@ class CreateEventResponse():
     def from_dict(cls, _dict: Dict) -> 'CreateEventResponse':
         """Initialize a CreateEventResponse object from a json dictionary."""
         args = {}
-        if 'type' in _dict:
-            args['type'] = _dict.get('type')
-        if 'data' in _dict:
-            args['data'] = EventData.from_dict(_dict.get('data'))
+        if (type := _dict.get('type')) is not None:
+            args['type'] = type
+        if (data := _dict.get('data')) is not None:
+            args['data'] = EventData.from_dict(data)
         return cls(**args)
 
     @classmethod
@@ -4874,15 +5330,16 @@ class CreateEventResponse():
         """
         The event type that was created.
         """
+
         CLICK = 'click'
 
 
-class CredentialDetails():
+class CredentialDetails:
     """
     Object containing details of the stored credentials.
     Obtain credentials for your source from the administrator of the source.
 
-    :attr str credential_type: (optional) The authentication method for this
+    :param str credential_type: (optional) The authentication method for this
           credentials definition. The  **credential_type** specified must be supported by
           the **source_type**. The following combinations are possible:
           -  `"source_type": "box"` - valid `credential_type`s: `oauth2`
@@ -4892,95 +5349,98 @@ class CredentialDetails():
           -  `"source_type": "web_crawl"` - valid `credential_type`s: `noauth` or `basic`
           -  "source_type": "cloud_object_storage"` - valid `credential_type`s:
           `aws4_hmac`.
-    :attr str client_id: (optional) The **client_id** of the source that these
+    :param str client_id: (optional) The **client_id** of the source that these
           credentials connect to. Only valid, and required, with a **credential_type** of
           `oauth2`.
-    :attr str enterprise_id: (optional) The **enterprise_id** of the Box site that
+    :param str enterprise_id: (optional) The **enterprise_id** of the Box site that
           these credentials connect to. Only valid, and required, with a **source_type**
           of `box`.
-    :attr str url: (optional) The **url** of the source that these credentials
+    :param str url: (optional) The **url** of the source that these credentials
           connect to. Only valid, and required, with a **credential_type** of
           `username_password`, `noauth`, and `basic`.
-    :attr str username: (optional) The **username** of the source that these
+    :param str username: (optional) The **username** of the source that these
           credentials connect to. Only valid, and required, with a **credential_type** of
           `saml`, `username_password`, `basic`, or `ntlm_v1`.
-    :attr str organization_url: (optional) The **organization_url** of the source
+    :param str organization_url: (optional) The **organization_url** of the source
           that these credentials connect to. Only valid, and required, with a
           **credential_type** of `saml`.
-    :attr str site_collection_path: (optional) The **site_collection.path** of the
+    :param str site_collection_path: (optional) The **site_collection.path** of the
           source that these credentials connect to. Only valid, and required, with a
           **source_type** of `sharepoint`.
-    :attr str client_secret: (optional) The **client_secret** of the source that
+    :param str client_secret: (optional) The **client_secret** of the source that
           these credentials connect to. Only valid, and required, with a
           **credential_type** of `oauth2`. This value is never returned and is only used
           when creating or modifying **credentials**.
-    :attr str public_key_id: (optional) The **public_key_id** of the source that
+    :param str public_key_id: (optional) The **public_key_id** of the source that
           these credentials connect to. Only valid, and required, with a
           **credential_type** of `oauth2`. This value is never returned and is only used
           when creating or modifying **credentials**.
-    :attr str private_key: (optional) The **private_key** of the source that these
+    :param str private_key: (optional) The **private_key** of the source that these
           credentials connect to. Only valid, and required, with a **credential_type** of
           `oauth2`. This value is never returned and is only used when creating or
           modifying **credentials**.
-    :attr str passphrase: (optional) The **passphrase** of the source that these
+    :param str passphrase: (optional) The **passphrase** of the source that these
           credentials connect to. Only valid, and required, with a **credential_type** of
           `oauth2`. This value is never returned and is only used when creating or
           modifying **credentials**.
-    :attr str password: (optional) The **password** of the source that these
+    :param str password: (optional) The **password** of the source that these
           credentials connect to. Only valid, and required, with **credential_type**s of
           `saml`, `username_password`, `basic`, or `ntlm_v1`.
           **Note:** When used with a **source_type** of `salesforce`, the password
           consists of the Salesforce password and a valid Salesforce security token
           concatenated. This value is never returned and is only used when creating or
           modifying **credentials**.
-    :attr str gateway_id: (optional) The ID of the **gateway** to be connected
+    :param str gateway_id: (optional) The ID of the **gateway** to be connected
           through (when connecting to intranet sites). Only valid with a
           **credential_type** of `noauth`, `basic`, or `ntlm_v1`. Gateways are created
           using the `/v1/environments/{environment_id}/gateways` methods.
-    :attr str source_version: (optional) The type of Sharepoint repository to
+    :param str source_version: (optional) The type of Sharepoint repository to
           connect to. Only valid, and required, with a **source_type** of `sharepoint`.
-    :attr str web_application_url: (optional) SharePoint OnPrem WebApplication URL.
+    :param str web_application_url: (optional) SharePoint OnPrem WebApplication URL.
           Only valid, and required, with a **source_version** of `2016`. If a port is not
           supplied, the default to port `80` for http and port `443` for https connections
           are used.
-    :attr str domain: (optional) The domain used to log in to your OnPrem SharePoint
-          account. Only valid, and required, with a **source_version** of `2016`.
-    :attr str endpoint: (optional) The endpoint associated with the cloud object
+    :param str domain: (optional) The domain used to log in to your OnPrem
+          SharePoint account. Only valid, and required, with a **source_version** of
+          `2016`.
+    :param str endpoint: (optional) The endpoint associated with the cloud object
           store that your are connecting to. Only valid, and required, with a
           **credential_type** of `aws4_hmac`.
-    :attr str access_key_id: (optional) The access key ID associated with the cloud
+    :param str access_key_id: (optional) The access key ID associated with the cloud
           object store. Only valid, and required, with a **credential_type** of
           `aws4_hmac`. This value is never returned and is only used when creating or
           modifying **credentials**. For more infomation, see the [cloud object store
           documentation](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-using-hmac-credentials#using-hmac-credentials).
-    :attr str secret_access_key: (optional) The secret access key associated with
+    :param str secret_access_key: (optional) The secret access key associated with
           the cloud object store. Only valid, and required, with a **credential_type** of
           `aws4_hmac`. This value is never returned and is only used when creating or
           modifying **credentials**. For more infomation, see the [cloud object store
           documentation](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-using-hmac-credentials#using-hmac-credentials).
     """
 
-    def __init__(self,
-                 *,
-                 credential_type: str = None,
-                 client_id: str = None,
-                 enterprise_id: str = None,
-                 url: str = None,
-                 username: str = None,
-                 organization_url: str = None,
-                 site_collection_path: str = None,
-                 client_secret: str = None,
-                 public_key_id: str = None,
-                 private_key: str = None,
-                 passphrase: str = None,
-                 password: str = None,
-                 gateway_id: str = None,
-                 source_version: str = None,
-                 web_application_url: str = None,
-                 domain: str = None,
-                 endpoint: str = None,
-                 access_key_id: str = None,
-                 secret_access_key: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        credential_type: Optional[str] = None,
+        client_id: Optional[str] = None,
+        enterprise_id: Optional[str] = None,
+        url: Optional[str] = None,
+        username: Optional[str] = None,
+        organization_url: Optional[str] = None,
+        site_collection_path: Optional[str] = None,
+        client_secret: Optional[str] = None,
+        public_key_id: Optional[str] = None,
+        private_key: Optional[str] = None,
+        passphrase: Optional[str] = None,
+        password: Optional[str] = None,
+        gateway_id: Optional[str] = None,
+        source_version: Optional[str] = None,
+        web_application_url: Optional[str] = None,
+        domain: Optional[str] = None,
+        endpoint: Optional[str] = None,
+        access_key_id: Optional[str] = None,
+        secret_access_key: Optional[str] = None,
+    ) -> None:
         """
         Initialize a CredentialDetails object.
 
@@ -5091,44 +5551,46 @@ class CredentialDetails():
     def from_dict(cls, _dict: Dict) -> 'CredentialDetails':
         """Initialize a CredentialDetails object from a json dictionary."""
         args = {}
-        if 'credential_type' in _dict:
-            args['credential_type'] = _dict.get('credential_type')
-        if 'client_id' in _dict:
-            args['client_id'] = _dict.get('client_id')
-        if 'enterprise_id' in _dict:
-            args['enterprise_id'] = _dict.get('enterprise_id')
-        if 'url' in _dict:
-            args['url'] = _dict.get('url')
-        if 'username' in _dict:
-            args['username'] = _dict.get('username')
-        if 'organization_url' in _dict:
-            args['organization_url'] = _dict.get('organization_url')
-        if 'site_collection.path' in _dict:
-            args['site_collection_path'] = _dict.get('site_collection.path')
-        if 'client_secret' in _dict:
-            args['client_secret'] = _dict.get('client_secret')
-        if 'public_key_id' in _dict:
-            args['public_key_id'] = _dict.get('public_key_id')
-        if 'private_key' in _dict:
-            args['private_key'] = _dict.get('private_key')
-        if 'passphrase' in _dict:
-            args['passphrase'] = _dict.get('passphrase')
-        if 'password' in _dict:
-            args['password'] = _dict.get('password')
-        if 'gateway_id' in _dict:
-            args['gateway_id'] = _dict.get('gateway_id')
-        if 'source_version' in _dict:
-            args['source_version'] = _dict.get('source_version')
-        if 'web_application_url' in _dict:
-            args['web_application_url'] = _dict.get('web_application_url')
-        if 'domain' in _dict:
-            args['domain'] = _dict.get('domain')
-        if 'endpoint' in _dict:
-            args['endpoint'] = _dict.get('endpoint')
-        if 'access_key_id' in _dict:
-            args['access_key_id'] = _dict.get('access_key_id')
-        if 'secret_access_key' in _dict:
-            args['secret_access_key'] = _dict.get('secret_access_key')
+        if (credential_type := _dict.get('credential_type')) is not None:
+            args['credential_type'] = credential_type
+        if (client_id := _dict.get('client_id')) is not None:
+            args['client_id'] = client_id
+        if (enterprise_id := _dict.get('enterprise_id')) is not None:
+            args['enterprise_id'] = enterprise_id
+        if (url := _dict.get('url')) is not None:
+            args['url'] = url
+        if (username := _dict.get('username')) is not None:
+            args['username'] = username
+        if (organization_url := _dict.get('organization_url')) is not None:
+            args['organization_url'] = organization_url
+        if (site_collection_path :=
+                _dict.get('site_collection.path')) is not None:
+            args['site_collection_path'] = site_collection_path
+        if (client_secret := _dict.get('client_secret')) is not None:
+            args['client_secret'] = client_secret
+        if (public_key_id := _dict.get('public_key_id')) is not None:
+            args['public_key_id'] = public_key_id
+        if (private_key := _dict.get('private_key')) is not None:
+            args['private_key'] = private_key
+        if (passphrase := _dict.get('passphrase')) is not None:
+            args['passphrase'] = passphrase
+        if (password := _dict.get('password')) is not None:
+            args['password'] = password
+        if (gateway_id := _dict.get('gateway_id')) is not None:
+            args['gateway_id'] = gateway_id
+        if (source_version := _dict.get('source_version')) is not None:
+            args['source_version'] = source_version
+        if (web_application_url :=
+                _dict.get('web_application_url')) is not None:
+            args['web_application_url'] = web_application_url
+        if (domain := _dict.get('domain')) is not None:
+            args['domain'] = domain
+        if (endpoint := _dict.get('endpoint')) is not None:
+            args['endpoint'] = endpoint
+        if (access_key_id := _dict.get('access_key_id')) is not None:
+            args['access_key_id'] = access_key_id
+        if (secret_access_key := _dict.get('secret_access_key')) is not None:
+            args['secret_access_key'] = secret_access_key
         return cls(**args)
 
     @classmethod
@@ -5215,6 +5677,7 @@ class CredentialDetails():
         -  `"source_type": "web_crawl"` - valid `credential_type`s: `noauth` or `basic`
         -  "source_type": "cloud_object_storage"` - valid `credential_type`s: `aws4_hmac`.
         """
+
         OAUTH2 = 'oauth2'
         SAML = 'saml'
         USERNAME_PASSWORD = 'username_password'
@@ -5228,16 +5691,17 @@ class CredentialDetails():
         The type of Sharepoint repository to connect to. Only valid, and required, with a
         **source_type** of `sharepoint`.
         """
+
         ONLINE = 'online'
 
 
-class Credentials():
+class Credentials:
     """
     Object containing credential information.
 
-    :attr str credential_id: (optional) Unique identifier for this set of
+    :param str credential_id: (optional) Unique identifier for this set of
           credentials.
-    :attr str source_type: (optional) The source that this credentials object
+    :param str source_type: (optional) The source that this credentials object
           connects to.
           -  `box` indicates the credentials are used to connect an instance of Enterprise
           Box.
@@ -5247,19 +5711,21 @@ class Credentials():
           -  `web_crawl` indicates the credentials are used to perform a web crawl.
           =  `cloud_object_storage` indicates the credentials are used to connect to an
           IBM Cloud Object Store.
-    :attr CredentialDetails credential_details: (optional) Object containing details
-          of the stored credentials.
+    :param CredentialDetails credential_details: (optional) Object containing
+          details of the stored credentials.
           Obtain credentials for your source from the administrator of the source.
-    :attr StatusDetails status: (optional) Object that contains details about the
+    :param StatusDetails status: (optional) Object that contains details about the
           status of the authentication process.
     """
 
-    def __init__(self,
-                 *,
-                 credential_id: str = None,
-                 source_type: str = None,
-                 credential_details: 'CredentialDetails' = None,
-                 status: 'StatusDetails' = None) -> None:
+    def __init__(
+        self,
+        *,
+        credential_id: Optional[str] = None,
+        source_type: Optional[str] = None,
+        credential_details: Optional['CredentialDetails'] = None,
+        status: Optional['StatusDetails'] = None,
+    ) -> None:
         """
         Initialize a Credentials object.
 
@@ -5289,15 +5755,15 @@ class Credentials():
     def from_dict(cls, _dict: Dict) -> 'Credentials':
         """Initialize a Credentials object from a json dictionary."""
         args = {}
-        if 'credential_id' in _dict:
-            args['credential_id'] = _dict.get('credential_id')
-        if 'source_type' in _dict:
-            args['source_type'] = _dict.get('source_type')
-        if 'credential_details' in _dict:
+        if (credential_id := _dict.get('credential_id')) is not None:
+            args['credential_id'] = credential_id
+        if (source_type := _dict.get('source_type')) is not None:
+            args['source_type'] = source_type
+        if (credential_details := _dict.get('credential_details')) is not None:
             args['credential_details'] = CredentialDetails.from_dict(
-                _dict.get('credential_details'))
-        if 'status' in _dict:
-            args['status'] = StatusDetails.from_dict(_dict.get('status'))
+                credential_details)
+        if (status := _dict.get('status')) is not None:
+            args['status'] = StatusDetails.from_dict(status)
         return cls(**args)
 
     @classmethod
@@ -5357,6 +5823,7 @@ class Credentials():
         =  `cloud_object_storage` indicates the credentials are used to connect to an IBM
         Cloud Object Store.
         """
+
         BOX = 'box'
         SALESFORCE = 'salesforce'
         SHAREPOINT = 'sharepoint'
@@ -5364,15 +5831,19 @@ class Credentials():
         CLOUD_OBJECT_STORAGE = 'cloud_object_storage'
 
 
-class CredentialsList():
+class CredentialsList:
     """
     Object containing array of credential definitions.
 
-    :attr List[Credentials] credentials: (optional) An array of credential
+    :param List[Credentials] credentials: (optional) An array of credential
           definitions that were created for this instance.
     """
 
-    def __init__(self, *, credentials: List['Credentials'] = None) -> None:
+    def __init__(
+        self,
+        *,
+        credentials: Optional[List['Credentials']] = None,
+    ) -> None:
         """
         Initialize a CredentialsList object.
 
@@ -5385,9 +5856,9 @@ class CredentialsList():
     def from_dict(cls, _dict: Dict) -> 'CredentialsList':
         """Initialize a CredentialsList object from a json dictionary."""
         args = {}
-        if 'credentials' in _dict:
+        if (credentials := _dict.get('credentials')) is not None:
             args['credentials'] = [
-                Credentials.from_dict(v) for v in _dict.get('credentials')
+                Credentials.from_dict(v) for v in credentials
             ]
         return cls(**args)
 
@@ -5428,17 +5899,21 @@ class CredentialsList():
         return not self == other
 
 
-class DeleteCollectionResponse():
+class DeleteCollectionResponse:
     """
     Response object returned when deleting a colleciton.
 
-    :attr str collection_id: The unique identifier of the collection that is being
+    :param str collection_id: The unique identifier of the collection that is being
           deleted.
-    :attr str status: The status of the collection. The status of a successful
+    :param str status: The status of the collection. The status of a successful
           deletion operation is `deleted`.
     """
 
-    def __init__(self, collection_id: str, status: str) -> None:
+    def __init__(
+        self,
+        collection_id: str,
+        status: str,
+    ) -> None:
         """
         Initialize a DeleteCollectionResponse object.
 
@@ -5454,14 +5929,14 @@ class DeleteCollectionResponse():
     def from_dict(cls, _dict: Dict) -> 'DeleteCollectionResponse':
         """Initialize a DeleteCollectionResponse object from a json dictionary."""
         args = {}
-        if 'collection_id' in _dict:
-            args['collection_id'] = _dict.get('collection_id')
+        if (collection_id := _dict.get('collection_id')) is not None:
+            args['collection_id'] = collection_id
         else:
             raise ValueError(
                 'Required property \'collection_id\' not present in DeleteCollectionResponse JSON'
             )
-        if 'status' in _dict:
-            args['status'] = _dict.get('status')
+        if (status := _dict.get('status')) is not None:
+            args['status'] = status
         else:
             raise ValueError(
                 'Required property \'status\' not present in DeleteCollectionResponse JSON'
@@ -5505,24 +5980,27 @@ class DeleteCollectionResponse():
         The status of the collection. The status of a successful deletion operation is
         `deleted`.
         """
+
         DELETED = 'deleted'
 
 
-class DeleteConfigurationResponse():
+class DeleteConfigurationResponse:
     """
     Information returned when a configuration is deleted.
 
-    :attr str configuration_id: The unique identifier for the configuration.
-    :attr str status: Status of the configuration. A deleted configuration has the
+    :param str configuration_id: The unique identifier for the configuration.
+    :param str status: Status of the configuration. A deleted configuration has the
           status deleted.
-    :attr List[Notice] notices: (optional) An array of notice messages, if any.
+    :param List[Notice] notices: (optional) An array of notice messages, if any.
     """
 
-    def __init__(self,
-                 configuration_id: str,
-                 status: str,
-                 *,
-                 notices: List['Notice'] = None) -> None:
+    def __init__(
+        self,
+        configuration_id: str,
+        status: str,
+        *,
+        notices: Optional[List['Notice']] = None,
+    ) -> None:
         """
         Initialize a DeleteConfigurationResponse object.
 
@@ -5540,22 +6018,20 @@ class DeleteConfigurationResponse():
     def from_dict(cls, _dict: Dict) -> 'DeleteConfigurationResponse':
         """Initialize a DeleteConfigurationResponse object from a json dictionary."""
         args = {}
-        if 'configuration_id' in _dict:
-            args['configuration_id'] = _dict.get('configuration_id')
+        if (configuration_id := _dict.get('configuration_id')) is not None:
+            args['configuration_id'] = configuration_id
         else:
             raise ValueError(
                 'Required property \'configuration_id\' not present in DeleteConfigurationResponse JSON'
             )
-        if 'status' in _dict:
-            args['status'] = _dict.get('status')
+        if (status := _dict.get('status')) is not None:
+            args['status'] = status
         else:
             raise ValueError(
                 'Required property \'status\' not present in DeleteConfigurationResponse JSON'
             )
-        if 'notices' in _dict:
-            args['notices'] = [
-                Notice.from_dict(v) for v in _dict.get('notices')
-            ]
+        if (notices := _dict.get('notices')) is not None:
+            args['notices'] = [Notice.from_dict(v) for v in notices]
         return cls(**args)
 
     @classmethod
@@ -5603,22 +6079,25 @@ class DeleteConfigurationResponse():
         """
         Status of the configuration. A deleted configuration has the status deleted.
         """
+
         DELETED = 'deleted'
 
 
-class DeleteCredentials():
+class DeleteCredentials:
     """
     Object returned after credentials are deleted.
 
-    :attr str credential_id: (optional) The unique identifier of the credentials
+    :param str credential_id: (optional) The unique identifier of the credentials
           that have been deleted.
-    :attr str status: (optional) The status of the deletion request.
+    :param str status: (optional) The status of the deletion request.
     """
 
-    def __init__(self,
-                 *,
-                 credential_id: str = None,
-                 status: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        credential_id: Optional[str] = None,
+        status: Optional[str] = None,
+    ) -> None:
         """
         Initialize a DeleteCredentials object.
 
@@ -5633,10 +6112,10 @@ class DeleteCredentials():
     def from_dict(cls, _dict: Dict) -> 'DeleteCredentials':
         """Initialize a DeleteCredentials object from a json dictionary."""
         args = {}
-        if 'credential_id' in _dict:
-            args['credential_id'] = _dict.get('credential_id')
-        if 'status' in _dict:
-            args['status'] = _dict.get('status')
+        if (credential_id := _dict.get('credential_id')) is not None:
+            args['credential_id'] = credential_id
+        if (status := _dict.get('status')) is not None:
+            args['status'] = status
         return cls(**args)
 
     @classmethod
@@ -5675,19 +6154,25 @@ class DeleteCredentials():
         """
         The status of the deletion request.
         """
+
         DELETED = 'deleted'
 
 
-class DeleteDocumentResponse():
+class DeleteDocumentResponse:
     """
     Information returned when a document is deleted.
 
-    :attr str document_id: (optional) The unique identifier of the document.
-    :attr str status: (optional) Status of the document. A deleted document has the
+    :param str document_id: (optional) The unique identifier of the document.
+    :param str status: (optional) Status of the document. A deleted document has the
           status deleted.
     """
 
-    def __init__(self, *, document_id: str = None, status: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        document_id: Optional[str] = None,
+        status: Optional[str] = None,
+    ) -> None:
         """
         Initialize a DeleteDocumentResponse object.
 
@@ -5702,10 +6187,10 @@ class DeleteDocumentResponse():
     def from_dict(cls, _dict: Dict) -> 'DeleteDocumentResponse':
         """Initialize a DeleteDocumentResponse object from a json dictionary."""
         args = {}
-        if 'document_id' in _dict:
-            args['document_id'] = _dict.get('document_id')
-        if 'status' in _dict:
-            args['status'] = _dict.get('status')
+        if (document_id := _dict.get('document_id')) is not None:
+            args['document_id'] = document_id
+        if (status := _dict.get('status')) is not None:
+            args['status'] = status
         return cls(**args)
 
     @classmethod
@@ -5744,18 +6229,23 @@ class DeleteDocumentResponse():
         """
         Status of the document. A deleted document has the status deleted.
         """
+
         DELETED = 'deleted'
 
 
-class DeleteEnvironmentResponse():
+class DeleteEnvironmentResponse:
     """
     Response object returned when deleting an environment.
 
-    :attr str environment_id: The unique identifier for the environment.
-    :attr str status: Status of the environment.
+    :param str environment_id: The unique identifier for the environment.
+    :param str status: Status of the environment.
     """
 
-    def __init__(self, environment_id: str, status: str) -> None:
+    def __init__(
+        self,
+        environment_id: str,
+        status: str,
+    ) -> None:
         """
         Initialize a DeleteEnvironmentResponse object.
 
@@ -5769,14 +6259,14 @@ class DeleteEnvironmentResponse():
     def from_dict(cls, _dict: Dict) -> 'DeleteEnvironmentResponse':
         """Initialize a DeleteEnvironmentResponse object from a json dictionary."""
         args = {}
-        if 'environment_id' in _dict:
-            args['environment_id'] = _dict.get('environment_id')
+        if (environment_id := _dict.get('environment_id')) is not None:
+            args['environment_id'] = environment_id
         else:
             raise ValueError(
                 'Required property \'environment_id\' not present in DeleteEnvironmentResponse JSON'
             )
-        if 'status' in _dict:
-            args['status'] = _dict.get('status')
+        if (status := _dict.get('status')) is not None:
+            args['status'] = status
         else:
             raise ValueError(
                 'Required property \'status\' not present in DeleteEnvironmentResponse JSON'
@@ -5819,23 +6309,26 @@ class DeleteEnvironmentResponse():
         """
         Status of the environment.
         """
+
         DELETED = 'deleted'
 
 
-class DiskUsage():
+class DiskUsage:
     """
     Summary of the disk usage statistics for the environment.
 
-    :attr int used_bytes: (optional) Number of bytes within the environment's disk
+    :param int used_bytes: (optional) Number of bytes within the environment's disk
           capacity that are currently used to store data.
-    :attr int maximum_allowed_bytes: (optional) Total number of bytes available in
+    :param int maximum_allowed_bytes: (optional) Total number of bytes available in
           the environment's disk capacity.
     """
 
-    def __init__(self,
-                 *,
-                 used_bytes: int = None,
-                 maximum_allowed_bytes: int = None) -> None:
+    def __init__(
+        self,
+        *,
+        used_bytes: Optional[int] = None,
+        maximum_allowed_bytes: Optional[int] = None,
+    ) -> None:
         """
         Initialize a DiskUsage object.
 
@@ -5847,10 +6340,11 @@ class DiskUsage():
     def from_dict(cls, _dict: Dict) -> 'DiskUsage':
         """Initialize a DiskUsage object from a json dictionary."""
         args = {}
-        if 'used_bytes' in _dict:
-            args['used_bytes'] = _dict.get('used_bytes')
-        if 'maximum_allowed_bytes' in _dict:
-            args['maximum_allowed_bytes'] = _dict.get('maximum_allowed_bytes')
+        if (used_bytes := _dict.get('used_bytes')) is not None:
+            args['used_bytes'] = used_bytes
+        if (maximum_allowed_bytes :=
+                _dict.get('maximum_allowed_bytes')) is not None:
+            args['maximum_allowed_bytes'] = maximum_allowed_bytes
         return cls(**args)
 
     @classmethod
@@ -5889,25 +6383,27 @@ class DiskUsage():
         return not self == other
 
 
-class DocumentAccepted():
+class DocumentAccepted:
     """
     Information returned after an uploaded document is accepted.
 
-    :attr str document_id: (optional) The unique identifier of the ingested
+    :param str document_id: (optional) The unique identifier of the ingested
           document.
-    :attr str status: (optional) Status of the document in the ingestion process. A
+    :param str status: (optional) Status of the document in the ingestion process. A
           status of `processing` is returned for documents that are ingested with a
           *version* date before `2019-01-01`. The `pending` status is returned for all
           others.
-    :attr List[Notice] notices: (optional) Array of notices produced by the
+    :param List[Notice] notices: (optional) Array of notices produced by the
           document-ingestion process.
     """
 
-    def __init__(self,
-                 *,
-                 document_id: str = None,
-                 status: str = None,
-                 notices: List['Notice'] = None) -> None:
+    def __init__(
+        self,
+        *,
+        document_id: Optional[str] = None,
+        status: Optional[str] = None,
+        notices: Optional[List['Notice']] = None,
+    ) -> None:
         """
         Initialize a DocumentAccepted object.
 
@@ -5928,14 +6424,12 @@ class DocumentAccepted():
     def from_dict(cls, _dict: Dict) -> 'DocumentAccepted':
         """Initialize a DocumentAccepted object from a json dictionary."""
         args = {}
-        if 'document_id' in _dict:
-            args['document_id'] = _dict.get('document_id')
-        if 'status' in _dict:
-            args['status'] = _dict.get('status')
-        if 'notices' in _dict:
-            args['notices'] = [
-                Notice.from_dict(v) for v in _dict.get('notices')
-            ]
+        if (document_id := _dict.get('document_id')) is not None:
+            args['document_id'] = document_id
+        if (status := _dict.get('status')) is not None:
+            args['status'] = status
+        if (notices := _dict.get('notices')) is not None:
+            args['notices'] = [Notice.from_dict(v) for v in notices]
         return cls(**args)
 
     @classmethod
@@ -5984,30 +6478,33 @@ class DocumentAccepted():
         returned for documents that are ingested with a *version* date before
         `2019-01-01`. The `pending` status is returned for all others.
         """
+
         PROCESSING = 'processing'
         PENDING = 'pending'
 
 
-class DocumentCounts():
+class DocumentCounts:
     """
     Object containing collection document count information.
 
-    :attr int available: (optional) The total number of available documents in the
+    :param int available: (optional) The total number of available documents in the
           collection.
-    :attr int processing: (optional) The number of documents in the collection that
+    :param int processing: (optional) The number of documents in the collection that
           are currently being processed.
-    :attr int failed: (optional) The number of documents in the collection that
+    :param int failed: (optional) The number of documents in the collection that
           failed to be ingested.
-    :attr int pending: (optional) The number of documents that have been uploaded to
-          the collection, but have not yet started processing.
+    :param int pending: (optional) The number of documents that have been uploaded
+          to the collection, but have not yet started processing.
     """
 
-    def __init__(self,
-                 *,
-                 available: int = None,
-                 processing: int = None,
-                 failed: int = None,
-                 pending: int = None) -> None:
+    def __init__(
+        self,
+        *,
+        available: Optional[int] = None,
+        processing: Optional[int] = None,
+        failed: Optional[int] = None,
+        pending: Optional[int] = None,
+    ) -> None:
         """
         Initialize a DocumentCounts object.
 
@@ -6021,14 +6518,14 @@ class DocumentCounts():
     def from_dict(cls, _dict: Dict) -> 'DocumentCounts':
         """Initialize a DocumentCounts object from a json dictionary."""
         args = {}
-        if 'available' in _dict:
-            args['available'] = _dict.get('available')
-        if 'processing' in _dict:
-            args['processing'] = _dict.get('processing')
-        if 'failed' in _dict:
-            args['failed'] = _dict.get('failed')
-        if 'pending' in _dict:
-            args['pending'] = _dict.get('pending')
+        if (available := _dict.get('available')) is not None:
+            args['available'] = available
+        if (processing := _dict.get('processing')) is not None:
+            args['processing'] = processing
+        if (failed := _dict.get('failed')) is not None:
+            args['failed'] = failed
+        if (pending := _dict.get('pending')) is not None:
+            args['pending'] = pending
         return cls(**args)
 
     @classmethod
@@ -6070,33 +6567,35 @@ class DocumentCounts():
         return not self == other
 
 
-class DocumentStatus():
+class DocumentStatus:
     """
     Status information about a submitted document.
 
-    :attr str document_id: (optional) The unique identifier of the document.
-    :attr str configuration_id: (optional) The unique identifier for the
+    :param str document_id: (optional) The unique identifier of the document.
+    :param str configuration_id: (optional) The unique identifier for the
           configuration.
-    :attr str status: (optional) Status of the document in the ingestion process.
-    :attr str status_description: (optional) Description of the document status.
-    :attr str filename: (optional) Name of the original source file (if available).
-    :attr str file_type: (optional) The type of the original source file.
-    :attr str sha1: (optional) The SHA-1 hash of the original source file (formatted
-          as a hexadecimal string).
-    :attr List[Notice] notices: (optional) Array of notices produced by the
+    :param str status: (optional) Status of the document in the ingestion process.
+    :param str status_description: (optional) Description of the document status.
+    :param str filename: (optional) Name of the original source file (if available).
+    :param str file_type: (optional) The type of the original source file.
+    :param str sha1: (optional) The SHA-1 hash of the original source file
+          (formatted as a hexadecimal string).
+    :param List[Notice] notices: (optional) Array of notices produced by the
           document-ingestion process.
     """
 
-    def __init__(self,
-                 *,
-                 document_id: str = None,
-                 configuration_id: str = None,
-                 status: str = None,
-                 status_description: str = None,
-                 filename: str = None,
-                 file_type: str = None,
-                 sha1: str = None,
-                 notices: List['Notice'] = None) -> None:
+    def __init__(
+        self,
+        *,
+        document_id: Optional[str] = None,
+        configuration_id: Optional[str] = None,
+        status: Optional[str] = None,
+        status_description: Optional[str] = None,
+        filename: Optional[str] = None,
+        file_type: Optional[str] = None,
+        sha1: Optional[str] = None,
+        notices: Optional[List['Notice']] = None,
+    ) -> None:
         """
         Initialize a DocumentStatus object.
 
@@ -6119,24 +6618,22 @@ class DocumentStatus():
     def from_dict(cls, _dict: Dict) -> 'DocumentStatus':
         """Initialize a DocumentStatus object from a json dictionary."""
         args = {}
-        if 'document_id' in _dict:
-            args['document_id'] = _dict.get('document_id')
-        if 'configuration_id' in _dict:
-            args['configuration_id'] = _dict.get('configuration_id')
-        if 'status' in _dict:
-            args['status'] = _dict.get('status')
-        if 'status_description' in _dict:
-            args['status_description'] = _dict.get('status_description')
-        if 'filename' in _dict:
-            args['filename'] = _dict.get('filename')
-        if 'file_type' in _dict:
-            args['file_type'] = _dict.get('file_type')
-        if 'sha1' in _dict:
-            args['sha1'] = _dict.get('sha1')
-        if 'notices' in _dict:
-            args['notices'] = [
-                Notice.from_dict(v) for v in _dict.get('notices')
-            ]
+        if (document_id := _dict.get('document_id')) is not None:
+            args['document_id'] = document_id
+        if (configuration_id := _dict.get('configuration_id')) is not None:
+            args['configuration_id'] = configuration_id
+        if (status := _dict.get('status')) is not None:
+            args['status'] = status
+        if (status_description := _dict.get('status_description')) is not None:
+            args['status_description'] = status_description
+        if (filename := _dict.get('filename')) is not None:
+            args['filename'] = filename
+        if (file_type := _dict.get('file_type')) is not None:
+            args['file_type'] = file_type
+        if (sha1 := _dict.get('sha1')) is not None:
+            args['sha1'] = sha1
+        if (notices := _dict.get('notices')) is not None:
+            args['notices'] = [Notice.from_dict(v) for v in notices]
         return cls(**args)
 
     @classmethod
@@ -6196,6 +6693,7 @@ class DocumentStatus():
         """
         Status of the document in the ingestion process.
         """
+
         AVAILABLE = 'available'
         AVAILABLE_WITH_NOTICES = 'available with notices'
         FAILED = 'failed'
@@ -6206,50 +6704,53 @@ class DocumentStatus():
         """
         The type of the original source file.
         """
+
         PDF = 'pdf'
         HTML = 'html'
         WORD = 'word'
         JSON = 'json'
 
 
-class Enrichment():
+class Enrichment:
     """
     Enrichment step to perform on the document. Each enrichment is performed on the
     specified field in the order that they are listed in the configuration.
 
-    :attr str description: (optional) Describes what the enrichment step does.
-    :attr str destination_field: Field where enrichments will be stored. This field
+    :param str description: (optional) Describes what the enrichment step does.
+    :param str destination_field: Field where enrichments will be stored. This field
           must already exist or be at most 1 level deeper than an existing field. For
           example, if `text` is a top-level field with no sub-fields, `text.foo` is a
           valid destination but `text.foo.bar` is not.
-    :attr str source_field: Field to be enriched.
+    :param str source_field: Field to be enriched.
           Arrays can be specified as the **source_field** if the **enrichment** service
           for this enrichment is set to `natural_language_undstanding`.
-    :attr bool overwrite: (optional) Indicates that the enrichments will overwrite
+    :param bool overwrite: (optional) Indicates that the enrichments will overwrite
           the destination_field field if it already exists.
-    :attr str enrichment: Name of the enrichment service to call. The only supported
-          option is `natural_language_understanding`. The `elements` option is deprecated
-          and support ended on 10 July 2020.
+    :param str enrichment: Name of the enrichment service to call. The only
+          supported option is `natural_language_understanding`. The `elements` option is
+          deprecated and support ended on 10 July 2020.
            The **options** object must contain Natural Language Understanding options.
-    :attr bool ignore_downstream_errors: (optional) If true, then most errors
+    :param bool ignore_downstream_errors: (optional) If true, then most errors
           generated during the enrichment process will be treated as warnings and will not
           cause the document to fail processing.
-    :attr EnrichmentOptions options: (optional) Options that are specific to a
+    :param EnrichmentOptions options: (optional) Options that are specific to a
           particular enrichment.
           The `elements` enrichment type is deprecated. Use the [Create a
           project](https://cloud.ibm.com/apidocs/discovery-data#createproject) method of
           the Discovery v2 API to create a `content_intelligence` project type instead.
     """
 
-    def __init__(self,
-                 destination_field: str,
-                 source_field: str,
-                 enrichment: str,
-                 *,
-                 description: str = None,
-                 overwrite: bool = None,
-                 ignore_downstream_errors: bool = None,
-                 options: 'EnrichmentOptions' = None) -> None:
+    def __init__(
+        self,
+        destination_field: str,
+        source_field: str,
+        enrichment: str,
+        *,
+        description: Optional[str] = None,
+        overwrite: Optional[bool] = None,
+        ignore_downstream_errors: Optional[bool] = None,
+        options: Optional['EnrichmentOptions'] = None,
+    ) -> None:
         """
         Initialize a Enrichment object.
 
@@ -6290,33 +6791,33 @@ class Enrichment():
     def from_dict(cls, _dict: Dict) -> 'Enrichment':
         """Initialize a Enrichment object from a json dictionary."""
         args = {}
-        if 'description' in _dict:
-            args['description'] = _dict.get('description')
-        if 'destination_field' in _dict:
-            args['destination_field'] = _dict.get('destination_field')
+        if (description := _dict.get('description')) is not None:
+            args['description'] = description
+        if (destination_field := _dict.get('destination_field')) is not None:
+            args['destination_field'] = destination_field
         else:
             raise ValueError(
                 'Required property \'destination_field\' not present in Enrichment JSON'
             )
-        if 'source_field' in _dict:
-            args['source_field'] = _dict.get('source_field')
+        if (source_field := _dict.get('source_field')) is not None:
+            args['source_field'] = source_field
         else:
             raise ValueError(
                 'Required property \'source_field\' not present in Enrichment JSON'
             )
-        if 'overwrite' in _dict:
-            args['overwrite'] = _dict.get('overwrite')
-        if 'enrichment' in _dict:
-            args['enrichment'] = _dict.get('enrichment')
+        if (overwrite := _dict.get('overwrite')) is not None:
+            args['overwrite'] = overwrite
+        if (enrichment := _dict.get('enrichment')) is not None:
+            args['enrichment'] = enrichment
         else:
             raise ValueError(
                 'Required property \'enrichment\' not present in Enrichment JSON'
             )
-        if 'ignore_downstream_errors' in _dict:
-            args['ignore_downstream_errors'] = _dict.get(
-                'ignore_downstream_errors')
-        if 'options' in _dict:
-            args['options'] = EnrichmentOptions.from_dict(_dict.get('options'))
+        if (ignore_downstream_errors :=
+                _dict.get('ignore_downstream_errors')) is not None:
+            args['ignore_downstream_errors'] = ignore_downstream_errors
+        if (options := _dict.get('options')) is not None:
+            args['options'] = EnrichmentOptions.from_dict(options)
         return cls(**args)
 
     @classmethod
@@ -6367,30 +6868,32 @@ class Enrichment():
         return not self == other
 
 
-class EnrichmentOptions():
+class EnrichmentOptions:
     """
     Options that are specific to a particular enrichment.
     The `elements` enrichment type is deprecated. Use the [Create a
     project](https://cloud.ibm.com/apidocs/discovery-data#createproject) method of the
     Discovery v2 API to create a `content_intelligence` project type instead.
 
-    :attr NluEnrichmentFeatures features: (optional) Object containing Natural
+    :param NluEnrichmentFeatures features: (optional) Object containing Natural
           Language Understanding features to be used.
-    :attr str language: (optional) ISO 639-1 code indicating the language to use for
-          the analysis. This code overrides the automatic language detection performed by
-          the service. Valid codes are `ar` (Arabic), `en` (English), `fr` (French), `de`
-          (German), `it` (Italian), `pt` (Portuguese), `ru` (Russian), `es` (Spanish), and
-          `sv` (Swedish). **Note:** Not all features support all languages, automatic
-          detection is recommended.
-    :attr str model: (optional) Deprecated: The element extraction model to use,
+    :param str language: (optional) ISO 639-1 code indicating the language to use
+          for the analysis. This code overrides the automatic language detection performed
+          by the service. Valid codes are `ar` (Arabic), `en` (English), `fr` (French),
+          `de` (German), `it` (Italian), `pt` (Portuguese), `ru` (Russian), `es`
+          (Spanish), and `sv` (Swedish). **Note:** Not all features support all languages,
+          automatic detection is recommended.
+    :param str model: (optional) Deprecated: The element extraction model to use,
           which can be `contract` only. The `elements` enrichment is deprecated.
     """
 
-    def __init__(self,
-                 *,
-                 features: 'NluEnrichmentFeatures' = None,
-                 language: str = None,
-                 model: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        features: Optional['NluEnrichmentFeatures'] = None,
+        language: Optional[str] = None,
+        model: Optional[str] = None,
+    ) -> None:
         """
         Initialize a EnrichmentOptions object.
 
@@ -6413,13 +6916,12 @@ class EnrichmentOptions():
     def from_dict(cls, _dict: Dict) -> 'EnrichmentOptions':
         """Initialize a EnrichmentOptions object from a json dictionary."""
         args = {}
-        if 'features' in _dict:
-            args['features'] = NluEnrichmentFeatures.from_dict(
-                _dict.get('features'))
-        if 'language' in _dict:
-            args['language'] = _dict.get('language')
-        if 'model' in _dict:
-            args['model'] = _dict.get('model')
+        if (features := _dict.get('features')) is not None:
+            args['features'] = NluEnrichmentFeatures.from_dict(features)
+        if (language := _dict.get('language')) is not None:
+            args['language'] = language
+        if (model := _dict.get('model')) is not None:
+            args['model'] = model
         return cls(**args)
 
     @classmethod
@@ -6467,6 +6969,7 @@ class EnrichmentOptions():
         `pt` (Portuguese), `ru` (Russian), `es` (Spanish), and `sv` (Swedish). **Note:**
         Not all features support all languages, automatic detection is recommended.
         """
+
         AR = 'ar'
         EN = 'en'
         FR = 'fr'
@@ -6478,46 +6981,48 @@ class EnrichmentOptions():
         SV = 'sv'
 
 
-class Environment():
+class Environment:
     """
     Details about an environment.
 
-    :attr str environment_id: (optional) Unique identifier for the environment.
-    :attr str name: (optional) Name that identifies the environment.
-    :attr str description: (optional) Description of the environment.
-    :attr datetime created: (optional) Creation date of the environment, in the
+    :param str environment_id: (optional) Unique identifier for the environment.
+    :param str name: (optional) Name that identifies the environment.
+    :param str description: (optional) Description of the environment.
+    :param datetime created: (optional) Creation date of the environment, in the
           format `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`.
-    :attr datetime updated: (optional) Date of most recent environment update, in
+    :param datetime updated: (optional) Date of most recent environment update, in
           the format `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`.
-    :attr str status: (optional) Current status of the environment. `resizing` is
+    :param str status: (optional) Current status of the environment. `resizing` is
           displayed when a request to increase the environment size has been made, but is
           still in the process of being completed.
-    :attr bool read_only: (optional) If `true`, the environment contains read-only
+    :param bool read_only: (optional) If `true`, the environment contains read-only
           collections that are maintained by IBM.
-    :attr str size: (optional) Current size of the environment.
-    :attr str requested_size: (optional) The new size requested for this
+    :param str size: (optional) Current size of the environment.
+    :param str requested_size: (optional) The new size requested for this
           environment. Only returned when the environment *status* is `resizing`.
           *Note:* Querying and indexing can still be performed during an environment
           upsize.
-    :attr IndexCapacity index_capacity: (optional) Details about the resource usage
+    :param IndexCapacity index_capacity: (optional) Details about the resource usage
           and capacity of the environment.
-    :attr SearchStatus search_status: (optional) Information about the Continuous
+    :param SearchStatus search_status: (optional) Information about the Continuous
           Relevancy Training for this environment.
     """
 
-    def __init__(self,
-                 *,
-                 environment_id: str = None,
-                 name: str = None,
-                 description: str = None,
-                 created: datetime = None,
-                 updated: datetime = None,
-                 status: str = None,
-                 read_only: bool = None,
-                 size: str = None,
-                 requested_size: str = None,
-                 index_capacity: 'IndexCapacity' = None,
-                 search_status: 'SearchStatus' = None) -> None:
+    def __init__(
+        self,
+        *,
+        environment_id: Optional[str] = None,
+        name: Optional[str] = None,
+        description: Optional[str] = None,
+        created: Optional[datetime] = None,
+        updated: Optional[datetime] = None,
+        status: Optional[str] = None,
+        read_only: Optional[bool] = None,
+        size: Optional[str] = None,
+        requested_size: Optional[str] = None,
+        index_capacity: Optional['IndexCapacity'] = None,
+        search_status: Optional['SearchStatus'] = None,
+    ) -> None:
         """
         Initialize a Environment object.
 
@@ -6549,30 +7054,28 @@ class Environment():
     def from_dict(cls, _dict: Dict) -> 'Environment':
         """Initialize a Environment object from a json dictionary."""
         args = {}
-        if 'environment_id' in _dict:
-            args['environment_id'] = _dict.get('environment_id')
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
-        if 'description' in _dict:
-            args['description'] = _dict.get('description')
-        if 'created' in _dict:
-            args['created'] = string_to_datetime(_dict.get('created'))
-        if 'updated' in _dict:
-            args['updated'] = string_to_datetime(_dict.get('updated'))
-        if 'status' in _dict:
-            args['status'] = _dict.get('status')
-        if 'read_only' in _dict:
-            args['read_only'] = _dict.get('read_only')
-        if 'size' in _dict:
-            args['size'] = _dict.get('size')
-        if 'requested_size' in _dict:
-            args['requested_size'] = _dict.get('requested_size')
-        if 'index_capacity' in _dict:
-            args['index_capacity'] = IndexCapacity.from_dict(
-                _dict.get('index_capacity'))
-        if 'search_status' in _dict:
-            args['search_status'] = SearchStatus.from_dict(
-                _dict.get('search_status'))
+        if (environment_id := _dict.get('environment_id')) is not None:
+            args['environment_id'] = environment_id
+        if (name := _dict.get('name')) is not None:
+            args['name'] = name
+        if (description := _dict.get('description')) is not None:
+            args['description'] = description
+        if (created := _dict.get('created')) is not None:
+            args['created'] = string_to_datetime(created)
+        if (updated := _dict.get('updated')) is not None:
+            args['updated'] = string_to_datetime(updated)
+        if (status := _dict.get('status')) is not None:
+            args['status'] = status
+        if (read_only := _dict.get('read_only')) is not None:
+            args['read_only'] = read_only
+        if (size := _dict.get('size')) is not None:
+            args['size'] = size
+        if (requested_size := _dict.get('requested_size')) is not None:
+            args['requested_size'] = requested_size
+        if (index_capacity := _dict.get('index_capacity')) is not None:
+            args['index_capacity'] = IndexCapacity.from_dict(index_capacity)
+        if (search_status := _dict.get('search_status')) is not None:
+            args['search_status'] = SearchStatus.from_dict(search_status)
         return cls(**args)
 
     @classmethod
@@ -6639,6 +7142,7 @@ class Environment():
         increase the environment size has been made, but is still in the process of being
         completed.
         """
+
         ACTIVE = 'active'
         PENDING = 'pending'
         MAINTENANCE = 'maintenance'
@@ -6648,6 +7152,7 @@ class Environment():
         """
         Current size of the environment.
         """
+
         LT = 'LT'
         XS = 'XS'
         S = 'S'
@@ -6660,19 +7165,22 @@ class Environment():
         XXXL = 'XXXL'
 
 
-class EnvironmentDocuments():
+class EnvironmentDocuments:
     """
     Summary of the document usage statistics for the environment.
 
-    :attr int available: (optional) Number of documents indexed for the environment.
-    :attr int maximum_allowed: (optional) Total number of documents allowed in the
+    :param int available: (optional) Number of documents indexed for the
+          environment.
+    :param int maximum_allowed: (optional) Total number of documents allowed in the
           environment's capacity.
     """
 
-    def __init__(self,
-                 *,
-                 available: int = None,
-                 maximum_allowed: int = None) -> None:
+    def __init__(
+        self,
+        *,
+        available: Optional[int] = None,
+        maximum_allowed: Optional[int] = None,
+    ) -> None:
         """
         Initialize a EnvironmentDocuments object.
 
@@ -6684,10 +7192,10 @@ class EnvironmentDocuments():
     def from_dict(cls, _dict: Dict) -> 'EnvironmentDocuments':
         """Initialize a EnvironmentDocuments object from a json dictionary."""
         args = {}
-        if 'available' in _dict:
-            args['available'] = _dict.get('available')
-        if 'maximum_allowed' in _dict:
-            args['maximum_allowed'] = _dict.get('maximum_allowed')
+        if (available := _dict.get('available')) is not None:
+            args['available'] = available
+        if (maximum_allowed := _dict.get('maximum_allowed')) is not None:
+            args['maximum_allowed'] = maximum_allowed
         return cls(**args)
 
     @classmethod
@@ -6725,36 +7233,39 @@ class EnvironmentDocuments():
         return not self == other
 
 
-class EventData():
+class EventData:
     """
     Query event data object.
 
-    :attr str environment_id: The **environment_id** associated with the query that
+    :param str environment_id: The **environment_id** associated with the query that
           the event is associated with.
-    :attr str session_token: The session token that was returned as part of the
+    :param str session_token: The session token that was returned as part of the
           query results that this event is associated with.
-    :attr datetime client_timestamp: (optional) The optional timestamp for the event
-          that was created. If not provided, the time that the event was created in the
-          log was used.
-    :attr int display_rank: (optional) The rank of the result item which the event
+    :param datetime client_timestamp: (optional) The optional timestamp for the
+          event that was created. If not provided, the time that the event was created in
+          the log was used.
+    :param int display_rank: (optional) The rank of the result item which the event
           is associated with.
-    :attr str collection_id: The **collection_id** of the document that this event
+    :param str collection_id: The **collection_id** of the document that this event
           is associated with.
-    :attr str document_id: The **document_id** of the document that this event is
+    :param str document_id: The **document_id** of the document that this event is
           associated with.
-    :attr str query_id: (optional) The query identifier stored in the log. The query
-          and any events associated with that query are stored with the same **query_id**.
+    :param str query_id: (optional) The query identifier stored in the log. The
+          query and any events associated with that query are stored with the same
+          **query_id**.
     """
 
-    def __init__(self,
-                 environment_id: str,
-                 session_token: str,
-                 collection_id: str,
-                 document_id: str,
-                 *,
-                 client_timestamp: datetime = None,
-                 display_rank: int = None,
-                 query_id: str = None) -> None:
+    def __init__(
+        self,
+        environment_id: str,
+        session_token: str,
+        collection_id: str,
+        document_id: str,
+        *,
+        client_timestamp: Optional[datetime] = None,
+        display_rank: Optional[int] = None,
+        query_id: Optional[str] = None,
+    ) -> None:
         """
         Initialize a EventData object.
 
@@ -6784,37 +7295,36 @@ class EventData():
     def from_dict(cls, _dict: Dict) -> 'EventData':
         """Initialize a EventData object from a json dictionary."""
         args = {}
-        if 'environment_id' in _dict:
-            args['environment_id'] = _dict.get('environment_id')
+        if (environment_id := _dict.get('environment_id')) is not None:
+            args['environment_id'] = environment_id
         else:
             raise ValueError(
                 'Required property \'environment_id\' not present in EventData JSON'
             )
-        if 'session_token' in _dict:
-            args['session_token'] = _dict.get('session_token')
+        if (session_token := _dict.get('session_token')) is not None:
+            args['session_token'] = session_token
         else:
             raise ValueError(
                 'Required property \'session_token\' not present in EventData JSON'
             )
-        if 'client_timestamp' in _dict:
-            args['client_timestamp'] = string_to_datetime(
-                _dict.get('client_timestamp'))
-        if 'display_rank' in _dict:
-            args['display_rank'] = _dict.get('display_rank')
-        if 'collection_id' in _dict:
-            args['collection_id'] = _dict.get('collection_id')
+        if (client_timestamp := _dict.get('client_timestamp')) is not None:
+            args['client_timestamp'] = string_to_datetime(client_timestamp)
+        if (display_rank := _dict.get('display_rank')) is not None:
+            args['display_rank'] = display_rank
+        if (collection_id := _dict.get('collection_id')) is not None:
+            args['collection_id'] = collection_id
         else:
             raise ValueError(
                 'Required property \'collection_id\' not present in EventData JSON'
             )
-        if 'document_id' in _dict:
-            args['document_id'] = _dict.get('document_id')
+        if (document_id := _dict.get('document_id')) is not None:
+            args['document_id'] = document_id
         else:
             raise ValueError(
                 'Required property \'document_id\' not present in EventData JSON'
             )
-        if 'query_id' in _dict:
-            args['query_id'] = _dict.get('query_id')
+        if (query_id := _dict.get('query_id')) is not None:
+            args['query_id'] = query_id
         return cls(**args)
 
     @classmethod
@@ -6862,23 +7372,25 @@ class EventData():
         return not self == other
 
 
-class Expansion():
+class Expansion:
     """
     An expansion definition. Each object respresents one set of expandable strings. For
     example, you could have expansions for the word `hot` in one object, and expansions
     for the word `cold` in another.
 
-    :attr List[str] input_terms: (optional) A list of terms that will be expanded
+    :param List[str] input_terms: (optional) A list of terms that will be expanded
           for this expansion. If specified, only the items in this list are expanded.
-    :attr List[str] expanded_terms: A list of terms that this expansion will be
+    :param List[str] expanded_terms: A list of terms that this expansion will be
           expanded to. If specified without **input_terms**, it also functions as the
           input term list.
     """
 
-    def __init__(self,
-                 expanded_terms: List[str],
-                 *,
-                 input_terms: List[str] = None) -> None:
+    def __init__(
+        self,
+        expanded_terms: List[str],
+        *,
+        input_terms: Optional[List[str]] = None,
+    ) -> None:
         """
         Initialize a Expansion object.
 
@@ -6896,10 +7408,10 @@ class Expansion():
     def from_dict(cls, _dict: Dict) -> 'Expansion':
         """Initialize a Expansion object from a json dictionary."""
         args = {}
-        if 'input_terms' in _dict:
-            args['input_terms'] = _dict.get('input_terms')
-        if 'expanded_terms' in _dict:
-            args['expanded_terms'] = _dict.get('expanded_terms')
+        if (input_terms := _dict.get('input_terms')) is not None:
+            args['input_terms'] = input_terms
+        if (expanded_terms := _dict.get('expanded_terms')) is not None:
+            args['expanded_terms'] = expanded_terms
         else:
             raise ValueError(
                 'Required property \'expanded_terms\' not present in Expansion JSON'
@@ -6939,11 +7451,11 @@ class Expansion():
         return not self == other
 
 
-class Expansions():
+class Expansions:
     """
     The query expansion definitions for the specified collection.
 
-    :attr List[Expansion] expansions: An array of query expansion definitions.
+    :param List[Expansion] expansions: An array of query expansion definitions.
            Each object in the **expansions** array represents a term or set of terms that
           will be expanded into other terms. Each expansion object can be configured as
           bidirectional or unidirectional. Bidirectional means that all terms are expanded
@@ -6958,7 +7470,10 @@ class Expansions():
           **expanded_terms** array.
     """
 
-    def __init__(self, expansions: List['Expansion']) -> None:
+    def __init__(
+        self,
+        expansions: List['Expansion'],
+    ) -> None:
         """
         Initialize a Expansions object.
 
@@ -6982,10 +7497,8 @@ class Expansions():
     def from_dict(cls, _dict: Dict) -> 'Expansions':
         """Initialize a Expansions object from a json dictionary."""
         args = {}
-        if 'expansions' in _dict:
-            args['expansions'] = [
-                Expansion.from_dict(v) for v in _dict.get('expansions')
-            ]
+        if (expansions := _dict.get('expansions')) is not None:
+            args['expansions'] = [Expansion.from_dict(v) for v in expansions]
         else:
             raise ValueError(
                 'Required property \'expansions\' not present in Expansions JSON'
@@ -7029,15 +7542,20 @@ class Expansions():
         return not self == other
 
 
-class Field():
+class Field:
     """
     Object containing field details.
 
-    :attr str field: (optional) The name of the field.
-    :attr str type: (optional) The type of the field.
+    :param str field: (optional) The name of the field.
+    :param str type: (optional) The type of the field.
     """
 
-    def __init__(self, *, field: str = None, type: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        field: Optional[str] = None,
+        type: Optional[str] = None,
+    ) -> None:
         """
         Initialize a Field object.
 
@@ -7049,10 +7567,10 @@ class Field():
     def from_dict(cls, _dict: Dict) -> 'Field':
         """Initialize a Field object from a json dictionary."""
         args = {}
-        if 'field' in _dict:
-            args['field'] = _dict.get('field')
-        if 'type' in _dict:
-            args['type'] = _dict.get('type')
+        if (field := _dict.get('field')) is not None:
+            args['field'] = field
+        if (type := _dict.get('type')) is not None:
+            args['type'] = type
         return cls(**args)
 
     @classmethod
@@ -7091,6 +7609,7 @@ class Field():
         """
         The type of the field.
         """
+
         NESTED = 'nested'
         STRING = 'string'
         DATE = 'date'
@@ -7104,27 +7623,29 @@ class Field():
         BINARY = 'binary'
 
 
-class FontSetting():
+class FontSetting:
     """
     Font matching configuration.
 
-    :attr int level: (optional) The HTML heading level that any content with the
+    :param int level: (optional) The HTML heading level that any content with the
           matching font is converted to.
-    :attr int min_size: (optional) The minimum size of the font to match.
-    :attr int max_size: (optional) The maximum size of the font to match.
-    :attr bool bold: (optional) When `true`, the font is matched if it is bold.
-    :attr bool italic: (optional) When `true`, the font is matched if it is italic.
-    :attr str name: (optional) The name of the font.
+    :param int min_size: (optional) The minimum size of the font to match.
+    :param int max_size: (optional) The maximum size of the font to match.
+    :param bool bold: (optional) When `true`, the font is matched if it is bold.
+    :param bool italic: (optional) When `true`, the font is matched if it is italic.
+    :param str name: (optional) The name of the font.
     """
 
-    def __init__(self,
-                 *,
-                 level: int = None,
-                 min_size: int = None,
-                 max_size: int = None,
-                 bold: bool = None,
-                 italic: bool = None,
-                 name: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        level: Optional[int] = None,
+        min_size: Optional[int] = None,
+        max_size: Optional[int] = None,
+        bold: Optional[bool] = None,
+        italic: Optional[bool] = None,
+        name: Optional[str] = None,
+    ) -> None:
         """
         Initialize a FontSetting object.
 
@@ -7149,18 +7670,18 @@ class FontSetting():
     def from_dict(cls, _dict: Dict) -> 'FontSetting':
         """Initialize a FontSetting object from a json dictionary."""
         args = {}
-        if 'level' in _dict:
-            args['level'] = _dict.get('level')
-        if 'min_size' in _dict:
-            args['min_size'] = _dict.get('min_size')
-        if 'max_size' in _dict:
-            args['max_size'] = _dict.get('max_size')
-        if 'bold' in _dict:
-            args['bold'] = _dict.get('bold')
-        if 'italic' in _dict:
-            args['italic'] = _dict.get('italic')
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
+        if (level := _dict.get('level')) is not None:
+            args['level'] = level
+        if (min_size := _dict.get('min_size')) is not None:
+            args['min_size'] = min_size
+        if (max_size := _dict.get('max_size')) is not None:
+            args['max_size'] = max_size
+        if (bold := _dict.get('bold')) is not None:
+            args['bold'] = bold
+        if (italic := _dict.get('italic')) is not None:
+            args['italic'] = italic
+        if (name := _dict.get('name')) is not None:
+            args['name'] = name
         return cls(**args)
 
     @classmethod
@@ -7204,28 +7725,30 @@ class FontSetting():
         return not self == other
 
 
-class Gateway():
+class Gateway:
     """
     Object describing a specific gateway.
 
-    :attr str gateway_id: (optional) The gateway ID of the gateway.
-    :attr str name: (optional) The user defined name of the gateway.
-    :attr str status: (optional) The current status of the gateway. `connected`
+    :param str gateway_id: (optional) The gateway ID of the gateway.
+    :param str name: (optional) The user defined name of the gateway.
+    :param str status: (optional) The current status of the gateway. `connected`
           means the gateway is connected to the remotly installed gateway. `idle` means
           this gateway is not currently in use.
-    :attr str token: (optional) The generated **token** for this gateway. The value
+    :param str token: (optional) The generated **token** for this gateway. The value
           of this field is used when configuring the remotly installed gateway.
-    :attr str token_id: (optional) The generated **token_id** for this gateway. The
+    :param str token_id: (optional) The generated **token_id** for this gateway. The
           value of this field is used when configuring the remotly installed gateway.
     """
 
-    def __init__(self,
-                 *,
-                 gateway_id: str = None,
-                 name: str = None,
-                 status: str = None,
-                 token: str = None,
-                 token_id: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        gateway_id: Optional[str] = None,
+        name: Optional[str] = None,
+        status: Optional[str] = None,
+        token: Optional[str] = None,
+        token_id: Optional[str] = None,
+    ) -> None:
         """
         Initialize a Gateway object.
 
@@ -7250,16 +7773,16 @@ class Gateway():
     def from_dict(cls, _dict: Dict) -> 'Gateway':
         """Initialize a Gateway object from a json dictionary."""
         args = {}
-        if 'gateway_id' in _dict:
-            args['gateway_id'] = _dict.get('gateway_id')
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
-        if 'status' in _dict:
-            args['status'] = _dict.get('status')
-        if 'token' in _dict:
-            args['token'] = _dict.get('token')
-        if 'token_id' in _dict:
-            args['token_id'] = _dict.get('token_id')
+        if (gateway_id := _dict.get('gateway_id')) is not None:
+            args['gateway_id'] = gateway_id
+        if (name := _dict.get('name')) is not None:
+            args['name'] = name
+        if (status := _dict.get('status')) is not None:
+            args['status'] = status
+        if (token := _dict.get('token')) is not None:
+            args['token'] = token
+        if (token_id := _dict.get('token_id')) is not None:
+            args['token_id'] = token_id
         return cls(**args)
 
     @classmethod
@@ -7305,19 +7828,25 @@ class Gateway():
         The current status of the gateway. `connected` means the gateway is connected to
         the remotly installed gateway. `idle` means this gateway is not currently in use.
         """
+
         CONNECTED = 'connected'
         IDLE = 'idle'
 
 
-class GatewayDelete():
+class GatewayDelete:
     """
     Gatway deletion confirmation.
 
-    :attr str gateway_id: (optional) The gateway ID of the deleted gateway.
-    :attr str status: (optional) The status of the request.
+    :param str gateway_id: (optional) The gateway ID of the deleted gateway.
+    :param str status: (optional) The status of the request.
     """
 
-    def __init__(self, *, gateway_id: str = None, status: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        gateway_id: Optional[str] = None,
+        status: Optional[str] = None,
+    ) -> None:
         """
         Initialize a GatewayDelete object.
 
@@ -7331,10 +7860,10 @@ class GatewayDelete():
     def from_dict(cls, _dict: Dict) -> 'GatewayDelete':
         """Initialize a GatewayDelete object from a json dictionary."""
         args = {}
-        if 'gateway_id' in _dict:
-            args['gateway_id'] = _dict.get('gateway_id')
-        if 'status' in _dict:
-            args['status'] = _dict.get('status')
+        if (gateway_id := _dict.get('gateway_id')) is not None:
+            args['gateway_id'] = gateway_id
+        if (status := _dict.get('status')) is not None:
+            args['status'] = status
         return cls(**args)
 
     @classmethod
@@ -7370,15 +7899,19 @@ class GatewayDelete():
         return not self == other
 
 
-class GatewayList():
+class GatewayList:
     """
     Object containing gateways array.
 
-    :attr List[Gateway] gateways: (optional) Array of configured gateway
+    :param List[Gateway] gateways: (optional) Array of configured gateway
           connections.
     """
 
-    def __init__(self, *, gateways: List['Gateway'] = None) -> None:
+    def __init__(
+        self,
+        *,
+        gateways: Optional[List['Gateway']] = None,
+    ) -> None:
         """
         Initialize a GatewayList object.
 
@@ -7391,10 +7924,8 @@ class GatewayList():
     def from_dict(cls, _dict: Dict) -> 'GatewayList':
         """Initialize a GatewayList object from a json dictionary."""
         args = {}
-        if 'gateways' in _dict:
-            args['gateways'] = [
-                Gateway.from_dict(v) for v in _dict.get('gateways')
-            ]
+        if (gateways := _dict.get('gateways')) is not None:
+            args['gateways'] = [Gateway.from_dict(v) for v in gateways]
         return cls(**args)
 
     @classmethod
@@ -7434,32 +7965,34 @@ class GatewayList():
         return not self == other
 
 
-class HtmlSettings():
+class HtmlSettings:
     """
     A list of HTML conversion settings.
 
-    :attr List[str] exclude_tags_completely: (optional) Array of HTML tags that are
+    :param List[str] exclude_tags_completely: (optional) Array of HTML tags that are
           excluded completely.
-    :attr List[str] exclude_tags_keep_content: (optional) Array of HTML tags which
+    :param List[str] exclude_tags_keep_content: (optional) Array of HTML tags which
           are excluded but still retain content.
-    :attr XPathPatterns keep_content: (optional) Object containing an array of
+    :param XPathPatterns keep_content: (optional) Object containing an array of
           XPaths.
-    :attr XPathPatterns exclude_content: (optional) Object containing an array of
+    :param XPathPatterns exclude_content: (optional) Object containing an array of
           XPaths.
-    :attr List[str] keep_tag_attributes: (optional) An array of HTML tag attributes
+    :param List[str] keep_tag_attributes: (optional) An array of HTML tag attributes
           to keep in the converted document.
-    :attr List[str] exclude_tag_attributes: (optional) Array of HTML tag attributes
+    :param List[str] exclude_tag_attributes: (optional) Array of HTML tag attributes
           to exclude.
     """
 
-    def __init__(self,
-                 *,
-                 exclude_tags_completely: List[str] = None,
-                 exclude_tags_keep_content: List[str] = None,
-                 keep_content: 'XPathPatterns' = None,
-                 exclude_content: 'XPathPatterns' = None,
-                 keep_tag_attributes: List[str] = None,
-                 exclude_tag_attributes: List[str] = None) -> None:
+    def __init__(
+        self,
+        *,
+        exclude_tags_completely: Optional[List[str]] = None,
+        exclude_tags_keep_content: Optional[List[str]] = None,
+        keep_content: Optional['XPathPatterns'] = None,
+        exclude_content: Optional['XPathPatterns'] = None,
+        keep_tag_attributes: Optional[List[str]] = None,
+        exclude_tag_attributes: Optional[List[str]] = None,
+    ) -> None:
         """
         Initialize a HtmlSettings object.
 
@@ -7487,22 +8020,22 @@ class HtmlSettings():
     def from_dict(cls, _dict: Dict) -> 'HtmlSettings':
         """Initialize a HtmlSettings object from a json dictionary."""
         args = {}
-        if 'exclude_tags_completely' in _dict:
-            args['exclude_tags_completely'] = _dict.get(
-                'exclude_tags_completely')
-        if 'exclude_tags_keep_content' in _dict:
-            args['exclude_tags_keep_content'] = _dict.get(
-                'exclude_tags_keep_content')
-        if 'keep_content' in _dict:
-            args['keep_content'] = XPathPatterns.from_dict(
-                _dict.get('keep_content'))
-        if 'exclude_content' in _dict:
-            args['exclude_content'] = XPathPatterns.from_dict(
-                _dict.get('exclude_content'))
-        if 'keep_tag_attributes' in _dict:
-            args['keep_tag_attributes'] = _dict.get('keep_tag_attributes')
-        if 'exclude_tag_attributes' in _dict:
-            args['exclude_tag_attributes'] = _dict.get('exclude_tag_attributes')
+        if (exclude_tags_completely :=
+                _dict.get('exclude_tags_completely')) is not None:
+            args['exclude_tags_completely'] = exclude_tags_completely
+        if (exclude_tags_keep_content :=
+                _dict.get('exclude_tags_keep_content')) is not None:
+            args['exclude_tags_keep_content'] = exclude_tags_keep_content
+        if (keep_content := _dict.get('keep_content')) is not None:
+            args['keep_content'] = XPathPatterns.from_dict(keep_content)
+        if (exclude_content := _dict.get('exclude_content')) is not None:
+            args['exclude_content'] = XPathPatterns.from_dict(exclude_content)
+        if (keep_tag_attributes :=
+                _dict.get('keep_tag_attributes')) is not None:
+            args['keep_tag_attributes'] = keep_tag_attributes
+        if (exclude_tag_attributes :=
+                _dict.get('exclude_tag_attributes')) is not None:
+            args['exclude_tag_attributes'] = exclude_tag_attributes
         return cls(**args)
 
     @classmethod
@@ -7558,23 +8091,25 @@ class HtmlSettings():
         return not self == other
 
 
-class IndexCapacity():
+class IndexCapacity:
     """
     Details about the resource usage and capacity of the environment.
 
-    :attr EnvironmentDocuments documents: (optional) Summary of the document usage
+    :param EnvironmentDocuments documents: (optional) Summary of the document usage
           statistics for the environment.
-    :attr DiskUsage disk_usage: (optional) Summary of the disk usage statistics for
+    :param DiskUsage disk_usage: (optional) Summary of the disk usage statistics for
           the environment.
-    :attr CollectionUsage collections: (optional) Summary of the collection usage in
-          the environment.
+    :param CollectionUsage collections: (optional) Summary of the collection usage
+          in the environment.
     """
 
-    def __init__(self,
-                 *,
-                 documents: 'EnvironmentDocuments' = None,
-                 disk_usage: 'DiskUsage' = None,
-                 collections: 'CollectionUsage' = None) -> None:
+    def __init__(
+        self,
+        *,
+        documents: Optional['EnvironmentDocuments'] = None,
+        disk_usage: Optional['DiskUsage'] = None,
+        collections: Optional['CollectionUsage'] = None,
+    ) -> None:
         """
         Initialize a IndexCapacity object.
 
@@ -7593,14 +8128,12 @@ class IndexCapacity():
     def from_dict(cls, _dict: Dict) -> 'IndexCapacity':
         """Initialize a IndexCapacity object from a json dictionary."""
         args = {}
-        if 'documents' in _dict:
-            args['documents'] = EnvironmentDocuments.from_dict(
-                _dict.get('documents'))
-        if 'disk_usage' in _dict:
-            args['disk_usage'] = DiskUsage.from_dict(_dict.get('disk_usage'))
-        if 'collections' in _dict:
-            args['collections'] = CollectionUsage.from_dict(
-                _dict.get('collections'))
+        if (documents := _dict.get('documents')) is not None:
+            args['documents'] = EnvironmentDocuments.from_dict(documents)
+        if (disk_usage := _dict.get('disk_usage')) is not None:
+            args['disk_usage'] = DiskUsage.from_dict(disk_usage)
+        if (collections := _dict.get('collections')) is not None:
+            args['collections'] = CollectionUsage.from_dict(collections)
         return cls(**args)
 
     @classmethod
@@ -7647,7 +8180,7 @@ class IndexCapacity():
         return not self == other
 
 
-class ListCollectionFieldsResponse():
+class ListCollectionFieldsResponse:
     """
     The list of fetched fields.
     The fields are returned using a fully qualified name format, however, the format
@@ -7660,11 +8193,15 @@ class ListCollectionFieldsResponse():
     `v{N}-fullnews-t3-{YEAR}.mappings` (for example,
     `v5-fullnews-t3-2016.mappings.text.properties.author`).
 
-    :attr List[Field] fields: (optional) An array containing information about each
+    :param List[Field] fields: (optional) An array containing information about each
           field in the collections.
     """
 
-    def __init__(self, *, fields: List['Field'] = None) -> None:
+    def __init__(
+        self,
+        *,
+        fields: Optional[List['Field']] = None,
+    ) -> None:
         """
         Initialize a ListCollectionFieldsResponse object.
 
@@ -7677,8 +8214,8 @@ class ListCollectionFieldsResponse():
     def from_dict(cls, _dict: Dict) -> 'ListCollectionFieldsResponse':
         """Initialize a ListCollectionFieldsResponse object from a json dictionary."""
         args = {}
-        if 'fields' in _dict:
-            args['fields'] = [Field.from_dict(v) for v in _dict.get('fields')]
+        if (fields := _dict.get('fields')) is not None:
+            args['fields'] = [Field.from_dict(v) for v in fields]
         return cls(**args)
 
     @classmethod
@@ -7718,15 +8255,19 @@ class ListCollectionFieldsResponse():
         return not self == other
 
 
-class ListCollectionsResponse():
+class ListCollectionsResponse:
     """
     Response object containing an array of collection details.
 
-    :attr List[Collection] collections: (optional) An array containing information
+    :param List[Collection] collections: (optional) An array containing information
           about each collection in the environment.
     """
 
-    def __init__(self, *, collections: List['Collection'] = None) -> None:
+    def __init__(
+        self,
+        *,
+        collections: Optional[List['Collection']] = None,
+    ) -> None:
         """
         Initialize a ListCollectionsResponse object.
 
@@ -7739,10 +8280,8 @@ class ListCollectionsResponse():
     def from_dict(cls, _dict: Dict) -> 'ListCollectionsResponse':
         """Initialize a ListCollectionsResponse object from a json dictionary."""
         args = {}
-        if 'collections' in _dict:
-            args['collections'] = [
-                Collection.from_dict(v) for v in _dict.get('collections')
-            ]
+        if (collections := _dict.get('collections')) is not None:
+            args['collections'] = [Collection.from_dict(v) for v in collections]
         return cls(**args)
 
     @classmethod
@@ -7782,15 +8321,19 @@ class ListCollectionsResponse():
         return not self == other
 
 
-class ListConfigurationsResponse():
+class ListConfigurationsResponse:
     """
     Object containing an array of available configurations.
 
-    :attr List[Configuration] configurations: (optional) An array of configurations
+    :param List[Configuration] configurations: (optional) An array of configurations
           that are available for the service instance.
     """
 
-    def __init__(self, *, configurations: List['Configuration'] = None) -> None:
+    def __init__(
+        self,
+        *,
+        configurations: Optional[List['Configuration']] = None,
+    ) -> None:
         """
         Initialize a ListConfigurationsResponse object.
 
@@ -7803,9 +8346,9 @@ class ListConfigurationsResponse():
     def from_dict(cls, _dict: Dict) -> 'ListConfigurationsResponse':
         """Initialize a ListConfigurationsResponse object from a json dictionary."""
         args = {}
-        if 'configurations' in _dict:
+        if (configurations := _dict.get('configurations')) is not None:
             args['configurations'] = [
-                Configuration.from_dict(v) for v in _dict.get('configurations')
+                Configuration.from_dict(v) for v in configurations
             ]
         return cls(**args)
 
@@ -7846,15 +8389,19 @@ class ListConfigurationsResponse():
         return not self == other
 
 
-class ListEnvironmentsResponse():
+class ListEnvironmentsResponse:
     """
     Response object containing an array of configured environments.
 
-    :attr List[Environment] environments: (optional) An array of [environments] that
-          are available for the service instance.
+    :param List[Environment] environments: (optional) An array of [environments]
+          that are available for the service instance.
     """
 
-    def __init__(self, *, environments: List['Environment'] = None) -> None:
+    def __init__(
+        self,
+        *,
+        environments: Optional[List['Environment']] = None,
+    ) -> None:
         """
         Initialize a ListEnvironmentsResponse object.
 
@@ -7867,9 +8414,9 @@ class ListEnvironmentsResponse():
     def from_dict(cls, _dict: Dict) -> 'ListEnvironmentsResponse':
         """Initialize a ListEnvironmentsResponse object from a json dictionary."""
         args = {}
-        if 'environments' in _dict:
+        if (environments := _dict.get('environments')) is not None:
             args['environments'] = [
-                Environment.from_dict(v) for v in _dict.get('environments')
+                Environment.from_dict(v) for v in environments
             ]
         return cls(**args)
 
@@ -7910,19 +8457,21 @@ class ListEnvironmentsResponse():
         return not self == other
 
 
-class LogQueryResponse():
+class LogQueryResponse:
     """
     Object containing results that match the requested **logs** query.
 
-    :attr int matching_results: (optional) Number of matching results.
-    :attr List[LogQueryResponseResult] results: (optional) Array of log query
+    :param int matching_results: (optional) Number of matching results.
+    :param List[LogQueryResponseResult] results: (optional) Array of log query
           response results.
     """
 
-    def __init__(self,
-                 *,
-                 matching_results: int = None,
-                 results: List['LogQueryResponseResult'] = None) -> None:
+    def __init__(
+        self,
+        *,
+        matching_results: Optional[int] = None,
+        results: Optional[List['LogQueryResponseResult']] = None,
+    ) -> None:
         """
         Initialize a LogQueryResponse object.
 
@@ -7937,12 +8486,11 @@ class LogQueryResponse():
     def from_dict(cls, _dict: Dict) -> 'LogQueryResponse':
         """Initialize a LogQueryResponse object from a json dictionary."""
         args = {}
-        if 'matching_results' in _dict:
-            args['matching_results'] = _dict.get('matching_results')
-        if 'results' in _dict:
+        if (matching_results := _dict.get('matching_results')) is not None:
+            args['matching_results'] = matching_results
+        if (results := _dict.get('results')) is not None:
             args['results'] = [
-                LogQueryResponseResult.from_dict(v)
-                for v in _dict.get('results')
+                LogQueryResponseResult.from_dict(v) for v in results
             ]
         return cls(**args)
 
@@ -7986,40 +8534,40 @@ class LogQueryResponse():
         return not self == other
 
 
-class LogQueryResponseResult():
+class LogQueryResponseResult:
     """
     Individual result object for a **logs** query. Each object represents either a query
     to a Discovery collection or an event that is associated with a query.
 
-    :attr str environment_id: (optional) The environment ID that is associated with
+    :param str environment_id: (optional) The environment ID that is associated with
           this log entry.
-    :attr str customer_id: (optional) The **customer_id** label that was specified
+    :param str customer_id: (optional) The **customer_id** label that was specified
           in the header of the query or event API call that corresponds to this log entry.
-    :attr str document_type: (optional) The type of log entry returned.
+    :param str document_type: (optional) The type of log entry returned.
            **query** indicates that the log represents the results of a call to the single
           collection **query** method.
            **event** indicates that the log represents  a call to the **events** API.
-    :attr str natural_language_query: (optional) The value of the
+    :param str natural_language_query: (optional) The value of the
           **natural_language_query** query parameter that was used to create these
           results. Only returned with logs of type **query**.
           **Note:** Other query parameters (such as **filter** or **deduplicate**) might
           have been used with this query, but are not recorded.
-    :attr LogQueryResponseResultDocuments document_results: (optional) Object
+    :param LogQueryResponseResultDocuments document_results: (optional) Object
           containing result information that was returned by the query used to create this
           log entry. Only returned with logs of type `query`.
-    :attr datetime created_timestamp: (optional) Date that the log result was
+    :param datetime created_timestamp: (optional) Date that the log result was
           created. Returned in `YYYY-MM-DDThh:mm:ssZ` format.
-    :attr datetime client_timestamp: (optional) Date specified by the user when
+    :param datetime client_timestamp: (optional) Date specified by the user when
           recording an event. Returned in `YYYY-MM-DDThh:mm:ssZ` format. Only returned
           with logs of type **event**.
-    :attr str query_id: (optional) Identifier that corresponds to the
+    :param str query_id: (optional) Identifier that corresponds to the
           **natural_language_query** string used in the original or associated query. All
           **event** and **query** log entries that have the same original
           **natural_language_query** string also have them same **query_id**. This field
           can be used to recall all **event** and **query** log results that have the same
           original query (**event** logs do not contain the original
           **natural_language_query** field).
-    :attr str session_token: (optional) Unique identifier (within a 24-hour period)
+    :param str session_token: (optional) Unique identifier (within a 24-hour period)
           that identifies a single `query` log and any `event` logs that were created for
           it.
           **Note:** If the exact same query is run at the exact same time on different
@@ -8028,36 +8576,38 @@ class LogQueryResponseResult():
           **Note:** Session tokens are case sensitive. To avoid matching on session tokens
           that are identical except for case, use the exact match operator (`::`) when you
           query for a specific session token.
-    :attr str collection_id: (optional) The collection ID of the document associated
-          with this event. Only returned with logs of type `event`.
-    :attr int display_rank: (optional) The original display rank of the document
+    :param str collection_id: (optional) The collection ID of the document
           associated with this event. Only returned with logs of type `event`.
-    :attr str document_id: (optional) The document ID of the document associated
+    :param int display_rank: (optional) The original display rank of the document
+          associated with this event. Only returned with logs of type `event`.
+    :param str document_id: (optional) The document ID of the document associated
           with this event. Only returned with logs of type `event`.
-    :attr str event_type: (optional) The type of event that this object respresents.
-          Possible values are
+    :param str event_type: (optional) The type of event that this object
+          respresents. Possible values are
            -  `query` the log of a query to a collection
            -  `click` the result of a call to the **events** endpoint.
-    :attr str result_type: (optional) The type of result that this **event** is
+    :param str result_type: (optional) The type of result that this **event** is
           associated with. Only returned with logs of type `event`.
     """
 
-    def __init__(self,
-                 *,
-                 environment_id: str = None,
-                 customer_id: str = None,
-                 document_type: str = None,
-                 natural_language_query: str = None,
-                 document_results: 'LogQueryResponseResultDocuments' = None,
-                 created_timestamp: datetime = None,
-                 client_timestamp: datetime = None,
-                 query_id: str = None,
-                 session_token: str = None,
-                 collection_id: str = None,
-                 display_rank: int = None,
-                 document_id: str = None,
-                 event_type: str = None,
-                 result_type: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        environment_id: Optional[str] = None,
+        customer_id: Optional[str] = None,
+        document_type: Optional[str] = None,
+        natural_language_query: Optional[str] = None,
+        document_results: Optional['LogQueryResponseResultDocuments'] = None,
+        created_timestamp: Optional[datetime] = None,
+        client_timestamp: Optional[datetime] = None,
+        query_id: Optional[str] = None,
+        session_token: Optional[str] = None,
+        collection_id: Optional[str] = None,
+        display_rank: Optional[int] = None,
+        document_id: Optional[str] = None,
+        event_type: Optional[str] = None,
+        result_type: Optional[str] = None,
+    ) -> None:
         """
         Initialize a LogQueryResponseResult object.
 
@@ -8132,38 +8682,37 @@ class LogQueryResponseResult():
     def from_dict(cls, _dict: Dict) -> 'LogQueryResponseResult':
         """Initialize a LogQueryResponseResult object from a json dictionary."""
         args = {}
-        if 'environment_id' in _dict:
-            args['environment_id'] = _dict.get('environment_id')
-        if 'customer_id' in _dict:
-            args['customer_id'] = _dict.get('customer_id')
-        if 'document_type' in _dict:
-            args['document_type'] = _dict.get('document_type')
-        if 'natural_language_query' in _dict:
-            args['natural_language_query'] = _dict.get('natural_language_query')
-        if 'document_results' in _dict:
+        if (environment_id := _dict.get('environment_id')) is not None:
+            args['environment_id'] = environment_id
+        if (customer_id := _dict.get('customer_id')) is not None:
+            args['customer_id'] = customer_id
+        if (document_type := _dict.get('document_type')) is not None:
+            args['document_type'] = document_type
+        if (natural_language_query :=
+                _dict.get('natural_language_query')) is not None:
+            args['natural_language_query'] = natural_language_query
+        if (document_results := _dict.get('document_results')) is not None:
             args[
                 'document_results'] = LogQueryResponseResultDocuments.from_dict(
-                    _dict.get('document_results'))
-        if 'created_timestamp' in _dict:
-            args['created_timestamp'] = string_to_datetime(
-                _dict.get('created_timestamp'))
-        if 'client_timestamp' in _dict:
-            args['client_timestamp'] = string_to_datetime(
-                _dict.get('client_timestamp'))
-        if 'query_id' in _dict:
-            args['query_id'] = _dict.get('query_id')
-        if 'session_token' in _dict:
-            args['session_token'] = _dict.get('session_token')
-        if 'collection_id' in _dict:
-            args['collection_id'] = _dict.get('collection_id')
-        if 'display_rank' in _dict:
-            args['display_rank'] = _dict.get('display_rank')
-        if 'document_id' in _dict:
-            args['document_id'] = _dict.get('document_id')
-        if 'event_type' in _dict:
-            args['event_type'] = _dict.get('event_type')
-        if 'result_type' in _dict:
-            args['result_type'] = _dict.get('result_type')
+                    document_results)
+        if (created_timestamp := _dict.get('created_timestamp')) is not None:
+            args['created_timestamp'] = string_to_datetime(created_timestamp)
+        if (client_timestamp := _dict.get('client_timestamp')) is not None:
+            args['client_timestamp'] = string_to_datetime(client_timestamp)
+        if (query_id := _dict.get('query_id')) is not None:
+            args['query_id'] = query_id
+        if (session_token := _dict.get('session_token')) is not None:
+            args['session_token'] = session_token
+        if (collection_id := _dict.get('collection_id')) is not None:
+            args['collection_id'] = collection_id
+        if (display_rank := _dict.get('display_rank')) is not None:
+            args['display_rank'] = display_rank
+        if (document_id := _dict.get('document_id')) is not None:
+            args['document_id'] = document_id
+        if (event_type := _dict.get('event_type')) is not None:
+            args['event_type'] = event_type
+        if (result_type := _dict.get('result_type')) is not None:
+            args['result_type'] = result_type
         return cls(**args)
 
     @classmethod
@@ -8238,6 +8787,7 @@ class LogQueryResponseResult():
         collection **query** method.
          **event** indicates that the log represents  a call to the **events** API.
         """
+
         QUERY = 'query'
         EVENT = 'event'
 
@@ -8247,6 +8797,7 @@ class LogQueryResponseResult():
          -  `query` the log of a query to a collection
          -  `click` the result of a call to the **events** endpoint.
         """
+
         CLICK = 'click'
         QUERY = 'query'
 
@@ -8255,24 +8806,27 @@ class LogQueryResponseResult():
         The type of result that this **event** is associated with. Only returned with logs
         of type `event`.
         """
+
         DOCUMENT = 'document'
 
 
-class LogQueryResponseResultDocuments():
+class LogQueryResponseResultDocuments:
     """
     Object containing result information that was returned by the query used to create
     this log entry. Only returned with logs of type `query`.
 
-    :attr List[LogQueryResponseResultDocumentsResult] results: (optional) Array of
+    :param List[LogQueryResponseResultDocumentsResult] results: (optional) Array of
           log query response results.
-    :attr int count: (optional) The number of results returned in the query
+    :param int count: (optional) The number of results returned in the query
           associate with this log.
     """
 
-    def __init__(self,
-                 *,
-                 results: List['LogQueryResponseResultDocumentsResult'] = None,
-                 count: int = None) -> None:
+    def __init__(
+        self,
+        *,
+        results: Optional[List['LogQueryResponseResultDocumentsResult']] = None,
+        count: Optional[int] = None,
+    ) -> None:
         """
         Initialize a LogQueryResponseResultDocuments object.
 
@@ -8288,13 +8842,13 @@ class LogQueryResponseResultDocuments():
     def from_dict(cls, _dict: Dict) -> 'LogQueryResponseResultDocuments':
         """Initialize a LogQueryResponseResultDocuments object from a json dictionary."""
         args = {}
-        if 'results' in _dict:
+        if (results := _dict.get('results')) is not None:
             args['results'] = [
                 LogQueryResponseResultDocumentsResult.from_dict(v)
-                for v in _dict.get('results')
+                for v in results
             ]
-        if 'count' in _dict:
-            args['count'] = _dict.get('count')
+        if (count := _dict.get('count')) is not None:
+            args['count'] = count
         return cls(**args)
 
     @classmethod
@@ -8336,30 +8890,32 @@ class LogQueryResponseResultDocuments():
         return not self == other
 
 
-class LogQueryResponseResultDocumentsResult():
+class LogQueryResponseResultDocumentsResult:
     """
     Each object in the **results** array corresponds to an individual document returned by
     the original query.
 
-    :attr int position: (optional) The result rank of this document. A position of
+    :param int position: (optional) The result rank of this document. A position of
           `1` indicates that it was the first returned result.
-    :attr str document_id: (optional) The **document_id** of the document that this
+    :param str document_id: (optional) The **document_id** of the document that this
           result represents.
-    :attr float score: (optional) The raw score of this result. A higher score
+    :param float score: (optional) The raw score of this result. A higher score
           indicates a greater match to the query parameters.
-    :attr float confidence: (optional) The confidence score of the result's
+    :param float confidence: (optional) The confidence score of the result's
           analysis. A higher score indicating greater confidence.
-    :attr str collection_id: (optional) The **collection_id** of the document
+    :param str collection_id: (optional) The **collection_id** of the document
           represented by this result.
     """
 
-    def __init__(self,
-                 *,
-                 position: int = None,
-                 document_id: str = None,
-                 score: float = None,
-                 confidence: float = None,
-                 collection_id: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        position: Optional[int] = None,
+        document_id: Optional[str] = None,
+        score: Optional[float] = None,
+        confidence: Optional[float] = None,
+        collection_id: Optional[str] = None,
+    ) -> None:
         """
         Initialize a LogQueryResponseResultDocumentsResult object.
 
@@ -8384,16 +8940,16 @@ class LogQueryResponseResultDocumentsResult():
     def from_dict(cls, _dict: Dict) -> 'LogQueryResponseResultDocumentsResult':
         """Initialize a LogQueryResponseResultDocumentsResult object from a json dictionary."""
         args = {}
-        if 'position' in _dict:
-            args['position'] = _dict.get('position')
-        if 'document_id' in _dict:
-            args['document_id'] = _dict.get('document_id')
-        if 'score' in _dict:
-            args['score'] = _dict.get('score')
-        if 'confidence' in _dict:
-            args['confidence'] = _dict.get('confidence')
-        if 'collection_id' in _dict:
-            args['collection_id'] = _dict.get('collection_id')
+        if (position := _dict.get('position')) is not None:
+            args['position'] = position
+        if (document_id := _dict.get('document_id')) is not None:
+            args['document_id'] = document_id
+        if (score := _dict.get('score')) is not None:
+            args['score'] = score
+        if (confidence := _dict.get('confidence')) is not None:
+            args['confidence'] = confidence
+        if (collection_id := _dict.get('collection_id')) is not None:
+            args['collection_id'] = collection_id
         return cls(**args)
 
     @classmethod
@@ -8435,23 +8991,25 @@ class LogQueryResponseResultDocumentsResult():
         return not self == other
 
 
-class MetricAggregation():
+class MetricAggregation:
     """
     An aggregation analyzing log information for queries and events.
 
-    :attr str interval: (optional) The measurement interval for this metric. Metric
+    :param str interval: (optional) The measurement interval for this metric. Metric
           intervals are always 1 day (`1d`).
-    :attr str event_type: (optional) The event type associated with this metric
+    :param str event_type: (optional) The event type associated with this metric
           result. This field, when present, will always be `click`.
-    :attr List[MetricAggregationResult] results: (optional) Array of metric
+    :param List[MetricAggregationResult] results: (optional) Array of metric
           aggregation query results.
     """
 
-    def __init__(self,
-                 *,
-                 interval: str = None,
-                 event_type: str = None,
-                 results: List['MetricAggregationResult'] = None) -> None:
+    def __init__(
+        self,
+        *,
+        interval: Optional[str] = None,
+        event_type: Optional[str] = None,
+        results: Optional[List['MetricAggregationResult']] = None,
+    ) -> None:
         """
         Initialize a MetricAggregation object.
 
@@ -8470,14 +9028,13 @@ class MetricAggregation():
     def from_dict(cls, _dict: Dict) -> 'MetricAggregation':
         """Initialize a MetricAggregation object from a json dictionary."""
         args = {}
-        if 'interval' in _dict:
-            args['interval'] = _dict.get('interval')
-        if 'event_type' in _dict:
-            args['event_type'] = _dict.get('event_type')
-        if 'results' in _dict:
+        if (interval := _dict.get('interval')) is not None:
+            args['interval'] = interval
+        if (event_type := _dict.get('event_type')) is not None:
+            args['event_type'] = event_type
+        if (results := _dict.get('results')) is not None:
             args['results'] = [
-                MetricAggregationResult.from_dict(v)
-                for v in _dict.get('results')
+                MetricAggregationResult.from_dict(v) for v in results
             ]
         return cls(**args)
 
@@ -8522,26 +9079,28 @@ class MetricAggregation():
         return not self == other
 
 
-class MetricAggregationResult():
+class MetricAggregationResult:
     """
     Aggregation result data for the requested metric.
 
-    :attr datetime key_as_string: (optional) Date in string form representing the
+    :param datetime key_as_string: (optional) Date in string form representing the
           start of this interval.
-    :attr int key: (optional) Unix epoch time equivalent of the **key_as_string**,
+    :param int key: (optional) Unix epoch time equivalent of the **key_as_string**,
           that represents the start of this interval.
-    :attr int matching_results: (optional) Number of matching results.
-    :attr float event_rate: (optional) The number of queries with associated events
+    :param int matching_results: (optional) Number of matching results.
+    :param float event_rate: (optional) The number of queries with associated events
           divided by the total number of queries for the interval. Only returned with
           **event_rate** metrics.
     """
 
-    def __init__(self,
-                 *,
-                 key_as_string: datetime = None,
-                 key: int = None,
-                 matching_results: int = None,
-                 event_rate: float = None) -> None:
+    def __init__(
+        self,
+        *,
+        key_as_string: Optional[datetime] = None,
+        key: Optional[int] = None,
+        matching_results: Optional[int] = None,
+        event_rate: Optional[float] = None,
+    ) -> None:
         """
         Initialize a MetricAggregationResult object.
 
@@ -8563,15 +9122,14 @@ class MetricAggregationResult():
     def from_dict(cls, _dict: Dict) -> 'MetricAggregationResult':
         """Initialize a MetricAggregationResult object from a json dictionary."""
         args = {}
-        if 'key_as_string' in _dict:
-            args['key_as_string'] = string_to_datetime(
-                _dict.get('key_as_string'))
-        if 'key' in _dict:
-            args['key'] = _dict.get('key')
-        if 'matching_results' in _dict:
-            args['matching_results'] = _dict.get('matching_results')
-        if 'event_rate' in _dict:
-            args['event_rate'] = _dict.get('event_rate')
+        if (key_as_string := _dict.get('key_as_string')) is not None:
+            args['key_as_string'] = string_to_datetime(key_as_string)
+        if (key := _dict.get('key')) is not None:
+            args['key'] = key
+        if (matching_results := _dict.get('matching_results')) is not None:
+            args['matching_results'] = matching_results
+        if (event_rate := _dict.get('event_rate')) is not None:
+            args['event_rate'] = event_rate
         return cls(**args)
 
     @classmethod
@@ -8612,17 +9170,19 @@ class MetricAggregationResult():
         return not self == other
 
 
-class MetricResponse():
+class MetricResponse:
     """
     The response generated from a call to a **metrics** method.
 
-    :attr List[MetricAggregation] aggregations: (optional) Array of metric
+    :param List[MetricAggregation] aggregations: (optional) Array of metric
           aggregations.
     """
 
-    def __init__(self,
-                 *,
-                 aggregations: List['MetricAggregation'] = None) -> None:
+    def __init__(
+        self,
+        *,
+        aggregations: Optional[List['MetricAggregation']] = None,
+    ) -> None:
         """
         Initialize a MetricResponse object.
 
@@ -8635,10 +9195,9 @@ class MetricResponse():
     def from_dict(cls, _dict: Dict) -> 'MetricResponse':
         """Initialize a MetricResponse object from a json dictionary."""
         args = {}
-        if 'aggregations' in _dict:
+        if (aggregations := _dict.get('aggregations')) is not None:
             args['aggregations'] = [
-                MetricAggregation.from_dict(v)
-                for v in _dict.get('aggregations')
+                MetricAggregation.from_dict(v) for v in aggregations
             ]
         return cls(**args)
 
@@ -8679,20 +9238,22 @@ class MetricResponse():
         return not self == other
 
 
-class MetricTokenAggregation():
+class MetricTokenAggregation:
     """
     An aggregation analyzing log information for queries and events.
 
-    :attr str event_type: (optional) The event type associated with this metric
+    :param str event_type: (optional) The event type associated with this metric
           result. This field, when present, will always be `click`.
-    :attr List[MetricTokenAggregationResult] results: (optional) Array of results
+    :param List[MetricTokenAggregationResult] results: (optional) Array of results
           for the metric token aggregation.
     """
 
-    def __init__(self,
-                 *,
-                 event_type: str = None,
-                 results: List['MetricTokenAggregationResult'] = None) -> None:
+    def __init__(
+        self,
+        *,
+        event_type: Optional[str] = None,
+        results: Optional[List['MetricTokenAggregationResult']] = None,
+    ) -> None:
         """
         Initialize a MetricTokenAggregation object.
 
@@ -8708,12 +9269,11 @@ class MetricTokenAggregation():
     def from_dict(cls, _dict: Dict) -> 'MetricTokenAggregation':
         """Initialize a MetricTokenAggregation object from a json dictionary."""
         args = {}
-        if 'event_type' in _dict:
-            args['event_type'] = _dict.get('event_type')
-        if 'results' in _dict:
+        if (event_type := _dict.get('event_type')) is not None:
+            args['event_type'] = event_type
+        if (results := _dict.get('results')) is not None:
             args['results'] = [
-                MetricTokenAggregationResult.from_dict(v)
-                for v in _dict.get('results')
+                MetricTokenAggregationResult.from_dict(v) for v in results
             ]
         return cls(**args)
 
@@ -8756,23 +9316,25 @@ class MetricTokenAggregation():
         return not self == other
 
 
-class MetricTokenAggregationResult():
+class MetricTokenAggregationResult:
     """
     Aggregation result data for the requested metric.
 
-    :attr str key: (optional) The content of the **natural_language_query**
+    :param str key: (optional) The content of the **natural_language_query**
           parameter used in the query that this result represents.
-    :attr int matching_results: (optional) Number of matching results.
-    :attr float event_rate: (optional) The number of queries with associated events
+    :param int matching_results: (optional) Number of matching results.
+    :param float event_rate: (optional) The number of queries with associated events
           divided by the total number of queries currently stored (queries and events are
           stored in the log for 30 days).
     """
 
-    def __init__(self,
-                 *,
-                 key: str = None,
-                 matching_results: int = None,
-                 event_rate: float = None) -> None:
+    def __init__(
+        self,
+        *,
+        key: Optional[str] = None,
+        matching_results: Optional[int] = None,
+        event_rate: Optional[float] = None,
+    ) -> None:
         """
         Initialize a MetricTokenAggregationResult object.
 
@@ -8791,12 +9353,12 @@ class MetricTokenAggregationResult():
     def from_dict(cls, _dict: Dict) -> 'MetricTokenAggregationResult':
         """Initialize a MetricTokenAggregationResult object from a json dictionary."""
         args = {}
-        if 'key' in _dict:
-            args['key'] = _dict.get('key')
-        if 'matching_results' in _dict:
-            args['matching_results'] = _dict.get('matching_results')
-        if 'event_rate' in _dict:
-            args['event_rate'] = _dict.get('event_rate')
+        if (key := _dict.get('key')) is not None:
+            args['key'] = key
+        if (matching_results := _dict.get('matching_results')) is not None:
+            args['matching_results'] = matching_results
+        if (event_rate := _dict.get('event_rate')) is not None:
+            args['event_rate'] = event_rate
         return cls(**args)
 
     @classmethod
@@ -8835,17 +9397,19 @@ class MetricTokenAggregationResult():
         return not self == other
 
 
-class MetricTokenResponse():
+class MetricTokenResponse:
     """
     The response generated from a call to a **metrics** method that evaluates tokens.
 
-    :attr List[MetricTokenAggregation] aggregations: (optional) Array of metric
+    :param List[MetricTokenAggregation] aggregations: (optional) Array of metric
           token aggregations.
     """
 
-    def __init__(self,
-                 *,
-                 aggregations: List['MetricTokenAggregation'] = None) -> None:
+    def __init__(
+        self,
+        *,
+        aggregations: Optional[List['MetricTokenAggregation']] = None,
+    ) -> None:
         """
         Initialize a MetricTokenResponse object.
 
@@ -8858,10 +9422,9 @@ class MetricTokenResponse():
     def from_dict(cls, _dict: Dict) -> 'MetricTokenResponse':
         """Initialize a MetricTokenResponse object from a json dictionary."""
         args = {}
-        if 'aggregations' in _dict:
+        if (aggregations := _dict.get('aggregations')) is not None:
             args['aggregations'] = [
-                MetricTokenAggregation.from_dict(v)
-                for v in _dict.get('aggregations')
+                MetricTokenAggregation.from_dict(v) for v in aggregations
             ]
         return cls(**args)
 
@@ -8902,15 +9465,19 @@ class MetricTokenResponse():
         return not self == other
 
 
-class NluEnrichmentConcepts():
+class NluEnrichmentConcepts:
     """
     An object specifiying the concepts enrichment and related parameters.
 
-    :attr int limit: (optional) The maximum number of concepts enrichments to extact
-          from each instance of the specified field.
+    :param int limit: (optional) The maximum number of concepts enrichments to
+          extact from each instance of the specified field.
     """
 
-    def __init__(self, *, limit: int = None) -> None:
+    def __init__(
+        self,
+        *,
+        limit: Optional[int] = None,
+    ) -> None:
         """
         Initialize a NluEnrichmentConcepts object.
 
@@ -8923,8 +9490,8 @@ class NluEnrichmentConcepts():
     def from_dict(cls, _dict: Dict) -> 'NluEnrichmentConcepts':
         """Initialize a NluEnrichmentConcepts object from a json dictionary."""
         args = {}
-        if 'limit' in _dict:
-            args['limit'] = _dict.get('limit')
+        if (limit := _dict.get('limit')) is not None:
+            args['limit'] = limit
         return cls(**args)
 
     @classmethod
@@ -8958,20 +9525,22 @@ class NluEnrichmentConcepts():
         return not self == other
 
 
-class NluEnrichmentEmotion():
+class NluEnrichmentEmotion:
     """
     An object specifying the emotion detection enrichment and related parameters.
 
-    :attr bool document: (optional) When `true`, emotion detection is performed on
+    :param bool document: (optional) When `true`, emotion detection is performed on
           the entire field.
-    :attr List[str] targets: (optional) A comma-separated list of target strings
+    :param List[str] targets: (optional) A comma-separated list of target strings
           that will have any associated emotions detected.
     """
 
-    def __init__(self,
-                 *,
-                 document: bool = None,
-                 targets: List[str] = None) -> None:
+    def __init__(
+        self,
+        *,
+        document: Optional[bool] = None,
+        targets: Optional[List[str]] = None,
+    ) -> None:
         """
         Initialize a NluEnrichmentEmotion object.
 
@@ -8987,10 +9556,10 @@ class NluEnrichmentEmotion():
     def from_dict(cls, _dict: Dict) -> 'NluEnrichmentEmotion':
         """Initialize a NluEnrichmentEmotion object from a json dictionary."""
         args = {}
-        if 'document' in _dict:
-            args['document'] = _dict.get('document')
-        if 'targets' in _dict:
-            args['targets'] = _dict.get('targets')
+        if (document := _dict.get('document')) is not None:
+            args['document'] = document
+        if (targets := _dict.get('targets')) is not None:
+            args['targets'] = targets
         return cls(**args)
 
     @classmethod
@@ -9026,37 +9595,39 @@ class NluEnrichmentEmotion():
         return not self == other
 
 
-class NluEnrichmentEntities():
+class NluEnrichmentEntities:
     """
     An object speficying the Entities enrichment and related parameters.
 
-    :attr bool sentiment: (optional) When `true`, sentiment analysis of entities
+    :param bool sentiment: (optional) When `true`, sentiment analysis of entities
           will be performed on the specified field.
-    :attr bool emotion: (optional) When `true`, emotion detection of entities will
+    :param bool emotion: (optional) When `true`, emotion detection of entities will
           be performed on the specified field.
-    :attr int limit: (optional) The maximum number of entities to extract for each
+    :param int limit: (optional) The maximum number of entities to extract for each
           instance of the specified field.
-    :attr bool mentions: (optional) When `true`, the number of mentions of each
+    :param bool mentions: (optional) When `true`, the number of mentions of each
           identified entity is recorded. The default is `false`.
-    :attr bool mention_types: (optional) When `true`, the types of mentions for each
-          idetifieid entity is recorded. The default is `false`.
-    :attr bool sentence_locations: (optional) When `true`, a list of sentence
+    :param bool mention_types: (optional) When `true`, the types of mentions for
+          each idetifieid entity is recorded. The default is `false`.
+    :param bool sentence_locations: (optional) When `true`, a list of sentence
           locations for each instance of each identified entity is recorded. The default
           is `false`.
-    :attr str model: (optional) The enrichement model to use with entity extraction.
-          May be a custom model provided by Watson Knowledge Studio, or the default public
-          model `alchemy`.
+    :param str model: (optional) The enrichement model to use with entity
+          extraction. May be a custom model provided by Watson Knowledge Studio, or the
+          default public model `alchemy`.
     """
 
-    def __init__(self,
-                 *,
-                 sentiment: bool = None,
-                 emotion: bool = None,
-                 limit: int = None,
-                 mentions: bool = None,
-                 mention_types: bool = None,
-                 sentence_locations: bool = None,
-                 model: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        sentiment: Optional[bool] = None,
+        emotion: Optional[bool] = None,
+        limit: Optional[int] = None,
+        mentions: Optional[bool] = None,
+        mention_types: Optional[bool] = None,
+        sentence_locations: Optional[bool] = None,
+        model: Optional[str] = None,
+    ) -> None:
         """
         Initialize a NluEnrichmentEntities object.
 
@@ -9089,20 +9660,20 @@ class NluEnrichmentEntities():
     def from_dict(cls, _dict: Dict) -> 'NluEnrichmentEntities':
         """Initialize a NluEnrichmentEntities object from a json dictionary."""
         args = {}
-        if 'sentiment' in _dict:
-            args['sentiment'] = _dict.get('sentiment')
-        if 'emotion' in _dict:
-            args['emotion'] = _dict.get('emotion')
-        if 'limit' in _dict:
-            args['limit'] = _dict.get('limit')
-        if 'mentions' in _dict:
-            args['mentions'] = _dict.get('mentions')
-        if 'mention_types' in _dict:
-            args['mention_types'] = _dict.get('mention_types')
-        if 'sentence_locations' in _dict:
-            args['sentence_locations'] = _dict.get('sentence_locations')
-        if 'model' in _dict:
-            args['model'] = _dict.get('model')
+        if (sentiment := _dict.get('sentiment')) is not None:
+            args['sentiment'] = sentiment
+        if (emotion := _dict.get('emotion')) is not None:
+            args['emotion'] = emotion
+        if (limit := _dict.get('limit')) is not None:
+            args['limit'] = limit
+        if (mentions := _dict.get('mentions')) is not None:
+            args['mentions'] = mentions
+        if (mention_types := _dict.get('mention_types')) is not None:
+            args['mention_types'] = mention_types
+        if (sentence_locations := _dict.get('sentence_locations')) is not None:
+            args['sentence_locations'] = sentence_locations
+        if (model := _dict.get('model')) is not None:
+            args['model'] = model
         return cls(**args)
 
     @classmethod
@@ -9150,38 +9721,40 @@ class NluEnrichmentEntities():
         return not self == other
 
 
-class NluEnrichmentFeatures():
+class NluEnrichmentFeatures:
     """
     Object containing Natural Language Understanding features to be used.
 
-    :attr NluEnrichmentKeywords keywords: (optional) An object specifying the
+    :param NluEnrichmentKeywords keywords: (optional) An object specifying the
           Keyword enrichment and related parameters.
-    :attr NluEnrichmentEntities entities: (optional) An object speficying the
+    :param NluEnrichmentEntities entities: (optional) An object speficying the
           Entities enrichment and related parameters.
-    :attr NluEnrichmentSentiment sentiment: (optional) An object specifying the
+    :param NluEnrichmentSentiment sentiment: (optional) An object specifying the
           sentiment extraction enrichment and related parameters.
-    :attr NluEnrichmentEmotion emotion: (optional) An object specifying the emotion
+    :param NluEnrichmentEmotion emotion: (optional) An object specifying the emotion
           detection enrichment and related parameters.
-    :attr dict categories: (optional) An object that indicates the Categories
+    :param dict categories: (optional) An object that indicates the Categories
           enrichment will be applied to the specified field.
-    :attr NluEnrichmentSemanticRoles semantic_roles: (optional) An object
+    :param NluEnrichmentSemanticRoles semantic_roles: (optional) An object
           specifiying the semantic roles enrichment and related parameters.
-    :attr NluEnrichmentRelations relations: (optional) An object specifying the
+    :param NluEnrichmentRelations relations: (optional) An object specifying the
           relations enrichment and related parameters.
-    :attr NluEnrichmentConcepts concepts: (optional) An object specifiying the
+    :param NluEnrichmentConcepts concepts: (optional) An object specifiying the
           concepts enrichment and related parameters.
     """
 
-    def __init__(self,
-                 *,
-                 keywords: 'NluEnrichmentKeywords' = None,
-                 entities: 'NluEnrichmentEntities' = None,
-                 sentiment: 'NluEnrichmentSentiment' = None,
-                 emotion: 'NluEnrichmentEmotion' = None,
-                 categories: dict = None,
-                 semantic_roles: 'NluEnrichmentSemanticRoles' = None,
-                 relations: 'NluEnrichmentRelations' = None,
-                 concepts: 'NluEnrichmentConcepts' = None) -> None:
+    def __init__(
+        self,
+        *,
+        keywords: Optional['NluEnrichmentKeywords'] = None,
+        entities: Optional['NluEnrichmentEntities'] = None,
+        sentiment: Optional['NluEnrichmentSentiment'] = None,
+        emotion: Optional['NluEnrichmentEmotion'] = None,
+        categories: Optional[dict] = None,
+        semantic_roles: Optional['NluEnrichmentSemanticRoles'] = None,
+        relations: Optional['NluEnrichmentRelations'] = None,
+        concepts: Optional['NluEnrichmentConcepts'] = None,
+    ) -> None:
         """
         Initialize a NluEnrichmentFeatures object.
 
@@ -9215,29 +9788,23 @@ class NluEnrichmentFeatures():
     def from_dict(cls, _dict: Dict) -> 'NluEnrichmentFeatures':
         """Initialize a NluEnrichmentFeatures object from a json dictionary."""
         args = {}
-        if 'keywords' in _dict:
-            args['keywords'] = NluEnrichmentKeywords.from_dict(
-                _dict.get('keywords'))
-        if 'entities' in _dict:
-            args['entities'] = NluEnrichmentEntities.from_dict(
-                _dict.get('entities'))
-        if 'sentiment' in _dict:
-            args['sentiment'] = NluEnrichmentSentiment.from_dict(
-                _dict.get('sentiment'))
-        if 'emotion' in _dict:
-            args['emotion'] = NluEnrichmentEmotion.from_dict(
-                _dict.get('emotion'))
-        if 'categories' in _dict:
-            args['categories'] = _dict.get('categories')
-        if 'semantic_roles' in _dict:
+        if (keywords := _dict.get('keywords')) is not None:
+            args['keywords'] = NluEnrichmentKeywords.from_dict(keywords)
+        if (entities := _dict.get('entities')) is not None:
+            args['entities'] = NluEnrichmentEntities.from_dict(entities)
+        if (sentiment := _dict.get('sentiment')) is not None:
+            args['sentiment'] = NluEnrichmentSentiment.from_dict(sentiment)
+        if (emotion := _dict.get('emotion')) is not None:
+            args['emotion'] = NluEnrichmentEmotion.from_dict(emotion)
+        if (categories := _dict.get('categories')) is not None:
+            args['categories'] = categories
+        if (semantic_roles := _dict.get('semantic_roles')) is not None:
             args['semantic_roles'] = NluEnrichmentSemanticRoles.from_dict(
-                _dict.get('semantic_roles'))
-        if 'relations' in _dict:
-            args['relations'] = NluEnrichmentRelations.from_dict(
-                _dict.get('relations'))
-        if 'concepts' in _dict:
-            args['concepts'] = NluEnrichmentConcepts.from_dict(
-                _dict.get('concepts'))
+                semantic_roles)
+        if (relations := _dict.get('relations')) is not None:
+            args['relations'] = NluEnrichmentRelations.from_dict(relations)
+        if (concepts := _dict.get('concepts')) is not None:
+            args['concepts'] = NluEnrichmentConcepts.from_dict(concepts)
         return cls(**args)
 
     @classmethod
@@ -9306,23 +9873,25 @@ class NluEnrichmentFeatures():
         return not self == other
 
 
-class NluEnrichmentKeywords():
+class NluEnrichmentKeywords:
     """
     An object specifying the Keyword enrichment and related parameters.
 
-    :attr bool sentiment: (optional) When `true`, sentiment analysis of keywords
+    :param bool sentiment: (optional) When `true`, sentiment analysis of keywords
           will be performed on the specified field.
-    :attr bool emotion: (optional) When `true`, emotion detection of keywords will
+    :param bool emotion: (optional) When `true`, emotion detection of keywords will
           be performed on the specified field.
-    :attr int limit: (optional) The maximum number of keywords to extract for each
+    :param int limit: (optional) The maximum number of keywords to extract for each
           instance of the specified field.
     """
 
-    def __init__(self,
-                 *,
-                 sentiment: bool = None,
-                 emotion: bool = None,
-                 limit: int = None) -> None:
+    def __init__(
+        self,
+        *,
+        sentiment: Optional[bool] = None,
+        emotion: Optional[bool] = None,
+        limit: Optional[int] = None,
+    ) -> None:
         """
         Initialize a NluEnrichmentKeywords object.
 
@@ -9341,12 +9910,12 @@ class NluEnrichmentKeywords():
     def from_dict(cls, _dict: Dict) -> 'NluEnrichmentKeywords':
         """Initialize a NluEnrichmentKeywords object from a json dictionary."""
         args = {}
-        if 'sentiment' in _dict:
-            args['sentiment'] = _dict.get('sentiment')
-        if 'emotion' in _dict:
-            args['emotion'] = _dict.get('emotion')
-        if 'limit' in _dict:
-            args['limit'] = _dict.get('limit')
+        if (sentiment := _dict.get('sentiment')) is not None:
+            args['sentiment'] = sentiment
+        if (emotion := _dict.get('emotion')) is not None:
+            args['emotion'] = emotion
+        if (limit := _dict.get('limit')) is not None:
+            args['limit'] = limit
         return cls(**args)
 
     @classmethod
@@ -9384,17 +9953,21 @@ class NluEnrichmentKeywords():
         return not self == other
 
 
-class NluEnrichmentRelations():
+class NluEnrichmentRelations:
     """
     An object specifying the relations enrichment and related parameters.
 
-    :attr str model: (optional) *For use with `natural_language_understanding`
+    :param str model: (optional) *For use with `natural_language_understanding`
           enrichments only.* The enrichement model to use with relationship extraction.
           May be a custom model provided by Watson Knowledge Studio, the default public
           model is`en-news`.
     """
 
-    def __init__(self, *, model: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        model: Optional[str] = None,
+    ) -> None:
         """
         Initialize a NluEnrichmentRelations object.
 
@@ -9409,8 +9982,8 @@ class NluEnrichmentRelations():
     def from_dict(cls, _dict: Dict) -> 'NluEnrichmentRelations':
         """Initialize a NluEnrichmentRelations object from a json dictionary."""
         args = {}
-        if 'model' in _dict:
-            args['model'] = _dict.get('model')
+        if (model := _dict.get('model')) is not None:
+            args['model'] = model
         return cls(**args)
 
     @classmethod
@@ -9444,23 +10017,25 @@ class NluEnrichmentRelations():
         return not self == other
 
 
-class NluEnrichmentSemanticRoles():
+class NluEnrichmentSemanticRoles:
     """
     An object specifiying the semantic roles enrichment and related parameters.
 
-    :attr bool entities: (optional) When `true`, entities are extracted from the
+    :param bool entities: (optional) When `true`, entities are extracted from the
           identified sentence parts.
-    :attr bool keywords: (optional) When `true`, keywords are extracted from the
+    :param bool keywords: (optional) When `true`, keywords are extracted from the
           identified sentence parts.
-    :attr int limit: (optional) The maximum number of semantic roles enrichments to
+    :param int limit: (optional) The maximum number of semantic roles enrichments to
           extact from each instance of the specified field.
     """
 
-    def __init__(self,
-                 *,
-                 entities: bool = None,
-                 keywords: bool = None,
-                 limit: int = None) -> None:
+    def __init__(
+        self,
+        *,
+        entities: Optional[bool] = None,
+        keywords: Optional[bool] = None,
+        limit: Optional[int] = None,
+    ) -> None:
         """
         Initialize a NluEnrichmentSemanticRoles object.
 
@@ -9479,12 +10054,12 @@ class NluEnrichmentSemanticRoles():
     def from_dict(cls, _dict: Dict) -> 'NluEnrichmentSemanticRoles':
         """Initialize a NluEnrichmentSemanticRoles object from a json dictionary."""
         args = {}
-        if 'entities' in _dict:
-            args['entities'] = _dict.get('entities')
-        if 'keywords' in _dict:
-            args['keywords'] = _dict.get('keywords')
-        if 'limit' in _dict:
-            args['limit'] = _dict.get('limit')
+        if (entities := _dict.get('entities')) is not None:
+            args['entities'] = entities
+        if (keywords := _dict.get('keywords')) is not None:
+            args['keywords'] = keywords
+        if (limit := _dict.get('limit')) is not None:
+            args['limit'] = limit
         return cls(**args)
 
     @classmethod
@@ -9522,20 +10097,22 @@ class NluEnrichmentSemanticRoles():
         return not self == other
 
 
-class NluEnrichmentSentiment():
+class NluEnrichmentSentiment:
     """
     An object specifying the sentiment extraction enrichment and related parameters.
 
-    :attr bool document: (optional) When `true`, sentiment analysis is performed on
+    :param bool document: (optional) When `true`, sentiment analysis is performed on
           the entire field.
-    :attr List[str] targets: (optional) A comma-separated list of target strings
+    :param List[str] targets: (optional) A comma-separated list of target strings
           that will have any associated sentiment analyzed.
     """
 
-    def __init__(self,
-                 *,
-                 document: bool = None,
-                 targets: List[str] = None) -> None:
+    def __init__(
+        self,
+        *,
+        document: Optional[bool] = None,
+        targets: Optional[List[str]] = None,
+    ) -> None:
         """
         Initialize a NluEnrichmentSentiment object.
 
@@ -9551,10 +10128,10 @@ class NluEnrichmentSentiment():
     def from_dict(cls, _dict: Dict) -> 'NluEnrichmentSentiment':
         """Initialize a NluEnrichmentSentiment object from a json dictionary."""
         args = {}
-        if 'document' in _dict:
-            args['document'] = _dict.get('document')
-        if 'targets' in _dict:
-            args['targets'] = _dict.get('targets')
+        if (document := _dict.get('document')) is not None:
+            args['document'] = document
+        if (targets := _dict.get('targets')) is not None:
+            args['targets'] = targets
         return cls(**args)
 
     @classmethod
@@ -9590,11 +10167,11 @@ class NluEnrichmentSentiment():
         return not self == other
 
 
-class NormalizationOperation():
+class NormalizationOperation:
     """
     Object containing normalization operations.
 
-    :attr str operation: (optional) Identifies what type of operation to perform.
+    :param str operation: (optional) Identifies what type of operation to perform.
           **copy** - Copies the value of the **source_field** to the **destination_field**
           field. If the **destination_field** already exists, then the value of the
           **source_field** overwrites the original value of the **destination_field**.
@@ -9619,15 +10196,18 @@ class NormalizationOperation():
           this operation because _remove_nulls_ operates on the entire ingested document.
           Typically, **remove_nulls** is invoked as the last normalization operation (if
           it is invoked at all, it can be time-expensive).
-    :attr str source_field: (optional) The source field for the operation.
-    :attr str destination_field: (optional) The destination field for the operation.
+    :param str source_field: (optional) The source field for the operation.
+    :param str destination_field: (optional) The destination field for the
+          operation.
     """
 
-    def __init__(self,
-                 *,
-                 operation: str = None,
-                 source_field: str = None,
-                 destination_field: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        operation: Optional[str] = None,
+        source_field: Optional[str] = None,
+        destination_field: Optional[str] = None,
+    ) -> None:
         """
         Initialize a NormalizationOperation object.
 
@@ -9670,12 +10250,12 @@ class NormalizationOperation():
     def from_dict(cls, _dict: Dict) -> 'NormalizationOperation':
         """Initialize a NormalizationOperation object from a json dictionary."""
         args = {}
-        if 'operation' in _dict:
-            args['operation'] = _dict.get('operation')
-        if 'source_field' in _dict:
-            args['source_field'] = _dict.get('source_field')
-        if 'destination_field' in _dict:
-            args['destination_field'] = _dict.get('destination_field')
+        if (operation := _dict.get('operation')) is not None:
+            args['operation'] = operation
+        if (source_field := _dict.get('source_field')) is not None:
+            args['source_field'] = source_field
+        if (destination_field := _dict.get('destination_field')) is not None:
+            args['destination_field'] = destination_field
         return cls(**args)
 
     @classmethod
@@ -9740,6 +10320,7 @@ class NormalizationOperation():
         **remove_nulls** is invoked as the last normalization operation (if it is invoked
         at all, it can be time-expensive).
         """
+
         COPY = 'copy'
         MOVE = 'move'
         MERGE = 'merge'
@@ -9747,11 +10328,11 @@ class NormalizationOperation():
         REMOVE_NULLS = 'remove_nulls'
 
 
-class Notice():
+class Notice:
     """
     A notice produced for the collection.
 
-    :attr str notice_id: (optional) Identifies the notice. Many notices might have
+    :param str notice_id: (optional) Identifies the notice. Many notices might have
           the same ID. This field exists so that user applications can programmatically
           identify a notice and take automatic corrective action. Typical notice IDs
           include: `index_failed`, `index_failed_too_many_requests`,
@@ -9765,28 +10346,30 @@ class Notice():
           `smart_document_understanding_page_error`,
           `smart_document_understanding_page_warning`. **Note:** This is not a complete
           list; other values might be returned.
-    :attr datetime created: (optional) The creation date of the collection in the
+    :param datetime created: (optional) The creation date of the collection in the
           format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
-    :attr str document_id: (optional) Unique identifier of the document.
-    :attr str query_id: (optional) Unique identifier of the query used for relevance
-          training.
-    :attr str severity: (optional) Severity level of the notice.
-    :attr str step: (optional) Ingestion or training step in which the notice
+    :param str document_id: (optional) Unique identifier of the document.
+    :param str query_id: (optional) Unique identifier of the query used for
+          relevance training.
+    :param str severity: (optional) Severity level of the notice.
+    :param str step: (optional) Ingestion or training step in which the notice
           occurred. Typical step values include: `smartDocumentUnderstanding`,
           `ingestion`, `indexing`, `convert`. **Note:** This is not a complete list; other
           values might be returned.
-    :attr str description: (optional) The description of the notice.
+    :param str description: (optional) The description of the notice.
     """
 
-    def __init__(self,
-                 *,
-                 notice_id: str = None,
-                 created: datetime = None,
-                 document_id: str = None,
-                 query_id: str = None,
-                 severity: str = None,
-                 step: str = None,
-                 description: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        notice_id: Optional[str] = None,
+        created: Optional[datetime] = None,
+        document_id: Optional[str] = None,
+        query_id: Optional[str] = None,
+        severity: Optional[str] = None,
+        step: Optional[str] = None,
+        description: Optional[str] = None,
+    ) -> None:
         """
         Initialize a Notice object.
 
@@ -9803,20 +10386,20 @@ class Notice():
     def from_dict(cls, _dict: Dict) -> 'Notice':
         """Initialize a Notice object from a json dictionary."""
         args = {}
-        if 'notice_id' in _dict:
-            args['notice_id'] = _dict.get('notice_id')
-        if 'created' in _dict:
-            args['created'] = string_to_datetime(_dict.get('created'))
-        if 'document_id' in _dict:
-            args['document_id'] = _dict.get('document_id')
-        if 'query_id' in _dict:
-            args['query_id'] = _dict.get('query_id')
-        if 'severity' in _dict:
-            args['severity'] = _dict.get('severity')
-        if 'step' in _dict:
-            args['step'] = _dict.get('step')
-        if 'description' in _dict:
-            args['description'] = _dict.get('description')
+        if (notice_id := _dict.get('notice_id')) is not None:
+            args['notice_id'] = notice_id
+        if (created := _dict.get('created')) is not None:
+            args['created'] = string_to_datetime(created)
+        if (document_id := _dict.get('document_id')) is not None:
+            args['document_id'] = document_id
+        if (query_id := _dict.get('query_id')) is not None:
+            args['query_id'] = query_id
+        if (severity := _dict.get('severity')) is not None:
+            args['severity'] = severity
+        if (step := _dict.get('step')) is not None:
+            args['step'] = step
+        if (description := _dict.get('description')) is not None:
+            args['description'] = description
         return cls(**args)
 
     @classmethod
@@ -9868,18 +10451,24 @@ class Notice():
         """
         Severity level of the notice.
         """
+
         WARNING = 'warning'
         ERROR = 'error'
 
 
-class PdfHeadingDetection():
+class PdfHeadingDetection:
     """
     Object containing heading detection conversion settings for PDF documents.
 
-    :attr List[FontSetting] fonts: (optional) Array of font matching configurations.
+    :param List[FontSetting] fonts: (optional) Array of font matching
+          configurations.
     """
 
-    def __init__(self, *, fonts: List['FontSetting'] = None) -> None:
+    def __init__(
+        self,
+        *,
+        fonts: Optional[List['FontSetting']] = None,
+    ) -> None:
         """
         Initialize a PdfHeadingDetection object.
 
@@ -9892,10 +10481,8 @@ class PdfHeadingDetection():
     def from_dict(cls, _dict: Dict) -> 'PdfHeadingDetection':
         """Initialize a PdfHeadingDetection object from a json dictionary."""
         args = {}
-        if 'fonts' in _dict:
-            args['fonts'] = [
-                FontSetting.from_dict(v) for v in _dict.get('fonts')
-            ]
+        if (fonts := _dict.get('fonts')) is not None:
+            args['fonts'] = [FontSetting.from_dict(v) for v in fonts]
         return cls(**args)
 
     @classmethod
@@ -9935,15 +10522,19 @@ class PdfHeadingDetection():
         return not self == other
 
 
-class PdfSettings():
+class PdfSettings:
     """
     A list of PDF conversion settings.
 
-    :attr PdfHeadingDetection heading: (optional) Object containing heading
+    :param PdfHeadingDetection heading: (optional) Object containing heading
           detection conversion settings for PDF documents.
     """
 
-    def __init__(self, *, heading: 'PdfHeadingDetection' = None) -> None:
+    def __init__(
+        self,
+        *,
+        heading: Optional['PdfHeadingDetection'] = None,
+    ) -> None:
         """
         Initialize a PdfSettings object.
 
@@ -9956,9 +10547,8 @@ class PdfSettings():
     def from_dict(cls, _dict: Dict) -> 'PdfSettings':
         """Initialize a PdfSettings object from a json dictionary."""
         args = {}
-        if 'heading' in _dict:
-            args['heading'] = PdfHeadingDetection.from_dict(
-                _dict.get('heading'))
+        if (heading := _dict.get('heading')) is not None:
+            args['heading'] = PdfHeadingDetection.from_dict(heading)
         return cls(**args)
 
     @classmethod
@@ -9995,15 +10585,18 @@ class PdfSettings():
         return not self == other
 
 
-class QueryAggregation():
+class QueryAggregation:
     """
     An aggregation produced by Discovery to analyze the input provided.
 
-    :attr str type: The type of aggregation command used. For example: term, filter,
-          max, min, etc.
+    :param str type: The type of aggregation command used. For example: term,
+          filter, max, min, etc.
     """
 
-    def __init__(self, type: str) -> None:
+    def __init__(
+        self,
+        type: str,
+    ) -> None:
         """
         Initialize a QueryAggregation object.
 
@@ -10019,8 +10612,8 @@ class QueryAggregation():
         if disc_class != cls:
             return disc_class.from_dict(_dict)
         args = {}
-        if 'type' in _dict:
-            args['type'] = _dict.get('type')
+        if (type := _dict.get('type')) is not None:
+            args['type'] = type
         else:
             raise ValueError(
                 'Required property \'type\' not present in QueryAggregation JSON'
@@ -10086,22 +10679,24 @@ class QueryAggregation():
         raise TypeError('%s is not a discriminator class' % class_name)
 
 
-class QueryHistogramAggregationResult():
+class QueryHistogramAggregationResult:
     """
     Histogram numeric interval result.
 
-    :attr int key: The value of the upper bound for the numeric segment.
-    :attr int matching_results: Number of documents with the specified key as the
+    :param int key: The value of the upper bound for the numeric segment.
+    :param int matching_results: Number of documents with the specified key as the
           upper bound.
-    :attr List[QueryAggregation] aggregations: (optional) An array of
+    :param List[QueryAggregation] aggregations: (optional) An array of
           sub-aggregations.
     """
 
-    def __init__(self,
-                 key: int,
-                 matching_results: int,
-                 *,
-                 aggregations: List['QueryAggregation'] = None) -> None:
+    def __init__(
+        self,
+        key: int,
+        matching_results: int,
+        *,
+        aggregations: Optional[List['QueryAggregation']] = None,
+    ) -> None:
         """
         Initialize a QueryHistogramAggregationResult object.
 
@@ -10119,21 +10714,21 @@ class QueryHistogramAggregationResult():
     def from_dict(cls, _dict: Dict) -> 'QueryHistogramAggregationResult':
         """Initialize a QueryHistogramAggregationResult object from a json dictionary."""
         args = {}
-        if 'key' in _dict:
-            args['key'] = _dict.get('key')
+        if (key := _dict.get('key')) is not None:
+            args['key'] = key
         else:
             raise ValueError(
                 'Required property \'key\' not present in QueryHistogramAggregationResult JSON'
             )
-        if 'matching_results' in _dict:
-            args['matching_results'] = _dict.get('matching_results')
+        if (matching_results := _dict.get('matching_results')) is not None:
+            args['matching_results'] = matching_results
         else:
             raise ValueError(
                 'Required property \'matching_results\' not present in QueryHistogramAggregationResult JSON'
             )
-        if 'aggregations' in _dict:
+        if (aggregations := _dict.get('aggregations')) is not None:
             args['aggregations'] = [
-                QueryAggregation.from_dict(v) for v in _dict.get('aggregations')
+                QueryAggregation.from_dict(v) for v in aggregations
             ]
         return cls(**args)
 
@@ -10179,28 +10774,30 @@ class QueryHistogramAggregationResult():
         return not self == other
 
 
-class QueryNoticesResponse():
+class QueryNoticesResponse:
     """
     Object containing notice query results.
 
-    :attr int matching_results: (optional) The number of matching results.
-    :attr List[QueryNoticesResult] results: (optional) Array of document results
+    :param int matching_results: (optional) The number of matching results.
+    :param List[QueryNoticesResult] results: (optional) Array of document results
           that match the query.
-    :attr List[QueryAggregation] aggregations: (optional) Array of aggregation
+    :param List[QueryAggregation] aggregations: (optional) Array of aggregation
           results that match the query.
-    :attr List[QueryPassages] passages: (optional) Array of passage results that
+    :param List[QueryPassages] passages: (optional) Array of passage results that
           match the query.
-    :attr int duplicates_removed: (optional) The number of duplicates removed from
+    :param int duplicates_removed: (optional) The number of duplicates removed from
           this notices query.
     """
 
-    def __init__(self,
-                 *,
-                 matching_results: int = None,
-                 results: List['QueryNoticesResult'] = None,
-                 aggregations: List['QueryAggregation'] = None,
-                 passages: List['QueryPassages'] = None,
-                 duplicates_removed: int = None) -> None:
+    def __init__(
+        self,
+        *,
+        matching_results: Optional[int] = None,
+        results: Optional[List['QueryNoticesResult']] = None,
+        aggregations: Optional[List['QueryAggregation']] = None,
+        passages: Optional[List['QueryPassages']] = None,
+        duplicates_removed: Optional[int] = None,
+    ) -> None:
         """
         Initialize a QueryNoticesResponse object.
 
@@ -10224,22 +10821,18 @@ class QueryNoticesResponse():
     def from_dict(cls, _dict: Dict) -> 'QueryNoticesResponse':
         """Initialize a QueryNoticesResponse object from a json dictionary."""
         args = {}
-        if 'matching_results' in _dict:
-            args['matching_results'] = _dict.get('matching_results')
-        if 'results' in _dict:
-            args['results'] = [
-                QueryNoticesResult.from_dict(v) for v in _dict.get('results')
-            ]
-        if 'aggregations' in _dict:
+        if (matching_results := _dict.get('matching_results')) is not None:
+            args['matching_results'] = matching_results
+        if (results := _dict.get('results')) is not None:
+            args['results'] = [QueryNoticesResult.from_dict(v) for v in results]
+        if (aggregations := _dict.get('aggregations')) is not None:
             args['aggregations'] = [
-                QueryAggregation.from_dict(v) for v in _dict.get('aggregations')
+                QueryAggregation.from_dict(v) for v in aggregations
             ]
-        if 'passages' in _dict:
-            args['passages'] = [
-                QueryPassages.from_dict(v) for v in _dict.get('passages')
-            ]
-        if 'duplicates_removed' in _dict:
-            args['duplicates_removed'] = _dict.get('duplicates_removed')
+        if (passages := _dict.get('passages')) is not None:
+            args['passages'] = [QueryPassages.from_dict(v) for v in passages]
+        if (duplicates_removed := _dict.get('duplicates_removed')) is not None:
+            args['duplicates_removed'] = duplicates_removed
         return cls(**args)
 
     @classmethod
@@ -10302,23 +10895,23 @@ class QueryNoticesResponse():
         return not self == other
 
 
-class QueryNoticesResult():
+class QueryNoticesResult:
     """
     Query result object.
 
-    :attr str id: (optional) The unique identifier of the document.
-    :attr dict metadata: (optional) Metadata of the document.
-    :attr str collection_id: (optional) The collection ID of the collection
+    :param str id: (optional) The unique identifier of the document.
+    :param dict metadata: (optional) Metadata of the document.
+    :param str collection_id: (optional) The collection ID of the collection
           containing the document for this result.
-    :attr QueryResultMetadata result_metadata: (optional) Metadata of a query
+    :param QueryResultMetadata result_metadata: (optional) Metadata of a query
           result.
-    :attr int code: (optional) The internal status code returned by the ingestion
+    :param int code: (optional) The internal status code returned by the ingestion
           subsystem indicating the overall result of ingesting the source document.
-    :attr str filename: (optional) Name of the original source file (if available).
-    :attr str file_type: (optional) The type of the original source file.
-    :attr str sha1: (optional) The SHA-1 hash of the original source file (formatted
-          as a hexadecimal string).
-    :attr List[Notice] notices: (optional) Array of notices for the document.
+    :param str filename: (optional) Name of the original source file (if available).
+    :param str file_type: (optional) The type of the original source file.
+    :param str sha1: (optional) The SHA-1 hash of the original source file
+          (formatted as a hexadecimal string).
+    :param List[Notice] notices: (optional) Array of notices for the document.
     """
 
     # The set of defined properties for the class
@@ -10327,18 +10920,20 @@ class QueryNoticesResult():
         'filename', 'file_type', 'sha1', 'notices'
     ])
 
-    def __init__(self,
-                 *,
-                 id: str = None,
-                 metadata: dict = None,
-                 collection_id: str = None,
-                 result_metadata: 'QueryResultMetadata' = None,
-                 code: int = None,
-                 filename: str = None,
-                 file_type: str = None,
-                 sha1: str = None,
-                 notices: List['Notice'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        id: Optional[str] = None,
+        metadata: Optional[dict] = None,
+        collection_id: Optional[str] = None,
+        result_metadata: Optional['QueryResultMetadata'] = None,
+        code: Optional[int] = None,
+        filename: Optional[str] = None,
+        file_type: Optional[str] = None,
+        sha1: Optional[str] = None,
+        notices: Optional[List['Notice']] = None,
+        **kwargs,
+    ) -> None:
         """
         Initialize a QueryNoticesResult object.
 
@@ -10375,27 +10970,25 @@ class QueryNoticesResult():
     def from_dict(cls, _dict: Dict) -> 'QueryNoticesResult':
         """Initialize a QueryNoticesResult object from a json dictionary."""
         args = {}
-        if 'id' in _dict:
-            args['id'] = _dict.get('id')
-        if 'metadata' in _dict:
-            args['metadata'] = _dict.get('metadata')
-        if 'collection_id' in _dict:
-            args['collection_id'] = _dict.get('collection_id')
-        if 'result_metadata' in _dict:
+        if (id := _dict.get('id')) is not None:
+            args['id'] = id
+        if (metadata := _dict.get('metadata')) is not None:
+            args['metadata'] = metadata
+        if (collection_id := _dict.get('collection_id')) is not None:
+            args['collection_id'] = collection_id
+        if (result_metadata := _dict.get('result_metadata')) is not None:
             args['result_metadata'] = QueryResultMetadata.from_dict(
-                _dict.get('result_metadata'))
-        if 'code' in _dict:
-            args['code'] = _dict.get('code')
-        if 'filename' in _dict:
-            args['filename'] = _dict.get('filename')
-        if 'file_type' in _dict:
-            args['file_type'] = _dict.get('file_type')
-        if 'sha1' in _dict:
-            args['sha1'] = _dict.get('sha1')
-        if 'notices' in _dict:
-            args['notices'] = [
-                Notice.from_dict(v) for v in _dict.get('notices')
-            ]
+                result_metadata)
+        if (code := _dict.get('code')) is not None:
+            args['code'] = code
+        if (filename := _dict.get('filename')) is not None:
+            args['filename'] = filename
+        if (file_type := _dict.get('file_type')) is not None:
+            args['file_type'] = file_type
+        if (sha1 := _dict.get('sha1')) is not None:
+            args['sha1'] = sha1
+        if (notices := _dict.get('notices')) is not None:
+            args['notices'] = [Notice.from_dict(v) for v in notices]
         args.update(
             {k: v for (k, v) in _dict.items() if k not in cls._properties})
         return cls(**args)
@@ -10488,37 +11081,40 @@ class QueryNoticesResult():
         """
         The type of the original source file.
         """
+
         PDF = 'pdf'
         HTML = 'html'
         WORD = 'word'
         JSON = 'json'
 
 
-class QueryPassages():
+class QueryPassages:
     """
     A passage query result.
 
-    :attr str document_id: (optional) The unique identifier of the document from
+    :param str document_id: (optional) The unique identifier of the document from
           which the passage has been extracted.
-    :attr float passage_score: (optional) The confidence score of the passages's
+    :param float passage_score: (optional) The confidence score of the passages's
           analysis. A higher score indicates greater confidence.
-    :attr str passage_text: (optional) The content of the extracted passage.
-    :attr int start_offset: (optional) The position of the first character of the
+    :param str passage_text: (optional) The content of the extracted passage.
+    :param int start_offset: (optional) The position of the first character of the
           extracted passage in the originating field.
-    :attr int end_offset: (optional) The position of the last character of the
+    :param int end_offset: (optional) The position of the last character of the
           extracted passage in the originating field.
-    :attr str field: (optional) The label of the field from which the passage has
+    :param str field: (optional) The label of the field from which the passage has
           been extracted.
     """
 
-    def __init__(self,
-                 *,
-                 document_id: str = None,
-                 passage_score: float = None,
-                 passage_text: str = None,
-                 start_offset: int = None,
-                 end_offset: int = None,
-                 field: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        document_id: Optional[str] = None,
+        passage_score: Optional[float] = None,
+        passage_text: Optional[str] = None,
+        start_offset: Optional[int] = None,
+        end_offset: Optional[int] = None,
+        field: Optional[str] = None,
+    ) -> None:
         """
         Initialize a QueryPassages object.
 
@@ -10545,18 +11141,18 @@ class QueryPassages():
     def from_dict(cls, _dict: Dict) -> 'QueryPassages':
         """Initialize a QueryPassages object from a json dictionary."""
         args = {}
-        if 'document_id' in _dict:
-            args['document_id'] = _dict.get('document_id')
-        if 'passage_score' in _dict:
-            args['passage_score'] = _dict.get('passage_score')
-        if 'passage_text' in _dict:
-            args['passage_text'] = _dict.get('passage_text')
-        if 'start_offset' in _dict:
-            args['start_offset'] = _dict.get('start_offset')
-        if 'end_offset' in _dict:
-            args['end_offset'] = _dict.get('end_offset')
-        if 'field' in _dict:
-            args['field'] = _dict.get('field')
+        if (document_id := _dict.get('document_id')) is not None:
+            args['document_id'] = document_id
+        if (passage_score := _dict.get('passage_score')) is not None:
+            args['passage_score'] = passage_score
+        if (passage_text := _dict.get('passage_text')) is not None:
+            args['passage_text'] = passage_text
+        if (start_offset := _dict.get('start_offset')) is not None:
+            args['start_offset'] = start_offset
+        if (end_offset := _dict.get('end_offset')) is not None:
+            args['end_offset'] = end_offset
+        if (field := _dict.get('field')) is not None:
+            args['field'] = field
         return cls(**args)
 
     @classmethod
@@ -10600,40 +11196,42 @@ class QueryPassages():
         return not self == other
 
 
-class QueryResponse():
+class QueryResponse:
     """
     A response containing the documents and aggregations for the query.
 
-    :attr int matching_results: (optional) The number of matching results for the
+    :param int matching_results: (optional) The number of matching results for the
           query.
-    :attr List[QueryResult] results: (optional) Array of document results for the
+    :param List[QueryResult] results: (optional) Array of document results for the
           query.
-    :attr List[QueryAggregation] aggregations: (optional) Array of aggregation
+    :param List[QueryAggregation] aggregations: (optional) Array of aggregation
           results for the query.
-    :attr List[QueryPassages] passages: (optional) Array of passage results for the
+    :param List[QueryPassages] passages: (optional) Array of passage results for the
           query.
-    :attr int duplicates_removed: (optional) The number of duplicate results
+    :param int duplicates_removed: (optional) The number of duplicate results
           removed.
-    :attr str session_token: (optional) The session token for this query. The
+    :param str session_token: (optional) The session token for this query. The
           session token can be used to add events associated with this query to the query
           and event log.
           **Important:** Session tokens are case sensitive.
-    :attr RetrievalDetails retrieval_details: (optional) An object contain retrieval
-          type information.
-    :attr str suggested_query: (optional) The suggestions for a misspelled natural
+    :param RetrievalDetails retrieval_details: (optional) An object contain
+          retrieval type information.
+    :param str suggested_query: (optional) The suggestions for a misspelled natural
           language query.
     """
 
-    def __init__(self,
-                 *,
-                 matching_results: int = None,
-                 results: List['QueryResult'] = None,
-                 aggregations: List['QueryAggregation'] = None,
-                 passages: List['QueryPassages'] = None,
-                 duplicates_removed: int = None,
-                 session_token: str = None,
-                 retrieval_details: 'RetrievalDetails' = None,
-                 suggested_query: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        matching_results: Optional[int] = None,
+        results: Optional[List['QueryResult']] = None,
+        aggregations: Optional[List['QueryAggregation']] = None,
+        passages: Optional[List['QueryPassages']] = None,
+        duplicates_removed: Optional[int] = None,
+        session_token: Optional[str] = None,
+        retrieval_details: Optional['RetrievalDetails'] = None,
+        suggested_query: Optional[str] = None,
+    ) -> None:
         """
         Initialize a QueryResponse object.
 
@@ -10669,29 +11267,25 @@ class QueryResponse():
     def from_dict(cls, _dict: Dict) -> 'QueryResponse':
         """Initialize a QueryResponse object from a json dictionary."""
         args = {}
-        if 'matching_results' in _dict:
-            args['matching_results'] = _dict.get('matching_results')
-        if 'results' in _dict:
-            args['results'] = [
-                QueryResult.from_dict(v) for v in _dict.get('results')
-            ]
-        if 'aggregations' in _dict:
+        if (matching_results := _dict.get('matching_results')) is not None:
+            args['matching_results'] = matching_results
+        if (results := _dict.get('results')) is not None:
+            args['results'] = [QueryResult.from_dict(v) for v in results]
+        if (aggregations := _dict.get('aggregations')) is not None:
             args['aggregations'] = [
-                QueryAggregation.from_dict(v) for v in _dict.get('aggregations')
+                QueryAggregation.from_dict(v) for v in aggregations
             ]
-        if 'passages' in _dict:
-            args['passages'] = [
-                QueryPassages.from_dict(v) for v in _dict.get('passages')
-            ]
-        if 'duplicates_removed' in _dict:
-            args['duplicates_removed'] = _dict.get('duplicates_removed')
-        if 'session_token' in _dict:
-            args['session_token'] = _dict.get('session_token')
-        if 'retrieval_details' in _dict:
+        if (passages := _dict.get('passages')) is not None:
+            args['passages'] = [QueryPassages.from_dict(v) for v in passages]
+        if (duplicates_removed := _dict.get('duplicates_removed')) is not None:
+            args['duplicates_removed'] = duplicates_removed
+        if (session_token := _dict.get('session_token')) is not None:
+            args['session_token'] = session_token
+        if (retrieval_details := _dict.get('retrieval_details')) is not None:
             args['retrieval_details'] = RetrievalDetails.from_dict(
-                _dict.get('retrieval_details'))
-        if 'suggested_query' in _dict:
-            args['suggested_query'] = _dict.get('suggested_query')
+                retrieval_details)
+        if (suggested_query := _dict.get('suggested_query')) is not None:
+            args['suggested_query'] = suggested_query
         return cls(**args)
 
     @classmethod
@@ -10765,15 +11359,15 @@ class QueryResponse():
         return not self == other
 
 
-class QueryResult():
+class QueryResult:
     """
     Query result object.
 
-    :attr str id: (optional) The unique identifier of the document.
-    :attr dict metadata: (optional) Metadata of the document.
-    :attr str collection_id: (optional) The collection ID of the collection
+    :param str id: (optional) The unique identifier of the document.
+    :param dict metadata: (optional) Metadata of the document.
+    :param str collection_id: (optional) The collection ID of the collection
           containing the document for this result.
-    :attr QueryResultMetadata result_metadata: (optional) Metadata of a query
+    :param QueryResultMetadata result_metadata: (optional) Metadata of a query
           result.
     """
 
@@ -10781,13 +11375,15 @@ class QueryResult():
     _properties = frozenset(
         ['id', 'metadata', 'collection_id', 'result_metadata'])
 
-    def __init__(self,
-                 *,
-                 id: str = None,
-                 metadata: dict = None,
-                 collection_id: str = None,
-                 result_metadata: 'QueryResultMetadata' = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        id: Optional[str] = None,
+        metadata: Optional[dict] = None,
+        collection_id: Optional[str] = None,
+        result_metadata: Optional['QueryResultMetadata'] = None,
+        **kwargs,
+    ) -> None:
         """
         Initialize a QueryResult object.
 
@@ -10810,15 +11406,15 @@ class QueryResult():
     def from_dict(cls, _dict: Dict) -> 'QueryResult':
         """Initialize a QueryResult object from a json dictionary."""
         args = {}
-        if 'id' in _dict:
-            args['id'] = _dict.get('id')
-        if 'metadata' in _dict:
-            args['metadata'] = _dict.get('metadata')
-        if 'collection_id' in _dict:
-            args['collection_id'] = _dict.get('collection_id')
-        if 'result_metadata' in _dict:
+        if (id := _dict.get('id')) is not None:
+            args['id'] = id
+        if (metadata := _dict.get('metadata')) is not None:
+            args['metadata'] = metadata
+        if (collection_id := _dict.get('collection_id')) is not None:
+            args['collection_id'] = collection_id
+        if (result_metadata := _dict.get('result_metadata')) is not None:
             args['result_metadata'] = QueryResultMetadata.from_dict(
-                _dict.get('result_metadata'))
+                result_metadata)
         args.update(
             {k: v for (k, v) in _dict.items() if k not in cls._properties})
         return cls(**args)
@@ -10889,21 +11485,26 @@ class QueryResult():
         return not self == other
 
 
-class QueryResultMetadata():
+class QueryResultMetadata:
     """
     Metadata of a query result.
 
-    :attr float score: An unbounded measure of the relevance of a particular result,
-          dependent on the query and matching document. A higher score indicates a greater
-          match to the query parameters.
-    :attr float confidence: (optional) The confidence score for the given result.
+    :param float score: An unbounded measure of the relevance of a particular
+          result, dependent on the query and matching document. A higher score indicates a
+          greater match to the query parameters.
+    :param float confidence: (optional) The confidence score for the given result.
           Calculated based on how relevant the result is estimated to be. confidence can
           range from `0.0` to `1.0`. The higher the number, the more relevant the
           document. The `confidence` value for a result was calculated using the model
           specified in the `document_retrieval_strategy` field of the result set.
     """
 
-    def __init__(self, score: float, *, confidence: float = None) -> None:
+    def __init__(
+        self,
+        score: float,
+        *,
+        confidence: Optional[float] = None,
+    ) -> None:
         """
         Initialize a QueryResultMetadata object.
 
@@ -10924,14 +11525,14 @@ class QueryResultMetadata():
     def from_dict(cls, _dict: Dict) -> 'QueryResultMetadata':
         """Initialize a QueryResultMetadata object from a json dictionary."""
         args = {}
-        if 'score' in _dict:
-            args['score'] = _dict.get('score')
+        if (score := _dict.get('score')) is not None:
+            args['score'] = score
         else:
             raise ValueError(
                 'Required property \'score\' not present in QueryResultMetadata JSON'
             )
-        if 'confidence' in _dict:
-            args['confidence'] = _dict.get('confidence')
+        if (confidence := _dict.get('confidence')) is not None:
+            args['confidence'] = confidence
         return cls(**args)
 
     @classmethod
@@ -10967,31 +11568,34 @@ class QueryResultMetadata():
         return not self == other
 
 
-class QueryTermAggregationResult():
+class QueryTermAggregationResult:
     """
     Top value result for the term aggregation.
 
-    :attr str key: Value of the field with a non-zero frequency in the document set.
-    :attr int matching_results: Number of documents that contain the 'key'.
-    :attr float relevancy: (optional) The relevancy for this term.
-    :attr int total_matching_documents: (optional) The number of documents which
+    :param str key: Value of the field with a non-zero frequency in the document
+          set.
+    :param int matching_results: Number of documents that contain the 'key'.
+    :param float relevancy: (optional) The relevancy for this term.
+    :param int total_matching_documents: (optional) The number of documents which
           have the term as the value of specified field in the whole set of documents in
           this collection. Returned only when the `relevancy` parameter is set to `true`.
-    :attr int estimated_matching_documents: (optional) The estimated number of
+    :param int estimated_matching_documents: (optional) The estimated number of
           documents which would match the query and also meet the condition. Returned only
           when the `relevancy` parameter is set to `true`.
-    :attr List[QueryAggregation] aggregations: (optional) An array of
+    :param List[QueryAggregation] aggregations: (optional) An array of
           sub-aggregations.
     """
 
-    def __init__(self,
-                 key: str,
-                 matching_results: int,
-                 *,
-                 relevancy: float = None,
-                 total_matching_documents: int = None,
-                 estimated_matching_documents: int = None,
-                 aggregations: List['QueryAggregation'] = None) -> None:
+    def __init__(
+        self,
+        key: str,
+        matching_results: int,
+        *,
+        relevancy: Optional[float] = None,
+        total_matching_documents: Optional[int] = None,
+        estimated_matching_documents: Optional[int] = None,
+        aggregations: Optional[List['QueryAggregation']] = None,
+    ) -> None:
         """
         Initialize a QueryTermAggregationResult object.
 
@@ -11020,29 +11624,29 @@ class QueryTermAggregationResult():
     def from_dict(cls, _dict: Dict) -> 'QueryTermAggregationResult':
         """Initialize a QueryTermAggregationResult object from a json dictionary."""
         args = {}
-        if 'key' in _dict:
-            args['key'] = _dict.get('key')
+        if (key := _dict.get('key')) is not None:
+            args['key'] = key
         else:
             raise ValueError(
                 'Required property \'key\' not present in QueryTermAggregationResult JSON'
             )
-        if 'matching_results' in _dict:
-            args['matching_results'] = _dict.get('matching_results')
+        if (matching_results := _dict.get('matching_results')) is not None:
+            args['matching_results'] = matching_results
         else:
             raise ValueError(
                 'Required property \'matching_results\' not present in QueryTermAggregationResult JSON'
             )
-        if 'relevancy' in _dict:
-            args['relevancy'] = _dict.get('relevancy')
-        if 'total_matching_documents' in _dict:
-            args['total_matching_documents'] = _dict.get(
-                'total_matching_documents')
-        if 'estimated_matching_documents' in _dict:
-            args['estimated_matching_documents'] = _dict.get(
-                'estimated_matching_documents')
-        if 'aggregations' in _dict:
+        if (relevancy := _dict.get('relevancy')) is not None:
+            args['relevancy'] = relevancy
+        if (total_matching_documents :=
+                _dict.get('total_matching_documents')) is not None:
+            args['total_matching_documents'] = total_matching_documents
+        if (estimated_matching_documents :=
+                _dict.get('estimated_matching_documents')) is not None:
+            args['estimated_matching_documents'] = estimated_matching_documents
+        if (aggregations := _dict.get('aggregations')) is not None:
             args['aggregations'] = [
-                QueryAggregation.from_dict(v) for v in _dict.get('aggregations')
+                QueryAggregation.from_dict(v) for v in aggregations
             ]
         return cls(**args)
 
@@ -11097,26 +11701,28 @@ class QueryTermAggregationResult():
         return not self == other
 
 
-class QueryTimesliceAggregationResult():
+class QueryTimesliceAggregationResult:
     """
     A timeslice interval segment.
 
-    :attr str key_as_string: String date value of the upper bound for the timeslice
+    :param str key_as_string: String date value of the upper bound for the timeslice
           interval in ISO-8601 format.
-    :attr int key: Numeric date value of the upper bound for the timeslice interval
+    :param int key: Numeric date value of the upper bound for the timeslice interval
           in UNIX milliseconds since epoch.
-    :attr int matching_results: Number of documents with the specified key as the
+    :param int matching_results: Number of documents with the specified key as the
           upper bound.
-    :attr List[QueryAggregation] aggregations: (optional) An array of
+    :param List[QueryAggregation] aggregations: (optional) An array of
           sub-aggregations.
     """
 
-    def __init__(self,
-                 key_as_string: str,
-                 key: int,
-                 matching_results: int,
-                 *,
-                 aggregations: List['QueryAggregation'] = None) -> None:
+    def __init__(
+        self,
+        key_as_string: str,
+        key: int,
+        matching_results: int,
+        *,
+        aggregations: Optional[List['QueryAggregation']] = None,
+    ) -> None:
         """
         Initialize a QueryTimesliceAggregationResult object.
 
@@ -11138,27 +11744,27 @@ class QueryTimesliceAggregationResult():
     def from_dict(cls, _dict: Dict) -> 'QueryTimesliceAggregationResult':
         """Initialize a QueryTimesliceAggregationResult object from a json dictionary."""
         args = {}
-        if 'key_as_string' in _dict:
-            args['key_as_string'] = _dict.get('key_as_string')
+        if (key_as_string := _dict.get('key_as_string')) is not None:
+            args['key_as_string'] = key_as_string
         else:
             raise ValueError(
                 'Required property \'key_as_string\' not present in QueryTimesliceAggregationResult JSON'
             )
-        if 'key' in _dict:
-            args['key'] = _dict.get('key')
+        if (key := _dict.get('key')) is not None:
+            args['key'] = key
         else:
             raise ValueError(
                 'Required property \'key\' not present in QueryTimesliceAggregationResult JSON'
             )
-        if 'matching_results' in _dict:
-            args['matching_results'] = _dict.get('matching_results')
+        if (matching_results := _dict.get('matching_results')) is not None:
+            args['matching_results'] = matching_results
         else:
             raise ValueError(
                 'Required property \'matching_results\' not present in QueryTimesliceAggregationResult JSON'
             )
-        if 'aggregations' in _dict:
+        if (aggregations := _dict.get('aggregations')) is not None:
             args['aggregations'] = [
-                QueryAggregation.from_dict(v) for v in _dict.get('aggregations')
+                QueryAggregation.from_dict(v) for v in aggregations
             ]
         return cls(**args)
 
@@ -11206,18 +11812,20 @@ class QueryTimesliceAggregationResult():
         return not self == other
 
 
-class QueryTopHitsAggregationResult():
+class QueryTopHitsAggregationResult:
     """
     A query response that contains the matching documents for the preceding aggregations.
 
-    :attr int matching_results: Number of matching results.
-    :attr List[dict] hits: (optional) An array of the document results.
+    :param int matching_results: Number of matching results.
+    :param List[dict] hits: (optional) An array of the document results.
     """
 
-    def __init__(self,
-                 matching_results: int,
-                 *,
-                 hits: List[dict] = None) -> None:
+    def __init__(
+        self,
+        matching_results: int,
+        *,
+        hits: Optional[List[dict]] = None,
+    ) -> None:
         """
         Initialize a QueryTopHitsAggregationResult object.
 
@@ -11231,14 +11839,14 @@ class QueryTopHitsAggregationResult():
     def from_dict(cls, _dict: Dict) -> 'QueryTopHitsAggregationResult':
         """Initialize a QueryTopHitsAggregationResult object from a json dictionary."""
         args = {}
-        if 'matching_results' in _dict:
-            args['matching_results'] = _dict.get('matching_results')
+        if (matching_results := _dict.get('matching_results')) is not None:
+            args['matching_results'] = matching_results
         else:
             raise ValueError(
                 'Required property \'matching_results\' not present in QueryTopHitsAggregationResult JSON'
             )
-        if 'hits' in _dict:
-            args['hits'] = _dict.get('hits')
+        if (hits := _dict.get('hits')) is not None:
+            args['hits'] = hits
         return cls(**args)
 
     @classmethod
@@ -11275,11 +11883,11 @@ class QueryTopHitsAggregationResult():
         return not self == other
 
 
-class RetrievalDetails():
+class RetrievalDetails:
     """
     An object contain retrieval type information.
 
-    :attr str document_retrieval_strategy: (optional) Indentifies the document
+    :param str document_retrieval_strategy: (optional) Indentifies the document
           retrieval strategy used for this query. `relevancy_training` indicates that the
           results were returned using a relevancy trained model.
           `continuous_relevancy_training` indicates that the results were returned using
@@ -11290,7 +11898,11 @@ class RetrievalDetails():
           listed as `untrained`.
     """
 
-    def __init__(self, *, document_retrieval_strategy: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        document_retrieval_strategy: Optional[str] = None,
+    ) -> None:
         """
         Initialize a RetrievalDetails object.
 
@@ -11311,9 +11923,9 @@ class RetrievalDetails():
     def from_dict(cls, _dict: Dict) -> 'RetrievalDetails':
         """Initialize a RetrievalDetails object from a json dictionary."""
         args = {}
-        if 'document_retrieval_strategy' in _dict:
-            args['document_retrieval_strategy'] = _dict.get(
-                'document_retrieval_strategy')
+        if (document_retrieval_strategy :=
+                _dict.get('document_retrieval_strategy')) is not None:
+            args['document_retrieval_strategy'] = document_retrieval_strategy
         return cls(**args)
 
     @classmethod
@@ -11360,45 +11972,48 @@ class RetrievalDetails():
         model is not used to return results, the **document_retrieval_strategy** will be
         listed as `untrained`.
         """
+
         UNTRAINED = 'untrained'
         RELEVANCY_TRAINING = 'relevancy_training'
         CONTINUOUS_RELEVANCY_TRAINING = 'continuous_relevancy_training'
 
 
-class SduStatus():
+class SduStatus:
     """
     Object containing smart document understanding information for this collection.
 
-    :attr bool enabled: (optional) When `true`, smart document understanding
+    :param bool enabled: (optional) When `true`, smart document understanding
           conversion is enabled for this collection. All collections created with a
           version date after `2019-04-30` have smart document understanding enabled. If
           `false`, documents added to the collection are converted using the
           **conversion** settings specified in the configuration associated with the
           collection.
-    :attr int total_annotated_pages: (optional) The total number of pages annotated
+    :param int total_annotated_pages: (optional) The total number of pages annotated
           using smart document understanding in this collection.
-    :attr int total_pages: (optional) The current number of pages that can be used
+    :param int total_pages: (optional) The current number of pages that can be used
           for training smart document understanding. The `total_pages` number is
           calculated as the total number of pages identified from the documents listed in
           the **total_documents** field.
-    :attr int total_documents: (optional) The total number of documents in this
+    :param int total_documents: (optional) The total number of documents in this
           collection that can be used to train smart document understanding. For **lite**
           plan collections, the maximum is the first 20 uploaded documents (not including
           HTML or JSON documents). For other plans, the maximum is the first 40 uploaded
           documents (not including HTML or JSON documents). When the maximum is reached,
           additional documents uploaded to the collection are not considered for training
           smart document understanding.
-    :attr SduStatusCustomFields custom_fields: (optional) Information about custom
+    :param SduStatusCustomFields custom_fields: (optional) Information about custom
           smart document understanding fields that exist in this collection.
     """
 
-    def __init__(self,
-                 *,
-                 enabled: bool = None,
-                 total_annotated_pages: int = None,
-                 total_pages: int = None,
-                 total_documents: int = None,
-                 custom_fields: 'SduStatusCustomFields' = None) -> None:
+    def __init__(
+        self,
+        *,
+        enabled: Optional[bool] = None,
+        total_annotated_pages: Optional[int] = None,
+        total_pages: Optional[int] = None,
+        total_documents: Optional[int] = None,
+        custom_fields: Optional['SduStatusCustomFields'] = None,
+    ) -> None:
         """
         Initialize a SduStatus object.
 
@@ -11434,17 +12049,18 @@ class SduStatus():
     def from_dict(cls, _dict: Dict) -> 'SduStatus':
         """Initialize a SduStatus object from a json dictionary."""
         args = {}
-        if 'enabled' in _dict:
-            args['enabled'] = _dict.get('enabled')
-        if 'total_annotated_pages' in _dict:
-            args['total_annotated_pages'] = _dict.get('total_annotated_pages')
-        if 'total_pages' in _dict:
-            args['total_pages'] = _dict.get('total_pages')
-        if 'total_documents' in _dict:
-            args['total_documents'] = _dict.get('total_documents')
-        if 'custom_fields' in _dict:
+        if (enabled := _dict.get('enabled')) is not None:
+            args['enabled'] = enabled
+        if (total_annotated_pages :=
+                _dict.get('total_annotated_pages')) is not None:
+            args['total_annotated_pages'] = total_annotated_pages
+        if (total_pages := _dict.get('total_pages')) is not None:
+            args['total_pages'] = total_pages
+        if (total_documents := _dict.get('total_documents')) is not None:
+            args['total_documents'] = total_documents
+        if (custom_fields := _dict.get('custom_fields')) is not None:
             args['custom_fields'] = SduStatusCustomFields.from_dict(
-                _dict.get('custom_fields'))
+                custom_fields)
         return cls(**args)
 
     @classmethod
@@ -11491,21 +12107,23 @@ class SduStatus():
         return not self == other
 
 
-class SduStatusCustomFields():
+class SduStatusCustomFields:
     """
     Information about custom smart document understanding fields that exist in this
     collection.
 
-    :attr int defined: (optional) The number of custom fields defined for this
+    :param int defined: (optional) The number of custom fields defined for this
           collection.
-    :attr int maximum_allowed: (optional) The maximum number of custom fields that
+    :param int maximum_allowed: (optional) The maximum number of custom fields that
           are allowed in this collection.
     """
 
-    def __init__(self,
-                 *,
-                 defined: int = None,
-                 maximum_allowed: int = None) -> None:
+    def __init__(
+        self,
+        *,
+        defined: Optional[int] = None,
+        maximum_allowed: Optional[int] = None,
+    ) -> None:
         """
         Initialize a SduStatusCustomFields object.
 
@@ -11521,10 +12139,10 @@ class SduStatusCustomFields():
     def from_dict(cls, _dict: Dict) -> 'SduStatusCustomFields':
         """Initialize a SduStatusCustomFields object from a json dictionary."""
         args = {}
-        if 'defined' in _dict:
-            args['defined'] = _dict.get('defined')
-        if 'maximum_allowed' in _dict:
-            args['maximum_allowed'] = _dict.get('maximum_allowed')
+        if (defined := _dict.get('defined')) is not None:
+            args['defined'] = defined
+        if (maximum_allowed := _dict.get('maximum_allowed')) is not None:
+            args['maximum_allowed'] = maximum_allowed
         return cls(**args)
 
     @classmethod
@@ -11561,26 +12179,28 @@ class SduStatusCustomFields():
         return not self == other
 
 
-class SearchStatus():
+class SearchStatus:
     """
     Information about the Continuous Relevancy Training for this environment.
 
-    :attr str scope: (optional) Current scope of the training. Always returned as
+    :param str scope: (optional) Current scope of the training. Always returned as
           `environment`.
-    :attr str status: (optional) The current status of Continuous Relevancy Training
-          for this environment.
-    :attr str status_description: (optional) Long description of the current
+    :param str status: (optional) The current status of Continuous Relevancy
+          Training for this environment.
+    :param str status_description: (optional) Long description of the current
           Continuous Relevancy Training status.
-    :attr date last_trained: (optional) The date stamp of the most recent completed
+    :param date last_trained: (optional) The date stamp of the most recent completed
           training for this environment.
     """
 
-    def __init__(self,
-                 *,
-                 scope: str = None,
-                 status: str = None,
-                 status_description: str = None,
-                 last_trained: date = None) -> None:
+    def __init__(
+        self,
+        *,
+        scope: Optional[str] = None,
+        status: Optional[str] = None,
+        status_description: Optional[str] = None,
+        last_trained: Optional[date] = None,
+    ) -> None:
         """
         Initialize a SearchStatus object.
 
@@ -11602,14 +12222,14 @@ class SearchStatus():
     def from_dict(cls, _dict: Dict) -> 'SearchStatus':
         """Initialize a SearchStatus object from a json dictionary."""
         args = {}
-        if 'scope' in _dict:
-            args['scope'] = _dict.get('scope')
-        if 'status' in _dict:
-            args['status'] = _dict.get('status')
-        if 'status_description' in _dict:
-            args['status_description'] = _dict.get('status_description')
-        if 'last_trained' in _dict:
-            args['last_trained'] = string_to_date(_dict.get('last_trained'))
+        if (scope := _dict.get('scope')) is not None:
+            args['scope'] = scope
+        if (status := _dict.get('status')) is not None:
+            args['status'] = status
+        if (status_description := _dict.get('status_description')) is not None:
+            args['status_description'] = status_description
+        if (last_trained := _dict.get('last_trained')) is not None:
+            args['last_trained'] = string_to_date(last_trained)
         return cls(**args)
 
     @classmethod
@@ -11654,6 +12274,7 @@ class SearchStatus():
         """
         The current status of Continuous Relevancy Training for this environment.
         """
+
         NO_DATA = 'NO_DATA'
         INSUFFICENT_DATA = 'INSUFFICENT_DATA'
         TRAINING = 'TRAINING'
@@ -11661,18 +12282,18 @@ class SearchStatus():
         NOT_APPLICABLE = 'NOT_APPLICABLE'
 
 
-class SegmentSettings():
+class SegmentSettings:
     """
     A list of Document Segmentation settings.
 
-    :attr bool enabled: (optional) Enables/disables the Document Segmentation
+    :param bool enabled: (optional) Enables/disables the Document Segmentation
           feature.
-    :attr List[str] selector_tags: (optional) Defines the heading level that splits
+    :param List[str] selector_tags: (optional) Defines the heading level that splits
           into document segments. Valid values are h1, h2, h3, h4, h5, h6. The content of
           the header field that the segmentation splits at is used as the **title** field
           for that segmented result. Only valid if used with a collection that has
           **enabled** set to `false` in the **smart_document_understanding** object.
-    :attr List[str] annotated_fields: (optional) Defines the annotated smart
+    :param List[str] annotated_fields: (optional) Defines the annotated smart
           document understanding fields that the document is split on. The content of the
           annotated field that the segmentation splits at is used as the **title** field
           for that segmented result. For example, if the field `sub-title` is specified,
@@ -11684,11 +12305,13 @@ class SegmentSettings():
           `true` in the **smart_document_understanding** object.
     """
 
-    def __init__(self,
-                 *,
-                 enabled: bool = None,
-                 selector_tags: List[str] = None,
-                 annotated_fields: List[str] = None) -> None:
+    def __init__(
+        self,
+        *,
+        enabled: Optional[bool] = None,
+        selector_tags: Optional[List[str]] = None,
+        annotated_fields: Optional[List[str]] = None,
+    ) -> None:
         """
         Initialize a SegmentSettings object.
 
@@ -11720,12 +12343,12 @@ class SegmentSettings():
     def from_dict(cls, _dict: Dict) -> 'SegmentSettings':
         """Initialize a SegmentSettings object from a json dictionary."""
         args = {}
-        if 'enabled' in _dict:
-            args['enabled'] = _dict.get('enabled')
-        if 'selector_tags' in _dict:
-            args['selector_tags'] = _dict.get('selector_tags')
-        if 'annotated_fields' in _dict:
-            args['annotated_fields'] = _dict.get('annotated_fields')
+        if (enabled := _dict.get('enabled')) is not None:
+            args['enabled'] = enabled
+        if (selector_tags := _dict.get('selector_tags')) is not None:
+            args['selector_tags'] = selector_tags
+        if (annotated_fields := _dict.get('annotated_fields')) is not None:
+            args['annotated_fields'] = annotated_fields
         return cls(**args)
 
     @classmethod
@@ -11764,11 +12387,11 @@ class SegmentSettings():
         return not self == other
 
 
-class Source():
+class Source:
     """
     Object containing source parameters for the configuration.
 
-    :attr str type: (optional) The type of source to connect to.
+    :param str type: (optional) The type of source to connect to.
           -  `box` indicates the configuration is to connect an instance of Enterprise
           Box.
           -  `salesforce` indicates the configuration is to connect to Salesforce.
@@ -11777,22 +12400,24 @@ class Source():
           -  `web_crawl` indicates the configuration is to perform a web page crawl.
           -  `cloud_object_storage` indicates the configuration is to connect to a cloud
           object store.
-    :attr str credential_id: (optional) The **credential_id** of the credentials to
+    :param str credential_id: (optional) The **credential_id** of the credentials to
           use to connect to the source. Credentials are defined using the **credentials**
           method. The **source_type** of the credentials used must match the **type**
           field specified in this object.
-    :attr SourceSchedule schedule: (optional) Object containing the schedule
+    :param SourceSchedule schedule: (optional) Object containing the schedule
           information for the source.
-    :attr SourceOptions options: (optional) The **options** object defines which
+    :param SourceOptions options: (optional) The **options** object defines which
           items to crawl from the source system.
     """
 
-    def __init__(self,
-                 *,
-                 type: str = None,
-                 credential_id: str = None,
-                 schedule: 'SourceSchedule' = None,
-                 options: 'SourceOptions' = None) -> None:
+    def __init__(
+        self,
+        *,
+        type: Optional[str] = None,
+        credential_id: Optional[str] = None,
+        schedule: Optional['SourceSchedule'] = None,
+        options: Optional['SourceOptions'] = None,
+    ) -> None:
         """
         Initialize a Source object.
 
@@ -11823,14 +12448,14 @@ class Source():
     def from_dict(cls, _dict: Dict) -> 'Source':
         """Initialize a Source object from a json dictionary."""
         args = {}
-        if 'type' in _dict:
-            args['type'] = _dict.get('type')
-        if 'credential_id' in _dict:
-            args['credential_id'] = _dict.get('credential_id')
-        if 'schedule' in _dict:
-            args['schedule'] = SourceSchedule.from_dict(_dict.get('schedule'))
-        if 'options' in _dict:
-            args['options'] = SourceOptions.from_dict(_dict.get('options'))
+        if (type := _dict.get('type')) is not None:
+            args['type'] = type
+        if (credential_id := _dict.get('credential_id')) is not None:
+            args['credential_id'] = credential_id
+        if (schedule := _dict.get('schedule')) is not None:
+            args['schedule'] = SourceSchedule.from_dict(schedule)
+        if (options := _dict.get('options')) is not None:
+            args['options'] = SourceOptions.from_dict(options)
         return cls(**args)
 
     @classmethod
@@ -11886,6 +12511,7 @@ class Source():
         -  `cloud_object_storage` indicates the configuration is to connect to a cloud
         object store.
         """
+
         BOX = 'box'
         SALESFORCE = 'salesforce'
         SHAREPOINT = 'sharepoint'
@@ -11893,40 +12519,43 @@ class Source():
         CLOUD_OBJECT_STORAGE = 'cloud_object_storage'
 
 
-class SourceOptions():
+class SourceOptions:
     """
     The **options** object defines which items to crawl from the source system.
 
-    :attr List[SourceOptionsFolder] folders: (optional) Array of folders to crawl
+    :param List[SourceOptionsFolder] folders: (optional) Array of folders to crawl
           from the Box source. Only valid, and required, when the **type** field of the
           **source** object is set to `box`.
-    :attr List[SourceOptionsObject] objects: (optional) Array of Salesforce document
-          object types to crawl from the Salesforce source. Only valid, and required, when
-          the **type** field of the **source** object is set to `salesforce`.
-    :attr List[SourceOptionsSiteColl] site_collections: (optional) Array of
+    :param List[SourceOptionsObject] objects: (optional) Array of Salesforce
+          document object types to crawl from the Salesforce source. Only valid, and
+          required, when the **type** field of the **source** object is set to
+          `salesforce`.
+    :param List[SourceOptionsSiteColl] site_collections: (optional) Array of
           Microsoft SharePointoint Online site collections to crawl from the SharePoint
           source. Only valid and required when the **type** field of the **source** object
           is set to `sharepoint`.
-    :attr List[SourceOptionsWebCrawl] urls: (optional) Array of Web page URLs to
+    :param List[SourceOptionsWebCrawl] urls: (optional) Array of Web page URLs to
           begin crawling the web from. Only valid and required when the **type** field of
           the **source** object is set to `web_crawl`.
-    :attr List[SourceOptionsBuckets] buckets: (optional) Array of cloud object store
-          buckets to begin crawling. Only valid and required when the **type** field of
-          the **source** object is set to `cloud_object_store`, and the
+    :param List[SourceOptionsBuckets] buckets: (optional) Array of cloud object
+          store buckets to begin crawling. Only valid and required when the **type** field
+          of the **source** object is set to `cloud_object_store`, and the
           **crawl_all_buckets** field is `false` or not specified.
-    :attr bool crawl_all_buckets: (optional) When `true`, all buckets in the
+    :param bool crawl_all_buckets: (optional) When `true`, all buckets in the
           specified cloud object store are crawled. If set to `true`, the **buckets**
           array must not be specified.
     """
 
-    def __init__(self,
-                 *,
-                 folders: List['SourceOptionsFolder'] = None,
-                 objects: List['SourceOptionsObject'] = None,
-                 site_collections: List['SourceOptionsSiteColl'] = None,
-                 urls: List['SourceOptionsWebCrawl'] = None,
-                 buckets: List['SourceOptionsBuckets'] = None,
-                 crawl_all_buckets: bool = None) -> None:
+    def __init__(
+        self,
+        *,
+        folders: Optional[List['SourceOptionsFolder']] = None,
+        objects: Optional[List['SourceOptionsObject']] = None,
+        site_collections: Optional[List['SourceOptionsSiteColl']] = None,
+        urls: Optional[List['SourceOptionsWebCrawl']] = None,
+        buckets: Optional[List['SourceOptionsBuckets']] = None,
+        crawl_all_buckets: Optional[bool] = None,
+    ) -> None:
         """
         Initialize a SourceOptions object.
 
@@ -11963,29 +12592,26 @@ class SourceOptions():
     def from_dict(cls, _dict: Dict) -> 'SourceOptions':
         """Initialize a SourceOptions object from a json dictionary."""
         args = {}
-        if 'folders' in _dict:
+        if (folders := _dict.get('folders')) is not None:
             args['folders'] = [
-                SourceOptionsFolder.from_dict(v) for v in _dict.get('folders')
+                SourceOptionsFolder.from_dict(v) for v in folders
             ]
-        if 'objects' in _dict:
+        if (objects := _dict.get('objects')) is not None:
             args['objects'] = [
-                SourceOptionsObject.from_dict(v) for v in _dict.get('objects')
+                SourceOptionsObject.from_dict(v) for v in objects
             ]
-        if 'site_collections' in _dict:
+        if (site_collections := _dict.get('site_collections')) is not None:
             args['site_collections'] = [
-                SourceOptionsSiteColl.from_dict(v)
-                for v in _dict.get('site_collections')
+                SourceOptionsSiteColl.from_dict(v) for v in site_collections
             ]
-        if 'urls' in _dict:
-            args['urls'] = [
-                SourceOptionsWebCrawl.from_dict(v) for v in _dict.get('urls')
-            ]
-        if 'buckets' in _dict:
+        if (urls := _dict.get('urls')) is not None:
+            args['urls'] = [SourceOptionsWebCrawl.from_dict(v) for v in urls]
+        if (buckets := _dict.get('buckets')) is not None:
             args['buckets'] = [
-                SourceOptionsBuckets.from_dict(v) for v in _dict.get('buckets')
+                SourceOptionsBuckets.from_dict(v) for v in buckets
             ]
-        if 'crawl_all_buckets' in _dict:
-            args['crawl_all_buckets'] = _dict.get('crawl_all_buckets')
+        if (crawl_all_buckets := _dict.get('crawl_all_buckets')) is not None:
+            args['crawl_all_buckets'] = crawl_all_buckets
         return cls(**args)
 
     @classmethod
@@ -12061,16 +12687,21 @@ class SourceOptions():
         return not self == other
 
 
-class SourceOptionsBuckets():
+class SourceOptionsBuckets:
     """
     Object defining a cloud object store bucket to crawl.
 
-    :attr str name: The name of the cloud object store bucket to crawl.
-    :attr int limit: (optional) The number of documents to crawl from this cloud
+    :param str name: The name of the cloud object store bucket to crawl.
+    :param int limit: (optional) The number of documents to crawl from this cloud
           object store bucket. If not specified, all documents in the bucket are crawled.
     """
 
-    def __init__(self, name: str, *, limit: int = None) -> None:
+    def __init__(
+        self,
+        name: str,
+        *,
+        limit: Optional[int] = None,
+    ) -> None:
         """
         Initialize a SourceOptionsBuckets object.
 
@@ -12086,14 +12717,14 @@ class SourceOptionsBuckets():
     def from_dict(cls, _dict: Dict) -> 'SourceOptionsBuckets':
         """Initialize a SourceOptionsBuckets object from a json dictionary."""
         args = {}
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
+        if (name := _dict.get('name')) is not None:
+            args['name'] = name
         else:
             raise ValueError(
                 'Required property \'name\' not present in SourceOptionsBuckets JSON'
             )
-        if 'limit' in _dict:
-            args['limit'] = _dict.get('limit')
+        if (limit := _dict.get('limit')) is not None:
+            args['limit'] = limit
         return cls(**args)
 
     @classmethod
@@ -12129,22 +12760,24 @@ class SourceOptionsBuckets():
         return not self == other
 
 
-class SourceOptionsFolder():
+class SourceOptionsFolder:
     """
     Object that defines a box folder to crawl with this configuration.
 
-    :attr str owner_user_id: The Box user ID of the user who owns the folder to
+    :param str owner_user_id: The Box user ID of the user who owns the folder to
           crawl.
-    :attr str folder_id: The Box folder ID of the folder to crawl.
-    :attr int limit: (optional) The maximum number of documents to crawl for this
+    :param str folder_id: The Box folder ID of the folder to crawl.
+    :param int limit: (optional) The maximum number of documents to crawl for this
           folder. By default, all documents in the folder are crawled.
     """
 
-    def __init__(self,
-                 owner_user_id: str,
-                 folder_id: str,
-                 *,
-                 limit: int = None) -> None:
+    def __init__(
+        self,
+        owner_user_id: str,
+        folder_id: str,
+        *,
+        limit: Optional[int] = None,
+    ) -> None:
         """
         Initialize a SourceOptionsFolder object.
 
@@ -12162,20 +12795,20 @@ class SourceOptionsFolder():
     def from_dict(cls, _dict: Dict) -> 'SourceOptionsFolder':
         """Initialize a SourceOptionsFolder object from a json dictionary."""
         args = {}
-        if 'owner_user_id' in _dict:
-            args['owner_user_id'] = _dict.get('owner_user_id')
+        if (owner_user_id := _dict.get('owner_user_id')) is not None:
+            args['owner_user_id'] = owner_user_id
         else:
             raise ValueError(
                 'Required property \'owner_user_id\' not present in SourceOptionsFolder JSON'
             )
-        if 'folder_id' in _dict:
-            args['folder_id'] = _dict.get('folder_id')
+        if (folder_id := _dict.get('folder_id')) is not None:
+            args['folder_id'] = folder_id
         else:
             raise ValueError(
                 'Required property \'folder_id\' not present in SourceOptionsFolder JSON'
             )
-        if 'limit' in _dict:
-            args['limit'] = _dict.get('limit')
+        if (limit := _dict.get('limit')) is not None:
+            args['limit'] = limit
         return cls(**args)
 
     @classmethod
@@ -12213,17 +12846,22 @@ class SourceOptionsFolder():
         return not self == other
 
 
-class SourceOptionsObject():
+class SourceOptionsObject:
     """
     Object that defines a Salesforce document object type crawl with this configuration.
 
-    :attr str name: The name of the Salesforce document object to crawl. For
+    :param str name: The name of the Salesforce document object to crawl. For
           example, `case`.
-    :attr int limit: (optional) The maximum number of documents to crawl for this
+    :param int limit: (optional) The maximum number of documents to crawl for this
           document object. By default, all documents in the document object are crawled.
     """
 
-    def __init__(self, name: str, *, limit: int = None) -> None:
+    def __init__(
+        self,
+        name: str,
+        *,
+        limit: Optional[int] = None,
+    ) -> None:
         """
         Initialize a SourceOptionsObject object.
 
@@ -12240,14 +12878,14 @@ class SourceOptionsObject():
     def from_dict(cls, _dict: Dict) -> 'SourceOptionsObject':
         """Initialize a SourceOptionsObject object from a json dictionary."""
         args = {}
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
+        if (name := _dict.get('name')) is not None:
+            args['name'] = name
         else:
             raise ValueError(
                 'Required property \'name\' not present in SourceOptionsObject JSON'
             )
-        if 'limit' in _dict:
-            args['limit'] = _dict.get('limit')
+        if (limit := _dict.get('limit')) is not None:
+            args['limit'] = limit
         return cls(**args)
 
     @classmethod
@@ -12283,19 +12921,24 @@ class SourceOptionsObject():
         return not self == other
 
 
-class SourceOptionsSiteColl():
+class SourceOptionsSiteColl:
     """
     Object that defines a Microsoft SharePoint site collection to crawl with this
     configuration.
 
-    :attr str site_collection_path: The Microsoft SharePoint Online site collection
+    :param str site_collection_path: The Microsoft SharePoint Online site collection
           path to crawl. The path must be be relative to the **organization_url** that was
           specified in the credentials associated with this source configuration.
-    :attr int limit: (optional) The maximum number of documents to crawl for this
+    :param int limit: (optional) The maximum number of documents to crawl for this
           site collection. By default, all documents in the site collection are crawled.
     """
 
-    def __init__(self, site_collection_path: str, *, limit: int = None) -> None:
+    def __init__(
+        self,
+        site_collection_path: str,
+        *,
+        limit: Optional[int] = None,
+    ) -> None:
         """
         Initialize a SourceOptionsSiteColl object.
 
@@ -12314,14 +12957,15 @@ class SourceOptionsSiteColl():
     def from_dict(cls, _dict: Dict) -> 'SourceOptionsSiteColl':
         """Initialize a SourceOptionsSiteColl object from a json dictionary."""
         args = {}
-        if 'site_collection_path' in _dict:
-            args['site_collection_path'] = _dict.get('site_collection_path')
+        if (site_collection_path :=
+                _dict.get('site_collection_path')) is not None:
+            args['site_collection_path'] = site_collection_path
         else:
             raise ValueError(
                 'Required property \'site_collection_path\' not present in SourceOptionsSiteColl JSON'
             )
-        if 'limit' in _dict:
-            args['limit'] = _dict.get('limit')
+        if (limit := _dict.get('limit')) is not None:
+            args['limit'] = limit
         return cls(**args)
 
     @classmethod
@@ -12358,47 +13002,49 @@ class SourceOptionsSiteColl():
         return not self == other
 
 
-class SourceOptionsWebCrawl():
+class SourceOptionsWebCrawl:
     """
     Object defining which URL to crawl and how to crawl it.
 
-    :attr str url: The starting URL to crawl.
-    :attr bool limit_to_starting_hosts: (optional) When `true`, crawls of the
+    :param str url: The starting URL to crawl.
+    :param bool limit_to_starting_hosts: (optional) When `true`, crawls of the
           specified URL are limited to the host part of the **url** field.
-    :attr str crawl_speed: (optional) The number of concurrent URLs to fetch.
+    :param str crawl_speed: (optional) The number of concurrent URLs to fetch.
           `gentle` means one URL is fetched at a time with a delay between each call.
           `normal` means as many as two URLs are fectched concurrently with a short delay
           between fetch calls. `aggressive` means that up to ten URLs are fetched
           concurrently with a short delay between fetch calls.
-    :attr bool allow_untrusted_certificate: (optional) When `true`, allows the crawl
-          to interact with HTTPS sites with SSL certificates with untrusted signers.
-    :attr int maximum_hops: (optional) The maximum number of hops to make from the
+    :param bool allow_untrusted_certificate: (optional) When `true`, allows the
+          crawl to interact with HTTPS sites with SSL certificates with untrusted signers.
+    :param int maximum_hops: (optional) The maximum number of hops to make from the
           initial URL. When a page is crawled each link on that page will also be crawled
           if it is within the **maximum_hops** from the initial URL. The first page
           crawled is 0 hops, each link crawled from the first page is 1 hop, each link
           crawled from those pages is 2 hops, and so on.
-    :attr int request_timeout: (optional) The maximum milliseconds to wait for a
+    :param int request_timeout: (optional) The maximum milliseconds to wait for a
           response from the web server.
-    :attr bool override_robots_txt: (optional) When `true`, the crawler will ignore
+    :param bool override_robots_txt: (optional) When `true`, the crawler will ignore
           any `robots.txt` encountered by the crawler. This should only ever be done when
           crawling a web site the user owns. This must be be set to `true` when a
           **gateway_id** is specied in the **credentials**.
-    :attr List[str] blacklist: (optional) Array of URL's to be excluded while
+    :param List[str] blacklist: (optional) Array of URL's to be excluded while
           crawling. The crawler will not follow links which contains this string. For
           example, listing `https://ibm.com/watson` also excludes
           `https://ibm.com/watson/discovery`.
     """
 
-    def __init__(self,
-                 url: str,
-                 *,
-                 limit_to_starting_hosts: bool = None,
-                 crawl_speed: str = None,
-                 allow_untrusted_certificate: bool = None,
-                 maximum_hops: int = None,
-                 request_timeout: int = None,
-                 override_robots_txt: bool = None,
-                 blacklist: List[str] = None) -> None:
+    def __init__(
+        self,
+        url: str,
+        *,
+        limit_to_starting_hosts: Optional[bool] = None,
+        crawl_speed: Optional[str] = None,
+        allow_untrusted_certificate: Optional[bool] = None,
+        maximum_hops: Optional[int] = None,
+        request_timeout: Optional[int] = None,
+        override_robots_txt: Optional[bool] = None,
+        blacklist: Optional[List[str]] = None,
+    ) -> None:
         """
         Initialize a SourceOptionsWebCrawl object.
 
@@ -12442,28 +13088,29 @@ class SourceOptionsWebCrawl():
     def from_dict(cls, _dict: Dict) -> 'SourceOptionsWebCrawl':
         """Initialize a SourceOptionsWebCrawl object from a json dictionary."""
         args = {}
-        if 'url' in _dict:
-            args['url'] = _dict.get('url')
+        if (url := _dict.get('url')) is not None:
+            args['url'] = url
         else:
             raise ValueError(
                 'Required property \'url\' not present in SourceOptionsWebCrawl JSON'
             )
-        if 'limit_to_starting_hosts' in _dict:
-            args['limit_to_starting_hosts'] = _dict.get(
-                'limit_to_starting_hosts')
-        if 'crawl_speed' in _dict:
-            args['crawl_speed'] = _dict.get('crawl_speed')
-        if 'allow_untrusted_certificate' in _dict:
-            args['allow_untrusted_certificate'] = _dict.get(
-                'allow_untrusted_certificate')
-        if 'maximum_hops' in _dict:
-            args['maximum_hops'] = _dict.get('maximum_hops')
-        if 'request_timeout' in _dict:
-            args['request_timeout'] = _dict.get('request_timeout')
-        if 'override_robots_txt' in _dict:
-            args['override_robots_txt'] = _dict.get('override_robots_txt')
-        if 'blacklist' in _dict:
-            args['blacklist'] = _dict.get('blacklist')
+        if (limit_to_starting_hosts :=
+                _dict.get('limit_to_starting_hosts')) is not None:
+            args['limit_to_starting_hosts'] = limit_to_starting_hosts
+        if (crawl_speed := _dict.get('crawl_speed')) is not None:
+            args['crawl_speed'] = crawl_speed
+        if (allow_untrusted_certificate :=
+                _dict.get('allow_untrusted_certificate')) is not None:
+            args['allow_untrusted_certificate'] = allow_untrusted_certificate
+        if (maximum_hops := _dict.get('maximum_hops')) is not None:
+            args['maximum_hops'] = maximum_hops
+        if (request_timeout := _dict.get('request_timeout')) is not None:
+            args['request_timeout'] = request_timeout
+        if (override_robots_txt :=
+                _dict.get('override_robots_txt')) is not None:
+            args['override_robots_txt'] = override_robots_txt
+        if (blacklist := _dict.get('blacklist')) is not None:
+            args['blacklist'] = blacklist
         return cls(**args)
 
     @classmethod
@@ -12524,23 +13171,24 @@ class SourceOptionsWebCrawl():
         that up to ten URLs are fetched concurrently with a short delay between fetch
         calls.
         """
+
         GENTLE = 'gentle'
         NORMAL = 'normal'
         AGGRESSIVE = 'aggressive'
 
 
-class SourceSchedule():
+class SourceSchedule:
     """
     Object containing the schedule information for the source.
 
-    :attr bool enabled: (optional) When `true`, the source is re-crawled based on
+    :param bool enabled: (optional) When `true`, the source is re-crawled based on
           the **frequency** field in this object. When `false` the source is not
           re-crawled; When `false` and connecting to Salesforce the source is crawled
           annually.
-    :attr str time_zone: (optional) The time zone to base source crawl times on.
+    :param str time_zone: (optional) The time zone to base source crawl times on.
           Possible values correspond to the IANA (Internet Assigned Numbers Authority)
           time zones list.
-    :attr str frequency: (optional) The crawl schedule in the specified
+    :param str frequency: (optional) The crawl schedule in the specified
           **time_zone**.
           -  `five_minutes`: Runs every five minutes.
           -  `hourly`: Runs every hour.
@@ -12550,11 +13198,13 @@ class SourceSchedule():
           06:00.
     """
 
-    def __init__(self,
-                 *,
-                 enabled: bool = None,
-                 time_zone: str = None,
-                 frequency: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        enabled: Optional[bool] = None,
+        time_zone: Optional[str] = None,
+        frequency: Optional[str] = None,
+    ) -> None:
         """
         Initialize a SourceSchedule object.
 
@@ -12582,12 +13232,12 @@ class SourceSchedule():
     def from_dict(cls, _dict: Dict) -> 'SourceSchedule':
         """Initialize a SourceSchedule object from a json dictionary."""
         args = {}
-        if 'enabled' in _dict:
-            args['enabled'] = _dict.get('enabled')
-        if 'time_zone' in _dict:
-            args['time_zone'] = _dict.get('time_zone')
-        if 'frequency' in _dict:
-            args['frequency'] = _dict.get('frequency')
+        if (enabled := _dict.get('enabled')) is not None:
+            args['enabled'] = enabled
+        if (time_zone := _dict.get('time_zone')) is not None:
+            args['time_zone'] = time_zone
+        if (frequency := _dict.get('frequency')) is not None:
+            args['frequency'] = frequency
         return cls(**args)
 
     @classmethod
@@ -12633,6 +13283,7 @@ class SourceSchedule():
         -  `weekly`: Runs every week on Sunday between 00:00 and 06:00.
         -  `monthly`: Runs the on the first Sunday of every month between 00:00 and 06:00.
         """
+
         DAILY = 'daily'
         WEEKLY = 'weekly'
         MONTHLY = 'monthly'
@@ -12640,11 +13291,11 @@ class SourceSchedule():
         HOURLY = 'hourly'
 
 
-class SourceStatus():
+class SourceStatus:
     """
     Object containing source crawl status information.
 
-    :attr str status: (optional) The current status of the source crawl for this
+    :param str status: (optional) The current status of the source crawl for this
           collection. This field returns `not_configured` if the default configuration for
           this source does not have a **source** object defined.
           -  `running` indicates that a crawl to fetch more documents is in progress.
@@ -12652,14 +13303,16 @@ class SourceStatus():
           -  `queued` indicates that the crawl has been paused by the system and will
           automatically restart when possible.
           -  `unknown` indicates that an unidentified error has occured in the service.
-    :attr datetime next_crawl: (optional) Date in `RFC 3339` format indicating the
+    :param datetime next_crawl: (optional) Date in `RFC 3339` format indicating the
           time of the next crawl attempt.
     """
 
-    def __init__(self,
-                 *,
-                 status: str = None,
-                 next_crawl: datetime = None) -> None:
+    def __init__(
+        self,
+        *,
+        status: Optional[str] = None,
+        next_crawl: Optional[datetime] = None,
+    ) -> None:
         """
         Initialize a SourceStatus object.
 
@@ -12682,10 +13335,10 @@ class SourceStatus():
     def from_dict(cls, _dict: Dict) -> 'SourceStatus':
         """Initialize a SourceStatus object from a json dictionary."""
         args = {}
-        if 'status' in _dict:
-            args['status'] = _dict.get('status')
-        if 'next_crawl' in _dict:
-            args['next_crawl'] = string_to_datetime(_dict.get('next_crawl'))
+        if (status := _dict.get('status')) is not None:
+            args['status'] = status
+        if (next_crawl := _dict.get('next_crawl')) is not None:
+            args['next_crawl'] = string_to_datetime(next_crawl)
         return cls(**args)
 
     @classmethod
@@ -12731,6 +13384,7 @@ class SourceStatus():
         automatically restart when possible.
         -  `unknown` indicates that an unidentified error has occured in the service.
         """
+
         RUNNING = 'running'
         COMPLETE = 'complete'
         NOT_CONFIGURED = 'not_configured'
@@ -12738,20 +13392,22 @@ class SourceStatus():
         UNKNOWN = 'unknown'
 
 
-class StatusDetails():
+class StatusDetails:
     """
     Object that contains details about the status of the authentication process.
 
-    :attr bool authenticated: (optional) Indicates whether the credential is
+    :param bool authenticated: (optional) Indicates whether the credential is
           accepted by the target data source.
-    :attr str error_message: (optional) If `authenticated` is `false`, a message
+    :param str error_message: (optional) If `authenticated` is `false`, a message
           describes why authentication is unsuccessful.
     """
 
-    def __init__(self,
-                 *,
-                 authenticated: bool = None,
-                 error_message: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        authenticated: Optional[bool] = None,
+        error_message: Optional[str] = None,
+    ) -> None:
         """
         Initialize a StatusDetails object.
 
@@ -12767,10 +13423,10 @@ class StatusDetails():
     def from_dict(cls, _dict: Dict) -> 'StatusDetails':
         """Initialize a StatusDetails object from a json dictionary."""
         args = {}
-        if 'authenticated' in _dict:
-            args['authenticated'] = _dict.get('authenticated')
-        if 'error_message' in _dict:
-            args['error_message'] = _dict.get('error_message')
+        if (authenticated := _dict.get('authenticated')) is not None:
+            args['authenticated'] = authenticated
+        if (error_message := _dict.get('error_message')) is not None:
+            args['error_message'] = error_message
         return cls(**args)
 
     @classmethod
@@ -12806,25 +13462,27 @@ class StatusDetails():
         return not self == other
 
 
-class TokenDictRule():
+class TokenDictRule:
     """
     An object defining a single tokenizaion rule.
 
-    :attr str text: The string to tokenize.
-    :attr List[str] tokens: Array of tokens that the `text` field is split into when
-          found.
-    :attr List[str] readings: (optional) Array of tokens that represent the content
+    :param str text: The string to tokenize.
+    :param List[str] tokens: Array of tokens that the `text` field is split into
+          when found.
+    :param List[str] readings: (optional) Array of tokens that represent the content
           of the `text` field in an alternate character set.
-    :attr str part_of_speech: The part of speech that the `text` string belongs to.
+    :param str part_of_speech: The part of speech that the `text` string belongs to.
           For example `noun`. Custom parts of speech can be specified.
     """
 
-    def __init__(self,
-                 text: str,
-                 tokens: List[str],
-                 part_of_speech: str,
-                 *,
-                 readings: List[str] = None) -> None:
+    def __init__(
+        self,
+        text: str,
+        tokens: List[str],
+        part_of_speech: str,
+        *,
+        readings: Optional[List[str]] = None,
+    ) -> None:
         """
         Initialize a TokenDictRule object.
 
@@ -12845,21 +13503,21 @@ class TokenDictRule():
     def from_dict(cls, _dict: Dict) -> 'TokenDictRule':
         """Initialize a TokenDictRule object from a json dictionary."""
         args = {}
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
+        if (text := _dict.get('text')) is not None:
+            args['text'] = text
         else:
             raise ValueError(
                 'Required property \'text\' not present in TokenDictRule JSON')
-        if 'tokens' in _dict:
-            args['tokens'] = _dict.get('tokens')
+        if (tokens := _dict.get('tokens')) is not None:
+            args['tokens'] = tokens
         else:
             raise ValueError(
                 'Required property \'tokens\' not present in TokenDictRule JSON'
             )
-        if 'readings' in _dict:
-            args['readings'] = _dict.get('readings')
-        if 'part_of_speech' in _dict:
-            args['part_of_speech'] = _dict.get('part_of_speech')
+        if (readings := _dict.get('readings')) is not None:
+            args['readings'] = readings
+        if (part_of_speech := _dict.get('part_of_speech')) is not None:
+            args['part_of_speech'] = part_of_speech
         else:
             raise ValueError(
                 'Required property \'part_of_speech\' not present in TokenDictRule JSON'
@@ -12903,17 +13561,22 @@ class TokenDictRule():
         return not self == other
 
 
-class TokenDictStatusResponse():
+class TokenDictStatusResponse:
     """
     Object describing the current status of the wordlist.
 
-    :attr str status: (optional) Current wordlist status for the specified
+    :param str status: (optional) Current wordlist status for the specified
           collection.
-    :attr str type: (optional) The type for this wordlist. Can be
+    :param str type: (optional) The type for this wordlist. Can be
           `tokenization_dictionary` or `stopwords`.
     """
 
-    def __init__(self, *, status: str = None, type: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        status: Optional[str] = None,
+        type: Optional[str] = None,
+    ) -> None:
         """
         Initialize a TokenDictStatusResponse object.
 
@@ -12929,10 +13592,10 @@ class TokenDictStatusResponse():
     def from_dict(cls, _dict: Dict) -> 'TokenDictStatusResponse':
         """Initialize a TokenDictStatusResponse object from a json dictionary."""
         args = {}
-        if 'status' in _dict:
-            args['status'] = _dict.get('status')
-        if 'type' in _dict:
-            args['type'] = _dict.get('type')
+        if (status := _dict.get('status')) is not None:
+            args['status'] = status
+        if (type := _dict.get('type')) is not None:
+            args['type'] = type
         return cls(**args)
 
     @classmethod
@@ -12971,29 +13634,32 @@ class TokenDictStatusResponse():
         """
         Current wordlist status for the specified collection.
         """
+
         ACTIVE = 'active'
         PENDING = 'pending'
         NOT_FOUND = 'not found'
 
 
-class TrainingDataSet():
+class TrainingDataSet:
     """
     Training information for a specific collection.
 
-    :attr str environment_id: (optional) The environment id associated with this
+    :param str environment_id: (optional) The environment id associated with this
           training data set.
-    :attr str collection_id: (optional) The collection id associated with this
+    :param str collection_id: (optional) The collection id associated with this
           training data set.
-    :attr List[TrainingQuery] queries: (optional) Array of training queries. At
+    :param List[TrainingQuery] queries: (optional) Array of training queries. At
           least 50 queries are required for training to begin. A maximum of 10,000 queries
           are returned.
     """
 
-    def __init__(self,
-                 *,
-                 environment_id: str = None,
-                 collection_id: str = None,
-                 queries: List['TrainingQuery'] = None) -> None:
+    def __init__(
+        self,
+        *,
+        environment_id: Optional[str] = None,
+        collection_id: Optional[str] = None,
+        queries: Optional[List['TrainingQuery']] = None,
+    ) -> None:
         """
         Initialize a TrainingDataSet object.
 
@@ -13013,14 +13679,12 @@ class TrainingDataSet():
     def from_dict(cls, _dict: Dict) -> 'TrainingDataSet':
         """Initialize a TrainingDataSet object from a json dictionary."""
         args = {}
-        if 'environment_id' in _dict:
-            args['environment_id'] = _dict.get('environment_id')
-        if 'collection_id' in _dict:
-            args['collection_id'] = _dict.get('collection_id')
-        if 'queries' in _dict:
-            args['queries'] = [
-                TrainingQuery.from_dict(v) for v in _dict.get('queries')
-            ]
+        if (environment_id := _dict.get('environment_id')) is not None:
+            args['environment_id'] = environment_id
+        if (collection_id := _dict.get('collection_id')) is not None:
+            args['collection_id'] = collection_id
+        if (queries := _dict.get('queries')) is not None:
+            args['queries'] = [TrainingQuery.from_dict(v) for v in queries]
         return cls(**args)
 
     @classmethod
@@ -13064,22 +13728,24 @@ class TrainingDataSet():
         return not self == other
 
 
-class TrainingExample():
+class TrainingExample:
     """
     Training example details.
 
-    :attr str document_id: (optional) The document ID associated with this training
+    :param str document_id: (optional) The document ID associated with this training
           example.
-    :attr str cross_reference: (optional) The cross reference associated with this
+    :param str cross_reference: (optional) The cross reference associated with this
           training example.
-    :attr int relevance: (optional) The relevance of the training example.
+    :param int relevance: (optional) The relevance of the training example.
     """
 
-    def __init__(self,
-                 *,
-                 document_id: str = None,
-                 cross_reference: str = None,
-                 relevance: int = None) -> None:
+    def __init__(
+        self,
+        *,
+        document_id: Optional[str] = None,
+        cross_reference: Optional[str] = None,
+        relevance: Optional[int] = None,
+    ) -> None:
         """
         Initialize a TrainingExample object.
 
@@ -13097,12 +13763,12 @@ class TrainingExample():
     def from_dict(cls, _dict: Dict) -> 'TrainingExample':
         """Initialize a TrainingExample object from a json dictionary."""
         args = {}
-        if 'document_id' in _dict:
-            args['document_id'] = _dict.get('document_id')
-        if 'cross_reference' in _dict:
-            args['cross_reference'] = _dict.get('cross_reference')
-        if 'relevance' in _dict:
-            args['relevance'] = _dict.get('relevance')
+        if (document_id := _dict.get('document_id')) is not None:
+            args['document_id'] = document_id
+        if (cross_reference := _dict.get('cross_reference')) is not None:
+            args['cross_reference'] = cross_reference
+        if (relevance := _dict.get('relevance')) is not None:
+            args['relevance'] = relevance
         return cls(**args)
 
     @classmethod
@@ -13141,14 +13807,18 @@ class TrainingExample():
         return not self == other
 
 
-class TrainingExampleList():
+class TrainingExampleList:
     """
     Object containing an array of training examples.
 
-    :attr List[TrainingExample] examples: (optional) Array of training examples.
+    :param List[TrainingExample] examples: (optional) Array of training examples.
     """
 
-    def __init__(self, *, examples: List['TrainingExample'] = None) -> None:
+    def __init__(
+        self,
+        *,
+        examples: Optional[List['TrainingExample']] = None,
+    ) -> None:
         """
         Initialize a TrainingExampleList object.
 
@@ -13161,10 +13831,8 @@ class TrainingExampleList():
     def from_dict(cls, _dict: Dict) -> 'TrainingExampleList':
         """Initialize a TrainingExampleList object from a json dictionary."""
         args = {}
-        if 'examples' in _dict:
-            args['examples'] = [
-                TrainingExample.from_dict(v) for v in _dict.get('examples')
-            ]
+        if (examples := _dict.get('examples')) is not None:
+            args['examples'] = [TrainingExample.from_dict(v) for v in examples]
         return cls(**args)
 
     @classmethod
@@ -13204,24 +13872,26 @@ class TrainingExampleList():
         return not self == other
 
 
-class TrainingQuery():
+class TrainingQuery:
     """
     Training query details.
 
-    :attr str query_id: (optional) The query ID associated with the training query.
-    :attr str natural_language_query: (optional) The natural text query for the
+    :param str query_id: (optional) The query ID associated with the training query.
+    :param str natural_language_query: (optional) The natural text query for the
           training query.
-    :attr str filter: (optional) The filter used on the collection before the
+    :param str filter: (optional) The filter used on the collection before the
           **natural_language_query** is applied.
-    :attr List[TrainingExample] examples: (optional) Array of training examples.
+    :param List[TrainingExample] examples: (optional) Array of training examples.
     """
 
-    def __init__(self,
-                 *,
-                 query_id: str = None,
-                 natural_language_query: str = None,
-                 filter: str = None,
-                 examples: List['TrainingExample'] = None) -> None:
+    def __init__(
+        self,
+        *,
+        query_id: Optional[str] = None,
+        natural_language_query: Optional[str] = None,
+        filter: Optional[str] = None,
+        examples: Optional[List['TrainingExample']] = None,
+    ) -> None:
         """
         Initialize a TrainingQuery object.
 
@@ -13243,16 +13913,15 @@ class TrainingQuery():
     def from_dict(cls, _dict: Dict) -> 'TrainingQuery':
         """Initialize a TrainingQuery object from a json dictionary."""
         args = {}
-        if 'query_id' in _dict:
-            args['query_id'] = _dict.get('query_id')
-        if 'natural_language_query' in _dict:
-            args['natural_language_query'] = _dict.get('natural_language_query')
-        if 'filter' in _dict:
-            args['filter'] = _dict.get('filter')
-        if 'examples' in _dict:
-            args['examples'] = [
-                TrainingExample.from_dict(v) for v in _dict.get('examples')
-            ]
+        if (query_id := _dict.get('query_id')) is not None:
+            args['query_id'] = query_id
+        if (natural_language_query :=
+                _dict.get('natural_language_query')) is not None:
+            args['natural_language_query'] = natural_language_query
+        if (filter := _dict.get('filter')) is not None:
+            args['filter'] = filter
+        if (examples := _dict.get('examples')) is not None:
+            args['examples'] = [TrainingExample.from_dict(v) for v in examples]
         return cls(**args)
 
     @classmethod
@@ -13299,41 +13968,43 @@ class TrainingQuery():
         return not self == other
 
 
-class TrainingStatus():
+class TrainingStatus:
     """
     Training status details.
 
-    :attr int total_examples: (optional) The total number of training examples
+    :param int total_examples: (optional) The total number of training examples
           uploaded to this collection.
-    :attr bool available: (optional) When `true`, the collection has been
+    :param bool available: (optional) When `true`, the collection has been
           successfully trained.
-    :attr bool processing: (optional) When `true`, the collection is currently
+    :param bool processing: (optional) When `true`, the collection is currently
           processing training.
-    :attr bool minimum_queries_added: (optional) When `true`, the collection has a
+    :param bool minimum_queries_added: (optional) When `true`, the collection has a
           sufficent amount of queries added for training to occur.
-    :attr bool minimum_examples_added: (optional) When `true`, the collection has a
+    :param bool minimum_examples_added: (optional) When `true`, the collection has a
           sufficent amount of examples added for training to occur.
-    :attr bool sufficient_label_diversity: (optional) When `true`, the collection
+    :param bool sufficient_label_diversity: (optional) When `true`, the collection
           has a sufficent amount of diversity in labeled results for training to occur.
-    :attr int notices: (optional) The number of notices associated with this data
+    :param int notices: (optional) The number of notices associated with this data
           set.
-    :attr datetime successfully_trained: (optional) The timestamp of when the
+    :param datetime successfully_trained: (optional) The timestamp of when the
           collection was successfully trained.
-    :attr datetime data_updated: (optional) The timestamp of when the data was
+    :param datetime data_updated: (optional) The timestamp of when the data was
           uploaded.
     """
 
-    def __init__(self,
-                 *,
-                 total_examples: int = None,
-                 available: bool = None,
-                 processing: bool = None,
-                 minimum_queries_added: bool = None,
-                 minimum_examples_added: bool = None,
-                 sufficient_label_diversity: bool = None,
-                 notices: int = None,
-                 successfully_trained: datetime = None,
-                 data_updated: datetime = None) -> None:
+    def __init__(
+        self,
+        *,
+        total_examples: Optional[int] = None,
+        available: Optional[bool] = None,
+        processing: Optional[bool] = None,
+        minimum_queries_added: Optional[bool] = None,
+        minimum_examples_added: Optional[bool] = None,
+        sufficient_label_diversity: Optional[bool] = None,
+        notices: Optional[int] = None,
+        successfully_trained: Optional[datetime] = None,
+        data_updated: Optional[datetime] = None,
+    ) -> None:
         """
         Initialize a TrainingStatus object.
 
@@ -13371,26 +14042,29 @@ class TrainingStatus():
     def from_dict(cls, _dict: Dict) -> 'TrainingStatus':
         """Initialize a TrainingStatus object from a json dictionary."""
         args = {}
-        if 'total_examples' in _dict:
-            args['total_examples'] = _dict.get('total_examples')
-        if 'available' in _dict:
-            args['available'] = _dict.get('available')
-        if 'processing' in _dict:
-            args['processing'] = _dict.get('processing')
-        if 'minimum_queries_added' in _dict:
-            args['minimum_queries_added'] = _dict.get('minimum_queries_added')
-        if 'minimum_examples_added' in _dict:
-            args['minimum_examples_added'] = _dict.get('minimum_examples_added')
-        if 'sufficient_label_diversity' in _dict:
-            args['sufficient_label_diversity'] = _dict.get(
-                'sufficient_label_diversity')
-        if 'notices' in _dict:
-            args['notices'] = _dict.get('notices')
-        if 'successfully_trained' in _dict:
+        if (total_examples := _dict.get('total_examples')) is not None:
+            args['total_examples'] = total_examples
+        if (available := _dict.get('available')) is not None:
+            args['available'] = available
+        if (processing := _dict.get('processing')) is not None:
+            args['processing'] = processing
+        if (minimum_queries_added :=
+                _dict.get('minimum_queries_added')) is not None:
+            args['minimum_queries_added'] = minimum_queries_added
+        if (minimum_examples_added :=
+                _dict.get('minimum_examples_added')) is not None:
+            args['minimum_examples_added'] = minimum_examples_added
+        if (sufficient_label_diversity :=
+                _dict.get('sufficient_label_diversity')) is not None:
+            args['sufficient_label_diversity'] = sufficient_label_diversity
+        if (notices := _dict.get('notices')) is not None:
+            args['notices'] = notices
+        if (successfully_trained :=
+                _dict.get('successfully_trained')) is not None:
             args['successfully_trained'] = string_to_datetime(
-                _dict.get('successfully_trained'))
-        if 'data_updated' in _dict:
-            args['data_updated'] = string_to_datetime(_dict.get('data_updated'))
+                successfully_trained)
+        if (data_updated := _dict.get('data_updated')) is not None:
+            args['data_updated'] = string_to_datetime(data_updated)
         return cls(**args)
 
     @classmethod
@@ -13446,19 +14120,22 @@ class TrainingStatus():
         return not self == other
 
 
-class WordHeadingDetection():
+class WordHeadingDetection:
     """
     Object containing heading detection conversion settings for Microsoft Word documents.
 
-    :attr List[FontSetting] fonts: (optional) Array of font matching configurations.
-    :attr List[WordStyle] styles: (optional) Array of Microsoft Word styles to
+    :param List[FontSetting] fonts: (optional) Array of font matching
+          configurations.
+    :param List[WordStyle] styles: (optional) Array of Microsoft Word styles to
           convert.
     """
 
-    def __init__(self,
-                 *,
-                 fonts: List['FontSetting'] = None,
-                 styles: List['WordStyle'] = None) -> None:
+    def __init__(
+        self,
+        *,
+        fonts: Optional[List['FontSetting']] = None,
+        styles: Optional[List['WordStyle']] = None,
+    ) -> None:
         """
         Initialize a WordHeadingDetection object.
 
@@ -13474,14 +14151,10 @@ class WordHeadingDetection():
     def from_dict(cls, _dict: Dict) -> 'WordHeadingDetection':
         """Initialize a WordHeadingDetection object from a json dictionary."""
         args = {}
-        if 'fonts' in _dict:
-            args['fonts'] = [
-                FontSetting.from_dict(v) for v in _dict.get('fonts')
-            ]
-        if 'styles' in _dict:
-            args['styles'] = [
-                WordStyle.from_dict(v) for v in _dict.get('styles')
-            ]
+        if (fonts := _dict.get('fonts')) is not None:
+            args['fonts'] = [FontSetting.from_dict(v) for v in fonts]
+        if (styles := _dict.get('styles')) is not None:
+            args['styles'] = [WordStyle.from_dict(v) for v in styles]
         return cls(**args)
 
     @classmethod
@@ -13529,15 +14202,19 @@ class WordHeadingDetection():
         return not self == other
 
 
-class WordSettings():
+class WordSettings:
     """
     A list of Word conversion settings.
 
-    :attr WordHeadingDetection heading: (optional) Object containing heading
+    :param WordHeadingDetection heading: (optional) Object containing heading
           detection conversion settings for Microsoft Word documents.
     """
 
-    def __init__(self, *, heading: 'WordHeadingDetection' = None) -> None:
+    def __init__(
+        self,
+        *,
+        heading: Optional['WordHeadingDetection'] = None,
+    ) -> None:
         """
         Initialize a WordSettings object.
 
@@ -13550,9 +14227,8 @@ class WordSettings():
     def from_dict(cls, _dict: Dict) -> 'WordSettings':
         """Initialize a WordSettings object from a json dictionary."""
         args = {}
-        if 'heading' in _dict:
-            args['heading'] = WordHeadingDetection.from_dict(
-                _dict.get('heading'))
+        if (heading := _dict.get('heading')) is not None:
+            args['heading'] = WordHeadingDetection.from_dict(heading)
         return cls(**args)
 
     @classmethod
@@ -13589,16 +14265,21 @@ class WordSettings():
         return not self == other
 
 
-class WordStyle():
+class WordStyle:
     """
     Microsoft Word styles to convert into a specified HTML head level.
 
-    :attr int level: (optional) HTML head level that content matching this style is
+    :param int level: (optional) HTML head level that content matching this style is
           tagged with.
-    :attr List[str] names: (optional) Array of word style names to convert.
+    :param List[str] names: (optional) Array of word style names to convert.
     """
 
-    def __init__(self, *, level: int = None, names: List[str] = None) -> None:
+    def __init__(
+        self,
+        *,
+        level: Optional[int] = None,
+        names: Optional[List[str]] = None,
+    ) -> None:
         """
         Initialize a WordStyle object.
 
@@ -13613,10 +14294,10 @@ class WordStyle():
     def from_dict(cls, _dict: Dict) -> 'WordStyle':
         """Initialize a WordStyle object from a json dictionary."""
         args = {}
-        if 'level' in _dict:
-            args['level'] = _dict.get('level')
-        if 'names' in _dict:
-            args['names'] = _dict.get('names')
+        if (level := _dict.get('level')) is not None:
+            args['level'] = level
+        if (names := _dict.get('names')) is not None:
+            args['names'] = names
         return cls(**args)
 
     @classmethod
@@ -13652,14 +14333,18 @@ class WordStyle():
         return not self == other
 
 
-class XPathPatterns():
+class XPathPatterns:
     """
     Object containing an array of XPaths.
 
-    :attr List[str] xpaths: (optional) An array to XPaths.
+    :param List[str] xpaths: (optional) An array to XPaths.
     """
 
-    def __init__(self, *, xpaths: List[str] = None) -> None:
+    def __init__(
+        self,
+        *,
+        xpaths: Optional[List[str]] = None,
+    ) -> None:
         """
         Initialize a XPathPatterns object.
 
@@ -13671,8 +14356,8 @@ class XPathPatterns():
     def from_dict(cls, _dict: Dict) -> 'XPathPatterns':
         """Initialize a XPathPatterns object from a json dictionary."""
         args = {}
-        if 'xpaths' in _dict:
-            args['xpaths'] = _dict.get('xpaths')
+        if (xpaths := _dict.get('xpaths')) is not None:
+            args['xpaths'] = xpaths
         return cls(**args)
 
     @classmethod
@@ -13711,11 +14396,17 @@ class QueryCalculationAggregation(QueryAggregation):
     Returns a scalar calculation across all documents for the field specified. Possible
     calculations include min, max, sum, average, and unique_count.
 
-    :attr str field: The field to perform the calculation on.
-    :attr float value: (optional) The value of the calculation.
+    :param str field: The field to perform the calculation on.
+    :param float value: (optional) The value of the calculation.
     """
 
-    def __init__(self, type: str, field: str, *, value: float = None) -> None:
+    def __init__(
+        self,
+        type: str,
+        field: str,
+        *,
+        value: Optional[float] = None,
+    ) -> None:
         """
         Initialize a QueryCalculationAggregation object.
 
@@ -13732,20 +14423,20 @@ class QueryCalculationAggregation(QueryAggregation):
     def from_dict(cls, _dict: Dict) -> 'QueryCalculationAggregation':
         """Initialize a QueryCalculationAggregation object from a json dictionary."""
         args = {}
-        if 'type' in _dict:
-            args['type'] = _dict.get('type')
+        if (type := _dict.get('type')) is not None:
+            args['type'] = type
         else:
             raise ValueError(
                 'Required property \'type\' not present in QueryCalculationAggregation JSON'
             )
-        if 'field' in _dict:
-            args['field'] = _dict.get('field')
+        if (field := _dict.get('field')) is not None:
+            args['field'] = field
         else:
             raise ValueError(
                 'Required property \'field\' not present in QueryCalculationAggregation JSON'
             )
-        if 'value' in _dict:
-            args['value'] = _dict.get('value')
+        if (value := _dict.get('value')) is not None:
+            args['value'] = value
         return cls(**args)
 
     @classmethod
@@ -13787,19 +14478,21 @@ class QueryFilterAggregation(QueryAggregation):
     """
     A modifier that narrows the document set of the sub-aggregations it precedes.
 
-    :attr str match: The filter that is written in Discovery Query Language syntax
+    :param str match: The filter that is written in Discovery Query Language syntax
           and is applied to the documents before sub-aggregations are run.
-    :attr int matching_results: Number of documents that match the filter.
-    :attr List[QueryAggregation] aggregations: (optional) An array of
+    :param int matching_results: Number of documents that match the filter.
+    :param List[QueryAggregation] aggregations: (optional) An array of
           sub-aggregations.
     """
 
-    def __init__(self,
-                 type: str,
-                 match: str,
-                 matching_results: int,
-                 *,
-                 aggregations: List['QueryAggregation'] = None) -> None:
+    def __init__(
+        self,
+        type: str,
+        match: str,
+        matching_results: int,
+        *,
+        aggregations: Optional[List['QueryAggregation']] = None,
+    ) -> None:
         """
         Initialize a QueryFilterAggregation object.
 
@@ -13820,27 +14513,27 @@ class QueryFilterAggregation(QueryAggregation):
     def from_dict(cls, _dict: Dict) -> 'QueryFilterAggregation':
         """Initialize a QueryFilterAggregation object from a json dictionary."""
         args = {}
-        if 'type' in _dict:
-            args['type'] = _dict.get('type')
+        if (type := _dict.get('type')) is not None:
+            args['type'] = type
         else:
             raise ValueError(
                 'Required property \'type\' not present in QueryFilterAggregation JSON'
             )
-        if 'match' in _dict:
-            args['match'] = _dict.get('match')
+        if (match := _dict.get('match')) is not None:
+            args['match'] = match
         else:
             raise ValueError(
                 'Required property \'match\' not present in QueryFilterAggregation JSON'
             )
-        if 'matching_results' in _dict:
-            args['matching_results'] = _dict.get('matching_results')
+        if (matching_results := _dict.get('matching_results')) is not None:
+            args['matching_results'] = matching_results
         else:
             raise ValueError(
                 'Required property \'matching_results\' not present in QueryFilterAggregation JSON'
             )
-        if 'aggregations' in _dict:
+        if (aggregations := _dict.get('aggregations')) is not None:
             args['aggregations'] = [
-                QueryAggregation.from_dict(v) for v in _dict.get('aggregations')
+                QueryAggregation.from_dict(v) for v in aggregations
             ]
         return cls(**args)
 
@@ -13893,22 +14586,23 @@ class QueryHistogramAggregation(QueryAggregation):
     Numeric interval segments to categorize documents by using field values from a single
     numeric field to describe the category.
 
-    :attr str field: The numeric field name used to create the histogram.
-    :attr int interval: The size of the sections that the results are split into.
-    :attr str name: (optional) Identifier specified in the query request of this
+    :param str field: The numeric field name used to create the histogram.
+    :param int interval: The size of the sections that the results are split into.
+    :param str name: (optional) Identifier specified in the query request of this
           aggregation.
-    :attr List[QueryHistogramAggregationResult] results: (optional) Array of numeric
-          intervals.
+    :param List[QueryHistogramAggregationResult] results: (optional) Array of
+          numeric intervals.
     """
 
     def __init__(
-            self,
-            type: str,
-            field: str,
-            interval: int,
-            *,
-            name: str = None,
-            results: List['QueryHistogramAggregationResult'] = None) -> None:
+        self,
+        type: str,
+        field: str,
+        interval: int,
+        *,
+        name: Optional[str] = None,
+        results: Optional[List['QueryHistogramAggregationResult']] = None,
+    ) -> None:
         """
         Initialize a QueryHistogramAggregation object.
 
@@ -13932,30 +14626,29 @@ class QueryHistogramAggregation(QueryAggregation):
     def from_dict(cls, _dict: Dict) -> 'QueryHistogramAggregation':
         """Initialize a QueryHistogramAggregation object from a json dictionary."""
         args = {}
-        if 'type' in _dict:
-            args['type'] = _dict.get('type')
+        if (type := _dict.get('type')) is not None:
+            args['type'] = type
         else:
             raise ValueError(
                 'Required property \'type\' not present in QueryHistogramAggregation JSON'
             )
-        if 'field' in _dict:
-            args['field'] = _dict.get('field')
+        if (field := _dict.get('field')) is not None:
+            args['field'] = field
         else:
             raise ValueError(
                 'Required property \'field\' not present in QueryHistogramAggregation JSON'
             )
-        if 'interval' in _dict:
-            args['interval'] = _dict.get('interval')
+        if (interval := _dict.get('interval')) is not None:
+            args['interval'] = interval
         else:
             raise ValueError(
                 'Required property \'interval\' not present in QueryHistogramAggregation JSON'
             )
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
-        if 'results' in _dict:
+        if (name := _dict.get('name')) is not None:
+            args['name'] = name
+        if (results := _dict.get('results')) is not None:
             args['results'] = [
-                QueryHistogramAggregationResult.from_dict(v)
-                for v in _dict.get('results')
+                QueryHistogramAggregationResult.from_dict(v) for v in results
             ]
         return cls(**args)
 
@@ -14009,19 +14702,21 @@ class QueryNestedAggregation(QueryAggregation):
     A restriction that alters the document set that is used for sub-aggregations it
     precedes to nested documents found in the field specified.
 
-    :attr str path: The path to the document field to scope sub-aggregations to.
-    :attr int matching_results: Number of nested documents found in the specified
+    :param str path: The path to the document field to scope sub-aggregations to.
+    :param int matching_results: Number of nested documents found in the specified
           field.
-    :attr List[QueryAggregation] aggregations: (optional) An array of
+    :param List[QueryAggregation] aggregations: (optional) An array of
           sub-aggregations.
     """
 
-    def __init__(self,
-                 type: str,
-                 path: str,
-                 matching_results: int,
-                 *,
-                 aggregations: List['QueryAggregation'] = None) -> None:
+    def __init__(
+        self,
+        type: str,
+        path: str,
+        matching_results: int,
+        *,
+        aggregations: Optional[List['QueryAggregation']] = None,
+    ) -> None:
         """
         Initialize a QueryNestedAggregation object.
 
@@ -14043,27 +14738,27 @@ class QueryNestedAggregation(QueryAggregation):
     def from_dict(cls, _dict: Dict) -> 'QueryNestedAggregation':
         """Initialize a QueryNestedAggregation object from a json dictionary."""
         args = {}
-        if 'type' in _dict:
-            args['type'] = _dict.get('type')
+        if (type := _dict.get('type')) is not None:
+            args['type'] = type
         else:
             raise ValueError(
                 'Required property \'type\' not present in QueryNestedAggregation JSON'
             )
-        if 'path' in _dict:
-            args['path'] = _dict.get('path')
+        if (path := _dict.get('path')) is not None:
+            args['path'] = path
         else:
             raise ValueError(
                 'Required property \'path\' not present in QueryNestedAggregation JSON'
             )
-        if 'matching_results' in _dict:
-            args['matching_results'] = _dict.get('matching_results')
+        if (matching_results := _dict.get('matching_results')) is not None:
+            args['matching_results'] = matching_results
         else:
             raise ValueError(
                 'Required property \'matching_results\' not present in QueryNestedAggregation JSON'
             )
-        if 'aggregations' in _dict:
+        if (aggregations := _dict.get('aggregations')) is not None:
             args['aggregations'] = [
-                QueryAggregation.from_dict(v) for v in _dict.get('aggregations')
+                QueryAggregation.from_dict(v) for v in aggregations
             ]
         return cls(**args)
 
@@ -14115,21 +14810,23 @@ class QueryTermAggregation(QueryAggregation):
     """
     Returns the top values for the field specified.
 
-    :attr str field: The field in the document used to generate top values from.
-    :attr int count: (optional) The number of top values returned.
-    :attr str name: (optional) Identifier specified in the query request of this
+    :param str field: The field in the document used to generate top values from.
+    :param int count: (optional) The number of top values returned.
+    :param str name: (optional) Identifier specified in the query request of this
           aggregation.
-    :attr List[QueryTermAggregationResult] results: (optional) Array of top values
+    :param List[QueryTermAggregationResult] results: (optional) Array of top values
           for the field.
     """
 
-    def __init__(self,
-                 type: str,
-                 field: str,
-                 *,
-                 count: int = None,
-                 name: str = None,
-                 results: List['QueryTermAggregationResult'] = None) -> None:
+    def __init__(
+        self,
+        type: str,
+        field: str,
+        *,
+        count: Optional[int] = None,
+        name: Optional[str] = None,
+        results: Optional[List['QueryTermAggregationResult']] = None,
+    ) -> None:
         """
         Initialize a QueryTermAggregation object.
 
@@ -14153,26 +14850,25 @@ class QueryTermAggregation(QueryAggregation):
     def from_dict(cls, _dict: Dict) -> 'QueryTermAggregation':
         """Initialize a QueryTermAggregation object from a json dictionary."""
         args = {}
-        if 'type' in _dict:
-            args['type'] = _dict.get('type')
+        if (type := _dict.get('type')) is not None:
+            args['type'] = type
         else:
             raise ValueError(
                 'Required property \'type\' not present in QueryTermAggregation JSON'
             )
-        if 'field' in _dict:
-            args['field'] = _dict.get('field')
+        if (field := _dict.get('field')) is not None:
+            args['field'] = field
         else:
             raise ValueError(
                 'Required property \'field\' not present in QueryTermAggregation JSON'
             )
-        if 'count' in _dict:
-            args['count'] = _dict.get('count')
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
-        if 'results' in _dict:
+        if (count := _dict.get('count')) is not None:
+            args['count'] = count
+        if (name := _dict.get('name')) is not None:
+            args['name'] = name
+        if (results := _dict.get('results')) is not None:
             args['results'] = [
-                QueryTermAggregationResult.from_dict(v)
-                for v in _dict.get('results')
+                QueryTermAggregationResult.from_dict(v) for v in results
             ]
         return cls(**args)
 
@@ -14225,23 +14921,24 @@ class QueryTimesliceAggregation(QueryAggregation):
     """
     A specialized histogram aggregation that uses dates to create interval segments.
 
-    :attr str field: The date field name used to create the timeslice.
-    :attr str interval: The date interval value. Valid values are seconds, minutes,
+    :param str field: The date field name used to create the timeslice.
+    :param str interval: The date interval value. Valid values are seconds, minutes,
           hours, days, weeks, and years.
-    :attr str name: (optional) Identifier specified in the query request of this
+    :param str name: (optional) Identifier specified in the query request of this
           aggregation.
-    :attr List[QueryTimesliceAggregationResult] results: (optional) Array of
+    :param List[QueryTimesliceAggregationResult] results: (optional) Array of
           aggregation results.
     """
 
     def __init__(
-            self,
-            type: str,
-            field: str,
-            interval: str,
-            *,
-            name: str = None,
-            results: List['QueryTimesliceAggregationResult'] = None) -> None:
+        self,
+        type: str,
+        field: str,
+        interval: str,
+        *,
+        name: Optional[str] = None,
+        results: Optional[List['QueryTimesliceAggregationResult']] = None,
+    ) -> None:
         """
         Initialize a QueryTimesliceAggregation object.
 
@@ -14265,30 +14962,29 @@ class QueryTimesliceAggregation(QueryAggregation):
     def from_dict(cls, _dict: Dict) -> 'QueryTimesliceAggregation':
         """Initialize a QueryTimesliceAggregation object from a json dictionary."""
         args = {}
-        if 'type' in _dict:
-            args['type'] = _dict.get('type')
+        if (type := _dict.get('type')) is not None:
+            args['type'] = type
         else:
             raise ValueError(
                 'Required property \'type\' not present in QueryTimesliceAggregation JSON'
             )
-        if 'field' in _dict:
-            args['field'] = _dict.get('field')
+        if (field := _dict.get('field')) is not None:
+            args['field'] = field
         else:
             raise ValueError(
                 'Required property \'field\' not present in QueryTimesliceAggregation JSON'
             )
-        if 'interval' in _dict:
-            args['interval'] = _dict.get('interval')
+        if (interval := _dict.get('interval')) is not None:
+            args['interval'] = interval
         else:
             raise ValueError(
                 'Required property \'interval\' not present in QueryTimesliceAggregation JSON'
             )
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
-        if 'results' in _dict:
+        if (name := _dict.get('name')) is not None:
+            args['name'] = name
+        if (results := _dict.get('results')) is not None:
             args['results'] = [
-                QueryTimesliceAggregationResult.from_dict(v)
-                for v in _dict.get('results')
+                QueryTimesliceAggregationResult.from_dict(v) for v in results
             ]
         return cls(**args)
 
@@ -14341,18 +15037,20 @@ class QueryTopHitsAggregation(QueryAggregation):
     """
     Returns the top documents ranked by the score of the query.
 
-    :attr int size: The number of documents to return.
-    :attr str name: (optional) Identifier specified in the query request of this
+    :param int size: The number of documents to return.
+    :param str name: (optional) Identifier specified in the query request of this
           aggregation.
-    :attr QueryTopHitsAggregationResult hits: (optional)
+    :param QueryTopHitsAggregationResult hits: (optional)
     """
 
-    def __init__(self,
-                 type: str,
-                 size: int,
-                 *,
-                 name: str = None,
-                 hits: 'QueryTopHitsAggregationResult' = None) -> None:
+    def __init__(
+        self,
+        type: str,
+        size: int,
+        *,
+        name: Optional[str] = None,
+        hits: Optional['QueryTopHitsAggregationResult'] = None,
+    ) -> None:
         """
         Initialize a QueryTopHitsAggregation object.
 
@@ -14372,23 +15070,22 @@ class QueryTopHitsAggregation(QueryAggregation):
     def from_dict(cls, _dict: Dict) -> 'QueryTopHitsAggregation':
         """Initialize a QueryTopHitsAggregation object from a json dictionary."""
         args = {}
-        if 'type' in _dict:
-            args['type'] = _dict.get('type')
+        if (type := _dict.get('type')) is not None:
+            args['type'] = type
         else:
             raise ValueError(
                 'Required property \'type\' not present in QueryTopHitsAggregation JSON'
             )
-        if 'size' in _dict:
-            args['size'] = _dict.get('size')
+        if (size := _dict.get('size')) is not None:
+            args['size'] = size
         else:
             raise ValueError(
                 'Required property \'size\' not present in QueryTopHitsAggregation JSON'
             )
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
-        if 'hits' in _dict:
-            args['hits'] = QueryTopHitsAggregationResult.from_dict(
-                _dict.get('hits'))
+        if (name := _dict.get('name')) is not None:
+            args['name'] = name
+        if (hits := _dict.get('hits')) is not None:
+            args['hits'] = QueryTopHitsAggregationResult.from_dict(hits)
         return cls(**args)
 
     @classmethod

@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 3.64.1-cee95189-20230124-211647
+# IBM OpenAPI SDK Code Generator Version: 3.85.0-75c38f8f-20240206-210220
 """
 Analyze various features of text content at scale. Provide text, raw HTML, or a public URL
 and IBM Watson Natural Language Understanding will give you results for the features you
@@ -40,7 +40,7 @@ See: https://cloud.ibm.com/docs/natural-language-understanding
 
 from datetime import datetime
 from enum import Enum
-from typing import BinaryIO, Dict, List
+from typing import BinaryIO, Dict, List, Optional
 import json
 
 from ibm_cloud_sdk_core import BaseService, DetailedResponse
@@ -92,19 +92,21 @@ class NaturalLanguageUnderstandingV1(BaseService):
     # Analyze
     #########################
 
-    def analyze(self,
-                features: 'Features',
-                *,
-                text: str = None,
-                html: str = None,
-                url: str = None,
-                clean: bool = None,
-                xpath: str = None,
-                fallback_to_raw: bool = None,
-                return_analyzed_text: bool = None,
-                language: str = None,
-                limit_text_characters: int = None,
-                **kwargs) -> DetailedResponse:
+    def analyze(
+        self,
+        features: 'Features',
+        *,
+        text: Optional[str] = None,
+        html: Optional[str] = None,
+        url: Optional[str] = None,
+        clean: Optional[bool] = None,
+        xpath: Optional[str] = None,
+        fallback_to_raw: Optional[bool] = None,
+        return_analyzed_text: Optional[bool] = None,
+        language: Optional[str] = None,
+        limit_text_characters: Optional[int] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Analyze text.
 
@@ -160,9 +162,11 @@ class NaturalLanguageUnderstandingV1(BaseService):
             raise ValueError('features must be provided')
         features = convert_model(features)
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='analyze')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='analyze',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -191,11 +195,13 @@ class NaturalLanguageUnderstandingV1(BaseService):
         headers['Accept'] = 'application/json'
 
         url = '/v1/analyze'
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       data=data)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+        )
 
         response = self.send(request, **kwargs)
         return response
@@ -204,7 +210,10 @@ class NaturalLanguageUnderstandingV1(BaseService):
     # Manage models
     #########################
 
-    def list_models(self, **kwargs) -> DetailedResponse:
+    def list_models(
+        self,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         List models.
 
@@ -218,9 +227,11 @@ class NaturalLanguageUnderstandingV1(BaseService):
         """
 
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='list_models')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='list_models',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -233,15 +244,21 @@ class NaturalLanguageUnderstandingV1(BaseService):
         headers['Accept'] = 'application/json'
 
         url = '/v1/models'
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def delete_model(self, model_id: str, **kwargs) -> DetailedResponse:
+    def delete_model(
+        self,
+        model_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Delete model.
 
@@ -256,9 +273,11 @@ class NaturalLanguageUnderstandingV1(BaseService):
         if not model_id:
             raise ValueError('model_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='delete_model')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='delete_model',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -274,10 +293,12 @@ class NaturalLanguageUnderstandingV1(BaseService):
         path_param_values = self.encode_path_vars(model_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/models/{model_id}'.format(**path_param_dict)
-        request = self.prepare_request(method='DELETE',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
@@ -286,17 +307,19 @@ class NaturalLanguageUnderstandingV1(BaseService):
     # Manage categories models
     #########################
 
-    def create_categories_model(self,
-                                language: str,
-                                training_data: BinaryIO,
-                                training_data_content_type: str,
-                                *,
-                                name: str = None,
-                                description: str = None,
-                                model_version: str = None,
-                                workspace_id: str = None,
-                                version_description: str = None,
-                                **kwargs) -> DetailedResponse:
+    def create_categories_model(
+        self,
+        language: str,
+        training_data: BinaryIO,
+        *,
+        training_data_content_type: Optional[str] = 'application/json',
+        name: Optional[str] = None,
+        description: Optional[str] = None,
+        model_version: Optional[str] = None,
+        workspace_id: Optional[str] = None,
+        version_description: Optional[str] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Create categories model.
 
@@ -325,12 +348,12 @@ class NaturalLanguageUnderstandingV1(BaseService):
             raise ValueError('language must be provided')
         if training_data is None:
             raise ValueError('training_data must be provided')
-        if not training_data_content_type:
-            raise ValueError('training_data_content_type must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='create_categories_model')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='create_categories_model',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -362,16 +385,21 @@ class NaturalLanguageUnderstandingV1(BaseService):
         headers['Accept'] = 'application/json'
 
         url = '/v1/models/categories'
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       files=form_data)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            files=form_data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def list_categories_models(self, **kwargs) -> DetailedResponse:
+    def list_categories_models(
+        self,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         List categories models.
 
@@ -383,9 +411,11 @@ class NaturalLanguageUnderstandingV1(BaseService):
         """
 
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='list_categories_models')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='list_categories_models',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -398,15 +428,21 @@ class NaturalLanguageUnderstandingV1(BaseService):
         headers['Accept'] = 'application/json'
 
         url = '/v1/models/categories'
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def get_categories_model(self, model_id: str, **kwargs) -> DetailedResponse:
+    def get_categories_model(
+        self,
+        model_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Get categories model details.
 
@@ -421,9 +457,11 @@ class NaturalLanguageUnderstandingV1(BaseService):
         if not model_id:
             raise ValueError('model_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='get_categories_model')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='get_categories_model',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -439,26 +477,30 @@ class NaturalLanguageUnderstandingV1(BaseService):
         path_param_values = self.encode_path_vars(model_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/models/categories/{model_id}'.format(**path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def update_categories_model(self,
-                                model_id: str,
-                                language: str,
-                                training_data: BinaryIO,
-                                training_data_content_type: str,
-                                *,
-                                name: str = None,
-                                description: str = None,
-                                model_version: str = None,
-                                workspace_id: str = None,
-                                version_description: str = None,
-                                **kwargs) -> DetailedResponse:
+    def update_categories_model(
+        self,
+        model_id: str,
+        language: str,
+        training_data: BinaryIO,
+        *,
+        training_data_content_type: Optional[str] = 'application/json',
+        name: Optional[str] = None,
+        description: Optional[str] = None,
+        model_version: Optional[str] = None,
+        workspace_id: Optional[str] = None,
+        version_description: Optional[str] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Update categories model.
 
@@ -489,12 +531,12 @@ class NaturalLanguageUnderstandingV1(BaseService):
             raise ValueError('language must be provided')
         if training_data is None:
             raise ValueError('training_data must be provided')
-        if not training_data_content_type:
-            raise ValueError('training_data_content_type must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='update_categories_model')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='update_categories_model',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -529,17 +571,22 @@ class NaturalLanguageUnderstandingV1(BaseService):
         path_param_values = self.encode_path_vars(model_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/models/categories/{model_id}'.format(**path_param_dict)
-        request = self.prepare_request(method='PUT',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       files=form_data)
+        request = self.prepare_request(
+            method='PUT',
+            url=url,
+            headers=headers,
+            params=params,
+            files=form_data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def delete_categories_model(self, model_id: str,
-                                **kwargs) -> DetailedResponse:
+    def delete_categories_model(
+        self,
+        model_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Delete categories model.
 
@@ -555,9 +602,11 @@ class NaturalLanguageUnderstandingV1(BaseService):
         if not model_id:
             raise ValueError('model_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='delete_categories_model')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='delete_categories_model',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -573,10 +622,12 @@ class NaturalLanguageUnderstandingV1(BaseService):
         path_param_values = self.encode_path_vars(model_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/models/categories/{model_id}'.format(**path_param_dict)
-        request = self.prepare_request(method='DELETE',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
@@ -586,18 +637,20 @@ class NaturalLanguageUnderstandingV1(BaseService):
     #########################
 
     def create_classifications_model(
-            self,
-            language: str,
-            training_data: BinaryIO,
-            training_data_content_type: str,
-            *,
-            name: str = None,
-            description: str = None,
-            model_version: str = None,
-            workspace_id: str = None,
-            version_description: str = None,
-            training_parameters: 'ClassificationsTrainingParameters' = None,
-            **kwargs) -> DetailedResponse:
+        self,
+        language: str,
+        training_data: BinaryIO,
+        *,
+        training_data_content_type: Optional[str] = 'application/json',
+        name: Optional[str] = None,
+        description: Optional[str] = None,
+        model_version: Optional[str] = None,
+        workspace_id: Optional[str] = None,
+        version_description: Optional[str] = None,
+        training_parameters: Optional[
+            'ClassificationsTrainingParameters'] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Create classifications model.
 
@@ -629,13 +682,12 @@ class NaturalLanguageUnderstandingV1(BaseService):
             raise ValueError('language must be provided')
         if training_data is None:
             raise ValueError('training_data must be provided')
-        if not training_data_content_type:
-            raise ValueError('training_data_content_type must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(
             service_name=self.DEFAULT_SERVICE_NAME,
             service_version='V1',
-            operation_id='create_classifications_model')
+            operation_id='create_classifications_model',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -671,16 +723,21 @@ class NaturalLanguageUnderstandingV1(BaseService):
         headers['Accept'] = 'application/json'
 
         url = '/v1/models/classifications'
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       files=form_data)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            files=form_data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def list_classifications_models(self, **kwargs) -> DetailedResponse:
+    def list_classifications_models(
+        self,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         List classifications models.
 
@@ -695,7 +752,8 @@ class NaturalLanguageUnderstandingV1(BaseService):
         sdk_headers = get_sdk_headers(
             service_name=self.DEFAULT_SERVICE_NAME,
             service_version='V1',
-            operation_id='list_classifications_models')
+            operation_id='list_classifications_models',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -708,16 +766,21 @@ class NaturalLanguageUnderstandingV1(BaseService):
         headers['Accept'] = 'application/json'
 
         url = '/v1/models/classifications'
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def get_classifications_model(self, model_id: str,
-                                  **kwargs) -> DetailedResponse:
+    def get_classifications_model(
+        self,
+        model_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Get classifications model details.
 
@@ -732,9 +795,11 @@ class NaturalLanguageUnderstandingV1(BaseService):
         if not model_id:
             raise ValueError('model_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='get_classifications_model')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='get_classifications_model',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -750,28 +815,32 @@ class NaturalLanguageUnderstandingV1(BaseService):
         path_param_values = self.encode_path_vars(model_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/models/classifications/{model_id}'.format(**path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
     def update_classifications_model(
-            self,
-            model_id: str,
-            language: str,
-            training_data: BinaryIO,
-            training_data_content_type: str,
-            *,
-            name: str = None,
-            description: str = None,
-            model_version: str = None,
-            workspace_id: str = None,
-            version_description: str = None,
-            training_parameters: 'ClassificationsTrainingParameters' = None,
-            **kwargs) -> DetailedResponse:
+        self,
+        model_id: str,
+        language: str,
+        training_data: BinaryIO,
+        *,
+        training_data_content_type: Optional[str] = 'application/json',
+        name: Optional[str] = None,
+        description: Optional[str] = None,
+        model_version: Optional[str] = None,
+        workspace_id: Optional[str] = None,
+        version_description: Optional[str] = None,
+        training_parameters: Optional[
+            'ClassificationsTrainingParameters'] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Update classifications model.
 
@@ -805,13 +874,12 @@ class NaturalLanguageUnderstandingV1(BaseService):
             raise ValueError('language must be provided')
         if training_data is None:
             raise ValueError('training_data must be provided')
-        if not training_data_content_type:
-            raise ValueError('training_data_content_type must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(
             service_name=self.DEFAULT_SERVICE_NAME,
             service_version='V1',
-            operation_id='update_classifications_model')
+            operation_id='update_classifications_model',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -850,17 +918,22 @@ class NaturalLanguageUnderstandingV1(BaseService):
         path_param_values = self.encode_path_vars(model_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/models/classifications/{model_id}'.format(**path_param_dict)
-        request = self.prepare_request(method='PUT',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       files=form_data)
+        request = self.prepare_request(
+            method='PUT',
+            url=url,
+            headers=headers,
+            params=params,
+            files=form_data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def delete_classifications_model(self, model_id: str,
-                                     **kwargs) -> DetailedResponse:
+    def delete_classifications_model(
+        self,
+        model_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Delete classifications model.
 
@@ -879,7 +952,8 @@ class NaturalLanguageUnderstandingV1(BaseService):
         sdk_headers = get_sdk_headers(
             service_name=self.DEFAULT_SERVICE_NAME,
             service_version='V1',
-            operation_id='delete_classifications_model')
+            operation_id='delete_classifications_model',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -895,10 +969,12 @@ class NaturalLanguageUnderstandingV1(BaseService):
         path_param_values = self.encode_path_vars(model_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/models/classifications/{model_id}'.format(**path_param_dict)
-        request = self.prepare_request(method='DELETE',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
@@ -913,6 +989,7 @@ class CreateCategoriesModelEnums:
         """
         The content type of training_data.
         """
+
         JSON = 'json'
         APPLICATION_JSON = 'application/json'
 
@@ -926,6 +1003,7 @@ class UpdateCategoriesModelEnums:
         """
         The content type of training_data.
         """
+
         JSON = 'json'
         APPLICATION_JSON = 'application/json'
 
@@ -939,6 +1017,7 @@ class CreateClassificationsModelEnums:
         """
         The content type of training_data.
         """
+
         JSON = 'json'
         APPLICATION_JSON = 'application/json'
 
@@ -952,6 +1031,7 @@ class UpdateClassificationsModelEnums:
         """
         The content type of training_data.
         """
+
         JSON = 'json'
         APPLICATION_JSON = 'application/json'
 
@@ -961,55 +1041,57 @@ class UpdateClassificationsModelEnums:
 ##############################################################################
 
 
-class AnalysisResults():
+class AnalysisResults:
     """
     Results of the analysis, organized by feature.
 
-    :attr str language: (optional) Language used to analyze the text.
-    :attr str analyzed_text: (optional) Text that was used in the analysis.
-    :attr str retrieved_url: (optional) URL of the webpage that was analyzed.
-    :attr AnalysisResultsUsage usage: (optional) API usage information for the
+    :param str language: (optional) Language used to analyze the text.
+    :param str analyzed_text: (optional) Text that was used in the analysis.
+    :param str retrieved_url: (optional) URL of the webpage that was analyzed.
+    :param AnalysisResultsUsage usage: (optional) API usage information for the
           request.
-    :attr List[ConceptsResult] concepts: (optional) The general concepts referenced
+    :param List[ConceptsResult] concepts: (optional) The general concepts referenced
           or alluded to in the analyzed text.
-    :attr List[EntitiesResult] entities: (optional) The entities detected in the
+    :param List[EntitiesResult] entities: (optional) The entities detected in the
           analyzed text.
-    :attr List[KeywordsResult] keywords: (optional) The keywords from the analyzed
+    :param List[KeywordsResult] keywords: (optional) The keywords from the analyzed
           text.
-    :attr List[CategoriesResult] categories: (optional) The categories that the
+    :param List[CategoriesResult] categories: (optional) The categories that the
           service assigned to the analyzed text.
-    :attr List[ClassificationsResult] classifications: (optional) The
+    :param List[ClassificationsResult] classifications: (optional) The
           classifications assigned to the analyzed text.
-    :attr EmotionResult emotion: (optional) The anger, disgust, fear, joy, or
+    :param EmotionResult emotion: (optional) The anger, disgust, fear, joy, or
           sadness conveyed by the content.
-    :attr FeaturesResultsMetadata metadata: (optional) Webpage metadata, such as the
-          author and the title of the page.
-    :attr List[RelationsResult] relations: (optional) The relationships between
+    :param FeaturesResultsMetadata metadata: (optional) Webpage metadata, such as
+          the author and the title of the page.
+    :param List[RelationsResult] relations: (optional) The relationships between
           entities in the content.
-    :attr List[SemanticRolesResult] semantic_roles: (optional) Sentences parsed into
-          `subject`, `action`, and `object` form.
-    :attr SentimentResult sentiment: (optional) The sentiment of the content.
-    :attr SyntaxResult syntax: (optional) Tokens and sentences returned from syntax
+    :param List[SemanticRolesResult] semantic_roles: (optional) Sentences parsed
+          into `subject`, `action`, and `object` form.
+    :param SentimentResult sentiment: (optional) The sentiment of the content.
+    :param SyntaxResult syntax: (optional) Tokens and sentences returned from syntax
           analysis.
     """
 
-    def __init__(self,
-                 *,
-                 language: str = None,
-                 analyzed_text: str = None,
-                 retrieved_url: str = None,
-                 usage: 'AnalysisResultsUsage' = None,
-                 concepts: List['ConceptsResult'] = None,
-                 entities: List['EntitiesResult'] = None,
-                 keywords: List['KeywordsResult'] = None,
-                 categories: List['CategoriesResult'] = None,
-                 classifications: List['ClassificationsResult'] = None,
-                 emotion: 'EmotionResult' = None,
-                 metadata: 'FeaturesResultsMetadata' = None,
-                 relations: List['RelationsResult'] = None,
-                 semantic_roles: List['SemanticRolesResult'] = None,
-                 sentiment: 'SentimentResult' = None,
-                 syntax: 'SyntaxResult' = None) -> None:
+    def __init__(
+        self,
+        *,
+        language: Optional[str] = None,
+        analyzed_text: Optional[str] = None,
+        retrieved_url: Optional[str] = None,
+        usage: Optional['AnalysisResultsUsage'] = None,
+        concepts: Optional[List['ConceptsResult']] = None,
+        entities: Optional[List['EntitiesResult']] = None,
+        keywords: Optional[List['KeywordsResult']] = None,
+        categories: Optional[List['CategoriesResult']] = None,
+        classifications: Optional[List['ClassificationsResult']] = None,
+        emotion: Optional['EmotionResult'] = None,
+        metadata: Optional['FeaturesResultsMetadata'] = None,
+        relations: Optional[List['RelationsResult']] = None,
+        semantic_roles: Optional[List['SemanticRolesResult']] = None,
+        sentiment: Optional['SentimentResult'] = None,
+        syntax: Optional['SyntaxResult'] = None,
+    ) -> None:
         """
         Initialize a AnalysisResults object.
 
@@ -1060,54 +1142,44 @@ class AnalysisResults():
     def from_dict(cls, _dict: Dict) -> 'AnalysisResults':
         """Initialize a AnalysisResults object from a json dictionary."""
         args = {}
-        if 'language' in _dict:
-            args['language'] = _dict.get('language')
-        if 'analyzed_text' in _dict:
-            args['analyzed_text'] = _dict.get('analyzed_text')
-        if 'retrieved_url' in _dict:
-            args['retrieved_url'] = _dict.get('retrieved_url')
-        if 'usage' in _dict:
-            args['usage'] = AnalysisResultsUsage.from_dict(_dict.get('usage'))
-        if 'concepts' in _dict:
-            args['concepts'] = [
-                ConceptsResult.from_dict(v) for v in _dict.get('concepts')
-            ]
-        if 'entities' in _dict:
-            args['entities'] = [
-                EntitiesResult.from_dict(v) for v in _dict.get('entities')
-            ]
-        if 'keywords' in _dict:
-            args['keywords'] = [
-                KeywordsResult.from_dict(v) for v in _dict.get('keywords')
-            ]
-        if 'categories' in _dict:
+        if (language := _dict.get('language')) is not None:
+            args['language'] = language
+        if (analyzed_text := _dict.get('analyzed_text')) is not None:
+            args['analyzed_text'] = analyzed_text
+        if (retrieved_url := _dict.get('retrieved_url')) is not None:
+            args['retrieved_url'] = retrieved_url
+        if (usage := _dict.get('usage')) is not None:
+            args['usage'] = AnalysisResultsUsage.from_dict(usage)
+        if (concepts := _dict.get('concepts')) is not None:
+            args['concepts'] = [ConceptsResult.from_dict(v) for v in concepts]
+        if (entities := _dict.get('entities')) is not None:
+            args['entities'] = [EntitiesResult.from_dict(v) for v in entities]
+        if (keywords := _dict.get('keywords')) is not None:
+            args['keywords'] = [KeywordsResult.from_dict(v) for v in keywords]
+        if (categories := _dict.get('categories')) is not None:
             args['categories'] = [
-                CategoriesResult.from_dict(v) for v in _dict.get('categories')
+                CategoriesResult.from_dict(v) for v in categories
             ]
-        if 'classifications' in _dict:
+        if (classifications := _dict.get('classifications')) is not None:
             args['classifications'] = [
-                ClassificationsResult.from_dict(v)
-                for v in _dict.get('classifications')
+                ClassificationsResult.from_dict(v) for v in classifications
             ]
-        if 'emotion' in _dict:
-            args['emotion'] = EmotionResult.from_dict(_dict.get('emotion'))
-        if 'metadata' in _dict:
-            args['metadata'] = FeaturesResultsMetadata.from_dict(
-                _dict.get('metadata'))
-        if 'relations' in _dict:
+        if (emotion := _dict.get('emotion')) is not None:
+            args['emotion'] = EmotionResult.from_dict(emotion)
+        if (metadata := _dict.get('metadata')) is not None:
+            args['metadata'] = FeaturesResultsMetadata.from_dict(metadata)
+        if (relations := _dict.get('relations')) is not None:
             args['relations'] = [
-                RelationsResult.from_dict(v) for v in _dict.get('relations')
+                RelationsResult.from_dict(v) for v in relations
             ]
-        if 'semantic_roles' in _dict:
+        if (semantic_roles := _dict.get('semantic_roles')) is not None:
             args['semantic_roles'] = [
-                SemanticRolesResult.from_dict(v)
-                for v in _dict.get('semantic_roles')
+                SemanticRolesResult.from_dict(v) for v in semantic_roles
             ]
-        if 'sentiment' in _dict:
-            args['sentiment'] = SentimentResult.from_dict(
-                _dict.get('sentiment'))
-        if 'syntax' in _dict:
-            args['syntax'] = SyntaxResult.from_dict(_dict.get('syntax'))
+        if (sentiment := _dict.get('sentiment')) is not None:
+            args['sentiment'] = SentimentResult.from_dict(sentiment)
+        if (syntax := _dict.get('syntax')) is not None:
+            args['syntax'] = SyntaxResult.from_dict(syntax)
         return cls(**args)
 
     @classmethod
@@ -1227,20 +1299,22 @@ class AnalysisResults():
         return not self == other
 
 
-class AnalysisResultsUsage():
+class AnalysisResultsUsage:
     """
     API usage information for the request.
 
-    :attr int features: (optional) Number of features used in the API call.
-    :attr int text_characters: (optional) Number of text characters processed.
-    :attr int text_units: (optional) Number of 10,000-character units processed.
+    :param int features: (optional) Number of features used in the API call.
+    :param int text_characters: (optional) Number of text characters processed.
+    :param int text_units: (optional) Number of 10,000-character units processed.
     """
 
-    def __init__(self,
-                 *,
-                 features: int = None,
-                 text_characters: int = None,
-                 text_units: int = None) -> None:
+    def __init__(
+        self,
+        *,
+        features: Optional[int] = None,
+        text_characters: Optional[int] = None,
+        text_units: Optional[int] = None,
+    ) -> None:
         """
         Initialize a AnalysisResultsUsage object.
 
@@ -1257,12 +1331,12 @@ class AnalysisResultsUsage():
     def from_dict(cls, _dict: Dict) -> 'AnalysisResultsUsage':
         """Initialize a AnalysisResultsUsage object from a json dictionary."""
         args = {}
-        if 'features' in _dict:
-            args['features'] = _dict.get('features')
-        if 'text_characters' in _dict:
-            args['text_characters'] = _dict.get('text_characters')
-        if 'text_units' in _dict:
-            args['text_units'] = _dict.get('text_units')
+        if (features := _dict.get('features')) is not None:
+            args['features'] = features
+        if (text_characters := _dict.get('text_characters')) is not None:
+            args['text_characters'] = text_characters
+        if (text_units := _dict.get('text_units')) is not None:
+            args['text_units'] = text_units
         return cls(**args)
 
     @classmethod
@@ -1301,14 +1375,18 @@ class AnalysisResultsUsage():
         return not self == other
 
 
-class Author():
+class Author:
     """
     The author of the analyzed content.
 
-    :attr str name: (optional) Name of the author.
+    :param str name: (optional) Name of the author.
     """
 
-    def __init__(self, *, name: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        name: Optional[str] = None,
+    ) -> None:
         """
         Initialize a Author object.
 
@@ -1320,8 +1398,8 @@ class Author():
     def from_dict(cls, _dict: Dict) -> 'Author':
         """Initialize a Author object from a json dictionary."""
         args = {}
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
+        if (name := _dict.get('name')) is not None:
+            args['name'] = name
         return cls(**args)
 
     @classmethod
@@ -1355,47 +1433,49 @@ class Author():
         return not self == other
 
 
-class CategoriesModel():
+class CategoriesModel:
     """
     Categories model.
 
-    :attr str name: (optional) An optional name for the model.
-    :attr dict user_metadata: (optional) An optional map of metadata key-value pairs
-          to store with this model.
-    :attr str language: The 2-letter language code of this model.
-    :attr str description: (optional) An optional description of the model.
-    :attr str model_version: (optional) An optional version string.
-    :attr str workspace_id: (optional) ID of the Watson Knowledge Studio workspace
+    :param str name: (optional) An optional name for the model.
+    :param dict user_metadata: (optional) An optional map of metadata key-value
+          pairs to store with this model.
+    :param str language: The 2-letter language code of this model.
+    :param str description: (optional) An optional description of the model.
+    :param str model_version: (optional) An optional version string.
+    :param str workspace_id: (optional) ID of the Watson Knowledge Studio workspace
           that deployed this model to Natural Language Understanding.
-    :attr str version_description: (optional) The description of the version.
-    :attr List[str] features: (optional) The service features that are supported by
+    :param str version_description: (optional) The description of the version.
+    :param List[str] features: (optional) The service features that are supported by
           the custom model.
-    :attr str status: When the status is `available`, the model is ready to use.
-    :attr str model_id: Unique model ID.
-    :attr datetime created: dateTime indicating when the model was created.
-    :attr List[Notice] notices: (optional)
-    :attr datetime last_trained: (optional) dateTime of last successful model
+    :param str status: When the status is `available`, the model is ready to use.
+    :param str model_id: Unique model ID.
+    :param datetime created: dateTime indicating when the model was created.
+    :param List[Notice] notices: (optional)
+    :param datetime last_trained: (optional) dateTime of last successful model
           training.
-    :attr datetime last_deployed: (optional) dateTime of last successful model
+    :param datetime last_deployed: (optional) dateTime of last successful model
           deployment.
     """
 
-    def __init__(self,
-                 language: str,
-                 status: str,
-                 model_id: str,
-                 created: datetime,
-                 *,
-                 name: str = None,
-                 user_metadata: dict = None,
-                 description: str = None,
-                 model_version: str = None,
-                 workspace_id: str = None,
-                 version_description: str = None,
-                 features: List[str] = None,
-                 notices: List['Notice'] = None,
-                 last_trained: datetime = None,
-                 last_deployed: datetime = None) -> None:
+    def __init__(
+        self,
+        language: str,
+        status: str,
+        model_id: str,
+        created: datetime,
+        *,
+        name: Optional[str] = None,
+        user_metadata: Optional[dict] = None,
+        description: Optional[str] = None,
+        model_version: Optional[str] = None,
+        workspace_id: Optional[str] = None,
+        version_description: Optional[str] = None,
+        features: Optional[List[str]] = None,
+        notices: Optional[List['Notice']] = None,
+        last_trained: Optional[datetime] = None,
+        last_deployed: Optional[datetime] = None,
+    ) -> None:
         """
         Initialize a CategoriesModel object.
 
@@ -1439,53 +1519,51 @@ class CategoriesModel():
     def from_dict(cls, _dict: Dict) -> 'CategoriesModel':
         """Initialize a CategoriesModel object from a json dictionary."""
         args = {}
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
-        if 'user_metadata' in _dict:
-            args['user_metadata'] = _dict.get('user_metadata')
-        if 'language' in _dict:
-            args['language'] = _dict.get('language')
+        if (name := _dict.get('name')) is not None:
+            args['name'] = name
+        if (user_metadata := _dict.get('user_metadata')) is not None:
+            args['user_metadata'] = user_metadata
+        if (language := _dict.get('language')) is not None:
+            args['language'] = language
         else:
             raise ValueError(
                 'Required property \'language\' not present in CategoriesModel JSON'
             )
-        if 'description' in _dict:
-            args['description'] = _dict.get('description')
-        if 'model_version' in _dict:
-            args['model_version'] = _dict.get('model_version')
-        if 'workspace_id' in _dict:
-            args['workspace_id'] = _dict.get('workspace_id')
-        if 'version_description' in _dict:
-            args['version_description'] = _dict.get('version_description')
-        if 'features' in _dict:
-            args['features'] = _dict.get('features')
-        if 'status' in _dict:
-            args['status'] = _dict.get('status')
+        if (description := _dict.get('description')) is not None:
+            args['description'] = description
+        if (model_version := _dict.get('model_version')) is not None:
+            args['model_version'] = model_version
+        if (workspace_id := _dict.get('workspace_id')) is not None:
+            args['workspace_id'] = workspace_id
+        if (version_description :=
+                _dict.get('version_description')) is not None:
+            args['version_description'] = version_description
+        if (features := _dict.get('features')) is not None:
+            args['features'] = features
+        if (status := _dict.get('status')) is not None:
+            args['status'] = status
         else:
             raise ValueError(
                 'Required property \'status\' not present in CategoriesModel JSON'
             )
-        if 'model_id' in _dict:
-            args['model_id'] = _dict.get('model_id')
+        if (model_id := _dict.get('model_id')) is not None:
+            args['model_id'] = model_id
         else:
             raise ValueError(
                 'Required property \'model_id\' not present in CategoriesModel JSON'
             )
-        if 'created' in _dict:
-            args['created'] = string_to_datetime(_dict.get('created'))
+        if (created := _dict.get('created')) is not None:
+            args['created'] = string_to_datetime(created)
         else:
             raise ValueError(
                 'Required property \'created\' not present in CategoriesModel JSON'
             )
-        if 'notices' in _dict:
-            args['notices'] = [
-                Notice.from_dict(v) for v in _dict.get('notices')
-            ]
-        if 'last_trained' in _dict:
-            args['last_trained'] = string_to_datetime(_dict.get('last_trained'))
-        if 'last_deployed' in _dict:
-            args['last_deployed'] = string_to_datetime(
-                _dict.get('last_deployed'))
+        if (notices := _dict.get('notices')) is not None:
+            args['notices'] = [Notice.from_dict(v) for v in notices]
+        if (last_trained := _dict.get('last_trained')) is not None:
+            args['last_trained'] = string_to_datetime(last_trained)
+        if (last_deployed := _dict.get('last_deployed')) is not None:
+            args['last_deployed'] = string_to_datetime(last_deployed)
         return cls(**args)
 
     @classmethod
@@ -1556,6 +1634,7 @@ class CategoriesModel():
         """
         When the status is `available`, the model is ready to use.
         """
+
         STARTING = 'starting'
         TRAINING = 'training'
         DEPLOYING = 'deploying'
@@ -1564,14 +1643,18 @@ class CategoriesModel():
         DELETED = 'deleted'
 
 
-class CategoriesModelList():
+class CategoriesModelList:
     """
     List of categories models.
 
-    :attr List[CategoriesModel] models: (optional) The categories models.
+    :param List[CategoriesModel] models: (optional) The categories models.
     """
 
-    def __init__(self, *, models: List['CategoriesModel'] = None) -> None:
+    def __init__(
+        self,
+        *,
+        models: Optional[List['CategoriesModel']] = None,
+    ) -> None:
         """
         Initialize a CategoriesModelList object.
 
@@ -1583,10 +1666,8 @@ class CategoriesModelList():
     def from_dict(cls, _dict: Dict) -> 'CategoriesModelList':
         """Initialize a CategoriesModelList object from a json dictionary."""
         args = {}
-        if 'models' in _dict:
-            args['models'] = [
-                CategoriesModel.from_dict(v) for v in _dict.get('models')
-            ]
+        if (models := _dict.get('models')) is not None:
+            args['models'] = [CategoriesModel.from_dict(v) for v in models]
         return cls(**args)
 
     @classmethod
@@ -1626,27 +1707,29 @@ class CategoriesModelList():
         return not self == other
 
 
-class CategoriesOptions():
+class CategoriesOptions:
     """
     Returns a hierarchical taxonomy of the content. The top three categories are returned
     by default.
     Supported languages: Arabic, English, French, German, Italian, Japanese, Korean,
     Portuguese, Spanish.
 
-    :attr bool explanation: (optional) Set this to `true` to return explanations for
-          each categorization. **This is available only for English categories.**.
-    :attr int limit: (optional) Maximum number of categories to return.
-    :attr str model: (optional) (Beta) Enter a [custom
+    :param bool explanation: (optional) Set this to `true` to return explanations
+          for each categorization. **This is available only for English categories.**.
+    :param int limit: (optional) Maximum number of categories to return.
+    :param str model: (optional) (Beta) Enter a [custom
           model](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-customizing)
           ID to override the standard categories model. **This is available only for
           English categories.**.
     """
 
-    def __init__(self,
-                 *,
-                 explanation: bool = None,
-                 limit: int = None,
-                 model: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        explanation: Optional[bool] = None,
+        limit: Optional[int] = None,
+        model: Optional[str] = None,
+    ) -> None:
         """
         Initialize a CategoriesOptions object.
 
@@ -1667,12 +1750,12 @@ class CategoriesOptions():
     def from_dict(cls, _dict: Dict) -> 'CategoriesOptions':
         """Initialize a CategoriesOptions object from a json dictionary."""
         args = {}
-        if 'explanation' in _dict:
-            args['explanation'] = _dict.get('explanation')
-        if 'limit' in _dict:
-            args['limit'] = _dict.get('limit')
-        if 'model' in _dict:
-            args['model'] = _dict.get('model')
+        if (explanation := _dict.get('explanation')) is not None:
+            args['explanation'] = explanation
+        if (limit := _dict.get('limit')) is not None:
+            args['limit'] = limit
+        if (model := _dict.get('model')) is not None:
+            args['model'] = model
         return cls(**args)
 
     @classmethod
@@ -1710,15 +1793,19 @@ class CategoriesOptions():
         return not self == other
 
 
-class CategoriesRelevantText():
+class CategoriesRelevantText:
     """
     Relevant text that contributed to the categorization.
 
-    :attr str text: (optional) Text from the analyzed source that supports the
+    :param str text: (optional) Text from the analyzed source that supports the
           categorization.
     """
 
-    def __init__(self, *, text: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        text: Optional[str] = None,
+    ) -> None:
         """
         Initialize a CategoriesRelevantText object.
 
@@ -1731,8 +1818,8 @@ class CategoriesRelevantText():
     def from_dict(cls, _dict: Dict) -> 'CategoriesRelevantText':
         """Initialize a CategoriesRelevantText object from a json dictionary."""
         args = {}
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
+        if (text := _dict.get('text')) is not None:
+            args['text'] = text
         return cls(**args)
 
     @classmethod
@@ -1766,24 +1853,26 @@ class CategoriesRelevantText():
         return not self == other
 
 
-class CategoriesResult():
+class CategoriesResult:
     """
     A categorization of the analyzed text.
 
-    :attr str label: (optional) The path to the category through the multi-level
+    :param str label: (optional) The path to the category through the multi-level
           taxonomy hierarchy. For more information about the categories, see [Categories
           hierarchy](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-categories#categories-hierarchy).
-    :attr float score: (optional) Confidence score for the category classification.
+    :param float score: (optional) Confidence score for the category classification.
           Higher values indicate greater confidence.
-    :attr CategoriesResultExplanation explanation: (optional) Information that helps
-          to explain what contributed to the categories result.
+    :param CategoriesResultExplanation explanation: (optional) Information that
+          helps to explain what contributed to the categories result.
     """
 
-    def __init__(self,
-                 *,
-                 label: str = None,
-                 score: float = None,
-                 explanation: 'CategoriesResultExplanation' = None) -> None:
+    def __init__(
+        self,
+        *,
+        label: Optional[str] = None,
+        score: Optional[float] = None,
+        explanation: Optional['CategoriesResultExplanation'] = None,
+    ) -> None:
         """
         Initialize a CategoriesResult object.
 
@@ -1804,13 +1893,13 @@ class CategoriesResult():
     def from_dict(cls, _dict: Dict) -> 'CategoriesResult':
         """Initialize a CategoriesResult object from a json dictionary."""
         args = {}
-        if 'label' in _dict:
-            args['label'] = _dict.get('label')
-        if 'score' in _dict:
-            args['score'] = _dict.get('score')
-        if 'explanation' in _dict:
+        if (label := _dict.get('label')) is not None:
+            args['label'] = label
+        if (score := _dict.get('score')) is not None:
+            args['score'] = score
+        if (explanation := _dict.get('explanation')) is not None:
             args['explanation'] = CategoriesResultExplanation.from_dict(
-                _dict.get('explanation'))
+                explanation)
         return cls(**args)
 
     @classmethod
@@ -1851,19 +1940,21 @@ class CategoriesResult():
         return not self == other
 
 
-class CategoriesResultExplanation():
+class CategoriesResultExplanation:
     """
     Information that helps to explain what contributed to the categories result.
 
-    :attr List[CategoriesRelevantText] relevant_text: (optional) An array of
+    :param List[CategoriesRelevantText] relevant_text: (optional) An array of
           relevant text from the source that contributed to the categorization. The sorted
           array begins with the phrase that contributed most significantly to the result,
           followed by phrases that were less and less impactful.
     """
 
-    def __init__(self,
-                 *,
-                 relevant_text: List['CategoriesRelevantText'] = None) -> None:
+    def __init__(
+        self,
+        *,
+        relevant_text: Optional[List['CategoriesRelevantText']] = None,
+    ) -> None:
         """
         Initialize a CategoriesResultExplanation object.
 
@@ -1878,10 +1969,9 @@ class CategoriesResultExplanation():
     def from_dict(cls, _dict: Dict) -> 'CategoriesResultExplanation':
         """Initialize a CategoriesResultExplanation object from a json dictionary."""
         args = {}
-        if 'relevant_text' in _dict:
+        if (relevant_text := _dict.get('relevant_text')) is not None:
             args['relevant_text'] = [
-                CategoriesRelevantText.from_dict(v)
-                for v in _dict.get('relevant_text')
+                CategoriesRelevantText.from_dict(v) for v in relevant_text
             ]
         return cls(**args)
 
@@ -1922,47 +2012,49 @@ class CategoriesResultExplanation():
         return not self == other
 
 
-class ClassificationsModel():
+class ClassificationsModel:
     """
     Classifications model.
 
-    :attr str name: (optional) An optional name for the model.
-    :attr dict user_metadata: (optional) An optional map of metadata key-value pairs
-          to store with this model.
-    :attr str language: The 2-letter language code of this model.
-    :attr str description: (optional) An optional description of the model.
-    :attr str model_version: (optional) An optional version string.
-    :attr str workspace_id: (optional) ID of the Watson Knowledge Studio workspace
+    :param str name: (optional) An optional name for the model.
+    :param dict user_metadata: (optional) An optional map of metadata key-value
+          pairs to store with this model.
+    :param str language: The 2-letter language code of this model.
+    :param str description: (optional) An optional description of the model.
+    :param str model_version: (optional) An optional version string.
+    :param str workspace_id: (optional) ID of the Watson Knowledge Studio workspace
           that deployed this model to Natural Language Understanding.
-    :attr str version_description: (optional) The description of the version.
-    :attr List[str] features: (optional) The service features that are supported by
+    :param str version_description: (optional) The description of the version.
+    :param List[str] features: (optional) The service features that are supported by
           the custom model.
-    :attr str status: When the status is `available`, the model is ready to use.
-    :attr str model_id: Unique model ID.
-    :attr datetime created: dateTime indicating when the model was created.
-    :attr List[Notice] notices: (optional)
-    :attr datetime last_trained: (optional) dateTime of last successful model
+    :param str status: When the status is `available`, the model is ready to use.
+    :param str model_id: Unique model ID.
+    :param datetime created: dateTime indicating when the model was created.
+    :param List[Notice] notices: (optional)
+    :param datetime last_trained: (optional) dateTime of last successful model
           training.
-    :attr datetime last_deployed: (optional) dateTime of last successful model
+    :param datetime last_deployed: (optional) dateTime of last successful model
           deployment.
     """
 
-    def __init__(self,
-                 language: str,
-                 status: str,
-                 model_id: str,
-                 created: datetime,
-                 *,
-                 name: str = None,
-                 user_metadata: dict = None,
-                 description: str = None,
-                 model_version: str = None,
-                 workspace_id: str = None,
-                 version_description: str = None,
-                 features: List[str] = None,
-                 notices: List['Notice'] = None,
-                 last_trained: datetime = None,
-                 last_deployed: datetime = None) -> None:
+    def __init__(
+        self,
+        language: str,
+        status: str,
+        model_id: str,
+        created: datetime,
+        *,
+        name: Optional[str] = None,
+        user_metadata: Optional[dict] = None,
+        description: Optional[str] = None,
+        model_version: Optional[str] = None,
+        workspace_id: Optional[str] = None,
+        version_description: Optional[str] = None,
+        features: Optional[List[str]] = None,
+        notices: Optional[List['Notice']] = None,
+        last_trained: Optional[datetime] = None,
+        last_deployed: Optional[datetime] = None,
+    ) -> None:
         """
         Initialize a ClassificationsModel object.
 
@@ -2006,53 +2098,51 @@ class ClassificationsModel():
     def from_dict(cls, _dict: Dict) -> 'ClassificationsModel':
         """Initialize a ClassificationsModel object from a json dictionary."""
         args = {}
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
-        if 'user_metadata' in _dict:
-            args['user_metadata'] = _dict.get('user_metadata')
-        if 'language' in _dict:
-            args['language'] = _dict.get('language')
+        if (name := _dict.get('name')) is not None:
+            args['name'] = name
+        if (user_metadata := _dict.get('user_metadata')) is not None:
+            args['user_metadata'] = user_metadata
+        if (language := _dict.get('language')) is not None:
+            args['language'] = language
         else:
             raise ValueError(
                 'Required property \'language\' not present in ClassificationsModel JSON'
             )
-        if 'description' in _dict:
-            args['description'] = _dict.get('description')
-        if 'model_version' in _dict:
-            args['model_version'] = _dict.get('model_version')
-        if 'workspace_id' in _dict:
-            args['workspace_id'] = _dict.get('workspace_id')
-        if 'version_description' in _dict:
-            args['version_description'] = _dict.get('version_description')
-        if 'features' in _dict:
-            args['features'] = _dict.get('features')
-        if 'status' in _dict:
-            args['status'] = _dict.get('status')
+        if (description := _dict.get('description')) is not None:
+            args['description'] = description
+        if (model_version := _dict.get('model_version')) is not None:
+            args['model_version'] = model_version
+        if (workspace_id := _dict.get('workspace_id')) is not None:
+            args['workspace_id'] = workspace_id
+        if (version_description :=
+                _dict.get('version_description')) is not None:
+            args['version_description'] = version_description
+        if (features := _dict.get('features')) is not None:
+            args['features'] = features
+        if (status := _dict.get('status')) is not None:
+            args['status'] = status
         else:
             raise ValueError(
                 'Required property \'status\' not present in ClassificationsModel JSON'
             )
-        if 'model_id' in _dict:
-            args['model_id'] = _dict.get('model_id')
+        if (model_id := _dict.get('model_id')) is not None:
+            args['model_id'] = model_id
         else:
             raise ValueError(
                 'Required property \'model_id\' not present in ClassificationsModel JSON'
             )
-        if 'created' in _dict:
-            args['created'] = string_to_datetime(_dict.get('created'))
+        if (created := _dict.get('created')) is not None:
+            args['created'] = string_to_datetime(created)
         else:
             raise ValueError(
                 'Required property \'created\' not present in ClassificationsModel JSON'
             )
-        if 'notices' in _dict:
-            args['notices'] = [
-                Notice.from_dict(v) for v in _dict.get('notices')
-            ]
-        if 'last_trained' in _dict:
-            args['last_trained'] = string_to_datetime(_dict.get('last_trained'))
-        if 'last_deployed' in _dict:
-            args['last_deployed'] = string_to_datetime(
-                _dict.get('last_deployed'))
+        if (notices := _dict.get('notices')) is not None:
+            args['notices'] = [Notice.from_dict(v) for v in notices]
+        if (last_trained := _dict.get('last_trained')) is not None:
+            args['last_trained'] = string_to_datetime(last_trained)
+        if (last_deployed := _dict.get('last_deployed')) is not None:
+            args['last_deployed'] = string_to_datetime(last_deployed)
         return cls(**args)
 
     @classmethod
@@ -2123,6 +2213,7 @@ class ClassificationsModel():
         """
         When the status is `available`, the model is ready to use.
         """
+
         STARTING = 'starting'
         TRAINING = 'training'
         DEPLOYING = 'deploying'
@@ -2131,14 +2222,18 @@ class ClassificationsModel():
         DELETED = 'deleted'
 
 
-class ClassificationsModelList():
+class ClassificationsModelList:
     """
     List of classifications models.
 
-    :attr List[ClassificationsModel] models: (optional) The classifications models.
+    :param List[ClassificationsModel] models: (optional) The classifications models.
     """
 
-    def __init__(self, *, models: List['ClassificationsModel'] = None) -> None:
+    def __init__(
+        self,
+        *,
+        models: Optional[List['ClassificationsModel']] = None,
+    ) -> None:
         """
         Initialize a ClassificationsModelList object.
 
@@ -2151,10 +2246,8 @@ class ClassificationsModelList():
     def from_dict(cls, _dict: Dict) -> 'ClassificationsModelList':
         """Initialize a ClassificationsModelList object from a json dictionary."""
         args = {}
-        if 'models' in _dict:
-            args['models'] = [
-                ClassificationsModel.from_dict(v) for v in _dict.get('models')
-            ]
+        if (models := _dict.get('models')) is not None:
+            args['models'] = [ClassificationsModel.from_dict(v) for v in models]
         return cls(**args)
 
     @classmethod
@@ -2194,11 +2287,11 @@ class ClassificationsModelList():
         return not self == other
 
 
-class ClassificationsOptions():
+class ClassificationsOptions:
     """
     Returns text classifications for the content.
 
-    :attr str model: (optional) Enter a [custom
+    :param str model: (optional) Enter a [custom
           model](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-customizing)
           ID of the classifications model to be used.
           You can analyze tone by using a language-specific model ID. See [Tone analytics
@@ -2206,7 +2299,11 @@ class ClassificationsOptions():
           for more information.
     """
 
-    def __init__(self, *, model: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        model: Optional[str] = None,
+    ) -> None:
         """
         Initialize a ClassificationsOptions object.
 
@@ -2224,8 +2321,8 @@ class ClassificationsOptions():
     def from_dict(cls, _dict: Dict) -> 'ClassificationsOptions':
         """Initialize a ClassificationsOptions object from a json dictionary."""
         args = {}
-        if 'model' in _dict:
-            args['model'] = _dict.get('model')
+        if (model := _dict.get('model')) is not None:
+            args['model'] = model
         return cls(**args)
 
     @classmethod
@@ -2259,19 +2356,21 @@ class ClassificationsOptions():
         return not self == other
 
 
-class ClassificationsResult():
+class ClassificationsResult:
     """
     A classification of the analyzed text.
 
-    :attr str class_name: (optional) Classification assigned to the text.
-    :attr float confidence: (optional) Confidence score for the classification.
+    :param str class_name: (optional) Classification assigned to the text.
+    :param float confidence: (optional) Confidence score for the classification.
           Higher values indicate greater confidence.
     """
 
-    def __init__(self,
-                 *,
-                 class_name: str = None,
-                 confidence: float = None) -> None:
+    def __init__(
+        self,
+        *,
+        class_name: Optional[str] = None,
+        confidence: Optional[float] = None,
+    ) -> None:
         """
         Initialize a ClassificationsResult object.
 
@@ -2286,10 +2385,10 @@ class ClassificationsResult():
     def from_dict(cls, _dict: Dict) -> 'ClassificationsResult':
         """Initialize a ClassificationsResult object from a json dictionary."""
         args = {}
-        if 'class_name' in _dict:
-            args['class_name'] = _dict.get('class_name')
-        if 'confidence' in _dict:
-            args['confidence'] = _dict.get('confidence')
+        if (class_name := _dict.get('class_name')) is not None:
+            args['class_name'] = class_name
+        if (confidence := _dict.get('confidence')) is not None:
+            args['confidence'] = confidence
         return cls(**args)
 
     @classmethod
@@ -2325,15 +2424,19 @@ class ClassificationsResult():
         return not self == other
 
 
-class ClassificationsTrainingParameters():
+class ClassificationsTrainingParameters:
     """
     Optional classifications training parameters along with model train requests.
 
-    :attr str model_type: (optional) Model type selector to train either a
+    :param str model_type: (optional) Model type selector to train either a
           single_label or a multi_label classifier.
     """
 
-    def __init__(self, *, model_type: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        model_type: Optional[str] = None,
+    ) -> None:
         """
         Initialize a ClassificationsTrainingParameters object.
 
@@ -2346,8 +2449,8 @@ class ClassificationsTrainingParameters():
     def from_dict(cls, _dict: Dict) -> 'ClassificationsTrainingParameters':
         """Initialize a ClassificationsTrainingParameters object from a json dictionary."""
         args = {}
-        if 'model_type' in _dict:
-            args['model_type'] = _dict.get('model_type')
+        if (model_type := _dict.get('model_type')) is not None:
+            args['model_type'] = model_type
         return cls(**args)
 
     @classmethod
@@ -2384,11 +2487,12 @@ class ClassificationsTrainingParameters():
         """
         Model type selector to train either a single_label or a multi_label classifier.
         """
+
         SINGLE_LABEL = 'single_label'
         MULTI_LABEL = 'multi_label'
 
 
-class ConceptsOptions():
+class ConceptsOptions:
     """
     Returns high-level concepts in the content. For example, a research paper about deep
     learning might return the concept, "Artificial Intelligence" although the term is not
@@ -2396,10 +2500,14 @@ class ConceptsOptions():
     Supported languages: English, French, German, Italian, Japanese, Korean, Portuguese,
     Spanish.
 
-    :attr int limit: (optional) Maximum number of concepts to return.
+    :param int limit: (optional) Maximum number of concepts to return.
     """
 
-    def __init__(self, *, limit: int = None) -> None:
+    def __init__(
+        self,
+        *,
+        limit: Optional[int] = None,
+    ) -> None:
         """
         Initialize a ConceptsOptions object.
 
@@ -2411,8 +2519,8 @@ class ConceptsOptions():
     def from_dict(cls, _dict: Dict) -> 'ConceptsOptions':
         """Initialize a ConceptsOptions object from a json dictionary."""
         args = {}
-        if 'limit' in _dict:
-            args['limit'] = _dict.get('limit')
+        if (limit := _dict.get('limit')) is not None:
+            args['limit'] = limit
         return cls(**args)
 
     @classmethod
@@ -2446,22 +2554,24 @@ class ConceptsOptions():
         return not self == other
 
 
-class ConceptsResult():
+class ConceptsResult:
     """
     The general concepts referenced or alluded to in the analyzed text.
 
-    :attr str text: (optional) Name of the concept.
-    :attr float relevance: (optional) Relevance score between 0 and 1. Higher scores
-          indicate greater relevance.
-    :attr str dbpedia_resource: (optional) Link to the corresponding DBpedia
+    :param str text: (optional) Name of the concept.
+    :param float relevance: (optional) Relevance score between 0 and 1. Higher
+          scores indicate greater relevance.
+    :param str dbpedia_resource: (optional) Link to the corresponding DBpedia
           resource.
     """
 
-    def __init__(self,
-                 *,
-                 text: str = None,
-                 relevance: float = None,
-                 dbpedia_resource: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        text: Optional[str] = None,
+        relevance: Optional[float] = None,
+        dbpedia_resource: Optional[str] = None,
+    ) -> None:
         """
         Initialize a ConceptsResult object.
 
@@ -2479,12 +2589,12 @@ class ConceptsResult():
     def from_dict(cls, _dict: Dict) -> 'ConceptsResult':
         """Initialize a ConceptsResult object from a json dictionary."""
         args = {}
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
-        if 'relevance' in _dict:
-            args['relevance'] = _dict.get('relevance')
-        if 'dbpedia_resource' in _dict:
-            args['dbpedia_resource'] = _dict.get('dbpedia_resource')
+        if (text := _dict.get('text')) is not None:
+            args['text'] = text
+        if (relevance := _dict.get('relevance')) is not None:
+            args['relevance'] = relevance
+        if (dbpedia_resource := _dict.get('dbpedia_resource')) is not None:
+            args['dbpedia_resource'] = dbpedia_resource
         return cls(**args)
 
     @classmethod
@@ -2523,14 +2633,18 @@ class ConceptsResult():
         return not self == other
 
 
-class DeleteModelResults():
+class DeleteModelResults:
     """
     Delete model results.
 
-    :attr str deleted: (optional) model_id of the deleted model.
+    :param str deleted: (optional) model_id of the deleted model.
     """
 
-    def __init__(self, *, deleted: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        deleted: Optional[str] = None,
+    ) -> None:
         """
         Initialize a DeleteModelResults object.
 
@@ -2542,8 +2656,8 @@ class DeleteModelResults():
     def from_dict(cls, _dict: Dict) -> 'DeleteModelResults':
         """Initialize a DeleteModelResults object from a json dictionary."""
         args = {}
-        if 'deleted' in _dict:
-            args['deleted'] = _dict.get('deleted')
+        if (deleted := _dict.get('deleted')) is not None:
+            args['deleted'] = deleted
         return cls(**args)
 
     @classmethod
@@ -2577,21 +2691,23 @@ class DeleteModelResults():
         return not self == other
 
 
-class DisambiguationResult():
+class DisambiguationResult:
     """
     Disambiguation information for the entity.
 
-    :attr str name: (optional) Common entity name.
-    :attr str dbpedia_resource: (optional) Link to the corresponding DBpedia
+    :param str name: (optional) Common entity name.
+    :param str dbpedia_resource: (optional) Link to the corresponding DBpedia
           resource.
-    :attr List[str] subtype: (optional) Entity subtype information.
+    :param List[str] subtype: (optional) Entity subtype information.
     """
 
-    def __init__(self,
-                 *,
-                 name: str = None,
-                 dbpedia_resource: str = None,
-                 subtype: List[str] = None) -> None:
+    def __init__(
+        self,
+        *,
+        name: Optional[str] = None,
+        dbpedia_resource: Optional[str] = None,
+        subtype: Optional[List[str]] = None,
+    ) -> None:
         """
         Initialize a DisambiguationResult object.
 
@@ -2608,12 +2724,12 @@ class DisambiguationResult():
     def from_dict(cls, _dict: Dict) -> 'DisambiguationResult':
         """Initialize a DisambiguationResult object from a json dictionary."""
         args = {}
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
-        if 'dbpedia_resource' in _dict:
-            args['dbpedia_resource'] = _dict.get('dbpedia_resource')
-        if 'subtype' in _dict:
-            args['subtype'] = _dict.get('subtype')
+        if (name := _dict.get('name')) is not None:
+            args['name'] = name
+        if (dbpedia_resource := _dict.get('dbpedia_resource')) is not None:
+            args['dbpedia_resource'] = dbpedia_resource
+        if (subtype := _dict.get('subtype')) is not None:
+            args['subtype'] = subtype
         return cls(**args)
 
     @classmethod
@@ -2652,15 +2768,19 @@ class DisambiguationResult():
         return not self == other
 
 
-class DocumentEmotionResults():
+class DocumentEmotionResults:
     """
     Emotion results for the document as a whole.
 
-    :attr EmotionScores emotion: (optional) Emotion results for the document as a
+    :param EmotionScores emotion: (optional) Emotion results for the document as a
           whole.
     """
 
-    def __init__(self, *, emotion: 'EmotionScores' = None) -> None:
+    def __init__(
+        self,
+        *,
+        emotion: Optional['EmotionScores'] = None,
+    ) -> None:
         """
         Initialize a DocumentEmotionResults object.
 
@@ -2673,8 +2793,8 @@ class DocumentEmotionResults():
     def from_dict(cls, _dict: Dict) -> 'DocumentEmotionResults':
         """Initialize a DocumentEmotionResults object from a json dictionary."""
         args = {}
-        if 'emotion' in _dict:
-            args['emotion'] = EmotionScores.from_dict(_dict.get('emotion'))
+        if (emotion := _dict.get('emotion')) is not None:
+            args['emotion'] = EmotionScores.from_dict(emotion)
         return cls(**args)
 
     @classmethod
@@ -2711,17 +2831,22 @@ class DocumentEmotionResults():
         return not self == other
 
 
-class DocumentSentimentResults():
+class DocumentSentimentResults:
     """
     DocumentSentimentResults.
 
-    :attr str label: (optional) Indicates whether the sentiment is positive,
+    :param str label: (optional) Indicates whether the sentiment is positive,
           neutral, or negative.
-    :attr float score: (optional) Sentiment score from -1 (negative) to 1
+    :param float score: (optional) Sentiment score from -1 (negative) to 1
           (positive).
     """
 
-    def __init__(self, *, label: str = None, score: float = None) -> None:
+    def __init__(
+        self,
+        *,
+        label: Optional[str] = None,
+        score: Optional[float] = None,
+    ) -> None:
         """
         Initialize a DocumentSentimentResults object.
 
@@ -2737,10 +2862,10 @@ class DocumentSentimentResults():
     def from_dict(cls, _dict: Dict) -> 'DocumentSentimentResults':
         """Initialize a DocumentSentimentResults object from a json dictionary."""
         args = {}
-        if 'label' in _dict:
-            args['label'] = _dict.get('label')
-        if 'score' in _dict:
-            args['score'] = _dict.get('score')
+        if (label := _dict.get('label')) is not None:
+            args['label'] = label
+        if (score := _dict.get('score')) is not None:
+            args['score'] = score
         return cls(**args)
 
     @classmethod
@@ -2776,7 +2901,7 @@ class DocumentSentimentResults():
         return not self == other
 
 
-class EmotionOptions():
+class EmotionOptions:
     """
     Detects anger, disgust, fear, joy, or sadness that is conveyed in the content or by
     the context around target phrases specified in the targets parameter. You can analyze
@@ -2784,16 +2909,18 @@ class EmotionOptions():
     `keywords.emotion`.
     Supported languages: English.
 
-    :attr bool document: (optional) Set this to `false` to hide document-level
+    :param bool document: (optional) Set this to `false` to hide document-level
           emotion results.
-    :attr List[str] targets: (optional) Emotion results will be returned for each
+    :param List[str] targets: (optional) Emotion results will be returned for each
           target string that is found in the document.
     """
 
-    def __init__(self,
-                 *,
-                 document: bool = None,
-                 targets: List[str] = None) -> None:
+    def __init__(
+        self,
+        *,
+        document: Optional[bool] = None,
+        targets: Optional[List[str]] = None,
+    ) -> None:
         """
         Initialize a EmotionOptions object.
 
@@ -2809,10 +2936,10 @@ class EmotionOptions():
     def from_dict(cls, _dict: Dict) -> 'EmotionOptions':
         """Initialize a EmotionOptions object from a json dictionary."""
         args = {}
-        if 'document' in _dict:
-            args['document'] = _dict.get('document')
-        if 'targets' in _dict:
-            args['targets'] = _dict.get('targets')
+        if (document := _dict.get('document')) is not None:
+            args['document'] = document
+        if (targets := _dict.get('targets')) is not None:
+            args['targets'] = targets
         return cls(**args)
 
     @classmethod
@@ -2848,22 +2975,24 @@ class EmotionOptions():
         return not self == other
 
 
-class EmotionResult():
+class EmotionResult:
     """
     The detected anger, disgust, fear, joy, or sadness that is conveyed by the content.
     Emotion information can be returned for detected entities, keywords, or user-specified
     target phrases found in the text.
 
-    :attr DocumentEmotionResults document: (optional) Emotion results for the
+    :param DocumentEmotionResults document: (optional) Emotion results for the
           document as a whole.
-    :attr List[TargetedEmotionResults] targets: (optional) Emotion results for
+    :param List[TargetedEmotionResults] targets: (optional) Emotion results for
           specified targets.
     """
 
-    def __init__(self,
-                 *,
-                 document: 'DocumentEmotionResults' = None,
-                 targets: List['TargetedEmotionResults'] = None) -> None:
+    def __init__(
+        self,
+        *,
+        document: Optional['DocumentEmotionResults'] = None,
+        targets: Optional[List['TargetedEmotionResults']] = None,
+    ) -> None:
         """
         Initialize a EmotionResult object.
 
@@ -2879,13 +3008,11 @@ class EmotionResult():
     def from_dict(cls, _dict: Dict) -> 'EmotionResult':
         """Initialize a EmotionResult object from a json dictionary."""
         args = {}
-        if 'document' in _dict:
-            args['document'] = DocumentEmotionResults.from_dict(
-                _dict.get('document'))
-        if 'targets' in _dict:
+        if (document := _dict.get('document')) is not None:
+            args['document'] = DocumentEmotionResults.from_dict(document)
+        if (targets := _dict.get('targets')) is not None:
             args['targets'] = [
-                TargetedEmotionResults.from_dict(v)
-                for v in _dict.get('targets')
+                TargetedEmotionResults.from_dict(v) for v in targets
             ]
         return cls(**args)
 
@@ -2931,29 +3058,31 @@ class EmotionResult():
         return not self == other
 
 
-class EmotionScores():
+class EmotionScores:
     """
     EmotionScores.
 
-    :attr float anger: (optional) Anger score from 0 to 1. A higher score means that
-          the text is more likely to convey anger.
-    :attr float disgust: (optional) Disgust score from 0 to 1. A higher score means
+    :param float anger: (optional) Anger score from 0 to 1. A higher score means
+          that the text is more likely to convey anger.
+    :param float disgust: (optional) Disgust score from 0 to 1. A higher score means
           that the text is more likely to convey disgust.
-    :attr float fear: (optional) Fear score from 0 to 1. A higher score means that
+    :param float fear: (optional) Fear score from 0 to 1. A higher score means that
           the text is more likely to convey fear.
-    :attr float joy: (optional) Joy score from 0 to 1. A higher score means that the
-          text is more likely to convey joy.
-    :attr float sadness: (optional) Sadness score from 0 to 1. A higher score means
+    :param float joy: (optional) Joy score from 0 to 1. A higher score means that
+          the text is more likely to convey joy.
+    :param float sadness: (optional) Sadness score from 0 to 1. A higher score means
           that the text is more likely to convey sadness.
     """
 
-    def __init__(self,
-                 *,
-                 anger: float = None,
-                 disgust: float = None,
-                 fear: float = None,
-                 joy: float = None,
-                 sadness: float = None) -> None:
+    def __init__(
+        self,
+        *,
+        anger: Optional[float] = None,
+        disgust: Optional[float] = None,
+        fear: Optional[float] = None,
+        joy: Optional[float] = None,
+        sadness: Optional[float] = None,
+    ) -> None:
         """
         Initialize a EmotionScores object.
 
@@ -2978,16 +3107,16 @@ class EmotionScores():
     def from_dict(cls, _dict: Dict) -> 'EmotionScores':
         """Initialize a EmotionScores object from a json dictionary."""
         args = {}
-        if 'anger' in _dict:
-            args['anger'] = _dict.get('anger')
-        if 'disgust' in _dict:
-            args['disgust'] = _dict.get('disgust')
-        if 'fear' in _dict:
-            args['fear'] = _dict.get('fear')
-        if 'joy' in _dict:
-            args['joy'] = _dict.get('joy')
-        if 'sadness' in _dict:
-            args['sadness'] = _dict.get('sadness')
+        if (anger := _dict.get('anger')) is not None:
+            args['anger'] = anger
+        if (disgust := _dict.get('disgust')) is not None:
+            args['disgust'] = disgust
+        if (fear := _dict.get('fear')) is not None:
+            args['fear'] = fear
+        if (joy := _dict.get('joy')) is not None:
+            args['joy'] = joy
+        if (sadness := _dict.get('sadness')) is not None:
+            args['sadness'] = sadness
         return cls(**args)
 
     @classmethod
@@ -3029,7 +3158,7 @@ class EmotionScores():
         return not self == other
 
 
-class EntitiesOptions():
+class EntitiesOptions:
     """
     Identifies people, cities, organizations, and other entities in the content. For more
     information, see [Entity types and
@@ -3038,25 +3167,27 @@ class EntitiesOptions():
     Russian, Spanish, Swedish. Arabic, Chinese, and Dutch are supported only through
     custom models.
 
-    :attr int limit: (optional) Maximum number of entities to return.
-    :attr bool mentions: (optional) Set this to `true` to return locations of entity
-          mentions.
-    :attr str model: (optional) Enter a [custom
+    :param int limit: (optional) Maximum number of entities to return.
+    :param bool mentions: (optional) Set this to `true` to return locations of
+          entity mentions.
+    :param str model: (optional) Enter a [custom
           model](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-customizing)
           ID to override the standard entity detection model.
-    :attr bool sentiment: (optional) Set this to `true` to return sentiment
+    :param bool sentiment: (optional) Set this to `true` to return sentiment
           information for detected entities.
-    :attr bool emotion: (optional) Set this to `true` to analyze emotion for
+    :param bool emotion: (optional) Set this to `true` to analyze emotion for
           detected keywords.
     """
 
-    def __init__(self,
-                 *,
-                 limit: int = None,
-                 mentions: bool = None,
-                 model: str = None,
-                 sentiment: bool = None,
-                 emotion: bool = None) -> None:
+    def __init__(
+        self,
+        *,
+        limit: Optional[int] = None,
+        mentions: Optional[bool] = None,
+        model: Optional[str] = None,
+        sentiment: Optional[bool] = None,
+        emotion: Optional[bool] = None,
+    ) -> None:
         """
         Initialize a EntitiesOptions object.
 
@@ -3081,16 +3212,16 @@ class EntitiesOptions():
     def from_dict(cls, _dict: Dict) -> 'EntitiesOptions':
         """Initialize a EntitiesOptions object from a json dictionary."""
         args = {}
-        if 'limit' in _dict:
-            args['limit'] = _dict.get('limit')
-        if 'mentions' in _dict:
-            args['mentions'] = _dict.get('mentions')
-        if 'model' in _dict:
-            args['model'] = _dict.get('model')
-        if 'sentiment' in _dict:
-            args['sentiment'] = _dict.get('sentiment')
-        if 'emotion' in _dict:
-            args['emotion'] = _dict.get('emotion')
+        if (limit := _dict.get('limit')) is not None:
+            args['limit'] = limit
+        if (mentions := _dict.get('mentions')) is not None:
+            args['mentions'] = mentions
+        if (model := _dict.get('model')) is not None:
+            args['model'] = model
+        if (sentiment := _dict.get('sentiment')) is not None:
+            args['sentiment'] = sentiment
+        if (emotion := _dict.get('emotion')) is not None:
+            args['emotion'] = emotion
         return cls(**args)
 
     @classmethod
@@ -3132,40 +3263,43 @@ class EntitiesOptions():
         return not self == other
 
 
-class EntitiesResult():
+class EntitiesResult:
     """
     The important people, places, geopolitical entities and other types of entities in
     your content.
 
-    :attr str type: (optional) Entity type.
-    :attr str text: (optional) The name of the entity.
-    :attr float relevance: (optional) Relevance score from 0 to 1. Higher values
+    :param str type: (optional) Entity type.
+    :param str text: (optional) The name of the entity.
+    :param float relevance: (optional) Relevance score from 0 to 1. Higher values
           indicate greater relevance.
-    :attr float confidence: (optional) Confidence in the entity identification from
+    :param float confidence: (optional) Confidence in the entity identification from
           0 to 1. Higher values indicate higher confidence. In standard entities requests,
           confidence is returned only for English text. All entities requests that use
           custom models return the confidence score.
-    :attr List[EntityMention] mentions: (optional) Entity mentions and locations.
-    :attr int count: (optional) How many times the entity was mentioned in the text.
-    :attr EmotionScores emotion: (optional) Emotion analysis results for the entity,
-          enabled with the `emotion` option.
-    :attr FeatureSentimentResults sentiment: (optional) Sentiment analysis results
+    :param List[EntityMention] mentions: (optional) Entity mentions and locations.
+    :param int count: (optional) How many times the entity was mentioned in the
+          text.
+    :param EmotionScores emotion: (optional) Emotion analysis results for the
+          entity, enabled with the `emotion` option.
+    :param FeatureSentimentResults sentiment: (optional) Sentiment analysis results
           for the entity, enabled with the `sentiment` option.
-    :attr DisambiguationResult disambiguation: (optional) Disambiguation information
-          for the entity.
+    :param DisambiguationResult disambiguation: (optional) Disambiguation
+          information for the entity.
     """
 
-    def __init__(self,
-                 *,
-                 type: str = None,
-                 text: str = None,
-                 relevance: float = None,
-                 confidence: float = None,
-                 mentions: List['EntityMention'] = None,
-                 count: int = None,
-                 emotion: 'EmotionScores' = None,
-                 sentiment: 'FeatureSentimentResults' = None,
-                 disambiguation: 'DisambiguationResult' = None) -> None:
+    def __init__(
+        self,
+        *,
+        type: Optional[str] = None,
+        text: Optional[str] = None,
+        relevance: Optional[float] = None,
+        confidence: Optional[float] = None,
+        mentions: Optional[List['EntityMention']] = None,
+        count: Optional[int] = None,
+        emotion: Optional['EmotionScores'] = None,
+        sentiment: Optional['FeatureSentimentResults'] = None,
+        disambiguation: Optional['DisambiguationResult'] = None,
+    ) -> None:
         """
         Initialize a EntitiesResult object.
 
@@ -3202,28 +3336,25 @@ class EntitiesResult():
     def from_dict(cls, _dict: Dict) -> 'EntitiesResult':
         """Initialize a EntitiesResult object from a json dictionary."""
         args = {}
-        if 'type' in _dict:
-            args['type'] = _dict.get('type')
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
-        if 'relevance' in _dict:
-            args['relevance'] = _dict.get('relevance')
-        if 'confidence' in _dict:
-            args['confidence'] = _dict.get('confidence')
-        if 'mentions' in _dict:
-            args['mentions'] = [
-                EntityMention.from_dict(v) for v in _dict.get('mentions')
-            ]
-        if 'count' in _dict:
-            args['count'] = _dict.get('count')
-        if 'emotion' in _dict:
-            args['emotion'] = EmotionScores.from_dict(_dict.get('emotion'))
-        if 'sentiment' in _dict:
-            args['sentiment'] = FeatureSentimentResults.from_dict(
-                _dict.get('sentiment'))
-        if 'disambiguation' in _dict:
+        if (type := _dict.get('type')) is not None:
+            args['type'] = type
+        if (text := _dict.get('text')) is not None:
+            args['text'] = text
+        if (relevance := _dict.get('relevance')) is not None:
+            args['relevance'] = relevance
+        if (confidence := _dict.get('confidence')) is not None:
+            args['confidence'] = confidence
+        if (mentions := _dict.get('mentions')) is not None:
+            args['mentions'] = [EntityMention.from_dict(v) for v in mentions]
+        if (count := _dict.get('count')) is not None:
+            args['count'] = count
+        if (emotion := _dict.get('emotion')) is not None:
+            args['emotion'] = EmotionScores.from_dict(emotion)
+        if (sentiment := _dict.get('sentiment')) is not None:
+            args['sentiment'] = FeatureSentimentResults.from_dict(sentiment)
+        if (disambiguation := _dict.get('disambiguation')) is not None:
             args['disambiguation'] = DisambiguationResult.from_dict(
-                _dict.get('disambiguation'))
+                disambiguation)
         return cls(**args)
 
     @classmethod
@@ -3288,24 +3419,26 @@ class EntitiesResult():
         return not self == other
 
 
-class EntityMention():
+class EntityMention:
     """
     EntityMention.
 
-    :attr str text: (optional) Entity mention text.
-    :attr List[int] location: (optional) Character offsets indicating the beginning
+    :param str text: (optional) Entity mention text.
+    :param List[int] location: (optional) Character offsets indicating the beginning
           and end of the mention in the analyzed text.
-    :attr float confidence: (optional) Confidence in the entity identification from
+    :param float confidence: (optional) Confidence in the entity identification from
           0 to 1. Higher values indicate higher confidence. In standard entities requests,
           confidence is returned only for English text. All entities requests that use
           custom models return the confidence score.
     """
 
-    def __init__(self,
-                 *,
-                 text: str = None,
-                 location: List[int] = None,
-                 confidence: float = None) -> None:
+    def __init__(
+        self,
+        *,
+        text: Optional[str] = None,
+        location: Optional[List[int]] = None,
+        confidence: Optional[float] = None,
+    ) -> None:
         """
         Initialize a EntityMention object.
 
@@ -3325,12 +3458,12 @@ class EntityMention():
     def from_dict(cls, _dict: Dict) -> 'EntityMention':
         """Initialize a EntityMention object from a json dictionary."""
         args = {}
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
-        if 'location' in _dict:
-            args['location'] = _dict.get('location')
-        if 'confidence' in _dict:
-            args['confidence'] = _dict.get('confidence')
+        if (text := _dict.get('text')) is not None:
+            args['text'] = text
+        if (location := _dict.get('location')) is not None:
+            args['location'] = location
+        if (confidence := _dict.get('confidence')) is not None:
+            args['confidence'] = confidence
         return cls(**args)
 
     @classmethod
@@ -3368,15 +3501,19 @@ class EntityMention():
         return not self == other
 
 
-class FeatureSentimentResults():
+class FeatureSentimentResults:
     """
     FeatureSentimentResults.
 
-    :attr float score: (optional) Sentiment score from -1 (negative) to 1
+    :param float score: (optional) Sentiment score from -1 (negative) to 1
           (positive).
     """
 
-    def __init__(self, *, score: float = None) -> None:
+    def __init__(
+        self,
+        *,
+        score: Optional[float] = None,
+    ) -> None:
         """
         Initialize a FeatureSentimentResults object.
 
@@ -3389,8 +3526,8 @@ class FeatureSentimentResults():
     def from_dict(cls, _dict: Dict) -> 'FeatureSentimentResults':
         """Initialize a FeatureSentimentResults object from a json dictionary."""
         args = {}
-        if 'score' in _dict:
-            args['score'] = _dict.get('score')
+        if (score := _dict.get('score')) is not None:
+            args['score'] = score
         return cls(**args)
 
     @classmethod
@@ -3424,37 +3561,37 @@ class FeatureSentimentResults():
         return not self == other
 
 
-class Features():
+class Features:
     """
     Analysis features and options.
 
-    :attr ClassificationsOptions classifications: (optional) Returns text
+    :param ClassificationsOptions classifications: (optional) Returns text
           classifications for the content.
-    :attr ConceptsOptions concepts: (optional) Returns high-level concepts in the
+    :param ConceptsOptions concepts: (optional) Returns high-level concepts in the
           content. For example, a research paper about deep learning might return the
           concept, "Artificial Intelligence" although the term is not mentioned.
           Supported languages: English, French, German, Italian, Japanese, Korean,
           Portuguese, Spanish.
-    :attr EmotionOptions emotion: (optional) Detects anger, disgust, fear, joy, or
+    :param EmotionOptions emotion: (optional) Detects anger, disgust, fear, joy, or
           sadness that is conveyed in the content or by the context around target phrases
           specified in the targets parameter. You can analyze emotion for detected
           entities with `entities.emotion` and for keywords with `keywords.emotion`.
           Supported languages: English.
-    :attr EntitiesOptions entities: (optional) Identifies people, cities,
+    :param EntitiesOptions entities: (optional) Identifies people, cities,
           organizations, and other entities in the content. For more information, see
           [Entity types and
           subtypes](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-entity-types).
           Supported languages: English, French, German, Italian, Japanese, Korean,
           Portuguese, Russian, Spanish, Swedish. Arabic, Chinese, and Dutch are supported
           only through custom models.
-    :attr KeywordsOptions keywords: (optional) Returns important keywords in the
+    :param KeywordsOptions keywords: (optional) Returns important keywords in the
           content.
           Supported languages: English, French, German, Italian, Japanese, Korean,
           Portuguese, Russian, Spanish, Swedish.
-    :attr dict metadata: (optional) Returns information from the document, including
-          author name, title, RSS/ATOM feeds, prominent page image, and publication date.
-          Supports URL and HTML input types only.
-    :attr RelationsOptions relations: (optional) Recognizes when two entities are
+    :param dict metadata: (optional) Returns information from the document,
+          including author name, title, RSS/ATOM feeds, prominent page image, and
+          publication date. Supports URL and HTML input types only.
+    :param RelationsOptions relations: (optional) Recognizes when two entities are
           related and identifies the type of relation. For example, an `awardedTo`
           relation might connect the entities "Nobel Prize" and "Albert Einstein". For
           more information, see [Relation
@@ -3462,41 +3599,43 @@ class Features():
           Supported languages: Arabic, English, German, Japanese, Korean, Spanish.
           Chinese, Dutch, French, Italian, and Portuguese custom models are also
           supported.
-    :attr SemanticRolesOptions semantic_roles: (optional) Parses sentences into
+    :param SemanticRolesOptions semantic_roles: (optional) Parses sentences into
           subject, action, and object form.
           Supported languages: English, German, Japanese, Korean, Spanish.
-    :attr SentimentOptions sentiment: (optional) Analyzes the general sentiment of
+    :param SentimentOptions sentiment: (optional) Analyzes the general sentiment of
           your content or the sentiment toward specific target phrases. You can analyze
           sentiment for detected entities with `entities.sentiment` and for keywords with
           `keywords.sentiment`.
            Supported languages: Arabic, English, French, German, Italian, Japanese,
           Korean, Portuguese, Russian, Spanish.
-    :attr SummarizationOptions summarization: (optional) (Experimental) Returns a
+    :param SummarizationOptions summarization: (optional) (Experimental) Returns a
           summary of content.
           Supported languages: English only.
           Supported regions: Dallas region only.
-    :attr CategoriesOptions categories: (optional) Returns a hierarchical taxonomy
+    :param CategoriesOptions categories: (optional) Returns a hierarchical taxonomy
           of the content. The top three categories are returned by default.
           Supported languages: Arabic, English, French, German, Italian, Japanese, Korean,
           Portuguese, Spanish.
-    :attr SyntaxOptions syntax: (optional) Returns tokens and sentences from the
+    :param SyntaxOptions syntax: (optional) Returns tokens and sentences from the
           input text.
     """
 
-    def __init__(self,
-                 *,
-                 classifications: 'ClassificationsOptions' = None,
-                 concepts: 'ConceptsOptions' = None,
-                 emotion: 'EmotionOptions' = None,
-                 entities: 'EntitiesOptions' = None,
-                 keywords: 'KeywordsOptions' = None,
-                 metadata: dict = None,
-                 relations: 'RelationsOptions' = None,
-                 semantic_roles: 'SemanticRolesOptions' = None,
-                 sentiment: 'SentimentOptions' = None,
-                 summarization: 'SummarizationOptions' = None,
-                 categories: 'CategoriesOptions' = None,
-                 syntax: 'SyntaxOptions' = None) -> None:
+    def __init__(
+        self,
+        *,
+        classifications: Optional['ClassificationsOptions'] = None,
+        concepts: Optional['ConceptsOptions'] = None,
+        emotion: Optional['EmotionOptions'] = None,
+        entities: Optional['EntitiesOptions'] = None,
+        keywords: Optional['KeywordsOptions'] = None,
+        metadata: Optional[dict] = None,
+        relations: Optional['RelationsOptions'] = None,
+        semantic_roles: Optional['SemanticRolesOptions'] = None,
+        sentiment: Optional['SentimentOptions'] = None,
+        summarization: Optional['SummarizationOptions'] = None,
+        categories: Optional['CategoriesOptions'] = None,
+        syntax: Optional['SyntaxOptions'] = None,
+    ) -> None:
         """
         Initialize a Features object.
 
@@ -3572,36 +3711,33 @@ class Features():
     def from_dict(cls, _dict: Dict) -> 'Features':
         """Initialize a Features object from a json dictionary."""
         args = {}
-        if 'classifications' in _dict:
+        if (classifications := _dict.get('classifications')) is not None:
             args['classifications'] = ClassificationsOptions.from_dict(
-                _dict.get('classifications'))
-        if 'concepts' in _dict:
-            args['concepts'] = ConceptsOptions.from_dict(_dict.get('concepts'))
-        if 'emotion' in _dict:
-            args['emotion'] = EmotionOptions.from_dict(_dict.get('emotion'))
-        if 'entities' in _dict:
-            args['entities'] = EntitiesOptions.from_dict(_dict.get('entities'))
-        if 'keywords' in _dict:
-            args['keywords'] = KeywordsOptions.from_dict(_dict.get('keywords'))
-        if 'metadata' in _dict:
-            args['metadata'] = _dict.get('metadata')
-        if 'relations' in _dict:
-            args['relations'] = RelationsOptions.from_dict(
-                _dict.get('relations'))
-        if 'semantic_roles' in _dict:
+                classifications)
+        if (concepts := _dict.get('concepts')) is not None:
+            args['concepts'] = ConceptsOptions.from_dict(concepts)
+        if (emotion := _dict.get('emotion')) is not None:
+            args['emotion'] = EmotionOptions.from_dict(emotion)
+        if (entities := _dict.get('entities')) is not None:
+            args['entities'] = EntitiesOptions.from_dict(entities)
+        if (keywords := _dict.get('keywords')) is not None:
+            args['keywords'] = KeywordsOptions.from_dict(keywords)
+        if (metadata := _dict.get('metadata')) is not None:
+            args['metadata'] = metadata
+        if (relations := _dict.get('relations')) is not None:
+            args['relations'] = RelationsOptions.from_dict(relations)
+        if (semantic_roles := _dict.get('semantic_roles')) is not None:
             args['semantic_roles'] = SemanticRolesOptions.from_dict(
-                _dict.get('semantic_roles'))
-        if 'sentiment' in _dict:
-            args['sentiment'] = SentimentOptions.from_dict(
-                _dict.get('sentiment'))
-        if 'summarization' in _dict:
+                semantic_roles)
+        if (sentiment := _dict.get('sentiment')) is not None:
+            args['sentiment'] = SentimentOptions.from_dict(sentiment)
+        if (summarization := _dict.get('summarization')) is not None:
             args['summarization'] = SummarizationOptions.from_dict(
-                _dict.get('summarization'))
-        if 'categories' in _dict:
-            args['categories'] = CategoriesOptions.from_dict(
-                _dict.get('categories'))
-        if 'syntax' in _dict:
-            args['syntax'] = SyntaxOptions.from_dict(_dict.get('syntax'))
+                summarization)
+        if (categories := _dict.get('categories')) is not None:
+            args['categories'] = CategoriesOptions.from_dict(categories)
+        if (syntax := _dict.get('syntax')) is not None:
+            args['syntax'] = SyntaxOptions.from_dict(syntax)
         return cls(**args)
 
     @classmethod
@@ -3691,25 +3827,27 @@ class Features():
         return not self == other
 
 
-class FeaturesResultsMetadata():
+class FeaturesResultsMetadata:
     """
     Webpage metadata, such as the author and the title of the page.
 
-    :attr List[Author] authors: (optional) The authors of the document.
-    :attr str publication_date: (optional) The publication date in the format ISO
+    :param List[Author] authors: (optional) The authors of the document.
+    :param str publication_date: (optional) The publication date in the format ISO
           8601.
-    :attr str title: (optional) The title of the document.
-    :attr str image: (optional) URL of a prominent image on the webpage.
-    :attr List[Feed] feeds: (optional) RSS/ATOM feeds found on the webpage.
+    :param str title: (optional) The title of the document.
+    :param str image: (optional) URL of a prominent image on the webpage.
+    :param List[Feed] feeds: (optional) RSS/ATOM feeds found on the webpage.
     """
 
-    def __init__(self,
-                 *,
-                 authors: List['Author'] = None,
-                 publication_date: str = None,
-                 title: str = None,
-                 image: str = None,
-                 feeds: List['Feed'] = None) -> None:
+    def __init__(
+        self,
+        *,
+        authors: Optional[List['Author']] = None,
+        publication_date: Optional[str] = None,
+        title: Optional[str] = None,
+        image: Optional[str] = None,
+        feeds: Optional[List['Feed']] = None,
+    ) -> None:
         """
         Initialize a FeaturesResultsMetadata object.
 
@@ -3730,18 +3868,16 @@ class FeaturesResultsMetadata():
     def from_dict(cls, _dict: Dict) -> 'FeaturesResultsMetadata':
         """Initialize a FeaturesResultsMetadata object from a json dictionary."""
         args = {}
-        if 'authors' in _dict:
-            args['authors'] = [
-                Author.from_dict(v) for v in _dict.get('authors')
-            ]
-        if 'publication_date' in _dict:
-            args['publication_date'] = _dict.get('publication_date')
-        if 'title' in _dict:
-            args['title'] = _dict.get('title')
-        if 'image' in _dict:
-            args['image'] = _dict.get('image')
-        if 'feeds' in _dict:
-            args['feeds'] = [Feed.from_dict(v) for v in _dict.get('feeds')]
+        if (authors := _dict.get('authors')) is not None:
+            args['authors'] = [Author.from_dict(v) for v in authors]
+        if (publication_date := _dict.get('publication_date')) is not None:
+            args['publication_date'] = publication_date
+        if (title := _dict.get('title')) is not None:
+            args['title'] = title
+        if (image := _dict.get('image')) is not None:
+            args['image'] = image
+        if (feeds := _dict.get('feeds')) is not None:
+            args['feeds'] = [Feed.from_dict(v) for v in feeds]
         return cls(**args)
 
     @classmethod
@@ -3796,14 +3932,18 @@ class FeaturesResultsMetadata():
         return not self == other
 
 
-class Feed():
+class Feed:
     """
     RSS or ATOM feed found on the webpage.
 
-    :attr str link: (optional) URL of the RSS or ATOM feed.
+    :param str link: (optional) URL of the RSS or ATOM feed.
     """
 
-    def __init__(self, *, link: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        link: Optional[str] = None,
+    ) -> None:
         """
         Initialize a Feed object.
 
@@ -3815,8 +3955,8 @@ class Feed():
     def from_dict(cls, _dict: Dict) -> 'Feed':
         """Initialize a Feed object from a json dictionary."""
         args = {}
-        if 'link' in _dict:
-            args['link'] = _dict.get('link')
+        if (link := _dict.get('link')) is not None:
+            args['link'] = link
         return cls(**args)
 
     @classmethod
@@ -3850,24 +3990,26 @@ class Feed():
         return not self == other
 
 
-class KeywordsOptions():
+class KeywordsOptions:
     """
     Returns important keywords in the content.
     Supported languages: English, French, German, Italian, Japanese, Korean, Portuguese,
     Russian, Spanish, Swedish.
 
-    :attr int limit: (optional) Maximum number of keywords to return.
-    :attr bool sentiment: (optional) Set this to `true` to return sentiment
+    :param int limit: (optional) Maximum number of keywords to return.
+    :param bool sentiment: (optional) Set this to `true` to return sentiment
           information for detected keywords.
-    :attr bool emotion: (optional) Set this to `true` to analyze emotion for
+    :param bool emotion: (optional) Set this to `true` to analyze emotion for
           detected keywords.
     """
 
-    def __init__(self,
-                 *,
-                 limit: int = None,
-                 sentiment: bool = None,
-                 emotion: bool = None) -> None:
+    def __init__(
+        self,
+        *,
+        limit: Optional[int] = None,
+        sentiment: Optional[bool] = None,
+        emotion: Optional[bool] = None,
+    ) -> None:
         """
         Initialize a KeywordsOptions object.
 
@@ -3885,12 +4027,12 @@ class KeywordsOptions():
     def from_dict(cls, _dict: Dict) -> 'KeywordsOptions':
         """Initialize a KeywordsOptions object from a json dictionary."""
         args = {}
-        if 'limit' in _dict:
-            args['limit'] = _dict.get('limit')
-        if 'sentiment' in _dict:
-            args['sentiment'] = _dict.get('sentiment')
-        if 'emotion' in _dict:
-            args['emotion'] = _dict.get('emotion')
+        if (limit := _dict.get('limit')) is not None:
+            args['limit'] = limit
+        if (sentiment := _dict.get('sentiment')) is not None:
+            args['sentiment'] = sentiment
+        if (emotion := _dict.get('emotion')) is not None:
+            args['emotion'] = emotion
         return cls(**args)
 
     @classmethod
@@ -3928,28 +4070,30 @@ class KeywordsOptions():
         return not self == other
 
 
-class KeywordsResult():
+class KeywordsResult:
     """
     The important keywords in the content, organized by relevance.
 
-    :attr int count: (optional) Number of times the keyword appears in the analyzed
+    :param int count: (optional) Number of times the keyword appears in the analyzed
           text.
-    :attr float relevance: (optional) Relevance score from 0 to 1. Higher values
+    :param float relevance: (optional) Relevance score from 0 to 1. Higher values
           indicate greater relevance.
-    :attr str text: (optional) The keyword text.
-    :attr EmotionScores emotion: (optional) Emotion analysis results for the
+    :param str text: (optional) The keyword text.
+    :param EmotionScores emotion: (optional) Emotion analysis results for the
           keyword, enabled with the `emotion` option.
-    :attr FeatureSentimentResults sentiment: (optional) Sentiment analysis results
+    :param FeatureSentimentResults sentiment: (optional) Sentiment analysis results
           for the keyword, enabled with the `sentiment` option.
     """
 
-    def __init__(self,
-                 *,
-                 count: int = None,
-                 relevance: float = None,
-                 text: str = None,
-                 emotion: 'EmotionScores' = None,
-                 sentiment: 'FeatureSentimentResults' = None) -> None:
+    def __init__(
+        self,
+        *,
+        count: Optional[int] = None,
+        relevance: Optional[float] = None,
+        text: Optional[str] = None,
+        emotion: Optional['EmotionScores'] = None,
+        sentiment: Optional['FeatureSentimentResults'] = None,
+    ) -> None:
         """
         Initialize a KeywordsResult object.
 
@@ -3973,17 +4117,16 @@ class KeywordsResult():
     def from_dict(cls, _dict: Dict) -> 'KeywordsResult':
         """Initialize a KeywordsResult object from a json dictionary."""
         args = {}
-        if 'count' in _dict:
-            args['count'] = _dict.get('count')
-        if 'relevance' in _dict:
-            args['relevance'] = _dict.get('relevance')
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
-        if 'emotion' in _dict:
-            args['emotion'] = EmotionScores.from_dict(_dict.get('emotion'))
-        if 'sentiment' in _dict:
-            args['sentiment'] = FeatureSentimentResults.from_dict(
-                _dict.get('sentiment'))
+        if (count := _dict.get('count')) is not None:
+            args['count'] = count
+        if (relevance := _dict.get('relevance')) is not None:
+            args['relevance'] = relevance
+        if (text := _dict.get('text')) is not None:
+            args['text'] = text
+        if (emotion := _dict.get('emotion')) is not None:
+            args['emotion'] = EmotionScores.from_dict(emotion)
+        if (sentiment := _dict.get('sentiment')) is not None:
+            args['sentiment'] = FeatureSentimentResults.from_dict(sentiment)
         return cls(**args)
 
     @classmethod
@@ -4031,14 +4174,18 @@ class KeywordsResult():
         return not self == other
 
 
-class ListModelsResults():
+class ListModelsResults:
     """
     Custom models that are available for entities and relations.
 
-    :attr List[Model] models: (optional) An array of available models.
+    :param List[Model] models: (optional) An array of available models.
     """
 
-    def __init__(self, *, models: List['Model'] = None) -> None:
+    def __init__(
+        self,
+        *,
+        models: Optional[List['Model']] = None,
+    ) -> None:
         """
         Initialize a ListModelsResults object.
 
@@ -4050,8 +4197,8 @@ class ListModelsResults():
     def from_dict(cls, _dict: Dict) -> 'ListModelsResults':
         """Initialize a ListModelsResults object from a json dictionary."""
         args = {}
-        if 'models' in _dict:
-            args['models'] = [Model.from_dict(v) for v in _dict.get('models')]
+        if (models := _dict.get('models')) is not None:
+            args['models'] = [Model.from_dict(v) for v in models]
         return cls(**args)
 
     @classmethod
@@ -4091,38 +4238,40 @@ class ListModelsResults():
         return not self == other
 
 
-class Model():
+class Model:
     """
     Model.
 
-    :attr str status: (optional) When the status is `available`, the model is ready
+    :param str status: (optional) When the status is `available`, the model is ready
           to use.
-    :attr str model_id: (optional) Unique model ID.
-    :attr str language: (optional) ISO 639-1 code that indicates the language of the
-          model.
-    :attr str description: (optional) Model description.
-    :attr str workspace_id: (optional) ID of the Watson Knowledge Studio workspace
+    :param str model_id: (optional) Unique model ID.
+    :param str language: (optional) ISO 639-1 code that indicates the language of
+          the model.
+    :param str description: (optional) Model description.
+    :param str workspace_id: (optional) ID of the Watson Knowledge Studio workspace
           that deployed this model to Natural Language Understanding.
-    :attr str model_version: (optional) The model version, if it was manually
+    :param str model_version: (optional) The model version, if it was manually
           provided in Watson Knowledge Studio.
-    :attr str version: (optional) Deprecated: Deprecated — use `model_version`.
-    :attr str version_description: (optional) The description of the version, if it
+    :param str version: (optional) Deprecated: Deprecated — use `model_version`.
+    :param str version_description: (optional) The description of the version, if it
           was manually provided in Watson Knowledge Studio.
-    :attr datetime created: (optional) A dateTime indicating when the model was
+    :param datetime created: (optional) A dateTime indicating when the model was
           created.
     """
 
-    def __init__(self,
-                 *,
-                 status: str = None,
-                 model_id: str = None,
-                 language: str = None,
-                 description: str = None,
-                 workspace_id: str = None,
-                 model_version: str = None,
-                 version: str = None,
-                 version_description: str = None,
-                 created: datetime = None) -> None:
+    def __init__(
+        self,
+        *,
+        status: Optional[str] = None,
+        model_id: Optional[str] = None,
+        language: Optional[str] = None,
+        description: Optional[str] = None,
+        workspace_id: Optional[str] = None,
+        model_version: Optional[str] = None,
+        version: Optional[str] = None,
+        version_description: Optional[str] = None,
+        created: Optional[datetime] = None,
+    ) -> None:
         """
         Initialize a Model object.
 
@@ -4157,24 +4306,25 @@ class Model():
     def from_dict(cls, _dict: Dict) -> 'Model':
         """Initialize a Model object from a json dictionary."""
         args = {}
-        if 'status' in _dict:
-            args['status'] = _dict.get('status')
-        if 'model_id' in _dict:
-            args['model_id'] = _dict.get('model_id')
-        if 'language' in _dict:
-            args['language'] = _dict.get('language')
-        if 'description' in _dict:
-            args['description'] = _dict.get('description')
-        if 'workspace_id' in _dict:
-            args['workspace_id'] = _dict.get('workspace_id')
-        if 'model_version' in _dict:
-            args['model_version'] = _dict.get('model_version')
-        if 'version' in _dict:
-            args['version'] = _dict.get('version')
-        if 'version_description' in _dict:
-            args['version_description'] = _dict.get('version_description')
-        if 'created' in _dict:
-            args['created'] = string_to_datetime(_dict.get('created'))
+        if (status := _dict.get('status')) is not None:
+            args['status'] = status
+        if (model_id := _dict.get('model_id')) is not None:
+            args['model_id'] = model_id
+        if (language := _dict.get('language')) is not None:
+            args['language'] = language
+        if (description := _dict.get('description')) is not None:
+            args['description'] = description
+        if (workspace_id := _dict.get('workspace_id')) is not None:
+            args['workspace_id'] = workspace_id
+        if (model_version := _dict.get('model_version')) is not None:
+            args['model_version'] = model_version
+        if (version := _dict.get('version')) is not None:
+            args['version'] = version
+        if (version_description :=
+                _dict.get('version_description')) is not None:
+            args['version_description'] = version_description
+        if (created := _dict.get('created')) is not None:
+            args['created'] = string_to_datetime(created)
         return cls(**args)
 
     @classmethod
@@ -4229,6 +4379,7 @@ class Model():
         """
         When the status is `available`, the model is ready to use.
         """
+
         STARTING = 'starting'
         TRAINING = 'training'
         DEPLOYING = 'deploying'
@@ -4237,15 +4388,19 @@ class Model():
         DELETED = 'deleted'
 
 
-class Notice():
+class Notice:
     """
     A list of messages describing model training issues when model status is `error`.
 
-    :attr str message: (optional) Describes deficiencies or inconsistencies in
+    :param str message: (optional) Describes deficiencies or inconsistencies in
           training data.
     """
 
-    def __init__(self, *, message: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        message: Optional[str] = None,
+    ) -> None:
         """
         Initialize a Notice object.
 
@@ -4256,8 +4411,8 @@ class Notice():
     def from_dict(cls, _dict: Dict) -> 'Notice':
         """Initialize a Notice object from a json dictionary."""
         args = {}
-        if 'message' in _dict:
-            args['message'] = _dict.get('message')
+        if (message := _dict.get('message')) is not None:
+            args['message'] = message
         return cls(**args)
 
     @classmethod
@@ -4291,21 +4446,23 @@ class Notice():
         return not self == other
 
 
-class RelationArgument():
+class RelationArgument:
     """
     RelationArgument.
 
-    :attr List[RelationEntity] entities: (optional) An array of extracted entities.
-    :attr List[int] location: (optional) Character offsets indicating the beginning
+    :param List[RelationEntity] entities: (optional) An array of extracted entities.
+    :param List[int] location: (optional) Character offsets indicating the beginning
           and end of the mention in the analyzed text.
-    :attr str text: (optional) Text that corresponds to the argument.
+    :param str text: (optional) Text that corresponds to the argument.
     """
 
-    def __init__(self,
-                 *,
-                 entities: List['RelationEntity'] = None,
-                 location: List[int] = None,
-                 text: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        entities: Optional[List['RelationEntity']] = None,
+        location: Optional[List[int]] = None,
+        text: Optional[str] = None,
+    ) -> None:
         """
         Initialize a RelationArgument object.
 
@@ -4323,14 +4480,12 @@ class RelationArgument():
     def from_dict(cls, _dict: Dict) -> 'RelationArgument':
         """Initialize a RelationArgument object from a json dictionary."""
         args = {}
-        if 'entities' in _dict:
-            args['entities'] = [
-                RelationEntity.from_dict(v) for v in _dict.get('entities')
-            ]
-        if 'location' in _dict:
-            args['location'] = _dict.get('location')
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
+        if (entities := _dict.get('entities')) is not None:
+            args['entities'] = [RelationEntity.from_dict(v) for v in entities]
+        if (location := _dict.get('location')) is not None:
+            args['location'] = location
+        if (text := _dict.get('text')) is not None:
+            args['text'] = text
         return cls(**args)
 
     @classmethod
@@ -4374,15 +4529,20 @@ class RelationArgument():
         return not self == other
 
 
-class RelationEntity():
+class RelationEntity:
     """
     An entity that corresponds with an argument in a relation.
 
-    :attr str text: (optional) Text that corresponds to the entity.
-    :attr str type: (optional) Entity type.
+    :param str text: (optional) Text that corresponds to the entity.
+    :param str type: (optional) Entity type.
     """
 
-    def __init__(self, *, text: str = None, type: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        text: Optional[str] = None,
+        type: Optional[str] = None,
+    ) -> None:
         """
         Initialize a RelationEntity object.
 
@@ -4396,10 +4556,10 @@ class RelationEntity():
     def from_dict(cls, _dict: Dict) -> 'RelationEntity':
         """Initialize a RelationEntity object from a json dictionary."""
         args = {}
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
-        if 'type' in _dict:
-            args['type'] = _dict.get('type')
+        if (text := _dict.get('text')) is not None:
+            args['text'] = text
+        if (type := _dict.get('type')) is not None:
+            args['type'] = type
         return cls(**args)
 
     @classmethod
@@ -4435,7 +4595,7 @@ class RelationEntity():
         return not self == other
 
 
-class RelationsOptions():
+class RelationsOptions:
     """
     Recognizes when two entities are related and identifies the type of relation. For
     example, an `awardedTo` relation might connect the entities "Nobel Prize" and "Albert
@@ -4444,12 +4604,16 @@ class RelationsOptions():
     Supported languages: Arabic, English, German, Japanese, Korean, Spanish. Chinese,
     Dutch, French, Italian, and Portuguese custom models are also supported.
 
-    :attr str model: (optional) Enter a [custom
+    :param str model: (optional) Enter a [custom
           model](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-customizing)
           ID to override the default model.
     """
 
-    def __init__(self, *, model: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        model: Optional[str] = None,
+    ) -> None:
         """
         Initialize a RelationsOptions object.
 
@@ -4463,8 +4627,8 @@ class RelationsOptions():
     def from_dict(cls, _dict: Dict) -> 'RelationsOptions':
         """Initialize a RelationsOptions object from a json dictionary."""
         args = {}
-        if 'model' in _dict:
-            args['model'] = _dict.get('model')
+        if (model := _dict.get('model')) is not None:
+            args['model'] = model
         return cls(**args)
 
     @classmethod
@@ -4498,24 +4662,26 @@ class RelationsOptions():
         return not self == other
 
 
-class RelationsResult():
+class RelationsResult:
     """
     The relations between entities found in the content.
 
-    :attr float score: (optional) Confidence score for the relation. Higher values
+    :param float score: (optional) Confidence score for the relation. Higher values
           indicate greater confidence.
-    :attr str sentence: (optional) The sentence that contains the relation.
-    :attr str type: (optional) The type of the relation.
-    :attr List[RelationArgument] arguments: (optional) Entity mentions that are
+    :param str sentence: (optional) The sentence that contains the relation.
+    :param str type: (optional) The type of the relation.
+    :param List[RelationArgument] arguments: (optional) Entity mentions that are
           involved in the relation.
     """
 
-    def __init__(self,
-                 *,
-                 score: float = None,
-                 sentence: str = None,
-                 type: str = None,
-                 arguments: List['RelationArgument'] = None) -> None:
+    def __init__(
+        self,
+        *,
+        score: Optional[float] = None,
+        sentence: Optional[str] = None,
+        type: Optional[str] = None,
+        arguments: Optional[List['RelationArgument']] = None,
+    ) -> None:
         """
         Initialize a RelationsResult object.
 
@@ -4535,15 +4701,15 @@ class RelationsResult():
     def from_dict(cls, _dict: Dict) -> 'RelationsResult':
         """Initialize a RelationsResult object from a json dictionary."""
         args = {}
-        if 'score' in _dict:
-            args['score'] = _dict.get('score')
-        if 'sentence' in _dict:
-            args['sentence'] = _dict.get('sentence')
-        if 'type' in _dict:
-            args['type'] = _dict.get('type')
-        if 'arguments' in _dict:
+        if (score := _dict.get('score')) is not None:
+            args['score'] = score
+        if (sentence := _dict.get('sentence')) is not None:
+            args['sentence'] = sentence
+        if (type := _dict.get('type')) is not None:
+            args['type'] = type
+        if (arguments := _dict.get('arguments')) is not None:
             args['arguments'] = [
-                RelationArgument.from_dict(v) for v in _dict.get('arguments')
+                RelationArgument.from_dict(v) for v in arguments
             ]
         return cls(**args)
 
@@ -4590,15 +4756,20 @@ class RelationsResult():
         return not self == other
 
 
-class SemanticRolesEntity():
+class SemanticRolesEntity:
     """
     SemanticRolesEntity.
 
-    :attr str type: (optional) Entity type.
-    :attr str text: (optional) The entity text.
+    :param str type: (optional) Entity type.
+    :param str text: (optional) The entity text.
     """
 
-    def __init__(self, *, type: str = None, text: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        type: Optional[str] = None,
+        text: Optional[str] = None,
+    ) -> None:
         """
         Initialize a SemanticRolesEntity object.
 
@@ -4612,10 +4783,10 @@ class SemanticRolesEntity():
     def from_dict(cls, _dict: Dict) -> 'SemanticRolesEntity':
         """Initialize a SemanticRolesEntity object from a json dictionary."""
         args = {}
-        if 'type' in _dict:
-            args['type'] = _dict.get('type')
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
+        if (type := _dict.get('type')) is not None:
+            args['type'] = type
+        if (text := _dict.get('text')) is not None:
+            args['text'] = text
         return cls(**args)
 
     @classmethod
@@ -4651,14 +4822,18 @@ class SemanticRolesEntity():
         return not self == other
 
 
-class SemanticRolesKeyword():
+class SemanticRolesKeyword:
     """
     SemanticRolesKeyword.
 
-    :attr str text: (optional) The keyword text.
+    :param str text: (optional) The keyword text.
     """
 
-    def __init__(self, *, text: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        text: Optional[str] = None,
+    ) -> None:
         """
         Initialize a SemanticRolesKeyword object.
 
@@ -4670,8 +4845,8 @@ class SemanticRolesKeyword():
     def from_dict(cls, _dict: Dict) -> 'SemanticRolesKeyword':
         """Initialize a SemanticRolesKeyword object from a json dictionary."""
         args = {}
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
+        if (text := _dict.get('text')) is not None:
+            args['text'] = text
         return cls(**args)
 
     @classmethod
@@ -4705,23 +4880,25 @@ class SemanticRolesKeyword():
         return not self == other
 
 
-class SemanticRolesOptions():
+class SemanticRolesOptions:
     """
     Parses sentences into subject, action, and object form.
     Supported languages: English, German, Japanese, Korean, Spanish.
 
-    :attr int limit: (optional) Maximum number of semantic_roles results to return.
-    :attr bool keywords: (optional) Set this to `true` to return keyword information
-          for subjects and objects.
-    :attr bool entities: (optional) Set this to `true` to return entity information
+    :param int limit: (optional) Maximum number of semantic_roles results to return.
+    :param bool keywords: (optional) Set this to `true` to return keyword
+          information for subjects and objects.
+    :param bool entities: (optional) Set this to `true` to return entity information
           for subjects and objects.
     """
 
-    def __init__(self,
-                 *,
-                 limit: int = None,
-                 keywords: bool = None,
-                 entities: bool = None) -> None:
+    def __init__(
+        self,
+        *,
+        limit: Optional[int] = None,
+        keywords: Optional[bool] = None,
+        entities: Optional[bool] = None,
+    ) -> None:
         """
         Initialize a SemanticRolesOptions object.
 
@@ -4740,12 +4917,12 @@ class SemanticRolesOptions():
     def from_dict(cls, _dict: Dict) -> 'SemanticRolesOptions':
         """Initialize a SemanticRolesOptions object from a json dictionary."""
         args = {}
-        if 'limit' in _dict:
-            args['limit'] = _dict.get('limit')
-        if 'keywords' in _dict:
-            args['keywords'] = _dict.get('keywords')
-        if 'entities' in _dict:
-            args['entities'] = _dict.get('entities')
+        if (limit := _dict.get('limit')) is not None:
+            args['limit'] = limit
+        if (keywords := _dict.get('keywords')) is not None:
+            args['keywords'] = keywords
+        if (entities := _dict.get('entities')) is not None:
+            args['entities'] = entities
         return cls(**args)
 
     @classmethod
@@ -4783,26 +4960,28 @@ class SemanticRolesOptions():
         return not self == other
 
 
-class SemanticRolesResult():
+class SemanticRolesResult:
     """
     The object containing the actions and the objects the actions act upon.
 
-    :attr str sentence: (optional) Sentence from the source that contains the
+    :param str sentence: (optional) Sentence from the source that contains the
           subject, action, and object.
-    :attr SemanticRolesResultSubject subject: (optional) The extracted subject from
+    :param SemanticRolesResultSubject subject: (optional) The extracted subject from
           the sentence.
-    :attr SemanticRolesResultAction action: (optional) The extracted action from the
-          sentence.
-    :attr SemanticRolesResultObject object: (optional) The extracted object from the
-          sentence.
+    :param SemanticRolesResultAction action: (optional) The extracted action from
+          the sentence.
+    :param SemanticRolesResultObject object: (optional) The extracted object from
+          the sentence.
     """
 
-    def __init__(self,
-                 *,
-                 sentence: str = None,
-                 subject: 'SemanticRolesResultSubject' = None,
-                 action: 'SemanticRolesResultAction' = None,
-                 object: 'SemanticRolesResultObject' = None) -> None:
+    def __init__(
+        self,
+        *,
+        sentence: Optional[str] = None,
+        subject: Optional['SemanticRolesResultSubject'] = None,
+        action: Optional['SemanticRolesResultAction'] = None,
+        object: Optional['SemanticRolesResultObject'] = None,
+    ) -> None:
         """
         Initialize a SemanticRolesResult object.
 
@@ -4824,17 +5003,14 @@ class SemanticRolesResult():
     def from_dict(cls, _dict: Dict) -> 'SemanticRolesResult':
         """Initialize a SemanticRolesResult object from a json dictionary."""
         args = {}
-        if 'sentence' in _dict:
-            args['sentence'] = _dict.get('sentence')
-        if 'subject' in _dict:
-            args['subject'] = SemanticRolesResultSubject.from_dict(
-                _dict.get('subject'))
-        if 'action' in _dict:
-            args['action'] = SemanticRolesResultAction.from_dict(
-                _dict.get('action'))
-        if 'object' in _dict:
-            args['object'] = SemanticRolesResultObject.from_dict(
-                _dict.get('object'))
+        if (sentence := _dict.get('sentence')) is not None:
+            args['sentence'] = sentence
+        if (subject := _dict.get('subject')) is not None:
+            args['subject'] = SemanticRolesResultSubject.from_dict(subject)
+        if (action := _dict.get('action')) is not None:
+            args['action'] = SemanticRolesResultAction.from_dict(action)
+        if (object := _dict.get('object')) is not None:
+            args['object'] = SemanticRolesResultObject.from_dict(object)
         return cls(**args)
 
     @classmethod
@@ -4883,20 +5059,22 @@ class SemanticRolesResult():
         return not self == other
 
 
-class SemanticRolesResultAction():
+class SemanticRolesResultAction:
     """
     The extracted action from the sentence.
 
-    :attr str text: (optional) Analyzed text that corresponds to the action.
-    :attr str normalized: (optional) normalized version of the action.
-    :attr SemanticRolesVerb verb: (optional)
+    :param str text: (optional) Analyzed text that corresponds to the action.
+    :param str normalized: (optional) normalized version of the action.
+    :param SemanticRolesVerb verb: (optional)
     """
 
-    def __init__(self,
-                 *,
-                 text: str = None,
-                 normalized: str = None,
-                 verb: 'SemanticRolesVerb' = None) -> None:
+    def __init__(
+        self,
+        *,
+        text: Optional[str] = None,
+        normalized: Optional[str] = None,
+        verb: Optional['SemanticRolesVerb'] = None,
+    ) -> None:
         """
         Initialize a SemanticRolesResultAction object.
 
@@ -4912,12 +5090,12 @@ class SemanticRolesResultAction():
     def from_dict(cls, _dict: Dict) -> 'SemanticRolesResultAction':
         """Initialize a SemanticRolesResultAction object from a json dictionary."""
         args = {}
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
-        if 'normalized' in _dict:
-            args['normalized'] = _dict.get('normalized')
-        if 'verb' in _dict:
-            args['verb'] = SemanticRolesVerb.from_dict(_dict.get('verb'))
+        if (text := _dict.get('text')) is not None:
+            args['text'] = text
+        if (normalized := _dict.get('normalized')) is not None:
+            args['normalized'] = normalized
+        if (verb := _dict.get('verb')) is not None:
+            args['verb'] = SemanticRolesVerb.from_dict(verb)
         return cls(**args)
 
     @classmethod
@@ -4958,19 +5136,21 @@ class SemanticRolesResultAction():
         return not self == other
 
 
-class SemanticRolesResultObject():
+class SemanticRolesResultObject:
     """
     The extracted object from the sentence.
 
-    :attr str text: (optional) Object text.
-    :attr List[SemanticRolesKeyword] keywords: (optional) An array of extracted
+    :param str text: (optional) Object text.
+    :param List[SemanticRolesKeyword] keywords: (optional) An array of extracted
           keywords.
     """
 
-    def __init__(self,
-                 *,
-                 text: str = None,
-                 keywords: List['SemanticRolesKeyword'] = None) -> None:
+    def __init__(
+        self,
+        *,
+        text: Optional[str] = None,
+        keywords: Optional[List['SemanticRolesKeyword']] = None,
+    ) -> None:
         """
         Initialize a SemanticRolesResultObject object.
 
@@ -4985,11 +5165,11 @@ class SemanticRolesResultObject():
     def from_dict(cls, _dict: Dict) -> 'SemanticRolesResultObject':
         """Initialize a SemanticRolesResultObject object from a json dictionary."""
         args = {}
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
-        if 'keywords' in _dict:
+        if (text := _dict.get('text')) is not None:
+            args['text'] = text
+        if (keywords := _dict.get('keywords')) is not None:
             args['keywords'] = [
-                SemanticRolesKeyword.from_dict(v) for v in _dict.get('keywords')
+                SemanticRolesKeyword.from_dict(v) for v in keywords
             ]
         return cls(**args)
 
@@ -5032,22 +5212,24 @@ class SemanticRolesResultObject():
         return not self == other
 
 
-class SemanticRolesResultSubject():
+class SemanticRolesResultSubject:
     """
     The extracted subject from the sentence.
 
-    :attr str text: (optional) Text that corresponds to the subject role.
-    :attr List[SemanticRolesEntity] entities: (optional) An array of extracted
+    :param str text: (optional) Text that corresponds to the subject role.
+    :param List[SemanticRolesEntity] entities: (optional) An array of extracted
           entities.
-    :attr List[SemanticRolesKeyword] keywords: (optional) An array of extracted
+    :param List[SemanticRolesKeyword] keywords: (optional) An array of extracted
           keywords.
     """
 
-    def __init__(self,
-                 *,
-                 text: str = None,
-                 entities: List['SemanticRolesEntity'] = None,
-                 keywords: List['SemanticRolesKeyword'] = None) -> None:
+    def __init__(
+        self,
+        *,
+        text: Optional[str] = None,
+        entities: Optional[List['SemanticRolesEntity']] = None,
+        keywords: Optional[List['SemanticRolesKeyword']] = None,
+    ) -> None:
         """
         Initialize a SemanticRolesResultSubject object.
 
@@ -5065,15 +5247,15 @@ class SemanticRolesResultSubject():
     def from_dict(cls, _dict: Dict) -> 'SemanticRolesResultSubject':
         """Initialize a SemanticRolesResultSubject object from a json dictionary."""
         args = {}
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
-        if 'entities' in _dict:
+        if (text := _dict.get('text')) is not None:
+            args['text'] = text
+        if (entities := _dict.get('entities')) is not None:
             args['entities'] = [
-                SemanticRolesEntity.from_dict(v) for v in _dict.get('entities')
+                SemanticRolesEntity.from_dict(v) for v in entities
             ]
-        if 'keywords' in _dict:
+        if (keywords := _dict.get('keywords')) is not None:
             args['keywords'] = [
-                SemanticRolesKeyword.from_dict(v) for v in _dict.get('keywords')
+                SemanticRolesKeyword.from_dict(v) for v in keywords
             ]
         return cls(**args)
 
@@ -5124,15 +5306,20 @@ class SemanticRolesResultSubject():
         return not self == other
 
 
-class SemanticRolesVerb():
+class SemanticRolesVerb:
     """
     SemanticRolesVerb.
 
-    :attr str text: (optional) The keyword text.
-    :attr str tense: (optional) Verb tense.
+    :param str text: (optional) The keyword text.
+    :param str tense: (optional) Verb tense.
     """
 
-    def __init__(self, *, text: str = None, tense: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        text: Optional[str] = None,
+        tense: Optional[str] = None,
+    ) -> None:
         """
         Initialize a SemanticRolesVerb object.
 
@@ -5146,10 +5333,10 @@ class SemanticRolesVerb():
     def from_dict(cls, _dict: Dict) -> 'SemanticRolesVerb':
         """Initialize a SemanticRolesVerb object from a json dictionary."""
         args = {}
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
-        if 'tense' in _dict:
-            args['tense'] = _dict.get('tense')
+        if (text := _dict.get('text')) is not None:
+            args['text'] = text
+        if (tense := _dict.get('tense')) is not None:
+            args['tense'] = tense
         return cls(**args)
 
     @classmethod
@@ -5185,16 +5372,21 @@ class SemanticRolesVerb():
         return not self == other
 
 
-class SentenceResult():
+class SentenceResult:
     """
     SentenceResult.
 
-    :attr str text: (optional) The sentence.
-    :attr List[int] location: (optional) Character offsets indicating the beginning
+    :param str text: (optional) The sentence.
+    :param List[int] location: (optional) Character offsets indicating the beginning
           and end of the sentence in the analyzed text.
     """
 
-    def __init__(self, *, text: str = None, location: List[int] = None) -> None:
+    def __init__(
+        self,
+        *,
+        text: Optional[str] = None,
+        location: Optional[List[int]] = None,
+    ) -> None:
         """
         Initialize a SentenceResult object.
 
@@ -5209,10 +5401,10 @@ class SentenceResult():
     def from_dict(cls, _dict: Dict) -> 'SentenceResult':
         """Initialize a SentenceResult object from a json dictionary."""
         args = {}
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
-        if 'location' in _dict:
-            args['location'] = _dict.get('location')
+        if (text := _dict.get('text')) is not None:
+            args['text'] = text
+        if (location := _dict.get('location')) is not None:
+            args['location'] = location
         return cls(**args)
 
     @classmethod
@@ -5248,7 +5440,7 @@ class SentenceResult():
         return not self == other
 
 
-class SentimentOptions():
+class SentimentOptions:
     """
     Analyzes the general sentiment of your content or the sentiment toward specific target
     phrases. You can analyze sentiment for detected entities with `entities.sentiment` and
@@ -5256,16 +5448,18 @@ class SentimentOptions():
      Supported languages: Arabic, English, French, German, Italian, Japanese, Korean,
     Portuguese, Russian, Spanish.
 
-    :attr bool document: (optional) Set this to `false` to hide document-level
+    :param bool document: (optional) Set this to `false` to hide document-level
           sentiment results.
-    :attr List[str] targets: (optional) Sentiment results will be returned for each
+    :param List[str] targets: (optional) Sentiment results will be returned for each
           target string that is found in the document.
     """
 
-    def __init__(self,
-                 *,
-                 document: bool = None,
-                 targets: List[str] = None) -> None:
+    def __init__(
+        self,
+        *,
+        document: Optional[bool] = None,
+        targets: Optional[List[str]] = None,
+    ) -> None:
         """
         Initialize a SentimentOptions object.
 
@@ -5281,10 +5475,10 @@ class SentimentOptions():
     def from_dict(cls, _dict: Dict) -> 'SentimentOptions':
         """Initialize a SentimentOptions object from a json dictionary."""
         args = {}
-        if 'document' in _dict:
-            args['document'] = _dict.get('document')
-        if 'targets' in _dict:
-            args['targets'] = _dict.get('targets')
+        if (document := _dict.get('document')) is not None:
+            args['document'] = document
+        if (targets := _dict.get('targets')) is not None:
+            args['targets'] = targets
         return cls(**args)
 
     @classmethod
@@ -5320,20 +5514,22 @@ class SentimentOptions():
         return not self == other
 
 
-class SentimentResult():
+class SentimentResult:
     """
     The sentiment of the content.
 
-    :attr DocumentSentimentResults document: (optional) The document level
+    :param DocumentSentimentResults document: (optional) The document level
           sentiment.
-    :attr List[TargetedSentimentResults] targets: (optional) The targeted sentiment
+    :param List[TargetedSentimentResults] targets: (optional) The targeted sentiment
           to analyze.
     """
 
-    def __init__(self,
-                 *,
-                 document: 'DocumentSentimentResults' = None,
-                 targets: List['TargetedSentimentResults'] = None) -> None:
+    def __init__(
+        self,
+        *,
+        document: Optional['DocumentSentimentResults'] = None,
+        targets: Optional[List['TargetedSentimentResults']] = None,
+    ) -> None:
         """
         Initialize a SentimentResult object.
 
@@ -5349,13 +5545,11 @@ class SentimentResult():
     def from_dict(cls, _dict: Dict) -> 'SentimentResult':
         """Initialize a SentimentResult object from a json dictionary."""
         args = {}
-        if 'document' in _dict:
-            args['document'] = DocumentSentimentResults.from_dict(
-                _dict.get('document'))
-        if 'targets' in _dict:
+        if (document := _dict.get('document')) is not None:
+            args['document'] = DocumentSentimentResults.from_dict(document)
+        if (targets := _dict.get('targets')) is not None:
             args['targets'] = [
-                TargetedSentimentResults.from_dict(v)
-                for v in _dict.get('targets')
+                TargetedSentimentResults.from_dict(v) for v in targets
             ]
         return cls(**args)
 
@@ -5401,16 +5595,20 @@ class SentimentResult():
         return not self == other
 
 
-class SummarizationOptions():
+class SummarizationOptions:
     """
     (Experimental) Returns a summary of content.
     Supported languages: English only.
     Supported regions: Dallas region only.
 
-    :attr int limit: (optional) Maximum number of summary sentences to return.
+    :param int limit: (optional) Maximum number of summary sentences to return.
     """
 
-    def __init__(self, *, limit: int = None) -> None:
+    def __init__(
+        self,
+        *,
+        limit: Optional[int] = None,
+    ) -> None:
         """
         Initialize a SummarizationOptions object.
 
@@ -5422,8 +5620,8 @@ class SummarizationOptions():
     def from_dict(cls, _dict: Dict) -> 'SummarizationOptions':
         """Initialize a SummarizationOptions object from a json dictionary."""
         args = {}
-        if 'limit' in _dict:
-            args['limit'] = _dict.get('limit')
+        if (limit := _dict.get('limit')) is not None:
+            args['limit'] = limit
         return cls(**args)
 
     @classmethod
@@ -5457,19 +5655,21 @@ class SummarizationOptions():
         return not self == other
 
 
-class SyntaxOptions():
+class SyntaxOptions:
     """
     Returns tokens and sentences from the input text.
 
-    :attr SyntaxOptionsTokens tokens: (optional) Tokenization options.
-    :attr bool sentences: (optional) Set this to `true` to return sentence
+    :param SyntaxOptionsTokens tokens: (optional) Tokenization options.
+    :param bool sentences: (optional) Set this to `true` to return sentence
           information.
     """
 
-    def __init__(self,
-                 *,
-                 tokens: 'SyntaxOptionsTokens' = None,
-                 sentences: bool = None) -> None:
+    def __init__(
+        self,
+        *,
+        tokens: Optional['SyntaxOptionsTokens'] = None,
+        sentences: Optional[bool] = None,
+    ) -> None:
         """
         Initialize a SyntaxOptions object.
 
@@ -5484,10 +5684,10 @@ class SyntaxOptions():
     def from_dict(cls, _dict: Dict) -> 'SyntaxOptions':
         """Initialize a SyntaxOptions object from a json dictionary."""
         args = {}
-        if 'tokens' in _dict:
-            args['tokens'] = SyntaxOptionsTokens.from_dict(_dict.get('tokens'))
-        if 'sentences' in _dict:
-            args['sentences'] = _dict.get('sentences')
+        if (tokens := _dict.get('tokens')) is not None:
+            args['tokens'] = SyntaxOptionsTokens.from_dict(tokens)
+        if (sentences := _dict.get('sentences')) is not None:
+            args['sentences'] = sentences
         return cls(**args)
 
     @classmethod
@@ -5526,20 +5726,22 @@ class SyntaxOptions():
         return not self == other
 
 
-class SyntaxOptionsTokens():
+class SyntaxOptionsTokens:
     """
     Tokenization options.
 
-    :attr bool lemma: (optional) Set this to `true` to return the lemma for each
+    :param bool lemma: (optional) Set this to `true` to return the lemma for each
           token.
-    :attr bool part_of_speech: (optional) Set this to `true` to return the part of
+    :param bool part_of_speech: (optional) Set this to `true` to return the part of
           speech for each token.
     """
 
-    def __init__(self,
-                 *,
-                 lemma: bool = None,
-                 part_of_speech: bool = None) -> None:
+    def __init__(
+        self,
+        *,
+        lemma: Optional[bool] = None,
+        part_of_speech: Optional[bool] = None,
+    ) -> None:
         """
         Initialize a SyntaxOptionsTokens object.
 
@@ -5555,10 +5757,10 @@ class SyntaxOptionsTokens():
     def from_dict(cls, _dict: Dict) -> 'SyntaxOptionsTokens':
         """Initialize a SyntaxOptionsTokens object from a json dictionary."""
         args = {}
-        if 'lemma' in _dict:
-            args['lemma'] = _dict.get('lemma')
-        if 'part_of_speech' in _dict:
-            args['part_of_speech'] = _dict.get('part_of_speech')
+        if (lemma := _dict.get('lemma')) is not None:
+            args['lemma'] = lemma
+        if (part_of_speech := _dict.get('part_of_speech')) is not None:
+            args['part_of_speech'] = part_of_speech
         return cls(**args)
 
     @classmethod
@@ -5594,18 +5796,20 @@ class SyntaxOptionsTokens():
         return not self == other
 
 
-class SyntaxResult():
+class SyntaxResult:
     """
     Tokens and sentences returned from syntax analysis.
 
-    :attr List[TokenResult] tokens: (optional)
-    :attr List[SentenceResult] sentences: (optional)
+    :param List[TokenResult] tokens: (optional)
+    :param List[SentenceResult] sentences: (optional)
     """
 
-    def __init__(self,
-                 *,
-                 tokens: List['TokenResult'] = None,
-                 sentences: List['SentenceResult'] = None) -> None:
+    def __init__(
+        self,
+        *,
+        tokens: Optional[List['TokenResult']] = None,
+        sentences: Optional[List['SentenceResult']] = None,
+    ) -> None:
         """
         Initialize a SyntaxResult object.
 
@@ -5619,14 +5823,10 @@ class SyntaxResult():
     def from_dict(cls, _dict: Dict) -> 'SyntaxResult':
         """Initialize a SyntaxResult object from a json dictionary."""
         args = {}
-        if 'tokens' in _dict:
-            args['tokens'] = [
-                TokenResult.from_dict(v) for v in _dict.get('tokens')
-            ]
-        if 'sentences' in _dict:
-            args['sentences'] = [
-                SentenceResult.from_dict(v) for v in _dict.get('sentences')
-            ]
+        if (tokens := _dict.get('tokens')) is not None:
+            args['tokens'] = [TokenResult.from_dict(v) for v in tokens]
+        if (sentences := _dict.get('sentences')) is not None:
+            args['sentences'] = [SentenceResult.from_dict(v) for v in sentences]
         return cls(**args)
 
     @classmethod
@@ -5674,18 +5874,20 @@ class SyntaxResult():
         return not self == other
 
 
-class TargetedEmotionResults():
+class TargetedEmotionResults:
     """
     Emotion results for a specified target.
 
-    :attr str text: (optional) Targeted text.
-    :attr EmotionScores emotion: (optional) The emotion results for the target.
+    :param str text: (optional) Targeted text.
+    :param EmotionScores emotion: (optional) The emotion results for the target.
     """
 
-    def __init__(self,
-                 *,
-                 text: str = None,
-                 emotion: 'EmotionScores' = None) -> None:
+    def __init__(
+        self,
+        *,
+        text: Optional[str] = None,
+        emotion: Optional['EmotionScores'] = None,
+    ) -> None:
         """
         Initialize a TargetedEmotionResults object.
 
@@ -5700,10 +5902,10 @@ class TargetedEmotionResults():
     def from_dict(cls, _dict: Dict) -> 'TargetedEmotionResults':
         """Initialize a TargetedEmotionResults object from a json dictionary."""
         args = {}
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
-        if 'emotion' in _dict:
-            args['emotion'] = EmotionScores.from_dict(_dict.get('emotion'))
+        if (text := _dict.get('text')) is not None:
+            args['text'] = text
+        if (emotion := _dict.get('emotion')) is not None:
+            args['emotion'] = EmotionScores.from_dict(emotion)
         return cls(**args)
 
     @classmethod
@@ -5742,16 +5944,21 @@ class TargetedEmotionResults():
         return not self == other
 
 
-class TargetedSentimentResults():
+class TargetedSentimentResults:
     """
     TargetedSentimentResults.
 
-    :attr str text: (optional) Targeted text.
-    :attr float score: (optional) Sentiment score from -1 (negative) to 1
+    :param str text: (optional) Targeted text.
+    :param float score: (optional) Sentiment score from -1 (negative) to 1
           (positive).
     """
 
-    def __init__(self, *, text: str = None, score: float = None) -> None:
+    def __init__(
+        self,
+        *,
+        text: Optional[str] = None,
+        score: Optional[float] = None,
+    ) -> None:
         """
         Initialize a TargetedSentimentResults object.
 
@@ -5766,10 +5973,10 @@ class TargetedSentimentResults():
     def from_dict(cls, _dict: Dict) -> 'TargetedSentimentResults':
         """Initialize a TargetedSentimentResults object from a json dictionary."""
         args = {}
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
-        if 'score' in _dict:
-            args['score'] = _dict.get('score')
+        if (text := _dict.get('text')) is not None:
+            args['text'] = text
+        if (score := _dict.get('score')) is not None:
+            args['score'] = score
         return cls(**args)
 
     @classmethod
@@ -5805,26 +6012,28 @@ class TargetedSentimentResults():
         return not self == other
 
 
-class TokenResult():
+class TokenResult:
     """
     TokenResult.
 
-    :attr str text: (optional) The token as it appears in the analyzed text.
-    :attr str part_of_speech: (optional) The part of speech of the token. For more
+    :param str text: (optional) The token as it appears in the analyzed text.
+    :param str part_of_speech: (optional) The part of speech of the token. For more
           information about the values, see [Universal Dependencies POS
           tags](https://universaldependencies.org/u/pos/).
-    :attr List[int] location: (optional) Character offsets indicating the beginning
+    :param List[int] location: (optional) Character offsets indicating the beginning
           and end of the token in the analyzed text.
-    :attr str lemma: (optional) The
+    :param str lemma: (optional) The
           [lemma](https://wikipedia.org/wiki/Lemma_%28morphology%29) of the token.
     """
 
-    def __init__(self,
-                 *,
-                 text: str = None,
-                 part_of_speech: str = None,
-                 location: List[int] = None,
-                 lemma: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        text: Optional[str] = None,
+        part_of_speech: Optional[str] = None,
+        location: Optional[List[int]] = None,
+        lemma: Optional[str] = None,
+    ) -> None:
         """
         Initialize a TokenResult object.
 
@@ -5846,14 +6055,14 @@ class TokenResult():
     def from_dict(cls, _dict: Dict) -> 'TokenResult':
         """Initialize a TokenResult object from a json dictionary."""
         args = {}
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
-        if 'part_of_speech' in _dict:
-            args['part_of_speech'] = _dict.get('part_of_speech')
-        if 'location' in _dict:
-            args['location'] = _dict.get('location')
-        if 'lemma' in _dict:
-            args['lemma'] = _dict.get('lemma')
+        if (text := _dict.get('text')) is not None:
+            args['text'] = text
+        if (part_of_speech := _dict.get('part_of_speech')) is not None:
+            args['part_of_speech'] = part_of_speech
+        if (location := _dict.get('location')) is not None:
+            args['location'] = location
+        if (lemma := _dict.get('lemma')) is not None:
+            args['lemma'] = lemma
         return cls(**args)
 
     @classmethod
@@ -5897,6 +6106,7 @@ class TokenResult():
         The part of speech of the token. For more information about the values, see
         [Universal Dependencies POS tags](https://universaldependencies.org/u/pos/).
         """
+
         ADJ = 'ADJ'
         ADP = 'ADP'
         ADV = 'ADV'
