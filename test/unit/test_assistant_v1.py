@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2019, 2023.
+# (C) Copyright IBM Corp. 2019, 2024.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -62,8 +62,7 @@ def preprocess_url(operation_path: str):
     # Otherwise, return a regular expression that matches one or more trailing /.
     if re.fullmatch('.*/+', request_url) is None:
         return request_url
-    else:
-        return re.compile(request_url.rstrip('/') + '/+')
+    return re.compile(request_url.rstrip('/') + '/+')
 
 
 ##############################################################################
@@ -71,7 +70,8 @@ def preprocess_url(operation_path: str):
 ##############################################################################
 # region
 
-class TestMessage():
+
+class TestMessage:
     """
     Test Class for message
     """
@@ -84,11 +84,13 @@ class TestMessage():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/message')
         mock_response = '{"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"anyKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Construct a dict representation of a MessageInput model
         message_input_model = {}
@@ -164,7 +166,7 @@ class TestMessage():
         # Construct a dict representation of a Context model
         context_model = {}
         context_model['conversation_id'] = 'testString'
-        context_model['system'] = {'foo': 'bar'}
+        context_model['system'] = {'anyKey': 'anyValue'}
         context_model['metadata'] = message_context_metadata_model
         context_model['foo'] = 'testString'
 
@@ -226,14 +228,14 @@ class TestMessage():
             output=output,
             user_id=user_id,
             nodes_visited_details=nodes_visited_details,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'nodes_visited_details={}'.format('true' if nodes_visited_details else 'false') in query_string
         # Validate body params
@@ -263,11 +265,13 @@ class TestMessage():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/message')
         mock_response = '{"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"anyKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -275,7 +279,7 @@ class TestMessage():
         # Invoke method
         response = _service.message(
             workspace_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -299,11 +303,13 @@ class TestMessage():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/message')
         mock_response = '{"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"anyKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -313,7 +319,7 @@ class TestMessage():
             "workspace_id": workspace_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.message(**req_copy)
 
@@ -326,6 +332,7 @@ class TestMessage():
         _service.disable_retries()
         self.test_message_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: Message
@@ -336,7 +343,8 @@ class TestMessage():
 ##############################################################################
 # region
 
-class TestBulkClassify():
+
+class TestBulkClassify:
     """
     Test Class for bulk_classify
     """
@@ -349,11 +357,13 @@ class TestBulkClassify():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/bulk_classify')
         mock_response = '{"output": [{"input": {"text": "text"}, "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "intents": [{"intent": "intent", "confidence": 10}]}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Construct a dict representation of a BulkClassifyUtterance model
         bulk_classify_utterance_model = {}
@@ -367,7 +377,7 @@ class TestBulkClassify():
         response = _service.bulk_classify(
             workspace_id,
             input=input,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -394,11 +404,13 @@ class TestBulkClassify():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/bulk_classify')
         mock_response = '{"output": [{"input": {"text": "text"}, "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "intents": [{"intent": "intent", "confidence": 10}]}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -406,7 +418,7 @@ class TestBulkClassify():
         # Invoke method
         response = _service.bulk_classify(
             workspace_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -430,11 +442,13 @@ class TestBulkClassify():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/bulk_classify')
         mock_response = '{"output": [{"input": {"text": "text"}, "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "intents": [{"intent": "intent", "confidence": 10}]}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -444,7 +458,7 @@ class TestBulkClassify():
             "workspace_id": workspace_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.bulk_classify(**req_copy)
 
@@ -457,6 +471,7 @@ class TestBulkClassify():
         _service.disable_retries()
         self.test_bulk_classify_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: BulkClassify
@@ -467,7 +482,8 @@ class TestBulkClassify():
 ##############################################################################
 # region
 
-class TestListWorkspaces():
+
+class TestListWorkspaces:
     """
     Test Class for list_workspaces
     """
@@ -480,14 +496,16 @@ class TestListWorkspaces():
         # Set up mock
         url = preprocess_url('/v1/workspaces')
         mock_response = '{"workspaces": [{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "text", "values": [{"text": "text"}], "selection_policy": "sequential", "delimiter": "\n", "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"anyKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"anyKey": "anyValue"}}}, "metadata": {"anyKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"anyKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"anyKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}, "nlp": {"model": "model"}}, "status": "Available", "status_errors": [{"message": "message"}], "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"anyKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"anyKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "counts": {"intent": 6, "entity": 6, "node": 4}}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
-        page_limit = 38
+        page_limit = 100
         include_count = False
         sort = 'name'
         cursor = 'testString'
@@ -500,14 +518,14 @@ class TestListWorkspaces():
             sort=sort,
             cursor=cursor,
             include_audit=include_audit,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'page_limit={}'.format(page_limit) in query_string
         assert 'include_count={}'.format('true' if include_count else 'false') in query_string
@@ -532,15 +550,16 @@ class TestListWorkspaces():
         # Set up mock
         url = preprocess_url('/v1/workspaces')
         mock_response = '{"workspaces": [{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "text", "values": [{"text": "text"}], "selection_policy": "sequential", "delimiter": "\n", "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"anyKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"anyKey": "anyValue"}}}, "metadata": {"anyKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"anyKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"anyKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}, "nlp": {"model": "model"}}, "status": "Available", "status_errors": [{"message": "message"}], "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"anyKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"anyKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "counts": {"intent": 6, "entity": 6, "node": 4}}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Invoke method
         response = _service.list_workspaces()
-
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -563,17 +582,19 @@ class TestListWorkspaces():
         # Set up mock
         url = preprocess_url('/v1/workspaces')
         mock_response = '{"workspaces": [{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "text", "values": [{"text": "text"}], "selection_policy": "sequential", "delimiter": "\n", "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"anyKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"anyKey": "anyValue"}}}, "metadata": {"anyKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"anyKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"anyKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}, "nlp": {"model": "model"}}, "status": "Available", "status_errors": [{"message": "message"}], "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"anyKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"anyKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "counts": {"intent": 6, "entity": 6, "node": 4}}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Pass in all but one required param and check for a ValueError
         req_param_dict = {
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_workspaces(**req_copy)
 
@@ -586,7 +607,8 @@ class TestListWorkspaces():
         _service.disable_retries()
         self.test_list_workspaces_value_error()
 
-class TestCreateWorkspace():
+
+class TestCreateWorkspace:
     """
     Test Class for create_workspace
     """
@@ -599,11 +621,13 @@ class TestCreateWorkspace():
         # Set up mock
         url = preprocess_url('/v1/workspaces')
         mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "text", "values": [{"text": "text"}], "selection_policy": "sequential", "delimiter": "\n", "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"anyKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"anyKey": "anyValue"}}}, "metadata": {"anyKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"anyKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"anyKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}, "nlp": {"model": "model"}}, "status": "Available", "status_errors": [{"message": "message"}], "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"anyKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"anyKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "counts": {"intent": 6, "entity": 6, "node": 4}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Construct a dict representation of a DialogNodeOutputTextValuesElement model
         dialog_node_output_text_values_element_model = {}
@@ -618,7 +642,7 @@ class TestCreateWorkspace():
         dialog_node_output_generic_model['response_type'] = 'text'
         dialog_node_output_generic_model['values'] = [dialog_node_output_text_values_element_model]
         dialog_node_output_generic_model['selection_policy'] = 'sequential'
-        dialog_node_output_generic_model['delimiter'] = '\n'
+        dialog_node_output_generic_model['delimiter'] = '\\n'
         dialog_node_output_generic_model['channels'] = [response_generic_channel_model]
 
         # Construct a dict representation of a DialogNodeOutputModifiers model
@@ -628,13 +652,13 @@ class TestCreateWorkspace():
         # Construct a dict representation of a DialogNodeOutput model
         dialog_node_output_model = {}
         dialog_node_output_model['generic'] = [dialog_node_output_generic_model]
-        dialog_node_output_model['integrations'] = {'key1': {'foo': 'bar'}}
+        dialog_node_output_model['integrations'] = {'key1': {'anyKey': 'anyValue'}}
         dialog_node_output_model['modifiers'] = dialog_node_output_modifiers_model
         dialog_node_output_model['foo'] = 'testString'
 
         # Construct a dict representation of a DialogNodeContext model
         dialog_node_context_model = {}
-        dialog_node_context_model['integrations'] = {'key1': {'foo': 'bar'}}
+        dialog_node_context_model['integrations'] = {'key1': {'anyKey': 'anyValue'}}
         dialog_node_context_model['foo'] = 'testString'
 
         # Construct a dict representation of a DialogNodeNextStep model
@@ -647,7 +671,7 @@ class TestCreateWorkspace():
         dialog_node_action_model = {}
         dialog_node_action_model['name'] = 'testString'
         dialog_node_action_model['type'] = 'client'
-        dialog_node_action_model['parameters'] = {'foo': 'bar'}
+        dialog_node_action_model['parameters'] = {'anyKey': 'anyValue'}
         dialog_node_action_model['result_variable'] = 'testString'
         dialog_node_action_model['credentials'] = 'testString'
 
@@ -660,7 +684,7 @@ class TestCreateWorkspace():
         dialog_node_model['previous_sibling'] = 'testString'
         dialog_node_model['output'] = dialog_node_output_model
         dialog_node_model['context'] = dialog_node_context_model
-        dialog_node_model['metadata'] = {'foo': 'bar'}
+        dialog_node_model['metadata'] = {'anyKey': 'anyValue'}
         dialog_node_model['next_step'] = dialog_node_next_step_model
         dialog_node_model['title'] = 'testString'
         dialog_node_model['type'] = 'standard'
@@ -707,7 +731,7 @@ class TestCreateWorkspace():
         workspace_system_settings_model = {}
         workspace_system_settings_model['tooling'] = workspace_system_settings_tooling_model
         workspace_system_settings_model['disambiguation'] = workspace_system_settings_disambiguation_model
-        workspace_system_settings_model['human_agent_assist'] = {'foo': 'bar'}
+        workspace_system_settings_model['human_agent_assist'] = {'anyKey': 'anyValue'}
         workspace_system_settings_model['spelling_suggestions'] = False
         workspace_system_settings_model['spelling_auto_correct'] = False
         workspace_system_settings_model['system_entities'] = workspace_system_settings_system_entities_model
@@ -745,7 +769,7 @@ class TestCreateWorkspace():
         # Construct a dict representation of a CreateValue model
         create_value_model = {}
         create_value_model['value'] = 'testString'
-        create_value_model['metadata'] = {'foo': 'bar'}
+        create_value_model['metadata'] = {'anyKey': 'anyValue'}
         create_value_model['type'] = 'synonyms'
         create_value_model['synonyms'] = ['testString']
         create_value_model['patterns'] = ['testString']
@@ -754,7 +778,7 @@ class TestCreateWorkspace():
         create_entity_model = {}
         create_entity_model['entity'] = 'testString'
         create_entity_model['description'] = 'testString'
-        create_entity_model['metadata'] = {'foo': 'bar'}
+        create_entity_model['metadata'] = {'anyKey': 'anyValue'}
         create_entity_model['fuzzy_match'] = True
         create_entity_model['values'] = [create_value_model]
 
@@ -764,7 +788,7 @@ class TestCreateWorkspace():
         language = 'testString'
         dialog_nodes = [dialog_node_model]
         counterexamples = [counterexample_model]
-        metadata = {'foo': 'bar'}
+        metadata = {'anyKey': 'anyValue'}
         learning_opt_out = False
         system_settings = workspace_system_settings_model
         webhooks = [webhook_model]
@@ -786,14 +810,14 @@ class TestCreateWorkspace():
             intents=intents,
             entities=entities,
             include_audit=include_audit,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 201
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
         # Validate body params
@@ -803,7 +827,7 @@ class TestCreateWorkspace():
         assert req_body['language'] == 'testString'
         assert req_body['dialog_nodes'] == [dialog_node_model]
         assert req_body['counterexamples'] == [counterexample_model]
-        assert req_body['metadata'] == {'foo': 'bar'}
+        assert req_body['metadata'] == {'anyKey': 'anyValue'}
         assert req_body['learning_opt_out'] == False
         assert req_body['system_settings'] == workspace_system_settings_model
         assert req_body['webhooks'] == [webhook_model]
@@ -827,15 +851,16 @@ class TestCreateWorkspace():
         # Set up mock
         url = preprocess_url('/v1/workspaces')
         mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "text", "values": [{"text": "text"}], "selection_policy": "sequential", "delimiter": "\n", "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"anyKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"anyKey": "anyValue"}}}, "metadata": {"anyKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"anyKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"anyKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}, "nlp": {"model": "model"}}, "status": "Available", "status_errors": [{"message": "message"}], "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"anyKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"anyKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "counts": {"intent": 6, "entity": 6, "node": 4}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Invoke method
         response = _service.create_workspace()
-
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -858,17 +883,19 @@ class TestCreateWorkspace():
         # Set up mock
         url = preprocess_url('/v1/workspaces')
         mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "text", "values": [{"text": "text"}], "selection_policy": "sequential", "delimiter": "\n", "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"anyKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"anyKey": "anyValue"}}}, "metadata": {"anyKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"anyKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"anyKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}, "nlp": {"model": "model"}}, "status": "Available", "status_errors": [{"message": "message"}], "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"anyKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"anyKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "counts": {"intent": 6, "entity": 6, "node": 4}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Pass in all but one required param and check for a ValueError
         req_param_dict = {
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.create_workspace(**req_copy)
 
@@ -881,7 +908,8 @@ class TestCreateWorkspace():
         _service.disable_retries()
         self.test_create_workspace_value_error()
 
-class TestGetWorkspace():
+
+class TestGetWorkspace:
     """
     Test Class for get_workspace
     """
@@ -894,11 +922,13 @@ class TestGetWorkspace():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString')
         mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "text", "values": [{"text": "text"}], "selection_policy": "sequential", "delimiter": "\n", "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"anyKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"anyKey": "anyValue"}}}, "metadata": {"anyKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"anyKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"anyKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}, "nlp": {"model": "model"}}, "status": "Available", "status_errors": [{"message": "message"}], "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"anyKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"anyKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "counts": {"intent": 6, "entity": 6, "node": 4}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -912,14 +942,14 @@ class TestGetWorkspace():
             export=export,
             include_audit=include_audit,
             sort=sort,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'export={}'.format('true' if export else 'false') in query_string
         assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
@@ -942,11 +972,13 @@ class TestGetWorkspace():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString')
         mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "text", "values": [{"text": "text"}], "selection_policy": "sequential", "delimiter": "\n", "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"anyKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"anyKey": "anyValue"}}}, "metadata": {"anyKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"anyKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"anyKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}, "nlp": {"model": "model"}}, "status": "Available", "status_errors": [{"message": "message"}], "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"anyKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"anyKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "counts": {"intent": 6, "entity": 6, "node": 4}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -954,7 +986,7 @@ class TestGetWorkspace():
         # Invoke method
         response = _service.get_workspace(
             workspace_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -978,11 +1010,13 @@ class TestGetWorkspace():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString')
         mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "text", "values": [{"text": "text"}], "selection_policy": "sequential", "delimiter": "\n", "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"anyKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"anyKey": "anyValue"}}}, "metadata": {"anyKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"anyKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"anyKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}, "nlp": {"model": "model"}}, "status": "Available", "status_errors": [{"message": "message"}], "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"anyKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"anyKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "counts": {"intent": 6, "entity": 6, "node": 4}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -992,7 +1026,7 @@ class TestGetWorkspace():
             "workspace_id": workspace_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_workspace(**req_copy)
 
@@ -1005,7 +1039,8 @@ class TestGetWorkspace():
         _service.disable_retries()
         self.test_get_workspace_value_error()
 
-class TestUpdateWorkspace():
+
+class TestUpdateWorkspace:
     """
     Test Class for update_workspace
     """
@@ -1018,11 +1053,13 @@ class TestUpdateWorkspace():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString')
         mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "text", "values": [{"text": "text"}], "selection_policy": "sequential", "delimiter": "\n", "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"anyKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"anyKey": "anyValue"}}}, "metadata": {"anyKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"anyKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"anyKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}, "nlp": {"model": "model"}}, "status": "Available", "status_errors": [{"message": "message"}], "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"anyKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"anyKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "counts": {"intent": 6, "entity": 6, "node": 4}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Construct a dict representation of a DialogNodeOutputTextValuesElement model
         dialog_node_output_text_values_element_model = {}
@@ -1037,7 +1074,7 @@ class TestUpdateWorkspace():
         dialog_node_output_generic_model['response_type'] = 'text'
         dialog_node_output_generic_model['values'] = [dialog_node_output_text_values_element_model]
         dialog_node_output_generic_model['selection_policy'] = 'sequential'
-        dialog_node_output_generic_model['delimiter'] = '\n'
+        dialog_node_output_generic_model['delimiter'] = '\\n'
         dialog_node_output_generic_model['channels'] = [response_generic_channel_model]
 
         # Construct a dict representation of a DialogNodeOutputModifiers model
@@ -1047,13 +1084,13 @@ class TestUpdateWorkspace():
         # Construct a dict representation of a DialogNodeOutput model
         dialog_node_output_model = {}
         dialog_node_output_model['generic'] = [dialog_node_output_generic_model]
-        dialog_node_output_model['integrations'] = {'key1': {'foo': 'bar'}}
+        dialog_node_output_model['integrations'] = {'key1': {'anyKey': 'anyValue'}}
         dialog_node_output_model['modifiers'] = dialog_node_output_modifiers_model
         dialog_node_output_model['foo'] = 'testString'
 
         # Construct a dict representation of a DialogNodeContext model
         dialog_node_context_model = {}
-        dialog_node_context_model['integrations'] = {'key1': {'foo': 'bar'}}
+        dialog_node_context_model['integrations'] = {'key1': {'anyKey': 'anyValue'}}
         dialog_node_context_model['foo'] = 'testString'
 
         # Construct a dict representation of a DialogNodeNextStep model
@@ -1066,7 +1103,7 @@ class TestUpdateWorkspace():
         dialog_node_action_model = {}
         dialog_node_action_model['name'] = 'testString'
         dialog_node_action_model['type'] = 'client'
-        dialog_node_action_model['parameters'] = {'foo': 'bar'}
+        dialog_node_action_model['parameters'] = {'anyKey': 'anyValue'}
         dialog_node_action_model['result_variable'] = 'testString'
         dialog_node_action_model['credentials'] = 'testString'
 
@@ -1079,7 +1116,7 @@ class TestUpdateWorkspace():
         dialog_node_model['previous_sibling'] = 'testString'
         dialog_node_model['output'] = dialog_node_output_model
         dialog_node_model['context'] = dialog_node_context_model
-        dialog_node_model['metadata'] = {'foo': 'bar'}
+        dialog_node_model['metadata'] = {'anyKey': 'anyValue'}
         dialog_node_model['next_step'] = dialog_node_next_step_model
         dialog_node_model['title'] = 'testString'
         dialog_node_model['type'] = 'standard'
@@ -1126,7 +1163,7 @@ class TestUpdateWorkspace():
         workspace_system_settings_model = {}
         workspace_system_settings_model['tooling'] = workspace_system_settings_tooling_model
         workspace_system_settings_model['disambiguation'] = workspace_system_settings_disambiguation_model
-        workspace_system_settings_model['human_agent_assist'] = {'foo': 'bar'}
+        workspace_system_settings_model['human_agent_assist'] = {'anyKey': 'anyValue'}
         workspace_system_settings_model['spelling_suggestions'] = False
         workspace_system_settings_model['spelling_auto_correct'] = False
         workspace_system_settings_model['system_entities'] = workspace_system_settings_system_entities_model
@@ -1164,7 +1201,7 @@ class TestUpdateWorkspace():
         # Construct a dict representation of a CreateValue model
         create_value_model = {}
         create_value_model['value'] = 'testString'
-        create_value_model['metadata'] = {'foo': 'bar'}
+        create_value_model['metadata'] = {'anyKey': 'anyValue'}
         create_value_model['type'] = 'synonyms'
         create_value_model['synonyms'] = ['testString']
         create_value_model['patterns'] = ['testString']
@@ -1173,7 +1210,7 @@ class TestUpdateWorkspace():
         create_entity_model = {}
         create_entity_model['entity'] = 'testString'
         create_entity_model['description'] = 'testString'
-        create_entity_model['metadata'] = {'foo': 'bar'}
+        create_entity_model['metadata'] = {'anyKey': 'anyValue'}
         create_entity_model['fuzzy_match'] = True
         create_entity_model['values'] = [create_value_model]
 
@@ -1184,7 +1221,7 @@ class TestUpdateWorkspace():
         language = 'testString'
         dialog_nodes = [dialog_node_model]
         counterexamples = [counterexample_model]
-        metadata = {'foo': 'bar'}
+        metadata = {'anyKey': 'anyValue'}
         learning_opt_out = False
         system_settings = workspace_system_settings_model
         webhooks = [webhook_model]
@@ -1209,14 +1246,14 @@ class TestUpdateWorkspace():
             entities=entities,
             append=append,
             include_audit=include_audit,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'append={}'.format('true' if append else 'false') in query_string
         assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
@@ -1227,7 +1264,7 @@ class TestUpdateWorkspace():
         assert req_body['language'] == 'testString'
         assert req_body['dialog_nodes'] == [dialog_node_model]
         assert req_body['counterexamples'] == [counterexample_model]
-        assert req_body['metadata'] == {'foo': 'bar'}
+        assert req_body['metadata'] == {'anyKey': 'anyValue'}
         assert req_body['learning_opt_out'] == False
         assert req_body['system_settings'] == workspace_system_settings_model
         assert req_body['webhooks'] == [webhook_model]
@@ -1251,11 +1288,13 @@ class TestUpdateWorkspace():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString')
         mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "text", "values": [{"text": "text"}], "selection_policy": "sequential", "delimiter": "\n", "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"anyKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"anyKey": "anyValue"}}}, "metadata": {"anyKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"anyKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"anyKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}, "nlp": {"model": "model"}}, "status": "Available", "status_errors": [{"message": "message"}], "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"anyKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"anyKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "counts": {"intent": 6, "entity": 6, "node": 4}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -1263,7 +1302,7 @@ class TestUpdateWorkspace():
         # Invoke method
         response = _service.update_workspace(
             workspace_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1287,11 +1326,13 @@ class TestUpdateWorkspace():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString')
         mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "text", "values": [{"text": "text"}], "selection_policy": "sequential", "delimiter": "\n", "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"anyKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"anyKey": "anyValue"}}}, "metadata": {"anyKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"anyKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"anyKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}, "nlp": {"model": "model"}}, "status": "Available", "status_errors": [{"message": "message"}], "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"anyKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"anyKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "counts": {"intent": 6, "entity": 6, "node": 4}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -1301,7 +1342,7 @@ class TestUpdateWorkspace():
             "workspace_id": workspace_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.update_workspace(**req_copy)
 
@@ -1314,7 +1355,8 @@ class TestUpdateWorkspace():
         _service.disable_retries()
         self.test_update_workspace_value_error()
 
-class TestDeleteWorkspace():
+
+class TestDeleteWorkspace:
     """
     Test Class for delete_workspace
     """
@@ -1326,9 +1368,11 @@ class TestDeleteWorkspace():
         """
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=200)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -1336,7 +1380,7 @@ class TestDeleteWorkspace():
         # Invoke method
         response = _service.delete_workspace(
             workspace_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1359,9 +1403,11 @@ class TestDeleteWorkspace():
         """
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=200)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -1371,7 +1417,7 @@ class TestDeleteWorkspace():
             "workspace_id": workspace_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_workspace(**req_copy)
 
@@ -1384,7 +1430,8 @@ class TestDeleteWorkspace():
         _service.disable_retries()
         self.test_delete_workspace_value_error()
 
-class TestCreateWorkspaceAsync():
+
+class TestCreateWorkspaceAsync:
     """
     Test Class for create_workspace_async
     """
@@ -1397,11 +1444,13 @@ class TestCreateWorkspaceAsync():
         # Set up mock
         url = preprocess_url('/v1/workspaces_async')
         mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "text", "values": [{"text": "text"}], "selection_policy": "sequential", "delimiter": "\n", "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"anyKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"anyKey": "anyValue"}}}, "metadata": {"anyKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"anyKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"anyKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}, "nlp": {"model": "model"}}, "status": "Available", "status_errors": [{"message": "message"}], "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"anyKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"anyKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "counts": {"intent": 6, "entity": 6, "node": 4}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=202)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=202,
+        )
 
         # Construct a dict representation of a DialogNodeOutputTextValuesElement model
         dialog_node_output_text_values_element_model = {}
@@ -1416,7 +1465,7 @@ class TestCreateWorkspaceAsync():
         dialog_node_output_generic_model['response_type'] = 'text'
         dialog_node_output_generic_model['values'] = [dialog_node_output_text_values_element_model]
         dialog_node_output_generic_model['selection_policy'] = 'sequential'
-        dialog_node_output_generic_model['delimiter'] = '\n'
+        dialog_node_output_generic_model['delimiter'] = '\\n'
         dialog_node_output_generic_model['channels'] = [response_generic_channel_model]
 
         # Construct a dict representation of a DialogNodeOutputModifiers model
@@ -1426,13 +1475,13 @@ class TestCreateWorkspaceAsync():
         # Construct a dict representation of a DialogNodeOutput model
         dialog_node_output_model = {}
         dialog_node_output_model['generic'] = [dialog_node_output_generic_model]
-        dialog_node_output_model['integrations'] = {'key1': {'foo': 'bar'}}
+        dialog_node_output_model['integrations'] = {'key1': {'anyKey': 'anyValue'}}
         dialog_node_output_model['modifiers'] = dialog_node_output_modifiers_model
         dialog_node_output_model['foo'] = 'testString'
 
         # Construct a dict representation of a DialogNodeContext model
         dialog_node_context_model = {}
-        dialog_node_context_model['integrations'] = {'key1': {'foo': 'bar'}}
+        dialog_node_context_model['integrations'] = {'key1': {'anyKey': 'anyValue'}}
         dialog_node_context_model['foo'] = 'testString'
 
         # Construct a dict representation of a DialogNodeNextStep model
@@ -1445,7 +1494,7 @@ class TestCreateWorkspaceAsync():
         dialog_node_action_model = {}
         dialog_node_action_model['name'] = 'testString'
         dialog_node_action_model['type'] = 'client'
-        dialog_node_action_model['parameters'] = {'foo': 'bar'}
+        dialog_node_action_model['parameters'] = {'anyKey': 'anyValue'}
         dialog_node_action_model['result_variable'] = 'testString'
         dialog_node_action_model['credentials'] = 'testString'
 
@@ -1458,7 +1507,7 @@ class TestCreateWorkspaceAsync():
         dialog_node_model['previous_sibling'] = 'testString'
         dialog_node_model['output'] = dialog_node_output_model
         dialog_node_model['context'] = dialog_node_context_model
-        dialog_node_model['metadata'] = {'foo': 'bar'}
+        dialog_node_model['metadata'] = {'anyKey': 'anyValue'}
         dialog_node_model['next_step'] = dialog_node_next_step_model
         dialog_node_model['title'] = 'testString'
         dialog_node_model['type'] = 'standard'
@@ -1505,7 +1554,7 @@ class TestCreateWorkspaceAsync():
         workspace_system_settings_model = {}
         workspace_system_settings_model['tooling'] = workspace_system_settings_tooling_model
         workspace_system_settings_model['disambiguation'] = workspace_system_settings_disambiguation_model
-        workspace_system_settings_model['human_agent_assist'] = {'foo': 'bar'}
+        workspace_system_settings_model['human_agent_assist'] = {'anyKey': 'anyValue'}
         workspace_system_settings_model['spelling_suggestions'] = False
         workspace_system_settings_model['spelling_auto_correct'] = False
         workspace_system_settings_model['system_entities'] = workspace_system_settings_system_entities_model
@@ -1543,7 +1592,7 @@ class TestCreateWorkspaceAsync():
         # Construct a dict representation of a CreateValue model
         create_value_model = {}
         create_value_model['value'] = 'testString'
-        create_value_model['metadata'] = {'foo': 'bar'}
+        create_value_model['metadata'] = {'anyKey': 'anyValue'}
         create_value_model['type'] = 'synonyms'
         create_value_model['synonyms'] = ['testString']
         create_value_model['patterns'] = ['testString']
@@ -1552,7 +1601,7 @@ class TestCreateWorkspaceAsync():
         create_entity_model = {}
         create_entity_model['entity'] = 'testString'
         create_entity_model['description'] = 'testString'
-        create_entity_model['metadata'] = {'foo': 'bar'}
+        create_entity_model['metadata'] = {'anyKey': 'anyValue'}
         create_entity_model['fuzzy_match'] = True
         create_entity_model['values'] = [create_value_model]
 
@@ -1562,7 +1611,7 @@ class TestCreateWorkspaceAsync():
         language = 'testString'
         dialog_nodes = [dialog_node_model]
         counterexamples = [counterexample_model]
-        metadata = {'foo': 'bar'}
+        metadata = {'anyKey': 'anyValue'}
         learning_opt_out = False
         system_settings = workspace_system_settings_model
         webhooks = [webhook_model]
@@ -1582,7 +1631,7 @@ class TestCreateWorkspaceAsync():
             webhooks=webhooks,
             intents=intents,
             entities=entities,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1595,7 +1644,7 @@ class TestCreateWorkspaceAsync():
         assert req_body['language'] == 'testString'
         assert req_body['dialog_nodes'] == [dialog_node_model]
         assert req_body['counterexamples'] == [counterexample_model]
-        assert req_body['metadata'] == {'foo': 'bar'}
+        assert req_body['metadata'] == {'anyKey': 'anyValue'}
         assert req_body['learning_opt_out'] == False
         assert req_body['system_settings'] == workspace_system_settings_model
         assert req_body['webhooks'] == [webhook_model]
@@ -1619,15 +1668,16 @@ class TestCreateWorkspaceAsync():
         # Set up mock
         url = preprocess_url('/v1/workspaces_async')
         mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "text", "values": [{"text": "text"}], "selection_policy": "sequential", "delimiter": "\n", "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"anyKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"anyKey": "anyValue"}}}, "metadata": {"anyKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"anyKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"anyKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}, "nlp": {"model": "model"}}, "status": "Available", "status_errors": [{"message": "message"}], "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"anyKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"anyKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "counts": {"intent": 6, "entity": 6, "node": 4}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=202)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=202,
+        )
 
         # Invoke method
         response = _service.create_workspace_async()
-
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -1650,17 +1700,19 @@ class TestCreateWorkspaceAsync():
         # Set up mock
         url = preprocess_url('/v1/workspaces_async')
         mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "text", "values": [{"text": "text"}], "selection_policy": "sequential", "delimiter": "\n", "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"anyKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"anyKey": "anyValue"}}}, "metadata": {"anyKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"anyKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"anyKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}, "nlp": {"model": "model"}}, "status": "Available", "status_errors": [{"message": "message"}], "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"anyKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"anyKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "counts": {"intent": 6, "entity": 6, "node": 4}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=202)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=202,
+        )
 
         # Pass in all but one required param and check for a ValueError
         req_param_dict = {
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.create_workspace_async(**req_copy)
 
@@ -1673,7 +1725,8 @@ class TestCreateWorkspaceAsync():
         _service.disable_retries()
         self.test_create_workspace_async_value_error()
 
-class TestUpdateWorkspaceAsync():
+
+class TestUpdateWorkspaceAsync:
     """
     Test Class for update_workspace_async
     """
@@ -1686,11 +1739,13 @@ class TestUpdateWorkspaceAsync():
         # Set up mock
         url = preprocess_url('/v1/workspaces_async/testString')
         mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "text", "values": [{"text": "text"}], "selection_policy": "sequential", "delimiter": "\n", "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"anyKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"anyKey": "anyValue"}}}, "metadata": {"anyKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"anyKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"anyKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}, "nlp": {"model": "model"}}, "status": "Available", "status_errors": [{"message": "message"}], "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"anyKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"anyKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "counts": {"intent": 6, "entity": 6, "node": 4}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=202)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=202,
+        )
 
         # Construct a dict representation of a DialogNodeOutputTextValuesElement model
         dialog_node_output_text_values_element_model = {}
@@ -1705,7 +1760,7 @@ class TestUpdateWorkspaceAsync():
         dialog_node_output_generic_model['response_type'] = 'text'
         dialog_node_output_generic_model['values'] = [dialog_node_output_text_values_element_model]
         dialog_node_output_generic_model['selection_policy'] = 'sequential'
-        dialog_node_output_generic_model['delimiter'] = '\n'
+        dialog_node_output_generic_model['delimiter'] = '\\n'
         dialog_node_output_generic_model['channels'] = [response_generic_channel_model]
 
         # Construct a dict representation of a DialogNodeOutputModifiers model
@@ -1715,13 +1770,13 @@ class TestUpdateWorkspaceAsync():
         # Construct a dict representation of a DialogNodeOutput model
         dialog_node_output_model = {}
         dialog_node_output_model['generic'] = [dialog_node_output_generic_model]
-        dialog_node_output_model['integrations'] = {'key1': {'foo': 'bar'}}
+        dialog_node_output_model['integrations'] = {'key1': {'anyKey': 'anyValue'}}
         dialog_node_output_model['modifiers'] = dialog_node_output_modifiers_model
         dialog_node_output_model['foo'] = 'testString'
 
         # Construct a dict representation of a DialogNodeContext model
         dialog_node_context_model = {}
-        dialog_node_context_model['integrations'] = {'key1': {'foo': 'bar'}}
+        dialog_node_context_model['integrations'] = {'key1': {'anyKey': 'anyValue'}}
         dialog_node_context_model['foo'] = 'testString'
 
         # Construct a dict representation of a DialogNodeNextStep model
@@ -1734,7 +1789,7 @@ class TestUpdateWorkspaceAsync():
         dialog_node_action_model = {}
         dialog_node_action_model['name'] = 'testString'
         dialog_node_action_model['type'] = 'client'
-        dialog_node_action_model['parameters'] = {'foo': 'bar'}
+        dialog_node_action_model['parameters'] = {'anyKey': 'anyValue'}
         dialog_node_action_model['result_variable'] = 'testString'
         dialog_node_action_model['credentials'] = 'testString'
 
@@ -1747,7 +1802,7 @@ class TestUpdateWorkspaceAsync():
         dialog_node_model['previous_sibling'] = 'testString'
         dialog_node_model['output'] = dialog_node_output_model
         dialog_node_model['context'] = dialog_node_context_model
-        dialog_node_model['metadata'] = {'foo': 'bar'}
+        dialog_node_model['metadata'] = {'anyKey': 'anyValue'}
         dialog_node_model['next_step'] = dialog_node_next_step_model
         dialog_node_model['title'] = 'testString'
         dialog_node_model['type'] = 'standard'
@@ -1794,7 +1849,7 @@ class TestUpdateWorkspaceAsync():
         workspace_system_settings_model = {}
         workspace_system_settings_model['tooling'] = workspace_system_settings_tooling_model
         workspace_system_settings_model['disambiguation'] = workspace_system_settings_disambiguation_model
-        workspace_system_settings_model['human_agent_assist'] = {'foo': 'bar'}
+        workspace_system_settings_model['human_agent_assist'] = {'anyKey': 'anyValue'}
         workspace_system_settings_model['spelling_suggestions'] = False
         workspace_system_settings_model['spelling_auto_correct'] = False
         workspace_system_settings_model['system_entities'] = workspace_system_settings_system_entities_model
@@ -1832,7 +1887,7 @@ class TestUpdateWorkspaceAsync():
         # Construct a dict representation of a CreateValue model
         create_value_model = {}
         create_value_model['value'] = 'testString'
-        create_value_model['metadata'] = {'foo': 'bar'}
+        create_value_model['metadata'] = {'anyKey': 'anyValue'}
         create_value_model['type'] = 'synonyms'
         create_value_model['synonyms'] = ['testString']
         create_value_model['patterns'] = ['testString']
@@ -1841,7 +1896,7 @@ class TestUpdateWorkspaceAsync():
         create_entity_model = {}
         create_entity_model['entity'] = 'testString'
         create_entity_model['description'] = 'testString'
-        create_entity_model['metadata'] = {'foo': 'bar'}
+        create_entity_model['metadata'] = {'anyKey': 'anyValue'}
         create_entity_model['fuzzy_match'] = True
         create_entity_model['values'] = [create_value_model]
 
@@ -1852,7 +1907,7 @@ class TestUpdateWorkspaceAsync():
         language = 'testString'
         dialog_nodes = [dialog_node_model]
         counterexamples = [counterexample_model]
-        metadata = {'foo': 'bar'}
+        metadata = {'anyKey': 'anyValue'}
         learning_opt_out = False
         system_settings = workspace_system_settings_model
         webhooks = [webhook_model]
@@ -1875,14 +1930,14 @@ class TestUpdateWorkspaceAsync():
             intents=intents,
             entities=entities,
             append=append,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 202
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'append={}'.format('true' if append else 'false') in query_string
         # Validate body params
@@ -1892,7 +1947,7 @@ class TestUpdateWorkspaceAsync():
         assert req_body['language'] == 'testString'
         assert req_body['dialog_nodes'] == [dialog_node_model]
         assert req_body['counterexamples'] == [counterexample_model]
-        assert req_body['metadata'] == {'foo': 'bar'}
+        assert req_body['metadata'] == {'anyKey': 'anyValue'}
         assert req_body['learning_opt_out'] == False
         assert req_body['system_settings'] == workspace_system_settings_model
         assert req_body['webhooks'] == [webhook_model]
@@ -1916,11 +1971,13 @@ class TestUpdateWorkspaceAsync():
         # Set up mock
         url = preprocess_url('/v1/workspaces_async/testString')
         mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "text", "values": [{"text": "text"}], "selection_policy": "sequential", "delimiter": "\n", "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"anyKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"anyKey": "anyValue"}}}, "metadata": {"anyKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"anyKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"anyKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}, "nlp": {"model": "model"}}, "status": "Available", "status_errors": [{"message": "message"}], "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"anyKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"anyKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "counts": {"intent": 6, "entity": 6, "node": 4}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=202)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=202,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -1928,7 +1985,7 @@ class TestUpdateWorkspaceAsync():
         # Invoke method
         response = _service.update_workspace_async(
             workspace_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1952,11 +2009,13 @@ class TestUpdateWorkspaceAsync():
         # Set up mock
         url = preprocess_url('/v1/workspaces_async/testString')
         mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "text", "values": [{"text": "text"}], "selection_policy": "sequential", "delimiter": "\n", "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"anyKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"anyKey": "anyValue"}}}, "metadata": {"anyKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"anyKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"anyKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}, "nlp": {"model": "model"}}, "status": "Available", "status_errors": [{"message": "message"}], "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"anyKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"anyKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "counts": {"intent": 6, "entity": 6, "node": 4}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=202)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=202,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -1966,7 +2025,7 @@ class TestUpdateWorkspaceAsync():
             "workspace_id": workspace_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.update_workspace_async(**req_copy)
 
@@ -1979,7 +2038,8 @@ class TestUpdateWorkspaceAsync():
         _service.disable_retries()
         self.test_update_workspace_async_value_error()
 
-class TestExportWorkspaceAsync():
+
+class TestExportWorkspaceAsync:
     """
     Test Class for export_workspace_async
     """
@@ -1992,11 +2052,13 @@ class TestExportWorkspaceAsync():
         # Set up mock
         url = preprocess_url('/v1/workspaces_async/testString/export')
         mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "text", "values": [{"text": "text"}], "selection_policy": "sequential", "delimiter": "\n", "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"anyKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"anyKey": "anyValue"}}}, "metadata": {"anyKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"anyKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"anyKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}, "nlp": {"model": "model"}}, "status": "Available", "status_errors": [{"message": "message"}], "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"anyKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"anyKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "counts": {"intent": 6, "entity": 6, "node": 4}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -2010,14 +2072,14 @@ class TestExportWorkspaceAsync():
             include_audit=include_audit,
             sort=sort,
             verbose=verbose,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
         assert 'sort={}'.format(sort) in query_string
@@ -2040,11 +2102,13 @@ class TestExportWorkspaceAsync():
         # Set up mock
         url = preprocess_url('/v1/workspaces_async/testString/export')
         mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "text", "values": [{"text": "text"}], "selection_policy": "sequential", "delimiter": "\n", "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"anyKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"anyKey": "anyValue"}}}, "metadata": {"anyKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"anyKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"anyKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}, "nlp": {"model": "model"}}, "status": "Available", "status_errors": [{"message": "message"}], "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"anyKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"anyKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "counts": {"intent": 6, "entity": 6, "node": 4}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -2052,7 +2116,7 @@ class TestExportWorkspaceAsync():
         # Invoke method
         response = _service.export_workspace_async(
             workspace_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -2076,11 +2140,13 @@ class TestExportWorkspaceAsync():
         # Set up mock
         url = preprocess_url('/v1/workspaces_async/testString/export')
         mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "text", "values": [{"text": "text"}], "selection_policy": "sequential", "delimiter": "\n", "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"anyKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"anyKey": "anyValue"}}}, "metadata": {"anyKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"anyKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"anyKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}, "nlp": {"model": "model"}}, "status": "Available", "status_errors": [{"message": "message"}], "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"anyKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"anyKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "counts": {"intent": 6, "entity": 6, "node": 4}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -2090,7 +2156,7 @@ class TestExportWorkspaceAsync():
             "workspace_id": workspace_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.export_workspace_async(**req_copy)
 
@@ -2103,6 +2169,7 @@ class TestExportWorkspaceAsync():
         _service.disable_retries()
         self.test_export_workspace_async_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: Workspaces
@@ -2113,7 +2180,8 @@ class TestExportWorkspaceAsync():
 ##############################################################################
 # region
 
-class TestListIntents():
+
+class TestListIntents:
     """
     Test Class for list_intents
     """
@@ -2126,16 +2194,18 @@ class TestListIntents():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/intents')
         mock_response = '{"intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
         export = False
-        page_limit = 38
+        page_limit = 100
         include_count = False
         sort = 'intent'
         cursor = 'testString'
@@ -2150,14 +2220,14 @@ class TestListIntents():
             sort=sort,
             cursor=cursor,
             include_audit=include_audit,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'export={}'.format('true' if export else 'false') in query_string
         assert 'page_limit={}'.format(page_limit) in query_string
@@ -2183,11 +2253,13 @@ class TestListIntents():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/intents')
         mock_response = '{"intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -2195,7 +2267,7 @@ class TestListIntents():
         # Invoke method
         response = _service.list_intents(
             workspace_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -2219,11 +2291,13 @@ class TestListIntents():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/intents')
         mock_response = '{"intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -2233,7 +2307,7 @@ class TestListIntents():
             "workspace_id": workspace_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_intents(**req_copy)
 
@@ -2246,7 +2320,8 @@ class TestListIntents():
         _service.disable_retries()
         self.test_list_intents_value_error()
 
-class TestCreateIntent():
+
+class TestCreateIntent:
     """
     Test Class for create_intent
     """
@@ -2259,11 +2334,13 @@ class TestCreateIntent():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/intents')
         mock_response = '{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Construct a dict representation of a Mention model
         mention_model = {}
@@ -2289,14 +2366,14 @@ class TestCreateIntent():
             description=description,
             examples=examples,
             include_audit=include_audit,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 201
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
         # Validate body params
@@ -2322,11 +2399,13 @@ class TestCreateIntent():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/intents')
         mock_response = '{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Construct a dict representation of a Mention model
         mention_model = {}
@@ -2350,7 +2429,7 @@ class TestCreateIntent():
             intent,
             description=description,
             examples=examples,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -2379,11 +2458,13 @@ class TestCreateIntent():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/intents')
         mock_response = '{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Construct a dict representation of a Mention model
         mention_model = {}
@@ -2407,7 +2488,7 @@ class TestCreateIntent():
             "intent": intent,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.create_intent(**req_copy)
 
@@ -2420,7 +2501,8 @@ class TestCreateIntent():
         _service.disable_retries()
         self.test_create_intent_value_error()
 
-class TestGetIntent():
+
+class TestGetIntent:
     """
     Test Class for get_intent
     """
@@ -2433,11 +2515,13 @@ class TestGetIntent():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/intents/testString')
         mock_response = '{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -2451,14 +2535,14 @@ class TestGetIntent():
             intent,
             export=export,
             include_audit=include_audit,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'export={}'.format('true' if export else 'false') in query_string
         assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
@@ -2480,11 +2564,13 @@ class TestGetIntent():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/intents/testString')
         mock_response = '{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -2494,7 +2580,7 @@ class TestGetIntent():
         response = _service.get_intent(
             workspace_id,
             intent,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -2518,11 +2604,13 @@ class TestGetIntent():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/intents/testString')
         mock_response = '{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -2534,7 +2622,7 @@ class TestGetIntent():
             "intent": intent,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_intent(**req_copy)
 
@@ -2547,7 +2635,8 @@ class TestGetIntent():
         _service.disable_retries()
         self.test_get_intent_value_error()
 
-class TestUpdateIntent():
+
+class TestUpdateIntent:
     """
     Test Class for update_intent
     """
@@ -2560,11 +2649,13 @@ class TestUpdateIntent():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/intents/testString')
         mock_response = '{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Construct a dict representation of a Mention model
         mention_model = {}
@@ -2594,14 +2685,14 @@ class TestUpdateIntent():
             new_examples=new_examples,
             append=append,
             include_audit=include_audit,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'append={}'.format('true' if append else 'false') in query_string
         assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
@@ -2628,11 +2719,13 @@ class TestUpdateIntent():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/intents/testString')
         mock_response = '{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Construct a dict representation of a Mention model
         mention_model = {}
@@ -2658,7 +2751,7 @@ class TestUpdateIntent():
             new_intent=new_intent,
             new_description=new_description,
             new_examples=new_examples,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -2687,11 +2780,13 @@ class TestUpdateIntent():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/intents/testString')
         mock_response = '{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Construct a dict representation of a Mention model
         mention_model = {}
@@ -2716,7 +2811,7 @@ class TestUpdateIntent():
             "intent": intent,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.update_intent(**req_copy)
 
@@ -2729,7 +2824,8 @@ class TestUpdateIntent():
         _service.disable_retries()
         self.test_update_intent_value_error()
 
-class TestDeleteIntent():
+
+class TestDeleteIntent:
     """
     Test Class for delete_intent
     """
@@ -2741,9 +2837,11 @@ class TestDeleteIntent():
         """
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/intents/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=200)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -2753,7 +2851,7 @@ class TestDeleteIntent():
         response = _service.delete_intent(
             workspace_id,
             intent,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -2776,9 +2874,11 @@ class TestDeleteIntent():
         """
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/intents/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=200)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -2790,7 +2890,7 @@ class TestDeleteIntent():
             "intent": intent,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_intent(**req_copy)
 
@@ -2803,6 +2903,7 @@ class TestDeleteIntent():
         _service.disable_retries()
         self.test_delete_intent_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: Intents
@@ -2813,7 +2914,8 @@ class TestDeleteIntent():
 ##############################################################################
 # region
 
-class TestListExamples():
+
+class TestListExamples:
     """
     Test Class for list_examples
     """
@@ -2826,16 +2928,18 @@ class TestListExamples():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/intents/testString/examples')
         mock_response = '{"examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
         intent = 'testString'
-        page_limit = 38
+        page_limit = 100
         include_count = False
         sort = 'text'
         cursor = 'testString'
@@ -2850,14 +2954,14 @@ class TestListExamples():
             sort=sort,
             cursor=cursor,
             include_audit=include_audit,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'page_limit={}'.format(page_limit) in query_string
         assert 'include_count={}'.format('true' if include_count else 'false') in query_string
@@ -2882,11 +2986,13 @@ class TestListExamples():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/intents/testString/examples')
         mock_response = '{"examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -2896,7 +3002,7 @@ class TestListExamples():
         response = _service.list_examples(
             workspace_id,
             intent,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -2920,11 +3026,13 @@ class TestListExamples():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/intents/testString/examples')
         mock_response = '{"examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -2936,7 +3044,7 @@ class TestListExamples():
             "intent": intent,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_examples(**req_copy)
 
@@ -2949,7 +3057,8 @@ class TestListExamples():
         _service.disable_retries()
         self.test_list_examples_value_error()
 
-class TestCreateExample():
+
+class TestCreateExample:
     """
     Test Class for create_example
     """
@@ -2962,11 +3071,13 @@ class TestCreateExample():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/intents/testString/examples')
         mock_response = '{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Construct a dict representation of a Mention model
         mention_model = {}
@@ -2987,14 +3098,14 @@ class TestCreateExample():
             text,
             mentions=mentions,
             include_audit=include_audit,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 201
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
         # Validate body params
@@ -3019,11 +3130,13 @@ class TestCreateExample():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/intents/testString/examples')
         mock_response = '{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Construct a dict representation of a Mention model
         mention_model = {}
@@ -3042,7 +3155,7 @@ class TestCreateExample():
             intent,
             text,
             mentions=mentions,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -3070,11 +3183,13 @@ class TestCreateExample():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/intents/testString/examples')
         mock_response = '{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Construct a dict representation of a Mention model
         mention_model = {}
@@ -3094,7 +3209,7 @@ class TestCreateExample():
             "text": text,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.create_example(**req_copy)
 
@@ -3107,7 +3222,8 @@ class TestCreateExample():
         _service.disable_retries()
         self.test_create_example_value_error()
 
-class TestGetExample():
+
+class TestGetExample:
     """
     Test Class for get_example
     """
@@ -3120,11 +3236,13 @@ class TestGetExample():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/intents/testString/examples/testString')
         mock_response = '{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -3138,14 +3256,14 @@ class TestGetExample():
             intent,
             text,
             include_audit=include_audit,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
 
@@ -3166,11 +3284,13 @@ class TestGetExample():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/intents/testString/examples/testString')
         mock_response = '{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -3182,7 +3302,7 @@ class TestGetExample():
             workspace_id,
             intent,
             text,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -3206,11 +3326,13 @@ class TestGetExample():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/intents/testString/examples/testString')
         mock_response = '{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -3224,7 +3346,7 @@ class TestGetExample():
             "text": text,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_example(**req_copy)
 
@@ -3237,7 +3359,8 @@ class TestGetExample():
         _service.disable_retries()
         self.test_get_example_value_error()
 
-class TestUpdateExample():
+
+class TestUpdateExample:
     """
     Test Class for update_example
     """
@@ -3250,11 +3373,13 @@ class TestUpdateExample():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/intents/testString/examples/testString')
         mock_response = '{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Construct a dict representation of a Mention model
         mention_model = {}
@@ -3277,14 +3402,14 @@ class TestUpdateExample():
             new_text=new_text,
             new_mentions=new_mentions,
             include_audit=include_audit,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
         # Validate body params
@@ -3309,11 +3434,13 @@ class TestUpdateExample():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/intents/testString/examples/testString')
         mock_response = '{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Construct a dict representation of a Mention model
         mention_model = {}
@@ -3334,7 +3461,7 @@ class TestUpdateExample():
             text,
             new_text=new_text,
             new_mentions=new_mentions,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -3362,11 +3489,13 @@ class TestUpdateExample():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/intents/testString/examples/testString')
         mock_response = '{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Construct a dict representation of a Mention model
         mention_model = {}
@@ -3387,7 +3516,7 @@ class TestUpdateExample():
             "text": text,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.update_example(**req_copy)
 
@@ -3400,7 +3529,8 @@ class TestUpdateExample():
         _service.disable_retries()
         self.test_update_example_value_error()
 
-class TestDeleteExample():
+
+class TestDeleteExample:
     """
     Test Class for delete_example
     """
@@ -3412,9 +3542,11 @@ class TestDeleteExample():
         """
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/intents/testString/examples/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=200)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -3426,7 +3558,7 @@ class TestDeleteExample():
             workspace_id,
             intent,
             text,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -3449,9 +3581,11 @@ class TestDeleteExample():
         """
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/intents/testString/examples/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=200)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -3465,7 +3599,7 @@ class TestDeleteExample():
             "text": text,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_example(**req_copy)
 
@@ -3478,6 +3612,7 @@ class TestDeleteExample():
         _service.disable_retries()
         self.test_delete_example_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: Examples
@@ -3488,7 +3623,8 @@ class TestDeleteExample():
 ##############################################################################
 # region
 
-class TestListCounterexamples():
+
+class TestListCounterexamples:
     """
     Test Class for list_counterexamples
     """
@@ -3501,15 +3637,17 @@ class TestListCounterexamples():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/counterexamples')
         mock_response = '{"counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
-        page_limit = 38
+        page_limit = 100
         include_count = False
         sort = 'text'
         cursor = 'testString'
@@ -3523,14 +3661,14 @@ class TestListCounterexamples():
             sort=sort,
             cursor=cursor,
             include_audit=include_audit,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'page_limit={}'.format(page_limit) in query_string
         assert 'include_count={}'.format('true' if include_count else 'false') in query_string
@@ -3555,11 +3693,13 @@ class TestListCounterexamples():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/counterexamples')
         mock_response = '{"counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -3567,7 +3707,7 @@ class TestListCounterexamples():
         # Invoke method
         response = _service.list_counterexamples(
             workspace_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -3591,11 +3731,13 @@ class TestListCounterexamples():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/counterexamples')
         mock_response = '{"counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -3605,7 +3747,7 @@ class TestListCounterexamples():
             "workspace_id": workspace_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_counterexamples(**req_copy)
 
@@ -3618,7 +3760,8 @@ class TestListCounterexamples():
         _service.disable_retries()
         self.test_list_counterexamples_value_error()
 
-class TestCreateCounterexample():
+
+class TestCreateCounterexample:
     """
     Test Class for create_counterexample
     """
@@ -3631,11 +3774,13 @@ class TestCreateCounterexample():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/counterexamples')
         mock_response = '{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -3647,14 +3792,14 @@ class TestCreateCounterexample():
             workspace_id,
             text,
             include_audit=include_audit,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 201
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
         # Validate body params
@@ -3678,11 +3823,13 @@ class TestCreateCounterexample():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/counterexamples')
         mock_response = '{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -3692,7 +3839,7 @@ class TestCreateCounterexample():
         response = _service.create_counterexample(
             workspace_id,
             text,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -3719,11 +3866,13 @@ class TestCreateCounterexample():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/counterexamples')
         mock_response = '{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -3735,7 +3884,7 @@ class TestCreateCounterexample():
             "text": text,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.create_counterexample(**req_copy)
 
@@ -3748,7 +3897,8 @@ class TestCreateCounterexample():
         _service.disable_retries()
         self.test_create_counterexample_value_error()
 
-class TestGetCounterexample():
+
+class TestGetCounterexample:
     """
     Test Class for get_counterexample
     """
@@ -3761,11 +3911,13 @@ class TestGetCounterexample():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/counterexamples/testString')
         mock_response = '{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -3777,14 +3929,14 @@ class TestGetCounterexample():
             workspace_id,
             text,
             include_audit=include_audit,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
 
@@ -3805,11 +3957,13 @@ class TestGetCounterexample():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/counterexamples/testString')
         mock_response = '{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -3819,7 +3973,7 @@ class TestGetCounterexample():
         response = _service.get_counterexample(
             workspace_id,
             text,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -3843,11 +3997,13 @@ class TestGetCounterexample():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/counterexamples/testString')
         mock_response = '{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -3859,7 +4015,7 @@ class TestGetCounterexample():
             "text": text,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_counterexample(**req_copy)
 
@@ -3872,7 +4028,8 @@ class TestGetCounterexample():
         _service.disable_retries()
         self.test_get_counterexample_value_error()
 
-class TestUpdateCounterexample():
+
+class TestUpdateCounterexample:
     """
     Test Class for update_counterexample
     """
@@ -3885,11 +4042,13 @@ class TestUpdateCounterexample():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/counterexamples/testString')
         mock_response = '{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -3903,14 +4062,14 @@ class TestUpdateCounterexample():
             text,
             new_text=new_text,
             include_audit=include_audit,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
         # Validate body params
@@ -3934,11 +4093,13 @@ class TestUpdateCounterexample():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/counterexamples/testString')
         mock_response = '{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -3950,7 +4111,7 @@ class TestUpdateCounterexample():
             workspace_id,
             text,
             new_text=new_text,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -3977,11 +4138,13 @@ class TestUpdateCounterexample():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/counterexamples/testString')
         mock_response = '{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -3994,7 +4157,7 @@ class TestUpdateCounterexample():
             "text": text,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.update_counterexample(**req_copy)
 
@@ -4007,7 +4170,8 @@ class TestUpdateCounterexample():
         _service.disable_retries()
         self.test_update_counterexample_value_error()
 
-class TestDeleteCounterexample():
+
+class TestDeleteCounterexample:
     """
     Test Class for delete_counterexample
     """
@@ -4019,9 +4183,11 @@ class TestDeleteCounterexample():
         """
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/counterexamples/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=200)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -4031,7 +4197,7 @@ class TestDeleteCounterexample():
         response = _service.delete_counterexample(
             workspace_id,
             text,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -4054,9 +4220,11 @@ class TestDeleteCounterexample():
         """
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/counterexamples/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=200)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -4068,7 +4236,7 @@ class TestDeleteCounterexample():
             "text": text,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_counterexample(**req_copy)
 
@@ -4081,6 +4249,7 @@ class TestDeleteCounterexample():
         _service.disable_retries()
         self.test_delete_counterexample_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: Counterexamples
@@ -4091,7 +4260,8 @@ class TestDeleteCounterexample():
 ##############################################################################
 # region
 
-class TestListEntities():
+
+class TestListEntities:
     """
     Test Class for list_entities
     """
@@ -4104,16 +4274,18 @@ class TestListEntities():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/entities')
         mock_response = '{"entities": [{"entity": "entity", "description": "description", "metadata": {"anyKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"anyKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
         export = False
-        page_limit = 38
+        page_limit = 100
         include_count = False
         sort = 'entity'
         cursor = 'testString'
@@ -4128,14 +4300,14 @@ class TestListEntities():
             sort=sort,
             cursor=cursor,
             include_audit=include_audit,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'export={}'.format('true' if export else 'false') in query_string
         assert 'page_limit={}'.format(page_limit) in query_string
@@ -4161,11 +4333,13 @@ class TestListEntities():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/entities')
         mock_response = '{"entities": [{"entity": "entity", "description": "description", "metadata": {"anyKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"anyKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -4173,7 +4347,7 @@ class TestListEntities():
         # Invoke method
         response = _service.list_entities(
             workspace_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -4197,11 +4371,13 @@ class TestListEntities():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/entities')
         mock_response = '{"entities": [{"entity": "entity", "description": "description", "metadata": {"anyKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"anyKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -4211,7 +4387,7 @@ class TestListEntities():
             "workspace_id": workspace_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_entities(**req_copy)
 
@@ -4224,7 +4400,8 @@ class TestListEntities():
         _service.disable_retries()
         self.test_list_entities_value_error()
 
-class TestCreateEntity():
+
+class TestCreateEntity:
     """
     Test Class for create_entity
     """
@@ -4237,16 +4414,18 @@ class TestCreateEntity():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/entities')
         mock_response = '{"entity": "entity", "description": "description", "metadata": {"anyKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"anyKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Construct a dict representation of a CreateValue model
         create_value_model = {}
         create_value_model['value'] = 'testString'
-        create_value_model['metadata'] = {'foo': 'bar'}
+        create_value_model['metadata'] = {'anyKey': 'anyValue'}
         create_value_model['type'] = 'synonyms'
         create_value_model['synonyms'] = ['testString']
         create_value_model['patterns'] = ['testString']
@@ -4255,7 +4434,7 @@ class TestCreateEntity():
         workspace_id = 'testString'
         entity = 'testString'
         description = 'testString'
-        metadata = {'foo': 'bar'}
+        metadata = {'anyKey': 'anyValue'}
         fuzzy_match = True
         values = [create_value_model]
         include_audit = False
@@ -4269,21 +4448,21 @@ class TestCreateEntity():
             fuzzy_match=fuzzy_match,
             values=values,
             include_audit=include_audit,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 201
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
         # Validate body params
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['entity'] == 'testString'
         assert req_body['description'] == 'testString'
-        assert req_body['metadata'] == {'foo': 'bar'}
+        assert req_body['metadata'] == {'anyKey': 'anyValue'}
         assert req_body['fuzzy_match'] == True
         assert req_body['values'] == [create_value_model]
 
@@ -4304,16 +4483,18 @@ class TestCreateEntity():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/entities')
         mock_response = '{"entity": "entity", "description": "description", "metadata": {"anyKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"anyKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Construct a dict representation of a CreateValue model
         create_value_model = {}
         create_value_model['value'] = 'testString'
-        create_value_model['metadata'] = {'foo': 'bar'}
+        create_value_model['metadata'] = {'anyKey': 'anyValue'}
         create_value_model['type'] = 'synonyms'
         create_value_model['synonyms'] = ['testString']
         create_value_model['patterns'] = ['testString']
@@ -4322,7 +4503,7 @@ class TestCreateEntity():
         workspace_id = 'testString'
         entity = 'testString'
         description = 'testString'
-        metadata = {'foo': 'bar'}
+        metadata = {'anyKey': 'anyValue'}
         fuzzy_match = True
         values = [create_value_model]
 
@@ -4334,7 +4515,7 @@ class TestCreateEntity():
             metadata=metadata,
             fuzzy_match=fuzzy_match,
             values=values,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -4344,7 +4525,7 @@ class TestCreateEntity():
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['entity'] == 'testString'
         assert req_body['description'] == 'testString'
-        assert req_body['metadata'] == {'foo': 'bar'}
+        assert req_body['metadata'] == {'anyKey': 'anyValue'}
         assert req_body['fuzzy_match'] == True
         assert req_body['values'] == [create_value_model]
 
@@ -4365,16 +4546,18 @@ class TestCreateEntity():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/entities')
         mock_response = '{"entity": "entity", "description": "description", "metadata": {"anyKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"anyKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Construct a dict representation of a CreateValue model
         create_value_model = {}
         create_value_model['value'] = 'testString'
-        create_value_model['metadata'] = {'foo': 'bar'}
+        create_value_model['metadata'] = {'anyKey': 'anyValue'}
         create_value_model['type'] = 'synonyms'
         create_value_model['synonyms'] = ['testString']
         create_value_model['patterns'] = ['testString']
@@ -4383,7 +4566,7 @@ class TestCreateEntity():
         workspace_id = 'testString'
         entity = 'testString'
         description = 'testString'
-        metadata = {'foo': 'bar'}
+        metadata = {'anyKey': 'anyValue'}
         fuzzy_match = True
         values = [create_value_model]
 
@@ -4393,7 +4576,7 @@ class TestCreateEntity():
             "entity": entity,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.create_entity(**req_copy)
 
@@ -4406,7 +4589,8 @@ class TestCreateEntity():
         _service.disable_retries()
         self.test_create_entity_value_error()
 
-class TestGetEntity():
+
+class TestGetEntity:
     """
     Test Class for get_entity
     """
@@ -4419,11 +4603,13 @@ class TestGetEntity():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/entities/testString')
         mock_response = '{"entity": "entity", "description": "description", "metadata": {"anyKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"anyKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -4437,14 +4623,14 @@ class TestGetEntity():
             entity,
             export=export,
             include_audit=include_audit,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'export={}'.format('true' if export else 'false') in query_string
         assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
@@ -4466,11 +4652,13 @@ class TestGetEntity():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/entities/testString')
         mock_response = '{"entity": "entity", "description": "description", "metadata": {"anyKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"anyKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -4480,7 +4668,7 @@ class TestGetEntity():
         response = _service.get_entity(
             workspace_id,
             entity,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -4504,11 +4692,13 @@ class TestGetEntity():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/entities/testString')
         mock_response = '{"entity": "entity", "description": "description", "metadata": {"anyKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"anyKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -4520,7 +4710,7 @@ class TestGetEntity():
             "entity": entity,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_entity(**req_copy)
 
@@ -4533,7 +4723,8 @@ class TestGetEntity():
         _service.disable_retries()
         self.test_get_entity_value_error()
 
-class TestUpdateEntity():
+
+class TestUpdateEntity:
     """
     Test Class for update_entity
     """
@@ -4546,16 +4737,18 @@ class TestUpdateEntity():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/entities/testString')
         mock_response = '{"entity": "entity", "description": "description", "metadata": {"anyKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"anyKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Construct a dict representation of a CreateValue model
         create_value_model = {}
         create_value_model['value'] = 'testString'
-        create_value_model['metadata'] = {'foo': 'bar'}
+        create_value_model['metadata'] = {'anyKey': 'anyValue'}
         create_value_model['type'] = 'synonyms'
         create_value_model['synonyms'] = ['testString']
         create_value_model['patterns'] = ['testString']
@@ -4565,7 +4758,7 @@ class TestUpdateEntity():
         entity = 'testString'
         new_entity = 'testString'
         new_description = 'testString'
-        new_metadata = {'foo': 'bar'}
+        new_metadata = {'anyKey': 'anyValue'}
         new_fuzzy_match = True
         new_values = [create_value_model]
         append = False
@@ -4582,14 +4775,14 @@ class TestUpdateEntity():
             new_values=new_values,
             append=append,
             include_audit=include_audit,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'append={}'.format('true' if append else 'false') in query_string
         assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
@@ -4597,7 +4790,7 @@ class TestUpdateEntity():
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['entity'] == 'testString'
         assert req_body['description'] == 'testString'
-        assert req_body['metadata'] == {'foo': 'bar'}
+        assert req_body['metadata'] == {'anyKey': 'anyValue'}
         assert req_body['fuzzy_match'] == True
         assert req_body['values'] == [create_value_model]
 
@@ -4618,16 +4811,18 @@ class TestUpdateEntity():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/entities/testString')
         mock_response = '{"entity": "entity", "description": "description", "metadata": {"anyKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"anyKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Construct a dict representation of a CreateValue model
         create_value_model = {}
         create_value_model['value'] = 'testString'
-        create_value_model['metadata'] = {'foo': 'bar'}
+        create_value_model['metadata'] = {'anyKey': 'anyValue'}
         create_value_model['type'] = 'synonyms'
         create_value_model['synonyms'] = ['testString']
         create_value_model['patterns'] = ['testString']
@@ -4637,7 +4832,7 @@ class TestUpdateEntity():
         entity = 'testString'
         new_entity = 'testString'
         new_description = 'testString'
-        new_metadata = {'foo': 'bar'}
+        new_metadata = {'anyKey': 'anyValue'}
         new_fuzzy_match = True
         new_values = [create_value_model]
 
@@ -4650,7 +4845,7 @@ class TestUpdateEntity():
             new_metadata=new_metadata,
             new_fuzzy_match=new_fuzzy_match,
             new_values=new_values,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -4660,7 +4855,7 @@ class TestUpdateEntity():
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['entity'] == 'testString'
         assert req_body['description'] == 'testString'
-        assert req_body['metadata'] == {'foo': 'bar'}
+        assert req_body['metadata'] == {'anyKey': 'anyValue'}
         assert req_body['fuzzy_match'] == True
         assert req_body['values'] == [create_value_model]
 
@@ -4681,16 +4876,18 @@ class TestUpdateEntity():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/entities/testString')
         mock_response = '{"entity": "entity", "description": "description", "metadata": {"anyKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"anyKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Construct a dict representation of a CreateValue model
         create_value_model = {}
         create_value_model['value'] = 'testString'
-        create_value_model['metadata'] = {'foo': 'bar'}
+        create_value_model['metadata'] = {'anyKey': 'anyValue'}
         create_value_model['type'] = 'synonyms'
         create_value_model['synonyms'] = ['testString']
         create_value_model['patterns'] = ['testString']
@@ -4700,7 +4897,7 @@ class TestUpdateEntity():
         entity = 'testString'
         new_entity = 'testString'
         new_description = 'testString'
-        new_metadata = {'foo': 'bar'}
+        new_metadata = {'anyKey': 'anyValue'}
         new_fuzzy_match = True
         new_values = [create_value_model]
 
@@ -4710,7 +4907,7 @@ class TestUpdateEntity():
             "entity": entity,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.update_entity(**req_copy)
 
@@ -4723,7 +4920,8 @@ class TestUpdateEntity():
         _service.disable_retries()
         self.test_update_entity_value_error()
 
-class TestDeleteEntity():
+
+class TestDeleteEntity:
     """
     Test Class for delete_entity
     """
@@ -4735,9 +4933,11 @@ class TestDeleteEntity():
         """
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/entities/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=200)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -4747,7 +4947,7 @@ class TestDeleteEntity():
         response = _service.delete_entity(
             workspace_id,
             entity,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -4770,9 +4970,11 @@ class TestDeleteEntity():
         """
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/entities/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=200)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -4784,7 +4986,7 @@ class TestDeleteEntity():
             "entity": entity,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_entity(**req_copy)
 
@@ -4797,6 +4999,7 @@ class TestDeleteEntity():
         _service.disable_retries()
         self.test_delete_entity_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: Entities
@@ -4807,7 +5010,8 @@ class TestDeleteEntity():
 ##############################################################################
 # region
 
-class TestListMentions():
+
+class TestListMentions:
     """
     Test Class for list_mentions
     """
@@ -4820,11 +5024,13 @@ class TestListMentions():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/entities/testString/mentions')
         mock_response = '{"examples": [{"text": "text", "intent": "intent", "location": [8]}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -4838,14 +5044,14 @@ class TestListMentions():
             entity,
             export=export,
             include_audit=include_audit,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'export={}'.format('true' if export else 'false') in query_string
         assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
@@ -4867,11 +5073,13 @@ class TestListMentions():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/entities/testString/mentions')
         mock_response = '{"examples": [{"text": "text", "intent": "intent", "location": [8]}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -4881,7 +5089,7 @@ class TestListMentions():
         response = _service.list_mentions(
             workspace_id,
             entity,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -4905,11 +5113,13 @@ class TestListMentions():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/entities/testString/mentions')
         mock_response = '{"examples": [{"text": "text", "intent": "intent", "location": [8]}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -4921,7 +5131,7 @@ class TestListMentions():
             "entity": entity,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_mentions(**req_copy)
 
@@ -4934,6 +5144,7 @@ class TestListMentions():
         _service.disable_retries()
         self.test_list_mentions_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: Mentions
@@ -4944,7 +5155,8 @@ class TestListMentions():
 ##############################################################################
 # region
 
-class TestListValues():
+
+class TestListValues:
     """
     Test Class for list_values
     """
@@ -4957,17 +5169,19 @@ class TestListValues():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/entities/testString/values')
         mock_response = '{"values": [{"value": "value", "metadata": {"anyKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
         entity = 'testString'
         export = False
-        page_limit = 38
+        page_limit = 100
         include_count = False
         sort = 'value'
         cursor = 'testString'
@@ -4983,14 +5197,14 @@ class TestListValues():
             sort=sort,
             cursor=cursor,
             include_audit=include_audit,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'export={}'.format('true' if export else 'false') in query_string
         assert 'page_limit={}'.format(page_limit) in query_string
@@ -5016,11 +5230,13 @@ class TestListValues():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/entities/testString/values')
         mock_response = '{"values": [{"value": "value", "metadata": {"anyKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -5030,7 +5246,7 @@ class TestListValues():
         response = _service.list_values(
             workspace_id,
             entity,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -5054,11 +5270,13 @@ class TestListValues():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/entities/testString/values')
         mock_response = '{"values": [{"value": "value", "metadata": {"anyKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -5070,7 +5288,7 @@ class TestListValues():
             "entity": entity,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_values(**req_copy)
 
@@ -5083,7 +5301,8 @@ class TestListValues():
         _service.disable_retries()
         self.test_list_values_value_error()
 
-class TestCreateValue():
+
+class TestCreateValue:
     """
     Test Class for create_value
     """
@@ -5096,17 +5315,19 @@ class TestCreateValue():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/entities/testString/values')
         mock_response = '{"value": "value", "metadata": {"anyKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
         entity = 'testString'
         value = 'testString'
-        metadata = {'foo': 'bar'}
+        metadata = {'anyKey': 'anyValue'}
         type = 'synonyms'
         synonyms = ['testString']
         patterns = ['testString']
@@ -5122,20 +5343,20 @@ class TestCreateValue():
             synonyms=synonyms,
             patterns=patterns,
             include_audit=include_audit,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 201
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
         # Validate body params
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['value'] == 'testString'
-        assert req_body['metadata'] == {'foo': 'bar'}
+        assert req_body['metadata'] == {'anyKey': 'anyValue'}
         assert req_body['type'] == 'synonyms'
         assert req_body['synonyms'] == ['testString']
         assert req_body['patterns'] == ['testString']
@@ -5157,17 +5378,19 @@ class TestCreateValue():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/entities/testString/values')
         mock_response = '{"value": "value", "metadata": {"anyKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
         entity = 'testString'
         value = 'testString'
-        metadata = {'foo': 'bar'}
+        metadata = {'anyKey': 'anyValue'}
         type = 'synonyms'
         synonyms = ['testString']
         patterns = ['testString']
@@ -5181,7 +5404,7 @@ class TestCreateValue():
             type=type,
             synonyms=synonyms,
             patterns=patterns,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -5190,7 +5413,7 @@ class TestCreateValue():
         # Validate body params
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['value'] == 'testString'
-        assert req_body['metadata'] == {'foo': 'bar'}
+        assert req_body['metadata'] == {'anyKey': 'anyValue'}
         assert req_body['type'] == 'synonyms'
         assert req_body['synonyms'] == ['testString']
         assert req_body['patterns'] == ['testString']
@@ -5212,17 +5435,19 @@ class TestCreateValue():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/entities/testString/values')
         mock_response = '{"value": "value", "metadata": {"anyKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
         entity = 'testString'
         value = 'testString'
-        metadata = {'foo': 'bar'}
+        metadata = {'anyKey': 'anyValue'}
         type = 'synonyms'
         synonyms = ['testString']
         patterns = ['testString']
@@ -5234,7 +5459,7 @@ class TestCreateValue():
             "value": value,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.create_value(**req_copy)
 
@@ -5247,7 +5472,8 @@ class TestCreateValue():
         _service.disable_retries()
         self.test_create_value_value_error()
 
-class TestGetValue():
+
+class TestGetValue:
     """
     Test Class for get_value
     """
@@ -5260,11 +5486,13 @@ class TestGetValue():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/entities/testString/values/testString')
         mock_response = '{"value": "value", "metadata": {"anyKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -5280,14 +5508,14 @@ class TestGetValue():
             value,
             export=export,
             include_audit=include_audit,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'export={}'.format('true' if export else 'false') in query_string
         assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
@@ -5309,11 +5537,13 @@ class TestGetValue():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/entities/testString/values/testString')
         mock_response = '{"value": "value", "metadata": {"anyKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -5325,7 +5555,7 @@ class TestGetValue():
             workspace_id,
             entity,
             value,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -5349,11 +5579,13 @@ class TestGetValue():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/entities/testString/values/testString')
         mock_response = '{"value": "value", "metadata": {"anyKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -5367,7 +5599,7 @@ class TestGetValue():
             "value": value,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_value(**req_copy)
 
@@ -5380,7 +5612,8 @@ class TestGetValue():
         _service.disable_retries()
         self.test_get_value_value_error()
 
-class TestUpdateValue():
+
+class TestUpdateValue:
     """
     Test Class for update_value
     """
@@ -5393,18 +5626,20 @@ class TestUpdateValue():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/entities/testString/values/testString')
         mock_response = '{"value": "value", "metadata": {"anyKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
         entity = 'testString'
         value = 'testString'
         new_value = 'testString'
-        new_metadata = {'foo': 'bar'}
+        new_metadata = {'anyKey': 'anyValue'}
         new_type = 'synonyms'
         new_synonyms = ['testString']
         new_patterns = ['testString']
@@ -5423,21 +5658,21 @@ class TestUpdateValue():
             new_patterns=new_patterns,
             append=append,
             include_audit=include_audit,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'append={}'.format('true' if append else 'false') in query_string
         assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
         # Validate body params
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['value'] == 'testString'
-        assert req_body['metadata'] == {'foo': 'bar'}
+        assert req_body['metadata'] == {'anyKey': 'anyValue'}
         assert req_body['type'] == 'synonyms'
         assert req_body['synonyms'] == ['testString']
         assert req_body['patterns'] == ['testString']
@@ -5459,18 +5694,20 @@ class TestUpdateValue():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/entities/testString/values/testString')
         mock_response = '{"value": "value", "metadata": {"anyKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
         entity = 'testString'
         value = 'testString'
         new_value = 'testString'
-        new_metadata = {'foo': 'bar'}
+        new_metadata = {'anyKey': 'anyValue'}
         new_type = 'synonyms'
         new_synonyms = ['testString']
         new_patterns = ['testString']
@@ -5485,7 +5722,7 @@ class TestUpdateValue():
             new_type=new_type,
             new_synonyms=new_synonyms,
             new_patterns=new_patterns,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -5494,7 +5731,7 @@ class TestUpdateValue():
         # Validate body params
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['value'] == 'testString'
-        assert req_body['metadata'] == {'foo': 'bar'}
+        assert req_body['metadata'] == {'anyKey': 'anyValue'}
         assert req_body['type'] == 'synonyms'
         assert req_body['synonyms'] == ['testString']
         assert req_body['patterns'] == ['testString']
@@ -5516,18 +5753,20 @@ class TestUpdateValue():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/entities/testString/values/testString')
         mock_response = '{"value": "value", "metadata": {"anyKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
         entity = 'testString'
         value = 'testString'
         new_value = 'testString'
-        new_metadata = {'foo': 'bar'}
+        new_metadata = {'anyKey': 'anyValue'}
         new_type = 'synonyms'
         new_synonyms = ['testString']
         new_patterns = ['testString']
@@ -5539,7 +5778,7 @@ class TestUpdateValue():
             "value": value,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.update_value(**req_copy)
 
@@ -5552,7 +5791,8 @@ class TestUpdateValue():
         _service.disable_retries()
         self.test_update_value_value_error()
 
-class TestDeleteValue():
+
+class TestDeleteValue:
     """
     Test Class for delete_value
     """
@@ -5564,9 +5804,11 @@ class TestDeleteValue():
         """
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/entities/testString/values/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=200)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -5578,7 +5820,7 @@ class TestDeleteValue():
             workspace_id,
             entity,
             value,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -5601,9 +5843,11 @@ class TestDeleteValue():
         """
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/entities/testString/values/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=200)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -5617,7 +5861,7 @@ class TestDeleteValue():
             "value": value,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_value(**req_copy)
 
@@ -5630,6 +5874,7 @@ class TestDeleteValue():
         _service.disable_retries()
         self.test_delete_value_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: Values
@@ -5640,7 +5885,8 @@ class TestDeleteValue():
 ##############################################################################
 # region
 
-class TestListSynonyms():
+
+class TestListSynonyms:
     """
     Test Class for list_synonyms
     """
@@ -5653,17 +5899,19 @@ class TestListSynonyms():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/entities/testString/values/testString/synonyms')
         mock_response = '{"synonyms": [{"synonym": "synonym", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
         entity = 'testString'
         value = 'testString'
-        page_limit = 38
+        page_limit = 100
         include_count = False
         sort = 'synonym'
         cursor = 'testString'
@@ -5679,14 +5927,14 @@ class TestListSynonyms():
             sort=sort,
             cursor=cursor,
             include_audit=include_audit,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'page_limit={}'.format(page_limit) in query_string
         assert 'include_count={}'.format('true' if include_count else 'false') in query_string
@@ -5711,11 +5959,13 @@ class TestListSynonyms():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/entities/testString/values/testString/synonyms')
         mock_response = '{"synonyms": [{"synonym": "synonym", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -5727,7 +5977,7 @@ class TestListSynonyms():
             workspace_id,
             entity,
             value,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -5751,11 +6001,13 @@ class TestListSynonyms():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/entities/testString/values/testString/synonyms')
         mock_response = '{"synonyms": [{"synonym": "synonym", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -5769,7 +6021,7 @@ class TestListSynonyms():
             "value": value,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_synonyms(**req_copy)
 
@@ -5782,7 +6034,8 @@ class TestListSynonyms():
         _service.disable_retries()
         self.test_list_synonyms_value_error()
 
-class TestCreateSynonym():
+
+class TestCreateSynonym:
     """
     Test Class for create_synonym
     """
@@ -5795,11 +6048,13 @@ class TestCreateSynonym():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/entities/testString/values/testString/synonyms')
         mock_response = '{"synonym": "synonym", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -5815,14 +6070,14 @@ class TestCreateSynonym():
             value,
             synonym,
             include_audit=include_audit,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 201
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
         # Validate body params
@@ -5846,11 +6101,13 @@ class TestCreateSynonym():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/entities/testString/values/testString/synonyms')
         mock_response = '{"synonym": "synonym", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -5864,7 +6121,7 @@ class TestCreateSynonym():
             entity,
             value,
             synonym,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -5891,11 +6148,13 @@ class TestCreateSynonym():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/entities/testString/values/testString/synonyms')
         mock_response = '{"synonym": "synonym", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -5911,7 +6170,7 @@ class TestCreateSynonym():
             "synonym": synonym,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.create_synonym(**req_copy)
 
@@ -5924,7 +6183,8 @@ class TestCreateSynonym():
         _service.disable_retries()
         self.test_create_synonym_value_error()
 
-class TestGetSynonym():
+
+class TestGetSynonym:
     """
     Test Class for get_synonym
     """
@@ -5937,11 +6197,13 @@ class TestGetSynonym():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/entities/testString/values/testString/synonyms/testString')
         mock_response = '{"synonym": "synonym", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -5957,14 +6219,14 @@ class TestGetSynonym():
             value,
             synonym,
             include_audit=include_audit,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
 
@@ -5985,11 +6247,13 @@ class TestGetSynonym():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/entities/testString/values/testString/synonyms/testString')
         mock_response = '{"synonym": "synonym", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -6003,7 +6267,7 @@ class TestGetSynonym():
             entity,
             value,
             synonym,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -6027,11 +6291,13 @@ class TestGetSynonym():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/entities/testString/values/testString/synonyms/testString')
         mock_response = '{"synonym": "synonym", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -6047,7 +6313,7 @@ class TestGetSynonym():
             "synonym": synonym,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_synonym(**req_copy)
 
@@ -6060,7 +6326,8 @@ class TestGetSynonym():
         _service.disable_retries()
         self.test_get_synonym_value_error()
 
-class TestUpdateSynonym():
+
+class TestUpdateSynonym:
     """
     Test Class for update_synonym
     """
@@ -6073,11 +6340,13 @@ class TestUpdateSynonym():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/entities/testString/values/testString/synonyms/testString')
         mock_response = '{"synonym": "synonym", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -6095,14 +6364,14 @@ class TestUpdateSynonym():
             synonym,
             new_synonym=new_synonym,
             include_audit=include_audit,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
         # Validate body params
@@ -6126,11 +6395,13 @@ class TestUpdateSynonym():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/entities/testString/values/testString/synonyms/testString')
         mock_response = '{"synonym": "synonym", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -6146,7 +6417,7 @@ class TestUpdateSynonym():
             value,
             synonym,
             new_synonym=new_synonym,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -6173,11 +6444,13 @@ class TestUpdateSynonym():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/entities/testString/values/testString/synonyms/testString')
         mock_response = '{"synonym": "synonym", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -6194,7 +6467,7 @@ class TestUpdateSynonym():
             "synonym": synonym,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.update_synonym(**req_copy)
 
@@ -6207,7 +6480,8 @@ class TestUpdateSynonym():
         _service.disable_retries()
         self.test_update_synonym_value_error()
 
-class TestDeleteSynonym():
+
+class TestDeleteSynonym:
     """
     Test Class for delete_synonym
     """
@@ -6219,9 +6493,11 @@ class TestDeleteSynonym():
         """
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/entities/testString/values/testString/synonyms/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=200)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -6235,7 +6511,7 @@ class TestDeleteSynonym():
             entity,
             value,
             synonym,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -6258,9 +6534,11 @@ class TestDeleteSynonym():
         """
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/entities/testString/values/testString/synonyms/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=200)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -6276,7 +6554,7 @@ class TestDeleteSynonym():
             "synonym": synonym,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_synonym(**req_copy)
 
@@ -6289,6 +6567,7 @@ class TestDeleteSynonym():
         _service.disable_retries()
         self.test_delete_synonym_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: Synonyms
@@ -6299,7 +6578,8 @@ class TestDeleteSynonym():
 ##############################################################################
 # region
 
-class TestListDialogNodes():
+
+class TestListDialogNodes:
     """
     Test Class for list_dialog_nodes
     """
@@ -6312,15 +6592,17 @@ class TestListDialogNodes():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/dialog_nodes')
         mock_response = '{"dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "text", "values": [{"text": "text"}], "selection_policy": "sequential", "delimiter": "\n", "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"anyKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"anyKey": "anyValue"}}}, "metadata": {"anyKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
-        page_limit = 38
+        page_limit = 100
         include_count = False
         sort = 'dialog_node'
         cursor = 'testString'
@@ -6334,14 +6616,14 @@ class TestListDialogNodes():
             sort=sort,
             cursor=cursor,
             include_audit=include_audit,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'page_limit={}'.format(page_limit) in query_string
         assert 'include_count={}'.format('true' if include_count else 'false') in query_string
@@ -6366,11 +6648,13 @@ class TestListDialogNodes():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/dialog_nodes')
         mock_response = '{"dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "text", "values": [{"text": "text"}], "selection_policy": "sequential", "delimiter": "\n", "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"anyKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"anyKey": "anyValue"}}}, "metadata": {"anyKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -6378,7 +6662,7 @@ class TestListDialogNodes():
         # Invoke method
         response = _service.list_dialog_nodes(
             workspace_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -6402,11 +6686,13 @@ class TestListDialogNodes():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/dialog_nodes')
         mock_response = '{"dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "text", "values": [{"text": "text"}], "selection_policy": "sequential", "delimiter": "\n", "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"anyKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"anyKey": "anyValue"}}}, "metadata": {"anyKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -6416,7 +6702,7 @@ class TestListDialogNodes():
             "workspace_id": workspace_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_dialog_nodes(**req_copy)
 
@@ -6429,7 +6715,8 @@ class TestListDialogNodes():
         _service.disable_retries()
         self.test_list_dialog_nodes_value_error()
 
-class TestCreateDialogNode():
+
+class TestCreateDialogNode:
     """
     Test Class for create_dialog_node
     """
@@ -6442,11 +6729,13 @@ class TestCreateDialogNode():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/dialog_nodes')
         mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "text", "values": [{"text": "text"}], "selection_policy": "sequential", "delimiter": "\n", "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"anyKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"anyKey": "anyValue"}}}, "metadata": {"anyKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Construct a dict representation of a DialogNodeOutputTextValuesElement model
         dialog_node_output_text_values_element_model = {}
@@ -6461,7 +6750,7 @@ class TestCreateDialogNode():
         dialog_node_output_generic_model['response_type'] = 'text'
         dialog_node_output_generic_model['values'] = [dialog_node_output_text_values_element_model]
         dialog_node_output_generic_model['selection_policy'] = 'sequential'
-        dialog_node_output_generic_model['delimiter'] = '\n'
+        dialog_node_output_generic_model['delimiter'] = '\\n'
         dialog_node_output_generic_model['channels'] = [response_generic_channel_model]
 
         # Construct a dict representation of a DialogNodeOutputModifiers model
@@ -6471,13 +6760,13 @@ class TestCreateDialogNode():
         # Construct a dict representation of a DialogNodeOutput model
         dialog_node_output_model = {}
         dialog_node_output_model['generic'] = [dialog_node_output_generic_model]
-        dialog_node_output_model['integrations'] = {'key1': {'foo': 'bar'}}
+        dialog_node_output_model['integrations'] = {'key1': {'anyKey': 'anyValue'}}
         dialog_node_output_model['modifiers'] = dialog_node_output_modifiers_model
         dialog_node_output_model['foo'] = 'testString'
 
         # Construct a dict representation of a DialogNodeContext model
         dialog_node_context_model = {}
-        dialog_node_context_model['integrations'] = {'key1': {'foo': 'bar'}}
+        dialog_node_context_model['integrations'] = {'key1': {'anyKey': 'anyValue'}}
         dialog_node_context_model['foo'] = 'testString'
 
         # Construct a dict representation of a DialogNodeNextStep model
@@ -6490,7 +6779,7 @@ class TestCreateDialogNode():
         dialog_node_action_model = {}
         dialog_node_action_model['name'] = 'testString'
         dialog_node_action_model['type'] = 'client'
-        dialog_node_action_model['parameters'] = {'foo': 'bar'}
+        dialog_node_action_model['parameters'] = {'anyKey': 'anyValue'}
         dialog_node_action_model['result_variable'] = 'testString'
         dialog_node_action_model['credentials'] = 'testString'
 
@@ -6503,7 +6792,7 @@ class TestCreateDialogNode():
         previous_sibling = 'testString'
         output = dialog_node_output_model
         context = dialog_node_context_model
-        metadata = {'foo': 'bar'}
+        metadata = {'anyKey': 'anyValue'}
         next_step = dialog_node_next_step_model
         title = 'testString'
         type = 'standard'
@@ -6540,14 +6829,14 @@ class TestCreateDialogNode():
             user_label=user_label,
             disambiguation_opt_out=disambiguation_opt_out,
             include_audit=include_audit,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 201
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
         # Validate body params
@@ -6559,7 +6848,7 @@ class TestCreateDialogNode():
         assert req_body['previous_sibling'] == 'testString'
         assert req_body['output'] == dialog_node_output_model
         assert req_body['context'] == dialog_node_context_model
-        assert req_body['metadata'] == {'foo': 'bar'}
+        assert req_body['metadata'] == {'anyKey': 'anyValue'}
         assert req_body['next_step'] == dialog_node_next_step_model
         assert req_body['title'] == 'testString'
         assert req_body['type'] == 'standard'
@@ -6589,11 +6878,13 @@ class TestCreateDialogNode():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/dialog_nodes')
         mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "text", "values": [{"text": "text"}], "selection_policy": "sequential", "delimiter": "\n", "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"anyKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"anyKey": "anyValue"}}}, "metadata": {"anyKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Construct a dict representation of a DialogNodeOutputTextValuesElement model
         dialog_node_output_text_values_element_model = {}
@@ -6608,7 +6899,7 @@ class TestCreateDialogNode():
         dialog_node_output_generic_model['response_type'] = 'text'
         dialog_node_output_generic_model['values'] = [dialog_node_output_text_values_element_model]
         dialog_node_output_generic_model['selection_policy'] = 'sequential'
-        dialog_node_output_generic_model['delimiter'] = '\n'
+        dialog_node_output_generic_model['delimiter'] = '\\n'
         dialog_node_output_generic_model['channels'] = [response_generic_channel_model]
 
         # Construct a dict representation of a DialogNodeOutputModifiers model
@@ -6618,13 +6909,13 @@ class TestCreateDialogNode():
         # Construct a dict representation of a DialogNodeOutput model
         dialog_node_output_model = {}
         dialog_node_output_model['generic'] = [dialog_node_output_generic_model]
-        dialog_node_output_model['integrations'] = {'key1': {'foo': 'bar'}}
+        dialog_node_output_model['integrations'] = {'key1': {'anyKey': 'anyValue'}}
         dialog_node_output_model['modifiers'] = dialog_node_output_modifiers_model
         dialog_node_output_model['foo'] = 'testString'
 
         # Construct a dict representation of a DialogNodeContext model
         dialog_node_context_model = {}
-        dialog_node_context_model['integrations'] = {'key1': {'foo': 'bar'}}
+        dialog_node_context_model['integrations'] = {'key1': {'anyKey': 'anyValue'}}
         dialog_node_context_model['foo'] = 'testString'
 
         # Construct a dict representation of a DialogNodeNextStep model
@@ -6637,7 +6928,7 @@ class TestCreateDialogNode():
         dialog_node_action_model = {}
         dialog_node_action_model['name'] = 'testString'
         dialog_node_action_model['type'] = 'client'
-        dialog_node_action_model['parameters'] = {'foo': 'bar'}
+        dialog_node_action_model['parameters'] = {'anyKey': 'anyValue'}
         dialog_node_action_model['result_variable'] = 'testString'
         dialog_node_action_model['credentials'] = 'testString'
 
@@ -6650,7 +6941,7 @@ class TestCreateDialogNode():
         previous_sibling = 'testString'
         output = dialog_node_output_model
         context = dialog_node_context_model
-        metadata = {'foo': 'bar'}
+        metadata = {'anyKey': 'anyValue'}
         next_step = dialog_node_next_step_model
         title = 'testString'
         type = 'standard'
@@ -6685,7 +6976,7 @@ class TestCreateDialogNode():
             digress_out_slots=digress_out_slots,
             user_label=user_label,
             disambiguation_opt_out=disambiguation_opt_out,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -6700,7 +6991,7 @@ class TestCreateDialogNode():
         assert req_body['previous_sibling'] == 'testString'
         assert req_body['output'] == dialog_node_output_model
         assert req_body['context'] == dialog_node_context_model
-        assert req_body['metadata'] == {'foo': 'bar'}
+        assert req_body['metadata'] == {'anyKey': 'anyValue'}
         assert req_body['next_step'] == dialog_node_next_step_model
         assert req_body['title'] == 'testString'
         assert req_body['type'] == 'standard'
@@ -6730,11 +7021,13 @@ class TestCreateDialogNode():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/dialog_nodes')
         mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "text", "values": [{"text": "text"}], "selection_policy": "sequential", "delimiter": "\n", "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"anyKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"anyKey": "anyValue"}}}, "metadata": {"anyKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Construct a dict representation of a DialogNodeOutputTextValuesElement model
         dialog_node_output_text_values_element_model = {}
@@ -6749,7 +7042,7 @@ class TestCreateDialogNode():
         dialog_node_output_generic_model['response_type'] = 'text'
         dialog_node_output_generic_model['values'] = [dialog_node_output_text_values_element_model]
         dialog_node_output_generic_model['selection_policy'] = 'sequential'
-        dialog_node_output_generic_model['delimiter'] = '\n'
+        dialog_node_output_generic_model['delimiter'] = '\\n'
         dialog_node_output_generic_model['channels'] = [response_generic_channel_model]
 
         # Construct a dict representation of a DialogNodeOutputModifiers model
@@ -6759,13 +7052,13 @@ class TestCreateDialogNode():
         # Construct a dict representation of a DialogNodeOutput model
         dialog_node_output_model = {}
         dialog_node_output_model['generic'] = [dialog_node_output_generic_model]
-        dialog_node_output_model['integrations'] = {'key1': {'foo': 'bar'}}
+        dialog_node_output_model['integrations'] = {'key1': {'anyKey': 'anyValue'}}
         dialog_node_output_model['modifiers'] = dialog_node_output_modifiers_model
         dialog_node_output_model['foo'] = 'testString'
 
         # Construct a dict representation of a DialogNodeContext model
         dialog_node_context_model = {}
-        dialog_node_context_model['integrations'] = {'key1': {'foo': 'bar'}}
+        dialog_node_context_model['integrations'] = {'key1': {'anyKey': 'anyValue'}}
         dialog_node_context_model['foo'] = 'testString'
 
         # Construct a dict representation of a DialogNodeNextStep model
@@ -6778,7 +7071,7 @@ class TestCreateDialogNode():
         dialog_node_action_model = {}
         dialog_node_action_model['name'] = 'testString'
         dialog_node_action_model['type'] = 'client'
-        dialog_node_action_model['parameters'] = {'foo': 'bar'}
+        dialog_node_action_model['parameters'] = {'anyKey': 'anyValue'}
         dialog_node_action_model['result_variable'] = 'testString'
         dialog_node_action_model['credentials'] = 'testString'
 
@@ -6791,7 +7084,7 @@ class TestCreateDialogNode():
         previous_sibling = 'testString'
         output = dialog_node_output_model
         context = dialog_node_context_model
-        metadata = {'foo': 'bar'}
+        metadata = {'anyKey': 'anyValue'}
         next_step = dialog_node_next_step_model
         title = 'testString'
         type = 'standard'
@@ -6810,7 +7103,7 @@ class TestCreateDialogNode():
             "dialog_node": dialog_node,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.create_dialog_node(**req_copy)
 
@@ -6823,7 +7116,8 @@ class TestCreateDialogNode():
         _service.disable_retries()
         self.test_create_dialog_node_value_error()
 
-class TestGetDialogNode():
+
+class TestGetDialogNode:
     """
     Test Class for get_dialog_node
     """
@@ -6836,11 +7130,13 @@ class TestGetDialogNode():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/dialog_nodes/testString')
         mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "text", "values": [{"text": "text"}], "selection_policy": "sequential", "delimiter": "\n", "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"anyKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"anyKey": "anyValue"}}}, "metadata": {"anyKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -6852,14 +7148,14 @@ class TestGetDialogNode():
             workspace_id,
             dialog_node,
             include_audit=include_audit,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
 
@@ -6880,11 +7176,13 @@ class TestGetDialogNode():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/dialog_nodes/testString')
         mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "text", "values": [{"text": "text"}], "selection_policy": "sequential", "delimiter": "\n", "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"anyKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"anyKey": "anyValue"}}}, "metadata": {"anyKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -6894,7 +7192,7 @@ class TestGetDialogNode():
         response = _service.get_dialog_node(
             workspace_id,
             dialog_node,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -6918,11 +7216,13 @@ class TestGetDialogNode():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/dialog_nodes/testString')
         mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "text", "values": [{"text": "text"}], "selection_policy": "sequential", "delimiter": "\n", "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"anyKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"anyKey": "anyValue"}}}, "metadata": {"anyKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -6934,7 +7234,7 @@ class TestGetDialogNode():
             "dialog_node": dialog_node,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_dialog_node(**req_copy)
 
@@ -6947,7 +7247,8 @@ class TestGetDialogNode():
         _service.disable_retries()
         self.test_get_dialog_node_value_error()
 
-class TestUpdateDialogNode():
+
+class TestUpdateDialogNode:
     """
     Test Class for update_dialog_node
     """
@@ -6960,11 +7261,13 @@ class TestUpdateDialogNode():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/dialog_nodes/testString')
         mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "text", "values": [{"text": "text"}], "selection_policy": "sequential", "delimiter": "\n", "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"anyKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"anyKey": "anyValue"}}}, "metadata": {"anyKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Construct a dict representation of a DialogNodeOutputTextValuesElement model
         dialog_node_output_text_values_element_model = {}
@@ -6979,7 +7282,7 @@ class TestUpdateDialogNode():
         dialog_node_output_generic_model['response_type'] = 'text'
         dialog_node_output_generic_model['values'] = [dialog_node_output_text_values_element_model]
         dialog_node_output_generic_model['selection_policy'] = 'sequential'
-        dialog_node_output_generic_model['delimiter'] = '\n'
+        dialog_node_output_generic_model['delimiter'] = '\\n'
         dialog_node_output_generic_model['channels'] = [response_generic_channel_model]
 
         # Construct a dict representation of a DialogNodeOutputModifiers model
@@ -6989,13 +7292,13 @@ class TestUpdateDialogNode():
         # Construct a dict representation of a DialogNodeOutput model
         dialog_node_output_model = {}
         dialog_node_output_model['generic'] = [dialog_node_output_generic_model]
-        dialog_node_output_model['integrations'] = {'key1': {'foo': 'bar'}}
+        dialog_node_output_model['integrations'] = {'key1': {'anyKey': 'anyValue'}}
         dialog_node_output_model['modifiers'] = dialog_node_output_modifiers_model
         dialog_node_output_model['foo'] = 'testString'
 
         # Construct a dict representation of a DialogNodeContext model
         dialog_node_context_model = {}
-        dialog_node_context_model['integrations'] = {'key1': {'foo': 'bar'}}
+        dialog_node_context_model['integrations'] = {'key1': {'anyKey': 'anyValue'}}
         dialog_node_context_model['foo'] = 'testString'
 
         # Construct a dict representation of a DialogNodeNextStep model
@@ -7008,7 +7311,7 @@ class TestUpdateDialogNode():
         dialog_node_action_model = {}
         dialog_node_action_model['name'] = 'testString'
         dialog_node_action_model['type'] = 'client'
-        dialog_node_action_model['parameters'] = {'foo': 'bar'}
+        dialog_node_action_model['parameters'] = {'anyKey': 'anyValue'}
         dialog_node_action_model['result_variable'] = 'testString'
         dialog_node_action_model['credentials'] = 'testString'
 
@@ -7022,7 +7325,7 @@ class TestUpdateDialogNode():
         new_previous_sibling = 'testString'
         new_output = dialog_node_output_model
         new_context = dialog_node_context_model
-        new_metadata = {'foo': 'bar'}
+        new_metadata = {'anyKey': 'anyValue'}
         new_next_step = dialog_node_next_step_model
         new_title = 'testString'
         new_type = 'standard'
@@ -7060,14 +7363,14 @@ class TestUpdateDialogNode():
             new_user_label=new_user_label,
             new_disambiguation_opt_out=new_disambiguation_opt_out,
             include_audit=include_audit,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
         # Validate body params
@@ -7079,7 +7382,7 @@ class TestUpdateDialogNode():
         assert req_body['previous_sibling'] == 'testString'
         assert req_body['output'] == dialog_node_output_model
         assert req_body['context'] == dialog_node_context_model
-        assert req_body['metadata'] == {'foo': 'bar'}
+        assert req_body['metadata'] == {'anyKey': 'anyValue'}
         assert req_body['next_step'] == dialog_node_next_step_model
         assert req_body['title'] == 'testString'
         assert req_body['type'] == 'standard'
@@ -7109,11 +7412,13 @@ class TestUpdateDialogNode():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/dialog_nodes/testString')
         mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "text", "values": [{"text": "text"}], "selection_policy": "sequential", "delimiter": "\n", "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"anyKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"anyKey": "anyValue"}}}, "metadata": {"anyKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Construct a dict representation of a DialogNodeOutputTextValuesElement model
         dialog_node_output_text_values_element_model = {}
@@ -7128,7 +7433,7 @@ class TestUpdateDialogNode():
         dialog_node_output_generic_model['response_type'] = 'text'
         dialog_node_output_generic_model['values'] = [dialog_node_output_text_values_element_model]
         dialog_node_output_generic_model['selection_policy'] = 'sequential'
-        dialog_node_output_generic_model['delimiter'] = '\n'
+        dialog_node_output_generic_model['delimiter'] = '\\n'
         dialog_node_output_generic_model['channels'] = [response_generic_channel_model]
 
         # Construct a dict representation of a DialogNodeOutputModifiers model
@@ -7138,13 +7443,13 @@ class TestUpdateDialogNode():
         # Construct a dict representation of a DialogNodeOutput model
         dialog_node_output_model = {}
         dialog_node_output_model['generic'] = [dialog_node_output_generic_model]
-        dialog_node_output_model['integrations'] = {'key1': {'foo': 'bar'}}
+        dialog_node_output_model['integrations'] = {'key1': {'anyKey': 'anyValue'}}
         dialog_node_output_model['modifiers'] = dialog_node_output_modifiers_model
         dialog_node_output_model['foo'] = 'testString'
 
         # Construct a dict representation of a DialogNodeContext model
         dialog_node_context_model = {}
-        dialog_node_context_model['integrations'] = {'key1': {'foo': 'bar'}}
+        dialog_node_context_model['integrations'] = {'key1': {'anyKey': 'anyValue'}}
         dialog_node_context_model['foo'] = 'testString'
 
         # Construct a dict representation of a DialogNodeNextStep model
@@ -7157,7 +7462,7 @@ class TestUpdateDialogNode():
         dialog_node_action_model = {}
         dialog_node_action_model['name'] = 'testString'
         dialog_node_action_model['type'] = 'client'
-        dialog_node_action_model['parameters'] = {'foo': 'bar'}
+        dialog_node_action_model['parameters'] = {'anyKey': 'anyValue'}
         dialog_node_action_model['result_variable'] = 'testString'
         dialog_node_action_model['credentials'] = 'testString'
 
@@ -7171,7 +7476,7 @@ class TestUpdateDialogNode():
         new_previous_sibling = 'testString'
         new_output = dialog_node_output_model
         new_context = dialog_node_context_model
-        new_metadata = {'foo': 'bar'}
+        new_metadata = {'anyKey': 'anyValue'}
         new_next_step = dialog_node_next_step_model
         new_title = 'testString'
         new_type = 'standard'
@@ -7207,7 +7512,7 @@ class TestUpdateDialogNode():
             new_digress_out_slots=new_digress_out_slots,
             new_user_label=new_user_label,
             new_disambiguation_opt_out=new_disambiguation_opt_out,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -7222,7 +7527,7 @@ class TestUpdateDialogNode():
         assert req_body['previous_sibling'] == 'testString'
         assert req_body['output'] == dialog_node_output_model
         assert req_body['context'] == dialog_node_context_model
-        assert req_body['metadata'] == {'foo': 'bar'}
+        assert req_body['metadata'] == {'anyKey': 'anyValue'}
         assert req_body['next_step'] == dialog_node_next_step_model
         assert req_body['title'] == 'testString'
         assert req_body['type'] == 'standard'
@@ -7252,11 +7557,13 @@ class TestUpdateDialogNode():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/dialog_nodes/testString')
         mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "text", "values": [{"text": "text"}], "selection_policy": "sequential", "delimiter": "\n", "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"anyKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"anyKey": "anyValue"}}}, "metadata": {"anyKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Construct a dict representation of a DialogNodeOutputTextValuesElement model
         dialog_node_output_text_values_element_model = {}
@@ -7271,7 +7578,7 @@ class TestUpdateDialogNode():
         dialog_node_output_generic_model['response_type'] = 'text'
         dialog_node_output_generic_model['values'] = [dialog_node_output_text_values_element_model]
         dialog_node_output_generic_model['selection_policy'] = 'sequential'
-        dialog_node_output_generic_model['delimiter'] = '\n'
+        dialog_node_output_generic_model['delimiter'] = '\\n'
         dialog_node_output_generic_model['channels'] = [response_generic_channel_model]
 
         # Construct a dict representation of a DialogNodeOutputModifiers model
@@ -7281,13 +7588,13 @@ class TestUpdateDialogNode():
         # Construct a dict representation of a DialogNodeOutput model
         dialog_node_output_model = {}
         dialog_node_output_model['generic'] = [dialog_node_output_generic_model]
-        dialog_node_output_model['integrations'] = {'key1': {'foo': 'bar'}}
+        dialog_node_output_model['integrations'] = {'key1': {'anyKey': 'anyValue'}}
         dialog_node_output_model['modifiers'] = dialog_node_output_modifiers_model
         dialog_node_output_model['foo'] = 'testString'
 
         # Construct a dict representation of a DialogNodeContext model
         dialog_node_context_model = {}
-        dialog_node_context_model['integrations'] = {'key1': {'foo': 'bar'}}
+        dialog_node_context_model['integrations'] = {'key1': {'anyKey': 'anyValue'}}
         dialog_node_context_model['foo'] = 'testString'
 
         # Construct a dict representation of a DialogNodeNextStep model
@@ -7300,7 +7607,7 @@ class TestUpdateDialogNode():
         dialog_node_action_model = {}
         dialog_node_action_model['name'] = 'testString'
         dialog_node_action_model['type'] = 'client'
-        dialog_node_action_model['parameters'] = {'foo': 'bar'}
+        dialog_node_action_model['parameters'] = {'anyKey': 'anyValue'}
         dialog_node_action_model['result_variable'] = 'testString'
         dialog_node_action_model['credentials'] = 'testString'
 
@@ -7314,7 +7621,7 @@ class TestUpdateDialogNode():
         new_previous_sibling = 'testString'
         new_output = dialog_node_output_model
         new_context = dialog_node_context_model
-        new_metadata = {'foo': 'bar'}
+        new_metadata = {'anyKey': 'anyValue'}
         new_next_step = dialog_node_next_step_model
         new_title = 'testString'
         new_type = 'standard'
@@ -7333,7 +7640,7 @@ class TestUpdateDialogNode():
             "dialog_node": dialog_node,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.update_dialog_node(**req_copy)
 
@@ -7346,7 +7653,8 @@ class TestUpdateDialogNode():
         _service.disable_retries()
         self.test_update_dialog_node_value_error()
 
-class TestDeleteDialogNode():
+
+class TestDeleteDialogNode:
     """
     Test Class for delete_dialog_node
     """
@@ -7358,9 +7666,11 @@ class TestDeleteDialogNode():
         """
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/dialog_nodes/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=200)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -7370,7 +7680,7 @@ class TestDeleteDialogNode():
         response = _service.delete_dialog_node(
             workspace_id,
             dialog_node,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -7393,9 +7703,11 @@ class TestDeleteDialogNode():
         """
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/dialog_nodes/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=200)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -7407,7 +7719,7 @@ class TestDeleteDialogNode():
             "dialog_node": dialog_node,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_dialog_node(**req_copy)
 
@@ -7420,6 +7732,7 @@ class TestDeleteDialogNode():
         _service.disable_retries()
         self.test_delete_dialog_node_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: DialogNodes
@@ -7430,7 +7743,8 @@ class TestDeleteDialogNode():
 ##############################################################################
 # region
 
-class TestListLogs():
+
+class TestListLogs:
     """
     Test Class for list_logs
     """
@@ -7443,17 +7757,19 @@ class TestListLogs():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/logs')
         mock_response = '{"logs": [{"request": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"anyKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "response": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"anyKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "log_id": "log_id", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "workspace_id": "workspace_id", "language": "language"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
         sort = 'testString'
         filter = 'testString'
-        page_limit = 38
+        page_limit = 100
         cursor = 'testString'
 
         # Invoke method
@@ -7463,14 +7779,14 @@ class TestListLogs():
             filter=filter,
             page_limit=page_limit,
             cursor=cursor,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'sort={}'.format(sort) in query_string
         assert 'filter={}'.format(filter) in query_string
@@ -7494,11 +7810,13 @@ class TestListLogs():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/logs')
         mock_response = '{"logs": [{"request": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"anyKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "response": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"anyKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "log_id": "log_id", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "workspace_id": "workspace_id", "language": "language"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -7506,7 +7824,7 @@ class TestListLogs():
         # Invoke method
         response = _service.list_logs(
             workspace_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -7530,11 +7848,13 @@ class TestListLogs():
         # Set up mock
         url = preprocess_url('/v1/workspaces/testString/logs')
         mock_response = '{"logs": [{"request": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"anyKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "response": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"anyKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "log_id": "log_id", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "workspace_id": "workspace_id", "language": "language"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         workspace_id = 'testString'
@@ -7544,7 +7864,7 @@ class TestListLogs():
             "workspace_id": workspace_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_logs(**req_copy)
 
@@ -7557,7 +7877,8 @@ class TestListLogs():
         _service.disable_retries()
         self.test_list_logs_value_error()
 
-class TestListAllLogs():
+
+class TestListAllLogs:
     """
     Test Class for list_all_logs
     """
@@ -7570,16 +7891,18 @@ class TestListAllLogs():
         # Set up mock
         url = preprocess_url('/v1/logs')
         mock_response = '{"logs": [{"request": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"anyKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "response": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"anyKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "log_id": "log_id", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "workspace_id": "workspace_id", "language": "language"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         filter = 'testString'
         sort = 'testString'
-        page_limit = 38
+        page_limit = 100
         cursor = 'testString'
 
         # Invoke method
@@ -7588,14 +7911,14 @@ class TestListAllLogs():
             sort=sort,
             page_limit=page_limit,
             cursor=cursor,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'filter={}'.format(filter) in query_string
         assert 'sort={}'.format(sort) in query_string
@@ -7619,11 +7942,13 @@ class TestListAllLogs():
         # Set up mock
         url = preprocess_url('/v1/logs')
         mock_response = '{"logs": [{"request": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"anyKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "response": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"anyKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "log_id": "log_id", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "workspace_id": "workspace_id", "language": "language"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         filter = 'testString'
@@ -7631,14 +7956,14 @@ class TestListAllLogs():
         # Invoke method
         response = _service.list_all_logs(
             filter,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'filter={}'.format(filter) in query_string
 
@@ -7659,11 +7984,13 @@ class TestListAllLogs():
         # Set up mock
         url = preprocess_url('/v1/logs')
         mock_response = '{"logs": [{"request": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"anyKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "response": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"anyKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "log_id": "log_id", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "workspace_id": "workspace_id", "language": "language"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         filter = 'testString'
@@ -7673,7 +8000,7 @@ class TestListAllLogs():
             "filter": filter,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_all_logs(**req_copy)
 
@@ -7686,6 +8013,7 @@ class TestListAllLogs():
         _service.disable_retries()
         self.test_list_all_logs_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: Logs
@@ -7696,7 +8024,8 @@ class TestListAllLogs():
 ##############################################################################
 # region
 
-class TestDeleteUserData():
+
+class TestDeleteUserData:
     """
     Test Class for delete_user_data
     """
@@ -7708,9 +8037,11 @@ class TestDeleteUserData():
         """
         # Set up mock
         url = preprocess_url('/v1/user_data')
-        responses.add(responses.DELETE,
-                      url,
-                      status=202)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=202,
+        )
 
         # Set up parameter values
         customer_id = 'testString'
@@ -7718,14 +8049,14 @@ class TestDeleteUserData():
         # Invoke method
         response = _service.delete_user_data(
             customer_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 202
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'customer_id={}'.format(customer_id) in query_string
 
@@ -7745,9 +8076,11 @@ class TestDeleteUserData():
         """
         # Set up mock
         url = preprocess_url('/v1/user_data')
-        responses.add(responses.DELETE,
-                      url,
-                      status=202)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=202,
+        )
 
         # Set up parameter values
         customer_id = 'testString'
@@ -7757,7 +8090,7 @@ class TestDeleteUserData():
             "customer_id": customer_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_user_data(**req_copy)
 
@@ -7770,6 +8103,7 @@ class TestDeleteUserData():
         _service.disable_retries()
         self.test_delete_user_data_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: UserData
@@ -7780,7 +8114,9 @@ class TestDeleteUserData():
 # Start of Model Tests
 ##############################################################################
 # region
-class TestModel_AgentAvailabilityMessage():
+
+
+class TestModel_AgentAvailabilityMessage:
     """
     Test Class for AgentAvailabilityMessage
     """
@@ -7809,7 +8145,8 @@ class TestModel_AgentAvailabilityMessage():
         agent_availability_message_model_json2 = agent_availability_message_model.to_dict()
         assert agent_availability_message_model_json2 == agent_availability_message_model_json
 
-class TestModel_BulkClassifyOutput():
+
+class TestModel_BulkClassifyOutput:
     """
     Test Class for BulkClassifyOutput
     """
@@ -7821,14 +8158,14 @@ class TestModel_BulkClassifyOutput():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        bulk_classify_utterance_model = {} # BulkClassifyUtterance
+        bulk_classify_utterance_model = {}  # BulkClassifyUtterance
         bulk_classify_utterance_model['text'] = 'testString'
 
-        capture_group_model = {} # CaptureGroup
+        capture_group_model = {}  # CaptureGroup
         capture_group_model['group'] = 'testString'
         capture_group_model['location'] = [38]
 
-        runtime_entity_interpretation_model = {} # RuntimeEntityInterpretation
+        runtime_entity_interpretation_model = {}  # RuntimeEntityInterpretation
         runtime_entity_interpretation_model['calendar_type'] = 'testString'
         runtime_entity_interpretation_model['datetime_link'] = 'testString'
         runtime_entity_interpretation_model['festival'] = 'testString'
@@ -7856,14 +8193,14 @@ class TestModel_BulkClassifyOutput():
         runtime_entity_interpretation_model['specific_second'] = 72.5
         runtime_entity_interpretation_model['timezone'] = 'testString'
 
-        runtime_entity_alternative_model = {} # RuntimeEntityAlternative
+        runtime_entity_alternative_model = {}  # RuntimeEntityAlternative
         runtime_entity_alternative_model['value'] = 'testString'
         runtime_entity_alternative_model['confidence'] = 72.5
 
-        runtime_entity_role_model = {} # RuntimeEntityRole
+        runtime_entity_role_model = {}  # RuntimeEntityRole
         runtime_entity_role_model['type'] = 'date_from'
 
-        runtime_entity_model = {} # RuntimeEntity
+        runtime_entity_model = {}  # RuntimeEntity
         runtime_entity_model['entity'] = 'testString'
         runtime_entity_model['location'] = [38]
         runtime_entity_model['value'] = 'testString'
@@ -7873,7 +8210,7 @@ class TestModel_BulkClassifyOutput():
         runtime_entity_model['alternatives'] = [runtime_entity_alternative_model]
         runtime_entity_model['role'] = runtime_entity_role_model
 
-        runtime_intent_model = {} # RuntimeIntent
+        runtime_intent_model = {}  # RuntimeIntent
         runtime_intent_model['intent'] = 'testString'
         runtime_intent_model['confidence'] = 72.5
 
@@ -7898,7 +8235,8 @@ class TestModel_BulkClassifyOutput():
         bulk_classify_output_model_json2 = bulk_classify_output_model.to_dict()
         assert bulk_classify_output_model_json2 == bulk_classify_output_model_json
 
-class TestModel_BulkClassifyResponse():
+
+class TestModel_BulkClassifyResponse:
     """
     Test Class for BulkClassifyResponse
     """
@@ -7910,14 +8248,14 @@ class TestModel_BulkClassifyResponse():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        bulk_classify_utterance_model = {} # BulkClassifyUtterance
+        bulk_classify_utterance_model = {}  # BulkClassifyUtterance
         bulk_classify_utterance_model['text'] = 'testString'
 
-        capture_group_model = {} # CaptureGroup
+        capture_group_model = {}  # CaptureGroup
         capture_group_model['group'] = 'testString'
         capture_group_model['location'] = [38]
 
-        runtime_entity_interpretation_model = {} # RuntimeEntityInterpretation
+        runtime_entity_interpretation_model = {}  # RuntimeEntityInterpretation
         runtime_entity_interpretation_model['calendar_type'] = 'testString'
         runtime_entity_interpretation_model['datetime_link'] = 'testString'
         runtime_entity_interpretation_model['festival'] = 'testString'
@@ -7945,14 +8283,14 @@ class TestModel_BulkClassifyResponse():
         runtime_entity_interpretation_model['specific_second'] = 72.5
         runtime_entity_interpretation_model['timezone'] = 'testString'
 
-        runtime_entity_alternative_model = {} # RuntimeEntityAlternative
+        runtime_entity_alternative_model = {}  # RuntimeEntityAlternative
         runtime_entity_alternative_model['value'] = 'testString'
         runtime_entity_alternative_model['confidence'] = 72.5
 
-        runtime_entity_role_model = {} # RuntimeEntityRole
+        runtime_entity_role_model = {}  # RuntimeEntityRole
         runtime_entity_role_model['type'] = 'date_from'
 
-        runtime_entity_model = {} # RuntimeEntity
+        runtime_entity_model = {}  # RuntimeEntity
         runtime_entity_model['entity'] = 'testString'
         runtime_entity_model['location'] = [38]
         runtime_entity_model['value'] = 'testString'
@@ -7962,11 +8300,11 @@ class TestModel_BulkClassifyResponse():
         runtime_entity_model['alternatives'] = [runtime_entity_alternative_model]
         runtime_entity_model['role'] = runtime_entity_role_model
 
-        runtime_intent_model = {} # RuntimeIntent
+        runtime_intent_model = {}  # RuntimeIntent
         runtime_intent_model['intent'] = 'testString'
         runtime_intent_model['confidence'] = 72.5
 
-        bulk_classify_output_model = {} # BulkClassifyOutput
+        bulk_classify_output_model = {}  # BulkClassifyOutput
         bulk_classify_output_model['input'] = bulk_classify_utterance_model
         bulk_classify_output_model['entities'] = [runtime_entity_model]
         bulk_classify_output_model['intents'] = [runtime_intent_model]
@@ -7990,7 +8328,8 @@ class TestModel_BulkClassifyResponse():
         bulk_classify_response_model_json2 = bulk_classify_response_model.to_dict()
         assert bulk_classify_response_model_json2 == bulk_classify_response_model_json
 
-class TestModel_BulkClassifyUtterance():
+
+class TestModel_BulkClassifyUtterance:
     """
     Test Class for BulkClassifyUtterance
     """
@@ -8019,7 +8358,8 @@ class TestModel_BulkClassifyUtterance():
         bulk_classify_utterance_model_json2 = bulk_classify_utterance_model.to_dict()
         assert bulk_classify_utterance_model_json2 == bulk_classify_utterance_model_json
 
-class TestModel_CaptureGroup():
+
+class TestModel_CaptureGroup:
     """
     Test Class for CaptureGroup
     """
@@ -8049,7 +8389,8 @@ class TestModel_CaptureGroup():
         capture_group_model_json2 = capture_group_model.to_dict()
         assert capture_group_model_json2 == capture_group_model_json
 
-class TestModel_ChannelTransferInfo():
+
+class TestModel_ChannelTransferInfo:
     """
     Test Class for ChannelTransferInfo
     """
@@ -8061,10 +8402,10 @@ class TestModel_ChannelTransferInfo():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        channel_transfer_target_chat_model = {} # ChannelTransferTargetChat
+        channel_transfer_target_chat_model = {}  # ChannelTransferTargetChat
         channel_transfer_target_chat_model['url'] = 'testString'
 
-        channel_transfer_target_model = {} # ChannelTransferTarget
+        channel_transfer_target_model = {}  # ChannelTransferTarget
         channel_transfer_target_model['chat'] = channel_transfer_target_chat_model
 
         # Construct a json representation of a ChannelTransferInfo model
@@ -8086,7 +8427,8 @@ class TestModel_ChannelTransferInfo():
         channel_transfer_info_model_json2 = channel_transfer_info_model.to_dict()
         assert channel_transfer_info_model_json2 == channel_transfer_info_model_json
 
-class TestModel_ChannelTransferTarget():
+
+class TestModel_ChannelTransferTarget:
     """
     Test Class for ChannelTransferTarget
     """
@@ -8098,7 +8440,7 @@ class TestModel_ChannelTransferTarget():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        channel_transfer_target_chat_model = {} # ChannelTransferTargetChat
+        channel_transfer_target_chat_model = {}  # ChannelTransferTargetChat
         channel_transfer_target_chat_model['url'] = 'testString'
 
         # Construct a json representation of a ChannelTransferTarget model
@@ -8120,7 +8462,8 @@ class TestModel_ChannelTransferTarget():
         channel_transfer_target_model_json2 = channel_transfer_target_model.to_dict()
         assert channel_transfer_target_model_json2 == channel_transfer_target_model_json
 
-class TestModel_ChannelTransferTargetChat():
+
+class TestModel_ChannelTransferTargetChat:
     """
     Test Class for ChannelTransferTargetChat
     """
@@ -8149,7 +8492,8 @@ class TestModel_ChannelTransferTargetChat():
         channel_transfer_target_chat_model_json2 = channel_transfer_target_chat_model.to_dict()
         assert channel_transfer_target_chat_model_json2 == channel_transfer_target_chat_model_json
 
-class TestModel_Context():
+
+class TestModel_Context:
     """
     Test Class for Context
     """
@@ -8161,14 +8505,14 @@ class TestModel_Context():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        message_context_metadata_model = {} # MessageContextMetadata
+        message_context_metadata_model = {}  # MessageContextMetadata
         message_context_metadata_model['deployment'] = 'testString'
         message_context_metadata_model['user_id'] = 'testString'
 
         # Construct a json representation of a Context model
         context_model_json = {}
         context_model_json['conversation_id'] = 'testString'
-        context_model_json['system'] = {'foo': 'bar'}
+        context_model_json['system'] = {'anyKey': 'anyValue'}
         context_model_json['metadata'] = message_context_metadata_model
         context_model_json['foo'] = 'testString'
 
@@ -8197,7 +8541,8 @@ class TestModel_Context():
         actual_dict = context_model.get_properties()
         assert actual_dict == expected_dict
 
-class TestModel_Counterexample():
+
+class TestModel_Counterexample:
     """
     Test Class for Counterexample
     """
@@ -8226,7 +8571,8 @@ class TestModel_Counterexample():
         counterexample_model_json2 = counterexample_model.to_dict()
         assert counterexample_model_json2 == counterexample_model_json
 
-class TestModel_CounterexampleCollection():
+
+class TestModel_CounterexampleCollection:
     """
     Test Class for CounterexampleCollection
     """
@@ -8238,10 +8584,10 @@ class TestModel_CounterexampleCollection():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        counterexample_model = {} # Counterexample
+        counterexample_model = {}  # Counterexample
         counterexample_model['text'] = 'testString'
 
-        pagination_model = {} # Pagination
+        pagination_model = {}  # Pagination
         pagination_model['refresh_url'] = 'testString'
         pagination_model['next_url'] = 'testString'
         pagination_model['total'] = 38
@@ -8269,7 +8615,8 @@ class TestModel_CounterexampleCollection():
         counterexample_collection_model_json2 = counterexample_collection_model.to_dict()
         assert counterexample_collection_model_json2 == counterexample_collection_model_json
 
-class TestModel_CreateEntity():
+
+class TestModel_CreateEntity:
     """
     Test Class for CreateEntity
     """
@@ -8281,9 +8628,9 @@ class TestModel_CreateEntity():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        create_value_model = {} # CreateValue
+        create_value_model = {}  # CreateValue
         create_value_model['value'] = 'testString'
-        create_value_model['metadata'] = {'foo': 'bar'}
+        create_value_model['metadata'] = {'anyKey': 'anyValue'}
         create_value_model['type'] = 'synonyms'
         create_value_model['synonyms'] = ['testString']
         create_value_model['patterns'] = ['testString']
@@ -8292,7 +8639,7 @@ class TestModel_CreateEntity():
         create_entity_model_json = {}
         create_entity_model_json['entity'] = 'testString'
         create_entity_model_json['description'] = 'testString'
-        create_entity_model_json['metadata'] = {'foo': 'bar'}
+        create_entity_model_json['metadata'] = {'anyKey': 'anyValue'}
         create_entity_model_json['fuzzy_match'] = True
         create_entity_model_json['values'] = [create_value_model]
 
@@ -8311,7 +8658,8 @@ class TestModel_CreateEntity():
         create_entity_model_json2 = create_entity_model.to_dict()
         assert create_entity_model_json2 == create_entity_model_json
 
-class TestModel_CreateIntent():
+
+class TestModel_CreateIntent:
     """
     Test Class for CreateIntent
     """
@@ -8323,11 +8671,11 @@ class TestModel_CreateIntent():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        mention_model = {} # Mention
+        mention_model = {}  # Mention
         mention_model['entity'] = 'testString'
         mention_model['location'] = [38]
 
-        example_model = {} # Example
+        example_model = {}  # Example
         example_model['text'] = 'testString'
         example_model['mentions'] = [mention_model]
 
@@ -8352,7 +8700,8 @@ class TestModel_CreateIntent():
         create_intent_model_json2 = create_intent_model.to_dict()
         assert create_intent_model_json2 == create_intent_model_json
 
-class TestModel_CreateValue():
+
+class TestModel_CreateValue:
     """
     Test Class for CreateValue
     """
@@ -8365,7 +8714,7 @@ class TestModel_CreateValue():
         # Construct a json representation of a CreateValue model
         create_value_model_json = {}
         create_value_model_json['value'] = 'testString'
-        create_value_model_json['metadata'] = {'foo': 'bar'}
+        create_value_model_json['metadata'] = {'anyKey': 'anyValue'}
         create_value_model_json['type'] = 'synonyms'
         create_value_model_json['synonyms'] = ['testString']
         create_value_model_json['patterns'] = ['testString']
@@ -8385,7 +8734,8 @@ class TestModel_CreateValue():
         create_value_model_json2 = create_value_model.to_dict()
         assert create_value_model_json2 == create_value_model_json
 
-class TestModel_DialogNode():
+
+class TestModel_DialogNode:
     """
     Test Class for DialogNode
     """
@@ -8397,41 +8747,41 @@ class TestModel_DialogNode():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        dialog_node_output_text_values_element_model = {} # DialogNodeOutputTextValuesElement
+        dialog_node_output_text_values_element_model = {}  # DialogNodeOutputTextValuesElement
         dialog_node_output_text_values_element_model['text'] = 'testString'
 
-        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'chat'
 
-        dialog_node_output_generic_model = {} # DialogNodeOutputGenericDialogNodeOutputResponseTypeText
+        dialog_node_output_generic_model = {}  # DialogNodeOutputGenericDialogNodeOutputResponseTypeText
         dialog_node_output_generic_model['response_type'] = 'text'
         dialog_node_output_generic_model['values'] = [dialog_node_output_text_values_element_model]
         dialog_node_output_generic_model['selection_policy'] = 'sequential'
-        dialog_node_output_generic_model['delimiter'] = '\n'
+        dialog_node_output_generic_model['delimiter'] = '\\n'
         dialog_node_output_generic_model['channels'] = [response_generic_channel_model]
 
-        dialog_node_output_modifiers_model = {} # DialogNodeOutputModifiers
+        dialog_node_output_modifiers_model = {}  # DialogNodeOutputModifiers
         dialog_node_output_modifiers_model['overwrite'] = True
 
-        dialog_node_output_model = {} # DialogNodeOutput
+        dialog_node_output_model = {}  # DialogNodeOutput
         dialog_node_output_model['generic'] = [dialog_node_output_generic_model]
-        dialog_node_output_model['integrations'] = {'key1': {'foo': 'bar'}}
+        dialog_node_output_model['integrations'] = {'key1': {'anyKey': 'anyValue'}}
         dialog_node_output_model['modifiers'] = dialog_node_output_modifiers_model
         dialog_node_output_model['foo'] = 'testString'
 
-        dialog_node_context_model = {} # DialogNodeContext
-        dialog_node_context_model['integrations'] = {'key1': {'foo': 'bar'}}
+        dialog_node_context_model = {}  # DialogNodeContext
+        dialog_node_context_model['integrations'] = {'key1': {'anyKey': 'anyValue'}}
         dialog_node_context_model['foo'] = 'testString'
 
-        dialog_node_next_step_model = {} # DialogNodeNextStep
+        dialog_node_next_step_model = {}  # DialogNodeNextStep
         dialog_node_next_step_model['behavior'] = 'get_user_input'
         dialog_node_next_step_model['dialog_node'] = 'testString'
         dialog_node_next_step_model['selector'] = 'condition'
 
-        dialog_node_action_model = {} # DialogNodeAction
+        dialog_node_action_model = {}  # DialogNodeAction
         dialog_node_action_model['name'] = 'testString'
         dialog_node_action_model['type'] = 'client'
-        dialog_node_action_model['parameters'] = {'foo': 'bar'}
+        dialog_node_action_model['parameters'] = {'anyKey': 'anyValue'}
         dialog_node_action_model['result_variable'] = 'testString'
         dialog_node_action_model['credentials'] = 'testString'
 
@@ -8444,7 +8794,7 @@ class TestModel_DialogNode():
         dialog_node_model_json['previous_sibling'] = 'testString'
         dialog_node_model_json['output'] = dialog_node_output_model
         dialog_node_model_json['context'] = dialog_node_context_model
-        dialog_node_model_json['metadata'] = {'foo': 'bar'}
+        dialog_node_model_json['metadata'] = {'anyKey': 'anyValue'}
         dialog_node_model_json['next_step'] = dialog_node_next_step_model
         dialog_node_model_json['title'] = 'testString'
         dialog_node_model_json['type'] = 'standard'
@@ -8472,7 +8822,8 @@ class TestModel_DialogNode():
         dialog_node_model_json2 = dialog_node_model.to_dict()
         assert dialog_node_model_json2 == dialog_node_model_json
 
-class TestModel_DialogNodeAction():
+
+class TestModel_DialogNodeAction:
     """
     Test Class for DialogNodeAction
     """
@@ -8486,7 +8837,7 @@ class TestModel_DialogNodeAction():
         dialog_node_action_model_json = {}
         dialog_node_action_model_json['name'] = 'testString'
         dialog_node_action_model_json['type'] = 'client'
-        dialog_node_action_model_json['parameters'] = {'foo': 'bar'}
+        dialog_node_action_model_json['parameters'] = {'anyKey': 'anyValue'}
         dialog_node_action_model_json['result_variable'] = 'testString'
         dialog_node_action_model_json['credentials'] = 'testString'
 
@@ -8505,7 +8856,8 @@ class TestModel_DialogNodeAction():
         dialog_node_action_model_json2 = dialog_node_action_model.to_dict()
         assert dialog_node_action_model_json2 == dialog_node_action_model_json
 
-class TestModel_DialogNodeCollection():
+
+class TestModel_DialogNodeCollection:
     """
     Test Class for DialogNodeCollection
     """
@@ -8517,45 +8869,45 @@ class TestModel_DialogNodeCollection():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        dialog_node_output_text_values_element_model = {} # DialogNodeOutputTextValuesElement
+        dialog_node_output_text_values_element_model = {}  # DialogNodeOutputTextValuesElement
         dialog_node_output_text_values_element_model['text'] = 'testString'
 
-        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'chat'
 
-        dialog_node_output_generic_model = {} # DialogNodeOutputGenericDialogNodeOutputResponseTypeText
+        dialog_node_output_generic_model = {}  # DialogNodeOutputGenericDialogNodeOutputResponseTypeText
         dialog_node_output_generic_model['response_type'] = 'text'
         dialog_node_output_generic_model['values'] = [dialog_node_output_text_values_element_model]
         dialog_node_output_generic_model['selection_policy'] = 'sequential'
-        dialog_node_output_generic_model['delimiter'] = '\n'
+        dialog_node_output_generic_model['delimiter'] = '\\n'
         dialog_node_output_generic_model['channels'] = [response_generic_channel_model]
 
-        dialog_node_output_modifiers_model = {} # DialogNodeOutputModifiers
+        dialog_node_output_modifiers_model = {}  # DialogNodeOutputModifiers
         dialog_node_output_modifiers_model['overwrite'] = True
 
-        dialog_node_output_model = {} # DialogNodeOutput
+        dialog_node_output_model = {}  # DialogNodeOutput
         dialog_node_output_model['generic'] = [dialog_node_output_generic_model]
-        dialog_node_output_model['integrations'] = {'key1': {'foo': 'bar'}}
+        dialog_node_output_model['integrations'] = {'key1': {'anyKey': 'anyValue'}}
         dialog_node_output_model['modifiers'] = dialog_node_output_modifiers_model
         dialog_node_output_model['foo'] = 'testString'
 
-        dialog_node_context_model = {} # DialogNodeContext
-        dialog_node_context_model['integrations'] = {'key1': {'foo': 'bar'}}
+        dialog_node_context_model = {}  # DialogNodeContext
+        dialog_node_context_model['integrations'] = {'key1': {'anyKey': 'anyValue'}}
         dialog_node_context_model['foo'] = 'testString'
 
-        dialog_node_next_step_model = {} # DialogNodeNextStep
+        dialog_node_next_step_model = {}  # DialogNodeNextStep
         dialog_node_next_step_model['behavior'] = 'get_user_input'
         dialog_node_next_step_model['dialog_node'] = 'testString'
         dialog_node_next_step_model['selector'] = 'condition'
 
-        dialog_node_action_model = {} # DialogNodeAction
+        dialog_node_action_model = {}  # DialogNodeAction
         dialog_node_action_model['name'] = 'testString'
         dialog_node_action_model['type'] = 'client'
-        dialog_node_action_model['parameters'] = {'foo': 'bar'}
+        dialog_node_action_model['parameters'] = {'anyKey': 'anyValue'}
         dialog_node_action_model['result_variable'] = 'testString'
         dialog_node_action_model['credentials'] = 'testString'
 
-        dialog_node_model = {} # DialogNode
+        dialog_node_model = {}  # DialogNode
         dialog_node_model['dialog_node'] = 'testString'
         dialog_node_model['description'] = 'testString'
         dialog_node_model['conditions'] = 'testString'
@@ -8563,7 +8915,7 @@ class TestModel_DialogNodeCollection():
         dialog_node_model['previous_sibling'] = 'testString'
         dialog_node_model['output'] = dialog_node_output_model
         dialog_node_model['context'] = dialog_node_context_model
-        dialog_node_model['metadata'] = {'foo': 'bar'}
+        dialog_node_model['metadata'] = {'anyKey': 'anyValue'}
         dialog_node_model['next_step'] = dialog_node_next_step_model
         dialog_node_model['title'] = 'testString'
         dialog_node_model['type'] = 'standard'
@@ -8576,7 +8928,7 @@ class TestModel_DialogNodeCollection():
         dialog_node_model['user_label'] = 'testString'
         dialog_node_model['disambiguation_opt_out'] = False
 
-        pagination_model = {} # Pagination
+        pagination_model = {}  # Pagination
         pagination_model['refresh_url'] = 'testString'
         pagination_model['next_url'] = 'testString'
         pagination_model['total'] = 38
@@ -8604,7 +8956,8 @@ class TestModel_DialogNodeCollection():
         dialog_node_collection_model_json2 = dialog_node_collection_model.to_dict()
         assert dialog_node_collection_model_json2 == dialog_node_collection_model_json
 
-class TestModel_DialogNodeContext():
+
+class TestModel_DialogNodeContext:
     """
     Test Class for DialogNodeContext
     """
@@ -8616,7 +8969,7 @@ class TestModel_DialogNodeContext():
 
         # Construct a json representation of a DialogNodeContext model
         dialog_node_context_model_json = {}
-        dialog_node_context_model_json['integrations'] = {'key1': {'foo': 'bar'}}
+        dialog_node_context_model_json['integrations'] = {'key1': {'anyKey': 'anyValue'}}
         dialog_node_context_model_json['foo'] = 'testString'
 
         # Construct a model instance of DialogNodeContext by calling from_dict on the json representation
@@ -8644,7 +8997,8 @@ class TestModel_DialogNodeContext():
         actual_dict = dialog_node_context_model.get_properties()
         assert actual_dict == expected_dict
 
-class TestModel_DialogNodeNextStep():
+
+class TestModel_DialogNodeNextStep:
     """
     Test Class for DialogNodeNextStep
     """
@@ -8675,7 +9029,8 @@ class TestModel_DialogNodeNextStep():
         dialog_node_next_step_model_json2 = dialog_node_next_step_model.to_dict()
         assert dialog_node_next_step_model_json2 == dialog_node_next_step_model_json
 
-class TestModel_DialogNodeOutput():
+
+class TestModel_DialogNodeOutput:
     """
     Test Class for DialogNodeOutput
     """
@@ -8687,26 +9042,26 @@ class TestModel_DialogNodeOutput():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        dialog_node_output_text_values_element_model = {} # DialogNodeOutputTextValuesElement
+        dialog_node_output_text_values_element_model = {}  # DialogNodeOutputTextValuesElement
         dialog_node_output_text_values_element_model['text'] = 'testString'
 
-        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'chat'
 
-        dialog_node_output_generic_model = {} # DialogNodeOutputGenericDialogNodeOutputResponseTypeText
+        dialog_node_output_generic_model = {}  # DialogNodeOutputGenericDialogNodeOutputResponseTypeText
         dialog_node_output_generic_model['response_type'] = 'text'
         dialog_node_output_generic_model['values'] = [dialog_node_output_text_values_element_model]
         dialog_node_output_generic_model['selection_policy'] = 'sequential'
-        dialog_node_output_generic_model['delimiter'] = '\n'
+        dialog_node_output_generic_model['delimiter'] = '\\n'
         dialog_node_output_generic_model['channels'] = [response_generic_channel_model]
 
-        dialog_node_output_modifiers_model = {} # DialogNodeOutputModifiers
+        dialog_node_output_modifiers_model = {}  # DialogNodeOutputModifiers
         dialog_node_output_modifiers_model['overwrite'] = True
 
         # Construct a json representation of a DialogNodeOutput model
         dialog_node_output_model_json = {}
         dialog_node_output_model_json['generic'] = [dialog_node_output_generic_model]
-        dialog_node_output_model_json['integrations'] = {'key1': {'foo': 'bar'}}
+        dialog_node_output_model_json['integrations'] = {'key1': {'anyKey': 'anyValue'}}
         dialog_node_output_model_json['modifiers'] = dialog_node_output_modifiers_model
         dialog_node_output_model_json['foo'] = 'testString'
 
@@ -8735,7 +9090,8 @@ class TestModel_DialogNodeOutput():
         actual_dict = dialog_node_output_model.get_properties()
         assert actual_dict == expected_dict
 
-class TestModel_DialogNodeOutputConnectToAgentTransferInfo():
+
+class TestModel_DialogNodeOutputConnectToAgentTransferInfo:
     """
     Test Class for DialogNodeOutputConnectToAgentTransferInfo
     """
@@ -8747,7 +9103,7 @@ class TestModel_DialogNodeOutputConnectToAgentTransferInfo():
 
         # Construct a json representation of a DialogNodeOutputConnectToAgentTransferInfo model
         dialog_node_output_connect_to_agent_transfer_info_model_json = {}
-        dialog_node_output_connect_to_agent_transfer_info_model_json['target'] = {'key1': {'foo': 'bar'}}
+        dialog_node_output_connect_to_agent_transfer_info_model_json['target'] = {'key1': {'anyKey': 'anyValue'}}
 
         # Construct a model instance of DialogNodeOutputConnectToAgentTransferInfo by calling from_dict on the json representation
         dialog_node_output_connect_to_agent_transfer_info_model = DialogNodeOutputConnectToAgentTransferInfo.from_dict(dialog_node_output_connect_to_agent_transfer_info_model_json)
@@ -8764,7 +9120,8 @@ class TestModel_DialogNodeOutputConnectToAgentTransferInfo():
         dialog_node_output_connect_to_agent_transfer_info_model_json2 = dialog_node_output_connect_to_agent_transfer_info_model.to_dict()
         assert dialog_node_output_connect_to_agent_transfer_info_model_json2 == dialog_node_output_connect_to_agent_transfer_info_model_json
 
-class TestModel_DialogNodeOutputModifiers():
+
+class TestModel_DialogNodeOutputModifiers:
     """
     Test Class for DialogNodeOutputModifiers
     """
@@ -8793,7 +9150,8 @@ class TestModel_DialogNodeOutputModifiers():
         dialog_node_output_modifiers_model_json2 = dialog_node_output_modifiers_model.to_dict()
         assert dialog_node_output_modifiers_model_json2 == dialog_node_output_modifiers_model_json
 
-class TestModel_DialogNodeOutputOptionsElement():
+
+class TestModel_DialogNodeOutputOptionsElement:
     """
     Test Class for DialogNodeOutputOptionsElement
     """
@@ -8805,21 +9163,21 @@ class TestModel_DialogNodeOutputOptionsElement():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        message_input_model = {} # MessageInput
+        message_input_model = {}  # MessageInput
         message_input_model['text'] = 'testString'
         message_input_model['spelling_suggestions'] = False
         message_input_model['spelling_auto_correct'] = False
         message_input_model['foo'] = 'testString'
 
-        runtime_intent_model = {} # RuntimeIntent
+        runtime_intent_model = {}  # RuntimeIntent
         runtime_intent_model['intent'] = 'testString'
         runtime_intent_model['confidence'] = 72.5
 
-        capture_group_model = {} # CaptureGroup
+        capture_group_model = {}  # CaptureGroup
         capture_group_model['group'] = 'testString'
         capture_group_model['location'] = [38]
 
-        runtime_entity_interpretation_model = {} # RuntimeEntityInterpretation
+        runtime_entity_interpretation_model = {}  # RuntimeEntityInterpretation
         runtime_entity_interpretation_model['calendar_type'] = 'testString'
         runtime_entity_interpretation_model['datetime_link'] = 'testString'
         runtime_entity_interpretation_model['festival'] = 'testString'
@@ -8847,14 +9205,14 @@ class TestModel_DialogNodeOutputOptionsElement():
         runtime_entity_interpretation_model['specific_second'] = 72.5
         runtime_entity_interpretation_model['timezone'] = 'testString'
 
-        runtime_entity_alternative_model = {} # RuntimeEntityAlternative
+        runtime_entity_alternative_model = {}  # RuntimeEntityAlternative
         runtime_entity_alternative_model['value'] = 'testString'
         runtime_entity_alternative_model['confidence'] = 72.5
 
-        runtime_entity_role_model = {} # RuntimeEntityRole
+        runtime_entity_role_model = {}  # RuntimeEntityRole
         runtime_entity_role_model['type'] = 'date_from'
 
-        runtime_entity_model = {} # RuntimeEntity
+        runtime_entity_model = {}  # RuntimeEntity
         runtime_entity_model['entity'] = 'testString'
         runtime_entity_model['location'] = [38]
         runtime_entity_model['value'] = 'testString'
@@ -8864,7 +9222,7 @@ class TestModel_DialogNodeOutputOptionsElement():
         runtime_entity_model['alternatives'] = [runtime_entity_alternative_model]
         runtime_entity_model['role'] = runtime_entity_role_model
 
-        dialog_node_output_options_element_value_model = {} # DialogNodeOutputOptionsElementValue
+        dialog_node_output_options_element_value_model = {}  # DialogNodeOutputOptionsElementValue
         dialog_node_output_options_element_value_model['input'] = message_input_model
         dialog_node_output_options_element_value_model['intents'] = [runtime_intent_model]
         dialog_node_output_options_element_value_model['entities'] = [runtime_entity_model]
@@ -8889,7 +9247,8 @@ class TestModel_DialogNodeOutputOptionsElement():
         dialog_node_output_options_element_model_json2 = dialog_node_output_options_element_model.to_dict()
         assert dialog_node_output_options_element_model_json2 == dialog_node_output_options_element_model_json
 
-class TestModel_DialogNodeOutputOptionsElementValue():
+
+class TestModel_DialogNodeOutputOptionsElementValue:
     """
     Test Class for DialogNodeOutputOptionsElementValue
     """
@@ -8901,21 +9260,21 @@ class TestModel_DialogNodeOutputOptionsElementValue():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        message_input_model = {} # MessageInput
+        message_input_model = {}  # MessageInput
         message_input_model['text'] = 'testString'
         message_input_model['spelling_suggestions'] = False
         message_input_model['spelling_auto_correct'] = False
         message_input_model['foo'] = 'testString'
 
-        runtime_intent_model = {} # RuntimeIntent
+        runtime_intent_model = {}  # RuntimeIntent
         runtime_intent_model['intent'] = 'testString'
         runtime_intent_model['confidence'] = 72.5
 
-        capture_group_model = {} # CaptureGroup
+        capture_group_model = {}  # CaptureGroup
         capture_group_model['group'] = 'testString'
         capture_group_model['location'] = [38]
 
-        runtime_entity_interpretation_model = {} # RuntimeEntityInterpretation
+        runtime_entity_interpretation_model = {}  # RuntimeEntityInterpretation
         runtime_entity_interpretation_model['calendar_type'] = 'testString'
         runtime_entity_interpretation_model['datetime_link'] = 'testString'
         runtime_entity_interpretation_model['festival'] = 'testString'
@@ -8943,14 +9302,14 @@ class TestModel_DialogNodeOutputOptionsElementValue():
         runtime_entity_interpretation_model['specific_second'] = 72.5
         runtime_entity_interpretation_model['timezone'] = 'testString'
 
-        runtime_entity_alternative_model = {} # RuntimeEntityAlternative
+        runtime_entity_alternative_model = {}  # RuntimeEntityAlternative
         runtime_entity_alternative_model['value'] = 'testString'
         runtime_entity_alternative_model['confidence'] = 72.5
 
-        runtime_entity_role_model = {} # RuntimeEntityRole
+        runtime_entity_role_model = {}  # RuntimeEntityRole
         runtime_entity_role_model['type'] = 'date_from'
 
-        runtime_entity_model = {} # RuntimeEntity
+        runtime_entity_model = {}  # RuntimeEntity
         runtime_entity_model['entity'] = 'testString'
         runtime_entity_model['location'] = [38]
         runtime_entity_model['value'] = 'testString'
@@ -8981,7 +9340,8 @@ class TestModel_DialogNodeOutputOptionsElementValue():
         dialog_node_output_options_element_value_model_json2 = dialog_node_output_options_element_value_model.to_dict()
         assert dialog_node_output_options_element_value_model_json2 == dialog_node_output_options_element_value_model_json
 
-class TestModel_DialogNodeOutputTextValuesElement():
+
+class TestModel_DialogNodeOutputTextValuesElement:
     """
     Test Class for DialogNodeOutputTextValuesElement
     """
@@ -9010,7 +9370,8 @@ class TestModel_DialogNodeOutputTextValuesElement():
         dialog_node_output_text_values_element_model_json2 = dialog_node_output_text_values_element_model.to_dict()
         assert dialog_node_output_text_values_element_model_json2 == dialog_node_output_text_values_element_model_json
 
-class TestModel_DialogNodeVisitedDetails():
+
+class TestModel_DialogNodeVisitedDetails:
     """
     Test Class for DialogNodeVisitedDetails
     """
@@ -9041,7 +9402,8 @@ class TestModel_DialogNodeVisitedDetails():
         dialog_node_visited_details_model_json2 = dialog_node_visited_details_model.to_dict()
         assert dialog_node_visited_details_model_json2 == dialog_node_visited_details_model_json
 
-class TestModel_DialogSuggestion():
+
+class TestModel_DialogSuggestion:
     """
     Test Class for DialogSuggestion
     """
@@ -9053,21 +9415,21 @@ class TestModel_DialogSuggestion():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        message_input_model = {} # MessageInput
+        message_input_model = {}  # MessageInput
         message_input_model['text'] = 'testString'
         message_input_model['spelling_suggestions'] = False
         message_input_model['spelling_auto_correct'] = False
         message_input_model['foo'] = 'testString'
 
-        runtime_intent_model = {} # RuntimeIntent
+        runtime_intent_model = {}  # RuntimeIntent
         runtime_intent_model['intent'] = 'testString'
         runtime_intent_model['confidence'] = 72.5
 
-        capture_group_model = {} # CaptureGroup
+        capture_group_model = {}  # CaptureGroup
         capture_group_model['group'] = 'testString'
         capture_group_model['location'] = [38]
 
-        runtime_entity_interpretation_model = {} # RuntimeEntityInterpretation
+        runtime_entity_interpretation_model = {}  # RuntimeEntityInterpretation
         runtime_entity_interpretation_model['calendar_type'] = 'testString'
         runtime_entity_interpretation_model['datetime_link'] = 'testString'
         runtime_entity_interpretation_model['festival'] = 'testString'
@@ -9095,14 +9457,14 @@ class TestModel_DialogSuggestion():
         runtime_entity_interpretation_model['specific_second'] = 72.5
         runtime_entity_interpretation_model['timezone'] = 'testString'
 
-        runtime_entity_alternative_model = {} # RuntimeEntityAlternative
+        runtime_entity_alternative_model = {}  # RuntimeEntityAlternative
         runtime_entity_alternative_model['value'] = 'testString'
         runtime_entity_alternative_model['confidence'] = 72.5
 
-        runtime_entity_role_model = {} # RuntimeEntityRole
+        runtime_entity_role_model = {}  # RuntimeEntityRole
         runtime_entity_role_model['type'] = 'date_from'
 
-        runtime_entity_model = {} # RuntimeEntity
+        runtime_entity_model = {}  # RuntimeEntity
         runtime_entity_model['entity'] = 'testString'
         runtime_entity_model['location'] = [38]
         runtime_entity_model['value'] = 'testString'
@@ -9112,7 +9474,7 @@ class TestModel_DialogSuggestion():
         runtime_entity_model['alternatives'] = [runtime_entity_alternative_model]
         runtime_entity_model['role'] = runtime_entity_role_model
 
-        dialog_suggestion_value_model = {} # DialogSuggestionValue
+        dialog_suggestion_value_model = {}  # DialogSuggestionValue
         dialog_suggestion_value_model['input'] = message_input_model
         dialog_suggestion_value_model['intents'] = [runtime_intent_model]
         dialog_suggestion_value_model['entities'] = [runtime_entity_model]
@@ -9121,7 +9483,7 @@ class TestModel_DialogSuggestion():
         dialog_suggestion_model_json = {}
         dialog_suggestion_model_json['label'] = 'testString'
         dialog_suggestion_model_json['value'] = dialog_suggestion_value_model
-        dialog_suggestion_model_json['output'] = {'foo': 'bar'}
+        dialog_suggestion_model_json['output'] = {'anyKey': 'anyValue'}
         dialog_suggestion_model_json['dialog_node'] = 'testString'
 
         # Construct a model instance of DialogSuggestion by calling from_dict on the json representation
@@ -9139,7 +9501,8 @@ class TestModel_DialogSuggestion():
         dialog_suggestion_model_json2 = dialog_suggestion_model.to_dict()
         assert dialog_suggestion_model_json2 == dialog_suggestion_model_json
 
-class TestModel_DialogSuggestionValue():
+
+class TestModel_DialogSuggestionValue:
     """
     Test Class for DialogSuggestionValue
     """
@@ -9151,21 +9514,21 @@ class TestModel_DialogSuggestionValue():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        message_input_model = {} # MessageInput
+        message_input_model = {}  # MessageInput
         message_input_model['text'] = 'testString'
         message_input_model['spelling_suggestions'] = False
         message_input_model['spelling_auto_correct'] = False
         message_input_model['foo'] = 'testString'
 
-        runtime_intent_model = {} # RuntimeIntent
+        runtime_intent_model = {}  # RuntimeIntent
         runtime_intent_model['intent'] = 'testString'
         runtime_intent_model['confidence'] = 72.5
 
-        capture_group_model = {} # CaptureGroup
+        capture_group_model = {}  # CaptureGroup
         capture_group_model['group'] = 'testString'
         capture_group_model['location'] = [38]
 
-        runtime_entity_interpretation_model = {} # RuntimeEntityInterpretation
+        runtime_entity_interpretation_model = {}  # RuntimeEntityInterpretation
         runtime_entity_interpretation_model['calendar_type'] = 'testString'
         runtime_entity_interpretation_model['datetime_link'] = 'testString'
         runtime_entity_interpretation_model['festival'] = 'testString'
@@ -9193,14 +9556,14 @@ class TestModel_DialogSuggestionValue():
         runtime_entity_interpretation_model['specific_second'] = 72.5
         runtime_entity_interpretation_model['timezone'] = 'testString'
 
-        runtime_entity_alternative_model = {} # RuntimeEntityAlternative
+        runtime_entity_alternative_model = {}  # RuntimeEntityAlternative
         runtime_entity_alternative_model['value'] = 'testString'
         runtime_entity_alternative_model['confidence'] = 72.5
 
-        runtime_entity_role_model = {} # RuntimeEntityRole
+        runtime_entity_role_model = {}  # RuntimeEntityRole
         runtime_entity_role_model['type'] = 'date_from'
 
-        runtime_entity_model = {} # RuntimeEntity
+        runtime_entity_model = {}  # RuntimeEntity
         runtime_entity_model['entity'] = 'testString'
         runtime_entity_model['location'] = [38]
         runtime_entity_model['value'] = 'testString'
@@ -9231,7 +9594,8 @@ class TestModel_DialogSuggestionValue():
         dialog_suggestion_value_model_json2 = dialog_suggestion_value_model.to_dict()
         assert dialog_suggestion_value_model_json2 == dialog_suggestion_value_model_json
 
-class TestModel_Entity():
+
+class TestModel_Entity:
     """
     Test Class for Entity
     """
@@ -9243,9 +9607,9 @@ class TestModel_Entity():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        value_model = {} # Value
+        value_model = {}  # Value
         value_model['value'] = 'testString'
-        value_model['metadata'] = {'foo': 'bar'}
+        value_model['metadata'] = {'anyKey': 'anyValue'}
         value_model['type'] = 'synonyms'
         value_model['synonyms'] = ['testString']
         value_model['patterns'] = ['testString']
@@ -9254,7 +9618,7 @@ class TestModel_Entity():
         entity_model_json = {}
         entity_model_json['entity'] = 'testString'
         entity_model_json['description'] = 'testString'
-        entity_model_json['metadata'] = {'foo': 'bar'}
+        entity_model_json['metadata'] = {'anyKey': 'anyValue'}
         entity_model_json['fuzzy_match'] = True
         entity_model_json['values'] = [value_model]
 
@@ -9273,7 +9637,8 @@ class TestModel_Entity():
         entity_model_json2 = entity_model.to_dict()
         assert entity_model_json2 == entity_model_json
 
-class TestModel_EntityCollection():
+
+class TestModel_EntityCollection:
     """
     Test Class for EntityCollection
     """
@@ -9285,21 +9650,21 @@ class TestModel_EntityCollection():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        value_model = {} # Value
+        value_model = {}  # Value
         value_model['value'] = 'testString'
-        value_model['metadata'] = {'foo': 'bar'}
+        value_model['metadata'] = {'anyKey': 'anyValue'}
         value_model['type'] = 'synonyms'
         value_model['synonyms'] = ['testString']
         value_model['patterns'] = ['testString']
 
-        entity_model = {} # Entity
+        entity_model = {}  # Entity
         entity_model['entity'] = 'testString'
         entity_model['description'] = 'testString'
-        entity_model['metadata'] = {'foo': 'bar'}
+        entity_model['metadata'] = {'anyKey': 'anyValue'}
         entity_model['fuzzy_match'] = True
         entity_model['values'] = [value_model]
 
-        pagination_model = {} # Pagination
+        pagination_model = {}  # Pagination
         pagination_model['refresh_url'] = 'testString'
         pagination_model['next_url'] = 'testString'
         pagination_model['total'] = 38
@@ -9327,7 +9692,8 @@ class TestModel_EntityCollection():
         entity_collection_model_json2 = entity_collection_model.to_dict()
         assert entity_collection_model_json2 == entity_collection_model_json
 
-class TestModel_EntityMention():
+
+class TestModel_EntityMention:
     """
     Test Class for EntityMention
     """
@@ -9358,7 +9724,8 @@ class TestModel_EntityMention():
         entity_mention_model_json2 = entity_mention_model.to_dict()
         assert entity_mention_model_json2 == entity_mention_model_json
 
-class TestModel_EntityMentionCollection():
+
+class TestModel_EntityMentionCollection:
     """
     Test Class for EntityMentionCollection
     """
@@ -9370,12 +9737,12 @@ class TestModel_EntityMentionCollection():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        entity_mention_model = {} # EntityMention
+        entity_mention_model = {}  # EntityMention
         entity_mention_model['text'] = 'testString'
         entity_mention_model['intent'] = 'testString'
         entity_mention_model['location'] = [38]
 
-        pagination_model = {} # Pagination
+        pagination_model = {}  # Pagination
         pagination_model['refresh_url'] = 'testString'
         pagination_model['next_url'] = 'testString'
         pagination_model['total'] = 38
@@ -9403,7 +9770,8 @@ class TestModel_EntityMentionCollection():
         entity_mention_collection_model_json2 = entity_mention_collection_model.to_dict()
         assert entity_mention_collection_model_json2 == entity_mention_collection_model_json
 
-class TestModel_Example():
+
+class TestModel_Example:
     """
     Test Class for Example
     """
@@ -9415,7 +9783,7 @@ class TestModel_Example():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        mention_model = {} # Mention
+        mention_model = {}  # Mention
         mention_model['entity'] = 'testString'
         mention_model['location'] = [38]
 
@@ -9439,7 +9807,8 @@ class TestModel_Example():
         example_model_json2 = example_model.to_dict()
         assert example_model_json2 == example_model_json
 
-class TestModel_ExampleCollection():
+
+class TestModel_ExampleCollection:
     """
     Test Class for ExampleCollection
     """
@@ -9451,15 +9820,15 @@ class TestModel_ExampleCollection():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        mention_model = {} # Mention
+        mention_model = {}  # Mention
         mention_model['entity'] = 'testString'
         mention_model['location'] = [38]
 
-        example_model = {} # Example
+        example_model = {}  # Example
         example_model['text'] = 'testString'
         example_model['mentions'] = [mention_model]
 
-        pagination_model = {} # Pagination
+        pagination_model = {}  # Pagination
         pagination_model['refresh_url'] = 'testString'
         pagination_model['next_url'] = 'testString'
         pagination_model['total'] = 38
@@ -9487,7 +9856,8 @@ class TestModel_ExampleCollection():
         example_collection_model_json2 = example_collection_model.to_dict()
         assert example_collection_model_json2 == example_collection_model_json
 
-class TestModel_Intent():
+
+class TestModel_Intent:
     """
     Test Class for Intent
     """
@@ -9499,11 +9869,11 @@ class TestModel_Intent():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        mention_model = {} # Mention
+        mention_model = {}  # Mention
         mention_model['entity'] = 'testString'
         mention_model['location'] = [38]
 
-        example_model = {} # Example
+        example_model = {}  # Example
         example_model['text'] = 'testString'
         example_model['mentions'] = [mention_model]
 
@@ -9528,7 +9898,8 @@ class TestModel_Intent():
         intent_model_json2 = intent_model.to_dict()
         assert intent_model_json2 == intent_model_json
 
-class TestModel_IntentCollection():
+
+class TestModel_IntentCollection:
     """
     Test Class for IntentCollection
     """
@@ -9540,20 +9911,20 @@ class TestModel_IntentCollection():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        mention_model = {} # Mention
+        mention_model = {}  # Mention
         mention_model['entity'] = 'testString'
         mention_model['location'] = [38]
 
-        example_model = {} # Example
+        example_model = {}  # Example
         example_model['text'] = 'testString'
         example_model['mentions'] = [mention_model]
 
-        intent_model = {} # Intent
+        intent_model = {}  # Intent
         intent_model['intent'] = 'testString'
         intent_model['description'] = 'testString'
         intent_model['examples'] = [example_model]
 
-        pagination_model = {} # Pagination
+        pagination_model = {}  # Pagination
         pagination_model['refresh_url'] = 'testString'
         pagination_model['next_url'] = 'testString'
         pagination_model['total'] = 38
@@ -9581,7 +9952,8 @@ class TestModel_IntentCollection():
         intent_collection_model_json2 = intent_collection_model.to_dict()
         assert intent_collection_model_json2 == intent_collection_model_json
 
-class TestModel_Log():
+
+class TestModel_Log:
     """
     Test Class for Log
     """
@@ -9593,21 +9965,21 @@ class TestModel_Log():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        message_input_model = {} # MessageInput
+        message_input_model = {}  # MessageInput
         message_input_model['text'] = 'testString'
         message_input_model['spelling_suggestions'] = False
         message_input_model['spelling_auto_correct'] = False
         message_input_model['foo'] = 'testString'
 
-        runtime_intent_model = {} # RuntimeIntent
+        runtime_intent_model = {}  # RuntimeIntent
         runtime_intent_model['intent'] = 'testString'
         runtime_intent_model['confidence'] = 72.5
 
-        capture_group_model = {} # CaptureGroup
+        capture_group_model = {}  # CaptureGroup
         capture_group_model['group'] = 'testString'
         capture_group_model['location'] = [38]
 
-        runtime_entity_interpretation_model = {} # RuntimeEntityInterpretation
+        runtime_entity_interpretation_model = {}  # RuntimeEntityInterpretation
         runtime_entity_interpretation_model['calendar_type'] = 'testString'
         runtime_entity_interpretation_model['datetime_link'] = 'testString'
         runtime_entity_interpretation_model['festival'] = 'testString'
@@ -9635,14 +10007,14 @@ class TestModel_Log():
         runtime_entity_interpretation_model['specific_second'] = 72.5
         runtime_entity_interpretation_model['timezone'] = 'testString'
 
-        runtime_entity_alternative_model = {} # RuntimeEntityAlternative
+        runtime_entity_alternative_model = {}  # RuntimeEntityAlternative
         runtime_entity_alternative_model['value'] = 'testString'
         runtime_entity_alternative_model['confidence'] = 72.5
 
-        runtime_entity_role_model = {} # RuntimeEntityRole
+        runtime_entity_role_model = {}  # RuntimeEntityRole
         runtime_entity_role_model['type'] = 'date_from'
 
-        runtime_entity_model = {} # RuntimeEntity
+        runtime_entity_model = {}  # RuntimeEntity
         runtime_entity_model['entity'] = 'testString'
         runtime_entity_model['location'] = [38]
         runtime_entity_model['value'] = 'testString'
@@ -9652,47 +10024,47 @@ class TestModel_Log():
         runtime_entity_model['alternatives'] = [runtime_entity_alternative_model]
         runtime_entity_model['role'] = runtime_entity_role_model
 
-        message_context_metadata_model = {} # MessageContextMetadata
+        message_context_metadata_model = {}  # MessageContextMetadata
         message_context_metadata_model['deployment'] = 'testString'
         message_context_metadata_model['user_id'] = 'testString'
 
-        context_model = {} # Context
+        context_model = {}  # Context
         context_model['conversation_id'] = 'testString'
-        context_model['system'] = {'foo': 'bar'}
+        context_model['system'] = {'anyKey': 'anyValue'}
         context_model['metadata'] = message_context_metadata_model
         context_model['foo'] = 'testString'
 
-        dialog_node_visited_details_model = {} # DialogNodeVisitedDetails
+        dialog_node_visited_details_model = {}  # DialogNodeVisitedDetails
         dialog_node_visited_details_model['dialog_node'] = 'testString'
         dialog_node_visited_details_model['title'] = 'testString'
         dialog_node_visited_details_model['conditions'] = 'testString'
 
-        log_message_source_model = {} # LogMessageSource
+        log_message_source_model = {}  # LogMessageSource
         log_message_source_model['type'] = 'dialog_node'
         log_message_source_model['dialog_node'] = 'testString'
 
-        log_message_model = {} # LogMessage
+        log_message_model = {}  # LogMessage
         log_message_model['level'] = 'info'
         log_message_model['msg'] = 'testString'
         log_message_model['code'] = 'testString'
         log_message_model['source'] = log_message_source_model
 
-        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'chat'
 
-        runtime_response_generic_model = {} # RuntimeResponseGenericRuntimeResponseTypeText
+        runtime_response_generic_model = {}  # RuntimeResponseGenericRuntimeResponseTypeText
         runtime_response_generic_model['response_type'] = 'text'
         runtime_response_generic_model['text'] = 'testString'
         runtime_response_generic_model['channels'] = [response_generic_channel_model]
 
-        output_data_model = {} # OutputData
+        output_data_model = {}  # OutputData
         output_data_model['nodes_visited'] = ['testString']
         output_data_model['nodes_visited_details'] = [dialog_node_visited_details_model]
         output_data_model['log_messages'] = [log_message_model]
         output_data_model['generic'] = [runtime_response_generic_model]
         output_data_model['foo'] = 'testString'
 
-        message_request_model = {} # MessageRequest
+        message_request_model = {}  # MessageRequest
         message_request_model['input'] = message_input_model
         message_request_model['intents'] = [runtime_intent_model]
         message_request_model['entities'] = [runtime_entity_model]
@@ -9701,7 +10073,7 @@ class TestModel_Log():
         message_request_model['output'] = output_data_model
         message_request_model['user_id'] = 'testString'
 
-        message_response_model = {} # MessageResponse
+        message_response_model = {}  # MessageResponse
         message_response_model['input'] = message_input_model
         message_response_model['intents'] = [runtime_intent_model]
         message_response_model['entities'] = [runtime_entity_model]
@@ -9735,7 +10107,8 @@ class TestModel_Log():
         log_model_json2 = log_model.to_dict()
         assert log_model_json2 == log_model_json
 
-class TestModel_LogCollection():
+
+class TestModel_LogCollection:
     """
     Test Class for LogCollection
     """
@@ -9747,21 +10120,21 @@ class TestModel_LogCollection():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        message_input_model = {} # MessageInput
+        message_input_model = {}  # MessageInput
         message_input_model['text'] = 'testString'
         message_input_model['spelling_suggestions'] = False
         message_input_model['spelling_auto_correct'] = False
         message_input_model['foo'] = 'testString'
 
-        runtime_intent_model = {} # RuntimeIntent
+        runtime_intent_model = {}  # RuntimeIntent
         runtime_intent_model['intent'] = 'testString'
         runtime_intent_model['confidence'] = 72.5
 
-        capture_group_model = {} # CaptureGroup
+        capture_group_model = {}  # CaptureGroup
         capture_group_model['group'] = 'testString'
         capture_group_model['location'] = [38]
 
-        runtime_entity_interpretation_model = {} # RuntimeEntityInterpretation
+        runtime_entity_interpretation_model = {}  # RuntimeEntityInterpretation
         runtime_entity_interpretation_model['calendar_type'] = 'testString'
         runtime_entity_interpretation_model['datetime_link'] = 'testString'
         runtime_entity_interpretation_model['festival'] = 'testString'
@@ -9789,14 +10162,14 @@ class TestModel_LogCollection():
         runtime_entity_interpretation_model['specific_second'] = 72.5
         runtime_entity_interpretation_model['timezone'] = 'testString'
 
-        runtime_entity_alternative_model = {} # RuntimeEntityAlternative
+        runtime_entity_alternative_model = {}  # RuntimeEntityAlternative
         runtime_entity_alternative_model['value'] = 'testString'
         runtime_entity_alternative_model['confidence'] = 72.5
 
-        runtime_entity_role_model = {} # RuntimeEntityRole
+        runtime_entity_role_model = {}  # RuntimeEntityRole
         runtime_entity_role_model['type'] = 'date_from'
 
-        runtime_entity_model = {} # RuntimeEntity
+        runtime_entity_model = {}  # RuntimeEntity
         runtime_entity_model['entity'] = 'testString'
         runtime_entity_model['location'] = [38]
         runtime_entity_model['value'] = 'testString'
@@ -9806,47 +10179,47 @@ class TestModel_LogCollection():
         runtime_entity_model['alternatives'] = [runtime_entity_alternative_model]
         runtime_entity_model['role'] = runtime_entity_role_model
 
-        message_context_metadata_model = {} # MessageContextMetadata
+        message_context_metadata_model = {}  # MessageContextMetadata
         message_context_metadata_model['deployment'] = 'testString'
         message_context_metadata_model['user_id'] = 'testString'
 
-        context_model = {} # Context
+        context_model = {}  # Context
         context_model['conversation_id'] = 'testString'
-        context_model['system'] = {'foo': 'bar'}
+        context_model['system'] = {'anyKey': 'anyValue'}
         context_model['metadata'] = message_context_metadata_model
         context_model['foo'] = 'testString'
 
-        dialog_node_visited_details_model = {} # DialogNodeVisitedDetails
+        dialog_node_visited_details_model = {}  # DialogNodeVisitedDetails
         dialog_node_visited_details_model['dialog_node'] = 'testString'
         dialog_node_visited_details_model['title'] = 'testString'
         dialog_node_visited_details_model['conditions'] = 'testString'
 
-        log_message_source_model = {} # LogMessageSource
+        log_message_source_model = {}  # LogMessageSource
         log_message_source_model['type'] = 'dialog_node'
         log_message_source_model['dialog_node'] = 'testString'
 
-        log_message_model = {} # LogMessage
+        log_message_model = {}  # LogMessage
         log_message_model['level'] = 'info'
         log_message_model['msg'] = 'testString'
         log_message_model['code'] = 'testString'
         log_message_model['source'] = log_message_source_model
 
-        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'chat'
 
-        runtime_response_generic_model = {} # RuntimeResponseGenericRuntimeResponseTypeText
+        runtime_response_generic_model = {}  # RuntimeResponseGenericRuntimeResponseTypeText
         runtime_response_generic_model['response_type'] = 'text'
         runtime_response_generic_model['text'] = 'testString'
         runtime_response_generic_model['channels'] = [response_generic_channel_model]
 
-        output_data_model = {} # OutputData
+        output_data_model = {}  # OutputData
         output_data_model['nodes_visited'] = ['testString']
         output_data_model['nodes_visited_details'] = [dialog_node_visited_details_model]
         output_data_model['log_messages'] = [log_message_model]
         output_data_model['generic'] = [runtime_response_generic_model]
         output_data_model['foo'] = 'testString'
 
-        message_request_model = {} # MessageRequest
+        message_request_model = {}  # MessageRequest
         message_request_model['input'] = message_input_model
         message_request_model['intents'] = [runtime_intent_model]
         message_request_model['entities'] = [runtime_entity_model]
@@ -9855,7 +10228,7 @@ class TestModel_LogCollection():
         message_request_model['output'] = output_data_model
         message_request_model['user_id'] = 'testString'
 
-        message_response_model = {} # MessageResponse
+        message_response_model = {}  # MessageResponse
         message_response_model['input'] = message_input_model
         message_response_model['intents'] = [runtime_intent_model]
         message_response_model['entities'] = [runtime_entity_model]
@@ -9864,7 +10237,7 @@ class TestModel_LogCollection():
         message_response_model['output'] = output_data_model
         message_response_model['user_id'] = 'testString'
 
-        log_model = {} # Log
+        log_model = {}  # Log
         log_model['request'] = message_request_model
         log_model['response'] = message_response_model
         log_model['log_id'] = 'testString'
@@ -9873,7 +10246,7 @@ class TestModel_LogCollection():
         log_model['workspace_id'] = 'testString'
         log_model['language'] = 'testString'
 
-        log_pagination_model = {} # LogPagination
+        log_pagination_model = {}  # LogPagination
         log_pagination_model['next_url'] = 'testString'
         log_pagination_model['matched'] = 38
         log_pagination_model['next_cursor'] = 'testString'
@@ -9898,7 +10271,8 @@ class TestModel_LogCollection():
         log_collection_model_json2 = log_collection_model.to_dict()
         assert log_collection_model_json2 == log_collection_model_json
 
-class TestModel_LogMessage():
+
+class TestModel_LogMessage:
     """
     Test Class for LogMessage
     """
@@ -9910,7 +10284,7 @@ class TestModel_LogMessage():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        log_message_source_model = {} # LogMessageSource
+        log_message_source_model = {}  # LogMessageSource
         log_message_source_model['type'] = 'dialog_node'
         log_message_source_model['dialog_node'] = 'testString'
 
@@ -9936,7 +10310,8 @@ class TestModel_LogMessage():
         log_message_model_json2 = log_message_model.to_dict()
         assert log_message_model_json2 == log_message_model_json
 
-class TestModel_LogMessageSource():
+
+class TestModel_LogMessageSource:
     """
     Test Class for LogMessageSource
     """
@@ -9966,7 +10341,8 @@ class TestModel_LogMessageSource():
         log_message_source_model_json2 = log_message_source_model.to_dict()
         assert log_message_source_model_json2 == log_message_source_model_json
 
-class TestModel_LogPagination():
+
+class TestModel_LogPagination:
     """
     Test Class for LogPagination
     """
@@ -9997,7 +10373,8 @@ class TestModel_LogPagination():
         log_pagination_model_json2 = log_pagination_model.to_dict()
         assert log_pagination_model_json2 == log_pagination_model_json
 
-class TestModel_Mention():
+
+class TestModel_Mention:
     """
     Test Class for Mention
     """
@@ -10027,7 +10404,8 @@ class TestModel_Mention():
         mention_model_json2 = mention_model.to_dict()
         assert mention_model_json2 == mention_model_json
 
-class TestModel_MessageContextMetadata():
+
+class TestModel_MessageContextMetadata:
     """
     Test Class for MessageContextMetadata
     """
@@ -10057,7 +10435,8 @@ class TestModel_MessageContextMetadata():
         message_context_metadata_model_json2 = message_context_metadata_model.to_dict()
         assert message_context_metadata_model_json2 == message_context_metadata_model_json
 
-class TestModel_MessageInput():
+
+class TestModel_MessageInput:
     """
     Test Class for MessageInput
     """
@@ -10099,7 +10478,8 @@ class TestModel_MessageInput():
         actual_dict = message_input_model.get_properties()
         assert actual_dict == expected_dict
 
-class TestModel_MessageRequest():
+
+class TestModel_MessageRequest:
     """
     Test Class for MessageRequest
     """
@@ -10111,21 +10491,21 @@ class TestModel_MessageRequest():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        message_input_model = {} # MessageInput
+        message_input_model = {}  # MessageInput
         message_input_model['text'] = 'testString'
         message_input_model['spelling_suggestions'] = False
         message_input_model['spelling_auto_correct'] = False
         message_input_model['foo'] = 'testString'
 
-        runtime_intent_model = {} # RuntimeIntent
+        runtime_intent_model = {}  # RuntimeIntent
         runtime_intent_model['intent'] = 'testString'
         runtime_intent_model['confidence'] = 72.5
 
-        capture_group_model = {} # CaptureGroup
+        capture_group_model = {}  # CaptureGroup
         capture_group_model['group'] = 'testString'
         capture_group_model['location'] = [38]
 
-        runtime_entity_interpretation_model = {} # RuntimeEntityInterpretation
+        runtime_entity_interpretation_model = {}  # RuntimeEntityInterpretation
         runtime_entity_interpretation_model['calendar_type'] = 'testString'
         runtime_entity_interpretation_model['datetime_link'] = 'testString'
         runtime_entity_interpretation_model['festival'] = 'testString'
@@ -10153,14 +10533,14 @@ class TestModel_MessageRequest():
         runtime_entity_interpretation_model['specific_second'] = 72.5
         runtime_entity_interpretation_model['timezone'] = 'testString'
 
-        runtime_entity_alternative_model = {} # RuntimeEntityAlternative
+        runtime_entity_alternative_model = {}  # RuntimeEntityAlternative
         runtime_entity_alternative_model['value'] = 'testString'
         runtime_entity_alternative_model['confidence'] = 72.5
 
-        runtime_entity_role_model = {} # RuntimeEntityRole
+        runtime_entity_role_model = {}  # RuntimeEntityRole
         runtime_entity_role_model['type'] = 'date_from'
 
-        runtime_entity_model = {} # RuntimeEntity
+        runtime_entity_model = {}  # RuntimeEntity
         runtime_entity_model['entity'] = 'testString'
         runtime_entity_model['location'] = [38]
         runtime_entity_model['value'] = 'testString'
@@ -10170,40 +10550,40 @@ class TestModel_MessageRequest():
         runtime_entity_model['alternatives'] = [runtime_entity_alternative_model]
         runtime_entity_model['role'] = runtime_entity_role_model
 
-        message_context_metadata_model = {} # MessageContextMetadata
+        message_context_metadata_model = {}  # MessageContextMetadata
         message_context_metadata_model['deployment'] = 'testString'
         message_context_metadata_model['user_id'] = 'testString'
 
-        context_model = {} # Context
+        context_model = {}  # Context
         context_model['conversation_id'] = 'testString'
-        context_model['system'] = {'foo': 'bar'}
+        context_model['system'] = {'anyKey': 'anyValue'}
         context_model['metadata'] = message_context_metadata_model
         context_model['foo'] = 'testString'
 
-        dialog_node_visited_details_model = {} # DialogNodeVisitedDetails
+        dialog_node_visited_details_model = {}  # DialogNodeVisitedDetails
         dialog_node_visited_details_model['dialog_node'] = 'testString'
         dialog_node_visited_details_model['title'] = 'testString'
         dialog_node_visited_details_model['conditions'] = 'testString'
 
-        log_message_source_model = {} # LogMessageSource
+        log_message_source_model = {}  # LogMessageSource
         log_message_source_model['type'] = 'dialog_node'
         log_message_source_model['dialog_node'] = 'testString'
 
-        log_message_model = {} # LogMessage
+        log_message_model = {}  # LogMessage
         log_message_model['level'] = 'info'
         log_message_model['msg'] = 'testString'
         log_message_model['code'] = 'testString'
         log_message_model['source'] = log_message_source_model
 
-        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'chat'
 
-        runtime_response_generic_model = {} # RuntimeResponseGenericRuntimeResponseTypeText
+        runtime_response_generic_model = {}  # RuntimeResponseGenericRuntimeResponseTypeText
         runtime_response_generic_model['response_type'] = 'text'
         runtime_response_generic_model['text'] = 'testString'
         runtime_response_generic_model['channels'] = [response_generic_channel_model]
 
-        output_data_model = {} # OutputData
+        output_data_model = {}  # OutputData
         output_data_model['nodes_visited'] = ['testString']
         output_data_model['nodes_visited_details'] = [dialog_node_visited_details_model]
         output_data_model['log_messages'] = [log_message_model]
@@ -10235,7 +10615,8 @@ class TestModel_MessageRequest():
         message_request_model_json2 = message_request_model.to_dict()
         assert message_request_model_json2 == message_request_model_json
 
-class TestModel_MessageResponse():
+
+class TestModel_MessageResponse:
     """
     Test Class for MessageResponse
     """
@@ -10247,21 +10628,21 @@ class TestModel_MessageResponse():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        message_input_model = {} # MessageInput
+        message_input_model = {}  # MessageInput
         message_input_model['text'] = 'testString'
         message_input_model['spelling_suggestions'] = False
         message_input_model['spelling_auto_correct'] = False
         message_input_model['foo'] = 'testString'
 
-        runtime_intent_model = {} # RuntimeIntent
+        runtime_intent_model = {}  # RuntimeIntent
         runtime_intent_model['intent'] = 'testString'
         runtime_intent_model['confidence'] = 72.5
 
-        capture_group_model = {} # CaptureGroup
+        capture_group_model = {}  # CaptureGroup
         capture_group_model['group'] = 'testString'
         capture_group_model['location'] = [38]
 
-        runtime_entity_interpretation_model = {} # RuntimeEntityInterpretation
+        runtime_entity_interpretation_model = {}  # RuntimeEntityInterpretation
         runtime_entity_interpretation_model['calendar_type'] = 'testString'
         runtime_entity_interpretation_model['datetime_link'] = 'testString'
         runtime_entity_interpretation_model['festival'] = 'testString'
@@ -10289,14 +10670,14 @@ class TestModel_MessageResponse():
         runtime_entity_interpretation_model['specific_second'] = 72.5
         runtime_entity_interpretation_model['timezone'] = 'testString'
 
-        runtime_entity_alternative_model = {} # RuntimeEntityAlternative
+        runtime_entity_alternative_model = {}  # RuntimeEntityAlternative
         runtime_entity_alternative_model['value'] = 'testString'
         runtime_entity_alternative_model['confidence'] = 72.5
 
-        runtime_entity_role_model = {} # RuntimeEntityRole
+        runtime_entity_role_model = {}  # RuntimeEntityRole
         runtime_entity_role_model['type'] = 'date_from'
 
-        runtime_entity_model = {} # RuntimeEntity
+        runtime_entity_model = {}  # RuntimeEntity
         runtime_entity_model['entity'] = 'testString'
         runtime_entity_model['location'] = [38]
         runtime_entity_model['value'] = 'testString'
@@ -10306,40 +10687,40 @@ class TestModel_MessageResponse():
         runtime_entity_model['alternatives'] = [runtime_entity_alternative_model]
         runtime_entity_model['role'] = runtime_entity_role_model
 
-        message_context_metadata_model = {} # MessageContextMetadata
+        message_context_metadata_model = {}  # MessageContextMetadata
         message_context_metadata_model['deployment'] = 'testString'
         message_context_metadata_model['user_id'] = 'testString'
 
-        context_model = {} # Context
+        context_model = {}  # Context
         context_model['conversation_id'] = 'testString'
-        context_model['system'] = {'foo': 'bar'}
+        context_model['system'] = {'anyKey': 'anyValue'}
         context_model['metadata'] = message_context_metadata_model
         context_model['foo'] = 'testString'
 
-        dialog_node_visited_details_model = {} # DialogNodeVisitedDetails
+        dialog_node_visited_details_model = {}  # DialogNodeVisitedDetails
         dialog_node_visited_details_model['dialog_node'] = 'testString'
         dialog_node_visited_details_model['title'] = 'testString'
         dialog_node_visited_details_model['conditions'] = 'testString'
 
-        log_message_source_model = {} # LogMessageSource
+        log_message_source_model = {}  # LogMessageSource
         log_message_source_model['type'] = 'dialog_node'
         log_message_source_model['dialog_node'] = 'testString'
 
-        log_message_model = {} # LogMessage
+        log_message_model = {}  # LogMessage
         log_message_model['level'] = 'info'
         log_message_model['msg'] = 'testString'
         log_message_model['code'] = 'testString'
         log_message_model['source'] = log_message_source_model
 
-        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'chat'
 
-        runtime_response_generic_model = {} # RuntimeResponseGenericRuntimeResponseTypeText
+        runtime_response_generic_model = {}  # RuntimeResponseGenericRuntimeResponseTypeText
         runtime_response_generic_model['response_type'] = 'text'
         runtime_response_generic_model['text'] = 'testString'
         runtime_response_generic_model['channels'] = [response_generic_channel_model]
 
-        output_data_model = {} # OutputData
+        output_data_model = {}  # OutputData
         output_data_model['nodes_visited'] = ['testString']
         output_data_model['nodes_visited_details'] = [dialog_node_visited_details_model]
         output_data_model['log_messages'] = [log_message_model]
@@ -10371,7 +10752,8 @@ class TestModel_MessageResponse():
         message_response_model_json2 = message_response_model.to_dict()
         assert message_response_model_json2 == message_response_model_json
 
-class TestModel_OutputData():
+
+class TestModel_OutputData:
     """
     Test Class for OutputData
     """
@@ -10383,25 +10765,25 @@ class TestModel_OutputData():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        dialog_node_visited_details_model = {} # DialogNodeVisitedDetails
+        dialog_node_visited_details_model = {}  # DialogNodeVisitedDetails
         dialog_node_visited_details_model['dialog_node'] = 'testString'
         dialog_node_visited_details_model['title'] = 'testString'
         dialog_node_visited_details_model['conditions'] = 'testString'
 
-        log_message_source_model = {} # LogMessageSource
+        log_message_source_model = {}  # LogMessageSource
         log_message_source_model['type'] = 'dialog_node'
         log_message_source_model['dialog_node'] = 'testString'
 
-        log_message_model = {} # LogMessage
+        log_message_model = {}  # LogMessage
         log_message_model['level'] = 'info'
         log_message_model['msg'] = 'testString'
         log_message_model['code'] = 'testString'
         log_message_model['source'] = log_message_source_model
 
-        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'chat'
 
-        runtime_response_generic_model = {} # RuntimeResponseGenericRuntimeResponseTypeText
+        runtime_response_generic_model = {}  # RuntimeResponseGenericRuntimeResponseTypeText
         runtime_response_generic_model['response_type'] = 'text'
         runtime_response_generic_model['text'] = 'testString'
         runtime_response_generic_model['channels'] = [response_generic_channel_model]
@@ -10439,7 +10821,8 @@ class TestModel_OutputData():
         actual_dict = output_data_model.get_properties()
         assert actual_dict == expected_dict
 
-class TestModel_Pagination():
+
+class TestModel_Pagination:
     """
     Test Class for Pagination
     """
@@ -10473,7 +10856,8 @@ class TestModel_Pagination():
         pagination_model_json2 = pagination_model.to_dict()
         assert pagination_model_json2 == pagination_model_json
 
-class TestModel_ResponseGenericChannel():
+
+class TestModel_ResponseGenericChannel:
     """
     Test Class for ResponseGenericChannel
     """
@@ -10502,7 +10886,8 @@ class TestModel_ResponseGenericChannel():
         response_generic_channel_model_json2 = response_generic_channel_model.to_dict()
         assert response_generic_channel_model_json2 == response_generic_channel_model_json
 
-class TestModel_RuntimeEntity():
+
+class TestModel_RuntimeEntity:
     """
     Test Class for RuntimeEntity
     """
@@ -10514,11 +10899,11 @@ class TestModel_RuntimeEntity():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        capture_group_model = {} # CaptureGroup
+        capture_group_model = {}  # CaptureGroup
         capture_group_model['group'] = 'testString'
         capture_group_model['location'] = [38]
 
-        runtime_entity_interpretation_model = {} # RuntimeEntityInterpretation
+        runtime_entity_interpretation_model = {}  # RuntimeEntityInterpretation
         runtime_entity_interpretation_model['calendar_type'] = 'testString'
         runtime_entity_interpretation_model['datetime_link'] = 'testString'
         runtime_entity_interpretation_model['festival'] = 'testString'
@@ -10546,11 +10931,11 @@ class TestModel_RuntimeEntity():
         runtime_entity_interpretation_model['specific_second'] = 72.5
         runtime_entity_interpretation_model['timezone'] = 'testString'
 
-        runtime_entity_alternative_model = {} # RuntimeEntityAlternative
+        runtime_entity_alternative_model = {}  # RuntimeEntityAlternative
         runtime_entity_alternative_model['value'] = 'testString'
         runtime_entity_alternative_model['confidence'] = 72.5
 
-        runtime_entity_role_model = {} # RuntimeEntityRole
+        runtime_entity_role_model = {}  # RuntimeEntityRole
         runtime_entity_role_model['type'] = 'date_from'
 
         # Construct a json representation of a RuntimeEntity model
@@ -10579,7 +10964,8 @@ class TestModel_RuntimeEntity():
         runtime_entity_model_json2 = runtime_entity_model.to_dict()
         assert runtime_entity_model_json2 == runtime_entity_model_json
 
-class TestModel_RuntimeEntityAlternative():
+
+class TestModel_RuntimeEntityAlternative:
     """
     Test Class for RuntimeEntityAlternative
     """
@@ -10609,7 +10995,8 @@ class TestModel_RuntimeEntityAlternative():
         runtime_entity_alternative_model_json2 = runtime_entity_alternative_model.to_dict()
         assert runtime_entity_alternative_model_json2 == runtime_entity_alternative_model_json
 
-class TestModel_RuntimeEntityInterpretation():
+
+class TestModel_RuntimeEntityInterpretation:
     """
     Test Class for RuntimeEntityInterpretation
     """
@@ -10663,7 +11050,8 @@ class TestModel_RuntimeEntityInterpretation():
         runtime_entity_interpretation_model_json2 = runtime_entity_interpretation_model.to_dict()
         assert runtime_entity_interpretation_model_json2 == runtime_entity_interpretation_model_json
 
-class TestModel_RuntimeEntityRole():
+
+class TestModel_RuntimeEntityRole:
     """
     Test Class for RuntimeEntityRole
     """
@@ -10692,7 +11080,8 @@ class TestModel_RuntimeEntityRole():
         runtime_entity_role_model_json2 = runtime_entity_role_model.to_dict()
         assert runtime_entity_role_model_json2 == runtime_entity_role_model_json
 
-class TestModel_RuntimeIntent():
+
+class TestModel_RuntimeIntent:
     """
     Test Class for RuntimeIntent
     """
@@ -10722,7 +11111,8 @@ class TestModel_RuntimeIntent():
         runtime_intent_model_json2 = runtime_intent_model.to_dict()
         assert runtime_intent_model_json2 == runtime_intent_model_json
 
-class TestModel_StatusError():
+
+class TestModel_StatusError:
     """
     Test Class for StatusError
     """
@@ -10751,7 +11141,8 @@ class TestModel_StatusError():
         status_error_model_json2 = status_error_model.to_dict()
         assert status_error_model_json2 == status_error_model_json
 
-class TestModel_Synonym():
+
+class TestModel_Synonym:
     """
     Test Class for Synonym
     """
@@ -10780,7 +11171,8 @@ class TestModel_Synonym():
         synonym_model_json2 = synonym_model.to_dict()
         assert synonym_model_json2 == synonym_model_json
 
-class TestModel_SynonymCollection():
+
+class TestModel_SynonymCollection:
     """
     Test Class for SynonymCollection
     """
@@ -10792,10 +11184,10 @@ class TestModel_SynonymCollection():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        synonym_model = {} # Synonym
+        synonym_model = {}  # Synonym
         synonym_model['synonym'] = 'testString'
 
-        pagination_model = {} # Pagination
+        pagination_model = {}  # Pagination
         pagination_model['refresh_url'] = 'testString'
         pagination_model['next_url'] = 'testString'
         pagination_model['total'] = 38
@@ -10823,7 +11215,8 @@ class TestModel_SynonymCollection():
         synonym_collection_model_json2 = synonym_collection_model.to_dict()
         assert synonym_collection_model_json2 == synonym_collection_model_json
 
-class TestModel_Value():
+
+class TestModel_Value:
     """
     Test Class for Value
     """
@@ -10836,7 +11229,7 @@ class TestModel_Value():
         # Construct a json representation of a Value model
         value_model_json = {}
         value_model_json['value'] = 'testString'
-        value_model_json['metadata'] = {'foo': 'bar'}
+        value_model_json['metadata'] = {'anyKey': 'anyValue'}
         value_model_json['type'] = 'synonyms'
         value_model_json['synonyms'] = ['testString']
         value_model_json['patterns'] = ['testString']
@@ -10856,7 +11249,8 @@ class TestModel_Value():
         value_model_json2 = value_model.to_dict()
         assert value_model_json2 == value_model_json
 
-class TestModel_ValueCollection():
+
+class TestModel_ValueCollection:
     """
     Test Class for ValueCollection
     """
@@ -10868,14 +11262,14 @@ class TestModel_ValueCollection():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        value_model = {} # Value
+        value_model = {}  # Value
         value_model['value'] = 'testString'
-        value_model['metadata'] = {'foo': 'bar'}
+        value_model['metadata'] = {'anyKey': 'anyValue'}
         value_model['type'] = 'synonyms'
         value_model['synonyms'] = ['testString']
         value_model['patterns'] = ['testString']
 
-        pagination_model = {} # Pagination
+        pagination_model = {}  # Pagination
         pagination_model['refresh_url'] = 'testString'
         pagination_model['next_url'] = 'testString'
         pagination_model['total'] = 38
@@ -10903,7 +11297,8 @@ class TestModel_ValueCollection():
         value_collection_model_json2 = value_collection_model.to_dict()
         assert value_collection_model_json2 == value_collection_model_json
 
-class TestModel_Webhook():
+
+class TestModel_Webhook:
     """
     Test Class for Webhook
     """
@@ -10915,7 +11310,7 @@ class TestModel_Webhook():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        webhook_header_model = {} # WebhookHeader
+        webhook_header_model = {}  # WebhookHeader
         webhook_header_model['name'] = 'testString'
         webhook_header_model['value'] = 'testString'
 
@@ -10940,7 +11335,8 @@ class TestModel_Webhook():
         webhook_model_json2 = webhook_model.to_dict()
         assert webhook_model_json2 == webhook_model_json
 
-class TestModel_WebhookHeader():
+
+class TestModel_WebhookHeader:
     """
     Test Class for WebhookHeader
     """
@@ -10970,7 +11366,8 @@ class TestModel_WebhookHeader():
         webhook_header_model_json2 = webhook_header_model.to_dict()
         assert webhook_header_model_json2 == webhook_header_model_json
 
-class TestModel_Workspace():
+
+class TestModel_Workspace:
     """
     Test Class for Workspace
     """
@@ -10982,45 +11379,45 @@ class TestModel_Workspace():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        dialog_node_output_text_values_element_model = {} # DialogNodeOutputTextValuesElement
+        dialog_node_output_text_values_element_model = {}  # DialogNodeOutputTextValuesElement
         dialog_node_output_text_values_element_model['text'] = 'testString'
 
-        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'chat'
 
-        dialog_node_output_generic_model = {} # DialogNodeOutputGenericDialogNodeOutputResponseTypeText
+        dialog_node_output_generic_model = {}  # DialogNodeOutputGenericDialogNodeOutputResponseTypeText
         dialog_node_output_generic_model['response_type'] = 'text'
         dialog_node_output_generic_model['values'] = [dialog_node_output_text_values_element_model]
         dialog_node_output_generic_model['selection_policy'] = 'sequential'
-        dialog_node_output_generic_model['delimiter'] = '\n'
+        dialog_node_output_generic_model['delimiter'] = '\\n'
         dialog_node_output_generic_model['channels'] = [response_generic_channel_model]
 
-        dialog_node_output_modifiers_model = {} # DialogNodeOutputModifiers
+        dialog_node_output_modifiers_model = {}  # DialogNodeOutputModifiers
         dialog_node_output_modifiers_model['overwrite'] = True
 
-        dialog_node_output_model = {} # DialogNodeOutput
+        dialog_node_output_model = {}  # DialogNodeOutput
         dialog_node_output_model['generic'] = [dialog_node_output_generic_model]
-        dialog_node_output_model['integrations'] = {'key1': {'foo': 'bar'}}
+        dialog_node_output_model['integrations'] = {'key1': {'anyKey': 'anyValue'}}
         dialog_node_output_model['modifiers'] = dialog_node_output_modifiers_model
         dialog_node_output_model['foo'] = 'testString'
 
-        dialog_node_context_model = {} # DialogNodeContext
-        dialog_node_context_model['integrations'] = {'key1': {'foo': 'bar'}}
+        dialog_node_context_model = {}  # DialogNodeContext
+        dialog_node_context_model['integrations'] = {'key1': {'anyKey': 'anyValue'}}
         dialog_node_context_model['foo'] = 'testString'
 
-        dialog_node_next_step_model = {} # DialogNodeNextStep
+        dialog_node_next_step_model = {}  # DialogNodeNextStep
         dialog_node_next_step_model['behavior'] = 'get_user_input'
         dialog_node_next_step_model['dialog_node'] = 'testString'
         dialog_node_next_step_model['selector'] = 'condition'
 
-        dialog_node_action_model = {} # DialogNodeAction
+        dialog_node_action_model = {}  # DialogNodeAction
         dialog_node_action_model['name'] = 'testString'
         dialog_node_action_model['type'] = 'client'
-        dialog_node_action_model['parameters'] = {'foo': 'bar'}
+        dialog_node_action_model['parameters'] = {'anyKey': 'anyValue'}
         dialog_node_action_model['result_variable'] = 'testString'
         dialog_node_action_model['credentials'] = 'testString'
 
-        dialog_node_model = {} # DialogNode
+        dialog_node_model = {}  # DialogNode
         dialog_node_model['dialog_node'] = 'testString'
         dialog_node_model['description'] = 'testString'
         dialog_node_model['conditions'] = 'testString'
@@ -11028,7 +11425,7 @@ class TestModel_Workspace():
         dialog_node_model['previous_sibling'] = 'testString'
         dialog_node_model['output'] = dialog_node_output_model
         dialog_node_model['context'] = dialog_node_context_model
-        dialog_node_model['metadata'] = {'foo': 'bar'}
+        dialog_node_model['metadata'] = {'anyKey': 'anyValue'}
         dialog_node_model['next_step'] = dialog_node_next_step_model
         dialog_node_model['title'] = 'testString'
         dialog_node_model['type'] = 'standard'
@@ -11041,13 +11438,13 @@ class TestModel_Workspace():
         dialog_node_model['user_label'] = 'testString'
         dialog_node_model['disambiguation_opt_out'] = False
 
-        counterexample_model = {} # Counterexample
+        counterexample_model = {}  # Counterexample
         counterexample_model['text'] = 'testString'
 
-        workspace_system_settings_tooling_model = {} # WorkspaceSystemSettingsTooling
+        workspace_system_settings_tooling_model = {}  # WorkspaceSystemSettingsTooling
         workspace_system_settings_tooling_model['store_generic_responses'] = True
 
-        workspace_system_settings_disambiguation_model = {} # WorkspaceSystemSettingsDisambiguation
+        workspace_system_settings_disambiguation_model = {}  # WorkspaceSystemSettingsDisambiguation
         workspace_system_settings_disambiguation_model['prompt'] = 'testString'
         workspace_system_settings_disambiguation_model['none_of_the_above_prompt'] = 'testString'
         workspace_system_settings_disambiguation_model['enabled'] = False
@@ -11056,19 +11453,19 @@ class TestModel_Workspace():
         workspace_system_settings_disambiguation_model['max_suggestions'] = 1
         workspace_system_settings_disambiguation_model['suggestion_text_policy'] = 'testString'
 
-        workspace_system_settings_system_entities_model = {} # WorkspaceSystemSettingsSystemEntities
+        workspace_system_settings_system_entities_model = {}  # WorkspaceSystemSettingsSystemEntities
         workspace_system_settings_system_entities_model['enabled'] = False
 
-        workspace_system_settings_off_topic_model = {} # WorkspaceSystemSettingsOffTopic
+        workspace_system_settings_off_topic_model = {}  # WorkspaceSystemSettingsOffTopic
         workspace_system_settings_off_topic_model['enabled'] = False
 
-        workspace_system_settings_nlp_model = {} # WorkspaceSystemSettingsNlp
+        workspace_system_settings_nlp_model = {}  # WorkspaceSystemSettingsNlp
         workspace_system_settings_nlp_model['model'] = 'testString'
 
-        workspace_system_settings_model = {} # WorkspaceSystemSettings
+        workspace_system_settings_model = {}  # WorkspaceSystemSettings
         workspace_system_settings_model['tooling'] = workspace_system_settings_tooling_model
         workspace_system_settings_model['disambiguation'] = workspace_system_settings_disambiguation_model
-        workspace_system_settings_model['human_agent_assist'] = {'foo': 'bar'}
+        workspace_system_settings_model['human_agent_assist'] = {'anyKey': 'anyValue'}
         workspace_system_settings_model['spelling_suggestions'] = False
         workspace_system_settings_model['spelling_auto_correct'] = False
         workspace_system_settings_model['system_entities'] = workspace_system_settings_system_entities_model
@@ -11076,39 +11473,39 @@ class TestModel_Workspace():
         workspace_system_settings_model['nlp'] = workspace_system_settings_nlp_model
         workspace_system_settings_model['foo'] = 'testString'
 
-        webhook_header_model = {} # WebhookHeader
+        webhook_header_model = {}  # WebhookHeader
         webhook_header_model['name'] = 'testString'
         webhook_header_model['value'] = 'testString'
 
-        webhook_model = {} # Webhook
+        webhook_model = {}  # Webhook
         webhook_model['url'] = 'testString'
         webhook_model['name'] = 'testString'
         webhook_model['headers'] = [webhook_header_model]
 
-        mention_model = {} # Mention
+        mention_model = {}  # Mention
         mention_model['entity'] = 'testString'
         mention_model['location'] = [38]
 
-        example_model = {} # Example
+        example_model = {}  # Example
         example_model['text'] = 'testString'
         example_model['mentions'] = [mention_model]
 
-        intent_model = {} # Intent
+        intent_model = {}  # Intent
         intent_model['intent'] = 'testString'
         intent_model['description'] = 'testString'
         intent_model['examples'] = [example_model]
 
-        value_model = {} # Value
+        value_model = {}  # Value
         value_model['value'] = 'testString'
-        value_model['metadata'] = {'foo': 'bar'}
+        value_model['metadata'] = {'anyKey': 'anyValue'}
         value_model['type'] = 'synonyms'
         value_model['synonyms'] = ['testString']
         value_model['patterns'] = ['testString']
 
-        entity_model = {} # Entity
+        entity_model = {}  # Entity
         entity_model['entity'] = 'testString'
         entity_model['description'] = 'testString'
-        entity_model['metadata'] = {'foo': 'bar'}
+        entity_model['metadata'] = {'anyKey': 'anyValue'}
         entity_model['fuzzy_match'] = True
         entity_model['values'] = [value_model]
 
@@ -11119,7 +11516,7 @@ class TestModel_Workspace():
         workspace_model_json['language'] = 'testString'
         workspace_model_json['dialog_nodes'] = [dialog_node_model]
         workspace_model_json['counterexamples'] = [counterexample_model]
-        workspace_model_json['metadata'] = {'foo': 'bar'}
+        workspace_model_json['metadata'] = {'anyKey': 'anyValue'}
         workspace_model_json['learning_opt_out'] = False
         workspace_model_json['system_settings'] = workspace_system_settings_model
         workspace_model_json['webhooks'] = [webhook_model]
@@ -11141,7 +11538,8 @@ class TestModel_Workspace():
         workspace_model_json2 = workspace_model.to_dict()
         assert workspace_model_json2 == workspace_model_json
 
-class TestModel_WorkspaceCollection():
+
+class TestModel_WorkspaceCollection:
     """
     Test Class for WorkspaceCollection
     """
@@ -11153,45 +11551,45 @@ class TestModel_WorkspaceCollection():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        dialog_node_output_text_values_element_model = {} # DialogNodeOutputTextValuesElement
+        dialog_node_output_text_values_element_model = {}  # DialogNodeOutputTextValuesElement
         dialog_node_output_text_values_element_model['text'] = 'testString'
 
-        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'chat'
 
-        dialog_node_output_generic_model = {} # DialogNodeOutputGenericDialogNodeOutputResponseTypeText
+        dialog_node_output_generic_model = {}  # DialogNodeOutputGenericDialogNodeOutputResponseTypeText
         dialog_node_output_generic_model['response_type'] = 'text'
         dialog_node_output_generic_model['values'] = [dialog_node_output_text_values_element_model]
         dialog_node_output_generic_model['selection_policy'] = 'sequential'
-        dialog_node_output_generic_model['delimiter'] = '\n'
+        dialog_node_output_generic_model['delimiter'] = '\\n'
         dialog_node_output_generic_model['channels'] = [response_generic_channel_model]
 
-        dialog_node_output_modifiers_model = {} # DialogNodeOutputModifiers
+        dialog_node_output_modifiers_model = {}  # DialogNodeOutputModifiers
         dialog_node_output_modifiers_model['overwrite'] = True
 
-        dialog_node_output_model = {} # DialogNodeOutput
+        dialog_node_output_model = {}  # DialogNodeOutput
         dialog_node_output_model['generic'] = [dialog_node_output_generic_model]
-        dialog_node_output_model['integrations'] = {'key1': {'foo': 'bar'}}
+        dialog_node_output_model['integrations'] = {'key1': {'anyKey': 'anyValue'}}
         dialog_node_output_model['modifiers'] = dialog_node_output_modifiers_model
         dialog_node_output_model['foo'] = 'testString'
 
-        dialog_node_context_model = {} # DialogNodeContext
-        dialog_node_context_model['integrations'] = {'key1': {'foo': 'bar'}}
+        dialog_node_context_model = {}  # DialogNodeContext
+        dialog_node_context_model['integrations'] = {'key1': {'anyKey': 'anyValue'}}
         dialog_node_context_model['foo'] = 'testString'
 
-        dialog_node_next_step_model = {} # DialogNodeNextStep
+        dialog_node_next_step_model = {}  # DialogNodeNextStep
         dialog_node_next_step_model['behavior'] = 'get_user_input'
         dialog_node_next_step_model['dialog_node'] = 'testString'
         dialog_node_next_step_model['selector'] = 'condition'
 
-        dialog_node_action_model = {} # DialogNodeAction
+        dialog_node_action_model = {}  # DialogNodeAction
         dialog_node_action_model['name'] = 'testString'
         dialog_node_action_model['type'] = 'client'
-        dialog_node_action_model['parameters'] = {'foo': 'bar'}
+        dialog_node_action_model['parameters'] = {'anyKey': 'anyValue'}
         dialog_node_action_model['result_variable'] = 'testString'
         dialog_node_action_model['credentials'] = 'testString'
 
-        dialog_node_model = {} # DialogNode
+        dialog_node_model = {}  # DialogNode
         dialog_node_model['dialog_node'] = 'testString'
         dialog_node_model['description'] = 'testString'
         dialog_node_model['conditions'] = 'testString'
@@ -11199,7 +11597,7 @@ class TestModel_WorkspaceCollection():
         dialog_node_model['previous_sibling'] = 'testString'
         dialog_node_model['output'] = dialog_node_output_model
         dialog_node_model['context'] = dialog_node_context_model
-        dialog_node_model['metadata'] = {'foo': 'bar'}
+        dialog_node_model['metadata'] = {'anyKey': 'anyValue'}
         dialog_node_model['next_step'] = dialog_node_next_step_model
         dialog_node_model['title'] = 'testString'
         dialog_node_model['type'] = 'standard'
@@ -11212,13 +11610,13 @@ class TestModel_WorkspaceCollection():
         dialog_node_model['user_label'] = 'testString'
         dialog_node_model['disambiguation_opt_out'] = False
 
-        counterexample_model = {} # Counterexample
+        counterexample_model = {}  # Counterexample
         counterexample_model['text'] = 'testString'
 
-        workspace_system_settings_tooling_model = {} # WorkspaceSystemSettingsTooling
+        workspace_system_settings_tooling_model = {}  # WorkspaceSystemSettingsTooling
         workspace_system_settings_tooling_model['store_generic_responses'] = True
 
-        workspace_system_settings_disambiguation_model = {} # WorkspaceSystemSettingsDisambiguation
+        workspace_system_settings_disambiguation_model = {}  # WorkspaceSystemSettingsDisambiguation
         workspace_system_settings_disambiguation_model['prompt'] = 'testString'
         workspace_system_settings_disambiguation_model['none_of_the_above_prompt'] = 'testString'
         workspace_system_settings_disambiguation_model['enabled'] = False
@@ -11227,19 +11625,19 @@ class TestModel_WorkspaceCollection():
         workspace_system_settings_disambiguation_model['max_suggestions'] = 1
         workspace_system_settings_disambiguation_model['suggestion_text_policy'] = 'testString'
 
-        workspace_system_settings_system_entities_model = {} # WorkspaceSystemSettingsSystemEntities
+        workspace_system_settings_system_entities_model = {}  # WorkspaceSystemSettingsSystemEntities
         workspace_system_settings_system_entities_model['enabled'] = False
 
-        workspace_system_settings_off_topic_model = {} # WorkspaceSystemSettingsOffTopic
+        workspace_system_settings_off_topic_model = {}  # WorkspaceSystemSettingsOffTopic
         workspace_system_settings_off_topic_model['enabled'] = False
 
-        workspace_system_settings_nlp_model = {} # WorkspaceSystemSettingsNlp
+        workspace_system_settings_nlp_model = {}  # WorkspaceSystemSettingsNlp
         workspace_system_settings_nlp_model['model'] = 'testString'
 
-        workspace_system_settings_model = {} # WorkspaceSystemSettings
+        workspace_system_settings_model = {}  # WorkspaceSystemSettings
         workspace_system_settings_model['tooling'] = workspace_system_settings_tooling_model
         workspace_system_settings_model['disambiguation'] = workspace_system_settings_disambiguation_model
-        workspace_system_settings_model['human_agent_assist'] = {'foo': 'bar'}
+        workspace_system_settings_model['human_agent_assist'] = {'anyKey': 'anyValue'}
         workspace_system_settings_model['spelling_suggestions'] = False
         workspace_system_settings_model['spelling_auto_correct'] = False
         workspace_system_settings_model['system_entities'] = workspace_system_settings_system_entities_model
@@ -11247,56 +11645,56 @@ class TestModel_WorkspaceCollection():
         workspace_system_settings_model['nlp'] = workspace_system_settings_nlp_model
         workspace_system_settings_model['foo'] = 'testString'
 
-        webhook_header_model = {} # WebhookHeader
+        webhook_header_model = {}  # WebhookHeader
         webhook_header_model['name'] = 'testString'
         webhook_header_model['value'] = 'testString'
 
-        webhook_model = {} # Webhook
+        webhook_model = {}  # Webhook
         webhook_model['url'] = 'testString'
         webhook_model['name'] = 'testString'
         webhook_model['headers'] = [webhook_header_model]
 
-        mention_model = {} # Mention
+        mention_model = {}  # Mention
         mention_model['entity'] = 'testString'
         mention_model['location'] = [38]
 
-        example_model = {} # Example
+        example_model = {}  # Example
         example_model['text'] = 'testString'
         example_model['mentions'] = [mention_model]
 
-        intent_model = {} # Intent
+        intent_model = {}  # Intent
         intent_model['intent'] = 'testString'
         intent_model['description'] = 'testString'
         intent_model['examples'] = [example_model]
 
-        value_model = {} # Value
+        value_model = {}  # Value
         value_model['value'] = 'testString'
-        value_model['metadata'] = {'foo': 'bar'}
+        value_model['metadata'] = {'anyKey': 'anyValue'}
         value_model['type'] = 'synonyms'
         value_model['synonyms'] = ['testString']
         value_model['patterns'] = ['testString']
 
-        entity_model = {} # Entity
+        entity_model = {}  # Entity
         entity_model['entity'] = 'testString'
         entity_model['description'] = 'testString'
-        entity_model['metadata'] = {'foo': 'bar'}
+        entity_model['metadata'] = {'anyKey': 'anyValue'}
         entity_model['fuzzy_match'] = True
         entity_model['values'] = [value_model]
 
-        workspace_model = {} # Workspace
+        workspace_model = {}  # Workspace
         workspace_model['name'] = 'testString'
         workspace_model['description'] = 'testString'
         workspace_model['language'] = 'testString'
         workspace_model['dialog_nodes'] = [dialog_node_model]
         workspace_model['counterexamples'] = [counterexample_model]
-        workspace_model['metadata'] = {'foo': 'bar'}
+        workspace_model['metadata'] = {'anyKey': 'anyValue'}
         workspace_model['learning_opt_out'] = False
         workspace_model['system_settings'] = workspace_system_settings_model
         workspace_model['webhooks'] = [webhook_model]
         workspace_model['intents'] = [intent_model]
         workspace_model['entities'] = [entity_model]
 
-        pagination_model = {} # Pagination
+        pagination_model = {}  # Pagination
         pagination_model['refresh_url'] = 'testString'
         pagination_model['next_url'] = 'testString'
         pagination_model['total'] = 38
@@ -11324,7 +11722,8 @@ class TestModel_WorkspaceCollection():
         workspace_collection_model_json2 = workspace_collection_model.to_dict()
         assert workspace_collection_model_json2 == workspace_collection_model_json
 
-class TestModel_WorkspaceCounts():
+
+class TestModel_WorkspaceCounts:
     """
     Test Class for WorkspaceCounts
     """
@@ -11355,7 +11754,8 @@ class TestModel_WorkspaceCounts():
         workspace_counts_model_json2 = workspace_counts_model.to_dict()
         assert workspace_counts_model_json2 == workspace_counts_model_json
 
-class TestModel_WorkspaceSystemSettings():
+
+class TestModel_WorkspaceSystemSettings:
     """
     Test Class for WorkspaceSystemSettings
     """
@@ -11367,10 +11767,10 @@ class TestModel_WorkspaceSystemSettings():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        workspace_system_settings_tooling_model = {} # WorkspaceSystemSettingsTooling
+        workspace_system_settings_tooling_model = {}  # WorkspaceSystemSettingsTooling
         workspace_system_settings_tooling_model['store_generic_responses'] = True
 
-        workspace_system_settings_disambiguation_model = {} # WorkspaceSystemSettingsDisambiguation
+        workspace_system_settings_disambiguation_model = {}  # WorkspaceSystemSettingsDisambiguation
         workspace_system_settings_disambiguation_model['prompt'] = 'testString'
         workspace_system_settings_disambiguation_model['none_of_the_above_prompt'] = 'testString'
         workspace_system_settings_disambiguation_model['enabled'] = False
@@ -11379,20 +11779,20 @@ class TestModel_WorkspaceSystemSettings():
         workspace_system_settings_disambiguation_model['max_suggestions'] = 1
         workspace_system_settings_disambiguation_model['suggestion_text_policy'] = 'testString'
 
-        workspace_system_settings_system_entities_model = {} # WorkspaceSystemSettingsSystemEntities
+        workspace_system_settings_system_entities_model = {}  # WorkspaceSystemSettingsSystemEntities
         workspace_system_settings_system_entities_model['enabled'] = False
 
-        workspace_system_settings_off_topic_model = {} # WorkspaceSystemSettingsOffTopic
+        workspace_system_settings_off_topic_model = {}  # WorkspaceSystemSettingsOffTopic
         workspace_system_settings_off_topic_model['enabled'] = False
 
-        workspace_system_settings_nlp_model = {} # WorkspaceSystemSettingsNlp
+        workspace_system_settings_nlp_model = {}  # WorkspaceSystemSettingsNlp
         workspace_system_settings_nlp_model['model'] = 'testString'
 
         # Construct a json representation of a WorkspaceSystemSettings model
         workspace_system_settings_model_json = {}
         workspace_system_settings_model_json['tooling'] = workspace_system_settings_tooling_model
         workspace_system_settings_model_json['disambiguation'] = workspace_system_settings_disambiguation_model
-        workspace_system_settings_model_json['human_agent_assist'] = {'foo': 'bar'}
+        workspace_system_settings_model_json['human_agent_assist'] = {'anyKey': 'anyValue'}
         workspace_system_settings_model_json['spelling_suggestions'] = False
         workspace_system_settings_model_json['spelling_auto_correct'] = False
         workspace_system_settings_model_json['system_entities'] = workspace_system_settings_system_entities_model
@@ -11425,7 +11825,8 @@ class TestModel_WorkspaceSystemSettings():
         actual_dict = workspace_system_settings_model.get_properties()
         assert actual_dict == expected_dict
 
-class TestModel_WorkspaceSystemSettingsDisambiguation():
+
+class TestModel_WorkspaceSystemSettingsDisambiguation:
     """
     Test Class for WorkspaceSystemSettingsDisambiguation
     """
@@ -11460,7 +11861,8 @@ class TestModel_WorkspaceSystemSettingsDisambiguation():
         workspace_system_settings_disambiguation_model_json2 = workspace_system_settings_disambiguation_model.to_dict()
         assert workspace_system_settings_disambiguation_model_json2 == workspace_system_settings_disambiguation_model_json
 
-class TestModel_WorkspaceSystemSettingsNlp():
+
+class TestModel_WorkspaceSystemSettingsNlp:
     """
     Test Class for WorkspaceSystemSettingsNlp
     """
@@ -11489,7 +11891,8 @@ class TestModel_WorkspaceSystemSettingsNlp():
         workspace_system_settings_nlp_model_json2 = workspace_system_settings_nlp_model.to_dict()
         assert workspace_system_settings_nlp_model_json2 == workspace_system_settings_nlp_model_json
 
-class TestModel_WorkspaceSystemSettingsOffTopic():
+
+class TestModel_WorkspaceSystemSettingsOffTopic:
     """
     Test Class for WorkspaceSystemSettingsOffTopic
     """
@@ -11518,7 +11921,8 @@ class TestModel_WorkspaceSystemSettingsOffTopic():
         workspace_system_settings_off_topic_model_json2 = workspace_system_settings_off_topic_model.to_dict()
         assert workspace_system_settings_off_topic_model_json2 == workspace_system_settings_off_topic_model_json
 
-class TestModel_WorkspaceSystemSettingsSystemEntities():
+
+class TestModel_WorkspaceSystemSettingsSystemEntities:
     """
     Test Class for WorkspaceSystemSettingsSystemEntities
     """
@@ -11547,7 +11951,8 @@ class TestModel_WorkspaceSystemSettingsSystemEntities():
         workspace_system_settings_system_entities_model_json2 = workspace_system_settings_system_entities_model.to_dict()
         assert workspace_system_settings_system_entities_model_json2 == workspace_system_settings_system_entities_model_json
 
-class TestModel_WorkspaceSystemSettingsTooling():
+
+class TestModel_WorkspaceSystemSettingsTooling:
     """
     Test Class for WorkspaceSystemSettingsTooling
     """
@@ -11576,7 +11981,8 @@ class TestModel_WorkspaceSystemSettingsTooling():
         workspace_system_settings_tooling_model_json2 = workspace_system_settings_tooling_model.to_dict()
         assert workspace_system_settings_tooling_model_json2 == workspace_system_settings_tooling_model_json
 
-class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio():
+
+class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio:
     """
     Test Class for DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio
     """
@@ -11588,7 +11994,7 @@ class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'chat'
 
         # Construct a json representation of a DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio model
@@ -11598,7 +12004,7 @@ class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio():
         dialog_node_output_generic_dialog_node_output_response_type_audio_model_json['title'] = 'testString'
         dialog_node_output_generic_dialog_node_output_response_type_audio_model_json['description'] = 'testString'
         dialog_node_output_generic_dialog_node_output_response_type_audio_model_json['channels'] = [response_generic_channel_model]
-        dialog_node_output_generic_dialog_node_output_response_type_audio_model_json['channel_options'] = {'foo': 'bar'}
+        dialog_node_output_generic_dialog_node_output_response_type_audio_model_json['channel_options'] = {'anyKey': 'anyValue'}
         dialog_node_output_generic_dialog_node_output_response_type_audio_model_json['alt_text'] = 'testString'
 
         # Construct a model instance of DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio by calling from_dict on the json representation
@@ -11616,7 +12022,8 @@ class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio():
         dialog_node_output_generic_dialog_node_output_response_type_audio_model_json2 = dialog_node_output_generic_dialog_node_output_response_type_audio_model.to_dict()
         assert dialog_node_output_generic_dialog_node_output_response_type_audio_model_json2 == dialog_node_output_generic_dialog_node_output_response_type_audio_model_json
 
-class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeChannelTransfer():
+
+class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeChannelTransfer:
     """
     Test Class for DialogNodeOutputGenericDialogNodeOutputResponseTypeChannelTransfer
     """
@@ -11628,16 +12035,16 @@ class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeChannelTransf
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        channel_transfer_target_chat_model = {} # ChannelTransferTargetChat
+        channel_transfer_target_chat_model = {}  # ChannelTransferTargetChat
         channel_transfer_target_chat_model['url'] = 'testString'
 
-        channel_transfer_target_model = {} # ChannelTransferTarget
+        channel_transfer_target_model = {}  # ChannelTransferTarget
         channel_transfer_target_model['chat'] = channel_transfer_target_chat_model
 
-        channel_transfer_info_model = {} # ChannelTransferInfo
+        channel_transfer_info_model = {}  # ChannelTransferInfo
         channel_transfer_info_model['target'] = channel_transfer_target_model
 
-        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'chat'
 
         # Construct a json representation of a DialogNodeOutputGenericDialogNodeOutputResponseTypeChannelTransfer model
@@ -11662,7 +12069,8 @@ class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeChannelTransf
         dialog_node_output_generic_dialog_node_output_response_type_channel_transfer_model_json2 = dialog_node_output_generic_dialog_node_output_response_type_channel_transfer_model.to_dict()
         assert dialog_node_output_generic_dialog_node_output_response_type_channel_transfer_model_json2 == dialog_node_output_generic_dialog_node_output_response_type_channel_transfer_model_json
 
-class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeConnectToAgent():
+
+class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeConnectToAgent:
     """
     Test Class for DialogNodeOutputGenericDialogNodeOutputResponseTypeConnectToAgent
     """
@@ -11674,13 +12082,13 @@ class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeConnectToAgen
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        agent_availability_message_model = {} # AgentAvailabilityMessage
+        agent_availability_message_model = {}  # AgentAvailabilityMessage
         agent_availability_message_model['message'] = 'testString'
 
-        dialog_node_output_connect_to_agent_transfer_info_model = {} # DialogNodeOutputConnectToAgentTransferInfo
-        dialog_node_output_connect_to_agent_transfer_info_model['target'] = {'key1': {'foo': 'bar'}}
+        dialog_node_output_connect_to_agent_transfer_info_model = {}  # DialogNodeOutputConnectToAgentTransferInfo
+        dialog_node_output_connect_to_agent_transfer_info_model['target'] = {'key1': {'anyKey': 'anyValue'}}
 
-        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'chat'
 
         # Construct a json representation of a DialogNodeOutputGenericDialogNodeOutputResponseTypeConnectToAgent model
@@ -11707,7 +12115,8 @@ class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeConnectToAgen
         dialog_node_output_generic_dialog_node_output_response_type_connect_to_agent_model_json2 = dialog_node_output_generic_dialog_node_output_response_type_connect_to_agent_model.to_dict()
         assert dialog_node_output_generic_dialog_node_output_response_type_connect_to_agent_model_json2 == dialog_node_output_generic_dialog_node_output_response_type_connect_to_agent_model_json
 
-class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeIframe():
+
+class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeIframe:
     """
     Test Class for DialogNodeOutputGenericDialogNodeOutputResponseTypeIframe
     """
@@ -11719,7 +12128,7 @@ class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeIframe():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'chat'
 
         # Construct a json representation of a DialogNodeOutputGenericDialogNodeOutputResponseTypeIframe model
@@ -11746,7 +12155,8 @@ class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeIframe():
         dialog_node_output_generic_dialog_node_output_response_type_iframe_model_json2 = dialog_node_output_generic_dialog_node_output_response_type_iframe_model.to_dict()
         assert dialog_node_output_generic_dialog_node_output_response_type_iframe_model_json2 == dialog_node_output_generic_dialog_node_output_response_type_iframe_model_json
 
-class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeImage():
+
+class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeImage:
     """
     Test Class for DialogNodeOutputGenericDialogNodeOutputResponseTypeImage
     """
@@ -11758,7 +12168,7 @@ class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeImage():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'chat'
 
         # Construct a json representation of a DialogNodeOutputGenericDialogNodeOutputResponseTypeImage model
@@ -11785,7 +12195,8 @@ class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeImage():
         dialog_node_output_generic_dialog_node_output_response_type_image_model_json2 = dialog_node_output_generic_dialog_node_output_response_type_image_model.to_dict()
         assert dialog_node_output_generic_dialog_node_output_response_type_image_model_json2 == dialog_node_output_generic_dialog_node_output_response_type_image_model_json
 
-class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeOption():
+
+class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeOption:
     """
     Test Class for DialogNodeOutputGenericDialogNodeOutputResponseTypeOption
     """
@@ -11797,21 +12208,21 @@ class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeOption():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        message_input_model = {} # MessageInput
+        message_input_model = {}  # MessageInput
         message_input_model['text'] = 'testString'
         message_input_model['spelling_suggestions'] = False
         message_input_model['spelling_auto_correct'] = False
         message_input_model['foo'] = 'testString'
 
-        runtime_intent_model = {} # RuntimeIntent
+        runtime_intent_model = {}  # RuntimeIntent
         runtime_intent_model['intent'] = 'testString'
         runtime_intent_model['confidence'] = 72.5
 
-        capture_group_model = {} # CaptureGroup
+        capture_group_model = {}  # CaptureGroup
         capture_group_model['group'] = 'testString'
         capture_group_model['location'] = [38]
 
-        runtime_entity_interpretation_model = {} # RuntimeEntityInterpretation
+        runtime_entity_interpretation_model = {}  # RuntimeEntityInterpretation
         runtime_entity_interpretation_model['calendar_type'] = 'testString'
         runtime_entity_interpretation_model['datetime_link'] = 'testString'
         runtime_entity_interpretation_model['festival'] = 'testString'
@@ -11839,14 +12250,14 @@ class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeOption():
         runtime_entity_interpretation_model['specific_second'] = 72.5
         runtime_entity_interpretation_model['timezone'] = 'testString'
 
-        runtime_entity_alternative_model = {} # RuntimeEntityAlternative
+        runtime_entity_alternative_model = {}  # RuntimeEntityAlternative
         runtime_entity_alternative_model['value'] = 'testString'
         runtime_entity_alternative_model['confidence'] = 72.5
 
-        runtime_entity_role_model = {} # RuntimeEntityRole
+        runtime_entity_role_model = {}  # RuntimeEntityRole
         runtime_entity_role_model['type'] = 'date_from'
 
-        runtime_entity_model = {} # RuntimeEntity
+        runtime_entity_model = {}  # RuntimeEntity
         runtime_entity_model['entity'] = 'testString'
         runtime_entity_model['location'] = [38]
         runtime_entity_model['value'] = 'testString'
@@ -11856,16 +12267,16 @@ class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeOption():
         runtime_entity_model['alternatives'] = [runtime_entity_alternative_model]
         runtime_entity_model['role'] = runtime_entity_role_model
 
-        dialog_node_output_options_element_value_model = {} # DialogNodeOutputOptionsElementValue
+        dialog_node_output_options_element_value_model = {}  # DialogNodeOutputOptionsElementValue
         dialog_node_output_options_element_value_model['input'] = message_input_model
         dialog_node_output_options_element_value_model['intents'] = [runtime_intent_model]
         dialog_node_output_options_element_value_model['entities'] = [runtime_entity_model]
 
-        dialog_node_output_options_element_model = {} # DialogNodeOutputOptionsElement
+        dialog_node_output_options_element_model = {}  # DialogNodeOutputOptionsElement
         dialog_node_output_options_element_model['label'] = 'testString'
         dialog_node_output_options_element_model['value'] = dialog_node_output_options_element_value_model
 
-        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'chat'
 
         # Construct a json representation of a DialogNodeOutputGenericDialogNodeOutputResponseTypeOption model
@@ -11892,7 +12303,8 @@ class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeOption():
         dialog_node_output_generic_dialog_node_output_response_type_option_model_json2 = dialog_node_output_generic_dialog_node_output_response_type_option_model.to_dict()
         assert dialog_node_output_generic_dialog_node_output_response_type_option_model_json2 == dialog_node_output_generic_dialog_node_output_response_type_option_model_json
 
-class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypePause():
+
+class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypePause:
     """
     Test Class for DialogNodeOutputGenericDialogNodeOutputResponseTypePause
     """
@@ -11904,7 +12316,7 @@ class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypePause():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'chat'
 
         # Construct a json representation of a DialogNodeOutputGenericDialogNodeOutputResponseTypePause model
@@ -11929,7 +12341,8 @@ class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypePause():
         dialog_node_output_generic_dialog_node_output_response_type_pause_model_json2 = dialog_node_output_generic_dialog_node_output_response_type_pause_model.to_dict()
         assert dialog_node_output_generic_dialog_node_output_response_type_pause_model_json2 == dialog_node_output_generic_dialog_node_output_response_type_pause_model_json
 
-class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeSearchSkill():
+
+class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeSearchSkill:
     """
     Test Class for DialogNodeOutputGenericDialogNodeOutputResponseTypeSearchSkill
     """
@@ -11941,7 +12354,7 @@ class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeSearchSkill()
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'chat'
 
         # Construct a json representation of a DialogNodeOutputGenericDialogNodeOutputResponseTypeSearchSkill model
@@ -11968,7 +12381,8 @@ class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeSearchSkill()
         dialog_node_output_generic_dialog_node_output_response_type_search_skill_model_json2 = dialog_node_output_generic_dialog_node_output_response_type_search_skill_model.to_dict()
         assert dialog_node_output_generic_dialog_node_output_response_type_search_skill_model_json2 == dialog_node_output_generic_dialog_node_output_response_type_search_skill_model_json
 
-class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeText():
+
+class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeText:
     """
     Test Class for DialogNodeOutputGenericDialogNodeOutputResponseTypeText
     """
@@ -11980,10 +12394,10 @@ class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeText():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        dialog_node_output_text_values_element_model = {} # DialogNodeOutputTextValuesElement
+        dialog_node_output_text_values_element_model = {}  # DialogNodeOutputTextValuesElement
         dialog_node_output_text_values_element_model['text'] = 'testString'
 
-        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'chat'
 
         # Construct a json representation of a DialogNodeOutputGenericDialogNodeOutputResponseTypeText model
@@ -11991,7 +12405,7 @@ class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeText():
         dialog_node_output_generic_dialog_node_output_response_type_text_model_json['response_type'] = 'text'
         dialog_node_output_generic_dialog_node_output_response_type_text_model_json['values'] = [dialog_node_output_text_values_element_model]
         dialog_node_output_generic_dialog_node_output_response_type_text_model_json['selection_policy'] = 'sequential'
-        dialog_node_output_generic_dialog_node_output_response_type_text_model_json['delimiter'] = '\n'
+        dialog_node_output_generic_dialog_node_output_response_type_text_model_json['delimiter'] = '\\n'
         dialog_node_output_generic_dialog_node_output_response_type_text_model_json['channels'] = [response_generic_channel_model]
 
         # Construct a model instance of DialogNodeOutputGenericDialogNodeOutputResponseTypeText by calling from_dict on the json representation
@@ -12009,7 +12423,8 @@ class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeText():
         dialog_node_output_generic_dialog_node_output_response_type_text_model_json2 = dialog_node_output_generic_dialog_node_output_response_type_text_model.to_dict()
         assert dialog_node_output_generic_dialog_node_output_response_type_text_model_json2 == dialog_node_output_generic_dialog_node_output_response_type_text_model_json
 
-class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeUserDefined():
+
+class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeUserDefined:
     """
     Test Class for DialogNodeOutputGenericDialogNodeOutputResponseTypeUserDefined
     """
@@ -12021,13 +12436,13 @@ class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeUserDefined()
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'chat'
 
         # Construct a json representation of a DialogNodeOutputGenericDialogNodeOutputResponseTypeUserDefined model
         dialog_node_output_generic_dialog_node_output_response_type_user_defined_model_json = {}
         dialog_node_output_generic_dialog_node_output_response_type_user_defined_model_json['response_type'] = 'user_defined'
-        dialog_node_output_generic_dialog_node_output_response_type_user_defined_model_json['user_defined'] = {'foo': 'bar'}
+        dialog_node_output_generic_dialog_node_output_response_type_user_defined_model_json['user_defined'] = {'anyKey': 'anyValue'}
         dialog_node_output_generic_dialog_node_output_response_type_user_defined_model_json['channels'] = [response_generic_channel_model]
 
         # Construct a model instance of DialogNodeOutputGenericDialogNodeOutputResponseTypeUserDefined by calling from_dict on the json representation
@@ -12045,7 +12460,8 @@ class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeUserDefined()
         dialog_node_output_generic_dialog_node_output_response_type_user_defined_model_json2 = dialog_node_output_generic_dialog_node_output_response_type_user_defined_model.to_dict()
         assert dialog_node_output_generic_dialog_node_output_response_type_user_defined_model_json2 == dialog_node_output_generic_dialog_node_output_response_type_user_defined_model_json
 
-class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeVideo():
+
+class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeVideo:
     """
     Test Class for DialogNodeOutputGenericDialogNodeOutputResponseTypeVideo
     """
@@ -12057,7 +12473,7 @@ class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeVideo():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'chat'
 
         # Construct a json representation of a DialogNodeOutputGenericDialogNodeOutputResponseTypeVideo model
@@ -12067,7 +12483,7 @@ class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeVideo():
         dialog_node_output_generic_dialog_node_output_response_type_video_model_json['title'] = 'testString'
         dialog_node_output_generic_dialog_node_output_response_type_video_model_json['description'] = 'testString'
         dialog_node_output_generic_dialog_node_output_response_type_video_model_json['channels'] = [response_generic_channel_model]
-        dialog_node_output_generic_dialog_node_output_response_type_video_model_json['channel_options'] = {'foo': 'bar'}
+        dialog_node_output_generic_dialog_node_output_response_type_video_model_json['channel_options'] = {'anyKey': 'anyValue'}
         dialog_node_output_generic_dialog_node_output_response_type_video_model_json['alt_text'] = 'testString'
 
         # Construct a model instance of DialogNodeOutputGenericDialogNodeOutputResponseTypeVideo by calling from_dict on the json representation
@@ -12085,7 +12501,8 @@ class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeVideo():
         dialog_node_output_generic_dialog_node_output_response_type_video_model_json2 = dialog_node_output_generic_dialog_node_output_response_type_video_model.to_dict()
         assert dialog_node_output_generic_dialog_node_output_response_type_video_model_json2 == dialog_node_output_generic_dialog_node_output_response_type_video_model_json
 
-class TestModel_RuntimeResponseGenericRuntimeResponseTypeAudio():
+
+class TestModel_RuntimeResponseGenericRuntimeResponseTypeAudio:
     """
     Test Class for RuntimeResponseGenericRuntimeResponseTypeAudio
     """
@@ -12097,7 +12514,7 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeAudio():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'chat'
 
         # Construct a json representation of a RuntimeResponseGenericRuntimeResponseTypeAudio model
@@ -12107,7 +12524,7 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeAudio():
         runtime_response_generic_runtime_response_type_audio_model_json['title'] = 'testString'
         runtime_response_generic_runtime_response_type_audio_model_json['description'] = 'testString'
         runtime_response_generic_runtime_response_type_audio_model_json['channels'] = [response_generic_channel_model]
-        runtime_response_generic_runtime_response_type_audio_model_json['channel_options'] = {'foo': 'bar'}
+        runtime_response_generic_runtime_response_type_audio_model_json['channel_options'] = {'anyKey': 'anyValue'}
         runtime_response_generic_runtime_response_type_audio_model_json['alt_text'] = 'testString'
 
         # Construct a model instance of RuntimeResponseGenericRuntimeResponseTypeAudio by calling from_dict on the json representation
@@ -12125,7 +12542,8 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeAudio():
         runtime_response_generic_runtime_response_type_audio_model_json2 = runtime_response_generic_runtime_response_type_audio_model.to_dict()
         assert runtime_response_generic_runtime_response_type_audio_model_json2 == runtime_response_generic_runtime_response_type_audio_model_json
 
-class TestModel_RuntimeResponseGenericRuntimeResponseTypeChannelTransfer():
+
+class TestModel_RuntimeResponseGenericRuntimeResponseTypeChannelTransfer:
     """
     Test Class for RuntimeResponseGenericRuntimeResponseTypeChannelTransfer
     """
@@ -12137,16 +12555,16 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeChannelTransfer():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        channel_transfer_target_chat_model = {} # ChannelTransferTargetChat
+        channel_transfer_target_chat_model = {}  # ChannelTransferTargetChat
         channel_transfer_target_chat_model['url'] = 'testString'
 
-        channel_transfer_target_model = {} # ChannelTransferTarget
+        channel_transfer_target_model = {}  # ChannelTransferTarget
         channel_transfer_target_model['chat'] = channel_transfer_target_chat_model
 
-        channel_transfer_info_model = {} # ChannelTransferInfo
+        channel_transfer_info_model = {}  # ChannelTransferInfo
         channel_transfer_info_model['target'] = channel_transfer_target_model
 
-        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'chat'
 
         # Construct a json representation of a RuntimeResponseGenericRuntimeResponseTypeChannelTransfer model
@@ -12171,7 +12589,8 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeChannelTransfer():
         runtime_response_generic_runtime_response_type_channel_transfer_model_json2 = runtime_response_generic_runtime_response_type_channel_transfer_model.to_dict()
         assert runtime_response_generic_runtime_response_type_channel_transfer_model_json2 == runtime_response_generic_runtime_response_type_channel_transfer_model_json
 
-class TestModel_RuntimeResponseGenericRuntimeResponseTypeConnectToAgent():
+
+class TestModel_RuntimeResponseGenericRuntimeResponseTypeConnectToAgent:
     """
     Test Class for RuntimeResponseGenericRuntimeResponseTypeConnectToAgent
     """
@@ -12183,13 +12602,13 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeConnectToAgent():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        agent_availability_message_model = {} # AgentAvailabilityMessage
+        agent_availability_message_model = {}  # AgentAvailabilityMessage
         agent_availability_message_model['message'] = 'testString'
 
-        dialog_node_output_connect_to_agent_transfer_info_model = {} # DialogNodeOutputConnectToAgentTransferInfo
-        dialog_node_output_connect_to_agent_transfer_info_model['target'] = {'key1': {'foo': 'bar'}}
+        dialog_node_output_connect_to_agent_transfer_info_model = {}  # DialogNodeOutputConnectToAgentTransferInfo
+        dialog_node_output_connect_to_agent_transfer_info_model['target'] = {'key1': {'anyKey': 'anyValue'}}
 
-        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'chat'
 
         # Construct a json representation of a RuntimeResponseGenericRuntimeResponseTypeConnectToAgent model
@@ -12218,7 +12637,8 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeConnectToAgent():
         runtime_response_generic_runtime_response_type_connect_to_agent_model_json2 = runtime_response_generic_runtime_response_type_connect_to_agent_model.to_dict()
         assert runtime_response_generic_runtime_response_type_connect_to_agent_model_json2 == runtime_response_generic_runtime_response_type_connect_to_agent_model_json
 
-class TestModel_RuntimeResponseGenericRuntimeResponseTypeIframe():
+
+class TestModel_RuntimeResponseGenericRuntimeResponseTypeIframe:
     """
     Test Class for RuntimeResponseGenericRuntimeResponseTypeIframe
     """
@@ -12230,7 +12650,7 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeIframe():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'chat'
 
         # Construct a json representation of a RuntimeResponseGenericRuntimeResponseTypeIframe model
@@ -12257,7 +12677,8 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeIframe():
         runtime_response_generic_runtime_response_type_iframe_model_json2 = runtime_response_generic_runtime_response_type_iframe_model.to_dict()
         assert runtime_response_generic_runtime_response_type_iframe_model_json2 == runtime_response_generic_runtime_response_type_iframe_model_json
 
-class TestModel_RuntimeResponseGenericRuntimeResponseTypeImage():
+
+class TestModel_RuntimeResponseGenericRuntimeResponseTypeImage:
     """
     Test Class for RuntimeResponseGenericRuntimeResponseTypeImage
     """
@@ -12269,7 +12690,7 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeImage():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'chat'
 
         # Construct a json representation of a RuntimeResponseGenericRuntimeResponseTypeImage model
@@ -12296,7 +12717,8 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeImage():
         runtime_response_generic_runtime_response_type_image_model_json2 = runtime_response_generic_runtime_response_type_image_model.to_dict()
         assert runtime_response_generic_runtime_response_type_image_model_json2 == runtime_response_generic_runtime_response_type_image_model_json
 
-class TestModel_RuntimeResponseGenericRuntimeResponseTypeOption():
+
+class TestModel_RuntimeResponseGenericRuntimeResponseTypeOption:
     """
     Test Class for RuntimeResponseGenericRuntimeResponseTypeOption
     """
@@ -12308,21 +12730,21 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeOption():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        message_input_model = {} # MessageInput
+        message_input_model = {}  # MessageInput
         message_input_model['text'] = 'testString'
         message_input_model['spelling_suggestions'] = False
         message_input_model['spelling_auto_correct'] = False
         message_input_model['foo'] = 'testString'
 
-        runtime_intent_model = {} # RuntimeIntent
+        runtime_intent_model = {}  # RuntimeIntent
         runtime_intent_model['intent'] = 'testString'
         runtime_intent_model['confidence'] = 72.5
 
-        capture_group_model = {} # CaptureGroup
+        capture_group_model = {}  # CaptureGroup
         capture_group_model['group'] = 'testString'
         capture_group_model['location'] = [38]
 
-        runtime_entity_interpretation_model = {} # RuntimeEntityInterpretation
+        runtime_entity_interpretation_model = {}  # RuntimeEntityInterpretation
         runtime_entity_interpretation_model['calendar_type'] = 'testString'
         runtime_entity_interpretation_model['datetime_link'] = 'testString'
         runtime_entity_interpretation_model['festival'] = 'testString'
@@ -12350,14 +12772,14 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeOption():
         runtime_entity_interpretation_model['specific_second'] = 72.5
         runtime_entity_interpretation_model['timezone'] = 'testString'
 
-        runtime_entity_alternative_model = {} # RuntimeEntityAlternative
+        runtime_entity_alternative_model = {}  # RuntimeEntityAlternative
         runtime_entity_alternative_model['value'] = 'testString'
         runtime_entity_alternative_model['confidence'] = 72.5
 
-        runtime_entity_role_model = {} # RuntimeEntityRole
+        runtime_entity_role_model = {}  # RuntimeEntityRole
         runtime_entity_role_model['type'] = 'date_from'
 
-        runtime_entity_model = {} # RuntimeEntity
+        runtime_entity_model = {}  # RuntimeEntity
         runtime_entity_model['entity'] = 'testString'
         runtime_entity_model['location'] = [38]
         runtime_entity_model['value'] = 'testString'
@@ -12367,16 +12789,16 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeOption():
         runtime_entity_model['alternatives'] = [runtime_entity_alternative_model]
         runtime_entity_model['role'] = runtime_entity_role_model
 
-        dialog_node_output_options_element_value_model = {} # DialogNodeOutputOptionsElementValue
+        dialog_node_output_options_element_value_model = {}  # DialogNodeOutputOptionsElementValue
         dialog_node_output_options_element_value_model['input'] = message_input_model
         dialog_node_output_options_element_value_model['intents'] = [runtime_intent_model]
         dialog_node_output_options_element_value_model['entities'] = [runtime_entity_model]
 
-        dialog_node_output_options_element_model = {} # DialogNodeOutputOptionsElement
+        dialog_node_output_options_element_model = {}  # DialogNodeOutputOptionsElement
         dialog_node_output_options_element_model['label'] = 'testString'
         dialog_node_output_options_element_model['value'] = dialog_node_output_options_element_value_model
 
-        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'chat'
 
         # Construct a json representation of a RuntimeResponseGenericRuntimeResponseTypeOption model
@@ -12403,7 +12825,8 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeOption():
         runtime_response_generic_runtime_response_type_option_model_json2 = runtime_response_generic_runtime_response_type_option_model.to_dict()
         assert runtime_response_generic_runtime_response_type_option_model_json2 == runtime_response_generic_runtime_response_type_option_model_json
 
-class TestModel_RuntimeResponseGenericRuntimeResponseTypePause():
+
+class TestModel_RuntimeResponseGenericRuntimeResponseTypePause:
     """
     Test Class for RuntimeResponseGenericRuntimeResponseTypePause
     """
@@ -12415,7 +12838,7 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypePause():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'chat'
 
         # Construct a json representation of a RuntimeResponseGenericRuntimeResponseTypePause model
@@ -12440,7 +12863,8 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypePause():
         runtime_response_generic_runtime_response_type_pause_model_json2 = runtime_response_generic_runtime_response_type_pause_model.to_dict()
         assert runtime_response_generic_runtime_response_type_pause_model_json2 == runtime_response_generic_runtime_response_type_pause_model_json
 
-class TestModel_RuntimeResponseGenericRuntimeResponseTypeSuggestion():
+
+class TestModel_RuntimeResponseGenericRuntimeResponseTypeSuggestion:
     """
     Test Class for RuntimeResponseGenericRuntimeResponseTypeSuggestion
     """
@@ -12452,21 +12876,21 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeSuggestion():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        message_input_model = {} # MessageInput
+        message_input_model = {}  # MessageInput
         message_input_model['text'] = 'testString'
         message_input_model['spelling_suggestions'] = False
         message_input_model['spelling_auto_correct'] = False
         message_input_model['foo'] = 'testString'
 
-        runtime_intent_model = {} # RuntimeIntent
+        runtime_intent_model = {}  # RuntimeIntent
         runtime_intent_model['intent'] = 'testString'
         runtime_intent_model['confidence'] = 72.5
 
-        capture_group_model = {} # CaptureGroup
+        capture_group_model = {}  # CaptureGroup
         capture_group_model['group'] = 'testString'
         capture_group_model['location'] = [38]
 
-        runtime_entity_interpretation_model = {} # RuntimeEntityInterpretation
+        runtime_entity_interpretation_model = {}  # RuntimeEntityInterpretation
         runtime_entity_interpretation_model['calendar_type'] = 'testString'
         runtime_entity_interpretation_model['datetime_link'] = 'testString'
         runtime_entity_interpretation_model['festival'] = 'testString'
@@ -12494,14 +12918,14 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeSuggestion():
         runtime_entity_interpretation_model['specific_second'] = 72.5
         runtime_entity_interpretation_model['timezone'] = 'testString'
 
-        runtime_entity_alternative_model = {} # RuntimeEntityAlternative
+        runtime_entity_alternative_model = {}  # RuntimeEntityAlternative
         runtime_entity_alternative_model['value'] = 'testString'
         runtime_entity_alternative_model['confidence'] = 72.5
 
-        runtime_entity_role_model = {} # RuntimeEntityRole
+        runtime_entity_role_model = {}  # RuntimeEntityRole
         runtime_entity_role_model['type'] = 'date_from'
 
-        runtime_entity_model = {} # RuntimeEntity
+        runtime_entity_model = {}  # RuntimeEntity
         runtime_entity_model['entity'] = 'testString'
         runtime_entity_model['location'] = [38]
         runtime_entity_model['value'] = 'testString'
@@ -12511,18 +12935,18 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeSuggestion():
         runtime_entity_model['alternatives'] = [runtime_entity_alternative_model]
         runtime_entity_model['role'] = runtime_entity_role_model
 
-        dialog_suggestion_value_model = {} # DialogSuggestionValue
+        dialog_suggestion_value_model = {}  # DialogSuggestionValue
         dialog_suggestion_value_model['input'] = message_input_model
         dialog_suggestion_value_model['intents'] = [runtime_intent_model]
         dialog_suggestion_value_model['entities'] = [runtime_entity_model]
 
-        dialog_suggestion_model = {} # DialogSuggestion
+        dialog_suggestion_model = {}  # DialogSuggestion
         dialog_suggestion_model['label'] = 'testString'
         dialog_suggestion_model['value'] = dialog_suggestion_value_model
-        dialog_suggestion_model['output'] = {'foo': 'bar'}
+        dialog_suggestion_model['output'] = {'anyKey': 'anyValue'}
         dialog_suggestion_model['dialog_node'] = 'testString'
 
-        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'chat'
 
         # Construct a json representation of a RuntimeResponseGenericRuntimeResponseTypeSuggestion model
@@ -12547,7 +12971,8 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeSuggestion():
         runtime_response_generic_runtime_response_type_suggestion_model_json2 = runtime_response_generic_runtime_response_type_suggestion_model.to_dict()
         assert runtime_response_generic_runtime_response_type_suggestion_model_json2 == runtime_response_generic_runtime_response_type_suggestion_model_json
 
-class TestModel_RuntimeResponseGenericRuntimeResponseTypeText():
+
+class TestModel_RuntimeResponseGenericRuntimeResponseTypeText:
     """
     Test Class for RuntimeResponseGenericRuntimeResponseTypeText
     """
@@ -12559,7 +12984,7 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeText():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'chat'
 
         # Construct a json representation of a RuntimeResponseGenericRuntimeResponseTypeText model
@@ -12583,7 +13008,8 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeText():
         runtime_response_generic_runtime_response_type_text_model_json2 = runtime_response_generic_runtime_response_type_text_model.to_dict()
         assert runtime_response_generic_runtime_response_type_text_model_json2 == runtime_response_generic_runtime_response_type_text_model_json
 
-class TestModel_RuntimeResponseGenericRuntimeResponseTypeUserDefined():
+
+class TestModel_RuntimeResponseGenericRuntimeResponseTypeUserDefined:
     """
     Test Class for RuntimeResponseGenericRuntimeResponseTypeUserDefined
     """
@@ -12595,13 +13021,13 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeUserDefined():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'chat'
 
         # Construct a json representation of a RuntimeResponseGenericRuntimeResponseTypeUserDefined model
         runtime_response_generic_runtime_response_type_user_defined_model_json = {}
         runtime_response_generic_runtime_response_type_user_defined_model_json['response_type'] = 'user_defined'
-        runtime_response_generic_runtime_response_type_user_defined_model_json['user_defined'] = {'foo': 'bar'}
+        runtime_response_generic_runtime_response_type_user_defined_model_json['user_defined'] = {'anyKey': 'anyValue'}
         runtime_response_generic_runtime_response_type_user_defined_model_json['channels'] = [response_generic_channel_model]
 
         # Construct a model instance of RuntimeResponseGenericRuntimeResponseTypeUserDefined by calling from_dict on the json representation
@@ -12619,7 +13045,8 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeUserDefined():
         runtime_response_generic_runtime_response_type_user_defined_model_json2 = runtime_response_generic_runtime_response_type_user_defined_model.to_dict()
         assert runtime_response_generic_runtime_response_type_user_defined_model_json2 == runtime_response_generic_runtime_response_type_user_defined_model_json
 
-class TestModel_RuntimeResponseGenericRuntimeResponseTypeVideo():
+
+class TestModel_RuntimeResponseGenericRuntimeResponseTypeVideo:
     """
     Test Class for RuntimeResponseGenericRuntimeResponseTypeVideo
     """
@@ -12631,7 +13058,7 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeVideo():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'chat'
 
         # Construct a json representation of a RuntimeResponseGenericRuntimeResponseTypeVideo model
@@ -12641,7 +13068,7 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeVideo():
         runtime_response_generic_runtime_response_type_video_model_json['title'] = 'testString'
         runtime_response_generic_runtime_response_type_video_model_json['description'] = 'testString'
         runtime_response_generic_runtime_response_type_video_model_json['channels'] = [response_generic_channel_model]
-        runtime_response_generic_runtime_response_type_video_model_json['channel_options'] = {'foo': 'bar'}
+        runtime_response_generic_runtime_response_type_video_model_json['channel_options'] = {'anyKey': 'anyValue'}
         runtime_response_generic_runtime_response_type_video_model_json['alt_text'] = 'testString'
 
         # Construct a model instance of RuntimeResponseGenericRuntimeResponseTypeVideo by calling from_dict on the json representation

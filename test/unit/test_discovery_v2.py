@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2019, 2023.
+# (C) Copyright IBM Corp. 2019, 2024.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -64,8 +64,7 @@ def preprocess_url(operation_path: str):
     # Otherwise, return a regular expression that matches one or more trailing /.
     if re.fullmatch('.*/+', request_url) is None:
         return request_url
-    else:
-        return re.compile(request_url.rstrip('/') + '/+')
+    return re.compile(request_url.rstrip('/') + '/+')
 
 
 ##############################################################################
@@ -73,7 +72,8 @@ def preprocess_url(operation_path: str):
 ##############################################################################
 # region
 
-class TestListProjects():
+
+class TestListProjects:
     """
     Test Class for list_projects
     """
@@ -86,15 +86,16 @@ class TestListProjects():
         # Set up mock
         url = preprocess_url('/v2/projects')
         mock_response = '{"projects": [{"project_id": "project_id", "name": "name", "type": "document_retrieval", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Invoke method
         response = _service.list_projects()
-
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -117,17 +118,19 @@ class TestListProjects():
         # Set up mock
         url = preprocess_url('/v2/projects')
         mock_response = '{"projects": [{"project_id": "project_id", "name": "name", "type": "document_retrieval", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Pass in all but one required param and check for a ValueError
         req_param_dict = {
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_projects(**req_copy)
 
@@ -140,7 +143,8 @@ class TestListProjects():
         _service.disable_retries()
         self.test_list_projects_value_error()
 
-class TestCreateProject():
+
+class TestCreateProject:
     """
     Test Class for create_project
     """
@@ -152,12 +156,14 @@ class TestCreateProject():
         """
         # Set up mock
         url = preprocess_url('/v2/projects')
-        mock_response = '{"project_id": "project_id", "name": "name", "type": "document_retrieval", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16, "default_query_parameters": {"collection_ids": ["collection_ids"], "passages": {"enabled": false, "count": 5, "fields": ["fields"], "characters": 10, "per_document": true, "max_per_document": 16}, "table_results": {"enabled": false, "count": 5, "per_document": 12}, "aggregation": "aggregation", "suggested_refinements": {"enabled": false, "count": 5}, "spelling_suggestions": true, "highlight": false, "count": 5, "sort": "sort", "return": ["return_"]}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        mock_response = '{"project_id": "project_id", "name": "name", "type": "document_retrieval", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16, "default_query_parameters": {"collection_ids": ["collection_ids"], "passages": {"enabled": false, "count": 5, "fields": ["fields"], "characters": 10, "per_document": true, "max_per_document": 16}, "table_results": {"enabled": false, "count": 5, "per_document": 0}, "aggregation": "aggregation", "suggested_refinements": {"enabled": false, "count": 5}, "spelling_suggestions": true, "highlight": false, "count": 5, "sort": "sort", "return": ["return_"]}}'
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Construct a dict representation of a DefaultQueryParamsPassages model
         default_query_params_passages_model = {}
@@ -172,7 +178,7 @@ class TestCreateProject():
         default_query_params_table_results_model = {}
         default_query_params_table_results_model['enabled'] = True
         default_query_params_table_results_model['count'] = 38
-        default_query_params_table_results_model['per_document'] = 38
+        default_query_params_table_results_model['per_document'] = 0
 
         # Construct a dict representation of a DefaultQueryParamsSuggestedRefinements model
         default_query_params_suggested_refinements_model = {}
@@ -202,7 +208,7 @@ class TestCreateProject():
             name,
             type,
             default_query_parameters=default_query_parameters,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -230,12 +236,14 @@ class TestCreateProject():
         """
         # Set up mock
         url = preprocess_url('/v2/projects')
-        mock_response = '{"project_id": "project_id", "name": "name", "type": "document_retrieval", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16, "default_query_parameters": {"collection_ids": ["collection_ids"], "passages": {"enabled": false, "count": 5, "fields": ["fields"], "characters": 10, "per_document": true, "max_per_document": 16}, "table_results": {"enabled": false, "count": 5, "per_document": 12}, "aggregation": "aggregation", "suggested_refinements": {"enabled": false, "count": 5}, "spelling_suggestions": true, "highlight": false, "count": 5, "sort": "sort", "return": ["return_"]}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        mock_response = '{"project_id": "project_id", "name": "name", "type": "document_retrieval", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16, "default_query_parameters": {"collection_ids": ["collection_ids"], "passages": {"enabled": false, "count": 5, "fields": ["fields"], "characters": 10, "per_document": true, "max_per_document": 16}, "table_results": {"enabled": false, "count": 5, "per_document": 0}, "aggregation": "aggregation", "suggested_refinements": {"enabled": false, "count": 5}, "spelling_suggestions": true, "highlight": false, "count": 5, "sort": "sort", "return": ["return_"]}}'
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Construct a dict representation of a DefaultQueryParamsPassages model
         default_query_params_passages_model = {}
@@ -250,7 +258,7 @@ class TestCreateProject():
         default_query_params_table_results_model = {}
         default_query_params_table_results_model['enabled'] = True
         default_query_params_table_results_model['count'] = 38
-        default_query_params_table_results_model['per_document'] = 38
+        default_query_params_table_results_model['per_document'] = 0
 
         # Construct a dict representation of a DefaultQueryParamsSuggestedRefinements model
         default_query_params_suggested_refinements_model = {}
@@ -281,7 +289,7 @@ class TestCreateProject():
             "type": type,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.create_project(**req_copy)
 
@@ -294,7 +302,8 @@ class TestCreateProject():
         _service.disable_retries()
         self.test_create_project_value_error()
 
-class TestGetProject():
+
+class TestGetProject:
     """
     Test Class for get_project
     """
@@ -306,12 +315,14 @@ class TestGetProject():
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString')
-        mock_response = '{"project_id": "project_id", "name": "name", "type": "document_retrieval", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16, "default_query_parameters": {"collection_ids": ["collection_ids"], "passages": {"enabled": false, "count": 5, "fields": ["fields"], "characters": 10, "per_document": true, "max_per_document": 16}, "table_results": {"enabled": false, "count": 5, "per_document": 12}, "aggregation": "aggregation", "suggested_refinements": {"enabled": false, "count": 5}, "spelling_suggestions": true, "highlight": false, "count": 5, "sort": "sort", "return": ["return_"]}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        mock_response = '{"project_id": "project_id", "name": "name", "type": "document_retrieval", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16, "default_query_parameters": {"collection_ids": ["collection_ids"], "passages": {"enabled": false, "count": 5, "fields": ["fields"], "characters": 10, "per_document": true, "max_per_document": 16}, "table_results": {"enabled": false, "count": 5, "per_document": 0}, "aggregation": "aggregation", "suggested_refinements": {"enabled": false, "count": 5}, "spelling_suggestions": true, "highlight": false, "count": 5, "sort": "sort", "return": ["return_"]}}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -319,7 +330,7 @@ class TestGetProject():
         # Invoke method
         response = _service.get_project(
             project_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -342,12 +353,14 @@ class TestGetProject():
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString')
-        mock_response = '{"project_id": "project_id", "name": "name", "type": "document_retrieval", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16, "default_query_parameters": {"collection_ids": ["collection_ids"], "passages": {"enabled": false, "count": 5, "fields": ["fields"], "characters": 10, "per_document": true, "max_per_document": 16}, "table_results": {"enabled": false, "count": 5, "per_document": 12}, "aggregation": "aggregation", "suggested_refinements": {"enabled": false, "count": 5}, "spelling_suggestions": true, "highlight": false, "count": 5, "sort": "sort", "return": ["return_"]}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        mock_response = '{"project_id": "project_id", "name": "name", "type": "document_retrieval", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16, "default_query_parameters": {"collection_ids": ["collection_ids"], "passages": {"enabled": false, "count": 5, "fields": ["fields"], "characters": 10, "per_document": true, "max_per_document": 16}, "table_results": {"enabled": false, "count": 5, "per_document": 0}, "aggregation": "aggregation", "suggested_refinements": {"enabled": false, "count": 5}, "spelling_suggestions": true, "highlight": false, "count": 5, "sort": "sort", "return": ["return_"]}}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -357,7 +370,7 @@ class TestGetProject():
             "project_id": project_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_project(**req_copy)
 
@@ -370,7 +383,8 @@ class TestGetProject():
         _service.disable_retries()
         self.test_get_project_value_error()
 
-class TestUpdateProject():
+
+class TestUpdateProject:
     """
     Test Class for update_project
     """
@@ -382,12 +396,14 @@ class TestUpdateProject():
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString')
-        mock_response = '{"project_id": "project_id", "name": "name", "type": "document_retrieval", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16, "default_query_parameters": {"collection_ids": ["collection_ids"], "passages": {"enabled": false, "count": 5, "fields": ["fields"], "characters": 10, "per_document": true, "max_per_document": 16}, "table_results": {"enabled": false, "count": 5, "per_document": 12}, "aggregation": "aggregation", "suggested_refinements": {"enabled": false, "count": 5}, "spelling_suggestions": true, "highlight": false, "count": 5, "sort": "sort", "return": ["return_"]}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        mock_response = '{"project_id": "project_id", "name": "name", "type": "document_retrieval", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16, "default_query_parameters": {"collection_ids": ["collection_ids"], "passages": {"enabled": false, "count": 5, "fields": ["fields"], "characters": 10, "per_document": true, "max_per_document": 16}, "table_results": {"enabled": false, "count": 5, "per_document": 0}, "aggregation": "aggregation", "suggested_refinements": {"enabled": false, "count": 5}, "spelling_suggestions": true, "highlight": false, "count": 5, "sort": "sort", "return": ["return_"]}}'
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -397,7 +413,7 @@ class TestUpdateProject():
         response = _service.update_project(
             project_id,
             name=name,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -423,12 +439,14 @@ class TestUpdateProject():
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString')
-        mock_response = '{"project_id": "project_id", "name": "name", "type": "document_retrieval", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16, "default_query_parameters": {"collection_ids": ["collection_ids"], "passages": {"enabled": false, "count": 5, "fields": ["fields"], "characters": 10, "per_document": true, "max_per_document": 16}, "table_results": {"enabled": false, "count": 5, "per_document": 12}, "aggregation": "aggregation", "suggested_refinements": {"enabled": false, "count": 5}, "spelling_suggestions": true, "highlight": false, "count": 5, "sort": "sort", "return": ["return_"]}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        mock_response = '{"project_id": "project_id", "name": "name", "type": "document_retrieval", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16, "default_query_parameters": {"collection_ids": ["collection_ids"], "passages": {"enabled": false, "count": 5, "fields": ["fields"], "characters": 10, "per_document": true, "max_per_document": 16}, "table_results": {"enabled": false, "count": 5, "per_document": 0}, "aggregation": "aggregation", "suggested_refinements": {"enabled": false, "count": 5}, "spelling_suggestions": true, "highlight": false, "count": 5, "sort": "sort", "return": ["return_"]}}'
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -436,7 +454,7 @@ class TestUpdateProject():
         # Invoke method
         response = _service.update_project(
             project_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -459,12 +477,14 @@ class TestUpdateProject():
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString')
-        mock_response = '{"project_id": "project_id", "name": "name", "type": "document_retrieval", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16, "default_query_parameters": {"collection_ids": ["collection_ids"], "passages": {"enabled": false, "count": 5, "fields": ["fields"], "characters": 10, "per_document": true, "max_per_document": 16}, "table_results": {"enabled": false, "count": 5, "per_document": 12}, "aggregation": "aggregation", "suggested_refinements": {"enabled": false, "count": 5}, "spelling_suggestions": true, "highlight": false, "count": 5, "sort": "sort", "return": ["return_"]}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        mock_response = '{"project_id": "project_id", "name": "name", "type": "document_retrieval", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16, "default_query_parameters": {"collection_ids": ["collection_ids"], "passages": {"enabled": false, "count": 5, "fields": ["fields"], "characters": 10, "per_document": true, "max_per_document": 16}, "table_results": {"enabled": false, "count": 5, "per_document": 0}, "aggregation": "aggregation", "suggested_refinements": {"enabled": false, "count": 5}, "spelling_suggestions": true, "highlight": false, "count": 5, "sort": "sort", "return": ["return_"]}}'
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -474,7 +494,7 @@ class TestUpdateProject():
             "project_id": project_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.update_project(**req_copy)
 
@@ -487,7 +507,8 @@ class TestUpdateProject():
         _service.disable_retries()
         self.test_update_project_value_error()
 
-class TestDeleteProject():
+
+class TestDeleteProject:
     """
     Test Class for delete_project
     """
@@ -499,9 +520,11 @@ class TestDeleteProject():
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=204,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -509,7 +532,7 @@ class TestDeleteProject():
         # Invoke method
         response = _service.delete_project(
             project_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -532,9 +555,11 @@ class TestDeleteProject():
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=204,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -544,7 +569,7 @@ class TestDeleteProject():
             "project_id": project_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_project(**req_copy)
 
@@ -557,7 +582,8 @@ class TestDeleteProject():
         _service.disable_retries()
         self.test_delete_project_value_error()
 
-class TestListFields():
+
+class TestListFields:
     """
     Test Class for list_fields
     """
@@ -570,11 +596,13 @@ class TestListFields():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/fields')
         mock_response = '{"fields": [{"field": "field", "type": "nested", "collection_id": "collection_id"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -584,14 +612,14 @@ class TestListFields():
         response = _service.list_fields(
             project_id,
             collection_ids=collection_ids,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'collection_ids={}'.format(','.join(collection_ids)) in query_string
 
@@ -612,11 +640,13 @@ class TestListFields():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/fields')
         mock_response = '{"fields": [{"field": "field", "type": "nested", "collection_id": "collection_id"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -624,7 +654,7 @@ class TestListFields():
         # Invoke method
         response = _service.list_fields(
             project_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -648,11 +678,13 @@ class TestListFields():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/fields')
         mock_response = '{"fields": [{"field": "field", "type": "nested", "collection_id": "collection_id"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -662,7 +694,7 @@ class TestListFields():
             "project_id": project_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_fields(**req_copy)
 
@@ -675,6 +707,7 @@ class TestListFields():
         _service.disable_retries()
         self.test_list_fields_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: Projects
@@ -685,7 +718,8 @@ class TestListFields():
 ##############################################################################
 # region
 
-class TestListCollections():
+
+class TestListCollections:
     """
     Test Class for list_collections
     """
@@ -698,11 +732,13 @@ class TestListCollections():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections')
         mock_response = '{"collections": [{"collection_id": "collection_id", "name": "name"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -710,7 +746,7 @@ class TestListCollections():
         # Invoke method
         response = _service.list_collections(
             project_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -734,11 +770,13 @@ class TestListCollections():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections')
         mock_response = '{"collections": [{"collection_id": "collection_id", "name": "name"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -748,7 +786,7 @@ class TestListCollections():
             "project_id": project_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_collections(**req_copy)
 
@@ -761,7 +799,8 @@ class TestListCollections():
         _service.disable_retries()
         self.test_list_collections_value_error()
 
-class TestCreateCollection():
+
+class TestCreateCollection:
     """
     Test Class for create_collection
     """
@@ -774,11 +813,13 @@ class TestCreateCollection():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections')
         mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}], "smart_document_understanding": {"enabled": false, "model": "custom"}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Construct a dict representation of a CollectionEnrichment model
         collection_enrichment_model = {}
@@ -799,7 +840,7 @@ class TestCreateCollection():
             description=description,
             language=language,
             enrichments=enrichments,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -829,11 +870,13 @@ class TestCreateCollection():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections')
         mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}], "smart_document_understanding": {"enabled": false, "model": "custom"}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Construct a dict representation of a CollectionEnrichment model
         collection_enrichment_model = {}
@@ -853,7 +896,7 @@ class TestCreateCollection():
             "name": name,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.create_collection(**req_copy)
 
@@ -866,7 +909,8 @@ class TestCreateCollection():
         _service.disable_retries()
         self.test_create_collection_value_error()
 
-class TestGetCollection():
+
+class TestGetCollection:
     """
     Test Class for get_collection
     """
@@ -879,11 +923,13 @@ class TestGetCollection():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections/testString')
         mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}], "smart_document_understanding": {"enabled": false, "model": "custom"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -893,7 +939,7 @@ class TestGetCollection():
         response = _service.get_collection(
             project_id,
             collection_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -917,11 +963,13 @@ class TestGetCollection():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections/testString')
         mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}], "smart_document_understanding": {"enabled": false, "model": "custom"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -933,7 +981,7 @@ class TestGetCollection():
             "collection_id": collection_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_collection(**req_copy)
 
@@ -946,7 +994,8 @@ class TestGetCollection():
         _service.disable_retries()
         self.test_get_collection_value_error()
 
-class TestUpdateCollection():
+
+class TestUpdateCollection:
     """
     Test Class for update_collection
     """
@@ -959,11 +1008,13 @@ class TestUpdateCollection():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections/testString')
         mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}], "smart_document_understanding": {"enabled": false, "model": "custom"}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Construct a dict representation of a CollectionEnrichment model
         collection_enrichment_model = {}
@@ -984,7 +1035,7 @@ class TestUpdateCollection():
             name=name,
             description=description,
             enrichments=enrichments,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1013,11 +1064,13 @@ class TestUpdateCollection():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections/testString')
         mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}], "smart_document_understanding": {"enabled": false, "model": "custom"}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Construct a dict representation of a CollectionEnrichment model
         collection_enrichment_model = {}
@@ -1037,7 +1090,7 @@ class TestUpdateCollection():
             "collection_id": collection_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.update_collection(**req_copy)
 
@@ -1050,7 +1103,8 @@ class TestUpdateCollection():
         _service.disable_retries()
         self.test_update_collection_value_error()
 
-class TestDeleteCollection():
+
+class TestDeleteCollection:
     """
     Test Class for delete_collection
     """
@@ -1062,9 +1116,11 @@ class TestDeleteCollection():
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=204,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -1074,7 +1130,7 @@ class TestDeleteCollection():
         response = _service.delete_collection(
             project_id,
             collection_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1097,9 +1153,11 @@ class TestDeleteCollection():
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=204,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -1111,7 +1169,7 @@ class TestDeleteCollection():
             "collection_id": collection_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_collection(**req_copy)
 
@@ -1124,6 +1182,7 @@ class TestDeleteCollection():
         _service.disable_retries()
         self.test_delete_collection_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: Collections
@@ -1134,7 +1193,8 @@ class TestDeleteCollection():
 ##############################################################################
 # region
 
-class TestListDocuments():
+
+class TestListDocuments:
     """
     Test Class for list_documents
     """
@@ -1147,16 +1207,18 @@ class TestListDocuments():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections/testString/documents')
         mock_response = '{"matching_results": 16, "documents": [{"document_id": "document_id", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "available", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}], "children": {"have_notices": true, "count": 5}, "filename": "filename", "file_type": "file_type", "sha256": "sha256"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
         collection_id = 'testString'
-        count = 38
+        count = 1000
         status = 'testString'
         has_notices = True
         is_parent = True
@@ -1173,14 +1235,14 @@ class TestListDocuments():
             is_parent=is_parent,
             parent_document_id=parent_document_id,
             sha256=sha256,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'count={}'.format(count) in query_string
         assert 'status={}'.format(status) in query_string
@@ -1206,11 +1268,13 @@ class TestListDocuments():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections/testString/documents')
         mock_response = '{"matching_results": 16, "documents": [{"document_id": "document_id", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "available", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}], "children": {"have_notices": true, "count": 5}, "filename": "filename", "file_type": "file_type", "sha256": "sha256"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -1220,7 +1284,7 @@ class TestListDocuments():
         response = _service.list_documents(
             project_id,
             collection_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1244,11 +1308,13 @@ class TestListDocuments():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections/testString/documents')
         mock_response = '{"matching_results": 16, "documents": [{"document_id": "document_id", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "available", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}], "children": {"have_notices": true, "count": 5}, "filename": "filename", "file_type": "file_type", "sha256": "sha256"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -1260,7 +1326,7 @@ class TestListDocuments():
             "collection_id": collection_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_documents(**req_copy)
 
@@ -1273,7 +1339,8 @@ class TestListDocuments():
         _service.disable_retries()
         self.test_list_documents_value_error()
 
-class TestAddDocument():
+
+class TestAddDocument:
     """
     Test Class for add_document
     """
@@ -1286,11 +1353,13 @@ class TestAddDocument():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections/testString/documents')
         mock_response = '{"document_id": "document_id", "status": "processing"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=202)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=202,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -1310,7 +1379,7 @@ class TestAddDocument():
             file_content_type=file_content_type,
             metadata=metadata,
             x_watson_discovery_force=x_watson_discovery_force,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1334,11 +1403,13 @@ class TestAddDocument():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections/testString/documents')
         mock_response = '{"document_id": "document_id", "status": "processing"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=202)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=202,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -1348,7 +1419,7 @@ class TestAddDocument():
         response = _service.add_document(
             project_id,
             collection_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1372,11 +1443,13 @@ class TestAddDocument():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections/testString/documents')
         mock_response = '{"document_id": "document_id", "status": "processing"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=202)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=202,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -1388,7 +1461,7 @@ class TestAddDocument():
             "collection_id": collection_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.add_document(**req_copy)
 
@@ -1401,7 +1474,8 @@ class TestAddDocument():
         _service.disable_retries()
         self.test_add_document_value_error()
 
-class TestGetDocument():
+
+class TestGetDocument:
     """
     Test Class for get_document
     """
@@ -1414,11 +1488,13 @@ class TestGetDocument():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections/testString/documents/testString')
         mock_response = '{"document_id": "document_id", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "available", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}], "children": {"have_notices": true, "count": 5}, "filename": "filename", "file_type": "file_type", "sha256": "sha256"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -1430,7 +1506,7 @@ class TestGetDocument():
             project_id,
             collection_id,
             document_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1454,11 +1530,13 @@ class TestGetDocument():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections/testString/documents/testString')
         mock_response = '{"document_id": "document_id", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "available", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}], "children": {"have_notices": true, "count": 5}, "filename": "filename", "file_type": "file_type", "sha256": "sha256"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -1472,7 +1550,7 @@ class TestGetDocument():
             "document_id": document_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_document(**req_copy)
 
@@ -1485,7 +1563,8 @@ class TestGetDocument():
         _service.disable_retries()
         self.test_get_document_value_error()
 
-class TestUpdateDocument():
+
+class TestUpdateDocument:
     """
     Test Class for update_document
     """
@@ -1498,11 +1577,13 @@ class TestUpdateDocument():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections/testString/documents/testString')
         mock_response = '{"document_id": "document_id", "status": "processing"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=202)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=202,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -1524,7 +1605,7 @@ class TestUpdateDocument():
             file_content_type=file_content_type,
             metadata=metadata,
             x_watson_discovery_force=x_watson_discovery_force,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1548,11 +1629,13 @@ class TestUpdateDocument():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections/testString/documents/testString')
         mock_response = '{"document_id": "document_id", "status": "processing"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=202)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=202,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -1564,7 +1647,7 @@ class TestUpdateDocument():
             project_id,
             collection_id,
             document_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1588,11 +1671,13 @@ class TestUpdateDocument():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections/testString/documents/testString')
         mock_response = '{"document_id": "document_id", "status": "processing"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=202)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=202,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -1606,7 +1691,7 @@ class TestUpdateDocument():
             "document_id": document_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.update_document(**req_copy)
 
@@ -1619,7 +1704,8 @@ class TestUpdateDocument():
         _service.disable_retries()
         self.test_update_document_value_error()
 
-class TestDeleteDocument():
+
+class TestDeleteDocument:
     """
     Test Class for delete_document
     """
@@ -1632,11 +1718,13 @@ class TestDeleteDocument():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections/testString/documents/testString')
         mock_response = '{"document_id": "document_id", "status": "deleted"}'
-        responses.add(responses.DELETE,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.DELETE,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -1650,7 +1738,7 @@ class TestDeleteDocument():
             collection_id,
             document_id,
             x_watson_discovery_force=x_watson_discovery_force,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1674,11 +1762,13 @@ class TestDeleteDocument():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections/testString/documents/testString')
         mock_response = '{"document_id": "document_id", "status": "deleted"}'
-        responses.add(responses.DELETE,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.DELETE,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -1690,7 +1780,7 @@ class TestDeleteDocument():
             project_id,
             collection_id,
             document_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1714,11 +1804,13 @@ class TestDeleteDocument():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections/testString/documents/testString')
         mock_response = '{"document_id": "document_id", "status": "deleted"}'
-        responses.add(responses.DELETE,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.DELETE,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -1732,7 +1824,7 @@ class TestDeleteDocument():
             "document_id": document_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_document(**req_copy)
 
@@ -1745,6 +1837,7 @@ class TestDeleteDocument():
         _service.disable_retries()
         self.test_delete_document_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: Documents
@@ -1755,7 +1848,8 @@ class TestDeleteDocument():
 ##############################################################################
 # region
 
-class TestQuery():
+
+class TestQuery:
     """
     Test Class for query
     """
@@ -1768,11 +1862,13 @@ class TestQuery():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/query')
         mock_response = '{"matching_results": 16, "results": [{"document_id": "document_id", "metadata": {"anyKey": "anyValue"}, "result_metadata": {"document_retrieval_source": "search", "collection_id": "collection_id", "confidence": 0}, "document_passages": [{"passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field", "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}], "aggregations": [{"type": "term", "field": "field", "count": 5, "name": "name", "results": [{"key": "key", "matching_results": 16, "relevancy": 9, "total_matching_documents": 24, "estimated_matching_results": 26, "aggregations": [{"anyKey": "anyValue"}]}]}], "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query", "suggested_refinements": [{"text": "text"}], "table_results": [{"table_id": "table_id", "source_document_id": "source_document_id", "collection_id": "collection_id", "table_html": "table_html", "table_html_offset": 17, "table": {"location": {"begin": 5, "end": 3}, "text": "text", "section_title": {"text": "text", "location": {"begin": 5, "end": 3}}, "title": {"text": "text", "location": {"begin": 5, "end": 3}}, "table_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "row_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "column_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "key_value_pairs": [{"key": {"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}, "value": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}]}], "body_cells": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16, "row_header_ids": [{"id": "id"}], "row_header_texts": [{"text": "text"}], "row_header_texts_normalized": [{"text_normalized": "text_normalized"}], "column_header_ids": [{"id": "id"}], "column_header_texts": [{"text": "text"}], "column_header_texts_normalized": [{"text_normalized": "text_normalized"}], "attributes": [{"type": "type", "text": "text", "location": {"begin": 5, "end": 3}}]}], "contexts": [{"text": "text", "location": {"begin": 5, "end": 3}}]}}], "passages": [{"passage_text": "passage_text", "passage_score": 13, "document_id": "document_id", "collection_id": "collection_id", "start_offset": 12, "end_offset": 10, "field": "field", "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Construct a dict representation of a QueryLargeTableResults model
         query_large_table_results_model = {}
@@ -1793,7 +1889,7 @@ class TestQuery():
         query_large_passages_model['count'] = 400
         query_large_passages_model['characters'] = 50
         query_large_passages_model['find_answers'] = False
-        query_large_passages_model['max_answers_per_passage'] = 38
+        query_large_passages_model['max_answers_per_passage'] = 1
 
         # Construct a dict representation of a QueryLargeSimilar model
         query_large_similar_model = {}
@@ -1837,7 +1933,7 @@ class TestQuery():
             suggested_refinements=suggested_refinements,
             passages=passages,
             similar=similar,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1878,11 +1974,13 @@ class TestQuery():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/query')
         mock_response = '{"matching_results": 16, "results": [{"document_id": "document_id", "metadata": {"anyKey": "anyValue"}, "result_metadata": {"document_retrieval_source": "search", "collection_id": "collection_id", "confidence": 0}, "document_passages": [{"passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field", "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}], "aggregations": [{"type": "term", "field": "field", "count": 5, "name": "name", "results": [{"key": "key", "matching_results": 16, "relevancy": 9, "total_matching_documents": 24, "estimated_matching_results": 26, "aggregations": [{"anyKey": "anyValue"}]}]}], "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query", "suggested_refinements": [{"text": "text"}], "table_results": [{"table_id": "table_id", "source_document_id": "source_document_id", "collection_id": "collection_id", "table_html": "table_html", "table_html_offset": 17, "table": {"location": {"begin": 5, "end": 3}, "text": "text", "section_title": {"text": "text", "location": {"begin": 5, "end": 3}}, "title": {"text": "text", "location": {"begin": 5, "end": 3}}, "table_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "row_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "column_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "key_value_pairs": [{"key": {"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}, "value": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}]}], "body_cells": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16, "row_header_ids": [{"id": "id"}], "row_header_texts": [{"text": "text"}], "row_header_texts_normalized": [{"text_normalized": "text_normalized"}], "column_header_ids": [{"id": "id"}], "column_header_texts": [{"text": "text"}], "column_header_texts_normalized": [{"text_normalized": "text_normalized"}], "attributes": [{"type": "type", "text": "text", "location": {"begin": 5, "end": 3}}]}], "contexts": [{"text": "text", "location": {"begin": 5, "end": 3}}]}}], "passages": [{"passage_text": "passage_text", "passage_score": 13, "document_id": "document_id", "collection_id": "collection_id", "start_offset": 12, "end_offset": 10, "field": "field", "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -1890,7 +1988,7 @@ class TestQuery():
         # Invoke method
         response = _service.query(
             project_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1914,11 +2012,13 @@ class TestQuery():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/query')
         mock_response = '{"matching_results": 16, "results": [{"document_id": "document_id", "metadata": {"anyKey": "anyValue"}, "result_metadata": {"document_retrieval_source": "search", "collection_id": "collection_id", "confidence": 0}, "document_passages": [{"passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field", "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}], "aggregations": [{"type": "term", "field": "field", "count": 5, "name": "name", "results": [{"key": "key", "matching_results": 16, "relevancy": 9, "total_matching_documents": 24, "estimated_matching_results": 26, "aggregations": [{"anyKey": "anyValue"}]}]}], "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query", "suggested_refinements": [{"text": "text"}], "table_results": [{"table_id": "table_id", "source_document_id": "source_document_id", "collection_id": "collection_id", "table_html": "table_html", "table_html_offset": 17, "table": {"location": {"begin": 5, "end": 3}, "text": "text", "section_title": {"text": "text", "location": {"begin": 5, "end": 3}}, "title": {"text": "text", "location": {"begin": 5, "end": 3}}, "table_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "row_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "column_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "key_value_pairs": [{"key": {"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}, "value": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}]}], "body_cells": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16, "row_header_ids": [{"id": "id"}], "row_header_texts": [{"text": "text"}], "row_header_texts_normalized": [{"text_normalized": "text_normalized"}], "column_header_ids": [{"id": "id"}], "column_header_texts": [{"text": "text"}], "column_header_texts_normalized": [{"text_normalized": "text_normalized"}], "attributes": [{"type": "type", "text": "text", "location": {"begin": 5, "end": 3}}]}], "contexts": [{"text": "text", "location": {"begin": 5, "end": 3}}]}}], "passages": [{"passage_text": "passage_text", "passage_score": 13, "document_id": "document_id", "collection_id": "collection_id", "start_offset": 12, "end_offset": 10, "field": "field", "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -1928,7 +2028,7 @@ class TestQuery():
             "project_id": project_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.query(**req_copy)
 
@@ -1941,7 +2041,8 @@ class TestQuery():
         _service.disable_retries()
         self.test_query_value_error()
 
-class TestGetAutocompletion():
+
+class TestGetAutocompletion:
     """
     Test Class for get_autocompletion
     """
@@ -1954,18 +2055,20 @@ class TestGetAutocompletion():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/autocompletion')
         mock_response = '{"completions": ["completions"]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
         prefix = 'testString'
         collection_ids = ['testString']
         field = 'testString'
-        count = 38
+        count = 5
 
         # Invoke method
         response = _service.get_autocompletion(
@@ -1974,14 +2077,14 @@ class TestGetAutocompletion():
             collection_ids=collection_ids,
             field=field,
             count=count,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'prefix={}'.format(prefix) in query_string
         assert 'collection_ids={}'.format(','.join(collection_ids)) in query_string
@@ -2005,11 +2108,13 @@ class TestGetAutocompletion():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/autocompletion')
         mock_response = '{"completions": ["completions"]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -2019,14 +2124,14 @@ class TestGetAutocompletion():
         response = _service.get_autocompletion(
             project_id,
             prefix,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'prefix={}'.format(prefix) in query_string
 
@@ -2047,11 +2152,13 @@ class TestGetAutocompletion():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/autocompletion')
         mock_response = '{"completions": ["completions"]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -2063,7 +2170,7 @@ class TestGetAutocompletion():
             "prefix": prefix,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_autocompletion(**req_copy)
 
@@ -2076,7 +2183,8 @@ class TestGetAutocompletion():
         _service.disable_retries()
         self.test_get_autocompletion_value_error()
 
-class TestQueryCollectionNotices():
+
+class TestQueryCollectionNotices:
     """
     Test Class for query_collection_notices
     """
@@ -2089,11 +2197,13 @@ class TestQueryCollectionNotices():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections/testString/notices')
         mock_response = '{"matching_results": 16, "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -2101,7 +2211,7 @@ class TestQueryCollectionNotices():
         filter = 'testString'
         query = 'testString'
         natural_language_query = 'testString'
-        count = 38
+        count = 10
         offset = 38
 
         # Invoke method
@@ -2113,14 +2223,14 @@ class TestQueryCollectionNotices():
             natural_language_query=natural_language_query,
             count=count,
             offset=offset,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'filter={}'.format(filter) in query_string
         assert 'query={}'.format(query) in query_string
@@ -2145,11 +2255,13 @@ class TestQueryCollectionNotices():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections/testString/notices')
         mock_response = '{"matching_results": 16, "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -2159,7 +2271,7 @@ class TestQueryCollectionNotices():
         response = _service.query_collection_notices(
             project_id,
             collection_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -2183,11 +2295,13 @@ class TestQueryCollectionNotices():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections/testString/notices')
         mock_response = '{"matching_results": 16, "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -2199,7 +2313,7 @@ class TestQueryCollectionNotices():
             "collection_id": collection_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.query_collection_notices(**req_copy)
 
@@ -2212,7 +2326,8 @@ class TestQueryCollectionNotices():
         _service.disable_retries()
         self.test_query_collection_notices_value_error()
 
-class TestQueryNotices():
+
+class TestQueryNotices:
     """
     Test Class for query_notices
     """
@@ -2225,18 +2340,20 @@ class TestQueryNotices():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/notices')
         mock_response = '{"matching_results": 16, "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
         filter = 'testString'
         query = 'testString'
         natural_language_query = 'testString'
-        count = 38
+        count = 10
         offset = 38
 
         # Invoke method
@@ -2247,14 +2364,14 @@ class TestQueryNotices():
             natural_language_query=natural_language_query,
             count=count,
             offset=offset,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'filter={}'.format(filter) in query_string
         assert 'query={}'.format(query) in query_string
@@ -2279,11 +2396,13 @@ class TestQueryNotices():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/notices')
         mock_response = '{"matching_results": 16, "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -2291,7 +2410,7 @@ class TestQueryNotices():
         # Invoke method
         response = _service.query_notices(
             project_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -2315,11 +2434,13 @@ class TestQueryNotices():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/notices')
         mock_response = '{"matching_results": 16, "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -2329,7 +2450,7 @@ class TestQueryNotices():
             "project_id": project_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.query_notices(**req_copy)
 
@@ -2342,6 +2463,7 @@ class TestQueryNotices():
         _service.disable_retries()
         self.test_query_notices_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: Queries
@@ -2352,7 +2474,8 @@ class TestQueryNotices():
 ##############################################################################
 # region
 
-class TestGetStopwordList():
+
+class TestGetStopwordList:
     """
     Test Class for get_stopword_list
     """
@@ -2365,11 +2488,13 @@ class TestGetStopwordList():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections/testString/stopwords')
         mock_response = '{"stopwords": ["stopwords"]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -2379,7 +2504,7 @@ class TestGetStopwordList():
         response = _service.get_stopword_list(
             project_id,
             collection_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -2403,11 +2528,13 @@ class TestGetStopwordList():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections/testString/stopwords')
         mock_response = '{"stopwords": ["stopwords"]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -2419,7 +2546,7 @@ class TestGetStopwordList():
             "collection_id": collection_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_stopword_list(**req_copy)
 
@@ -2432,7 +2559,8 @@ class TestGetStopwordList():
         _service.disable_retries()
         self.test_get_stopword_list_value_error()
 
-class TestCreateStopwordList():
+
+class TestCreateStopwordList:
     """
     Test Class for create_stopword_list
     """
@@ -2445,11 +2573,13 @@ class TestCreateStopwordList():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections/testString/stopwords')
         mock_response = '{"stopwords": ["stopwords"]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -2461,7 +2591,7 @@ class TestCreateStopwordList():
             project_id,
             collection_id,
             stopwords=stopwords,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -2488,11 +2618,13 @@ class TestCreateStopwordList():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections/testString/stopwords')
         mock_response = '{"stopwords": ["stopwords"]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -2502,7 +2634,7 @@ class TestCreateStopwordList():
         response = _service.create_stopword_list(
             project_id,
             collection_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -2526,11 +2658,13 @@ class TestCreateStopwordList():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections/testString/stopwords')
         mock_response = '{"stopwords": ["stopwords"]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -2542,7 +2676,7 @@ class TestCreateStopwordList():
             "collection_id": collection_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.create_stopword_list(**req_copy)
 
@@ -2555,7 +2689,8 @@ class TestCreateStopwordList():
         _service.disable_retries()
         self.test_create_stopword_list_value_error()
 
-class TestDeleteStopwordList():
+
+class TestDeleteStopwordList:
     """
     Test Class for delete_stopword_list
     """
@@ -2567,9 +2702,11 @@ class TestDeleteStopwordList():
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections/testString/stopwords')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=204,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -2579,7 +2716,7 @@ class TestDeleteStopwordList():
         response = _service.delete_stopword_list(
             project_id,
             collection_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -2602,9 +2739,11 @@ class TestDeleteStopwordList():
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections/testString/stopwords')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=204,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -2616,7 +2755,7 @@ class TestDeleteStopwordList():
             "collection_id": collection_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_stopword_list(**req_copy)
 
@@ -2629,7 +2768,8 @@ class TestDeleteStopwordList():
         _service.disable_retries()
         self.test_delete_stopword_list_value_error()
 
-class TestListExpansions():
+
+class TestListExpansions:
     """
     Test Class for list_expansions
     """
@@ -2642,11 +2782,13 @@ class TestListExpansions():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections/testString/expansions')
         mock_response = '{"expansions": [{"input_terms": ["input_terms"], "expanded_terms": ["expanded_terms"]}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -2656,7 +2798,7 @@ class TestListExpansions():
         response = _service.list_expansions(
             project_id,
             collection_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -2680,11 +2822,13 @@ class TestListExpansions():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections/testString/expansions')
         mock_response = '{"expansions": [{"input_terms": ["input_terms"], "expanded_terms": ["expanded_terms"]}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -2696,7 +2840,7 @@ class TestListExpansions():
             "collection_id": collection_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_expansions(**req_copy)
 
@@ -2709,7 +2853,8 @@ class TestListExpansions():
         _service.disable_retries()
         self.test_list_expansions_value_error()
 
-class TestCreateExpansions():
+
+class TestCreateExpansions:
     """
     Test Class for create_expansions
     """
@@ -2722,11 +2867,13 @@ class TestCreateExpansions():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections/testString/expansions')
         mock_response = '{"expansions": [{"input_terms": ["input_terms"], "expanded_terms": ["expanded_terms"]}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Construct a dict representation of a Expansion model
         expansion_model = {}
@@ -2743,7 +2890,7 @@ class TestCreateExpansions():
             project_id,
             collection_id,
             expansions,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -2770,11 +2917,13 @@ class TestCreateExpansions():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections/testString/expansions')
         mock_response = '{"expansions": [{"input_terms": ["input_terms"], "expanded_terms": ["expanded_terms"]}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Construct a dict representation of a Expansion model
         expansion_model = {}
@@ -2793,7 +2942,7 @@ class TestCreateExpansions():
             "expansions": expansions,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.create_expansions(**req_copy)
 
@@ -2806,7 +2955,8 @@ class TestCreateExpansions():
         _service.disable_retries()
         self.test_create_expansions_value_error()
 
-class TestDeleteExpansions():
+
+class TestDeleteExpansions:
     """
     Test Class for delete_expansions
     """
@@ -2818,9 +2968,11 @@ class TestDeleteExpansions():
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections/testString/expansions')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=204,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -2830,7 +2982,7 @@ class TestDeleteExpansions():
         response = _service.delete_expansions(
             project_id,
             collection_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -2853,9 +3005,11 @@ class TestDeleteExpansions():
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections/testString/expansions')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=204,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -2867,7 +3021,7 @@ class TestDeleteExpansions():
             "collection_id": collection_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_expansions(**req_copy)
 
@@ -2880,6 +3034,7 @@ class TestDeleteExpansions():
         _service.disable_retries()
         self.test_delete_expansions_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: QueryModifications
@@ -2890,7 +3045,8 @@ class TestDeleteExpansions():
 ##############################################################################
 # region
 
-class TestGetComponentSettings():
+
+class TestGetComponentSettings:
     """
     Test Class for get_component_settings
     """
@@ -2903,11 +3059,13 @@ class TestGetComponentSettings():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/component_settings')
         mock_response = '{"fields_shown": {"body": {"use_passage": false, "field": "field"}, "title": {"field": "field"}}, "autocomplete": true, "structured_search": false, "results_per_page": 16, "aggregations": [{"name": "name", "label": "label", "multiple_selections_allowed": false, "visualization_type": "auto"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -2915,7 +3073,7 @@ class TestGetComponentSettings():
         # Invoke method
         response = _service.get_component_settings(
             project_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -2939,11 +3097,13 @@ class TestGetComponentSettings():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/component_settings')
         mock_response = '{"fields_shown": {"body": {"use_passage": false, "field": "field"}, "title": {"field": "field"}}, "autocomplete": true, "structured_search": false, "results_per_page": 16, "aggregations": [{"name": "name", "label": "label", "multiple_selections_allowed": false, "visualization_type": "auto"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -2953,7 +3113,7 @@ class TestGetComponentSettings():
             "project_id": project_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_component_settings(**req_copy)
 
@@ -2966,6 +3126,7 @@ class TestGetComponentSettings():
         _service.disable_retries()
         self.test_get_component_settings_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: ComponentSettings
@@ -2976,7 +3137,8 @@ class TestGetComponentSettings():
 ##############################################################################
 # region
 
-class TestListTrainingQueries():
+
+class TestListTrainingQueries:
     """
     Test Class for list_training_queries
     """
@@ -2989,11 +3151,13 @@ class TestListTrainingQueries():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/training_data/queries')
         mock_response = '{"queries": [{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"document_id": "document_id", "collection_id": "collection_id", "relevance": 9, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -3001,7 +3165,7 @@ class TestListTrainingQueries():
         # Invoke method
         response = _service.list_training_queries(
             project_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -3025,11 +3189,13 @@ class TestListTrainingQueries():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/training_data/queries')
         mock_response = '{"queries": [{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"document_id": "document_id", "collection_id": "collection_id", "relevance": 9, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -3039,7 +3205,7 @@ class TestListTrainingQueries():
             "project_id": project_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_training_queries(**req_copy)
 
@@ -3052,7 +3218,8 @@ class TestListTrainingQueries():
         _service.disable_retries()
         self.test_list_training_queries_value_error()
 
-class TestDeleteTrainingQueries():
+
+class TestDeleteTrainingQueries:
     """
     Test Class for delete_training_queries
     """
@@ -3064,9 +3231,11 @@ class TestDeleteTrainingQueries():
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/training_data/queries')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=204,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -3074,7 +3243,7 @@ class TestDeleteTrainingQueries():
         # Invoke method
         response = _service.delete_training_queries(
             project_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -3097,9 +3266,11 @@ class TestDeleteTrainingQueries():
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/training_data/queries')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=204,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -3109,7 +3280,7 @@ class TestDeleteTrainingQueries():
             "project_id": project_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_training_queries(**req_copy)
 
@@ -3122,7 +3293,8 @@ class TestDeleteTrainingQueries():
         _service.disable_retries()
         self.test_delete_training_queries_value_error()
 
-class TestCreateTrainingQuery():
+
+class TestCreateTrainingQuery:
     """
     Test Class for create_training_query
     """
@@ -3135,11 +3307,13 @@ class TestCreateTrainingQuery():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/training_data/queries')
         mock_response = '{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"document_id": "document_id", "collection_id": "collection_id", "relevance": 9, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Construct a dict representation of a TrainingExample model
         training_example_model = {}
@@ -3159,7 +3333,7 @@ class TestCreateTrainingQuery():
             natural_language_query,
             examples,
             filter=filter,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -3188,11 +3362,13 @@ class TestCreateTrainingQuery():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/training_data/queries')
         mock_response = '{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"document_id": "document_id", "collection_id": "collection_id", "relevance": 9, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Construct a dict representation of a TrainingExample model
         training_example_model = {}
@@ -3213,7 +3389,7 @@ class TestCreateTrainingQuery():
             "examples": examples,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.create_training_query(**req_copy)
 
@@ -3226,7 +3402,8 @@ class TestCreateTrainingQuery():
         _service.disable_retries()
         self.test_create_training_query_value_error()
 
-class TestGetTrainingQuery():
+
+class TestGetTrainingQuery:
     """
     Test Class for get_training_query
     """
@@ -3239,11 +3416,13 @@ class TestGetTrainingQuery():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/training_data/queries/testString')
         mock_response = '{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"document_id": "document_id", "collection_id": "collection_id", "relevance": 9, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -3253,7 +3432,7 @@ class TestGetTrainingQuery():
         response = _service.get_training_query(
             project_id,
             query_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -3277,11 +3456,13 @@ class TestGetTrainingQuery():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/training_data/queries/testString')
         mock_response = '{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"document_id": "document_id", "collection_id": "collection_id", "relevance": 9, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -3293,7 +3474,7 @@ class TestGetTrainingQuery():
             "query_id": query_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_training_query(**req_copy)
 
@@ -3306,7 +3487,8 @@ class TestGetTrainingQuery():
         _service.disable_retries()
         self.test_get_training_query_value_error()
 
-class TestUpdateTrainingQuery():
+
+class TestUpdateTrainingQuery:
     """
     Test Class for update_training_query
     """
@@ -3319,11 +3501,13 @@ class TestUpdateTrainingQuery():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/training_data/queries/testString')
         mock_response = '{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"document_id": "document_id", "collection_id": "collection_id", "relevance": 9, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Construct a dict representation of a TrainingExample model
         training_example_model = {}
@@ -3345,7 +3529,7 @@ class TestUpdateTrainingQuery():
             natural_language_query,
             examples,
             filter=filter,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -3374,11 +3558,13 @@ class TestUpdateTrainingQuery():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/training_data/queries/testString')
         mock_response = '{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"document_id": "document_id", "collection_id": "collection_id", "relevance": 9, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Construct a dict representation of a TrainingExample model
         training_example_model = {}
@@ -3401,7 +3587,7 @@ class TestUpdateTrainingQuery():
             "examples": examples,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.update_training_query(**req_copy)
 
@@ -3414,7 +3600,8 @@ class TestUpdateTrainingQuery():
         _service.disable_retries()
         self.test_update_training_query_value_error()
 
-class TestDeleteTrainingQuery():
+
+class TestDeleteTrainingQuery:
     """
     Test Class for delete_training_query
     """
@@ -3426,9 +3613,11 @@ class TestDeleteTrainingQuery():
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/training_data/queries/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=204,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -3438,7 +3627,7 @@ class TestDeleteTrainingQuery():
         response = _service.delete_training_query(
             project_id,
             query_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -3461,9 +3650,11 @@ class TestDeleteTrainingQuery():
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/training_data/queries/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=204,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -3475,7 +3666,7 @@ class TestDeleteTrainingQuery():
             "query_id": query_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_training_query(**req_copy)
 
@@ -3488,6 +3679,7 @@ class TestDeleteTrainingQuery():
         _service.disable_retries()
         self.test_delete_training_query_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: TrainingData
@@ -3498,7 +3690,8 @@ class TestDeleteTrainingQuery():
 ##############################################################################
 # region
 
-class TestListEnrichments():
+
+class TestListEnrichments:
     """
     Test Class for list_enrichments
     """
@@ -3510,12 +3703,14 @@ class TestListEnrichments():
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/enrichments')
-        mock_response = '{"enrichments": [{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field", "classifier_id": "classifier_id", "model_id": "model_id", "confidence_threshold": 0, "top_k": 5}}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        mock_response = '{"enrichments": [{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field", "classifier_id": "classifier_id", "model_id": "model_id", "confidence_threshold": 0, "top_k": 0}}]}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -3523,7 +3718,7 @@ class TestListEnrichments():
         # Invoke method
         response = _service.list_enrichments(
             project_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -3546,12 +3741,14 @@ class TestListEnrichments():
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/enrichments')
-        mock_response = '{"enrichments": [{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field", "classifier_id": "classifier_id", "model_id": "model_id", "confidence_threshold": 0, "top_k": 5}}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        mock_response = '{"enrichments": [{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field", "classifier_id": "classifier_id", "model_id": "model_id", "confidence_threshold": 0, "top_k": 0}}]}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -3561,7 +3758,7 @@ class TestListEnrichments():
             "project_id": project_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_enrichments(**req_copy)
 
@@ -3574,7 +3771,8 @@ class TestListEnrichments():
         _service.disable_retries()
         self.test_list_enrichments_value_error()
 
-class TestCreateEnrichment():
+
+class TestCreateEnrichment:
     """
     Test Class for create_enrichment
     """
@@ -3586,12 +3784,14 @@ class TestCreateEnrichment():
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/enrichments')
-        mock_response = '{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field", "classifier_id": "classifier_id", "model_id": "model_id", "confidence_threshold": 0, "top_k": 5}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        mock_response = '{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field", "classifier_id": "classifier_id", "model_id": "model_id", "confidence_threshold": 0, "top_k": 0}}'
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Construct a dict representation of a EnrichmentOptions model
         enrichment_options_model = {}
@@ -3602,7 +3802,7 @@ class TestCreateEnrichment():
         enrichment_options_model['classifier_id'] = 'testString'
         enrichment_options_model['model_id'] = 'testString'
         enrichment_options_model['confidence_threshold'] = 0
-        enrichment_options_model['top_k'] = 38
+        enrichment_options_model['top_k'] = 0
 
         # Construct a dict representation of a CreateEnrichment model
         create_enrichment_model = {}
@@ -3621,7 +3821,7 @@ class TestCreateEnrichment():
             project_id,
             enrichment,
             file=file,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -3644,12 +3844,14 @@ class TestCreateEnrichment():
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/enrichments')
-        mock_response = '{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field", "classifier_id": "classifier_id", "model_id": "model_id", "confidence_threshold": 0, "top_k": 5}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        mock_response = '{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field", "classifier_id": "classifier_id", "model_id": "model_id", "confidence_threshold": 0, "top_k": 0}}'
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Construct a dict representation of a EnrichmentOptions model
         enrichment_options_model = {}
@@ -3660,7 +3862,7 @@ class TestCreateEnrichment():
         enrichment_options_model['classifier_id'] = 'testString'
         enrichment_options_model['model_id'] = 'testString'
         enrichment_options_model['confidence_threshold'] = 0
-        enrichment_options_model['top_k'] = 38
+        enrichment_options_model['top_k'] = 0
 
         # Construct a dict representation of a CreateEnrichment model
         create_enrichment_model = {}
@@ -3677,7 +3879,7 @@ class TestCreateEnrichment():
         response = _service.create_enrichment(
             project_id,
             enrichment,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -3700,12 +3902,14 @@ class TestCreateEnrichment():
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/enrichments')
-        mock_response = '{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field", "classifier_id": "classifier_id", "model_id": "model_id", "confidence_threshold": 0, "top_k": 5}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        mock_response = '{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field", "classifier_id": "classifier_id", "model_id": "model_id", "confidence_threshold": 0, "top_k": 0}}'
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Construct a dict representation of a EnrichmentOptions model
         enrichment_options_model = {}
@@ -3716,7 +3920,7 @@ class TestCreateEnrichment():
         enrichment_options_model['classifier_id'] = 'testString'
         enrichment_options_model['model_id'] = 'testString'
         enrichment_options_model['confidence_threshold'] = 0
-        enrichment_options_model['top_k'] = 38
+        enrichment_options_model['top_k'] = 0
 
         # Construct a dict representation of a CreateEnrichment model
         create_enrichment_model = {}
@@ -3735,7 +3939,7 @@ class TestCreateEnrichment():
             "enrichment": enrichment,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.create_enrichment(**req_copy)
 
@@ -3748,7 +3952,8 @@ class TestCreateEnrichment():
         _service.disable_retries()
         self.test_create_enrichment_value_error()
 
-class TestGetEnrichment():
+
+class TestGetEnrichment:
     """
     Test Class for get_enrichment
     """
@@ -3760,12 +3965,14 @@ class TestGetEnrichment():
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/enrichments/testString')
-        mock_response = '{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field", "classifier_id": "classifier_id", "model_id": "model_id", "confidence_threshold": 0, "top_k": 5}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        mock_response = '{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field", "classifier_id": "classifier_id", "model_id": "model_id", "confidence_threshold": 0, "top_k": 0}}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -3775,7 +3982,7 @@ class TestGetEnrichment():
         response = _service.get_enrichment(
             project_id,
             enrichment_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -3798,12 +4005,14 @@ class TestGetEnrichment():
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/enrichments/testString')
-        mock_response = '{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field", "classifier_id": "classifier_id", "model_id": "model_id", "confidence_threshold": 0, "top_k": 5}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        mock_response = '{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field", "classifier_id": "classifier_id", "model_id": "model_id", "confidence_threshold": 0, "top_k": 0}}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -3815,7 +4024,7 @@ class TestGetEnrichment():
             "enrichment_id": enrichment_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_enrichment(**req_copy)
 
@@ -3828,7 +4037,8 @@ class TestGetEnrichment():
         _service.disable_retries()
         self.test_get_enrichment_value_error()
 
-class TestUpdateEnrichment():
+
+class TestUpdateEnrichment:
     """
     Test Class for update_enrichment
     """
@@ -3840,12 +4050,14 @@ class TestUpdateEnrichment():
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/enrichments/testString')
-        mock_response = '{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field", "classifier_id": "classifier_id", "model_id": "model_id", "confidence_threshold": 0, "top_k": 5}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        mock_response = '{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field", "classifier_id": "classifier_id", "model_id": "model_id", "confidence_threshold": 0, "top_k": 0}}'
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -3859,7 +4071,7 @@ class TestUpdateEnrichment():
             enrichment_id,
             name,
             description=description,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -3886,12 +4098,14 @@ class TestUpdateEnrichment():
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/enrichments/testString')
-        mock_response = '{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field", "classifier_id": "classifier_id", "model_id": "model_id", "confidence_threshold": 0, "top_k": 5}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        mock_response = '{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field", "classifier_id": "classifier_id", "model_id": "model_id", "confidence_threshold": 0, "top_k": 0}}'
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -3906,7 +4120,7 @@ class TestUpdateEnrichment():
             "name": name,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.update_enrichment(**req_copy)
 
@@ -3919,7 +4133,8 @@ class TestUpdateEnrichment():
         _service.disable_retries()
         self.test_update_enrichment_value_error()
 
-class TestDeleteEnrichment():
+
+class TestDeleteEnrichment:
     """
     Test Class for delete_enrichment
     """
@@ -3931,9 +4146,11 @@ class TestDeleteEnrichment():
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/enrichments/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=204,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -3943,7 +4160,7 @@ class TestDeleteEnrichment():
         response = _service.delete_enrichment(
             project_id,
             enrichment_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -3966,9 +4183,11 @@ class TestDeleteEnrichment():
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/enrichments/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=204,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -3980,7 +4199,7 @@ class TestDeleteEnrichment():
             "enrichment_id": enrichment_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_enrichment(**req_copy)
 
@@ -3993,6 +4212,7 @@ class TestDeleteEnrichment():
         _service.disable_retries()
         self.test_delete_enrichment_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: Enrichments
@@ -4003,7 +4223,8 @@ class TestDeleteEnrichment():
 ##############################################################################
 # region
 
-class TestListDocumentClassifiers():
+
+class TestListDocumentClassifiers:
     """
     Test Class for list_document_classifiers
     """
@@ -4016,11 +4237,13 @@ class TestListDocumentClassifiers():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/document_classifiers')
         mock_response = '{"classifiers": [{"classifier_id": "classifier_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}], "recognized_fields": ["recognized_fields"], "answer_field": "answer_field", "training_data_file": "training_data_file", "test_data_file": "test_data_file", "federated_classification": {"field": "field"}}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -4028,7 +4251,7 @@ class TestListDocumentClassifiers():
         # Invoke method
         response = _service.list_document_classifiers(
             project_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -4052,11 +4275,13 @@ class TestListDocumentClassifiers():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/document_classifiers')
         mock_response = '{"classifiers": [{"classifier_id": "classifier_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}], "recognized_fields": ["recognized_fields"], "answer_field": "answer_field", "training_data_file": "training_data_file", "test_data_file": "test_data_file", "federated_classification": {"field": "field"}}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -4066,7 +4291,7 @@ class TestListDocumentClassifiers():
             "project_id": project_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_document_classifiers(**req_copy)
 
@@ -4079,7 +4304,8 @@ class TestListDocumentClassifiers():
         _service.disable_retries()
         self.test_list_document_classifiers_value_error()
 
-class TestCreateDocumentClassifier():
+
+class TestCreateDocumentClassifier:
     """
     Test Class for create_document_classifier
     """
@@ -4092,11 +4318,13 @@ class TestCreateDocumentClassifier():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/document_classifiers')
         mock_response = '{"classifier_id": "classifier_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}], "recognized_fields": ["recognized_fields"], "answer_field": "answer_field", "training_data_file": "training_data_file", "test_data_file": "test_data_file", "federated_classification": {"field": "field"}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Construct a dict representation of a DocumentClassifierEnrichment model
         document_classifier_enrichment_model = {}
@@ -4128,7 +4356,7 @@ class TestCreateDocumentClassifier():
             training_data,
             classifier,
             test_data=test_data,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -4152,11 +4380,13 @@ class TestCreateDocumentClassifier():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/document_classifiers')
         mock_response = '{"classifier_id": "classifier_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}], "recognized_fields": ["recognized_fields"], "answer_field": "answer_field", "training_data_file": "training_data_file", "test_data_file": "test_data_file", "federated_classification": {"field": "field"}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Construct a dict representation of a DocumentClassifierEnrichment model
         document_classifier_enrichment_model = {}
@@ -4186,7 +4416,7 @@ class TestCreateDocumentClassifier():
             project_id,
             training_data,
             classifier,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -4210,11 +4440,13 @@ class TestCreateDocumentClassifier():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/document_classifiers')
         mock_response = '{"classifier_id": "classifier_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}], "recognized_fields": ["recognized_fields"], "answer_field": "answer_field", "training_data_file": "training_data_file", "test_data_file": "test_data_file", "federated_classification": {"field": "field"}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Construct a dict representation of a DocumentClassifierEnrichment model
         document_classifier_enrichment_model = {}
@@ -4246,7 +4478,7 @@ class TestCreateDocumentClassifier():
             "classifier": classifier,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.create_document_classifier(**req_copy)
 
@@ -4259,7 +4491,8 @@ class TestCreateDocumentClassifier():
         _service.disable_retries()
         self.test_create_document_classifier_value_error()
 
-class TestGetDocumentClassifier():
+
+class TestGetDocumentClassifier:
     """
     Test Class for get_document_classifier
     """
@@ -4272,11 +4505,13 @@ class TestGetDocumentClassifier():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/document_classifiers/testString')
         mock_response = '{"classifier_id": "classifier_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}], "recognized_fields": ["recognized_fields"], "answer_field": "answer_field", "training_data_file": "training_data_file", "test_data_file": "test_data_file", "federated_classification": {"field": "field"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -4286,7 +4521,7 @@ class TestGetDocumentClassifier():
         response = _service.get_document_classifier(
             project_id,
             classifier_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -4310,11 +4545,13 @@ class TestGetDocumentClassifier():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/document_classifiers/testString')
         mock_response = '{"classifier_id": "classifier_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}], "recognized_fields": ["recognized_fields"], "answer_field": "answer_field", "training_data_file": "training_data_file", "test_data_file": "test_data_file", "federated_classification": {"field": "field"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -4326,7 +4563,7 @@ class TestGetDocumentClassifier():
             "classifier_id": classifier_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_document_classifier(**req_copy)
 
@@ -4339,7 +4576,8 @@ class TestGetDocumentClassifier():
         _service.disable_retries()
         self.test_get_document_classifier_value_error()
 
-class TestUpdateDocumentClassifier():
+
+class TestUpdateDocumentClassifier:
     """
     Test Class for update_document_classifier
     """
@@ -4352,11 +4590,13 @@ class TestUpdateDocumentClassifier():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/document_classifiers/testString')
         mock_response = '{"classifier_id": "classifier_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}], "recognized_fields": ["recognized_fields"], "answer_field": "answer_field", "training_data_file": "training_data_file", "test_data_file": "test_data_file", "federated_classification": {"field": "field"}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Construct a dict representation of a UpdateDocumentClassifier model
         update_document_classifier_model = {}
@@ -4377,7 +4617,7 @@ class TestUpdateDocumentClassifier():
             classifier,
             training_data=training_data,
             test_data=test_data,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -4401,11 +4641,13 @@ class TestUpdateDocumentClassifier():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/document_classifiers/testString')
         mock_response = '{"classifier_id": "classifier_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}], "recognized_fields": ["recognized_fields"], "answer_field": "answer_field", "training_data_file": "training_data_file", "test_data_file": "test_data_file", "federated_classification": {"field": "field"}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Construct a dict representation of a UpdateDocumentClassifier model
         update_document_classifier_model = {}
@@ -4422,7 +4664,7 @@ class TestUpdateDocumentClassifier():
             project_id,
             classifier_id,
             classifier,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -4446,11 +4688,13 @@ class TestUpdateDocumentClassifier():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/document_classifiers/testString')
         mock_response = '{"classifier_id": "classifier_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}], "recognized_fields": ["recognized_fields"], "answer_field": "answer_field", "training_data_file": "training_data_file", "test_data_file": "test_data_file", "federated_classification": {"field": "field"}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Construct a dict representation of a UpdateDocumentClassifier model
         update_document_classifier_model = {}
@@ -4469,7 +4713,7 @@ class TestUpdateDocumentClassifier():
             "classifier": classifier,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.update_document_classifier(**req_copy)
 
@@ -4482,7 +4726,8 @@ class TestUpdateDocumentClassifier():
         _service.disable_retries()
         self.test_update_document_classifier_value_error()
 
-class TestDeleteDocumentClassifier():
+
+class TestDeleteDocumentClassifier:
     """
     Test Class for delete_document_classifier
     """
@@ -4494,9 +4739,11 @@ class TestDeleteDocumentClassifier():
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/document_classifiers/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=204,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -4506,7 +4753,7 @@ class TestDeleteDocumentClassifier():
         response = _service.delete_document_classifier(
             project_id,
             classifier_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -4529,9 +4776,11 @@ class TestDeleteDocumentClassifier():
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/document_classifiers/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=204,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -4543,7 +4792,7 @@ class TestDeleteDocumentClassifier():
             "classifier_id": classifier_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_document_classifier(**req_copy)
 
@@ -4556,6 +4805,7 @@ class TestDeleteDocumentClassifier():
         _service.disable_retries()
         self.test_delete_document_classifier_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: DocumentClassifiers
@@ -4566,7 +4816,8 @@ class TestDeleteDocumentClassifier():
 ##############################################################################
 # region
 
-class TestListDocumentClassifierModels():
+
+class TestListDocumentClassifierModels:
     """
     Test Class for list_document_classifier_models
     """
@@ -4579,11 +4830,13 @@ class TestListDocumentClassifierModels():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/document_classifiers/testString/models')
         mock_response = '{"models": [{"model_id": "model_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "training_data_file": "training_data_file", "test_data_file": "test_data_file", "status": "training", "evaluation": {"micro_average": {"precision": 0, "recall": 0, "f1": 0}, "macro_average": {"precision": 0, "recall": 0, "f1": 0}, "per_class": [{"name": "name", "precision": 0, "recall": 0, "f1": 0}]}, "enrichment_id": "enrichment_id", "deployed_at": "2019-01-01T12:00:00.000Z"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -4593,7 +4846,7 @@ class TestListDocumentClassifierModels():
         response = _service.list_document_classifier_models(
             project_id,
             classifier_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -4617,11 +4870,13 @@ class TestListDocumentClassifierModels():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/document_classifiers/testString/models')
         mock_response = '{"models": [{"model_id": "model_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "training_data_file": "training_data_file", "test_data_file": "test_data_file", "status": "training", "evaluation": {"micro_average": {"precision": 0, "recall": 0, "f1": 0}, "macro_average": {"precision": 0, "recall": 0, "f1": 0}, "per_class": [{"name": "name", "precision": 0, "recall": 0, "f1": 0}]}, "enrichment_id": "enrichment_id", "deployed_at": "2019-01-01T12:00:00.000Z"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -4633,7 +4888,7 @@ class TestListDocumentClassifierModels():
             "classifier_id": classifier_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_document_classifier_models(**req_copy)
 
@@ -4646,7 +4901,8 @@ class TestListDocumentClassifierModels():
         _service.disable_retries()
         self.test_list_document_classifier_models_value_error()
 
-class TestCreateDocumentClassifierModel():
+
+class TestCreateDocumentClassifierModel:
     """
     Test Class for create_document_classifier_model
     """
@@ -4659,22 +4915,24 @@ class TestCreateDocumentClassifierModel():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/document_classifiers/testString/models')
         mock_response = '{"model_id": "model_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "training_data_file": "training_data_file", "test_data_file": "test_data_file", "status": "training", "evaluation": {"micro_average": {"precision": 0, "recall": 0, "f1": 0}, "macro_average": {"precision": 0, "recall": 0, "f1": 0}, "per_class": [{"name": "name", "precision": 0, "recall": 0, "f1": 0}]}, "enrichment_id": "enrichment_id", "deployed_at": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Set up parameter values
         project_id = 'testString'
         classifier_id = 'testString'
         name = 'testString'
         description = 'testString'
-        learning_rate = 0
+        learning_rate = 0.1
         l1_regularization_strengths = [1.0E-6]
         l2_regularization_strengths = [1.0E-6]
-        training_max_steps = 0
-        improvement_ratio = 0
+        training_max_steps = 10000000
+        improvement_ratio = 0.000010
 
         # Invoke method
         response = _service.create_document_classifier_model(
@@ -4687,7 +4945,7 @@ class TestCreateDocumentClassifierModel():
             l2_regularization_strengths=l2_regularization_strengths,
             training_max_steps=training_max_steps,
             improvement_ratio=improvement_ratio,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -4697,11 +4955,11 @@ class TestCreateDocumentClassifierModel():
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['name'] == 'testString'
         assert req_body['description'] == 'testString'
-        assert req_body['learning_rate'] == 0
+        assert req_body['learning_rate'] == 0.1
         assert req_body['l1_regularization_strengths'] == [1.0E-6]
         assert req_body['l2_regularization_strengths'] == [1.0E-6]
-        assert req_body['training_max_steps'] == 0
-        assert req_body['improvement_ratio'] == 0
+        assert req_body['training_max_steps'] == 10000000
+        assert req_body['improvement_ratio'] == 0.000010
 
     def test_create_document_classifier_model_all_params_with_retries(self):
         # Enable retries and run test_create_document_classifier_model_all_params.
@@ -4720,22 +4978,24 @@ class TestCreateDocumentClassifierModel():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/document_classifiers/testString/models')
         mock_response = '{"model_id": "model_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "training_data_file": "training_data_file", "test_data_file": "test_data_file", "status": "training", "evaluation": {"micro_average": {"precision": 0, "recall": 0, "f1": 0}, "macro_average": {"precision": 0, "recall": 0, "f1": 0}, "per_class": [{"name": "name", "precision": 0, "recall": 0, "f1": 0}]}, "enrichment_id": "enrichment_id", "deployed_at": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Set up parameter values
         project_id = 'testString'
         classifier_id = 'testString'
         name = 'testString'
         description = 'testString'
-        learning_rate = 0
+        learning_rate = 0.1
         l1_regularization_strengths = [1.0E-6]
         l2_regularization_strengths = [1.0E-6]
-        training_max_steps = 0
-        improvement_ratio = 0
+        training_max_steps = 10000000
+        improvement_ratio = 0.000010
 
         # Pass in all but one required param and check for a ValueError
         req_param_dict = {
@@ -4744,7 +5004,7 @@ class TestCreateDocumentClassifierModel():
             "name": name,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.create_document_classifier_model(**req_copy)
 
@@ -4757,7 +5017,8 @@ class TestCreateDocumentClassifierModel():
         _service.disable_retries()
         self.test_create_document_classifier_model_value_error()
 
-class TestGetDocumentClassifierModel():
+
+class TestGetDocumentClassifierModel:
     """
     Test Class for get_document_classifier_model
     """
@@ -4770,11 +5031,13 @@ class TestGetDocumentClassifierModel():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/document_classifiers/testString/models/testString')
         mock_response = '{"model_id": "model_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "training_data_file": "training_data_file", "test_data_file": "test_data_file", "status": "training", "evaluation": {"micro_average": {"precision": 0, "recall": 0, "f1": 0}, "macro_average": {"precision": 0, "recall": 0, "f1": 0}, "per_class": [{"name": "name", "precision": 0, "recall": 0, "f1": 0}]}, "enrichment_id": "enrichment_id", "deployed_at": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -4786,7 +5049,7 @@ class TestGetDocumentClassifierModel():
             project_id,
             classifier_id,
             model_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -4810,11 +5073,13 @@ class TestGetDocumentClassifierModel():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/document_classifiers/testString/models/testString')
         mock_response = '{"model_id": "model_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "training_data_file": "training_data_file", "test_data_file": "test_data_file", "status": "training", "evaluation": {"micro_average": {"precision": 0, "recall": 0, "f1": 0}, "macro_average": {"precision": 0, "recall": 0, "f1": 0}, "per_class": [{"name": "name", "precision": 0, "recall": 0, "f1": 0}]}, "enrichment_id": "enrichment_id", "deployed_at": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -4828,7 +5093,7 @@ class TestGetDocumentClassifierModel():
             "model_id": model_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_document_classifier_model(**req_copy)
 
@@ -4841,7 +5106,8 @@ class TestGetDocumentClassifierModel():
         _service.disable_retries()
         self.test_get_document_classifier_model_value_error()
 
-class TestUpdateDocumentClassifierModel():
+
+class TestUpdateDocumentClassifierModel:
     """
     Test Class for update_document_classifier_model
     """
@@ -4854,11 +5120,13 @@ class TestUpdateDocumentClassifierModel():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/document_classifiers/testString/models/testString')
         mock_response = '{"model_id": "model_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "training_data_file": "training_data_file", "test_data_file": "test_data_file", "status": "training", "evaluation": {"micro_average": {"precision": 0, "recall": 0, "f1": 0}, "macro_average": {"precision": 0, "recall": 0, "f1": 0}, "per_class": [{"name": "name", "precision": 0, "recall": 0, "f1": 0}]}, "enrichment_id": "enrichment_id", "deployed_at": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -4874,7 +5142,7 @@ class TestUpdateDocumentClassifierModel():
             model_id,
             name=name,
             description=description,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -4902,11 +5170,13 @@ class TestUpdateDocumentClassifierModel():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/document_classifiers/testString/models/testString')
         mock_response = '{"model_id": "model_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "training_data_file": "training_data_file", "test_data_file": "test_data_file", "status": "training", "evaluation": {"micro_average": {"precision": 0, "recall": 0, "f1": 0}, "macro_average": {"precision": 0, "recall": 0, "f1": 0}, "per_class": [{"name": "name", "precision": 0, "recall": 0, "f1": 0}]}, "enrichment_id": "enrichment_id", "deployed_at": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -4922,7 +5192,7 @@ class TestUpdateDocumentClassifierModel():
             "model_id": model_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.update_document_classifier_model(**req_copy)
 
@@ -4935,7 +5205,8 @@ class TestUpdateDocumentClassifierModel():
         _service.disable_retries()
         self.test_update_document_classifier_model_value_error()
 
-class TestDeleteDocumentClassifierModel():
+
+class TestDeleteDocumentClassifierModel:
     """
     Test Class for delete_document_classifier_model
     """
@@ -4947,9 +5218,11 @@ class TestDeleteDocumentClassifierModel():
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/document_classifiers/testString/models/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=204,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -4961,7 +5234,7 @@ class TestDeleteDocumentClassifierModel():
             project_id,
             classifier_id,
             model_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -4984,9 +5257,11 @@ class TestDeleteDocumentClassifierModel():
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/document_classifiers/testString/models/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=204,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -5000,7 +5275,7 @@ class TestDeleteDocumentClassifierModel():
             "model_id": model_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_document_classifier_model(**req_copy)
 
@@ -5013,6 +5288,7 @@ class TestDeleteDocumentClassifierModel():
         _service.disable_retries()
         self.test_delete_document_classifier_model_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: DocumentClassifierModels
@@ -5023,7 +5299,8 @@ class TestDeleteDocumentClassifierModel():
 ##############################################################################
 # region
 
-class TestAnalyzeDocument():
+
+class TestAnalyzeDocument:
     """
     Test Class for analyze_document
     """
@@ -5036,11 +5313,13 @@ class TestAnalyzeDocument():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections/testString/analyze')
         mock_response = '{"notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}], "result": {"metadata": {"anyKey": "anyValue"}}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -5058,7 +5337,7 @@ class TestAnalyzeDocument():
             filename=filename,
             file_content_type=file_content_type,
             metadata=metadata,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -5082,11 +5361,13 @@ class TestAnalyzeDocument():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections/testString/analyze')
         mock_response = '{"notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}], "result": {"metadata": {"anyKey": "anyValue"}}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -5096,7 +5377,7 @@ class TestAnalyzeDocument():
         response = _service.analyze_document(
             project_id,
             collection_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -5120,11 +5401,13 @@ class TestAnalyzeDocument():
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections/testString/analyze')
         mock_response = '{"notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}], "result": {"metadata": {"anyKey": "anyValue"}}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         project_id = 'testString'
@@ -5136,7 +5419,7 @@ class TestAnalyzeDocument():
             "collection_id": collection_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.analyze_document(**req_copy)
 
@@ -5149,6 +5432,7 @@ class TestAnalyzeDocument():
         _service.disable_retries()
         self.test_analyze_document_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: Analyze
@@ -5159,7 +5443,8 @@ class TestAnalyzeDocument():
 ##############################################################################
 # region
 
-class TestDeleteUserData():
+
+class TestDeleteUserData:
     """
     Test Class for delete_user_data
     """
@@ -5171,9 +5456,11 @@ class TestDeleteUserData():
         """
         # Set up mock
         url = preprocess_url('/v2/user_data')
-        responses.add(responses.DELETE,
-                      url,
-                      status=200)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=200,
+        )
 
         # Set up parameter values
         customer_id = 'testString'
@@ -5181,14 +5468,14 @@ class TestDeleteUserData():
         # Invoke method
         response = _service.delete_user_data(
             customer_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'customer_id={}'.format(customer_id) in query_string
 
@@ -5208,9 +5495,11 @@ class TestDeleteUserData():
         """
         # Set up mock
         url = preprocess_url('/v2/user_data')
-        responses.add(responses.DELETE,
-                      url,
-                      status=200)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=200,
+        )
 
         # Set up parameter values
         customer_id = 'testString'
@@ -5220,7 +5509,7 @@ class TestDeleteUserData():
             "customer_id": customer_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_user_data(**req_copy)
 
@@ -5233,6 +5522,7 @@ class TestDeleteUserData():
         _service.disable_retries()
         self.test_delete_user_data_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: UserData
@@ -5243,7 +5533,9 @@ class TestDeleteUserData():
 # Start of Model Tests
 ##############################################################################
 # region
-class TestModel_AnalyzedDocument():
+
+
+class TestModel_AnalyzedDocument:
     """
     Test Class for AnalyzedDocument
     """
@@ -5255,10 +5547,10 @@ class TestModel_AnalyzedDocument():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        notice_model = {} # Notice
+        notice_model = {}  # Notice
 
-        analyzed_result_model = {} # AnalyzedResult
-        analyzed_result_model['metadata'] = {'foo': 'bar'}
+        analyzed_result_model = {}  # AnalyzedResult
+        analyzed_result_model['metadata'] = {'anyKey': 'anyValue'}
         analyzed_result_model['foo'] = 'testString'
 
         # Construct a json representation of a AnalyzedDocument model
@@ -5281,7 +5573,8 @@ class TestModel_AnalyzedDocument():
         analyzed_document_model_json2 = analyzed_document_model.to_dict()
         assert analyzed_document_model_json2 == analyzed_document_model_json
 
-class TestModel_AnalyzedResult():
+
+class TestModel_AnalyzedResult:
     """
     Test Class for AnalyzedResult
     """
@@ -5293,7 +5586,7 @@ class TestModel_AnalyzedResult():
 
         # Construct a json representation of a AnalyzedResult model
         analyzed_result_model_json = {}
-        analyzed_result_model_json['metadata'] = {'foo': 'bar'}
+        analyzed_result_model_json['metadata'] = {'anyKey': 'anyValue'}
         analyzed_result_model_json['foo'] = 'testString'
 
         # Construct a model instance of AnalyzedResult by calling from_dict on the json representation
@@ -5321,7 +5614,8 @@ class TestModel_AnalyzedResult():
         actual_dict = analyzed_result_model.get_properties()
         assert actual_dict == expected_dict
 
-class TestModel_ClassifierFederatedModel():
+
+class TestModel_ClassifierFederatedModel:
     """
     Test Class for ClassifierFederatedModel
     """
@@ -5350,7 +5644,8 @@ class TestModel_ClassifierFederatedModel():
         classifier_federated_model_model_json2 = classifier_federated_model_model.to_dict()
         assert classifier_federated_model_model_json2 == classifier_federated_model_model_json
 
-class TestModel_ClassifierModelEvaluation():
+
+class TestModel_ClassifierModelEvaluation:
     """
     Test Class for ClassifierModelEvaluation
     """
@@ -5362,17 +5657,17 @@ class TestModel_ClassifierModelEvaluation():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        model_evaluation_micro_average_model = {} # ModelEvaluationMicroAverage
+        model_evaluation_micro_average_model = {}  # ModelEvaluationMicroAverage
         model_evaluation_micro_average_model['precision'] = 0
         model_evaluation_micro_average_model['recall'] = 0
         model_evaluation_micro_average_model['f1'] = 0
 
-        model_evaluation_macro_average_model = {} # ModelEvaluationMacroAverage
+        model_evaluation_macro_average_model = {}  # ModelEvaluationMacroAverage
         model_evaluation_macro_average_model['precision'] = 0
         model_evaluation_macro_average_model['recall'] = 0
         model_evaluation_macro_average_model['f1'] = 0
 
-        per_class_model_evaluation_model = {} # PerClassModelEvaluation
+        per_class_model_evaluation_model = {}  # PerClassModelEvaluation
         per_class_model_evaluation_model['name'] = 'testString'
         per_class_model_evaluation_model['precision'] = 0
         per_class_model_evaluation_model['recall'] = 0
@@ -5399,7 +5694,8 @@ class TestModel_ClassifierModelEvaluation():
         classifier_model_evaluation_model_json2 = classifier_model_evaluation_model.to_dict()
         assert classifier_model_evaluation_model_json2 == classifier_model_evaluation_model_json
 
-class TestModel_Collection():
+
+class TestModel_Collection:
     """
     Test Class for Collection
     """
@@ -5428,7 +5724,8 @@ class TestModel_Collection():
         collection_model_json2 = collection_model.to_dict()
         assert collection_model_json2 == collection_model_json
 
-class TestModel_CollectionDetails():
+
+class TestModel_CollectionDetails:
     """
     Test Class for CollectionDetails
     """
@@ -5440,7 +5737,7 @@ class TestModel_CollectionDetails():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        collection_enrichment_model = {} # CollectionEnrichment
+        collection_enrichment_model = {}  # CollectionEnrichment
         collection_enrichment_model['enrichment_id'] = 'testString'
         collection_enrichment_model['fields'] = ['testString']
 
@@ -5466,7 +5763,8 @@ class TestModel_CollectionDetails():
         collection_details_model_json2 = collection_details_model.to_dict()
         assert collection_details_model_json2 == collection_details_model_json
 
-class TestModel_CollectionDetailsSmartDocumentUnderstanding():
+
+class TestModel_CollectionDetailsSmartDocumentUnderstanding:
     """
     Test Class for CollectionDetailsSmartDocumentUnderstanding
     """
@@ -5496,7 +5794,8 @@ class TestModel_CollectionDetailsSmartDocumentUnderstanding():
         collection_details_smart_document_understanding_model_json2 = collection_details_smart_document_understanding_model.to_dict()
         assert collection_details_smart_document_understanding_model_json2 == collection_details_smart_document_understanding_model_json
 
-class TestModel_CollectionEnrichment():
+
+class TestModel_CollectionEnrichment:
     """
     Test Class for CollectionEnrichment
     """
@@ -5526,7 +5825,8 @@ class TestModel_CollectionEnrichment():
         collection_enrichment_model_json2 = collection_enrichment_model.to_dict()
         assert collection_enrichment_model_json2 == collection_enrichment_model_json
 
-class TestModel_Completions():
+
+class TestModel_Completions:
     """
     Test Class for Completions
     """
@@ -5555,7 +5855,8 @@ class TestModel_Completions():
         completions_model_json2 = completions_model.to_dict()
         assert completions_model_json2 == completions_model_json
 
-class TestModel_ComponentSettingsAggregation():
+
+class TestModel_ComponentSettingsAggregation:
     """
     Test Class for ComponentSettingsAggregation
     """
@@ -5587,7 +5888,8 @@ class TestModel_ComponentSettingsAggregation():
         component_settings_aggregation_model_json2 = component_settings_aggregation_model.to_dict()
         assert component_settings_aggregation_model_json2 == component_settings_aggregation_model_json
 
-class TestModel_ComponentSettingsFieldsShown():
+
+class TestModel_ComponentSettingsFieldsShown:
     """
     Test Class for ComponentSettingsFieldsShown
     """
@@ -5599,11 +5901,11 @@ class TestModel_ComponentSettingsFieldsShown():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        component_settings_fields_shown_body_model = {} # ComponentSettingsFieldsShownBody
+        component_settings_fields_shown_body_model = {}  # ComponentSettingsFieldsShownBody
         component_settings_fields_shown_body_model['use_passage'] = True
         component_settings_fields_shown_body_model['field'] = 'testString'
 
-        component_settings_fields_shown_title_model = {} # ComponentSettingsFieldsShownTitle
+        component_settings_fields_shown_title_model = {}  # ComponentSettingsFieldsShownTitle
         component_settings_fields_shown_title_model['field'] = 'testString'
 
         # Construct a json representation of a ComponentSettingsFieldsShown model
@@ -5626,7 +5928,8 @@ class TestModel_ComponentSettingsFieldsShown():
         component_settings_fields_shown_model_json2 = component_settings_fields_shown_model.to_dict()
         assert component_settings_fields_shown_model_json2 == component_settings_fields_shown_model_json
 
-class TestModel_ComponentSettingsFieldsShownBody():
+
+class TestModel_ComponentSettingsFieldsShownBody:
     """
     Test Class for ComponentSettingsFieldsShownBody
     """
@@ -5656,7 +5959,8 @@ class TestModel_ComponentSettingsFieldsShownBody():
         component_settings_fields_shown_body_model_json2 = component_settings_fields_shown_body_model.to_dict()
         assert component_settings_fields_shown_body_model_json2 == component_settings_fields_shown_body_model_json
 
-class TestModel_ComponentSettingsFieldsShownTitle():
+
+class TestModel_ComponentSettingsFieldsShownTitle:
     """
     Test Class for ComponentSettingsFieldsShownTitle
     """
@@ -5685,7 +5989,8 @@ class TestModel_ComponentSettingsFieldsShownTitle():
         component_settings_fields_shown_title_model_json2 = component_settings_fields_shown_title_model.to_dict()
         assert component_settings_fields_shown_title_model_json2 == component_settings_fields_shown_title_model_json
 
-class TestModel_ComponentSettingsResponse():
+
+class TestModel_ComponentSettingsResponse:
     """
     Test Class for ComponentSettingsResponse
     """
@@ -5697,18 +6002,18 @@ class TestModel_ComponentSettingsResponse():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        component_settings_fields_shown_body_model = {} # ComponentSettingsFieldsShownBody
+        component_settings_fields_shown_body_model = {}  # ComponentSettingsFieldsShownBody
         component_settings_fields_shown_body_model['use_passage'] = True
         component_settings_fields_shown_body_model['field'] = 'testString'
 
-        component_settings_fields_shown_title_model = {} # ComponentSettingsFieldsShownTitle
+        component_settings_fields_shown_title_model = {}  # ComponentSettingsFieldsShownTitle
         component_settings_fields_shown_title_model['field'] = 'testString'
 
-        component_settings_fields_shown_model = {} # ComponentSettingsFieldsShown
+        component_settings_fields_shown_model = {}  # ComponentSettingsFieldsShown
         component_settings_fields_shown_model['body'] = component_settings_fields_shown_body_model
         component_settings_fields_shown_model['title'] = component_settings_fields_shown_title_model
 
-        component_settings_aggregation_model = {} # ComponentSettingsAggregation
+        component_settings_aggregation_model = {}  # ComponentSettingsAggregation
         component_settings_aggregation_model['name'] = 'testString'
         component_settings_aggregation_model['label'] = 'testString'
         component_settings_aggregation_model['multiple_selections_allowed'] = True
@@ -5737,7 +6042,8 @@ class TestModel_ComponentSettingsResponse():
         component_settings_response_model_json2 = component_settings_response_model.to_dict()
         assert component_settings_response_model_json2 == component_settings_response_model_json
 
-class TestModel_CreateDocumentClassifier():
+
+class TestModel_CreateDocumentClassifier:
     """
     Test Class for CreateDocumentClassifier
     """
@@ -5749,11 +6055,11 @@ class TestModel_CreateDocumentClassifier():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        document_classifier_enrichment_model = {} # DocumentClassifierEnrichment
+        document_classifier_enrichment_model = {}  # DocumentClassifierEnrichment
         document_classifier_enrichment_model['enrichment_id'] = 'testString'
         document_classifier_enrichment_model['fields'] = ['testString']
 
-        classifier_federated_model_model = {} # ClassifierFederatedModel
+        classifier_federated_model_model = {}  # ClassifierFederatedModel
         classifier_federated_model_model['field'] = 'testString'
 
         # Construct a json representation of a CreateDocumentClassifier model
@@ -5780,7 +6086,8 @@ class TestModel_CreateDocumentClassifier():
         create_document_classifier_model_json2 = create_document_classifier_model.to_dict()
         assert create_document_classifier_model_json2 == create_document_classifier_model_json
 
-class TestModel_CreateEnrichment():
+
+class TestModel_CreateEnrichment:
     """
     Test Class for CreateEnrichment
     """
@@ -5792,7 +6099,7 @@ class TestModel_CreateEnrichment():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        enrichment_options_model = {} # EnrichmentOptions
+        enrichment_options_model = {}  # EnrichmentOptions
         enrichment_options_model['languages'] = ['testString']
         enrichment_options_model['entity_type'] = 'testString'
         enrichment_options_model['regular_expression'] = 'testString'
@@ -5800,7 +6107,7 @@ class TestModel_CreateEnrichment():
         enrichment_options_model['classifier_id'] = 'testString'
         enrichment_options_model['model_id'] = 'testString'
         enrichment_options_model['confidence_threshold'] = 0
-        enrichment_options_model['top_k'] = 38
+        enrichment_options_model['top_k'] = 0
 
         # Construct a json representation of a CreateEnrichment model
         create_enrichment_model_json = {}
@@ -5824,7 +6131,8 @@ class TestModel_CreateEnrichment():
         create_enrichment_model_json2 = create_enrichment_model.to_dict()
         assert create_enrichment_model_json2 == create_enrichment_model_json
 
-class TestModel_DefaultQueryParams():
+
+class TestModel_DefaultQueryParams:
     """
     Test Class for DefaultQueryParams
     """
@@ -5836,7 +6144,7 @@ class TestModel_DefaultQueryParams():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        default_query_params_passages_model = {} # DefaultQueryParamsPassages
+        default_query_params_passages_model = {}  # DefaultQueryParamsPassages
         default_query_params_passages_model['enabled'] = True
         default_query_params_passages_model['count'] = 38
         default_query_params_passages_model['fields'] = ['testString']
@@ -5844,12 +6152,12 @@ class TestModel_DefaultQueryParams():
         default_query_params_passages_model['per_document'] = True
         default_query_params_passages_model['max_per_document'] = 38
 
-        default_query_params_table_results_model = {} # DefaultQueryParamsTableResults
+        default_query_params_table_results_model = {}  # DefaultQueryParamsTableResults
         default_query_params_table_results_model['enabled'] = True
         default_query_params_table_results_model['count'] = 38
-        default_query_params_table_results_model['per_document'] = 38
+        default_query_params_table_results_model['per_document'] = 0
 
-        default_query_params_suggested_refinements_model = {} # DefaultQueryParamsSuggestedRefinements
+        default_query_params_suggested_refinements_model = {}  # DefaultQueryParamsSuggestedRefinements
         default_query_params_suggested_refinements_model['enabled'] = True
         default_query_params_suggested_refinements_model['count'] = 38
 
@@ -5881,7 +6189,8 @@ class TestModel_DefaultQueryParams():
         default_query_params_model_json2 = default_query_params_model.to_dict()
         assert default_query_params_model_json2 == default_query_params_model_json
 
-class TestModel_DefaultQueryParamsPassages():
+
+class TestModel_DefaultQueryParamsPassages:
     """
     Test Class for DefaultQueryParamsPassages
     """
@@ -5915,7 +6224,8 @@ class TestModel_DefaultQueryParamsPassages():
         default_query_params_passages_model_json2 = default_query_params_passages_model.to_dict()
         assert default_query_params_passages_model_json2 == default_query_params_passages_model_json
 
-class TestModel_DefaultQueryParamsSuggestedRefinements():
+
+class TestModel_DefaultQueryParamsSuggestedRefinements:
     """
     Test Class for DefaultQueryParamsSuggestedRefinements
     """
@@ -5945,7 +6255,8 @@ class TestModel_DefaultQueryParamsSuggestedRefinements():
         default_query_params_suggested_refinements_model_json2 = default_query_params_suggested_refinements_model.to_dict()
         assert default_query_params_suggested_refinements_model_json2 == default_query_params_suggested_refinements_model_json
 
-class TestModel_DefaultQueryParamsTableResults():
+
+class TestModel_DefaultQueryParamsTableResults:
     """
     Test Class for DefaultQueryParamsTableResults
     """
@@ -5959,7 +6270,7 @@ class TestModel_DefaultQueryParamsTableResults():
         default_query_params_table_results_model_json = {}
         default_query_params_table_results_model_json['enabled'] = True
         default_query_params_table_results_model_json['count'] = 38
-        default_query_params_table_results_model_json['per_document'] = 38
+        default_query_params_table_results_model_json['per_document'] = 0
 
         # Construct a model instance of DefaultQueryParamsTableResults by calling from_dict on the json representation
         default_query_params_table_results_model = DefaultQueryParamsTableResults.from_dict(default_query_params_table_results_model_json)
@@ -5976,7 +6287,8 @@ class TestModel_DefaultQueryParamsTableResults():
         default_query_params_table_results_model_json2 = default_query_params_table_results_model.to_dict()
         assert default_query_params_table_results_model_json2 == default_query_params_table_results_model_json
 
-class TestModel_DeleteDocumentResponse():
+
+class TestModel_DeleteDocumentResponse:
     """
     Test Class for DeleteDocumentResponse
     """
@@ -6006,7 +6318,8 @@ class TestModel_DeleteDocumentResponse():
         delete_document_response_model_json2 = delete_document_response_model.to_dict()
         assert delete_document_response_model_json2 == delete_document_response_model_json
 
-class TestModel_DocumentAccepted():
+
+class TestModel_DocumentAccepted:
     """
     Test Class for DocumentAccepted
     """
@@ -6036,7 +6349,8 @@ class TestModel_DocumentAccepted():
         document_accepted_model_json2 = document_accepted_model.to_dict()
         assert document_accepted_model_json2 == document_accepted_model_json
 
-class TestModel_DocumentAttribute():
+
+class TestModel_DocumentAttribute:
     """
     Test Class for DocumentAttribute
     """
@@ -6048,7 +6362,7 @@ class TestModel_DocumentAttribute():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        table_element_location_model = {} # TableElementLocation
+        table_element_location_model = {}  # TableElementLocation
         table_element_location_model['begin'] = 26
         table_element_location_model['end'] = 26
 
@@ -6073,7 +6387,8 @@ class TestModel_DocumentAttribute():
         document_attribute_model_json2 = document_attribute_model.to_dict()
         assert document_attribute_model_json2 == document_attribute_model_json
 
-class TestModel_DocumentClassifier():
+
+class TestModel_DocumentClassifier:
     """
     Test Class for DocumentClassifier
     """
@@ -6085,11 +6400,11 @@ class TestModel_DocumentClassifier():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        document_classifier_enrichment_model = {} # DocumentClassifierEnrichment
+        document_classifier_enrichment_model = {}  # DocumentClassifierEnrichment
         document_classifier_enrichment_model['enrichment_id'] = 'testString'
         document_classifier_enrichment_model['fields'] = ['testString']
 
-        classifier_federated_model_model = {} # ClassifierFederatedModel
+        classifier_federated_model_model = {}  # ClassifierFederatedModel
         classifier_federated_model_model['field'] = 'testString'
 
         # Construct a json representation of a DocumentClassifier model
@@ -6119,7 +6434,8 @@ class TestModel_DocumentClassifier():
         document_classifier_model_json2 = document_classifier_model.to_dict()
         assert document_classifier_model_json2 == document_classifier_model_json
 
-class TestModel_DocumentClassifierEnrichment():
+
+class TestModel_DocumentClassifierEnrichment:
     """
     Test Class for DocumentClassifierEnrichment
     """
@@ -6149,7 +6465,8 @@ class TestModel_DocumentClassifierEnrichment():
         document_classifier_enrichment_model_json2 = document_classifier_enrichment_model.to_dict()
         assert document_classifier_enrichment_model_json2 == document_classifier_enrichment_model_json
 
-class TestModel_DocumentClassifierModel():
+
+class TestModel_DocumentClassifierModel:
     """
     Test Class for DocumentClassifierModel
     """
@@ -6161,23 +6478,23 @@ class TestModel_DocumentClassifierModel():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        model_evaluation_micro_average_model = {} # ModelEvaluationMicroAverage
+        model_evaluation_micro_average_model = {}  # ModelEvaluationMicroAverage
         model_evaluation_micro_average_model['precision'] = 0
         model_evaluation_micro_average_model['recall'] = 0
         model_evaluation_micro_average_model['f1'] = 0
 
-        model_evaluation_macro_average_model = {} # ModelEvaluationMacroAverage
+        model_evaluation_macro_average_model = {}  # ModelEvaluationMacroAverage
         model_evaluation_macro_average_model['precision'] = 0
         model_evaluation_macro_average_model['recall'] = 0
         model_evaluation_macro_average_model['f1'] = 0
 
-        per_class_model_evaluation_model = {} # PerClassModelEvaluation
+        per_class_model_evaluation_model = {}  # PerClassModelEvaluation
         per_class_model_evaluation_model['name'] = 'testString'
         per_class_model_evaluation_model['precision'] = 0
         per_class_model_evaluation_model['recall'] = 0
         per_class_model_evaluation_model['f1'] = 0
 
-        classifier_model_evaluation_model = {} # ClassifierModelEvaluation
+        classifier_model_evaluation_model = {}  # ClassifierModelEvaluation
         classifier_model_evaluation_model['micro_average'] = model_evaluation_micro_average_model
         classifier_model_evaluation_model['macro_average'] = model_evaluation_macro_average_model
         classifier_model_evaluation_model['per_class'] = [per_class_model_evaluation_model]
@@ -6207,7 +6524,8 @@ class TestModel_DocumentClassifierModel():
         document_classifier_model_model_json2 = document_classifier_model_model.to_dict()
         assert document_classifier_model_model_json2 == document_classifier_model_model_json
 
-class TestModel_DocumentClassifierModels():
+
+class TestModel_DocumentClassifierModels:
     """
     Test Class for DocumentClassifierModels
     """
@@ -6219,28 +6537,28 @@ class TestModel_DocumentClassifierModels():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        model_evaluation_micro_average_model = {} # ModelEvaluationMicroAverage
+        model_evaluation_micro_average_model = {}  # ModelEvaluationMicroAverage
         model_evaluation_micro_average_model['precision'] = 0
         model_evaluation_micro_average_model['recall'] = 0
         model_evaluation_micro_average_model['f1'] = 0
 
-        model_evaluation_macro_average_model = {} # ModelEvaluationMacroAverage
+        model_evaluation_macro_average_model = {}  # ModelEvaluationMacroAverage
         model_evaluation_macro_average_model['precision'] = 0
         model_evaluation_macro_average_model['recall'] = 0
         model_evaluation_macro_average_model['f1'] = 0
 
-        per_class_model_evaluation_model = {} # PerClassModelEvaluation
+        per_class_model_evaluation_model = {}  # PerClassModelEvaluation
         per_class_model_evaluation_model['name'] = 'testString'
         per_class_model_evaluation_model['precision'] = 0
         per_class_model_evaluation_model['recall'] = 0
         per_class_model_evaluation_model['f1'] = 0
 
-        classifier_model_evaluation_model = {} # ClassifierModelEvaluation
+        classifier_model_evaluation_model = {}  # ClassifierModelEvaluation
         classifier_model_evaluation_model['micro_average'] = model_evaluation_micro_average_model
         classifier_model_evaluation_model['macro_average'] = model_evaluation_macro_average_model
         classifier_model_evaluation_model['per_class'] = [per_class_model_evaluation_model]
 
-        document_classifier_model_model = {} # DocumentClassifierModel
+        document_classifier_model_model = {}  # DocumentClassifierModel
         document_classifier_model_model['name'] = 'testString'
         document_classifier_model_model['description'] = 'testString'
         document_classifier_model_model['training_data_file'] = 'testString'
@@ -6268,7 +6586,8 @@ class TestModel_DocumentClassifierModels():
         document_classifier_models_model_json2 = document_classifier_models_model.to_dict()
         assert document_classifier_models_model_json2 == document_classifier_models_model_json
 
-class TestModel_DocumentClassifiers():
+
+class TestModel_DocumentClassifiers:
     """
     Test Class for DocumentClassifiers
     """
@@ -6280,14 +6599,14 @@ class TestModel_DocumentClassifiers():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        document_classifier_enrichment_model = {} # DocumentClassifierEnrichment
+        document_classifier_enrichment_model = {}  # DocumentClassifierEnrichment
         document_classifier_enrichment_model['enrichment_id'] = 'testString'
         document_classifier_enrichment_model['fields'] = ['testString']
 
-        classifier_federated_model_model = {} # ClassifierFederatedModel
+        classifier_federated_model_model = {}  # ClassifierFederatedModel
         classifier_federated_model_model['field'] = 'testString'
 
-        document_classifier_model = {} # DocumentClassifier
+        document_classifier_model = {}  # DocumentClassifier
         document_classifier_model['name'] = 'testString'
         document_classifier_model['description'] = 'testString'
         document_classifier_model['language'] = 'en'
@@ -6317,7 +6636,8 @@ class TestModel_DocumentClassifiers():
         document_classifiers_model_json2 = document_classifiers_model.to_dict()
         assert document_classifiers_model_json2 == document_classifiers_model_json
 
-class TestModel_DocumentDetails():
+
+class TestModel_DocumentDetails:
     """
     Test Class for DocumentDetails
     """
@@ -6329,9 +6649,9 @@ class TestModel_DocumentDetails():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        notice_model = {} # Notice
+        notice_model = {}  # Notice
 
-        document_details_children_model = {} # DocumentDetailsChildren
+        document_details_children_model = {}  # DocumentDetailsChildren
         document_details_children_model['have_notices'] = True
         document_details_children_model['count'] = 38
 
@@ -6359,7 +6679,8 @@ class TestModel_DocumentDetails():
         document_details_model_json2 = document_details_model.to_dict()
         assert document_details_model_json2 == document_details_model_json
 
-class TestModel_DocumentDetailsChildren():
+
+class TestModel_DocumentDetailsChildren:
     """
     Test Class for DocumentDetailsChildren
     """
@@ -6389,7 +6710,8 @@ class TestModel_DocumentDetailsChildren():
         document_details_children_model_json2 = document_details_children_model.to_dict()
         assert document_details_children_model_json2 == document_details_children_model_json
 
-class TestModel_Enrichment():
+
+class TestModel_Enrichment:
     """
     Test Class for Enrichment
     """
@@ -6401,7 +6723,7 @@ class TestModel_Enrichment():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        enrichment_options_model = {} # EnrichmentOptions
+        enrichment_options_model = {}  # EnrichmentOptions
         enrichment_options_model['languages'] = ['testString']
         enrichment_options_model['entity_type'] = 'testString'
         enrichment_options_model['regular_expression'] = 'testString'
@@ -6409,7 +6731,7 @@ class TestModel_Enrichment():
         enrichment_options_model['classifier_id'] = 'testString'
         enrichment_options_model['model_id'] = 'testString'
         enrichment_options_model['confidence_threshold'] = 0
-        enrichment_options_model['top_k'] = 38
+        enrichment_options_model['top_k'] = 0
 
         # Construct a json representation of a Enrichment model
         enrichment_model_json = {}
@@ -6433,7 +6755,8 @@ class TestModel_Enrichment():
         enrichment_model_json2 = enrichment_model.to_dict()
         assert enrichment_model_json2 == enrichment_model_json
 
-class TestModel_EnrichmentOptions():
+
+class TestModel_EnrichmentOptions:
     """
     Test Class for EnrichmentOptions
     """
@@ -6452,7 +6775,7 @@ class TestModel_EnrichmentOptions():
         enrichment_options_model_json['classifier_id'] = 'testString'
         enrichment_options_model_json['model_id'] = 'testString'
         enrichment_options_model_json['confidence_threshold'] = 0
-        enrichment_options_model_json['top_k'] = 38
+        enrichment_options_model_json['top_k'] = 0
 
         # Construct a model instance of EnrichmentOptions by calling from_dict on the json representation
         enrichment_options_model = EnrichmentOptions.from_dict(enrichment_options_model_json)
@@ -6469,7 +6792,8 @@ class TestModel_EnrichmentOptions():
         enrichment_options_model_json2 = enrichment_options_model.to_dict()
         assert enrichment_options_model_json2 == enrichment_options_model_json
 
-class TestModel_Enrichments():
+
+class TestModel_Enrichments:
     """
     Test Class for Enrichments
     """
@@ -6481,7 +6805,7 @@ class TestModel_Enrichments():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        enrichment_options_model = {} # EnrichmentOptions
+        enrichment_options_model = {}  # EnrichmentOptions
         enrichment_options_model['languages'] = ['testString']
         enrichment_options_model['entity_type'] = 'testString'
         enrichment_options_model['regular_expression'] = 'testString'
@@ -6489,9 +6813,9 @@ class TestModel_Enrichments():
         enrichment_options_model['classifier_id'] = 'testString'
         enrichment_options_model['model_id'] = 'testString'
         enrichment_options_model['confidence_threshold'] = 0
-        enrichment_options_model['top_k'] = 38
+        enrichment_options_model['top_k'] = 0
 
-        enrichment_model = {} # Enrichment
+        enrichment_model = {}  # Enrichment
         enrichment_model['name'] = 'testString'
         enrichment_model['description'] = 'testString'
         enrichment_model['type'] = 'part_of_speech'
@@ -6516,7 +6840,8 @@ class TestModel_Enrichments():
         enrichments_model_json2 = enrichments_model.to_dict()
         assert enrichments_model_json2 == enrichments_model_json
 
-class TestModel_Expansion():
+
+class TestModel_Expansion:
     """
     Test Class for Expansion
     """
@@ -6546,7 +6871,8 @@ class TestModel_Expansion():
         expansion_model_json2 = expansion_model.to_dict()
         assert expansion_model_json2 == expansion_model_json
 
-class TestModel_Expansions():
+
+class TestModel_Expansions:
     """
     Test Class for Expansions
     """
@@ -6558,7 +6884,7 @@ class TestModel_Expansions():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        expansion_model = {} # Expansion
+        expansion_model = {}  # Expansion
         expansion_model['input_terms'] = ['testString']
         expansion_model['expanded_terms'] = ['testString']
 
@@ -6581,7 +6907,8 @@ class TestModel_Expansions():
         expansions_model_json2 = expansions_model.to_dict()
         assert expansions_model_json2 == expansions_model_json
 
-class TestModel_Field():
+
+class TestModel_Field:
     """
     Test Class for Field
     """
@@ -6609,7 +6936,8 @@ class TestModel_Field():
         field_model_json2 = field_model.to_dict()
         assert field_model_json2 == field_model_json
 
-class TestModel_ListCollectionsResponse():
+
+class TestModel_ListCollectionsResponse:
     """
     Test Class for ListCollectionsResponse
     """
@@ -6621,7 +6949,7 @@ class TestModel_ListCollectionsResponse():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        collection_model = {} # Collection
+        collection_model = {}  # Collection
         collection_model['name'] = 'example'
 
         # Construct a json representation of a ListCollectionsResponse model
@@ -6643,7 +6971,8 @@ class TestModel_ListCollectionsResponse():
         list_collections_response_model_json2 = list_collections_response_model.to_dict()
         assert list_collections_response_model_json2 == list_collections_response_model_json
 
-class TestModel_ListDocumentsResponse():
+
+class TestModel_ListDocumentsResponse:
     """
     Test Class for ListDocumentsResponse
     """
@@ -6655,13 +6984,13 @@ class TestModel_ListDocumentsResponse():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        notice_model = {} # Notice
+        notice_model = {}  # Notice
 
-        document_details_children_model = {} # DocumentDetailsChildren
+        document_details_children_model = {}  # DocumentDetailsChildren
         document_details_children_model['have_notices'] = True
         document_details_children_model['count'] = 38
 
-        document_details_model = {} # DocumentDetails
+        document_details_model = {}  # DocumentDetails
         document_details_model['status'] = 'available'
         document_details_model['notices'] = [notice_model]
         document_details_model['children'] = document_details_children_model
@@ -6689,7 +7018,8 @@ class TestModel_ListDocumentsResponse():
         list_documents_response_model_json2 = list_documents_response_model.to_dict()
         assert list_documents_response_model_json2 == list_documents_response_model_json
 
-class TestModel_ListFieldsResponse():
+
+class TestModel_ListFieldsResponse:
     """
     Test Class for ListFieldsResponse
     """
@@ -6701,7 +7031,7 @@ class TestModel_ListFieldsResponse():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        field_model = {} # Field
+        field_model = {}  # Field
 
         # Construct a json representation of a ListFieldsResponse model
         list_fields_response_model_json = {}
@@ -6722,7 +7052,8 @@ class TestModel_ListFieldsResponse():
         list_fields_response_model_json2 = list_fields_response_model.to_dict()
         assert list_fields_response_model_json2 == list_fields_response_model_json
 
-class TestModel_ListProjectsResponse():
+
+class TestModel_ListProjectsResponse:
     """
     Test Class for ListProjectsResponse
     """
@@ -6734,7 +7065,7 @@ class TestModel_ListProjectsResponse():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        project_list_details_model = {} # ProjectListDetails
+        project_list_details_model = {}  # ProjectListDetails
         project_list_details_model['name'] = 'testString'
         project_list_details_model['type'] = 'document_retrieval'
 
@@ -6757,7 +7088,8 @@ class TestModel_ListProjectsResponse():
         list_projects_response_model_json2 = list_projects_response_model.to_dict()
         assert list_projects_response_model_json2 == list_projects_response_model_json
 
-class TestModel_ModelEvaluationMacroAverage():
+
+class TestModel_ModelEvaluationMacroAverage:
     """
     Test Class for ModelEvaluationMacroAverage
     """
@@ -6788,7 +7120,8 @@ class TestModel_ModelEvaluationMacroAverage():
         model_evaluation_macro_average_model_json2 = model_evaluation_macro_average_model.to_dict()
         assert model_evaluation_macro_average_model_json2 == model_evaluation_macro_average_model_json
 
-class TestModel_ModelEvaluationMicroAverage():
+
+class TestModel_ModelEvaluationMicroAverage:
     """
     Test Class for ModelEvaluationMicroAverage
     """
@@ -6819,7 +7152,8 @@ class TestModel_ModelEvaluationMicroAverage():
         model_evaluation_micro_average_model_json2 = model_evaluation_micro_average_model.to_dict()
         assert model_evaluation_micro_average_model_json2 == model_evaluation_micro_average_model_json
 
-class TestModel_Notice():
+
+class TestModel_Notice:
     """
     Test Class for Notice
     """
@@ -6847,7 +7181,8 @@ class TestModel_Notice():
         notice_model_json2 = notice_model.to_dict()
         assert notice_model_json2 == notice_model_json
 
-class TestModel_PerClassModelEvaluation():
+
+class TestModel_PerClassModelEvaluation:
     """
     Test Class for PerClassModelEvaluation
     """
@@ -6879,7 +7214,8 @@ class TestModel_PerClassModelEvaluation():
         per_class_model_evaluation_model_json2 = per_class_model_evaluation_model.to_dict()
         assert per_class_model_evaluation_model_json2 == per_class_model_evaluation_model_json
 
-class TestModel_ProjectDetails():
+
+class TestModel_ProjectDetails:
     """
     Test Class for ProjectDetails
     """
@@ -6891,7 +7227,7 @@ class TestModel_ProjectDetails():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        default_query_params_passages_model = {} # DefaultQueryParamsPassages
+        default_query_params_passages_model = {}  # DefaultQueryParamsPassages
         default_query_params_passages_model['enabled'] = True
         default_query_params_passages_model['count'] = 38
         default_query_params_passages_model['fields'] = ['testString']
@@ -6899,16 +7235,16 @@ class TestModel_ProjectDetails():
         default_query_params_passages_model['per_document'] = True
         default_query_params_passages_model['max_per_document'] = 38
 
-        default_query_params_table_results_model = {} # DefaultQueryParamsTableResults
+        default_query_params_table_results_model = {}  # DefaultQueryParamsTableResults
         default_query_params_table_results_model['enabled'] = True
         default_query_params_table_results_model['count'] = 38
-        default_query_params_table_results_model['per_document'] = 38
+        default_query_params_table_results_model['per_document'] = 0
 
-        default_query_params_suggested_refinements_model = {} # DefaultQueryParamsSuggestedRefinements
+        default_query_params_suggested_refinements_model = {}  # DefaultQueryParamsSuggestedRefinements
         default_query_params_suggested_refinements_model['enabled'] = True
         default_query_params_suggested_refinements_model['count'] = 38
 
-        default_query_params_model = {} # DefaultQueryParams
+        default_query_params_model = {}  # DefaultQueryParams
         default_query_params_model['collection_ids'] = ['testString']
         default_query_params_model['passages'] = default_query_params_passages_model
         default_query_params_model['table_results'] = default_query_params_table_results_model
@@ -6941,7 +7277,8 @@ class TestModel_ProjectDetails():
         project_details_model_json2 = project_details_model.to_dict()
         assert project_details_model_json2 == project_details_model_json
 
-class TestModel_ProjectListDetails():
+
+class TestModel_ProjectListDetails:
     """
     Test Class for ProjectListDetails
     """
@@ -6971,7 +7308,8 @@ class TestModel_ProjectListDetails():
         project_list_details_model_json2 = project_list_details_model.to_dict()
         assert project_list_details_model_json2 == project_list_details_model_json
 
-class TestModel_ProjectListDetailsRelevancyTrainingStatus():
+
+class TestModel_ProjectListDetailsRelevancyTrainingStatus:
     """
     Test Class for ProjectListDetailsRelevancyTrainingStatus
     """
@@ -7008,7 +7346,8 @@ class TestModel_ProjectListDetailsRelevancyTrainingStatus():
         project_list_details_relevancy_training_status_model_json2 = project_list_details_relevancy_training_status_model.to_dict()
         assert project_list_details_relevancy_training_status_model_json2 == project_list_details_relevancy_training_status_model_json
 
-class TestModel_QueryGroupByAggregationResult():
+
+class TestModel_QueryGroupByAggregationResult:
     """
     Test Class for QueryGroupByAggregationResult
     """
@@ -7025,7 +7364,7 @@ class TestModel_QueryGroupByAggregationResult():
         query_group_by_aggregation_result_model_json['relevancy'] = 72.5
         query_group_by_aggregation_result_model_json['total_matching_documents'] = 38
         query_group_by_aggregation_result_model_json['estimated_matching_results'] = 72.5
-        query_group_by_aggregation_result_model_json['aggregations'] = [{'foo': 'bar'}]
+        query_group_by_aggregation_result_model_json['aggregations'] = [{'anyKey': 'anyValue'}]
 
         # Construct a model instance of QueryGroupByAggregationResult by calling from_dict on the json representation
         query_group_by_aggregation_result_model = QueryGroupByAggregationResult.from_dict(query_group_by_aggregation_result_model_json)
@@ -7042,7 +7381,8 @@ class TestModel_QueryGroupByAggregationResult():
         query_group_by_aggregation_result_model_json2 = query_group_by_aggregation_result_model.to_dict()
         assert query_group_by_aggregation_result_model_json2 == query_group_by_aggregation_result_model_json
 
-class TestModel_QueryHistogramAggregationResult():
+
+class TestModel_QueryHistogramAggregationResult:
     """
     Test Class for QueryHistogramAggregationResult
     """
@@ -7056,7 +7396,7 @@ class TestModel_QueryHistogramAggregationResult():
         query_histogram_aggregation_result_model_json = {}
         query_histogram_aggregation_result_model_json['key'] = 26
         query_histogram_aggregation_result_model_json['matching_results'] = 38
-        query_histogram_aggregation_result_model_json['aggregations'] = [{'foo': 'bar'}]
+        query_histogram_aggregation_result_model_json['aggregations'] = [{'anyKey': 'anyValue'}]
 
         # Construct a model instance of QueryHistogramAggregationResult by calling from_dict on the json representation
         query_histogram_aggregation_result_model = QueryHistogramAggregationResult.from_dict(query_histogram_aggregation_result_model_json)
@@ -7073,7 +7413,8 @@ class TestModel_QueryHistogramAggregationResult():
         query_histogram_aggregation_result_model_json2 = query_histogram_aggregation_result_model.to_dict()
         assert query_histogram_aggregation_result_model_json2 == query_histogram_aggregation_result_model_json
 
-class TestModel_QueryLargePassages():
+
+class TestModel_QueryLargePassages:
     """
     Test Class for QueryLargePassages
     """
@@ -7092,7 +7433,7 @@ class TestModel_QueryLargePassages():
         query_large_passages_model_json['count'] = 400
         query_large_passages_model_json['characters'] = 50
         query_large_passages_model_json['find_answers'] = False
-        query_large_passages_model_json['max_answers_per_passage'] = 38
+        query_large_passages_model_json['max_answers_per_passage'] = 1
 
         # Construct a model instance of QueryLargePassages by calling from_dict on the json representation
         query_large_passages_model = QueryLargePassages.from_dict(query_large_passages_model_json)
@@ -7109,7 +7450,8 @@ class TestModel_QueryLargePassages():
         query_large_passages_model_json2 = query_large_passages_model.to_dict()
         assert query_large_passages_model_json2 == query_large_passages_model_json
 
-class TestModel_QueryLargeSimilar():
+
+class TestModel_QueryLargeSimilar:
     """
     Test Class for QueryLargeSimilar
     """
@@ -7140,7 +7482,8 @@ class TestModel_QueryLargeSimilar():
         query_large_similar_model_json2 = query_large_similar_model.to_dict()
         assert query_large_similar_model_json2 == query_large_similar_model_json
 
-class TestModel_QueryLargeSuggestedRefinements():
+
+class TestModel_QueryLargeSuggestedRefinements:
     """
     Test Class for QueryLargeSuggestedRefinements
     """
@@ -7170,7 +7513,8 @@ class TestModel_QueryLargeSuggestedRefinements():
         query_large_suggested_refinements_model_json2 = query_large_suggested_refinements_model.to_dict()
         assert query_large_suggested_refinements_model_json2 == query_large_suggested_refinements_model_json
 
-class TestModel_QueryLargeTableResults():
+
+class TestModel_QueryLargeTableResults:
     """
     Test Class for QueryLargeTableResults
     """
@@ -7200,7 +7544,8 @@ class TestModel_QueryLargeTableResults():
         query_large_table_results_model_json2 = query_large_table_results_model.to_dict()
         assert query_large_table_results_model_json2 == query_large_table_results_model_json
 
-class TestModel_QueryNoticesResponse():
+
+class TestModel_QueryNoticesResponse:
     """
     Test Class for QueryNoticesResponse
     """
@@ -7212,7 +7557,7 @@ class TestModel_QueryNoticesResponse():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        notice_model = {} # Notice
+        notice_model = {}  # Notice
 
         # Construct a json representation of a QueryNoticesResponse model
         query_notices_response_model_json = {}
@@ -7234,7 +7579,8 @@ class TestModel_QueryNoticesResponse():
         query_notices_response_model_json2 = query_notices_response_model.to_dict()
         assert query_notices_response_model_json2 == query_notices_response_model_json
 
-class TestModel_QueryPairAggregationResult():
+
+class TestModel_QueryPairAggregationResult:
     """
     Test Class for QueryPairAggregationResult
     """
@@ -7246,7 +7592,7 @@ class TestModel_QueryPairAggregationResult():
 
         # Construct a json representation of a QueryPairAggregationResult model
         query_pair_aggregation_result_model_json = {}
-        query_pair_aggregation_result_model_json['aggregations'] = [{'foo': 'bar'}]
+        query_pair_aggregation_result_model_json['aggregations'] = [{'anyKey': 'anyValue'}]
 
         # Construct a model instance of QueryPairAggregationResult by calling from_dict on the json representation
         query_pair_aggregation_result_model = QueryPairAggregationResult.from_dict(query_pair_aggregation_result_model_json)
@@ -7263,7 +7609,8 @@ class TestModel_QueryPairAggregationResult():
         query_pair_aggregation_result_model_json2 = query_pair_aggregation_result_model.to_dict()
         assert query_pair_aggregation_result_model_json2 == query_pair_aggregation_result_model_json
 
-class TestModel_QueryResponse():
+
+class TestModel_QueryResponse:
     """
     Test Class for QueryResponse
     """
@@ -7275,70 +7622,70 @@ class TestModel_QueryResponse():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        query_result_metadata_model = {} # QueryResultMetadata
+        query_result_metadata_model = {}  # QueryResultMetadata
         query_result_metadata_model['document_retrieval_source'] = 'search'
         query_result_metadata_model['collection_id'] = 'testString'
         query_result_metadata_model['confidence'] = 0
 
-        result_passage_answer_model = {} # ResultPassageAnswer
+        result_passage_answer_model = {}  # ResultPassageAnswer
         result_passage_answer_model['answer_text'] = 'testString'
         result_passage_answer_model['start_offset'] = 38
         result_passage_answer_model['end_offset'] = 38
         result_passage_answer_model['confidence'] = 0
 
-        query_result_passage_model = {} # QueryResultPassage
+        query_result_passage_model = {}  # QueryResultPassage
         query_result_passage_model['passage_text'] = 'testString'
         query_result_passage_model['start_offset'] = 38
         query_result_passage_model['end_offset'] = 38
         query_result_passage_model['field'] = 'testString'
         query_result_passage_model['answers'] = [result_passage_answer_model]
 
-        query_result_model = {} # QueryResult
+        query_result_model = {}  # QueryResult
         query_result_model['document_id'] = 'testString'
-        query_result_model['metadata'] = {'foo': 'bar'}
+        query_result_model['metadata'] = {'anyKey': 'anyValue'}
         query_result_model['result_metadata'] = query_result_metadata_model
         query_result_model['document_passages'] = [query_result_passage_model]
         query_result_model['id'] = 'watson-generated ID'
 
-        query_term_aggregation_result_model = {} # QueryTermAggregationResult
+        query_term_aggregation_result_model = {}  # QueryTermAggregationResult
         query_term_aggregation_result_model['key'] = 'active'
         query_term_aggregation_result_model['matching_results'] = 34
         query_term_aggregation_result_model['relevancy'] = 72.5
         query_term_aggregation_result_model['total_matching_documents'] = 38
         query_term_aggregation_result_model['estimated_matching_results'] = 72.5
-        query_term_aggregation_result_model['aggregations'] = [{'foo': 'bar'}]
+        query_term_aggregation_result_model['aggregations'] = [{'anyKey': 'anyValue'}]
 
-        query_aggregation_model = {} # QueryAggregationQueryTermAggregation
+        query_aggregation_model = {}  # QueryAggregationQueryTermAggregation
         query_aggregation_model['type'] = 'term'
         query_aggregation_model['field'] = 'field'
         query_aggregation_model['count'] = 1
         query_aggregation_model['name'] = 'testString'
         query_aggregation_model['results'] = [query_term_aggregation_result_model]
 
-        retrieval_details_model = {} # RetrievalDetails
+        retrieval_details_model = {}  # RetrievalDetails
         retrieval_details_model['document_retrieval_strategy'] = 'untrained'
 
-        query_suggested_refinement_model = {} # QuerySuggestedRefinement
+        query_suggested_refinement_model = {}  # QuerySuggestedRefinement
         query_suggested_refinement_model['text'] = 'testString'
 
-        table_element_location_model = {} # TableElementLocation
+        table_element_location_model = {}  # TableElementLocation
         table_element_location_model['begin'] = 26
         table_element_location_model['end'] = 26
 
-        table_text_location_model = {} # TableTextLocation
+        table_text_location_model = {}  # TableTextLocation
         table_text_location_model['text'] = 'testString'
         table_text_location_model['location'] = table_element_location_model
 
-        table_headers_model = {} # TableHeaders
+        table_headers_model = {}  # TableHeaders
         table_headers_model['cell_id'] = 'testString'
-        table_headers_model['location'] = {'foo': 'bar'}
+        table_headers_model['location'] = {'anyKey': 'anyValue'}
         table_headers_model['text'] = 'testString'
         table_headers_model['row_index_begin'] = 26
         table_headers_model['row_index_end'] = 26
         table_headers_model['column_index_begin'] = 26
         table_headers_model['column_index_end'] = 26
 
-        table_row_headers_model = {} # TableRowHeaders
+        table_row_headers_model = {}  # TableRowHeaders
         table_row_headers_model['cell_id'] = 'testString'
         table_row_headers_model['location'] = table_element_location_model
         table_row_headers_model['text'] = 'testString'
@@ -7348,9 +7695,9 @@ class TestModel_QueryResponse():
         table_row_headers_model['column_index_begin'] = 26
         table_row_headers_model['column_index_end'] = 26
 
-        table_column_headers_model = {} # TableColumnHeaders
+        table_column_headers_model = {}  # TableColumnHeaders
         table_column_headers_model['cell_id'] = 'testString'
-        table_column_headers_model['location'] = {'foo': 'bar'}
+        table_column_headers_model['location'] = {'anyKey': 'anyValue'}
         table_column_headers_model['text'] = 'testString'
         table_column_headers_model['text_normalized'] = 'testString'
         table_column_headers_model['row_index_begin'] = 26
@@ -7358,44 +7705,44 @@ class TestModel_QueryResponse():
         table_column_headers_model['column_index_begin'] = 26
         table_column_headers_model['column_index_end'] = 26
 
-        table_cell_key_model = {} # TableCellKey
+        table_cell_key_model = {}  # TableCellKey
         table_cell_key_model['cell_id'] = 'testString'
         table_cell_key_model['location'] = table_element_location_model
         table_cell_key_model['text'] = 'testString'
 
-        table_cell_values_model = {} # TableCellValues
+        table_cell_values_model = {}  # TableCellValues
         table_cell_values_model['cell_id'] = 'testString'
         table_cell_values_model['location'] = table_element_location_model
         table_cell_values_model['text'] = 'testString'
 
-        table_key_value_pairs_model = {} # TableKeyValuePairs
+        table_key_value_pairs_model = {}  # TableKeyValuePairs
         table_key_value_pairs_model['key'] = table_cell_key_model
         table_key_value_pairs_model['value'] = [table_cell_values_model]
 
-        table_row_header_ids_model = {} # TableRowHeaderIds
+        table_row_header_ids_model = {}  # TableRowHeaderIds
         table_row_header_ids_model['id'] = 'testString'
 
-        table_row_header_texts_model = {} # TableRowHeaderTexts
+        table_row_header_texts_model = {}  # TableRowHeaderTexts
         table_row_header_texts_model['text'] = 'testString'
 
-        table_row_header_texts_normalized_model = {} # TableRowHeaderTextsNormalized
+        table_row_header_texts_normalized_model = {}  # TableRowHeaderTextsNormalized
         table_row_header_texts_normalized_model['text_normalized'] = 'testString'
 
-        table_column_header_ids_model = {} # TableColumnHeaderIds
+        table_column_header_ids_model = {}  # TableColumnHeaderIds
         table_column_header_ids_model['id'] = 'testString'
 
-        table_column_header_texts_model = {} # TableColumnHeaderTexts
+        table_column_header_texts_model = {}  # TableColumnHeaderTexts
         table_column_header_texts_model['text'] = 'testString'
 
-        table_column_header_texts_normalized_model = {} # TableColumnHeaderTextsNormalized
+        table_column_header_texts_normalized_model = {}  # TableColumnHeaderTextsNormalized
         table_column_header_texts_normalized_model['text_normalized'] = 'testString'
 
-        document_attribute_model = {} # DocumentAttribute
+        document_attribute_model = {}  # DocumentAttribute
         document_attribute_model['type'] = 'testString'
         document_attribute_model['text'] = 'testString'
         document_attribute_model['location'] = table_element_location_model
 
-        table_body_cells_model = {} # TableBodyCells
+        table_body_cells_model = {}  # TableBodyCells
         table_body_cells_model['cell_id'] = 'testString'
         table_body_cells_model['location'] = table_element_location_model
         table_body_cells_model['text'] = 'testString'
@@ -7411,7 +7758,7 @@ class TestModel_QueryResponse():
         table_body_cells_model['column_header_texts_normalized'] = [table_column_header_texts_normalized_model]
         table_body_cells_model['attributes'] = [document_attribute_model]
 
-        table_result_table_model = {} # TableResultTable
+        table_result_table_model = {}  # TableResultTable
         table_result_table_model['location'] = table_element_location_model
         table_result_table_model['text'] = 'testString'
         table_result_table_model['section_title'] = table_text_location_model
@@ -7423,7 +7770,7 @@ class TestModel_QueryResponse():
         table_result_table_model['body_cells'] = [table_body_cells_model]
         table_result_table_model['contexts'] = [table_text_location_model]
 
-        query_table_result_model = {} # QueryTableResult
+        query_table_result_model = {}  # QueryTableResult
         query_table_result_model['table_id'] = 'testString'
         query_table_result_model['source_document_id'] = 'testString'
         query_table_result_model['collection_id'] = 'testString'
@@ -7431,7 +7778,7 @@ class TestModel_QueryResponse():
         query_table_result_model['table_html_offset'] = 38
         query_table_result_model['table'] = table_result_table_model
 
-        query_response_passage_model = {} # QueryResponsePassage
+        query_response_passage_model = {}  # QueryResponsePassage
         query_response_passage_model['passage_text'] = 'testString'
         query_response_passage_model['passage_score'] = 72.5
         query_response_passage_model['document_id'] = 'testString'
@@ -7467,7 +7814,8 @@ class TestModel_QueryResponse():
         query_response_model_json2 = query_response_model.to_dict()
         assert query_response_model_json2 == query_response_model_json
 
-class TestModel_QueryResponsePassage():
+
+class TestModel_QueryResponsePassage:
     """
     Test Class for QueryResponsePassage
     """
@@ -7479,7 +7827,7 @@ class TestModel_QueryResponsePassage():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        result_passage_answer_model = {} # ResultPassageAnswer
+        result_passage_answer_model = {}  # ResultPassageAnswer
         result_passage_answer_model['answer_text'] = 'testString'
         result_passage_answer_model['start_offset'] = 38
         result_passage_answer_model['end_offset'] = 38
@@ -7511,7 +7859,8 @@ class TestModel_QueryResponsePassage():
         query_response_passage_model_json2 = query_response_passage_model.to_dict()
         assert query_response_passage_model_json2 == query_response_passage_model_json
 
-class TestModel_QueryResult():
+
+class TestModel_QueryResult:
     """
     Test Class for QueryResult
     """
@@ -7523,18 +7872,18 @@ class TestModel_QueryResult():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        query_result_metadata_model = {} # QueryResultMetadata
+        query_result_metadata_model = {}  # QueryResultMetadata
         query_result_metadata_model['document_retrieval_source'] = 'search'
         query_result_metadata_model['collection_id'] = 'testString'
         query_result_metadata_model['confidence'] = 0
 
-        result_passage_answer_model = {} # ResultPassageAnswer
+        result_passage_answer_model = {}  # ResultPassageAnswer
         result_passage_answer_model['answer_text'] = 'testString'
         result_passage_answer_model['start_offset'] = 38
         result_passage_answer_model['end_offset'] = 38
         result_passage_answer_model['confidence'] = 0
 
-        query_result_passage_model = {} # QueryResultPassage
+        query_result_passage_model = {}  # QueryResultPassage
         query_result_passage_model['passage_text'] = 'testString'
         query_result_passage_model['start_offset'] = 38
         query_result_passage_model['end_offset'] = 38
@@ -7544,7 +7893,7 @@ class TestModel_QueryResult():
         # Construct a json representation of a QueryResult model
         query_result_model_json = {}
         query_result_model_json['document_id'] = 'testString'
-        query_result_model_json['metadata'] = {'foo': 'bar'}
+        query_result_model_json['metadata'] = {'anyKey': 'anyValue'}
         query_result_model_json['result_metadata'] = query_result_metadata_model
         query_result_model_json['document_passages'] = [query_result_passage_model]
         query_result_model_json['foo'] = 'testString'
@@ -7574,7 +7923,8 @@ class TestModel_QueryResult():
         actual_dict = query_result_model.get_properties()
         assert actual_dict == expected_dict
 
-class TestModel_QueryResultMetadata():
+
+class TestModel_QueryResultMetadata:
     """
     Test Class for QueryResultMetadata
     """
@@ -7605,7 +7955,8 @@ class TestModel_QueryResultMetadata():
         query_result_metadata_model_json2 = query_result_metadata_model.to_dict()
         assert query_result_metadata_model_json2 == query_result_metadata_model_json
 
-class TestModel_QueryResultPassage():
+
+class TestModel_QueryResultPassage:
     """
     Test Class for QueryResultPassage
     """
@@ -7617,7 +7968,7 @@ class TestModel_QueryResultPassage():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        result_passage_answer_model = {} # ResultPassageAnswer
+        result_passage_answer_model = {}  # ResultPassageAnswer
         result_passage_answer_model['answer_text'] = 'testString'
         result_passage_answer_model['start_offset'] = 38
         result_passage_answer_model['end_offset'] = 38
@@ -7646,7 +7997,8 @@ class TestModel_QueryResultPassage():
         query_result_passage_model_json2 = query_result_passage_model.to_dict()
         assert query_result_passage_model_json2 == query_result_passage_model_json
 
-class TestModel_QuerySuggestedRefinement():
+
+class TestModel_QuerySuggestedRefinement:
     """
     Test Class for QuerySuggestedRefinement
     """
@@ -7675,7 +8027,8 @@ class TestModel_QuerySuggestedRefinement():
         query_suggested_refinement_model_json2 = query_suggested_refinement_model.to_dict()
         assert query_suggested_refinement_model_json2 == query_suggested_refinement_model_json
 
-class TestModel_QueryTableResult():
+
+class TestModel_QueryTableResult:
     """
     Test Class for QueryTableResult
     """
@@ -7687,24 +8040,24 @@ class TestModel_QueryTableResult():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        table_element_location_model = {} # TableElementLocation
+        table_element_location_model = {}  # TableElementLocation
         table_element_location_model['begin'] = 26
         table_element_location_model['end'] = 26
 
-        table_text_location_model = {} # TableTextLocation
+        table_text_location_model = {}  # TableTextLocation
         table_text_location_model['text'] = 'testString'
         table_text_location_model['location'] = table_element_location_model
 
-        table_headers_model = {} # TableHeaders
+        table_headers_model = {}  # TableHeaders
         table_headers_model['cell_id'] = 'testString'
-        table_headers_model['location'] = {'foo': 'bar'}
+        table_headers_model['location'] = {'anyKey': 'anyValue'}
         table_headers_model['text'] = 'testString'
         table_headers_model['row_index_begin'] = 26
         table_headers_model['row_index_end'] = 26
         table_headers_model['column_index_begin'] = 26
         table_headers_model['column_index_end'] = 26
 
-        table_row_headers_model = {} # TableRowHeaders
+        table_row_headers_model = {}  # TableRowHeaders
         table_row_headers_model['cell_id'] = 'testString'
         table_row_headers_model['location'] = table_element_location_model
         table_row_headers_model['text'] = 'testString'
@@ -7714,9 +8067,9 @@ class TestModel_QueryTableResult():
         table_row_headers_model['column_index_begin'] = 26
         table_row_headers_model['column_index_end'] = 26
 
-        table_column_headers_model = {} # TableColumnHeaders
+        table_column_headers_model = {}  # TableColumnHeaders
         table_column_headers_model['cell_id'] = 'testString'
-        table_column_headers_model['location'] = {'foo': 'bar'}
+        table_column_headers_model['location'] = {'anyKey': 'anyValue'}
         table_column_headers_model['text'] = 'testString'
         table_column_headers_model['text_normalized'] = 'testString'
         table_column_headers_model['row_index_begin'] = 26
@@ -7724,44 +8077,44 @@ class TestModel_QueryTableResult():
         table_column_headers_model['column_index_begin'] = 26
         table_column_headers_model['column_index_end'] = 26
 
-        table_cell_key_model = {} # TableCellKey
+        table_cell_key_model = {}  # TableCellKey
         table_cell_key_model['cell_id'] = 'testString'
         table_cell_key_model['location'] = table_element_location_model
         table_cell_key_model['text'] = 'testString'
 
-        table_cell_values_model = {} # TableCellValues
+        table_cell_values_model = {}  # TableCellValues
         table_cell_values_model['cell_id'] = 'testString'
         table_cell_values_model['location'] = table_element_location_model
         table_cell_values_model['text'] = 'testString'
 
-        table_key_value_pairs_model = {} # TableKeyValuePairs
+        table_key_value_pairs_model = {}  # TableKeyValuePairs
         table_key_value_pairs_model['key'] = table_cell_key_model
         table_key_value_pairs_model['value'] = [table_cell_values_model]
 
-        table_row_header_ids_model = {} # TableRowHeaderIds
+        table_row_header_ids_model = {}  # TableRowHeaderIds
         table_row_header_ids_model['id'] = 'testString'
 
-        table_row_header_texts_model = {} # TableRowHeaderTexts
+        table_row_header_texts_model = {}  # TableRowHeaderTexts
         table_row_header_texts_model['text'] = 'testString'
 
-        table_row_header_texts_normalized_model = {} # TableRowHeaderTextsNormalized
+        table_row_header_texts_normalized_model = {}  # TableRowHeaderTextsNormalized
         table_row_header_texts_normalized_model['text_normalized'] = 'testString'
 
-        table_column_header_ids_model = {} # TableColumnHeaderIds
+        table_column_header_ids_model = {}  # TableColumnHeaderIds
         table_column_header_ids_model['id'] = 'testString'
 
-        table_column_header_texts_model = {} # TableColumnHeaderTexts
+        table_column_header_texts_model = {}  # TableColumnHeaderTexts
         table_column_header_texts_model['text'] = 'testString'
 
-        table_column_header_texts_normalized_model = {} # TableColumnHeaderTextsNormalized
+        table_column_header_texts_normalized_model = {}  # TableColumnHeaderTextsNormalized
         table_column_header_texts_normalized_model['text_normalized'] = 'testString'
 
-        document_attribute_model = {} # DocumentAttribute
+        document_attribute_model = {}  # DocumentAttribute
         document_attribute_model['type'] = 'testString'
         document_attribute_model['text'] = 'testString'
         document_attribute_model['location'] = table_element_location_model
 
-        table_body_cells_model = {} # TableBodyCells
+        table_body_cells_model = {}  # TableBodyCells
         table_body_cells_model['cell_id'] = 'testString'
         table_body_cells_model['location'] = table_element_location_model
         table_body_cells_model['text'] = 'testString'
@@ -7777,7 +8130,7 @@ class TestModel_QueryTableResult():
         table_body_cells_model['column_header_texts_normalized'] = [table_column_header_texts_normalized_model]
         table_body_cells_model['attributes'] = [document_attribute_model]
 
-        table_result_table_model = {} # TableResultTable
+        table_result_table_model = {}  # TableResultTable
         table_result_table_model['location'] = table_element_location_model
         table_result_table_model['text'] = 'testString'
         table_result_table_model['section_title'] = table_text_location_model
@@ -7813,7 +8166,8 @@ class TestModel_QueryTableResult():
         query_table_result_model_json2 = query_table_result_model.to_dict()
         assert query_table_result_model_json2 == query_table_result_model_json
 
-class TestModel_QueryTermAggregationResult():
+
+class TestModel_QueryTermAggregationResult:
     """
     Test Class for QueryTermAggregationResult
     """
@@ -7830,7 +8184,7 @@ class TestModel_QueryTermAggregationResult():
         query_term_aggregation_result_model_json['relevancy'] = 72.5
         query_term_aggregation_result_model_json['total_matching_documents'] = 38
         query_term_aggregation_result_model_json['estimated_matching_results'] = 72.5
-        query_term_aggregation_result_model_json['aggregations'] = [{'foo': 'bar'}]
+        query_term_aggregation_result_model_json['aggregations'] = [{'anyKey': 'anyValue'}]
 
         # Construct a model instance of QueryTermAggregationResult by calling from_dict on the json representation
         query_term_aggregation_result_model = QueryTermAggregationResult.from_dict(query_term_aggregation_result_model_json)
@@ -7847,7 +8201,8 @@ class TestModel_QueryTermAggregationResult():
         query_term_aggregation_result_model_json2 = query_term_aggregation_result_model.to_dict()
         assert query_term_aggregation_result_model_json2 == query_term_aggregation_result_model_json
 
-class TestModel_QueryTimesliceAggregationResult():
+
+class TestModel_QueryTimesliceAggregationResult:
     """
     Test Class for QueryTimesliceAggregationResult
     """
@@ -7862,7 +8217,7 @@ class TestModel_QueryTimesliceAggregationResult():
         query_timeslice_aggregation_result_model_json['key_as_string'] = 'testString'
         query_timeslice_aggregation_result_model_json['key'] = 26
         query_timeslice_aggregation_result_model_json['matching_results'] = 26
-        query_timeslice_aggregation_result_model_json['aggregations'] = [{'foo': 'bar'}]
+        query_timeslice_aggregation_result_model_json['aggregations'] = [{'anyKey': 'anyValue'}]
 
         # Construct a model instance of QueryTimesliceAggregationResult by calling from_dict on the json representation
         query_timeslice_aggregation_result_model = QueryTimesliceAggregationResult.from_dict(query_timeslice_aggregation_result_model_json)
@@ -7879,7 +8234,8 @@ class TestModel_QueryTimesliceAggregationResult():
         query_timeslice_aggregation_result_model_json2 = query_timeslice_aggregation_result_model.to_dict()
         assert query_timeslice_aggregation_result_model_json2 == query_timeslice_aggregation_result_model_json
 
-class TestModel_QueryTopHitsAggregationResult():
+
+class TestModel_QueryTopHitsAggregationResult:
     """
     Test Class for QueryTopHitsAggregationResult
     """
@@ -7892,7 +8248,7 @@ class TestModel_QueryTopHitsAggregationResult():
         # Construct a json representation of a QueryTopHitsAggregationResult model
         query_top_hits_aggregation_result_model_json = {}
         query_top_hits_aggregation_result_model_json['matching_results'] = 38
-        query_top_hits_aggregation_result_model_json['hits'] = [{'foo': 'bar'}]
+        query_top_hits_aggregation_result_model_json['hits'] = [{'anyKey': 'anyValue'}]
 
         # Construct a model instance of QueryTopHitsAggregationResult by calling from_dict on the json representation
         query_top_hits_aggregation_result_model = QueryTopHitsAggregationResult.from_dict(query_top_hits_aggregation_result_model_json)
@@ -7909,7 +8265,8 @@ class TestModel_QueryTopHitsAggregationResult():
         query_top_hits_aggregation_result_model_json2 = query_top_hits_aggregation_result_model.to_dict()
         assert query_top_hits_aggregation_result_model_json2 == query_top_hits_aggregation_result_model_json
 
-class TestModel_QueryTopicAggregationResult():
+
+class TestModel_QueryTopicAggregationResult:
     """
     Test Class for QueryTopicAggregationResult
     """
@@ -7921,7 +8278,7 @@ class TestModel_QueryTopicAggregationResult():
 
         # Construct a json representation of a QueryTopicAggregationResult model
         query_topic_aggregation_result_model_json = {}
-        query_topic_aggregation_result_model_json['aggregations'] = [{'foo': 'bar'}]
+        query_topic_aggregation_result_model_json['aggregations'] = [{'anyKey': 'anyValue'}]
 
         # Construct a model instance of QueryTopicAggregationResult by calling from_dict on the json representation
         query_topic_aggregation_result_model = QueryTopicAggregationResult.from_dict(query_topic_aggregation_result_model_json)
@@ -7938,7 +8295,8 @@ class TestModel_QueryTopicAggregationResult():
         query_topic_aggregation_result_model_json2 = query_topic_aggregation_result_model.to_dict()
         assert query_topic_aggregation_result_model_json2 == query_topic_aggregation_result_model_json
 
-class TestModel_QueryTrendAggregationResult():
+
+class TestModel_QueryTrendAggregationResult:
     """
     Test Class for QueryTrendAggregationResult
     """
@@ -7950,7 +8308,7 @@ class TestModel_QueryTrendAggregationResult():
 
         # Construct a json representation of a QueryTrendAggregationResult model
         query_trend_aggregation_result_model_json = {}
-        query_trend_aggregation_result_model_json['aggregations'] = [{'foo': 'bar'}]
+        query_trend_aggregation_result_model_json['aggregations'] = [{'anyKey': 'anyValue'}]
 
         # Construct a model instance of QueryTrendAggregationResult by calling from_dict on the json representation
         query_trend_aggregation_result_model = QueryTrendAggregationResult.from_dict(query_trend_aggregation_result_model_json)
@@ -7967,7 +8325,8 @@ class TestModel_QueryTrendAggregationResult():
         query_trend_aggregation_result_model_json2 = query_trend_aggregation_result_model.to_dict()
         assert query_trend_aggregation_result_model_json2 == query_trend_aggregation_result_model_json
 
-class TestModel_ResultPassageAnswer():
+
+class TestModel_ResultPassageAnswer:
     """
     Test Class for ResultPassageAnswer
     """
@@ -7999,7 +8358,8 @@ class TestModel_ResultPassageAnswer():
         result_passage_answer_model_json2 = result_passage_answer_model.to_dict()
         assert result_passage_answer_model_json2 == result_passage_answer_model_json
 
-class TestModel_RetrievalDetails():
+
+class TestModel_RetrievalDetails:
     """
     Test Class for RetrievalDetails
     """
@@ -8028,7 +8388,8 @@ class TestModel_RetrievalDetails():
         retrieval_details_model_json2 = retrieval_details_model.to_dict()
         assert retrieval_details_model_json2 == retrieval_details_model_json
 
-class TestModel_StopWordList():
+
+class TestModel_StopWordList:
     """
     Test Class for StopWordList
     """
@@ -8057,7 +8418,8 @@ class TestModel_StopWordList():
         stop_word_list_model_json2 = stop_word_list_model.to_dict()
         assert stop_word_list_model_json2 == stop_word_list_model_json
 
-class TestModel_TableBodyCells():
+
+class TestModel_TableBodyCells:
     """
     Test Class for TableBodyCells
     """
@@ -8069,29 +8431,29 @@ class TestModel_TableBodyCells():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        table_element_location_model = {} # TableElementLocation
+        table_element_location_model = {}  # TableElementLocation
         table_element_location_model['begin'] = 26
         table_element_location_model['end'] = 26
 
-        table_row_header_ids_model = {} # TableRowHeaderIds
+        table_row_header_ids_model = {}  # TableRowHeaderIds
         table_row_header_ids_model['id'] = 'testString'
 
-        table_row_header_texts_model = {} # TableRowHeaderTexts
+        table_row_header_texts_model = {}  # TableRowHeaderTexts
         table_row_header_texts_model['text'] = 'testString'
 
-        table_row_header_texts_normalized_model = {} # TableRowHeaderTextsNormalized
+        table_row_header_texts_normalized_model = {}  # TableRowHeaderTextsNormalized
         table_row_header_texts_normalized_model['text_normalized'] = 'testString'
 
-        table_column_header_ids_model = {} # TableColumnHeaderIds
+        table_column_header_ids_model = {}  # TableColumnHeaderIds
         table_column_header_ids_model['id'] = 'testString'
 
-        table_column_header_texts_model = {} # TableColumnHeaderTexts
+        table_column_header_texts_model = {}  # TableColumnHeaderTexts
         table_column_header_texts_model['text'] = 'testString'
 
-        table_column_header_texts_normalized_model = {} # TableColumnHeaderTextsNormalized
+        table_column_header_texts_normalized_model = {}  # TableColumnHeaderTextsNormalized
         table_column_header_texts_normalized_model['text_normalized'] = 'testString'
 
-        document_attribute_model = {} # DocumentAttribute
+        document_attribute_model = {}  # DocumentAttribute
         document_attribute_model['type'] = 'testString'
         document_attribute_model['text'] = 'testString'
         document_attribute_model['location'] = table_element_location_model
@@ -8128,7 +8490,8 @@ class TestModel_TableBodyCells():
         table_body_cells_model_json2 = table_body_cells_model.to_dict()
         assert table_body_cells_model_json2 == table_body_cells_model_json
 
-class TestModel_TableCellKey():
+
+class TestModel_TableCellKey:
     """
     Test Class for TableCellKey
     """
@@ -8140,7 +8503,7 @@ class TestModel_TableCellKey():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        table_element_location_model = {} # TableElementLocation
+        table_element_location_model = {}  # TableElementLocation
         table_element_location_model['begin'] = 26
         table_element_location_model['end'] = 26
 
@@ -8165,7 +8528,8 @@ class TestModel_TableCellKey():
         table_cell_key_model_json2 = table_cell_key_model.to_dict()
         assert table_cell_key_model_json2 == table_cell_key_model_json
 
-class TestModel_TableCellValues():
+
+class TestModel_TableCellValues:
     """
     Test Class for TableCellValues
     """
@@ -8177,7 +8541,7 @@ class TestModel_TableCellValues():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        table_element_location_model = {} # TableElementLocation
+        table_element_location_model = {}  # TableElementLocation
         table_element_location_model['begin'] = 26
         table_element_location_model['end'] = 26
 
@@ -8202,7 +8566,8 @@ class TestModel_TableCellValues():
         table_cell_values_model_json2 = table_cell_values_model.to_dict()
         assert table_cell_values_model_json2 == table_cell_values_model_json
 
-class TestModel_TableColumnHeaderIds():
+
+class TestModel_TableColumnHeaderIds:
     """
     Test Class for TableColumnHeaderIds
     """
@@ -8231,7 +8596,8 @@ class TestModel_TableColumnHeaderIds():
         table_column_header_ids_model_json2 = table_column_header_ids_model.to_dict()
         assert table_column_header_ids_model_json2 == table_column_header_ids_model_json
 
-class TestModel_TableColumnHeaderTexts():
+
+class TestModel_TableColumnHeaderTexts:
     """
     Test Class for TableColumnHeaderTexts
     """
@@ -8260,7 +8626,8 @@ class TestModel_TableColumnHeaderTexts():
         table_column_header_texts_model_json2 = table_column_header_texts_model.to_dict()
         assert table_column_header_texts_model_json2 == table_column_header_texts_model_json
 
-class TestModel_TableColumnHeaderTextsNormalized():
+
+class TestModel_TableColumnHeaderTextsNormalized:
     """
     Test Class for TableColumnHeaderTextsNormalized
     """
@@ -8289,7 +8656,8 @@ class TestModel_TableColumnHeaderTextsNormalized():
         table_column_header_texts_normalized_model_json2 = table_column_header_texts_normalized_model.to_dict()
         assert table_column_header_texts_normalized_model_json2 == table_column_header_texts_normalized_model_json
 
-class TestModel_TableColumnHeaders():
+
+class TestModel_TableColumnHeaders:
     """
     Test Class for TableColumnHeaders
     """
@@ -8302,7 +8670,7 @@ class TestModel_TableColumnHeaders():
         # Construct a json representation of a TableColumnHeaders model
         table_column_headers_model_json = {}
         table_column_headers_model_json['cell_id'] = 'testString'
-        table_column_headers_model_json['location'] = {'foo': 'bar'}
+        table_column_headers_model_json['location'] = {'anyKey': 'anyValue'}
         table_column_headers_model_json['text'] = 'testString'
         table_column_headers_model_json['text_normalized'] = 'testString'
         table_column_headers_model_json['row_index_begin'] = 26
@@ -8325,7 +8693,8 @@ class TestModel_TableColumnHeaders():
         table_column_headers_model_json2 = table_column_headers_model.to_dict()
         assert table_column_headers_model_json2 == table_column_headers_model_json
 
-class TestModel_TableElementLocation():
+
+class TestModel_TableElementLocation:
     """
     Test Class for TableElementLocation
     """
@@ -8355,7 +8724,8 @@ class TestModel_TableElementLocation():
         table_element_location_model_json2 = table_element_location_model.to_dict()
         assert table_element_location_model_json2 == table_element_location_model_json
 
-class TestModel_TableHeaders():
+
+class TestModel_TableHeaders:
     """
     Test Class for TableHeaders
     """
@@ -8368,7 +8738,7 @@ class TestModel_TableHeaders():
         # Construct a json representation of a TableHeaders model
         table_headers_model_json = {}
         table_headers_model_json['cell_id'] = 'testString'
-        table_headers_model_json['location'] = {'foo': 'bar'}
+        table_headers_model_json['location'] = {'anyKey': 'anyValue'}
         table_headers_model_json['text'] = 'testString'
         table_headers_model_json['row_index_begin'] = 26
         table_headers_model_json['row_index_end'] = 26
@@ -8390,7 +8760,8 @@ class TestModel_TableHeaders():
         table_headers_model_json2 = table_headers_model.to_dict()
         assert table_headers_model_json2 == table_headers_model_json
 
-class TestModel_TableKeyValuePairs():
+
+class TestModel_TableKeyValuePairs:
     """
     Test Class for TableKeyValuePairs
     """
@@ -8402,16 +8773,16 @@ class TestModel_TableKeyValuePairs():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        table_element_location_model = {} # TableElementLocation
+        table_element_location_model = {}  # TableElementLocation
         table_element_location_model['begin'] = 26
         table_element_location_model['end'] = 26
 
-        table_cell_key_model = {} # TableCellKey
+        table_cell_key_model = {}  # TableCellKey
         table_cell_key_model['cell_id'] = 'testString'
         table_cell_key_model['location'] = table_element_location_model
         table_cell_key_model['text'] = 'testString'
 
-        table_cell_values_model = {} # TableCellValues
+        table_cell_values_model = {}  # TableCellValues
         table_cell_values_model['cell_id'] = 'testString'
         table_cell_values_model['location'] = table_element_location_model
         table_cell_values_model['text'] = 'testString'
@@ -8436,7 +8807,8 @@ class TestModel_TableKeyValuePairs():
         table_key_value_pairs_model_json2 = table_key_value_pairs_model.to_dict()
         assert table_key_value_pairs_model_json2 == table_key_value_pairs_model_json
 
-class TestModel_TableResultTable():
+
+class TestModel_TableResultTable:
     """
     Test Class for TableResultTable
     """
@@ -8448,24 +8820,24 @@ class TestModel_TableResultTable():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        table_element_location_model = {} # TableElementLocation
+        table_element_location_model = {}  # TableElementLocation
         table_element_location_model['begin'] = 26
         table_element_location_model['end'] = 26
 
-        table_text_location_model = {} # TableTextLocation
+        table_text_location_model = {}  # TableTextLocation
         table_text_location_model['text'] = 'testString'
         table_text_location_model['location'] = table_element_location_model
 
-        table_headers_model = {} # TableHeaders
+        table_headers_model = {}  # TableHeaders
         table_headers_model['cell_id'] = 'testString'
-        table_headers_model['location'] = {'foo': 'bar'}
+        table_headers_model['location'] = {'anyKey': 'anyValue'}
         table_headers_model['text'] = 'testString'
         table_headers_model['row_index_begin'] = 26
         table_headers_model['row_index_end'] = 26
         table_headers_model['column_index_begin'] = 26
         table_headers_model['column_index_end'] = 26
 
-        table_row_headers_model = {} # TableRowHeaders
+        table_row_headers_model = {}  # TableRowHeaders
         table_row_headers_model['cell_id'] = 'testString'
         table_row_headers_model['location'] = table_element_location_model
         table_row_headers_model['text'] = 'testString'
@@ -8475,9 +8847,9 @@ class TestModel_TableResultTable():
         table_row_headers_model['column_index_begin'] = 26
         table_row_headers_model['column_index_end'] = 26
 
-        table_column_headers_model = {} # TableColumnHeaders
+        table_column_headers_model = {}  # TableColumnHeaders
         table_column_headers_model['cell_id'] = 'testString'
-        table_column_headers_model['location'] = {'foo': 'bar'}
+        table_column_headers_model['location'] = {'anyKey': 'anyValue'}
         table_column_headers_model['text'] = 'testString'
         table_column_headers_model['text_normalized'] = 'testString'
         table_column_headers_model['row_index_begin'] = 26
@@ -8485,44 +8857,44 @@ class TestModel_TableResultTable():
         table_column_headers_model['column_index_begin'] = 26
         table_column_headers_model['column_index_end'] = 26
 
-        table_cell_key_model = {} # TableCellKey
+        table_cell_key_model = {}  # TableCellKey
         table_cell_key_model['cell_id'] = 'testString'
         table_cell_key_model['location'] = table_element_location_model
         table_cell_key_model['text'] = 'testString'
 
-        table_cell_values_model = {} # TableCellValues
+        table_cell_values_model = {}  # TableCellValues
         table_cell_values_model['cell_id'] = 'testString'
         table_cell_values_model['location'] = table_element_location_model
         table_cell_values_model['text'] = 'testString'
 
-        table_key_value_pairs_model = {} # TableKeyValuePairs
+        table_key_value_pairs_model = {}  # TableKeyValuePairs
         table_key_value_pairs_model['key'] = table_cell_key_model
         table_key_value_pairs_model['value'] = [table_cell_values_model]
 
-        table_row_header_ids_model = {} # TableRowHeaderIds
+        table_row_header_ids_model = {}  # TableRowHeaderIds
         table_row_header_ids_model['id'] = 'testString'
 
-        table_row_header_texts_model = {} # TableRowHeaderTexts
+        table_row_header_texts_model = {}  # TableRowHeaderTexts
         table_row_header_texts_model['text'] = 'testString'
 
-        table_row_header_texts_normalized_model = {} # TableRowHeaderTextsNormalized
+        table_row_header_texts_normalized_model = {}  # TableRowHeaderTextsNormalized
         table_row_header_texts_normalized_model['text_normalized'] = 'testString'
 
-        table_column_header_ids_model = {} # TableColumnHeaderIds
+        table_column_header_ids_model = {}  # TableColumnHeaderIds
         table_column_header_ids_model['id'] = 'testString'
 
-        table_column_header_texts_model = {} # TableColumnHeaderTexts
+        table_column_header_texts_model = {}  # TableColumnHeaderTexts
         table_column_header_texts_model['text'] = 'testString'
 
-        table_column_header_texts_normalized_model = {} # TableColumnHeaderTextsNormalized
+        table_column_header_texts_normalized_model = {}  # TableColumnHeaderTextsNormalized
         table_column_header_texts_normalized_model['text_normalized'] = 'testString'
 
-        document_attribute_model = {} # DocumentAttribute
+        document_attribute_model = {}  # DocumentAttribute
         document_attribute_model['type'] = 'testString'
         document_attribute_model['text'] = 'testString'
         document_attribute_model['location'] = table_element_location_model
 
-        table_body_cells_model = {} # TableBodyCells
+        table_body_cells_model = {}  # TableBodyCells
         table_body_cells_model['cell_id'] = 'testString'
         table_body_cells_model['location'] = table_element_location_model
         table_body_cells_model['text'] = 'testString'
@@ -8566,7 +8938,8 @@ class TestModel_TableResultTable():
         table_result_table_model_json2 = table_result_table_model.to_dict()
         assert table_result_table_model_json2 == table_result_table_model_json
 
-class TestModel_TableRowHeaderIds():
+
+class TestModel_TableRowHeaderIds:
     """
     Test Class for TableRowHeaderIds
     """
@@ -8595,7 +8968,8 @@ class TestModel_TableRowHeaderIds():
         table_row_header_ids_model_json2 = table_row_header_ids_model.to_dict()
         assert table_row_header_ids_model_json2 == table_row_header_ids_model_json
 
-class TestModel_TableRowHeaderTexts():
+
+class TestModel_TableRowHeaderTexts:
     """
     Test Class for TableRowHeaderTexts
     """
@@ -8624,7 +8998,8 @@ class TestModel_TableRowHeaderTexts():
         table_row_header_texts_model_json2 = table_row_header_texts_model.to_dict()
         assert table_row_header_texts_model_json2 == table_row_header_texts_model_json
 
-class TestModel_TableRowHeaderTextsNormalized():
+
+class TestModel_TableRowHeaderTextsNormalized:
     """
     Test Class for TableRowHeaderTextsNormalized
     """
@@ -8653,7 +9028,8 @@ class TestModel_TableRowHeaderTextsNormalized():
         table_row_header_texts_normalized_model_json2 = table_row_header_texts_normalized_model.to_dict()
         assert table_row_header_texts_normalized_model_json2 == table_row_header_texts_normalized_model_json
 
-class TestModel_TableRowHeaders():
+
+class TestModel_TableRowHeaders:
     """
     Test Class for TableRowHeaders
     """
@@ -8665,7 +9041,7 @@ class TestModel_TableRowHeaders():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        table_element_location_model = {} # TableElementLocation
+        table_element_location_model = {}  # TableElementLocation
         table_element_location_model['begin'] = 26
         table_element_location_model['end'] = 26
 
@@ -8695,7 +9071,8 @@ class TestModel_TableRowHeaders():
         table_row_headers_model_json2 = table_row_headers_model.to_dict()
         assert table_row_headers_model_json2 == table_row_headers_model_json
 
-class TestModel_TableTextLocation():
+
+class TestModel_TableTextLocation:
     """
     Test Class for TableTextLocation
     """
@@ -8707,7 +9084,7 @@ class TestModel_TableTextLocation():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        table_element_location_model = {} # TableElementLocation
+        table_element_location_model = {}  # TableElementLocation
         table_element_location_model['begin'] = 26
         table_element_location_model['end'] = 26
 
@@ -8731,7 +9108,8 @@ class TestModel_TableTextLocation():
         table_text_location_model_json2 = table_text_location_model.to_dict()
         assert table_text_location_model_json2 == table_text_location_model_json
 
-class TestModel_TrainingExample():
+
+class TestModel_TrainingExample:
     """
     Test Class for TrainingExample
     """
@@ -8762,7 +9140,8 @@ class TestModel_TrainingExample():
         training_example_model_json2 = training_example_model.to_dict()
         assert training_example_model_json2 == training_example_model_json
 
-class TestModel_TrainingQuery():
+
+class TestModel_TrainingQuery:
     """
     Test Class for TrainingQuery
     """
@@ -8774,7 +9153,7 @@ class TestModel_TrainingQuery():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        training_example_model = {} # TrainingExample
+        training_example_model = {}  # TrainingExample
         training_example_model['document_id'] = 'testString'
         training_example_model['collection_id'] = 'testString'
         training_example_model['relevance'] = 38
@@ -8800,7 +9179,8 @@ class TestModel_TrainingQuery():
         training_query_model_json2 = training_query_model.to_dict()
         assert training_query_model_json2 == training_query_model_json
 
-class TestModel_TrainingQuerySet():
+
+class TestModel_TrainingQuerySet:
     """
     Test Class for TrainingQuerySet
     """
@@ -8812,12 +9192,12 @@ class TestModel_TrainingQuerySet():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        training_example_model = {} # TrainingExample
+        training_example_model = {}  # TrainingExample
         training_example_model['document_id'] = 'testString'
         training_example_model['collection_id'] = 'testString'
         training_example_model['relevance'] = 38
 
-        training_query_model = {} # TrainingQuery
+        training_query_model = {}  # TrainingQuery
         training_query_model['natural_language_query'] = 'testString'
         training_query_model['filter'] = 'testString'
         training_query_model['examples'] = [training_example_model]
@@ -8841,7 +9221,8 @@ class TestModel_TrainingQuerySet():
         training_query_set_model_json2 = training_query_set_model.to_dict()
         assert training_query_set_model_json2 == training_query_set_model_json
 
-class TestModel_UpdateDocumentClassifier():
+
+class TestModel_UpdateDocumentClassifier:
     """
     Test Class for UpdateDocumentClassifier
     """
@@ -8871,7 +9252,8 @@ class TestModel_UpdateDocumentClassifier():
         update_document_classifier_model_json2 = update_document_classifier_model.to_dict()
         assert update_document_classifier_model_json2 == update_document_classifier_model_json
 
-class TestModel_QueryAggregationQueryCalculationAggregation():
+
+class TestModel_QueryAggregationQueryCalculationAggregation:
     """
     Test Class for QueryAggregationQueryCalculationAggregation
     """
@@ -8902,7 +9284,8 @@ class TestModel_QueryAggregationQueryCalculationAggregation():
         query_aggregation_query_calculation_aggregation_model_json2 = query_aggregation_query_calculation_aggregation_model.to_dict()
         assert query_aggregation_query_calculation_aggregation_model_json2 == query_aggregation_query_calculation_aggregation_model_json
 
-class TestModel_QueryAggregationQueryFilterAggregation():
+
+class TestModel_QueryAggregationQueryFilterAggregation:
     """
     Test Class for QueryAggregationQueryFilterAggregation
     """
@@ -8917,7 +9300,7 @@ class TestModel_QueryAggregationQueryFilterAggregation():
         query_aggregation_query_filter_aggregation_model_json['type'] = 'filter'
         query_aggregation_query_filter_aggregation_model_json['match'] = 'testString'
         query_aggregation_query_filter_aggregation_model_json['matching_results'] = 26
-        query_aggregation_query_filter_aggregation_model_json['aggregations'] = [{'foo': 'bar'}]
+        query_aggregation_query_filter_aggregation_model_json['aggregations'] = [{'anyKey': 'anyValue'}]
 
         # Construct a model instance of QueryAggregationQueryFilterAggregation by calling from_dict on the json representation
         query_aggregation_query_filter_aggregation_model = QueryAggregationQueryFilterAggregation.from_dict(query_aggregation_query_filter_aggregation_model_json)
@@ -8934,7 +9317,8 @@ class TestModel_QueryAggregationQueryFilterAggregation():
         query_aggregation_query_filter_aggregation_model_json2 = query_aggregation_query_filter_aggregation_model.to_dict()
         assert query_aggregation_query_filter_aggregation_model_json2 == query_aggregation_query_filter_aggregation_model_json
 
-class TestModel_QueryAggregationQueryGroupByAggregation():
+
+class TestModel_QueryAggregationQueryGroupByAggregation:
     """
     Test Class for QueryAggregationQueryGroupByAggregation
     """
@@ -8946,13 +9330,13 @@ class TestModel_QueryAggregationQueryGroupByAggregation():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        query_group_by_aggregation_result_model = {} # QueryGroupByAggregationResult
+        query_group_by_aggregation_result_model = {}  # QueryGroupByAggregationResult
         query_group_by_aggregation_result_model['key'] = 'testString'
         query_group_by_aggregation_result_model['matching_results'] = 38
         query_group_by_aggregation_result_model['relevancy'] = 72.5
         query_group_by_aggregation_result_model['total_matching_documents'] = 38
         query_group_by_aggregation_result_model['estimated_matching_results'] = 72.5
-        query_group_by_aggregation_result_model['aggregations'] = [{'foo': 'bar'}]
+        query_group_by_aggregation_result_model['aggregations'] = [{'anyKey': 'anyValue'}]
 
         # Construct a json representation of a QueryAggregationQueryGroupByAggregation model
         query_aggregation_query_group_by_aggregation_model_json = {}
@@ -8974,7 +9358,8 @@ class TestModel_QueryAggregationQueryGroupByAggregation():
         query_aggregation_query_group_by_aggregation_model_json2 = query_aggregation_query_group_by_aggregation_model.to_dict()
         assert query_aggregation_query_group_by_aggregation_model_json2 == query_aggregation_query_group_by_aggregation_model_json
 
-class TestModel_QueryAggregationQueryHistogramAggregation():
+
+class TestModel_QueryAggregationQueryHistogramAggregation:
     """
     Test Class for QueryAggregationQueryHistogramAggregation
     """
@@ -8986,10 +9371,10 @@ class TestModel_QueryAggregationQueryHistogramAggregation():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        query_histogram_aggregation_result_model = {} # QueryHistogramAggregationResult
+        query_histogram_aggregation_result_model = {}  # QueryHistogramAggregationResult
         query_histogram_aggregation_result_model['key'] = 26
         query_histogram_aggregation_result_model['matching_results'] = 38
-        query_histogram_aggregation_result_model['aggregations'] = [{'foo': 'bar'}]
+        query_histogram_aggregation_result_model['aggregations'] = [{'anyKey': 'anyValue'}]
 
         # Construct a json representation of a QueryAggregationQueryHistogramAggregation model
         query_aggregation_query_histogram_aggregation_model_json = {}
@@ -9014,7 +9399,8 @@ class TestModel_QueryAggregationQueryHistogramAggregation():
         query_aggregation_query_histogram_aggregation_model_json2 = query_aggregation_query_histogram_aggregation_model.to_dict()
         assert query_aggregation_query_histogram_aggregation_model_json2 == query_aggregation_query_histogram_aggregation_model_json
 
-class TestModel_QueryAggregationQueryNestedAggregation():
+
+class TestModel_QueryAggregationQueryNestedAggregation:
     """
     Test Class for QueryAggregationQueryNestedAggregation
     """
@@ -9029,7 +9415,7 @@ class TestModel_QueryAggregationQueryNestedAggregation():
         query_aggregation_query_nested_aggregation_model_json['type'] = 'nested'
         query_aggregation_query_nested_aggregation_model_json['path'] = 'testString'
         query_aggregation_query_nested_aggregation_model_json['matching_results'] = 26
-        query_aggregation_query_nested_aggregation_model_json['aggregations'] = [{'foo': 'bar'}]
+        query_aggregation_query_nested_aggregation_model_json['aggregations'] = [{'anyKey': 'anyValue'}]
 
         # Construct a model instance of QueryAggregationQueryNestedAggregation by calling from_dict on the json representation
         query_aggregation_query_nested_aggregation_model = QueryAggregationQueryNestedAggregation.from_dict(query_aggregation_query_nested_aggregation_model_json)
@@ -9046,7 +9432,8 @@ class TestModel_QueryAggregationQueryNestedAggregation():
         query_aggregation_query_nested_aggregation_model_json2 = query_aggregation_query_nested_aggregation_model.to_dict()
         assert query_aggregation_query_nested_aggregation_model_json2 == query_aggregation_query_nested_aggregation_model_json
 
-class TestModel_QueryAggregationQueryPairAggregation():
+
+class TestModel_QueryAggregationQueryPairAggregation:
     """
     Test Class for QueryAggregationQueryPairAggregation
     """
@@ -9058,8 +9445,8 @@ class TestModel_QueryAggregationQueryPairAggregation():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        query_pair_aggregation_result_model = {} # QueryPairAggregationResult
-        query_pair_aggregation_result_model['aggregations'] = [{'foo': 'bar'}]
+        query_pair_aggregation_result_model = {}  # QueryPairAggregationResult
+        query_pair_aggregation_result_model['aggregations'] = [{'anyKey': 'anyValue'}]
 
         # Construct a json representation of a QueryAggregationQueryPairAggregation model
         query_aggregation_query_pair_aggregation_model_json = {}
@@ -9085,7 +9472,8 @@ class TestModel_QueryAggregationQueryPairAggregation():
         query_aggregation_query_pair_aggregation_model_json2 = query_aggregation_query_pair_aggregation_model.to_dict()
         assert query_aggregation_query_pair_aggregation_model_json2 == query_aggregation_query_pair_aggregation_model_json
 
-class TestModel_QueryAggregationQueryTermAggregation():
+
+class TestModel_QueryAggregationQueryTermAggregation:
     """
     Test Class for QueryAggregationQueryTermAggregation
     """
@@ -9097,13 +9485,13 @@ class TestModel_QueryAggregationQueryTermAggregation():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        query_term_aggregation_result_model = {} # QueryTermAggregationResult
+        query_term_aggregation_result_model = {}  # QueryTermAggregationResult
         query_term_aggregation_result_model['key'] = 'testString'
         query_term_aggregation_result_model['matching_results'] = 38
         query_term_aggregation_result_model['relevancy'] = 72.5
         query_term_aggregation_result_model['total_matching_documents'] = 38
         query_term_aggregation_result_model['estimated_matching_results'] = 72.5
-        query_term_aggregation_result_model['aggregations'] = [{'foo': 'bar'}]
+        query_term_aggregation_result_model['aggregations'] = [{'anyKey': 'anyValue'}]
 
         # Construct a json representation of a QueryAggregationQueryTermAggregation model
         query_aggregation_query_term_aggregation_model_json = {}
@@ -9128,7 +9516,8 @@ class TestModel_QueryAggregationQueryTermAggregation():
         query_aggregation_query_term_aggregation_model_json2 = query_aggregation_query_term_aggregation_model.to_dict()
         assert query_aggregation_query_term_aggregation_model_json2 == query_aggregation_query_term_aggregation_model_json
 
-class TestModel_QueryAggregationQueryTimesliceAggregation():
+
+class TestModel_QueryAggregationQueryTimesliceAggregation:
     """
     Test Class for QueryAggregationQueryTimesliceAggregation
     """
@@ -9140,11 +9529,11 @@ class TestModel_QueryAggregationQueryTimesliceAggregation():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        query_timeslice_aggregation_result_model = {} # QueryTimesliceAggregationResult
+        query_timeslice_aggregation_result_model = {}  # QueryTimesliceAggregationResult
         query_timeslice_aggregation_result_model['key_as_string'] = 'testString'
         query_timeslice_aggregation_result_model['key'] = 26
         query_timeslice_aggregation_result_model['matching_results'] = 26
-        query_timeslice_aggregation_result_model['aggregations'] = [{'foo': 'bar'}]
+        query_timeslice_aggregation_result_model['aggregations'] = [{'anyKey': 'anyValue'}]
 
         # Construct a json representation of a QueryAggregationQueryTimesliceAggregation model
         query_aggregation_query_timeslice_aggregation_model_json = {}
@@ -9169,7 +9558,8 @@ class TestModel_QueryAggregationQueryTimesliceAggregation():
         query_aggregation_query_timeslice_aggregation_model_json2 = query_aggregation_query_timeslice_aggregation_model.to_dict()
         assert query_aggregation_query_timeslice_aggregation_model_json2 == query_aggregation_query_timeslice_aggregation_model_json
 
-class TestModel_QueryAggregationQueryTopHitsAggregation():
+
+class TestModel_QueryAggregationQueryTopHitsAggregation:
     """
     Test Class for QueryAggregationQueryTopHitsAggregation
     """
@@ -9181,9 +9571,9 @@ class TestModel_QueryAggregationQueryTopHitsAggregation():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        query_top_hits_aggregation_result_model = {} # QueryTopHitsAggregationResult
+        query_top_hits_aggregation_result_model = {}  # QueryTopHitsAggregationResult
         query_top_hits_aggregation_result_model['matching_results'] = 38
-        query_top_hits_aggregation_result_model['hits'] = [{'foo': 'bar'}]
+        query_top_hits_aggregation_result_model['hits'] = [{'anyKey': 'anyValue'}]
 
         # Construct a json representation of a QueryAggregationQueryTopHitsAggregation model
         query_aggregation_query_top_hits_aggregation_model_json = {}
@@ -9207,7 +9597,8 @@ class TestModel_QueryAggregationQueryTopHitsAggregation():
         query_aggregation_query_top_hits_aggregation_model_json2 = query_aggregation_query_top_hits_aggregation_model.to_dict()
         assert query_aggregation_query_top_hits_aggregation_model_json2 == query_aggregation_query_top_hits_aggregation_model_json
 
-class TestModel_QueryAggregationQueryTopicAggregation():
+
+class TestModel_QueryAggregationQueryTopicAggregation:
     """
     Test Class for QueryAggregationQueryTopicAggregation
     """
@@ -9219,8 +9610,8 @@ class TestModel_QueryAggregationQueryTopicAggregation():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        query_topic_aggregation_result_model = {} # QueryTopicAggregationResult
-        query_topic_aggregation_result_model['aggregations'] = [{'foo': 'bar'}]
+        query_topic_aggregation_result_model = {}  # QueryTopicAggregationResult
+        query_topic_aggregation_result_model['aggregations'] = [{'anyKey': 'anyValue'}]
 
         # Construct a json representation of a QueryAggregationQueryTopicAggregation model
         query_aggregation_query_topic_aggregation_model_json = {}
@@ -9246,7 +9637,8 @@ class TestModel_QueryAggregationQueryTopicAggregation():
         query_aggregation_query_topic_aggregation_model_json2 = query_aggregation_query_topic_aggregation_model.to_dict()
         assert query_aggregation_query_topic_aggregation_model_json2 == query_aggregation_query_topic_aggregation_model_json
 
-class TestModel_QueryAggregationQueryTrendAggregation():
+
+class TestModel_QueryAggregationQueryTrendAggregation:
     """
     Test Class for QueryAggregationQueryTrendAggregation
     """
@@ -9258,8 +9650,8 @@ class TestModel_QueryAggregationQueryTrendAggregation():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        query_trend_aggregation_result_model = {} # QueryTrendAggregationResult
-        query_trend_aggregation_result_model['aggregations'] = [{'foo': 'bar'}]
+        query_trend_aggregation_result_model = {}  # QueryTrendAggregationResult
+        query_trend_aggregation_result_model['aggregations'] = [{'anyKey': 'anyValue'}]
 
         # Construct a json representation of a QueryAggregationQueryTrendAggregation model
         query_aggregation_query_trend_aggregation_model_json = {}

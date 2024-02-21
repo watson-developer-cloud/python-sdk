@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2019, 2023.
+# (C) Copyright IBM Corp. 2019, 2024.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -62,8 +62,7 @@ def preprocess_url(operation_path: str):
     # Otherwise, return a regular expression that matches one or more trailing /.
     if re.fullmatch('.*/+', request_url) is None:
         return request_url
-    else:
-        return re.compile(request_url.rstrip('/') + '/+')
+    return re.compile(request_url.rstrip('/') + '/+')
 
 
 ##############################################################################
@@ -71,7 +70,8 @@ def preprocess_url(operation_path: str):
 ##############################################################################
 # region
 
-class TestCreateAssistant():
+
+class TestCreateAssistant:
     """
     Test Class for create_assistant
     """
@@ -84,11 +84,13 @@ class TestCreateAssistant():
         # Set up mock
         url = preprocess_url('/v2/assistants')
         mock_response = '{"assistant_id": "assistant_id", "name": "name", "description": "description", "language": "language", "assistant_skills": [{"skill_id": "skill_id", "type": "dialog"}], "assistant_environments": [{"name": "name", "environment_id": "environment_id", "environment": "draft"}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         language = 'testString'
@@ -100,7 +102,7 @@ class TestCreateAssistant():
             language=language,
             name=name,
             description=description,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -129,15 +131,16 @@ class TestCreateAssistant():
         # Set up mock
         url = preprocess_url('/v2/assistants')
         mock_response = '{"assistant_id": "assistant_id", "name": "name", "description": "description", "language": "language", "assistant_skills": [{"skill_id": "skill_id", "type": "dialog"}], "assistant_environments": [{"name": "name", "environment_id": "environment_id", "environment": "draft"}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Invoke method
         response = _service.create_assistant()
-
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -160,17 +163,19 @@ class TestCreateAssistant():
         # Set up mock
         url = preprocess_url('/v2/assistants')
         mock_response = '{"assistant_id": "assistant_id", "name": "name", "description": "description", "language": "language", "assistant_skills": [{"skill_id": "skill_id", "type": "dialog"}], "assistant_environments": [{"name": "name", "environment_id": "environment_id", "environment": "draft"}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Pass in all but one required param and check for a ValueError
         req_param_dict = {
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.create_assistant(**req_copy)
 
@@ -183,7 +188,8 @@ class TestCreateAssistant():
         _service.disable_retries()
         self.test_create_assistant_value_error()
 
-class TestListAssistants():
+
+class TestListAssistants:
     """
     Test Class for list_assistants
     """
@@ -196,14 +202,16 @@ class TestListAssistants():
         # Set up mock
         url = preprocess_url('/v2/assistants')
         mock_response = '{"assistants": [{"assistant_id": "assistant_id", "name": "name", "description": "description", "language": "language", "assistant_skills": [{"skill_id": "skill_id", "type": "dialog"}], "assistant_environments": [{"name": "name", "environment_id": "environment_id", "environment": "draft"}]}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
-        page_limit = 38
+        page_limit = 100
         include_count = False
         sort = 'name'
         cursor = 'testString'
@@ -216,14 +224,14 @@ class TestListAssistants():
             sort=sort,
             cursor=cursor,
             include_audit=include_audit,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'page_limit={}'.format(page_limit) in query_string
         assert 'include_count={}'.format('true' if include_count else 'false') in query_string
@@ -248,15 +256,16 @@ class TestListAssistants():
         # Set up mock
         url = preprocess_url('/v2/assistants')
         mock_response = '{"assistants": [{"assistant_id": "assistant_id", "name": "name", "description": "description", "language": "language", "assistant_skills": [{"skill_id": "skill_id", "type": "dialog"}], "assistant_environments": [{"name": "name", "environment_id": "environment_id", "environment": "draft"}]}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Invoke method
         response = _service.list_assistants()
-
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -279,17 +288,19 @@ class TestListAssistants():
         # Set up mock
         url = preprocess_url('/v2/assistants')
         mock_response = '{"assistants": [{"assistant_id": "assistant_id", "name": "name", "description": "description", "language": "language", "assistant_skills": [{"skill_id": "skill_id", "type": "dialog"}], "assistant_environments": [{"name": "name", "environment_id": "environment_id", "environment": "draft"}]}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Pass in all but one required param and check for a ValueError
         req_param_dict = {
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_assistants(**req_copy)
 
@@ -302,7 +313,8 @@ class TestListAssistants():
         _service.disable_retries()
         self.test_list_assistants_value_error()
 
-class TestDeleteAssistant():
+
+class TestDeleteAssistant:
     """
     Test Class for delete_assistant
     """
@@ -314,9 +326,11 @@ class TestDeleteAssistant():
         """
         # Set up mock
         url = preprocess_url('/v2/assistants/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=200)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=200,
+        )
 
         # Set up parameter values
         assistant_id = 'testString'
@@ -324,7 +338,7 @@ class TestDeleteAssistant():
         # Invoke method
         response = _service.delete_assistant(
             assistant_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -347,9 +361,11 @@ class TestDeleteAssistant():
         """
         # Set up mock
         url = preprocess_url('/v2/assistants/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=200)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=200,
+        )
 
         # Set up parameter values
         assistant_id = 'testString'
@@ -359,7 +375,7 @@ class TestDeleteAssistant():
             "assistant_id": assistant_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_assistant(**req_copy)
 
@@ -372,6 +388,7 @@ class TestDeleteAssistant():
         _service.disable_retries()
         self.test_delete_assistant_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: Assistants
@@ -382,7 +399,8 @@ class TestDeleteAssistant():
 ##############################################################################
 # region
 
-class TestCreateSession():
+
+class TestCreateSession:
     """
     Test Class for create_session
     """
@@ -395,11 +413,13 @@ class TestCreateSession():
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/sessions')
         mock_response = '{"session_id": "session_id"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Construct a dict representation of a RequestAnalytics model
         request_analytics_model = {}
@@ -415,7 +435,7 @@ class TestCreateSession():
         response = _service.create_session(
             assistant_id,
             analytics=analytics,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -442,11 +462,13 @@ class TestCreateSession():
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/sessions')
         mock_response = '{"session_id": "session_id"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Set up parameter values
         assistant_id = 'testString'
@@ -454,7 +476,7 @@ class TestCreateSession():
         # Invoke method
         response = _service.create_session(
             assistant_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -478,11 +500,13 @@ class TestCreateSession():
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/sessions')
         mock_response = '{"session_id": "session_id"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Set up parameter values
         assistant_id = 'testString'
@@ -492,7 +516,7 @@ class TestCreateSession():
             "assistant_id": assistant_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.create_session(**req_copy)
 
@@ -505,7 +529,8 @@ class TestCreateSession():
         _service.disable_retries()
         self.test_create_session_value_error()
 
-class TestDeleteSession():
+
+class TestDeleteSession:
     """
     Test Class for delete_session
     """
@@ -517,9 +542,11 @@ class TestDeleteSession():
         """
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/sessions/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=200)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=200,
+        )
 
         # Set up parameter values
         assistant_id = 'testString'
@@ -529,7 +556,7 @@ class TestDeleteSession():
         response = _service.delete_session(
             assistant_id,
             session_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -552,9 +579,11 @@ class TestDeleteSession():
         """
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/sessions/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=200)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=200,
+        )
 
         # Set up parameter values
         assistant_id = 'testString'
@@ -566,7 +595,7 @@ class TestDeleteSession():
             "session_id": session_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_session(**req_copy)
 
@@ -579,6 +608,7 @@ class TestDeleteSession():
         _service.disable_retries()
         self.test_delete_session_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: Sessions
@@ -589,7 +619,8 @@ class TestDeleteSession():
 ##############################################################################
 # region
 
-class TestMessage():
+
+class TestMessage:
     """
     Test Class for message
     """
@@ -602,11 +633,13 @@ class TestMessage():
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/sessions/testString/message')
         mock_response = '{"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Construct a dict representation of a RuntimeIntent model
         runtime_intent_model = {}
@@ -727,15 +760,15 @@ class TestMessage():
 
         # Construct a dict representation of a MessageContextSkillDialog model
         message_context_skill_dialog_model = {}
-        message_context_skill_dialog_model['user_defined'] = {'foo': 'bar'}
+        message_context_skill_dialog_model['user_defined'] = {'anyKey': 'anyValue'}
         message_context_skill_dialog_model['system'] = message_context_skill_system_model
 
         # Construct a dict representation of a MessageContextSkillAction model
         message_context_skill_action_model = {}
-        message_context_skill_action_model['user_defined'] = {'foo': 'bar'}
+        message_context_skill_action_model['user_defined'] = {'anyKey': 'anyValue'}
         message_context_skill_action_model['system'] = message_context_skill_system_model
-        message_context_skill_action_model['action_variables'] = {'foo': 'bar'}
-        message_context_skill_action_model['skill_variables'] = {'foo': 'bar'}
+        message_context_skill_action_model['action_variables'] = {'anyKey': 'anyValue'}
+        message_context_skill_action_model['skill_variables'] = {'anyKey': 'anyValue'}
 
         # Construct a dict representation of a MessageContextSkills model
         message_context_skills_model = {}
@@ -746,7 +779,7 @@ class TestMessage():
         message_context_model = {}
         message_context_model['global'] = message_context_global_model
         message_context_model['skills'] = message_context_skills_model
-        message_context_model['integrations'] = {'foo': 'bar'}
+        message_context_model['integrations'] = {'anyKey': 'anyValue'}
 
         # Set up parameter values
         assistant_id = 'testString'
@@ -762,7 +795,7 @@ class TestMessage():
             input=input,
             context=context,
             user_id=user_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -791,11 +824,13 @@ class TestMessage():
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/sessions/testString/message')
         mock_response = '{"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         assistant_id = 'testString'
@@ -805,7 +840,7 @@ class TestMessage():
         response = _service.message(
             assistant_id,
             session_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -829,11 +864,13 @@ class TestMessage():
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/sessions/testString/message')
         mock_response = '{"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         assistant_id = 'testString'
@@ -845,7 +882,7 @@ class TestMessage():
             "session_id": session_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.message(**req_copy)
 
@@ -858,7 +895,8 @@ class TestMessage():
         _service.disable_retries()
         self.test_message_value_error()
 
-class TestMessageStateless():
+
+class TestMessageStateless:
     """
     Test Class for message_stateless
     """
@@ -871,11 +909,13 @@ class TestMessageStateless():
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/message')
         mock_response = '{"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Construct a dict representation of a RuntimeIntent model
         runtime_intent_model = {}
@@ -995,15 +1035,15 @@ class TestMessageStateless():
 
         # Construct a dict representation of a MessageContextSkillDialog model
         message_context_skill_dialog_model = {}
-        message_context_skill_dialog_model['user_defined'] = {'foo': 'bar'}
+        message_context_skill_dialog_model['user_defined'] = {'anyKey': 'anyValue'}
         message_context_skill_dialog_model['system'] = message_context_skill_system_model
 
         # Construct a dict representation of a MessageContextSkillAction model
         message_context_skill_action_model = {}
-        message_context_skill_action_model['user_defined'] = {'foo': 'bar'}
+        message_context_skill_action_model['user_defined'] = {'anyKey': 'anyValue'}
         message_context_skill_action_model['system'] = message_context_skill_system_model
-        message_context_skill_action_model['action_variables'] = {'foo': 'bar'}
-        message_context_skill_action_model['skill_variables'] = {'foo': 'bar'}
+        message_context_skill_action_model['action_variables'] = {'anyKey': 'anyValue'}
+        message_context_skill_action_model['skill_variables'] = {'anyKey': 'anyValue'}
 
         # Construct a dict representation of a MessageContextSkills model
         message_context_skills_model = {}
@@ -1014,7 +1054,7 @@ class TestMessageStateless():
         message_context_stateless_model = {}
         message_context_stateless_model['global'] = message_context_global_stateless_model
         message_context_stateless_model['skills'] = message_context_skills_model
-        message_context_stateless_model['integrations'] = {'foo': 'bar'}
+        message_context_stateless_model['integrations'] = {'anyKey': 'anyValue'}
 
         # Set up parameter values
         assistant_id = 'testString'
@@ -1028,7 +1068,7 @@ class TestMessageStateless():
             input=input,
             context=context,
             user_id=user_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1057,11 +1097,13 @@ class TestMessageStateless():
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/message')
         mock_response = '{"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         assistant_id = 'testString'
@@ -1069,7 +1111,7 @@ class TestMessageStateless():
         # Invoke method
         response = _service.message_stateless(
             assistant_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1093,11 +1135,13 @@ class TestMessageStateless():
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/message')
         mock_response = '{"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         assistant_id = 'testString'
@@ -1107,7 +1151,7 @@ class TestMessageStateless():
             "assistant_id": assistant_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.message_stateless(**req_copy)
 
@@ -1120,6 +1164,7 @@ class TestMessageStateless():
         _service.disable_retries()
         self.test_message_stateless_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: Message
@@ -1130,7 +1175,8 @@ class TestMessageStateless():
 ##############################################################################
 # region
 
-class TestBulkClassify():
+
+class TestBulkClassify:
     """
     Test Class for bulk_classify
     """
@@ -1143,11 +1189,13 @@ class TestBulkClassify():
         # Set up mock
         url = preprocess_url('/v2/skills/testString/workspace/bulk_classify')
         mock_response = '{"output": [{"input": {"text": "text"}, "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}]}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Construct a dict representation of a BulkClassifyUtterance model
         bulk_classify_utterance_model = {}
@@ -1161,7 +1209,7 @@ class TestBulkClassify():
         response = _service.bulk_classify(
             skill_id,
             input,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1188,11 +1236,13 @@ class TestBulkClassify():
         # Set up mock
         url = preprocess_url('/v2/skills/testString/workspace/bulk_classify')
         mock_response = '{"output": [{"input": {"text": "text"}, "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}]}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Construct a dict representation of a BulkClassifyUtterance model
         bulk_classify_utterance_model = {}
@@ -1208,7 +1258,7 @@ class TestBulkClassify():
             "input": input,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.bulk_classify(**req_copy)
 
@@ -1221,6 +1271,7 @@ class TestBulkClassify():
         _service.disable_retries()
         self.test_bulk_classify_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: BulkClassify
@@ -1231,7 +1282,8 @@ class TestBulkClassify():
 ##############################################################################
 # region
 
-class TestListLogs():
+
+class TestListLogs:
     """
     Test Class for list_logs
     """
@@ -1244,17 +1296,19 @@ class TestListLogs():
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/logs')
         mock_response = '{"logs": [{"log_id": "log_id", "request": {"input": {"message_type": "text", "text": "text", "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "suggestion_id": "suggestion_id", "attachments": [{"url": "url", "media_type": "media_type"}], "analytics": {"browser": "browser", "device": "device", "pageUrl": "page_url"}, "options": {"restart": false, "alternate_intents": false, "spelling": {"suggestions": false, "auto_correct": true}, "debug": false, "return_context": false, "export": false}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}, "response": {"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}, "assistant_id": "assistant_id", "session_id": "session_id", "skill_id": "skill_id", "snapshot": "snapshot", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "language": "language", "customer_id": "customer_id"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         assistant_id = 'testString'
         sort = 'testString'
         filter = 'testString'
-        page_limit = 38
+        page_limit = 100
         cursor = 'testString'
 
         # Invoke method
@@ -1264,14 +1318,14 @@ class TestListLogs():
             filter=filter,
             page_limit=page_limit,
             cursor=cursor,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'sort={}'.format(sort) in query_string
         assert 'filter={}'.format(filter) in query_string
@@ -1295,11 +1349,13 @@ class TestListLogs():
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/logs')
         mock_response = '{"logs": [{"log_id": "log_id", "request": {"input": {"message_type": "text", "text": "text", "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "suggestion_id": "suggestion_id", "attachments": [{"url": "url", "media_type": "media_type"}], "analytics": {"browser": "browser", "device": "device", "pageUrl": "page_url"}, "options": {"restart": false, "alternate_intents": false, "spelling": {"suggestions": false, "auto_correct": true}, "debug": false, "return_context": false, "export": false}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}, "response": {"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}, "assistant_id": "assistant_id", "session_id": "session_id", "skill_id": "skill_id", "snapshot": "snapshot", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "language": "language", "customer_id": "customer_id"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         assistant_id = 'testString'
@@ -1307,7 +1363,7 @@ class TestListLogs():
         # Invoke method
         response = _service.list_logs(
             assistant_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1331,11 +1387,13 @@ class TestListLogs():
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/logs')
         mock_response = '{"logs": [{"log_id": "log_id", "request": {"input": {"message_type": "text", "text": "text", "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "suggestion_id": "suggestion_id", "attachments": [{"url": "url", "media_type": "media_type"}], "analytics": {"browser": "browser", "device": "device", "pageUrl": "page_url"}, "options": {"restart": false, "alternate_intents": false, "spelling": {"suggestions": false, "auto_correct": true}, "debug": false, "return_context": false, "export": false}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}, "response": {"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}, "assistant_id": "assistant_id", "session_id": "session_id", "skill_id": "skill_id", "snapshot": "snapshot", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "language": "language", "customer_id": "customer_id"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         assistant_id = 'testString'
@@ -1345,7 +1403,7 @@ class TestListLogs():
             "assistant_id": assistant_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_logs(**req_copy)
 
@@ -1358,6 +1416,7 @@ class TestListLogs():
         _service.disable_retries()
         self.test_list_logs_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: Logs
@@ -1368,7 +1427,8 @@ class TestListLogs():
 ##############################################################################
 # region
 
-class TestDeleteUserData():
+
+class TestDeleteUserData:
     """
     Test Class for delete_user_data
     """
@@ -1380,9 +1440,11 @@ class TestDeleteUserData():
         """
         # Set up mock
         url = preprocess_url('/v2/user_data')
-        responses.add(responses.DELETE,
-                      url,
-                      status=202)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=202,
+        )
 
         # Set up parameter values
         customer_id = 'testString'
@@ -1390,14 +1452,14 @@ class TestDeleteUserData():
         # Invoke method
         response = _service.delete_user_data(
             customer_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 202
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'customer_id={}'.format(customer_id) in query_string
 
@@ -1417,9 +1479,11 @@ class TestDeleteUserData():
         """
         # Set up mock
         url = preprocess_url('/v2/user_data')
-        responses.add(responses.DELETE,
-                      url,
-                      status=202)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=202,
+        )
 
         # Set up parameter values
         customer_id = 'testString'
@@ -1429,7 +1493,7 @@ class TestDeleteUserData():
             "customer_id": customer_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_user_data(**req_copy)
 
@@ -1442,6 +1506,7 @@ class TestDeleteUserData():
         _service.disable_retries()
         self.test_delete_user_data_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: UserData
@@ -1452,7 +1517,8 @@ class TestDeleteUserData():
 ##############################################################################
 # region
 
-class TestListEnvironments():
+
+class TestListEnvironments:
     """
     Test Class for list_environments
     """
@@ -1465,15 +1531,17 @@ class TestListEnvironments():
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/environments')
         mock_response = '{"environments": [{"name": "name", "description": "description", "assistant_id": "assistant_id", "environment_id": "environment_id", "environment": "environment", "release_reference": {"release": "release"}, "orchestration": {"search_skill_fallback": false}, "session_timeout": 10, "integration_references": [{"integration_id": "integration_id", "type": "type"}], "skill_references": [{"skill_id": "skill_id", "type": "dialog", "disabled": true, "snapshot": "snapshot", "skill_reference": "skill_reference"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         assistant_id = 'testString'
-        page_limit = 38
+        page_limit = 100
         include_count = False
         sort = 'name'
         cursor = 'testString'
@@ -1487,14 +1555,14 @@ class TestListEnvironments():
             sort=sort,
             cursor=cursor,
             include_audit=include_audit,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'page_limit={}'.format(page_limit) in query_string
         assert 'include_count={}'.format('true' if include_count else 'false') in query_string
@@ -1519,11 +1587,13 @@ class TestListEnvironments():
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/environments')
         mock_response = '{"environments": [{"name": "name", "description": "description", "assistant_id": "assistant_id", "environment_id": "environment_id", "environment": "environment", "release_reference": {"release": "release"}, "orchestration": {"search_skill_fallback": false}, "session_timeout": 10, "integration_references": [{"integration_id": "integration_id", "type": "type"}], "skill_references": [{"skill_id": "skill_id", "type": "dialog", "disabled": true, "snapshot": "snapshot", "skill_reference": "skill_reference"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         assistant_id = 'testString'
@@ -1531,7 +1601,7 @@ class TestListEnvironments():
         # Invoke method
         response = _service.list_environments(
             assistant_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1555,11 +1625,13 @@ class TestListEnvironments():
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/environments')
         mock_response = '{"environments": [{"name": "name", "description": "description", "assistant_id": "assistant_id", "environment_id": "environment_id", "environment": "environment", "release_reference": {"release": "release"}, "orchestration": {"search_skill_fallback": false}, "session_timeout": 10, "integration_references": [{"integration_id": "integration_id", "type": "type"}], "skill_references": [{"skill_id": "skill_id", "type": "dialog", "disabled": true, "snapshot": "snapshot", "skill_reference": "skill_reference"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         assistant_id = 'testString'
@@ -1569,7 +1641,7 @@ class TestListEnvironments():
             "assistant_id": assistant_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_environments(**req_copy)
 
@@ -1582,7 +1654,8 @@ class TestListEnvironments():
         _service.disable_retries()
         self.test_list_environments_value_error()
 
-class TestGetEnvironment():
+
+class TestGetEnvironment:
     """
     Test Class for get_environment
     """
@@ -1595,11 +1668,13 @@ class TestGetEnvironment():
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/environments/testString')
         mock_response = '{"name": "name", "description": "description", "assistant_id": "assistant_id", "environment_id": "environment_id", "environment": "environment", "release_reference": {"release": "release"}, "orchestration": {"search_skill_fallback": false}, "session_timeout": 10, "integration_references": [{"integration_id": "integration_id", "type": "type"}], "skill_references": [{"skill_id": "skill_id", "type": "dialog", "disabled": true, "snapshot": "snapshot", "skill_reference": "skill_reference"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         assistant_id = 'testString'
@@ -1611,14 +1686,14 @@ class TestGetEnvironment():
             assistant_id,
             environment_id,
             include_audit=include_audit,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
 
@@ -1639,11 +1714,13 @@ class TestGetEnvironment():
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/environments/testString')
         mock_response = '{"name": "name", "description": "description", "assistant_id": "assistant_id", "environment_id": "environment_id", "environment": "environment", "release_reference": {"release": "release"}, "orchestration": {"search_skill_fallback": false}, "session_timeout": 10, "integration_references": [{"integration_id": "integration_id", "type": "type"}], "skill_references": [{"skill_id": "skill_id", "type": "dialog", "disabled": true, "snapshot": "snapshot", "skill_reference": "skill_reference"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         assistant_id = 'testString'
@@ -1653,7 +1730,7 @@ class TestGetEnvironment():
         response = _service.get_environment(
             assistant_id,
             environment_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1677,11 +1754,13 @@ class TestGetEnvironment():
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/environments/testString')
         mock_response = '{"name": "name", "description": "description", "assistant_id": "assistant_id", "environment_id": "environment_id", "environment": "environment", "release_reference": {"release": "release"}, "orchestration": {"search_skill_fallback": false}, "session_timeout": 10, "integration_references": [{"integration_id": "integration_id", "type": "type"}], "skill_references": [{"skill_id": "skill_id", "type": "dialog", "disabled": true, "snapshot": "snapshot", "skill_reference": "skill_reference"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         assistant_id = 'testString'
@@ -1693,7 +1772,7 @@ class TestGetEnvironment():
             "environment_id": environment_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_environment(**req_copy)
 
@@ -1706,7 +1785,8 @@ class TestGetEnvironment():
         _service.disable_retries()
         self.test_get_environment_value_error()
 
-class TestUpdateEnvironment():
+
+class TestUpdateEnvironment:
     """
     Test Class for update_environment
     """
@@ -1719,11 +1799,13 @@ class TestUpdateEnvironment():
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/environments/testString')
         mock_response = '{"name": "name", "description": "description", "assistant_id": "assistant_id", "environment_id": "environment_id", "environment": "environment", "release_reference": {"release": "release"}, "orchestration": {"search_skill_fallback": false}, "session_timeout": 10, "integration_references": [{"integration_id": "integration_id", "type": "type"}], "skill_references": [{"skill_id": "skill_id", "type": "dialog", "disabled": true, "snapshot": "snapshot", "skill_reference": "skill_reference"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Construct a dict representation of a EnvironmentSkill model
         environment_skill_model = {}
@@ -1749,7 +1831,7 @@ class TestUpdateEnvironment():
             description=description,
             session_timeout=session_timeout,
             skill_references=skill_references,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1779,11 +1861,13 @@ class TestUpdateEnvironment():
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/environments/testString')
         mock_response = '{"name": "name", "description": "description", "assistant_id": "assistant_id", "environment_id": "environment_id", "environment": "environment", "release_reference": {"release": "release"}, "orchestration": {"search_skill_fallback": false}, "session_timeout": 10, "integration_references": [{"integration_id": "integration_id", "type": "type"}], "skill_references": [{"skill_id": "skill_id", "type": "dialog", "disabled": true, "snapshot": "snapshot", "skill_reference": "skill_reference"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         assistant_id = 'testString'
@@ -1793,7 +1877,7 @@ class TestUpdateEnvironment():
         response = _service.update_environment(
             assistant_id,
             environment_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1817,11 +1901,13 @@ class TestUpdateEnvironment():
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/environments/testString')
         mock_response = '{"name": "name", "description": "description", "assistant_id": "assistant_id", "environment_id": "environment_id", "environment": "environment", "release_reference": {"release": "release"}, "orchestration": {"search_skill_fallback": false}, "session_timeout": 10, "integration_references": [{"integration_id": "integration_id", "type": "type"}], "skill_references": [{"skill_id": "skill_id", "type": "dialog", "disabled": true, "snapshot": "snapshot", "skill_reference": "skill_reference"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         assistant_id = 'testString'
@@ -1833,7 +1919,7 @@ class TestUpdateEnvironment():
             "environment_id": environment_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.update_environment(**req_copy)
 
@@ -1846,6 +1932,7 @@ class TestUpdateEnvironment():
         _service.disable_retries()
         self.test_update_environment_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: Environments
@@ -1856,7 +1943,8 @@ class TestUpdateEnvironment():
 ##############################################################################
 # region
 
-class TestCreateRelease():
+
+class TestCreateRelease:
     """
     Test Class for create_release
     """
@@ -1869,11 +1957,13 @@ class TestCreateRelease():
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/releases')
         mock_response = '{"release": "release", "description": "description", "environment_references": [{"name": "name", "environment_id": "environment_id", "environment": "draft"}], "content": {"skills": [{"skill_id": "skill_id", "type": "dialog", "snapshot": "snapshot"}]}, "status": "Available", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=202)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=202,
+        )
 
         # Set up parameter values
         assistant_id = 'testString'
@@ -1883,7 +1973,7 @@ class TestCreateRelease():
         response = _service.create_release(
             assistant_id,
             description=description,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1910,11 +2000,13 @@ class TestCreateRelease():
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/releases')
         mock_response = '{"release": "release", "description": "description", "environment_references": [{"name": "name", "environment_id": "environment_id", "environment": "draft"}], "content": {"skills": [{"skill_id": "skill_id", "type": "dialog", "snapshot": "snapshot"}]}, "status": "Available", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=202)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=202,
+        )
 
         # Set up parameter values
         assistant_id = 'testString'
@@ -1922,7 +2014,7 @@ class TestCreateRelease():
         # Invoke method
         response = _service.create_release(
             assistant_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1946,11 +2038,13 @@ class TestCreateRelease():
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/releases')
         mock_response = '{"release": "release", "description": "description", "environment_references": [{"name": "name", "environment_id": "environment_id", "environment": "draft"}], "content": {"skills": [{"skill_id": "skill_id", "type": "dialog", "snapshot": "snapshot"}]}, "status": "Available", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=202)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=202,
+        )
 
         # Set up parameter values
         assistant_id = 'testString'
@@ -1960,7 +2054,7 @@ class TestCreateRelease():
             "assistant_id": assistant_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.create_release(**req_copy)
 
@@ -1973,7 +2067,8 @@ class TestCreateRelease():
         _service.disable_retries()
         self.test_create_release_value_error()
 
-class TestListReleases():
+
+class TestListReleases:
     """
     Test Class for list_releases
     """
@@ -1986,15 +2081,17 @@ class TestListReleases():
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/releases')
         mock_response = '{"releases": [{"release": "release", "description": "description", "environment_references": [{"name": "name", "environment_id": "environment_id", "environment": "draft"}], "content": {"skills": [{"skill_id": "skill_id", "type": "dialog", "snapshot": "snapshot"}]}, "status": "Available", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         assistant_id = 'testString'
-        page_limit = 38
+        page_limit = 100
         include_count = False
         sort = 'name'
         cursor = 'testString'
@@ -2008,14 +2105,14 @@ class TestListReleases():
             sort=sort,
             cursor=cursor,
             include_audit=include_audit,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'page_limit={}'.format(page_limit) in query_string
         assert 'include_count={}'.format('true' if include_count else 'false') in query_string
@@ -2040,11 +2137,13 @@ class TestListReleases():
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/releases')
         mock_response = '{"releases": [{"release": "release", "description": "description", "environment_references": [{"name": "name", "environment_id": "environment_id", "environment": "draft"}], "content": {"skills": [{"skill_id": "skill_id", "type": "dialog", "snapshot": "snapshot"}]}, "status": "Available", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         assistant_id = 'testString'
@@ -2052,7 +2151,7 @@ class TestListReleases():
         # Invoke method
         response = _service.list_releases(
             assistant_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -2076,11 +2175,13 @@ class TestListReleases():
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/releases')
         mock_response = '{"releases": [{"release": "release", "description": "description", "environment_references": [{"name": "name", "environment_id": "environment_id", "environment": "draft"}], "content": {"skills": [{"skill_id": "skill_id", "type": "dialog", "snapshot": "snapshot"}]}, "status": "Available", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         assistant_id = 'testString'
@@ -2090,7 +2191,7 @@ class TestListReleases():
             "assistant_id": assistant_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_releases(**req_copy)
 
@@ -2103,7 +2204,8 @@ class TestListReleases():
         _service.disable_retries()
         self.test_list_releases_value_error()
 
-class TestGetRelease():
+
+class TestGetRelease:
     """
     Test Class for get_release
     """
@@ -2116,11 +2218,13 @@ class TestGetRelease():
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/releases/testString')
         mock_response = '{"release": "release", "description": "description", "environment_references": [{"name": "name", "environment_id": "environment_id", "environment": "draft"}], "content": {"skills": [{"skill_id": "skill_id", "type": "dialog", "snapshot": "snapshot"}]}, "status": "Available", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         assistant_id = 'testString'
@@ -2132,14 +2236,14 @@ class TestGetRelease():
             assistant_id,
             release,
             include_audit=include_audit,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
 
@@ -2160,11 +2264,13 @@ class TestGetRelease():
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/releases/testString')
         mock_response = '{"release": "release", "description": "description", "environment_references": [{"name": "name", "environment_id": "environment_id", "environment": "draft"}], "content": {"skills": [{"skill_id": "skill_id", "type": "dialog", "snapshot": "snapshot"}]}, "status": "Available", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         assistant_id = 'testString'
@@ -2174,7 +2280,7 @@ class TestGetRelease():
         response = _service.get_release(
             assistant_id,
             release,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -2198,11 +2304,13 @@ class TestGetRelease():
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/releases/testString')
         mock_response = '{"release": "release", "description": "description", "environment_references": [{"name": "name", "environment_id": "environment_id", "environment": "draft"}], "content": {"skills": [{"skill_id": "skill_id", "type": "dialog", "snapshot": "snapshot"}]}, "status": "Available", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         assistant_id = 'testString'
@@ -2214,7 +2322,7 @@ class TestGetRelease():
             "release": release,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_release(**req_copy)
 
@@ -2227,7 +2335,8 @@ class TestGetRelease():
         _service.disable_retries()
         self.test_get_release_value_error()
 
-class TestDeleteRelease():
+
+class TestDeleteRelease:
     """
     Test Class for delete_release
     """
@@ -2239,9 +2348,11 @@ class TestDeleteRelease():
         """
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/releases/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=200)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=200,
+        )
 
         # Set up parameter values
         assistant_id = 'testString'
@@ -2251,7 +2362,7 @@ class TestDeleteRelease():
         response = _service.delete_release(
             assistant_id,
             release,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -2274,9 +2385,11 @@ class TestDeleteRelease():
         """
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/releases/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=200)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=200,
+        )
 
         # Set up parameter values
         assistant_id = 'testString'
@@ -2288,7 +2401,7 @@ class TestDeleteRelease():
             "release": release,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_release(**req_copy)
 
@@ -2301,7 +2414,8 @@ class TestDeleteRelease():
         _service.disable_retries()
         self.test_delete_release_value_error()
 
-class TestDeployRelease():
+
+class TestDeployRelease:
     """
     Test Class for deploy_release
     """
@@ -2314,11 +2428,13 @@ class TestDeployRelease():
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/releases/testString/deploy')
         mock_response = '{"name": "name", "description": "description", "assistant_id": "assistant_id", "environment_id": "environment_id", "environment": "environment", "release_reference": {"release": "release"}, "orchestration": {"search_skill_fallback": false}, "session_timeout": 10, "integration_references": [{"integration_id": "integration_id", "type": "type"}], "skill_references": [{"skill_id": "skill_id", "type": "dialog", "disabled": true, "snapshot": "snapshot", "skill_reference": "skill_reference"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         assistant_id = 'testString'
@@ -2332,14 +2448,14 @@ class TestDeployRelease():
             release,
             environment_id,
             include_audit=include_audit,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
         # Validate body params
@@ -2363,11 +2479,13 @@ class TestDeployRelease():
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/releases/testString/deploy')
         mock_response = '{"name": "name", "description": "description", "assistant_id": "assistant_id", "environment_id": "environment_id", "environment": "environment", "release_reference": {"release": "release"}, "orchestration": {"search_skill_fallback": false}, "session_timeout": 10, "integration_references": [{"integration_id": "integration_id", "type": "type"}], "skill_references": [{"skill_id": "skill_id", "type": "dialog", "disabled": true, "snapshot": "snapshot", "skill_reference": "skill_reference"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         assistant_id = 'testString'
@@ -2379,7 +2497,7 @@ class TestDeployRelease():
             assistant_id,
             release,
             environment_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -2406,11 +2524,13 @@ class TestDeployRelease():
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/releases/testString/deploy')
         mock_response = '{"name": "name", "description": "description", "assistant_id": "assistant_id", "environment_id": "environment_id", "environment": "environment", "release_reference": {"release": "release"}, "orchestration": {"search_skill_fallback": false}, "session_timeout": 10, "integration_references": [{"integration_id": "integration_id", "type": "type"}], "skill_references": [{"skill_id": "skill_id", "type": "dialog", "disabled": true, "snapshot": "snapshot", "skill_reference": "skill_reference"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         assistant_id = 'testString'
@@ -2424,7 +2544,7 @@ class TestDeployRelease():
             "environment_id": environment_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.deploy_release(**req_copy)
 
@@ -2437,6 +2557,7 @@ class TestDeployRelease():
         _service.disable_retries()
         self.test_deploy_release_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: Releases
@@ -2447,7 +2568,8 @@ class TestDeployRelease():
 ##############################################################################
 # region
 
-class TestGetSkill():
+
+class TestGetSkill:
     """
     Test Class for get_skill
     """
@@ -2460,11 +2582,13 @@ class TestGetSkill():
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/skills/testString')
         mock_response = '{"name": "name", "description": "description", "workspace": {"anyKey": "anyValue"}, "skill_id": "skill_id", "status": "Available", "status_errors": [{"message": "message"}], "status_description": "status_description", "dialog_settings": {"anyKey": "anyValue"}, "assistant_id": "assistant_id", "workspace_id": "workspace_id", "environment_id": "environment_id", "valid": false, "next_snapshot_version": "next_snapshot_version", "search_settings": {"discovery": {"instance_id": "instance_id", "project_id": "project_id", "url": "url", "max_primary_results": 10000, "max_total_results": 10000, "confidence_threshold": 0.0, "highlight": false, "find_answers": true, "authentication": {"basic": "basic", "bearer": "bearer"}}, "messages": {"success": "success", "error": "error", "no_result": "no_result"}, "schema_mapping": {"url": "url", "body": "body", "title": "title"}}, "warnings": [{"code": "code", "path": "path", "message": "message"}], "language": "language", "type": "action"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         assistant_id = 'testString'
@@ -2474,7 +2598,7 @@ class TestGetSkill():
         response = _service.get_skill(
             assistant_id,
             skill_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -2498,11 +2622,13 @@ class TestGetSkill():
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/skills/testString')
         mock_response = '{"name": "name", "description": "description", "workspace": {"anyKey": "anyValue"}, "skill_id": "skill_id", "status": "Available", "status_errors": [{"message": "message"}], "status_description": "status_description", "dialog_settings": {"anyKey": "anyValue"}, "assistant_id": "assistant_id", "workspace_id": "workspace_id", "environment_id": "environment_id", "valid": false, "next_snapshot_version": "next_snapshot_version", "search_settings": {"discovery": {"instance_id": "instance_id", "project_id": "project_id", "url": "url", "max_primary_results": 10000, "max_total_results": 10000, "confidence_threshold": 0.0, "highlight": false, "find_answers": true, "authentication": {"basic": "basic", "bearer": "bearer"}}, "messages": {"success": "success", "error": "error", "no_result": "no_result"}, "schema_mapping": {"url": "url", "body": "body", "title": "title"}}, "warnings": [{"code": "code", "path": "path", "message": "message"}], "language": "language", "type": "action"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         assistant_id = 'testString'
@@ -2514,7 +2640,7 @@ class TestGetSkill():
             "skill_id": skill_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_skill(**req_copy)
 
@@ -2527,7 +2653,8 @@ class TestGetSkill():
         _service.disable_retries()
         self.test_get_skill_value_error()
 
-class TestUpdateSkill():
+
+class TestUpdateSkill:
     """
     Test Class for update_skill
     """
@@ -2540,11 +2667,13 @@ class TestUpdateSkill():
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/skills/testString')
         mock_response = '{"name": "name", "description": "description", "workspace": {"anyKey": "anyValue"}, "skill_id": "skill_id", "status": "Available", "status_errors": [{"message": "message"}], "status_description": "status_description", "dialog_settings": {"anyKey": "anyValue"}, "assistant_id": "assistant_id", "workspace_id": "workspace_id", "environment_id": "environment_id", "valid": false, "next_snapshot_version": "next_snapshot_version", "search_settings": {"discovery": {"instance_id": "instance_id", "project_id": "project_id", "url": "url", "max_primary_results": 10000, "max_total_results": 10000, "confidence_threshold": 0.0, "highlight": false, "find_answers": true, "authentication": {"basic": "basic", "bearer": "bearer"}}, "messages": {"success": "success", "error": "error", "no_result": "no_result"}, "schema_mapping": {"url": "url", "body": "body", "title": "title"}}, "warnings": [{"code": "code", "path": "path", "message": "message"}], "language": "language", "type": "action"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=202)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=202,
+        )
 
         # Construct a dict representation of a SearchSettingsDiscoveryAuthentication model
         search_settings_discovery_authentication_model = {}
@@ -2586,8 +2715,8 @@ class TestUpdateSkill():
         skill_id = 'testString'
         name = 'testString'
         description = 'testString'
-        workspace = {'foo': 'bar'}
-        dialog_settings = {'foo': 'bar'}
+        workspace = {'anyKey': 'anyValue'}
+        dialog_settings = {'anyKey': 'anyValue'}
         search_settings = search_settings_model
 
         # Invoke method
@@ -2599,7 +2728,7 @@ class TestUpdateSkill():
             workspace=workspace,
             dialog_settings=dialog_settings,
             search_settings=search_settings,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -2609,8 +2738,8 @@ class TestUpdateSkill():
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['name'] == 'testString'
         assert req_body['description'] == 'testString'
-        assert req_body['workspace'] == {'foo': 'bar'}
-        assert req_body['dialog_settings'] == {'foo': 'bar'}
+        assert req_body['workspace'] == {'anyKey': 'anyValue'}
+        assert req_body['dialog_settings'] == {'anyKey': 'anyValue'}
         assert req_body['search_settings'] == search_settings_model
 
     def test_update_skill_all_params_with_retries(self):
@@ -2630,11 +2759,13 @@ class TestUpdateSkill():
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/skills/testString')
         mock_response = '{"name": "name", "description": "description", "workspace": {"anyKey": "anyValue"}, "skill_id": "skill_id", "status": "Available", "status_errors": [{"message": "message"}], "status_description": "status_description", "dialog_settings": {"anyKey": "anyValue"}, "assistant_id": "assistant_id", "workspace_id": "workspace_id", "environment_id": "environment_id", "valid": false, "next_snapshot_version": "next_snapshot_version", "search_settings": {"discovery": {"instance_id": "instance_id", "project_id": "project_id", "url": "url", "max_primary_results": 10000, "max_total_results": 10000, "confidence_threshold": 0.0, "highlight": false, "find_answers": true, "authentication": {"basic": "basic", "bearer": "bearer"}}, "messages": {"success": "success", "error": "error", "no_result": "no_result"}, "schema_mapping": {"url": "url", "body": "body", "title": "title"}}, "warnings": [{"code": "code", "path": "path", "message": "message"}], "language": "language", "type": "action"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=202)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=202,
+        )
 
         # Construct a dict representation of a SearchSettingsDiscoveryAuthentication model
         search_settings_discovery_authentication_model = {}
@@ -2676,8 +2807,8 @@ class TestUpdateSkill():
         skill_id = 'testString'
         name = 'testString'
         description = 'testString'
-        workspace = {'foo': 'bar'}
-        dialog_settings = {'foo': 'bar'}
+        workspace = {'anyKey': 'anyValue'}
+        dialog_settings = {'anyKey': 'anyValue'}
         search_settings = search_settings_model
 
         # Pass in all but one required param and check for a ValueError
@@ -2686,7 +2817,7 @@ class TestUpdateSkill():
             "skill_id": skill_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.update_skill(**req_copy)
 
@@ -2699,7 +2830,8 @@ class TestUpdateSkill():
         _service.disable_retries()
         self.test_update_skill_value_error()
 
-class TestExportSkills():
+
+class TestExportSkills:
     """
     Test Class for export_skills
     """
@@ -2712,11 +2844,13 @@ class TestExportSkills():
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/skills_export')
         mock_response = '{"assistant_skills": [{"name": "name", "description": "description", "workspace": {"anyKey": "anyValue"}, "skill_id": "skill_id", "status": "Available", "status_errors": [{"message": "message"}], "status_description": "status_description", "dialog_settings": {"anyKey": "anyValue"}, "assistant_id": "assistant_id", "workspace_id": "workspace_id", "environment_id": "environment_id", "valid": false, "next_snapshot_version": "next_snapshot_version", "search_settings": {"discovery": {"instance_id": "instance_id", "project_id": "project_id", "url": "url", "max_primary_results": 10000, "max_total_results": 10000, "confidence_threshold": 0.0, "highlight": false, "find_answers": true, "authentication": {"basic": "basic", "bearer": "bearer"}}, "messages": {"success": "success", "error": "error", "no_result": "no_result"}, "schema_mapping": {"url": "url", "body": "body", "title": "title"}}, "warnings": [{"code": "code", "path": "path", "message": "message"}], "language": "language", "type": "action"}], "assistant_state": {"action_disabled": false, "dialog_disabled": false}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         assistant_id = 'testString'
@@ -2726,14 +2860,14 @@ class TestExportSkills():
         response = _service.export_skills(
             assistant_id,
             include_audit=include_audit,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
 
@@ -2754,11 +2888,13 @@ class TestExportSkills():
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/skills_export')
         mock_response = '{"assistant_skills": [{"name": "name", "description": "description", "workspace": {"anyKey": "anyValue"}, "skill_id": "skill_id", "status": "Available", "status_errors": [{"message": "message"}], "status_description": "status_description", "dialog_settings": {"anyKey": "anyValue"}, "assistant_id": "assistant_id", "workspace_id": "workspace_id", "environment_id": "environment_id", "valid": false, "next_snapshot_version": "next_snapshot_version", "search_settings": {"discovery": {"instance_id": "instance_id", "project_id": "project_id", "url": "url", "max_primary_results": 10000, "max_total_results": 10000, "confidence_threshold": 0.0, "highlight": false, "find_answers": true, "authentication": {"basic": "basic", "bearer": "bearer"}}, "messages": {"success": "success", "error": "error", "no_result": "no_result"}, "schema_mapping": {"url": "url", "body": "body", "title": "title"}}, "warnings": [{"code": "code", "path": "path", "message": "message"}], "language": "language", "type": "action"}], "assistant_state": {"action_disabled": false, "dialog_disabled": false}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         assistant_id = 'testString'
@@ -2766,7 +2902,7 @@ class TestExportSkills():
         # Invoke method
         response = _service.export_skills(
             assistant_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -2790,11 +2926,13 @@ class TestExportSkills():
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/skills_export')
         mock_response = '{"assistant_skills": [{"name": "name", "description": "description", "workspace": {"anyKey": "anyValue"}, "skill_id": "skill_id", "status": "Available", "status_errors": [{"message": "message"}], "status_description": "status_description", "dialog_settings": {"anyKey": "anyValue"}, "assistant_id": "assistant_id", "workspace_id": "workspace_id", "environment_id": "environment_id", "valid": false, "next_snapshot_version": "next_snapshot_version", "search_settings": {"discovery": {"instance_id": "instance_id", "project_id": "project_id", "url": "url", "max_primary_results": 10000, "max_total_results": 10000, "confidence_threshold": 0.0, "highlight": false, "find_answers": true, "authentication": {"basic": "basic", "bearer": "bearer"}}, "messages": {"success": "success", "error": "error", "no_result": "no_result"}, "schema_mapping": {"url": "url", "body": "body", "title": "title"}}, "warnings": [{"code": "code", "path": "path", "message": "message"}], "language": "language", "type": "action"}], "assistant_state": {"action_disabled": false, "dialog_disabled": false}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         assistant_id = 'testString'
@@ -2804,7 +2942,7 @@ class TestExportSkills():
             "assistant_id": assistant_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.export_skills(**req_copy)
 
@@ -2817,7 +2955,8 @@ class TestExportSkills():
         _service.disable_retries()
         self.test_export_skills_value_error()
 
-class TestImportSkills():
+
+class TestImportSkills:
     """
     Test Class for import_skills
     """
@@ -2830,11 +2969,13 @@ class TestImportSkills():
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/skills_import')
         mock_response = '{"assistant_id": "assistant_id", "status": "Available", "status_description": "status_description", "status_errors": [{"message": "message"}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=202)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=202,
+        )
 
         # Construct a dict representation of a SearchSettingsDiscoveryAuthentication model
         search_settings_discovery_authentication_model = {}
@@ -2875,8 +3016,8 @@ class TestImportSkills():
         skill_import_model = {}
         skill_import_model['name'] = 'testString'
         skill_import_model['description'] = 'testString'
-        skill_import_model['workspace'] = {'foo': 'bar'}
-        skill_import_model['dialog_settings'] = {'foo': 'bar'}
+        skill_import_model['workspace'] = {'anyKey': 'anyValue'}
+        skill_import_model['dialog_settings'] = {'anyKey': 'anyValue'}
         skill_import_model['search_settings'] = search_settings_model
         skill_import_model['language'] = 'testString'
         skill_import_model['type'] = 'action'
@@ -2898,14 +3039,14 @@ class TestImportSkills():
             assistant_skills,
             assistant_state,
             include_audit=include_audit,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 202
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
         # Validate body params
@@ -2930,11 +3071,13 @@ class TestImportSkills():
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/skills_import')
         mock_response = '{"assistant_id": "assistant_id", "status": "Available", "status_description": "status_description", "status_errors": [{"message": "message"}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=202)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=202,
+        )
 
         # Construct a dict representation of a SearchSettingsDiscoveryAuthentication model
         search_settings_discovery_authentication_model = {}
@@ -2975,8 +3118,8 @@ class TestImportSkills():
         skill_import_model = {}
         skill_import_model['name'] = 'testString'
         skill_import_model['description'] = 'testString'
-        skill_import_model['workspace'] = {'foo': 'bar'}
-        skill_import_model['dialog_settings'] = {'foo': 'bar'}
+        skill_import_model['workspace'] = {'anyKey': 'anyValue'}
+        skill_import_model['dialog_settings'] = {'anyKey': 'anyValue'}
         skill_import_model['search_settings'] = search_settings_model
         skill_import_model['language'] = 'testString'
         skill_import_model['type'] = 'action'
@@ -2996,7 +3139,7 @@ class TestImportSkills():
             assistant_id,
             assistant_skills,
             assistant_state,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -3024,11 +3167,13 @@ class TestImportSkills():
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/skills_import')
         mock_response = '{"assistant_id": "assistant_id", "status": "Available", "status_description": "status_description", "status_errors": [{"message": "message"}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=202)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=202,
+        )
 
         # Construct a dict representation of a SearchSettingsDiscoveryAuthentication model
         search_settings_discovery_authentication_model = {}
@@ -3069,8 +3214,8 @@ class TestImportSkills():
         skill_import_model = {}
         skill_import_model['name'] = 'testString'
         skill_import_model['description'] = 'testString'
-        skill_import_model['workspace'] = {'foo': 'bar'}
-        skill_import_model['dialog_settings'] = {'foo': 'bar'}
+        skill_import_model['workspace'] = {'anyKey': 'anyValue'}
+        skill_import_model['dialog_settings'] = {'anyKey': 'anyValue'}
         skill_import_model['search_settings'] = search_settings_model
         skill_import_model['language'] = 'testString'
         skill_import_model['type'] = 'action'
@@ -3092,7 +3237,7 @@ class TestImportSkills():
             "assistant_state": assistant_state,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.import_skills(**req_copy)
 
@@ -3105,7 +3250,8 @@ class TestImportSkills():
         _service.disable_retries()
         self.test_import_skills_value_error()
 
-class TestImportSkillsStatus():
+
+class TestImportSkillsStatus:
     """
     Test Class for import_skills_status
     """
@@ -3118,11 +3264,13 @@ class TestImportSkillsStatus():
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/skills_import/status')
         mock_response = '{"assistant_id": "assistant_id", "status": "Available", "status_description": "status_description", "status_errors": [{"message": "message"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         assistant_id = 'testString'
@@ -3130,7 +3278,7 @@ class TestImportSkillsStatus():
         # Invoke method
         response = _service.import_skills_status(
             assistant_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -3154,11 +3302,13 @@ class TestImportSkillsStatus():
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/skills_import/status')
         mock_response = '{"assistant_id": "assistant_id", "status": "Available", "status_description": "status_description", "status_errors": [{"message": "message"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         assistant_id = 'testString'
@@ -3168,7 +3318,7 @@ class TestImportSkillsStatus():
             "assistant_id": assistant_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.import_skills_status(**req_copy)
 
@@ -3181,6 +3331,7 @@ class TestImportSkillsStatus():
         _service.disable_retries()
         self.test_import_skills_status_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: Skills
@@ -3191,7 +3342,9 @@ class TestImportSkillsStatus():
 # Start of Model Tests
 ##############################################################################
 # region
-class TestModel_AgentAvailabilityMessage():
+
+
+class TestModel_AgentAvailabilityMessage:
     """
     Test Class for AgentAvailabilityMessage
     """
@@ -3220,7 +3373,8 @@ class TestModel_AgentAvailabilityMessage():
         agent_availability_message_model_json2 = agent_availability_message_model.to_dict()
         assert agent_availability_message_model_json2 == agent_availability_message_model_json
 
-class TestModel_AssistantCollection():
+
+class TestModel_AssistantCollection:
     """
     Test Class for AssistantCollection
     """
@@ -3232,12 +3386,12 @@ class TestModel_AssistantCollection():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        assistant_data_model = {} # AssistantData
+        assistant_data_model = {}  # AssistantData
         assistant_data_model['name'] = 'testString'
         assistant_data_model['description'] = 'testString'
         assistant_data_model['language'] = 'testString'
 
-        pagination_model = {} # Pagination
+        pagination_model = {}  # Pagination
         pagination_model['refresh_url'] = 'testString'
         pagination_model['next_url'] = 'testString'
         pagination_model['total'] = 38
@@ -3265,7 +3419,8 @@ class TestModel_AssistantCollection():
         assistant_collection_model_json2 = assistant_collection_model.to_dict()
         assert assistant_collection_model_json2 == assistant_collection_model_json
 
-class TestModel_AssistantData():
+
+class TestModel_AssistantData:
     """
     Test Class for AssistantData
     """
@@ -3296,7 +3451,8 @@ class TestModel_AssistantData():
         assistant_data_model_json2 = assistant_data_model.to_dict()
         assert assistant_data_model_json2 == assistant_data_model_json
 
-class TestModel_AssistantSkill():
+
+class TestModel_AssistantSkill:
     """
     Test Class for AssistantSkill
     """
@@ -3326,7 +3482,8 @@ class TestModel_AssistantSkill():
         assistant_skill_model_json2 = assistant_skill_model.to_dict()
         assert assistant_skill_model_json2 == assistant_skill_model_json
 
-class TestModel_AssistantState():
+
+class TestModel_AssistantState:
     """
     Test Class for AssistantState
     """
@@ -3356,7 +3513,8 @@ class TestModel_AssistantState():
         assistant_state_model_json2 = assistant_state_model.to_dict()
         assert assistant_state_model_json2 == assistant_state_model_json
 
-class TestModel_BaseEnvironmentOrchestration():
+
+class TestModel_BaseEnvironmentOrchestration:
     """
     Test Class for BaseEnvironmentOrchestration
     """
@@ -3385,7 +3543,8 @@ class TestModel_BaseEnvironmentOrchestration():
         base_environment_orchestration_model_json2 = base_environment_orchestration_model.to_dict()
         assert base_environment_orchestration_model_json2 == base_environment_orchestration_model_json
 
-class TestModel_BaseEnvironmentReleaseReference():
+
+class TestModel_BaseEnvironmentReleaseReference:
     """
     Test Class for BaseEnvironmentReleaseReference
     """
@@ -3414,7 +3573,8 @@ class TestModel_BaseEnvironmentReleaseReference():
         base_environment_release_reference_model_json2 = base_environment_release_reference_model.to_dict()
         assert base_environment_release_reference_model_json2 == base_environment_release_reference_model_json
 
-class TestModel_BulkClassifyOutput():
+
+class TestModel_BulkClassifyOutput:
     """
     Test Class for BulkClassifyOutput
     """
@@ -3426,14 +3586,14 @@ class TestModel_BulkClassifyOutput():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        bulk_classify_utterance_model = {} # BulkClassifyUtterance
+        bulk_classify_utterance_model = {}  # BulkClassifyUtterance
         bulk_classify_utterance_model['text'] = 'testString'
 
-        capture_group_model = {} # CaptureGroup
+        capture_group_model = {}  # CaptureGroup
         capture_group_model['group'] = 'testString'
         capture_group_model['location'] = [38]
 
-        runtime_entity_interpretation_model = {} # RuntimeEntityInterpretation
+        runtime_entity_interpretation_model = {}  # RuntimeEntityInterpretation
         runtime_entity_interpretation_model['calendar_type'] = 'testString'
         runtime_entity_interpretation_model['datetime_link'] = 'testString'
         runtime_entity_interpretation_model['festival'] = 'testString'
@@ -3461,14 +3621,14 @@ class TestModel_BulkClassifyOutput():
         runtime_entity_interpretation_model['specific_second'] = 72.5
         runtime_entity_interpretation_model['timezone'] = 'testString'
 
-        runtime_entity_alternative_model = {} # RuntimeEntityAlternative
+        runtime_entity_alternative_model = {}  # RuntimeEntityAlternative
         runtime_entity_alternative_model['value'] = 'testString'
         runtime_entity_alternative_model['confidence'] = 72.5
 
-        runtime_entity_role_model = {} # RuntimeEntityRole
+        runtime_entity_role_model = {}  # RuntimeEntityRole
         runtime_entity_role_model['type'] = 'date_from'
 
-        runtime_entity_model = {} # RuntimeEntity
+        runtime_entity_model = {}  # RuntimeEntity
         runtime_entity_model['entity'] = 'testString'
         runtime_entity_model['location'] = [38]
         runtime_entity_model['value'] = 'testString'
@@ -3479,7 +3639,7 @@ class TestModel_BulkClassifyOutput():
         runtime_entity_model['role'] = runtime_entity_role_model
         runtime_entity_model['skill'] = 'testString'
 
-        runtime_intent_model = {} # RuntimeIntent
+        runtime_intent_model = {}  # RuntimeIntent
         runtime_intent_model['intent'] = 'testString'
         runtime_intent_model['confidence'] = 72.5
         runtime_intent_model['skill'] = 'testString'
@@ -3505,7 +3665,8 @@ class TestModel_BulkClassifyOutput():
         bulk_classify_output_model_json2 = bulk_classify_output_model.to_dict()
         assert bulk_classify_output_model_json2 == bulk_classify_output_model_json
 
-class TestModel_BulkClassifyResponse():
+
+class TestModel_BulkClassifyResponse:
     """
     Test Class for BulkClassifyResponse
     """
@@ -3517,14 +3678,14 @@ class TestModel_BulkClassifyResponse():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        bulk_classify_utterance_model = {} # BulkClassifyUtterance
+        bulk_classify_utterance_model = {}  # BulkClassifyUtterance
         bulk_classify_utterance_model['text'] = 'testString'
 
-        capture_group_model = {} # CaptureGroup
+        capture_group_model = {}  # CaptureGroup
         capture_group_model['group'] = 'testString'
         capture_group_model['location'] = [38]
 
-        runtime_entity_interpretation_model = {} # RuntimeEntityInterpretation
+        runtime_entity_interpretation_model = {}  # RuntimeEntityInterpretation
         runtime_entity_interpretation_model['calendar_type'] = 'testString'
         runtime_entity_interpretation_model['datetime_link'] = 'testString'
         runtime_entity_interpretation_model['festival'] = 'testString'
@@ -3552,14 +3713,14 @@ class TestModel_BulkClassifyResponse():
         runtime_entity_interpretation_model['specific_second'] = 72.5
         runtime_entity_interpretation_model['timezone'] = 'testString'
 
-        runtime_entity_alternative_model = {} # RuntimeEntityAlternative
+        runtime_entity_alternative_model = {}  # RuntimeEntityAlternative
         runtime_entity_alternative_model['value'] = 'testString'
         runtime_entity_alternative_model['confidence'] = 72.5
 
-        runtime_entity_role_model = {} # RuntimeEntityRole
+        runtime_entity_role_model = {}  # RuntimeEntityRole
         runtime_entity_role_model['type'] = 'date_from'
 
-        runtime_entity_model = {} # RuntimeEntity
+        runtime_entity_model = {}  # RuntimeEntity
         runtime_entity_model['entity'] = 'testString'
         runtime_entity_model['location'] = [38]
         runtime_entity_model['value'] = 'testString'
@@ -3570,12 +3731,12 @@ class TestModel_BulkClassifyResponse():
         runtime_entity_model['role'] = runtime_entity_role_model
         runtime_entity_model['skill'] = 'testString'
 
-        runtime_intent_model = {} # RuntimeIntent
+        runtime_intent_model = {}  # RuntimeIntent
         runtime_intent_model['intent'] = 'testString'
         runtime_intent_model['confidence'] = 72.5
         runtime_intent_model['skill'] = 'testString'
 
-        bulk_classify_output_model = {} # BulkClassifyOutput
+        bulk_classify_output_model = {}  # BulkClassifyOutput
         bulk_classify_output_model['input'] = bulk_classify_utterance_model
         bulk_classify_output_model['entities'] = [runtime_entity_model]
         bulk_classify_output_model['intents'] = [runtime_intent_model]
@@ -3599,7 +3760,8 @@ class TestModel_BulkClassifyResponse():
         bulk_classify_response_model_json2 = bulk_classify_response_model.to_dict()
         assert bulk_classify_response_model_json2 == bulk_classify_response_model_json
 
-class TestModel_BulkClassifyUtterance():
+
+class TestModel_BulkClassifyUtterance:
     """
     Test Class for BulkClassifyUtterance
     """
@@ -3628,7 +3790,8 @@ class TestModel_BulkClassifyUtterance():
         bulk_classify_utterance_model_json2 = bulk_classify_utterance_model.to_dict()
         assert bulk_classify_utterance_model_json2 == bulk_classify_utterance_model_json
 
-class TestModel_CaptureGroup():
+
+class TestModel_CaptureGroup:
     """
     Test Class for CaptureGroup
     """
@@ -3658,7 +3821,8 @@ class TestModel_CaptureGroup():
         capture_group_model_json2 = capture_group_model.to_dict()
         assert capture_group_model_json2 == capture_group_model_json
 
-class TestModel_ChannelTransferInfo():
+
+class TestModel_ChannelTransferInfo:
     """
     Test Class for ChannelTransferInfo
     """
@@ -3670,10 +3834,10 @@ class TestModel_ChannelTransferInfo():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        channel_transfer_target_chat_model = {} # ChannelTransferTargetChat
+        channel_transfer_target_chat_model = {}  # ChannelTransferTargetChat
         channel_transfer_target_chat_model['url'] = 'testString'
 
-        channel_transfer_target_model = {} # ChannelTransferTarget
+        channel_transfer_target_model = {}  # ChannelTransferTarget
         channel_transfer_target_model['chat'] = channel_transfer_target_chat_model
 
         # Construct a json representation of a ChannelTransferInfo model
@@ -3695,7 +3859,8 @@ class TestModel_ChannelTransferInfo():
         channel_transfer_info_model_json2 = channel_transfer_info_model.to_dict()
         assert channel_transfer_info_model_json2 == channel_transfer_info_model_json
 
-class TestModel_ChannelTransferTarget():
+
+class TestModel_ChannelTransferTarget:
     """
     Test Class for ChannelTransferTarget
     """
@@ -3707,7 +3872,7 @@ class TestModel_ChannelTransferTarget():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        channel_transfer_target_chat_model = {} # ChannelTransferTargetChat
+        channel_transfer_target_chat_model = {}  # ChannelTransferTargetChat
         channel_transfer_target_chat_model['url'] = 'testString'
 
         # Construct a json representation of a ChannelTransferTarget model
@@ -3729,7 +3894,8 @@ class TestModel_ChannelTransferTarget():
         channel_transfer_target_model_json2 = channel_transfer_target_model.to_dict()
         assert channel_transfer_target_model_json2 == channel_transfer_target_model_json
 
-class TestModel_ChannelTransferTargetChat():
+
+class TestModel_ChannelTransferTargetChat:
     """
     Test Class for ChannelTransferTargetChat
     """
@@ -3758,7 +3924,8 @@ class TestModel_ChannelTransferTargetChat():
         channel_transfer_target_chat_model_json2 = channel_transfer_target_chat_model.to_dict()
         assert channel_transfer_target_chat_model_json2 == channel_transfer_target_chat_model_json
 
-class TestModel_DialogLogMessage():
+
+class TestModel_DialogLogMessage:
     """
     Test Class for DialogLogMessage
     """
@@ -3770,7 +3937,7 @@ class TestModel_DialogLogMessage():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        log_message_source_model = {} # LogMessageSourceDialogNode
+        log_message_source_model = {}  # LogMessageSourceDialogNode
         log_message_source_model['type'] = 'dialog_node'
         log_message_source_model['dialog_node'] = 'testString'
 
@@ -3796,7 +3963,8 @@ class TestModel_DialogLogMessage():
         dialog_log_message_model_json2 = dialog_log_message_model.to_dict()
         assert dialog_log_message_model_json2 == dialog_log_message_model_json
 
-class TestModel_DialogNodeAction():
+
+class TestModel_DialogNodeAction:
     """
     Test Class for DialogNodeAction
     """
@@ -3810,7 +3978,7 @@ class TestModel_DialogNodeAction():
         dialog_node_action_model_json = {}
         dialog_node_action_model_json['name'] = 'testString'
         dialog_node_action_model_json['type'] = 'client'
-        dialog_node_action_model_json['parameters'] = {'foo': 'bar'}
+        dialog_node_action_model_json['parameters'] = {'anyKey': 'anyValue'}
         dialog_node_action_model_json['result_variable'] = 'testString'
         dialog_node_action_model_json['credentials'] = 'testString'
 
@@ -3829,7 +3997,8 @@ class TestModel_DialogNodeAction():
         dialog_node_action_model_json2 = dialog_node_action_model.to_dict()
         assert dialog_node_action_model_json2 == dialog_node_action_model_json
 
-class TestModel_DialogNodeOutputConnectToAgentTransferInfo():
+
+class TestModel_DialogNodeOutputConnectToAgentTransferInfo:
     """
     Test Class for DialogNodeOutputConnectToAgentTransferInfo
     """
@@ -3841,7 +4010,7 @@ class TestModel_DialogNodeOutputConnectToAgentTransferInfo():
 
         # Construct a json representation of a DialogNodeOutputConnectToAgentTransferInfo model
         dialog_node_output_connect_to_agent_transfer_info_model_json = {}
-        dialog_node_output_connect_to_agent_transfer_info_model_json['target'] = {'key1': {'foo': 'bar'}}
+        dialog_node_output_connect_to_agent_transfer_info_model_json['target'] = {'key1': {'anyKey': 'anyValue'}}
 
         # Construct a model instance of DialogNodeOutputConnectToAgentTransferInfo by calling from_dict on the json representation
         dialog_node_output_connect_to_agent_transfer_info_model = DialogNodeOutputConnectToAgentTransferInfo.from_dict(dialog_node_output_connect_to_agent_transfer_info_model_json)
@@ -3858,7 +4027,8 @@ class TestModel_DialogNodeOutputConnectToAgentTransferInfo():
         dialog_node_output_connect_to_agent_transfer_info_model_json2 = dialog_node_output_connect_to_agent_transfer_info_model.to_dict()
         assert dialog_node_output_connect_to_agent_transfer_info_model_json2 == dialog_node_output_connect_to_agent_transfer_info_model_json
 
-class TestModel_DialogNodeOutputOptionsElement():
+
+class TestModel_DialogNodeOutputOptionsElement:
     """
     Test Class for DialogNodeOutputOptionsElement
     """
@@ -3870,16 +4040,16 @@ class TestModel_DialogNodeOutputOptionsElement():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        runtime_intent_model = {} # RuntimeIntent
+        runtime_intent_model = {}  # RuntimeIntent
         runtime_intent_model['intent'] = 'testString'
         runtime_intent_model['confidence'] = 72.5
         runtime_intent_model['skill'] = 'testString'
 
-        capture_group_model = {} # CaptureGroup
+        capture_group_model = {}  # CaptureGroup
         capture_group_model['group'] = 'testString'
         capture_group_model['location'] = [38]
 
-        runtime_entity_interpretation_model = {} # RuntimeEntityInterpretation
+        runtime_entity_interpretation_model = {}  # RuntimeEntityInterpretation
         runtime_entity_interpretation_model['calendar_type'] = 'testString'
         runtime_entity_interpretation_model['datetime_link'] = 'testString'
         runtime_entity_interpretation_model['festival'] = 'testString'
@@ -3907,14 +4077,14 @@ class TestModel_DialogNodeOutputOptionsElement():
         runtime_entity_interpretation_model['specific_second'] = 72.5
         runtime_entity_interpretation_model['timezone'] = 'testString'
 
-        runtime_entity_alternative_model = {} # RuntimeEntityAlternative
+        runtime_entity_alternative_model = {}  # RuntimeEntityAlternative
         runtime_entity_alternative_model['value'] = 'testString'
         runtime_entity_alternative_model['confidence'] = 72.5
 
-        runtime_entity_role_model = {} # RuntimeEntityRole
+        runtime_entity_role_model = {}  # RuntimeEntityRole
         runtime_entity_role_model['type'] = 'date_from'
 
-        runtime_entity_model = {} # RuntimeEntity
+        runtime_entity_model = {}  # RuntimeEntity
         runtime_entity_model['entity'] = 'testString'
         runtime_entity_model['location'] = [38]
         runtime_entity_model['value'] = 'testString'
@@ -3925,20 +4095,20 @@ class TestModel_DialogNodeOutputOptionsElement():
         runtime_entity_model['role'] = runtime_entity_role_model
         runtime_entity_model['skill'] = 'testString'
 
-        message_input_attachment_model = {} # MessageInputAttachment
+        message_input_attachment_model = {}  # MessageInputAttachment
         message_input_attachment_model['url'] = 'testString'
         message_input_attachment_model['media_type'] = 'testString'
 
-        request_analytics_model = {} # RequestAnalytics
+        request_analytics_model = {}  # RequestAnalytics
         request_analytics_model['browser'] = 'testString'
         request_analytics_model['device'] = 'testString'
         request_analytics_model['pageUrl'] = 'testString'
 
-        message_input_options_spelling_model = {} # MessageInputOptionsSpelling
+        message_input_options_spelling_model = {}  # MessageInputOptionsSpelling
         message_input_options_spelling_model['suggestions'] = True
         message_input_options_spelling_model['auto_correct'] = True
 
-        message_input_options_model = {} # MessageInputOptions
+        message_input_options_model = {}  # MessageInputOptions
         message_input_options_model['restart'] = False
         message_input_options_model['alternate_intents'] = False
         message_input_options_model['spelling'] = message_input_options_spelling_model
@@ -3946,7 +4116,7 @@ class TestModel_DialogNodeOutputOptionsElement():
         message_input_options_model['return_context'] = False
         message_input_options_model['export'] = False
 
-        message_input_model = {} # MessageInput
+        message_input_model = {}  # MessageInput
         message_input_model['message_type'] = 'text'
         message_input_model['text'] = 'testString'
         message_input_model['intents'] = [runtime_intent_model]
@@ -3956,7 +4126,7 @@ class TestModel_DialogNodeOutputOptionsElement():
         message_input_model['analytics'] = request_analytics_model
         message_input_model['options'] = message_input_options_model
 
-        dialog_node_output_options_element_value_model = {} # DialogNodeOutputOptionsElementValue
+        dialog_node_output_options_element_value_model = {}  # DialogNodeOutputOptionsElementValue
         dialog_node_output_options_element_value_model['input'] = message_input_model
 
         # Construct a json representation of a DialogNodeOutputOptionsElement model
@@ -3979,7 +4149,8 @@ class TestModel_DialogNodeOutputOptionsElement():
         dialog_node_output_options_element_model_json2 = dialog_node_output_options_element_model.to_dict()
         assert dialog_node_output_options_element_model_json2 == dialog_node_output_options_element_model_json
 
-class TestModel_DialogNodeOutputOptionsElementValue():
+
+class TestModel_DialogNodeOutputOptionsElementValue:
     """
     Test Class for DialogNodeOutputOptionsElementValue
     """
@@ -3991,16 +4162,16 @@ class TestModel_DialogNodeOutputOptionsElementValue():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        runtime_intent_model = {} # RuntimeIntent
+        runtime_intent_model = {}  # RuntimeIntent
         runtime_intent_model['intent'] = 'testString'
         runtime_intent_model['confidence'] = 72.5
         runtime_intent_model['skill'] = 'testString'
 
-        capture_group_model = {} # CaptureGroup
+        capture_group_model = {}  # CaptureGroup
         capture_group_model['group'] = 'testString'
         capture_group_model['location'] = [38]
 
-        runtime_entity_interpretation_model = {} # RuntimeEntityInterpretation
+        runtime_entity_interpretation_model = {}  # RuntimeEntityInterpretation
         runtime_entity_interpretation_model['calendar_type'] = 'testString'
         runtime_entity_interpretation_model['datetime_link'] = 'testString'
         runtime_entity_interpretation_model['festival'] = 'testString'
@@ -4028,14 +4199,14 @@ class TestModel_DialogNodeOutputOptionsElementValue():
         runtime_entity_interpretation_model['specific_second'] = 72.5
         runtime_entity_interpretation_model['timezone'] = 'testString'
 
-        runtime_entity_alternative_model = {} # RuntimeEntityAlternative
+        runtime_entity_alternative_model = {}  # RuntimeEntityAlternative
         runtime_entity_alternative_model['value'] = 'testString'
         runtime_entity_alternative_model['confidence'] = 72.5
 
-        runtime_entity_role_model = {} # RuntimeEntityRole
+        runtime_entity_role_model = {}  # RuntimeEntityRole
         runtime_entity_role_model['type'] = 'date_from'
 
-        runtime_entity_model = {} # RuntimeEntity
+        runtime_entity_model = {}  # RuntimeEntity
         runtime_entity_model['entity'] = 'testString'
         runtime_entity_model['location'] = [38]
         runtime_entity_model['value'] = 'testString'
@@ -4046,20 +4217,20 @@ class TestModel_DialogNodeOutputOptionsElementValue():
         runtime_entity_model['role'] = runtime_entity_role_model
         runtime_entity_model['skill'] = 'testString'
 
-        message_input_attachment_model = {} # MessageInputAttachment
+        message_input_attachment_model = {}  # MessageInputAttachment
         message_input_attachment_model['url'] = 'testString'
         message_input_attachment_model['media_type'] = 'testString'
 
-        request_analytics_model = {} # RequestAnalytics
+        request_analytics_model = {}  # RequestAnalytics
         request_analytics_model['browser'] = 'testString'
         request_analytics_model['device'] = 'testString'
         request_analytics_model['pageUrl'] = 'testString'
 
-        message_input_options_spelling_model = {} # MessageInputOptionsSpelling
+        message_input_options_spelling_model = {}  # MessageInputOptionsSpelling
         message_input_options_spelling_model['suggestions'] = True
         message_input_options_spelling_model['auto_correct'] = True
 
-        message_input_options_model = {} # MessageInputOptions
+        message_input_options_model = {}  # MessageInputOptions
         message_input_options_model['restart'] = False
         message_input_options_model['alternate_intents'] = False
         message_input_options_model['spelling'] = message_input_options_spelling_model
@@ -4067,7 +4238,7 @@ class TestModel_DialogNodeOutputOptionsElementValue():
         message_input_options_model['return_context'] = False
         message_input_options_model['export'] = False
 
-        message_input_model = {} # MessageInput
+        message_input_model = {}  # MessageInput
         message_input_model['message_type'] = 'text'
         message_input_model['text'] = 'testString'
         message_input_model['intents'] = [runtime_intent_model]
@@ -4096,7 +4267,8 @@ class TestModel_DialogNodeOutputOptionsElementValue():
         dialog_node_output_options_element_value_model_json2 = dialog_node_output_options_element_value_model.to_dict()
         assert dialog_node_output_options_element_value_model_json2 == dialog_node_output_options_element_value_model_json
 
-class TestModel_DialogNodeVisited():
+
+class TestModel_DialogNodeVisited:
     """
     Test Class for DialogNodeVisited
     """
@@ -4127,7 +4299,8 @@ class TestModel_DialogNodeVisited():
         dialog_node_visited_model_json2 = dialog_node_visited_model.to_dict()
         assert dialog_node_visited_model_json2 == dialog_node_visited_model_json
 
-class TestModel_DialogSuggestion():
+
+class TestModel_DialogSuggestion:
     """
     Test Class for DialogSuggestion
     """
@@ -4139,16 +4312,16 @@ class TestModel_DialogSuggestion():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        runtime_intent_model = {} # RuntimeIntent
+        runtime_intent_model = {}  # RuntimeIntent
         runtime_intent_model['intent'] = 'testString'
         runtime_intent_model['confidence'] = 72.5
         runtime_intent_model['skill'] = 'testString'
 
-        capture_group_model = {} # CaptureGroup
+        capture_group_model = {}  # CaptureGroup
         capture_group_model['group'] = 'testString'
         capture_group_model['location'] = [38]
 
-        runtime_entity_interpretation_model = {} # RuntimeEntityInterpretation
+        runtime_entity_interpretation_model = {}  # RuntimeEntityInterpretation
         runtime_entity_interpretation_model['calendar_type'] = 'testString'
         runtime_entity_interpretation_model['datetime_link'] = 'testString'
         runtime_entity_interpretation_model['festival'] = 'testString'
@@ -4176,14 +4349,14 @@ class TestModel_DialogSuggestion():
         runtime_entity_interpretation_model['specific_second'] = 72.5
         runtime_entity_interpretation_model['timezone'] = 'testString'
 
-        runtime_entity_alternative_model = {} # RuntimeEntityAlternative
+        runtime_entity_alternative_model = {}  # RuntimeEntityAlternative
         runtime_entity_alternative_model['value'] = 'testString'
         runtime_entity_alternative_model['confidence'] = 72.5
 
-        runtime_entity_role_model = {} # RuntimeEntityRole
+        runtime_entity_role_model = {}  # RuntimeEntityRole
         runtime_entity_role_model['type'] = 'date_from'
 
-        runtime_entity_model = {} # RuntimeEntity
+        runtime_entity_model = {}  # RuntimeEntity
         runtime_entity_model['entity'] = 'testString'
         runtime_entity_model['location'] = [38]
         runtime_entity_model['value'] = 'testString'
@@ -4194,20 +4367,20 @@ class TestModel_DialogSuggestion():
         runtime_entity_model['role'] = runtime_entity_role_model
         runtime_entity_model['skill'] = 'testString'
 
-        message_input_attachment_model = {} # MessageInputAttachment
+        message_input_attachment_model = {}  # MessageInputAttachment
         message_input_attachment_model['url'] = 'testString'
         message_input_attachment_model['media_type'] = 'testString'
 
-        request_analytics_model = {} # RequestAnalytics
+        request_analytics_model = {}  # RequestAnalytics
         request_analytics_model['browser'] = 'testString'
         request_analytics_model['device'] = 'testString'
         request_analytics_model['pageUrl'] = 'testString'
 
-        message_input_options_spelling_model = {} # MessageInputOptionsSpelling
+        message_input_options_spelling_model = {}  # MessageInputOptionsSpelling
         message_input_options_spelling_model['suggestions'] = True
         message_input_options_spelling_model['auto_correct'] = True
 
-        message_input_options_model = {} # MessageInputOptions
+        message_input_options_model = {}  # MessageInputOptions
         message_input_options_model['restart'] = False
         message_input_options_model['alternate_intents'] = False
         message_input_options_model['spelling'] = message_input_options_spelling_model
@@ -4215,7 +4388,7 @@ class TestModel_DialogSuggestion():
         message_input_options_model['return_context'] = False
         message_input_options_model['export'] = False
 
-        message_input_model = {} # MessageInput
+        message_input_model = {}  # MessageInput
         message_input_model['message_type'] = 'text'
         message_input_model['text'] = 'testString'
         message_input_model['intents'] = [runtime_intent_model]
@@ -4225,14 +4398,14 @@ class TestModel_DialogSuggestion():
         message_input_model['analytics'] = request_analytics_model
         message_input_model['options'] = message_input_options_model
 
-        dialog_suggestion_value_model = {} # DialogSuggestionValue
+        dialog_suggestion_value_model = {}  # DialogSuggestionValue
         dialog_suggestion_value_model['input'] = message_input_model
 
         # Construct a json representation of a DialogSuggestion model
         dialog_suggestion_model_json = {}
         dialog_suggestion_model_json['label'] = 'testString'
         dialog_suggestion_model_json['value'] = dialog_suggestion_value_model
-        dialog_suggestion_model_json['output'] = {'foo': 'bar'}
+        dialog_suggestion_model_json['output'] = {'anyKey': 'anyValue'}
 
         # Construct a model instance of DialogSuggestion by calling from_dict on the json representation
         dialog_suggestion_model = DialogSuggestion.from_dict(dialog_suggestion_model_json)
@@ -4249,7 +4422,8 @@ class TestModel_DialogSuggestion():
         dialog_suggestion_model_json2 = dialog_suggestion_model.to_dict()
         assert dialog_suggestion_model_json2 == dialog_suggestion_model_json
 
-class TestModel_DialogSuggestionValue():
+
+class TestModel_DialogSuggestionValue:
     """
     Test Class for DialogSuggestionValue
     """
@@ -4261,16 +4435,16 @@ class TestModel_DialogSuggestionValue():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        runtime_intent_model = {} # RuntimeIntent
+        runtime_intent_model = {}  # RuntimeIntent
         runtime_intent_model['intent'] = 'testString'
         runtime_intent_model['confidence'] = 72.5
         runtime_intent_model['skill'] = 'testString'
 
-        capture_group_model = {} # CaptureGroup
+        capture_group_model = {}  # CaptureGroup
         capture_group_model['group'] = 'testString'
         capture_group_model['location'] = [38]
 
-        runtime_entity_interpretation_model = {} # RuntimeEntityInterpretation
+        runtime_entity_interpretation_model = {}  # RuntimeEntityInterpretation
         runtime_entity_interpretation_model['calendar_type'] = 'testString'
         runtime_entity_interpretation_model['datetime_link'] = 'testString'
         runtime_entity_interpretation_model['festival'] = 'testString'
@@ -4298,14 +4472,14 @@ class TestModel_DialogSuggestionValue():
         runtime_entity_interpretation_model['specific_second'] = 72.5
         runtime_entity_interpretation_model['timezone'] = 'testString'
 
-        runtime_entity_alternative_model = {} # RuntimeEntityAlternative
+        runtime_entity_alternative_model = {}  # RuntimeEntityAlternative
         runtime_entity_alternative_model['value'] = 'testString'
         runtime_entity_alternative_model['confidence'] = 72.5
 
-        runtime_entity_role_model = {} # RuntimeEntityRole
+        runtime_entity_role_model = {}  # RuntimeEntityRole
         runtime_entity_role_model['type'] = 'date_from'
 
-        runtime_entity_model = {} # RuntimeEntity
+        runtime_entity_model = {}  # RuntimeEntity
         runtime_entity_model['entity'] = 'testString'
         runtime_entity_model['location'] = [38]
         runtime_entity_model['value'] = 'testString'
@@ -4316,20 +4490,20 @@ class TestModel_DialogSuggestionValue():
         runtime_entity_model['role'] = runtime_entity_role_model
         runtime_entity_model['skill'] = 'testString'
 
-        message_input_attachment_model = {} # MessageInputAttachment
+        message_input_attachment_model = {}  # MessageInputAttachment
         message_input_attachment_model['url'] = 'testString'
         message_input_attachment_model['media_type'] = 'testString'
 
-        request_analytics_model = {} # RequestAnalytics
+        request_analytics_model = {}  # RequestAnalytics
         request_analytics_model['browser'] = 'testString'
         request_analytics_model['device'] = 'testString'
         request_analytics_model['pageUrl'] = 'testString'
 
-        message_input_options_spelling_model = {} # MessageInputOptionsSpelling
+        message_input_options_spelling_model = {}  # MessageInputOptionsSpelling
         message_input_options_spelling_model['suggestions'] = True
         message_input_options_spelling_model['auto_correct'] = True
 
-        message_input_options_model = {} # MessageInputOptions
+        message_input_options_model = {}  # MessageInputOptions
         message_input_options_model['restart'] = False
         message_input_options_model['alternate_intents'] = False
         message_input_options_model['spelling'] = message_input_options_spelling_model
@@ -4337,7 +4511,7 @@ class TestModel_DialogSuggestionValue():
         message_input_options_model['return_context'] = False
         message_input_options_model['export'] = False
 
-        message_input_model = {} # MessageInput
+        message_input_model = {}  # MessageInput
         message_input_model['message_type'] = 'text'
         message_input_model['text'] = 'testString'
         message_input_model['intents'] = [runtime_intent_model]
@@ -4366,7 +4540,8 @@ class TestModel_DialogSuggestionValue():
         dialog_suggestion_value_model_json2 = dialog_suggestion_value_model.to_dict()
         assert dialog_suggestion_value_model_json2 == dialog_suggestion_value_model_json
 
-class TestModel_Environment():
+
+class TestModel_Environment:
     """
     Test Class for Environment
     """
@@ -4378,7 +4553,7 @@ class TestModel_Environment():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        environment_skill_model = {} # EnvironmentSkill
+        environment_skill_model = {}  # EnvironmentSkill
         environment_skill_model['skill_id'] = 'testString'
         environment_skill_model['type'] = 'dialog'
         environment_skill_model['disabled'] = True
@@ -4407,7 +4582,8 @@ class TestModel_Environment():
         environment_model_json2 = environment_model.to_dict()
         assert environment_model_json2 == environment_model_json
 
-class TestModel_EnvironmentCollection():
+
+class TestModel_EnvironmentCollection:
     """
     Test Class for EnvironmentCollection
     """
@@ -4419,20 +4595,20 @@ class TestModel_EnvironmentCollection():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        environment_skill_model = {} # EnvironmentSkill
+        environment_skill_model = {}  # EnvironmentSkill
         environment_skill_model['skill_id'] = 'testString'
         environment_skill_model['type'] = 'dialog'
         environment_skill_model['disabled'] = True
         environment_skill_model['snapshot'] = 'testString'
         environment_skill_model['skill_reference'] = 'testString'
 
-        environment_model = {} # Environment
+        environment_model = {}  # Environment
         environment_model['name'] = 'testString'
         environment_model['description'] = 'testString'
         environment_model['session_timeout'] = 10
         environment_model['skill_references'] = [environment_skill_model]
 
-        pagination_model = {} # Pagination
+        pagination_model = {}  # Pagination
         pagination_model['refresh_url'] = 'testString'
         pagination_model['next_url'] = 'testString'
         pagination_model['total'] = 38
@@ -4460,7 +4636,8 @@ class TestModel_EnvironmentCollection():
         environment_collection_model_json2 = environment_collection_model.to_dict()
         assert environment_collection_model_json2 == environment_collection_model_json
 
-class TestModel_EnvironmentReference():
+
+class TestModel_EnvironmentReference:
     """
     Test Class for EnvironmentReference
     """
@@ -4489,7 +4666,8 @@ class TestModel_EnvironmentReference():
         environment_reference_model_json2 = environment_reference_model.to_dict()
         assert environment_reference_model_json2 == environment_reference_model_json
 
-class TestModel_EnvironmentSkill():
+
+class TestModel_EnvironmentSkill:
     """
     Test Class for EnvironmentSkill
     """
@@ -4522,7 +4700,8 @@ class TestModel_EnvironmentSkill():
         environment_skill_model_json2 = environment_skill_model.to_dict()
         assert environment_skill_model_json2 == environment_skill_model_json
 
-class TestModel_IntegrationReference():
+
+class TestModel_IntegrationReference:
     """
     Test Class for IntegrationReference
     """
@@ -4552,7 +4731,8 @@ class TestModel_IntegrationReference():
         integration_reference_model_json2 = integration_reference_model.to_dict()
         assert integration_reference_model_json2 == integration_reference_model_json
 
-class TestModel_Log():
+
+class TestModel_Log:
     """
     Test Class for Log
     """
@@ -4564,16 +4744,16 @@ class TestModel_Log():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        runtime_intent_model = {} # RuntimeIntent
+        runtime_intent_model = {}  # RuntimeIntent
         runtime_intent_model['intent'] = 'testString'
         runtime_intent_model['confidence'] = 72.5
         runtime_intent_model['skill'] = 'testString'
 
-        capture_group_model = {} # CaptureGroup
+        capture_group_model = {}  # CaptureGroup
         capture_group_model['group'] = 'testString'
         capture_group_model['location'] = [38]
 
-        runtime_entity_interpretation_model = {} # RuntimeEntityInterpretation
+        runtime_entity_interpretation_model = {}  # RuntimeEntityInterpretation
         runtime_entity_interpretation_model['calendar_type'] = 'testString'
         runtime_entity_interpretation_model['datetime_link'] = 'testString'
         runtime_entity_interpretation_model['festival'] = 'testString'
@@ -4601,14 +4781,14 @@ class TestModel_Log():
         runtime_entity_interpretation_model['specific_second'] = 72.5
         runtime_entity_interpretation_model['timezone'] = 'testString'
 
-        runtime_entity_alternative_model = {} # RuntimeEntityAlternative
+        runtime_entity_alternative_model = {}  # RuntimeEntityAlternative
         runtime_entity_alternative_model['value'] = 'testString'
         runtime_entity_alternative_model['confidence'] = 72.5
 
-        runtime_entity_role_model = {} # RuntimeEntityRole
+        runtime_entity_role_model = {}  # RuntimeEntityRole
         runtime_entity_role_model['type'] = 'date_from'
 
-        runtime_entity_model = {} # RuntimeEntity
+        runtime_entity_model = {}  # RuntimeEntity
         runtime_entity_model['entity'] = 'testString'
         runtime_entity_model['location'] = [38]
         runtime_entity_model['value'] = 'testString'
@@ -4619,20 +4799,20 @@ class TestModel_Log():
         runtime_entity_model['role'] = runtime_entity_role_model
         runtime_entity_model['skill'] = 'testString'
 
-        message_input_attachment_model = {} # MessageInputAttachment
+        message_input_attachment_model = {}  # MessageInputAttachment
         message_input_attachment_model['url'] = 'testString'
         message_input_attachment_model['media_type'] = 'testString'
 
-        request_analytics_model = {} # RequestAnalytics
+        request_analytics_model = {}  # RequestAnalytics
         request_analytics_model['browser'] = 'testString'
         request_analytics_model['device'] = 'testString'
         request_analytics_model['pageUrl'] = 'testString'
 
-        message_input_options_spelling_model = {} # MessageInputOptionsSpelling
+        message_input_options_spelling_model = {}  # MessageInputOptionsSpelling
         message_input_options_spelling_model['suggestions'] = True
         message_input_options_spelling_model['auto_correct'] = True
 
-        message_input_options_model = {} # MessageInputOptions
+        message_input_options_model = {}  # MessageInputOptions
         message_input_options_model['restart'] = False
         message_input_options_model['alternate_intents'] = False
         message_input_options_model['spelling'] = message_input_options_spelling_model
@@ -4640,7 +4820,7 @@ class TestModel_Log():
         message_input_options_model['return_context'] = False
         message_input_options_model['export'] = False
 
-        message_input_model = {} # MessageInput
+        message_input_model = {}  # MessageInput
         message_input_model['message_type'] = 'text'
         message_input_model['text'] = 'testString'
         message_input_model['intents'] = [runtime_intent_model]
@@ -4650,7 +4830,7 @@ class TestModel_Log():
         message_input_model['analytics'] = request_analytics_model
         message_input_model['options'] = message_input_options_model
 
-        message_context_global_system_model = {} # MessageContextGlobalSystem
+        message_context_global_system_model = {}  # MessageContextGlobalSystem
         message_context_global_system_model['timezone'] = 'testString'
         message_context_global_system_model['user_id'] = 'testString'
         message_context_global_system_model['turn_count'] = 38
@@ -4660,74 +4840,74 @@ class TestModel_Log():
         message_context_global_system_model['state'] = 'testString'
         message_context_global_system_model['skip_user_input'] = True
 
-        message_context_global_model = {} # MessageContextGlobal
+        message_context_global_model = {}  # MessageContextGlobal
         message_context_global_model['system'] = message_context_global_system_model
 
-        message_context_skill_system_model = {} # MessageContextSkillSystem
+        message_context_skill_system_model = {}  # MessageContextSkillSystem
         message_context_skill_system_model['state'] = 'testString'
         message_context_skill_system_model['foo'] = 'testString'
 
-        message_context_skill_dialog_model = {} # MessageContextSkillDialog
-        message_context_skill_dialog_model['user_defined'] = {'foo': 'bar'}
+        message_context_skill_dialog_model = {}  # MessageContextSkillDialog
+        message_context_skill_dialog_model['user_defined'] = {'anyKey': 'anyValue'}
         message_context_skill_dialog_model['system'] = message_context_skill_system_model
 
-        message_context_skill_action_model = {} # MessageContextSkillAction
-        message_context_skill_action_model['user_defined'] = {'foo': 'bar'}
+        message_context_skill_action_model = {}  # MessageContextSkillAction
+        message_context_skill_action_model['user_defined'] = {'anyKey': 'anyValue'}
         message_context_skill_action_model['system'] = message_context_skill_system_model
-        message_context_skill_action_model['action_variables'] = {'foo': 'bar'}
-        message_context_skill_action_model['skill_variables'] = {'foo': 'bar'}
+        message_context_skill_action_model['action_variables'] = {'anyKey': 'anyValue'}
+        message_context_skill_action_model['skill_variables'] = {'anyKey': 'anyValue'}
 
-        message_context_skills_model = {} # MessageContextSkills
+        message_context_skills_model = {}  # MessageContextSkills
         message_context_skills_model['main skill'] = message_context_skill_dialog_model
         message_context_skills_model['actions skill'] = message_context_skill_action_model
 
-        message_context_model = {} # MessageContext
+        message_context_model = {}  # MessageContext
         message_context_model['global'] = message_context_global_model
         message_context_model['skills'] = message_context_skills_model
-        message_context_model['integrations'] = {'foo': 'bar'}
+        message_context_model['integrations'] = {'anyKey': 'anyValue'}
 
-        message_request_model = {} # MessageRequest
+        message_request_model = {}  # MessageRequest
         message_request_model['input'] = message_input_model
         message_request_model['context'] = message_context_model
         message_request_model['user_id'] = 'testString'
 
-        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'testString'
 
-        runtime_response_generic_model = {} # RuntimeResponseGenericRuntimeResponseTypeText
+        runtime_response_generic_model = {}  # RuntimeResponseGenericRuntimeResponseTypeText
         runtime_response_generic_model['response_type'] = 'text'
         runtime_response_generic_model['text'] = 'testString'
         runtime_response_generic_model['channels'] = [response_generic_channel_model]
 
-        dialog_node_action_model = {} # DialogNodeAction
+        dialog_node_action_model = {}  # DialogNodeAction
         dialog_node_action_model['name'] = 'testString'
         dialog_node_action_model['type'] = 'client'
-        dialog_node_action_model['parameters'] = {'foo': 'bar'}
+        dialog_node_action_model['parameters'] = {'anyKey': 'anyValue'}
         dialog_node_action_model['result_variable'] = 'testString'
         dialog_node_action_model['credentials'] = 'testString'
 
-        dialog_node_visited_model = {} # DialogNodeVisited
+        dialog_node_visited_model = {}  # DialogNodeVisited
         dialog_node_visited_model['dialog_node'] = 'testString'
         dialog_node_visited_model['title'] = 'testString'
         dialog_node_visited_model['conditions'] = 'testString'
 
-        log_message_source_model = {} # LogMessageSourceDialogNode
+        log_message_source_model = {}  # LogMessageSourceDialogNode
         log_message_source_model['type'] = 'dialog_node'
         log_message_source_model['dialog_node'] = 'testString'
 
-        dialog_log_message_model = {} # DialogLogMessage
+        dialog_log_message_model = {}  # DialogLogMessage
         dialog_log_message_model['level'] = 'info'
         dialog_log_message_model['message'] = 'testString'
         dialog_log_message_model['code'] = 'testString'
         dialog_log_message_model['source'] = log_message_source_model
 
-        turn_event_action_source_model = {} # TurnEventActionSource
+        turn_event_action_source_model = {}  # TurnEventActionSource
         turn_event_action_source_model['type'] = 'action'
         turn_event_action_source_model['action'] = 'testString'
         turn_event_action_source_model['action_title'] = 'testString'
         turn_event_action_source_model['condition'] = 'testString'
 
-        message_output_debug_turn_event_model = {} # MessageOutputDebugTurnEventTurnEventActionVisited
+        message_output_debug_turn_event_model = {}  # MessageOutputDebugTurnEventTurnEventActionVisited
         message_output_debug_turn_event_model['event'] = 'action_visited'
         message_output_debug_turn_event_model['source'] = turn_event_action_source_model
         message_output_debug_turn_event_model['action_start_time'] = 'testString'
@@ -4735,28 +4915,28 @@ class TestModel_Log():
         message_output_debug_turn_event_model['reason'] = 'intent'
         message_output_debug_turn_event_model['result_variable'] = 'testString'
 
-        message_output_debug_model = {} # MessageOutputDebug
+        message_output_debug_model = {}  # MessageOutputDebug
         message_output_debug_model['nodes_visited'] = [dialog_node_visited_model]
         message_output_debug_model['log_messages'] = [dialog_log_message_model]
         message_output_debug_model['branch_exited'] = True
         message_output_debug_model['branch_exited_reason'] = 'completed'
         message_output_debug_model['turn_events'] = [message_output_debug_turn_event_model]
 
-        message_output_spelling_model = {} # MessageOutputSpelling
+        message_output_spelling_model = {}  # MessageOutputSpelling
         message_output_spelling_model['text'] = 'testString'
         message_output_spelling_model['original_text'] = 'testString'
         message_output_spelling_model['suggested_text'] = 'testString'
 
-        message_output_model = {} # MessageOutput
+        message_output_model = {}  # MessageOutput
         message_output_model['generic'] = [runtime_response_generic_model]
         message_output_model['intents'] = [runtime_intent_model]
         message_output_model['entities'] = [runtime_entity_model]
         message_output_model['actions'] = [dialog_node_action_model]
         message_output_model['debug'] = message_output_debug_model
-        message_output_model['user_defined'] = {'foo': 'bar'}
+        message_output_model['user_defined'] = {'anyKey': 'anyValue'}
         message_output_model['spelling'] = message_output_spelling_model
 
-        message_response_model = {} # MessageResponse
+        message_response_model = {}  # MessageResponse
         message_response_model['output'] = message_output_model
         message_response_model['context'] = message_context_model
         message_response_model['user_id'] = 'testString'
@@ -4790,7 +4970,8 @@ class TestModel_Log():
         log_model_json2 = log_model.to_dict()
         assert log_model_json2 == log_model_json
 
-class TestModel_LogCollection():
+
+class TestModel_LogCollection:
     """
     Test Class for LogCollection
     """
@@ -4802,16 +4983,16 @@ class TestModel_LogCollection():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        runtime_intent_model = {} # RuntimeIntent
+        runtime_intent_model = {}  # RuntimeIntent
         runtime_intent_model['intent'] = 'testString'
         runtime_intent_model['confidence'] = 72.5
         runtime_intent_model['skill'] = 'testString'
 
-        capture_group_model = {} # CaptureGroup
+        capture_group_model = {}  # CaptureGroup
         capture_group_model['group'] = 'testString'
         capture_group_model['location'] = [38]
 
-        runtime_entity_interpretation_model = {} # RuntimeEntityInterpretation
+        runtime_entity_interpretation_model = {}  # RuntimeEntityInterpretation
         runtime_entity_interpretation_model['calendar_type'] = 'testString'
         runtime_entity_interpretation_model['datetime_link'] = 'testString'
         runtime_entity_interpretation_model['festival'] = 'testString'
@@ -4839,14 +5020,14 @@ class TestModel_LogCollection():
         runtime_entity_interpretation_model['specific_second'] = 72.5
         runtime_entity_interpretation_model['timezone'] = 'testString'
 
-        runtime_entity_alternative_model = {} # RuntimeEntityAlternative
+        runtime_entity_alternative_model = {}  # RuntimeEntityAlternative
         runtime_entity_alternative_model['value'] = 'testString'
         runtime_entity_alternative_model['confidence'] = 72.5
 
-        runtime_entity_role_model = {} # RuntimeEntityRole
+        runtime_entity_role_model = {}  # RuntimeEntityRole
         runtime_entity_role_model['type'] = 'date_from'
 
-        runtime_entity_model = {} # RuntimeEntity
+        runtime_entity_model = {}  # RuntimeEntity
         runtime_entity_model['entity'] = 'testString'
         runtime_entity_model['location'] = [38]
         runtime_entity_model['value'] = 'testString'
@@ -4857,20 +5038,20 @@ class TestModel_LogCollection():
         runtime_entity_model['role'] = runtime_entity_role_model
         runtime_entity_model['skill'] = 'testString'
 
-        message_input_attachment_model = {} # MessageInputAttachment
+        message_input_attachment_model = {}  # MessageInputAttachment
         message_input_attachment_model['url'] = 'testString'
         message_input_attachment_model['media_type'] = 'testString'
 
-        request_analytics_model = {} # RequestAnalytics
+        request_analytics_model = {}  # RequestAnalytics
         request_analytics_model['browser'] = 'testString'
         request_analytics_model['device'] = 'testString'
         request_analytics_model['pageUrl'] = 'testString'
 
-        message_input_options_spelling_model = {} # MessageInputOptionsSpelling
+        message_input_options_spelling_model = {}  # MessageInputOptionsSpelling
         message_input_options_spelling_model['suggestions'] = True
         message_input_options_spelling_model['auto_correct'] = True
 
-        message_input_options_model = {} # MessageInputOptions
+        message_input_options_model = {}  # MessageInputOptions
         message_input_options_model['restart'] = False
         message_input_options_model['alternate_intents'] = False
         message_input_options_model['spelling'] = message_input_options_spelling_model
@@ -4878,7 +5059,7 @@ class TestModel_LogCollection():
         message_input_options_model['return_context'] = False
         message_input_options_model['export'] = False
 
-        message_input_model = {} # MessageInput
+        message_input_model = {}  # MessageInput
         message_input_model['message_type'] = 'text'
         message_input_model['text'] = 'testString'
         message_input_model['intents'] = [runtime_intent_model]
@@ -4888,7 +5069,7 @@ class TestModel_LogCollection():
         message_input_model['analytics'] = request_analytics_model
         message_input_model['options'] = message_input_options_model
 
-        message_context_global_system_model = {} # MessageContextGlobalSystem
+        message_context_global_system_model = {}  # MessageContextGlobalSystem
         message_context_global_system_model['timezone'] = 'testString'
         message_context_global_system_model['user_id'] = 'testString'
         message_context_global_system_model['turn_count'] = 38
@@ -4898,74 +5079,74 @@ class TestModel_LogCollection():
         message_context_global_system_model['state'] = 'testString'
         message_context_global_system_model['skip_user_input'] = True
 
-        message_context_global_model = {} # MessageContextGlobal
+        message_context_global_model = {}  # MessageContextGlobal
         message_context_global_model['system'] = message_context_global_system_model
 
-        message_context_skill_system_model = {} # MessageContextSkillSystem
+        message_context_skill_system_model = {}  # MessageContextSkillSystem
         message_context_skill_system_model['state'] = 'testString'
         message_context_skill_system_model['foo'] = 'testString'
 
-        message_context_skill_dialog_model = {} # MessageContextSkillDialog
-        message_context_skill_dialog_model['user_defined'] = {'foo': 'bar'}
+        message_context_skill_dialog_model = {}  # MessageContextSkillDialog
+        message_context_skill_dialog_model['user_defined'] = {'anyKey': 'anyValue'}
         message_context_skill_dialog_model['system'] = message_context_skill_system_model
 
-        message_context_skill_action_model = {} # MessageContextSkillAction
-        message_context_skill_action_model['user_defined'] = {'foo': 'bar'}
+        message_context_skill_action_model = {}  # MessageContextSkillAction
+        message_context_skill_action_model['user_defined'] = {'anyKey': 'anyValue'}
         message_context_skill_action_model['system'] = message_context_skill_system_model
-        message_context_skill_action_model['action_variables'] = {'foo': 'bar'}
-        message_context_skill_action_model['skill_variables'] = {'foo': 'bar'}
+        message_context_skill_action_model['action_variables'] = {'anyKey': 'anyValue'}
+        message_context_skill_action_model['skill_variables'] = {'anyKey': 'anyValue'}
 
-        message_context_skills_model = {} # MessageContextSkills
+        message_context_skills_model = {}  # MessageContextSkills
         message_context_skills_model['main skill'] = message_context_skill_dialog_model
         message_context_skills_model['actions skill'] = message_context_skill_action_model
 
-        message_context_model = {} # MessageContext
+        message_context_model = {}  # MessageContext
         message_context_model['global'] = message_context_global_model
         message_context_model['skills'] = message_context_skills_model
-        message_context_model['integrations'] = {'foo': 'bar'}
+        message_context_model['integrations'] = {'anyKey': 'anyValue'}
 
-        message_request_model = {} # MessageRequest
+        message_request_model = {}  # MessageRequest
         message_request_model['input'] = message_input_model
         message_request_model['context'] = message_context_model
         message_request_model['user_id'] = 'testString'
 
-        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'testString'
 
-        runtime_response_generic_model = {} # RuntimeResponseGenericRuntimeResponseTypeText
+        runtime_response_generic_model = {}  # RuntimeResponseGenericRuntimeResponseTypeText
         runtime_response_generic_model['response_type'] = 'text'
         runtime_response_generic_model['text'] = 'testString'
         runtime_response_generic_model['channels'] = [response_generic_channel_model]
 
-        dialog_node_action_model = {} # DialogNodeAction
+        dialog_node_action_model = {}  # DialogNodeAction
         dialog_node_action_model['name'] = 'testString'
         dialog_node_action_model['type'] = 'client'
-        dialog_node_action_model['parameters'] = {'foo': 'bar'}
+        dialog_node_action_model['parameters'] = {'anyKey': 'anyValue'}
         dialog_node_action_model['result_variable'] = 'testString'
         dialog_node_action_model['credentials'] = 'testString'
 
-        dialog_node_visited_model = {} # DialogNodeVisited
+        dialog_node_visited_model = {}  # DialogNodeVisited
         dialog_node_visited_model['dialog_node'] = 'testString'
         dialog_node_visited_model['title'] = 'testString'
         dialog_node_visited_model['conditions'] = 'testString'
 
-        log_message_source_model = {} # LogMessageSourceDialogNode
+        log_message_source_model = {}  # LogMessageSourceDialogNode
         log_message_source_model['type'] = 'dialog_node'
         log_message_source_model['dialog_node'] = 'testString'
 
-        dialog_log_message_model = {} # DialogLogMessage
+        dialog_log_message_model = {}  # DialogLogMessage
         dialog_log_message_model['level'] = 'info'
         dialog_log_message_model['message'] = 'testString'
         dialog_log_message_model['code'] = 'testString'
         dialog_log_message_model['source'] = log_message_source_model
 
-        turn_event_action_source_model = {} # TurnEventActionSource
+        turn_event_action_source_model = {}  # TurnEventActionSource
         turn_event_action_source_model['type'] = 'action'
         turn_event_action_source_model['action'] = 'testString'
         turn_event_action_source_model['action_title'] = 'testString'
         turn_event_action_source_model['condition'] = 'testString'
 
-        message_output_debug_turn_event_model = {} # MessageOutputDebugTurnEventTurnEventActionVisited
+        message_output_debug_turn_event_model = {}  # MessageOutputDebugTurnEventTurnEventActionVisited
         message_output_debug_turn_event_model['event'] = 'action_visited'
         message_output_debug_turn_event_model['source'] = turn_event_action_source_model
         message_output_debug_turn_event_model['action_start_time'] = 'testString'
@@ -4973,33 +5154,33 @@ class TestModel_LogCollection():
         message_output_debug_turn_event_model['reason'] = 'intent'
         message_output_debug_turn_event_model['result_variable'] = 'testString'
 
-        message_output_debug_model = {} # MessageOutputDebug
+        message_output_debug_model = {}  # MessageOutputDebug
         message_output_debug_model['nodes_visited'] = [dialog_node_visited_model]
         message_output_debug_model['log_messages'] = [dialog_log_message_model]
         message_output_debug_model['branch_exited'] = True
         message_output_debug_model['branch_exited_reason'] = 'completed'
         message_output_debug_model['turn_events'] = [message_output_debug_turn_event_model]
 
-        message_output_spelling_model = {} # MessageOutputSpelling
+        message_output_spelling_model = {}  # MessageOutputSpelling
         message_output_spelling_model['text'] = 'testString'
         message_output_spelling_model['original_text'] = 'testString'
         message_output_spelling_model['suggested_text'] = 'testString'
 
-        message_output_model = {} # MessageOutput
+        message_output_model = {}  # MessageOutput
         message_output_model['generic'] = [runtime_response_generic_model]
         message_output_model['intents'] = [runtime_intent_model]
         message_output_model['entities'] = [runtime_entity_model]
         message_output_model['actions'] = [dialog_node_action_model]
         message_output_model['debug'] = message_output_debug_model
-        message_output_model['user_defined'] = {'foo': 'bar'}
+        message_output_model['user_defined'] = {'anyKey': 'anyValue'}
         message_output_model['spelling'] = message_output_spelling_model
 
-        message_response_model = {} # MessageResponse
+        message_response_model = {}  # MessageResponse
         message_response_model['output'] = message_output_model
         message_response_model['context'] = message_context_model
         message_response_model['user_id'] = 'testString'
 
-        log_model = {} # Log
+        log_model = {}  # Log
         log_model['log_id'] = 'testString'
         log_model['request'] = message_request_model
         log_model['response'] = message_response_model
@@ -5012,7 +5193,7 @@ class TestModel_LogCollection():
         log_model['language'] = 'testString'
         log_model['customer_id'] = 'testString'
 
-        log_pagination_model = {} # LogPagination
+        log_pagination_model = {}  # LogPagination
         log_pagination_model['next_url'] = 'testString'
         log_pagination_model['matched'] = 38
         log_pagination_model['next_cursor'] = 'testString'
@@ -5037,7 +5218,8 @@ class TestModel_LogCollection():
         log_collection_model_json2 = log_collection_model.to_dict()
         assert log_collection_model_json2 == log_collection_model_json
 
-class TestModel_LogPagination():
+
+class TestModel_LogPagination:
     """
     Test Class for LogPagination
     """
@@ -5068,7 +5250,8 @@ class TestModel_LogPagination():
         log_pagination_model_json2 = log_pagination_model.to_dict()
         assert log_pagination_model_json2 == log_pagination_model_json
 
-class TestModel_MessageContext():
+
+class TestModel_MessageContext:
     """
     Test Class for MessageContext
     """
@@ -5080,7 +5263,7 @@ class TestModel_MessageContext():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        message_context_global_system_model = {} # MessageContextGlobalSystem
+        message_context_global_system_model = {}  # MessageContextGlobalSystem
         message_context_global_system_model['timezone'] = 'testString'
         message_context_global_system_model['user_id'] = 'testString'
         message_context_global_system_model['turn_count'] = 38
@@ -5090,24 +5273,24 @@ class TestModel_MessageContext():
         message_context_global_system_model['state'] = 'testString'
         message_context_global_system_model['skip_user_input'] = True
 
-        message_context_global_model = {} # MessageContextGlobal
+        message_context_global_model = {}  # MessageContextGlobal
         message_context_global_model['system'] = message_context_global_system_model
 
-        message_context_skill_system_model = {} # MessageContextSkillSystem
+        message_context_skill_system_model = {}  # MessageContextSkillSystem
         message_context_skill_system_model['state'] = 'testString'
         message_context_skill_system_model['foo'] = 'testString'
 
-        message_context_skill_dialog_model = {} # MessageContextSkillDialog
-        message_context_skill_dialog_model['user_defined'] = {'foo': 'bar'}
+        message_context_skill_dialog_model = {}  # MessageContextSkillDialog
+        message_context_skill_dialog_model['user_defined'] = {'anyKey': 'anyValue'}
         message_context_skill_dialog_model['system'] = message_context_skill_system_model
 
-        message_context_skill_action_model = {} # MessageContextSkillAction
-        message_context_skill_action_model['user_defined'] = {'foo': 'bar'}
+        message_context_skill_action_model = {}  # MessageContextSkillAction
+        message_context_skill_action_model['user_defined'] = {'anyKey': 'anyValue'}
         message_context_skill_action_model['system'] = message_context_skill_system_model
-        message_context_skill_action_model['action_variables'] = {'foo': 'bar'}
-        message_context_skill_action_model['skill_variables'] = {'foo': 'bar'}
+        message_context_skill_action_model['action_variables'] = {'anyKey': 'anyValue'}
+        message_context_skill_action_model['skill_variables'] = {'anyKey': 'anyValue'}
 
-        message_context_skills_model = {} # MessageContextSkills
+        message_context_skills_model = {}  # MessageContextSkills
         message_context_skills_model['main skill'] = message_context_skill_dialog_model
         message_context_skills_model['actions skill'] = message_context_skill_action_model
 
@@ -5115,7 +5298,7 @@ class TestModel_MessageContext():
         message_context_model_json = {}
         message_context_model_json['global'] = message_context_global_model
         message_context_model_json['skills'] = message_context_skills_model
-        message_context_model_json['integrations'] = {'foo': 'bar'}
+        message_context_model_json['integrations'] = {'anyKey': 'anyValue'}
 
         # Construct a model instance of MessageContext by calling from_dict on the json representation
         message_context_model = MessageContext.from_dict(message_context_model_json)
@@ -5132,7 +5315,8 @@ class TestModel_MessageContext():
         message_context_model_json2 = message_context_model.to_dict()
         assert message_context_model_json2 == message_context_model_json
 
-class TestModel_MessageContextGlobal():
+
+class TestModel_MessageContextGlobal:
     """
     Test Class for MessageContextGlobal
     """
@@ -5144,7 +5328,7 @@ class TestModel_MessageContextGlobal():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        message_context_global_system_model = {} # MessageContextGlobalSystem
+        message_context_global_system_model = {}  # MessageContextGlobalSystem
         message_context_global_system_model['timezone'] = 'testString'
         message_context_global_system_model['user_id'] = 'testString'
         message_context_global_system_model['turn_count'] = 38
@@ -5173,7 +5357,8 @@ class TestModel_MessageContextGlobal():
         message_context_global_model_json2 = message_context_global_model.to_dict()
         assert message_context_global_model_json2 == message_context_global_model_json
 
-class TestModel_MessageContextGlobalStateless():
+
+class TestModel_MessageContextGlobalStateless:
     """
     Test Class for MessageContextGlobalStateless
     """
@@ -5185,7 +5370,7 @@ class TestModel_MessageContextGlobalStateless():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        message_context_global_system_model = {} # MessageContextGlobalSystem
+        message_context_global_system_model = {}  # MessageContextGlobalSystem
         message_context_global_system_model['timezone'] = 'testString'
         message_context_global_system_model['user_id'] = 'testString'
         message_context_global_system_model['turn_count'] = 38
@@ -5215,7 +5400,8 @@ class TestModel_MessageContextGlobalStateless():
         message_context_global_stateless_model_json2 = message_context_global_stateless_model.to_dict()
         assert message_context_global_stateless_model_json2 == message_context_global_stateless_model_json
 
-class TestModel_MessageContextGlobalSystem():
+
+class TestModel_MessageContextGlobalSystem:
     """
     Test Class for MessageContextGlobalSystem
     """
@@ -5251,7 +5437,8 @@ class TestModel_MessageContextGlobalSystem():
         message_context_global_system_model_json2 = message_context_global_system_model.to_dict()
         assert message_context_global_system_model_json2 == message_context_global_system_model_json
 
-class TestModel_MessageContextSkillAction():
+
+class TestModel_MessageContextSkillAction:
     """
     Test Class for MessageContextSkillAction
     """
@@ -5263,16 +5450,16 @@ class TestModel_MessageContextSkillAction():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        message_context_skill_system_model = {} # MessageContextSkillSystem
+        message_context_skill_system_model = {}  # MessageContextSkillSystem
         message_context_skill_system_model['state'] = 'testString'
         message_context_skill_system_model['foo'] = 'testString'
 
         # Construct a json representation of a MessageContextSkillAction model
         message_context_skill_action_model_json = {}
-        message_context_skill_action_model_json['user_defined'] = {'foo': 'bar'}
+        message_context_skill_action_model_json['user_defined'] = {'anyKey': 'anyValue'}
         message_context_skill_action_model_json['system'] = message_context_skill_system_model
-        message_context_skill_action_model_json['action_variables'] = {'foo': 'bar'}
-        message_context_skill_action_model_json['skill_variables'] = {'foo': 'bar'}
+        message_context_skill_action_model_json['action_variables'] = {'anyKey': 'anyValue'}
+        message_context_skill_action_model_json['skill_variables'] = {'anyKey': 'anyValue'}
 
         # Construct a model instance of MessageContextSkillAction by calling from_dict on the json representation
         message_context_skill_action_model = MessageContextSkillAction.from_dict(message_context_skill_action_model_json)
@@ -5289,7 +5476,8 @@ class TestModel_MessageContextSkillAction():
         message_context_skill_action_model_json2 = message_context_skill_action_model.to_dict()
         assert message_context_skill_action_model_json2 == message_context_skill_action_model_json
 
-class TestModel_MessageContextSkillDialog():
+
+class TestModel_MessageContextSkillDialog:
     """
     Test Class for MessageContextSkillDialog
     """
@@ -5301,13 +5489,13 @@ class TestModel_MessageContextSkillDialog():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        message_context_skill_system_model = {} # MessageContextSkillSystem
+        message_context_skill_system_model = {}  # MessageContextSkillSystem
         message_context_skill_system_model['state'] = 'testString'
         message_context_skill_system_model['foo'] = 'testString'
 
         # Construct a json representation of a MessageContextSkillDialog model
         message_context_skill_dialog_model_json = {}
-        message_context_skill_dialog_model_json['user_defined'] = {'foo': 'bar'}
+        message_context_skill_dialog_model_json['user_defined'] = {'anyKey': 'anyValue'}
         message_context_skill_dialog_model_json['system'] = message_context_skill_system_model
 
         # Construct a model instance of MessageContextSkillDialog by calling from_dict on the json representation
@@ -5325,7 +5513,8 @@ class TestModel_MessageContextSkillDialog():
         message_context_skill_dialog_model_json2 = message_context_skill_dialog_model.to_dict()
         assert message_context_skill_dialog_model_json2 == message_context_skill_dialog_model_json
 
-class TestModel_MessageContextSkillSystem():
+
+class TestModel_MessageContextSkillSystem:
     """
     Test Class for MessageContextSkillSystem
     """
@@ -5365,7 +5554,8 @@ class TestModel_MessageContextSkillSystem():
         actual_dict = message_context_skill_system_model.get_properties()
         assert actual_dict == expected_dict
 
-class TestModel_MessageContextSkills():
+
+class TestModel_MessageContextSkills:
     """
     Test Class for MessageContextSkills
     """
@@ -5377,19 +5567,19 @@ class TestModel_MessageContextSkills():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        message_context_skill_system_model = {} # MessageContextSkillSystem
+        message_context_skill_system_model = {}  # MessageContextSkillSystem
         message_context_skill_system_model['state'] = 'testString'
         message_context_skill_system_model['foo'] = 'testString'
 
-        message_context_skill_dialog_model = {} # MessageContextSkillDialog
-        message_context_skill_dialog_model['user_defined'] = {'foo': 'bar'}
+        message_context_skill_dialog_model = {}  # MessageContextSkillDialog
+        message_context_skill_dialog_model['user_defined'] = {'anyKey': 'anyValue'}
         message_context_skill_dialog_model['system'] = message_context_skill_system_model
 
-        message_context_skill_action_model = {} # MessageContextSkillAction
-        message_context_skill_action_model['user_defined'] = {'foo': 'bar'}
+        message_context_skill_action_model = {}  # MessageContextSkillAction
+        message_context_skill_action_model['user_defined'] = {'anyKey': 'anyValue'}
         message_context_skill_action_model['system'] = message_context_skill_system_model
-        message_context_skill_action_model['action_variables'] = {'foo': 'bar'}
-        message_context_skill_action_model['skill_variables'] = {'foo': 'bar'}
+        message_context_skill_action_model['action_variables'] = {'anyKey': 'anyValue'}
+        message_context_skill_action_model['skill_variables'] = {'anyKey': 'anyValue'}
 
         # Construct a json representation of a MessageContextSkills model
         message_context_skills_model_json = {}
@@ -5411,7 +5601,8 @@ class TestModel_MessageContextSkills():
         message_context_skills_model_json2 = message_context_skills_model.to_dict()
         assert message_context_skills_model_json2 == message_context_skills_model_json
 
-class TestModel_MessageContextStateless():
+
+class TestModel_MessageContextStateless:
     """
     Test Class for MessageContextStateless
     """
@@ -5423,7 +5614,7 @@ class TestModel_MessageContextStateless():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        message_context_global_system_model = {} # MessageContextGlobalSystem
+        message_context_global_system_model = {}  # MessageContextGlobalSystem
         message_context_global_system_model['timezone'] = 'testString'
         message_context_global_system_model['user_id'] = 'testString'
         message_context_global_system_model['turn_count'] = 38
@@ -5433,25 +5624,25 @@ class TestModel_MessageContextStateless():
         message_context_global_system_model['state'] = 'testString'
         message_context_global_system_model['skip_user_input'] = True
 
-        message_context_global_stateless_model = {} # MessageContextGlobalStateless
+        message_context_global_stateless_model = {}  # MessageContextGlobalStateless
         message_context_global_stateless_model['system'] = message_context_global_system_model
         message_context_global_stateless_model['session_id'] = 'testString'
 
-        message_context_skill_system_model = {} # MessageContextSkillSystem
+        message_context_skill_system_model = {}  # MessageContextSkillSystem
         message_context_skill_system_model['state'] = 'testString'
         message_context_skill_system_model['foo'] = 'testString'
 
-        message_context_skill_dialog_model = {} # MessageContextSkillDialog
-        message_context_skill_dialog_model['user_defined'] = {'foo': 'bar'}
+        message_context_skill_dialog_model = {}  # MessageContextSkillDialog
+        message_context_skill_dialog_model['user_defined'] = {'anyKey': 'anyValue'}
         message_context_skill_dialog_model['system'] = message_context_skill_system_model
 
-        message_context_skill_action_model = {} # MessageContextSkillAction
-        message_context_skill_action_model['user_defined'] = {'foo': 'bar'}
+        message_context_skill_action_model = {}  # MessageContextSkillAction
+        message_context_skill_action_model['user_defined'] = {'anyKey': 'anyValue'}
         message_context_skill_action_model['system'] = message_context_skill_system_model
-        message_context_skill_action_model['action_variables'] = {'foo': 'bar'}
-        message_context_skill_action_model['skill_variables'] = {'foo': 'bar'}
+        message_context_skill_action_model['action_variables'] = {'anyKey': 'anyValue'}
+        message_context_skill_action_model['skill_variables'] = {'anyKey': 'anyValue'}
 
-        message_context_skills_model = {} # MessageContextSkills
+        message_context_skills_model = {}  # MessageContextSkills
         message_context_skills_model['main skill'] = message_context_skill_dialog_model
         message_context_skills_model['actions skill'] = message_context_skill_action_model
 
@@ -5459,7 +5650,7 @@ class TestModel_MessageContextStateless():
         message_context_stateless_model_json = {}
         message_context_stateless_model_json['global'] = message_context_global_stateless_model
         message_context_stateless_model_json['skills'] = message_context_skills_model
-        message_context_stateless_model_json['integrations'] = {'foo': 'bar'}
+        message_context_stateless_model_json['integrations'] = {'anyKey': 'anyValue'}
 
         # Construct a model instance of MessageContextStateless by calling from_dict on the json representation
         message_context_stateless_model = MessageContextStateless.from_dict(message_context_stateless_model_json)
@@ -5476,7 +5667,8 @@ class TestModel_MessageContextStateless():
         message_context_stateless_model_json2 = message_context_stateless_model.to_dict()
         assert message_context_stateless_model_json2 == message_context_stateless_model_json
 
-class TestModel_MessageInput():
+
+class TestModel_MessageInput:
     """
     Test Class for MessageInput
     """
@@ -5488,16 +5680,16 @@ class TestModel_MessageInput():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        runtime_intent_model = {} # RuntimeIntent
+        runtime_intent_model = {}  # RuntimeIntent
         runtime_intent_model['intent'] = 'testString'
         runtime_intent_model['confidence'] = 72.5
         runtime_intent_model['skill'] = 'testString'
 
-        capture_group_model = {} # CaptureGroup
+        capture_group_model = {}  # CaptureGroup
         capture_group_model['group'] = 'testString'
         capture_group_model['location'] = [38]
 
-        runtime_entity_interpretation_model = {} # RuntimeEntityInterpretation
+        runtime_entity_interpretation_model = {}  # RuntimeEntityInterpretation
         runtime_entity_interpretation_model['calendar_type'] = 'testString'
         runtime_entity_interpretation_model['datetime_link'] = 'testString'
         runtime_entity_interpretation_model['festival'] = 'testString'
@@ -5525,14 +5717,14 @@ class TestModel_MessageInput():
         runtime_entity_interpretation_model['specific_second'] = 72.5
         runtime_entity_interpretation_model['timezone'] = 'testString'
 
-        runtime_entity_alternative_model = {} # RuntimeEntityAlternative
+        runtime_entity_alternative_model = {}  # RuntimeEntityAlternative
         runtime_entity_alternative_model['value'] = 'testString'
         runtime_entity_alternative_model['confidence'] = 72.5
 
-        runtime_entity_role_model = {} # RuntimeEntityRole
+        runtime_entity_role_model = {}  # RuntimeEntityRole
         runtime_entity_role_model['type'] = 'date_from'
 
-        runtime_entity_model = {} # RuntimeEntity
+        runtime_entity_model = {}  # RuntimeEntity
         runtime_entity_model['entity'] = 'testString'
         runtime_entity_model['location'] = [38]
         runtime_entity_model['value'] = 'testString'
@@ -5543,20 +5735,20 @@ class TestModel_MessageInput():
         runtime_entity_model['role'] = runtime_entity_role_model
         runtime_entity_model['skill'] = 'testString'
 
-        message_input_attachment_model = {} # MessageInputAttachment
+        message_input_attachment_model = {}  # MessageInputAttachment
         message_input_attachment_model['url'] = 'testString'
         message_input_attachment_model['media_type'] = 'testString'
 
-        request_analytics_model = {} # RequestAnalytics
+        request_analytics_model = {}  # RequestAnalytics
         request_analytics_model['browser'] = 'testString'
         request_analytics_model['device'] = 'testString'
         request_analytics_model['pageUrl'] = 'testString'
 
-        message_input_options_spelling_model = {} # MessageInputOptionsSpelling
+        message_input_options_spelling_model = {}  # MessageInputOptionsSpelling
         message_input_options_spelling_model['suggestions'] = True
         message_input_options_spelling_model['auto_correct'] = True
 
-        message_input_options_model = {} # MessageInputOptions
+        message_input_options_model = {}  # MessageInputOptions
         message_input_options_model['restart'] = False
         message_input_options_model['alternate_intents'] = False
         message_input_options_model['spelling'] = message_input_options_spelling_model
@@ -5590,7 +5782,8 @@ class TestModel_MessageInput():
         message_input_model_json2 = message_input_model.to_dict()
         assert message_input_model_json2 == message_input_model_json
 
-class TestModel_MessageInputAttachment():
+
+class TestModel_MessageInputAttachment:
     """
     Test Class for MessageInputAttachment
     """
@@ -5620,7 +5813,8 @@ class TestModel_MessageInputAttachment():
         message_input_attachment_model_json2 = message_input_attachment_model.to_dict()
         assert message_input_attachment_model_json2 == message_input_attachment_model_json
 
-class TestModel_MessageInputOptions():
+
+class TestModel_MessageInputOptions:
     """
     Test Class for MessageInputOptions
     """
@@ -5632,7 +5826,7 @@ class TestModel_MessageInputOptions():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        message_input_options_spelling_model = {} # MessageInputOptionsSpelling
+        message_input_options_spelling_model = {}  # MessageInputOptionsSpelling
         message_input_options_spelling_model['suggestions'] = True
         message_input_options_spelling_model['auto_correct'] = True
 
@@ -5660,7 +5854,8 @@ class TestModel_MessageInputOptions():
         message_input_options_model_json2 = message_input_options_model.to_dict()
         assert message_input_options_model_json2 == message_input_options_model_json
 
-class TestModel_MessageInputOptionsSpelling():
+
+class TestModel_MessageInputOptionsSpelling:
     """
     Test Class for MessageInputOptionsSpelling
     """
@@ -5690,7 +5885,8 @@ class TestModel_MessageInputOptionsSpelling():
         message_input_options_spelling_model_json2 = message_input_options_spelling_model.to_dict()
         assert message_input_options_spelling_model_json2 == message_input_options_spelling_model_json
 
-class TestModel_MessageInputOptionsStateless():
+
+class TestModel_MessageInputOptionsStateless:
     """
     Test Class for MessageInputOptionsStateless
     """
@@ -5702,7 +5898,7 @@ class TestModel_MessageInputOptionsStateless():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        message_input_options_spelling_model = {} # MessageInputOptionsSpelling
+        message_input_options_spelling_model = {}  # MessageInputOptionsSpelling
         message_input_options_spelling_model['suggestions'] = True
         message_input_options_spelling_model['auto_correct'] = True
 
@@ -5728,7 +5924,8 @@ class TestModel_MessageInputOptionsStateless():
         message_input_options_stateless_model_json2 = message_input_options_stateless_model.to_dict()
         assert message_input_options_stateless_model_json2 == message_input_options_stateless_model_json
 
-class TestModel_MessageInputStateless():
+
+class TestModel_MessageInputStateless:
     """
     Test Class for MessageInputStateless
     """
@@ -5740,16 +5937,16 @@ class TestModel_MessageInputStateless():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        runtime_intent_model = {} # RuntimeIntent
+        runtime_intent_model = {}  # RuntimeIntent
         runtime_intent_model['intent'] = 'testString'
         runtime_intent_model['confidence'] = 72.5
         runtime_intent_model['skill'] = 'testString'
 
-        capture_group_model = {} # CaptureGroup
+        capture_group_model = {}  # CaptureGroup
         capture_group_model['group'] = 'testString'
         capture_group_model['location'] = [38]
 
-        runtime_entity_interpretation_model = {} # RuntimeEntityInterpretation
+        runtime_entity_interpretation_model = {}  # RuntimeEntityInterpretation
         runtime_entity_interpretation_model['calendar_type'] = 'testString'
         runtime_entity_interpretation_model['datetime_link'] = 'testString'
         runtime_entity_interpretation_model['festival'] = 'testString'
@@ -5777,14 +5974,14 @@ class TestModel_MessageInputStateless():
         runtime_entity_interpretation_model['specific_second'] = 72.5
         runtime_entity_interpretation_model['timezone'] = 'testString'
 
-        runtime_entity_alternative_model = {} # RuntimeEntityAlternative
+        runtime_entity_alternative_model = {}  # RuntimeEntityAlternative
         runtime_entity_alternative_model['value'] = 'testString'
         runtime_entity_alternative_model['confidence'] = 72.5
 
-        runtime_entity_role_model = {} # RuntimeEntityRole
+        runtime_entity_role_model = {}  # RuntimeEntityRole
         runtime_entity_role_model['type'] = 'date_from'
 
-        runtime_entity_model = {} # RuntimeEntity
+        runtime_entity_model = {}  # RuntimeEntity
         runtime_entity_model['entity'] = 'testString'
         runtime_entity_model['location'] = [38]
         runtime_entity_model['value'] = 'testString'
@@ -5795,20 +5992,20 @@ class TestModel_MessageInputStateless():
         runtime_entity_model['role'] = runtime_entity_role_model
         runtime_entity_model['skill'] = 'testString'
 
-        message_input_attachment_model = {} # MessageInputAttachment
+        message_input_attachment_model = {}  # MessageInputAttachment
         message_input_attachment_model['url'] = 'testString'
         message_input_attachment_model['media_type'] = 'testString'
 
-        request_analytics_model = {} # RequestAnalytics
+        request_analytics_model = {}  # RequestAnalytics
         request_analytics_model['browser'] = 'testString'
         request_analytics_model['device'] = 'testString'
         request_analytics_model['pageUrl'] = 'testString'
 
-        message_input_options_spelling_model = {} # MessageInputOptionsSpelling
+        message_input_options_spelling_model = {}  # MessageInputOptionsSpelling
         message_input_options_spelling_model['suggestions'] = True
         message_input_options_spelling_model['auto_correct'] = True
 
-        message_input_options_stateless_model = {} # MessageInputOptionsStateless
+        message_input_options_stateless_model = {}  # MessageInputOptionsStateless
         message_input_options_stateless_model['restart'] = False
         message_input_options_stateless_model['alternate_intents'] = False
         message_input_options_stateless_model['spelling'] = message_input_options_spelling_model
@@ -5840,7 +6037,8 @@ class TestModel_MessageInputStateless():
         message_input_stateless_model_json2 = message_input_stateless_model.to_dict()
         assert message_input_stateless_model_json2 == message_input_stateless_model_json
 
-class TestModel_MessageOutput():
+
+class TestModel_MessageOutput:
     """
     Test Class for MessageOutput
     """
@@ -5852,24 +6050,24 @@ class TestModel_MessageOutput():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'testString'
 
-        runtime_response_generic_model = {} # RuntimeResponseGenericRuntimeResponseTypeText
+        runtime_response_generic_model = {}  # RuntimeResponseGenericRuntimeResponseTypeText
         runtime_response_generic_model['response_type'] = 'text'
         runtime_response_generic_model['text'] = 'testString'
         runtime_response_generic_model['channels'] = [response_generic_channel_model]
 
-        runtime_intent_model = {} # RuntimeIntent
+        runtime_intent_model = {}  # RuntimeIntent
         runtime_intent_model['intent'] = 'testString'
         runtime_intent_model['confidence'] = 72.5
         runtime_intent_model['skill'] = 'testString'
 
-        capture_group_model = {} # CaptureGroup
+        capture_group_model = {}  # CaptureGroup
         capture_group_model['group'] = 'testString'
         capture_group_model['location'] = [38]
 
-        runtime_entity_interpretation_model = {} # RuntimeEntityInterpretation
+        runtime_entity_interpretation_model = {}  # RuntimeEntityInterpretation
         runtime_entity_interpretation_model['calendar_type'] = 'testString'
         runtime_entity_interpretation_model['datetime_link'] = 'testString'
         runtime_entity_interpretation_model['festival'] = 'testString'
@@ -5897,14 +6095,14 @@ class TestModel_MessageOutput():
         runtime_entity_interpretation_model['specific_second'] = 72.5
         runtime_entity_interpretation_model['timezone'] = 'testString'
 
-        runtime_entity_alternative_model = {} # RuntimeEntityAlternative
+        runtime_entity_alternative_model = {}  # RuntimeEntityAlternative
         runtime_entity_alternative_model['value'] = 'testString'
         runtime_entity_alternative_model['confidence'] = 72.5
 
-        runtime_entity_role_model = {} # RuntimeEntityRole
+        runtime_entity_role_model = {}  # RuntimeEntityRole
         runtime_entity_role_model['type'] = 'date_from'
 
-        runtime_entity_model = {} # RuntimeEntity
+        runtime_entity_model = {}  # RuntimeEntity
         runtime_entity_model['entity'] = 'testString'
         runtime_entity_model['location'] = [38]
         runtime_entity_model['value'] = 'testString'
@@ -5915,35 +6113,35 @@ class TestModel_MessageOutput():
         runtime_entity_model['role'] = runtime_entity_role_model
         runtime_entity_model['skill'] = 'testString'
 
-        dialog_node_action_model = {} # DialogNodeAction
+        dialog_node_action_model = {}  # DialogNodeAction
         dialog_node_action_model['name'] = 'testString'
         dialog_node_action_model['type'] = 'client'
-        dialog_node_action_model['parameters'] = {'foo': 'bar'}
+        dialog_node_action_model['parameters'] = {'anyKey': 'anyValue'}
         dialog_node_action_model['result_variable'] = 'testString'
         dialog_node_action_model['credentials'] = 'testString'
 
-        dialog_node_visited_model = {} # DialogNodeVisited
+        dialog_node_visited_model = {}  # DialogNodeVisited
         dialog_node_visited_model['dialog_node'] = 'testString'
         dialog_node_visited_model['title'] = 'testString'
         dialog_node_visited_model['conditions'] = 'testString'
 
-        log_message_source_model = {} # LogMessageSourceDialogNode
+        log_message_source_model = {}  # LogMessageSourceDialogNode
         log_message_source_model['type'] = 'dialog_node'
         log_message_source_model['dialog_node'] = 'testString'
 
-        dialog_log_message_model = {} # DialogLogMessage
+        dialog_log_message_model = {}  # DialogLogMessage
         dialog_log_message_model['level'] = 'info'
         dialog_log_message_model['message'] = 'testString'
         dialog_log_message_model['code'] = 'testString'
         dialog_log_message_model['source'] = log_message_source_model
 
-        turn_event_action_source_model = {} # TurnEventActionSource
+        turn_event_action_source_model = {}  # TurnEventActionSource
         turn_event_action_source_model['type'] = 'action'
         turn_event_action_source_model['action'] = 'testString'
         turn_event_action_source_model['action_title'] = 'testString'
         turn_event_action_source_model['condition'] = 'testString'
 
-        message_output_debug_turn_event_model = {} # MessageOutputDebugTurnEventTurnEventActionVisited
+        message_output_debug_turn_event_model = {}  # MessageOutputDebugTurnEventTurnEventActionVisited
         message_output_debug_turn_event_model['event'] = 'action_visited'
         message_output_debug_turn_event_model['source'] = turn_event_action_source_model
         message_output_debug_turn_event_model['action_start_time'] = 'testString'
@@ -5951,14 +6149,14 @@ class TestModel_MessageOutput():
         message_output_debug_turn_event_model['reason'] = 'intent'
         message_output_debug_turn_event_model['result_variable'] = 'testString'
 
-        message_output_debug_model = {} # MessageOutputDebug
+        message_output_debug_model = {}  # MessageOutputDebug
         message_output_debug_model['nodes_visited'] = [dialog_node_visited_model]
         message_output_debug_model['log_messages'] = [dialog_log_message_model]
         message_output_debug_model['branch_exited'] = True
         message_output_debug_model['branch_exited_reason'] = 'completed'
         message_output_debug_model['turn_events'] = [message_output_debug_turn_event_model]
 
-        message_output_spelling_model = {} # MessageOutputSpelling
+        message_output_spelling_model = {}  # MessageOutputSpelling
         message_output_spelling_model['text'] = 'testString'
         message_output_spelling_model['original_text'] = 'testString'
         message_output_spelling_model['suggested_text'] = 'testString'
@@ -5970,7 +6168,7 @@ class TestModel_MessageOutput():
         message_output_model_json['entities'] = [runtime_entity_model]
         message_output_model_json['actions'] = [dialog_node_action_model]
         message_output_model_json['debug'] = message_output_debug_model
-        message_output_model_json['user_defined'] = {'foo': 'bar'}
+        message_output_model_json['user_defined'] = {'anyKey': 'anyValue'}
         message_output_model_json['spelling'] = message_output_spelling_model
 
         # Construct a model instance of MessageOutput by calling from_dict on the json representation
@@ -5988,7 +6186,8 @@ class TestModel_MessageOutput():
         message_output_model_json2 = message_output_model.to_dict()
         assert message_output_model_json2 == message_output_model_json
 
-class TestModel_MessageOutputDebug():
+
+class TestModel_MessageOutputDebug:
     """
     Test Class for MessageOutputDebug
     """
@@ -6000,28 +6199,28 @@ class TestModel_MessageOutputDebug():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        dialog_node_visited_model = {} # DialogNodeVisited
+        dialog_node_visited_model = {}  # DialogNodeVisited
         dialog_node_visited_model['dialog_node'] = 'testString'
         dialog_node_visited_model['title'] = 'testString'
         dialog_node_visited_model['conditions'] = 'testString'
 
-        log_message_source_model = {} # LogMessageSourceDialogNode
+        log_message_source_model = {}  # LogMessageSourceDialogNode
         log_message_source_model['type'] = 'dialog_node'
         log_message_source_model['dialog_node'] = 'testString'
 
-        dialog_log_message_model = {} # DialogLogMessage
+        dialog_log_message_model = {}  # DialogLogMessage
         dialog_log_message_model['level'] = 'info'
         dialog_log_message_model['message'] = 'testString'
         dialog_log_message_model['code'] = 'testString'
         dialog_log_message_model['source'] = log_message_source_model
 
-        turn_event_action_source_model = {} # TurnEventActionSource
+        turn_event_action_source_model = {}  # TurnEventActionSource
         turn_event_action_source_model['type'] = 'action'
         turn_event_action_source_model['action'] = 'testString'
         turn_event_action_source_model['action_title'] = 'testString'
         turn_event_action_source_model['condition'] = 'testString'
 
-        message_output_debug_turn_event_model = {} # MessageOutputDebugTurnEventTurnEventActionVisited
+        message_output_debug_turn_event_model = {}  # MessageOutputDebugTurnEventTurnEventActionVisited
         message_output_debug_turn_event_model['event'] = 'action_visited'
         message_output_debug_turn_event_model['source'] = turn_event_action_source_model
         message_output_debug_turn_event_model['action_start_time'] = 'testString'
@@ -6052,7 +6251,8 @@ class TestModel_MessageOutputDebug():
         message_output_debug_model_json2 = message_output_debug_model.to_dict()
         assert message_output_debug_model_json2 == message_output_debug_model_json
 
-class TestModel_MessageOutputSpelling():
+
+class TestModel_MessageOutputSpelling:
     """
     Test Class for MessageOutputSpelling
     """
@@ -6083,7 +6283,8 @@ class TestModel_MessageOutputSpelling():
         message_output_spelling_model_json2 = message_output_spelling_model.to_dict()
         assert message_output_spelling_model_json2 == message_output_spelling_model_json
 
-class TestModel_MessageRequest():
+
+class TestModel_MessageRequest:
     """
     Test Class for MessageRequest
     """
@@ -6095,16 +6296,16 @@ class TestModel_MessageRequest():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        runtime_intent_model = {} # RuntimeIntent
+        runtime_intent_model = {}  # RuntimeIntent
         runtime_intent_model['intent'] = 'testString'
         runtime_intent_model['confidence'] = 72.5
         runtime_intent_model['skill'] = 'testString'
 
-        capture_group_model = {} # CaptureGroup
+        capture_group_model = {}  # CaptureGroup
         capture_group_model['group'] = 'testString'
         capture_group_model['location'] = [38]
 
-        runtime_entity_interpretation_model = {} # RuntimeEntityInterpretation
+        runtime_entity_interpretation_model = {}  # RuntimeEntityInterpretation
         runtime_entity_interpretation_model['calendar_type'] = 'testString'
         runtime_entity_interpretation_model['datetime_link'] = 'testString'
         runtime_entity_interpretation_model['festival'] = 'testString'
@@ -6132,14 +6333,14 @@ class TestModel_MessageRequest():
         runtime_entity_interpretation_model['specific_second'] = 72.5
         runtime_entity_interpretation_model['timezone'] = 'testString'
 
-        runtime_entity_alternative_model = {} # RuntimeEntityAlternative
+        runtime_entity_alternative_model = {}  # RuntimeEntityAlternative
         runtime_entity_alternative_model['value'] = 'testString'
         runtime_entity_alternative_model['confidence'] = 72.5
 
-        runtime_entity_role_model = {} # RuntimeEntityRole
+        runtime_entity_role_model = {}  # RuntimeEntityRole
         runtime_entity_role_model['type'] = 'date_from'
 
-        runtime_entity_model = {} # RuntimeEntity
+        runtime_entity_model = {}  # RuntimeEntity
         runtime_entity_model['entity'] = 'testString'
         runtime_entity_model['location'] = [38]
         runtime_entity_model['value'] = 'testString'
@@ -6150,20 +6351,20 @@ class TestModel_MessageRequest():
         runtime_entity_model['role'] = runtime_entity_role_model
         runtime_entity_model['skill'] = 'testString'
 
-        message_input_attachment_model = {} # MessageInputAttachment
+        message_input_attachment_model = {}  # MessageInputAttachment
         message_input_attachment_model['url'] = 'testString'
         message_input_attachment_model['media_type'] = 'testString'
 
-        request_analytics_model = {} # RequestAnalytics
+        request_analytics_model = {}  # RequestAnalytics
         request_analytics_model['browser'] = 'testString'
         request_analytics_model['device'] = 'testString'
         request_analytics_model['pageUrl'] = 'testString'
 
-        message_input_options_spelling_model = {} # MessageInputOptionsSpelling
+        message_input_options_spelling_model = {}  # MessageInputOptionsSpelling
         message_input_options_spelling_model['suggestions'] = True
         message_input_options_spelling_model['auto_correct'] = True
 
-        message_input_options_model = {} # MessageInputOptions
+        message_input_options_model = {}  # MessageInputOptions
         message_input_options_model['restart'] = False
         message_input_options_model['alternate_intents'] = False
         message_input_options_model['spelling'] = message_input_options_spelling_model
@@ -6171,7 +6372,7 @@ class TestModel_MessageRequest():
         message_input_options_model['return_context'] = True
         message_input_options_model['export'] = True
 
-        message_input_model = {} # MessageInput
+        message_input_model = {}  # MessageInput
         message_input_model['message_type'] = 'text'
         message_input_model['text'] = 'Hello'
         message_input_model['intents'] = [runtime_intent_model]
@@ -6181,7 +6382,7 @@ class TestModel_MessageRequest():
         message_input_model['analytics'] = request_analytics_model
         message_input_model['options'] = message_input_options_model
 
-        message_context_global_system_model = {} # MessageContextGlobalSystem
+        message_context_global_system_model = {}  # MessageContextGlobalSystem
         message_context_global_system_model['timezone'] = 'testString'
         message_context_global_system_model['user_id'] = 'my_user_id'
         message_context_global_system_model['turn_count'] = 38
@@ -6191,31 +6392,31 @@ class TestModel_MessageRequest():
         message_context_global_system_model['state'] = 'testString'
         message_context_global_system_model['skip_user_input'] = True
 
-        message_context_global_model = {} # MessageContextGlobal
+        message_context_global_model = {}  # MessageContextGlobal
         message_context_global_model['system'] = message_context_global_system_model
 
-        message_context_skill_system_model = {} # MessageContextSkillSystem
+        message_context_skill_system_model = {}  # MessageContextSkillSystem
         message_context_skill_system_model['state'] = 'testString'
         message_context_skill_system_model['foo'] = 'testString'
 
-        message_context_skill_dialog_model = {} # MessageContextSkillDialog
-        message_context_skill_dialog_model['user_defined'] = {'foo': 'bar'}
+        message_context_skill_dialog_model = {}  # MessageContextSkillDialog
+        message_context_skill_dialog_model['user_defined'] = {'anyKey': 'anyValue'}
         message_context_skill_dialog_model['system'] = message_context_skill_system_model
 
-        message_context_skill_action_model = {} # MessageContextSkillAction
-        message_context_skill_action_model['user_defined'] = {'foo': 'bar'}
+        message_context_skill_action_model = {}  # MessageContextSkillAction
+        message_context_skill_action_model['user_defined'] = {'anyKey': 'anyValue'}
         message_context_skill_action_model['system'] = message_context_skill_system_model
-        message_context_skill_action_model['action_variables'] = {'foo': 'bar'}
-        message_context_skill_action_model['skill_variables'] = {'foo': 'bar'}
+        message_context_skill_action_model['action_variables'] = {'anyKey': 'anyValue'}
+        message_context_skill_action_model['skill_variables'] = {'anyKey': 'anyValue'}
 
-        message_context_skills_model = {} # MessageContextSkills
+        message_context_skills_model = {}  # MessageContextSkills
         message_context_skills_model['main skill'] = message_context_skill_dialog_model
         message_context_skills_model['actions skill'] = message_context_skill_action_model
 
-        message_context_model = {} # MessageContext
+        message_context_model = {}  # MessageContext
         message_context_model['global'] = message_context_global_model
         message_context_model['skills'] = message_context_skills_model
-        message_context_model['integrations'] = {'foo': 'bar'}
+        message_context_model['integrations'] = {'anyKey': 'anyValue'}
 
         # Construct a json representation of a MessageRequest model
         message_request_model_json = {}
@@ -6238,7 +6439,8 @@ class TestModel_MessageRequest():
         message_request_model_json2 = message_request_model.to_dict()
         assert message_request_model_json2 == message_request_model_json
 
-class TestModel_MessageResponse():
+
+class TestModel_MessageResponse:
     """
     Test Class for MessageResponse
     """
@@ -6250,24 +6452,24 @@ class TestModel_MessageResponse():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'testString'
 
-        runtime_response_generic_model = {} # RuntimeResponseGenericRuntimeResponseTypeText
+        runtime_response_generic_model = {}  # RuntimeResponseGenericRuntimeResponseTypeText
         runtime_response_generic_model['response_type'] = 'text'
         runtime_response_generic_model['text'] = 'testString'
         runtime_response_generic_model['channels'] = [response_generic_channel_model]
 
-        runtime_intent_model = {} # RuntimeIntent
+        runtime_intent_model = {}  # RuntimeIntent
         runtime_intent_model['intent'] = 'testString'
         runtime_intent_model['confidence'] = 72.5
         runtime_intent_model['skill'] = 'testString'
 
-        capture_group_model = {} # CaptureGroup
+        capture_group_model = {}  # CaptureGroup
         capture_group_model['group'] = 'testString'
         capture_group_model['location'] = [38]
 
-        runtime_entity_interpretation_model = {} # RuntimeEntityInterpretation
+        runtime_entity_interpretation_model = {}  # RuntimeEntityInterpretation
         runtime_entity_interpretation_model['calendar_type'] = 'testString'
         runtime_entity_interpretation_model['datetime_link'] = 'testString'
         runtime_entity_interpretation_model['festival'] = 'testString'
@@ -6295,14 +6497,14 @@ class TestModel_MessageResponse():
         runtime_entity_interpretation_model['specific_second'] = 72.5
         runtime_entity_interpretation_model['timezone'] = 'testString'
 
-        runtime_entity_alternative_model = {} # RuntimeEntityAlternative
+        runtime_entity_alternative_model = {}  # RuntimeEntityAlternative
         runtime_entity_alternative_model['value'] = 'testString'
         runtime_entity_alternative_model['confidence'] = 72.5
 
-        runtime_entity_role_model = {} # RuntimeEntityRole
+        runtime_entity_role_model = {}  # RuntimeEntityRole
         runtime_entity_role_model['type'] = 'date_from'
 
-        runtime_entity_model = {} # RuntimeEntity
+        runtime_entity_model = {}  # RuntimeEntity
         runtime_entity_model['entity'] = 'testString'
         runtime_entity_model['location'] = [38]
         runtime_entity_model['value'] = 'testString'
@@ -6313,35 +6515,35 @@ class TestModel_MessageResponse():
         runtime_entity_model['role'] = runtime_entity_role_model
         runtime_entity_model['skill'] = 'testString'
 
-        dialog_node_action_model = {} # DialogNodeAction
+        dialog_node_action_model = {}  # DialogNodeAction
         dialog_node_action_model['name'] = 'testString'
         dialog_node_action_model['type'] = 'client'
-        dialog_node_action_model['parameters'] = {'foo': 'bar'}
+        dialog_node_action_model['parameters'] = {'anyKey': 'anyValue'}
         dialog_node_action_model['result_variable'] = 'testString'
         dialog_node_action_model['credentials'] = 'testString'
 
-        dialog_node_visited_model = {} # DialogNodeVisited
+        dialog_node_visited_model = {}  # DialogNodeVisited
         dialog_node_visited_model['dialog_node'] = 'testString'
         dialog_node_visited_model['title'] = 'testString'
         dialog_node_visited_model['conditions'] = 'testString'
 
-        log_message_source_model = {} # LogMessageSourceDialogNode
+        log_message_source_model = {}  # LogMessageSourceDialogNode
         log_message_source_model['type'] = 'dialog_node'
         log_message_source_model['dialog_node'] = 'testString'
 
-        dialog_log_message_model = {} # DialogLogMessage
+        dialog_log_message_model = {}  # DialogLogMessage
         dialog_log_message_model['level'] = 'info'
         dialog_log_message_model['message'] = 'testString'
         dialog_log_message_model['code'] = 'testString'
         dialog_log_message_model['source'] = log_message_source_model
 
-        turn_event_action_source_model = {} # TurnEventActionSource
+        turn_event_action_source_model = {}  # TurnEventActionSource
         turn_event_action_source_model['type'] = 'action'
         turn_event_action_source_model['action'] = 'testString'
         turn_event_action_source_model['action_title'] = 'testString'
         turn_event_action_source_model['condition'] = 'testString'
 
-        message_output_debug_turn_event_model = {} # MessageOutputDebugTurnEventTurnEventActionVisited
+        message_output_debug_turn_event_model = {}  # MessageOutputDebugTurnEventTurnEventActionVisited
         message_output_debug_turn_event_model['event'] = 'action_visited'
         message_output_debug_turn_event_model['source'] = turn_event_action_source_model
         message_output_debug_turn_event_model['action_start_time'] = 'testString'
@@ -6349,28 +6551,28 @@ class TestModel_MessageResponse():
         message_output_debug_turn_event_model['reason'] = 'intent'
         message_output_debug_turn_event_model['result_variable'] = 'testString'
 
-        message_output_debug_model = {} # MessageOutputDebug
+        message_output_debug_model = {}  # MessageOutputDebug
         message_output_debug_model['nodes_visited'] = [dialog_node_visited_model]
         message_output_debug_model['log_messages'] = [dialog_log_message_model]
         message_output_debug_model['branch_exited'] = True
         message_output_debug_model['branch_exited_reason'] = 'completed'
         message_output_debug_model['turn_events'] = [message_output_debug_turn_event_model]
 
-        message_output_spelling_model = {} # MessageOutputSpelling
+        message_output_spelling_model = {}  # MessageOutputSpelling
         message_output_spelling_model['text'] = 'testString'
         message_output_spelling_model['original_text'] = 'testString'
         message_output_spelling_model['suggested_text'] = 'testString'
 
-        message_output_model = {} # MessageOutput
+        message_output_model = {}  # MessageOutput
         message_output_model['generic'] = [runtime_response_generic_model]
         message_output_model['intents'] = [runtime_intent_model]
         message_output_model['entities'] = [runtime_entity_model]
         message_output_model['actions'] = [dialog_node_action_model]
         message_output_model['debug'] = message_output_debug_model
-        message_output_model['user_defined'] = {'foo': 'bar'}
+        message_output_model['user_defined'] = {'anyKey': 'anyValue'}
         message_output_model['spelling'] = message_output_spelling_model
 
-        message_context_global_system_model = {} # MessageContextGlobalSystem
+        message_context_global_system_model = {}  # MessageContextGlobalSystem
         message_context_global_system_model['timezone'] = 'testString'
         message_context_global_system_model['user_id'] = 'testString'
         message_context_global_system_model['turn_count'] = 38
@@ -6380,31 +6582,31 @@ class TestModel_MessageResponse():
         message_context_global_system_model['state'] = 'testString'
         message_context_global_system_model['skip_user_input'] = True
 
-        message_context_global_model = {} # MessageContextGlobal
+        message_context_global_model = {}  # MessageContextGlobal
         message_context_global_model['system'] = message_context_global_system_model
 
-        message_context_skill_system_model = {} # MessageContextSkillSystem
+        message_context_skill_system_model = {}  # MessageContextSkillSystem
         message_context_skill_system_model['state'] = 'testString'
         message_context_skill_system_model['foo'] = 'testString'
 
-        message_context_skill_dialog_model = {} # MessageContextSkillDialog
-        message_context_skill_dialog_model['user_defined'] = {'foo': 'bar'}
+        message_context_skill_dialog_model = {}  # MessageContextSkillDialog
+        message_context_skill_dialog_model['user_defined'] = {'anyKey': 'anyValue'}
         message_context_skill_dialog_model['system'] = message_context_skill_system_model
 
-        message_context_skill_action_model = {} # MessageContextSkillAction
-        message_context_skill_action_model['user_defined'] = {'foo': 'bar'}
+        message_context_skill_action_model = {}  # MessageContextSkillAction
+        message_context_skill_action_model['user_defined'] = {'anyKey': 'anyValue'}
         message_context_skill_action_model['system'] = message_context_skill_system_model
-        message_context_skill_action_model['action_variables'] = {'foo': 'bar'}
-        message_context_skill_action_model['skill_variables'] = {'foo': 'bar'}
+        message_context_skill_action_model['action_variables'] = {'anyKey': 'anyValue'}
+        message_context_skill_action_model['skill_variables'] = {'anyKey': 'anyValue'}
 
-        message_context_skills_model = {} # MessageContextSkills
+        message_context_skills_model = {}  # MessageContextSkills
         message_context_skills_model['main skill'] = message_context_skill_dialog_model
         message_context_skills_model['actions skill'] = message_context_skill_action_model
 
-        message_context_model = {} # MessageContext
+        message_context_model = {}  # MessageContext
         message_context_model['global'] = message_context_global_model
         message_context_model['skills'] = message_context_skills_model
-        message_context_model['integrations'] = {'foo': 'bar'}
+        message_context_model['integrations'] = {'anyKey': 'anyValue'}
 
         # Construct a json representation of a MessageResponse model
         message_response_model_json = {}
@@ -6427,7 +6629,8 @@ class TestModel_MessageResponse():
         message_response_model_json2 = message_response_model.to_dict()
         assert message_response_model_json2 == message_response_model_json
 
-class TestModel_MessageResponseStateless():
+
+class TestModel_MessageResponseStateless:
     """
     Test Class for MessageResponseStateless
     """
@@ -6439,24 +6642,24 @@ class TestModel_MessageResponseStateless():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'testString'
 
-        runtime_response_generic_model = {} # RuntimeResponseGenericRuntimeResponseTypeText
+        runtime_response_generic_model = {}  # RuntimeResponseGenericRuntimeResponseTypeText
         runtime_response_generic_model['response_type'] = 'text'
         runtime_response_generic_model['text'] = 'testString'
         runtime_response_generic_model['channels'] = [response_generic_channel_model]
 
-        runtime_intent_model = {} # RuntimeIntent
+        runtime_intent_model = {}  # RuntimeIntent
         runtime_intent_model['intent'] = 'testString'
         runtime_intent_model['confidence'] = 72.5
         runtime_intent_model['skill'] = 'testString'
 
-        capture_group_model = {} # CaptureGroup
+        capture_group_model = {}  # CaptureGroup
         capture_group_model['group'] = 'testString'
         capture_group_model['location'] = [38]
 
-        runtime_entity_interpretation_model = {} # RuntimeEntityInterpretation
+        runtime_entity_interpretation_model = {}  # RuntimeEntityInterpretation
         runtime_entity_interpretation_model['calendar_type'] = 'testString'
         runtime_entity_interpretation_model['datetime_link'] = 'testString'
         runtime_entity_interpretation_model['festival'] = 'testString'
@@ -6484,14 +6687,14 @@ class TestModel_MessageResponseStateless():
         runtime_entity_interpretation_model['specific_second'] = 72.5
         runtime_entity_interpretation_model['timezone'] = 'testString'
 
-        runtime_entity_alternative_model = {} # RuntimeEntityAlternative
+        runtime_entity_alternative_model = {}  # RuntimeEntityAlternative
         runtime_entity_alternative_model['value'] = 'testString'
         runtime_entity_alternative_model['confidence'] = 72.5
 
-        runtime_entity_role_model = {} # RuntimeEntityRole
+        runtime_entity_role_model = {}  # RuntimeEntityRole
         runtime_entity_role_model['type'] = 'date_from'
 
-        runtime_entity_model = {} # RuntimeEntity
+        runtime_entity_model = {}  # RuntimeEntity
         runtime_entity_model['entity'] = 'testString'
         runtime_entity_model['location'] = [38]
         runtime_entity_model['value'] = 'testString'
@@ -6502,35 +6705,35 @@ class TestModel_MessageResponseStateless():
         runtime_entity_model['role'] = runtime_entity_role_model
         runtime_entity_model['skill'] = 'testString'
 
-        dialog_node_action_model = {} # DialogNodeAction
+        dialog_node_action_model = {}  # DialogNodeAction
         dialog_node_action_model['name'] = 'testString'
         dialog_node_action_model['type'] = 'client'
-        dialog_node_action_model['parameters'] = {'foo': 'bar'}
+        dialog_node_action_model['parameters'] = {'anyKey': 'anyValue'}
         dialog_node_action_model['result_variable'] = 'testString'
         dialog_node_action_model['credentials'] = 'testString'
 
-        dialog_node_visited_model = {} # DialogNodeVisited
+        dialog_node_visited_model = {}  # DialogNodeVisited
         dialog_node_visited_model['dialog_node'] = 'testString'
         dialog_node_visited_model['title'] = 'testString'
         dialog_node_visited_model['conditions'] = 'testString'
 
-        log_message_source_model = {} # LogMessageSourceDialogNode
+        log_message_source_model = {}  # LogMessageSourceDialogNode
         log_message_source_model['type'] = 'dialog_node'
         log_message_source_model['dialog_node'] = 'testString'
 
-        dialog_log_message_model = {} # DialogLogMessage
+        dialog_log_message_model = {}  # DialogLogMessage
         dialog_log_message_model['level'] = 'info'
         dialog_log_message_model['message'] = 'testString'
         dialog_log_message_model['code'] = 'testString'
         dialog_log_message_model['source'] = log_message_source_model
 
-        turn_event_action_source_model = {} # TurnEventActionSource
+        turn_event_action_source_model = {}  # TurnEventActionSource
         turn_event_action_source_model['type'] = 'action'
         turn_event_action_source_model['action'] = 'testString'
         turn_event_action_source_model['action_title'] = 'testString'
         turn_event_action_source_model['condition'] = 'testString'
 
-        message_output_debug_turn_event_model = {} # MessageOutputDebugTurnEventTurnEventActionVisited
+        message_output_debug_turn_event_model = {}  # MessageOutputDebugTurnEventTurnEventActionVisited
         message_output_debug_turn_event_model['event'] = 'action_visited'
         message_output_debug_turn_event_model['source'] = turn_event_action_source_model
         message_output_debug_turn_event_model['action_start_time'] = 'testString'
@@ -6538,28 +6741,28 @@ class TestModel_MessageResponseStateless():
         message_output_debug_turn_event_model['reason'] = 'intent'
         message_output_debug_turn_event_model['result_variable'] = 'testString'
 
-        message_output_debug_model = {} # MessageOutputDebug
+        message_output_debug_model = {}  # MessageOutputDebug
         message_output_debug_model['nodes_visited'] = [dialog_node_visited_model]
         message_output_debug_model['log_messages'] = [dialog_log_message_model]
         message_output_debug_model['branch_exited'] = True
         message_output_debug_model['branch_exited_reason'] = 'completed'
         message_output_debug_model['turn_events'] = [message_output_debug_turn_event_model]
 
-        message_output_spelling_model = {} # MessageOutputSpelling
+        message_output_spelling_model = {}  # MessageOutputSpelling
         message_output_spelling_model['text'] = 'testString'
         message_output_spelling_model['original_text'] = 'testString'
         message_output_spelling_model['suggested_text'] = 'testString'
 
-        message_output_model = {} # MessageOutput
+        message_output_model = {}  # MessageOutput
         message_output_model['generic'] = [runtime_response_generic_model]
         message_output_model['intents'] = [runtime_intent_model]
         message_output_model['entities'] = [runtime_entity_model]
         message_output_model['actions'] = [dialog_node_action_model]
         message_output_model['debug'] = message_output_debug_model
-        message_output_model['user_defined'] = {'foo': 'bar'}
+        message_output_model['user_defined'] = {'anyKey': 'anyValue'}
         message_output_model['spelling'] = message_output_spelling_model
 
-        message_context_global_system_model = {} # MessageContextGlobalSystem
+        message_context_global_system_model = {}  # MessageContextGlobalSystem
         message_context_global_system_model['timezone'] = 'testString'
         message_context_global_system_model['user_id'] = 'testString'
         message_context_global_system_model['turn_count'] = 38
@@ -6569,32 +6772,32 @@ class TestModel_MessageResponseStateless():
         message_context_global_system_model['state'] = 'testString'
         message_context_global_system_model['skip_user_input'] = True
 
-        message_context_global_stateless_model = {} # MessageContextGlobalStateless
+        message_context_global_stateless_model = {}  # MessageContextGlobalStateless
         message_context_global_stateless_model['system'] = message_context_global_system_model
         message_context_global_stateless_model['session_id'] = 'testString'
 
-        message_context_skill_system_model = {} # MessageContextSkillSystem
+        message_context_skill_system_model = {}  # MessageContextSkillSystem
         message_context_skill_system_model['state'] = 'testString'
         message_context_skill_system_model['foo'] = 'testString'
 
-        message_context_skill_dialog_model = {} # MessageContextSkillDialog
-        message_context_skill_dialog_model['user_defined'] = {'foo': 'bar'}
+        message_context_skill_dialog_model = {}  # MessageContextSkillDialog
+        message_context_skill_dialog_model['user_defined'] = {'anyKey': 'anyValue'}
         message_context_skill_dialog_model['system'] = message_context_skill_system_model
 
-        message_context_skill_action_model = {} # MessageContextSkillAction
-        message_context_skill_action_model['user_defined'] = {'foo': 'bar'}
+        message_context_skill_action_model = {}  # MessageContextSkillAction
+        message_context_skill_action_model['user_defined'] = {'anyKey': 'anyValue'}
         message_context_skill_action_model['system'] = message_context_skill_system_model
-        message_context_skill_action_model['action_variables'] = {'foo': 'bar'}
-        message_context_skill_action_model['skill_variables'] = {'foo': 'bar'}
+        message_context_skill_action_model['action_variables'] = {'anyKey': 'anyValue'}
+        message_context_skill_action_model['skill_variables'] = {'anyKey': 'anyValue'}
 
-        message_context_skills_model = {} # MessageContextSkills
+        message_context_skills_model = {}  # MessageContextSkills
         message_context_skills_model['main skill'] = message_context_skill_dialog_model
         message_context_skills_model['actions skill'] = message_context_skill_action_model
 
-        message_context_stateless_model = {} # MessageContextStateless
+        message_context_stateless_model = {}  # MessageContextStateless
         message_context_stateless_model['global'] = message_context_global_stateless_model
         message_context_stateless_model['skills'] = message_context_skills_model
-        message_context_stateless_model['integrations'] = {'foo': 'bar'}
+        message_context_stateless_model['integrations'] = {'anyKey': 'anyValue'}
 
         # Construct a json representation of a MessageResponseStateless model
         message_response_stateless_model_json = {}
@@ -6617,7 +6820,8 @@ class TestModel_MessageResponseStateless():
         message_response_stateless_model_json2 = message_response_stateless_model.to_dict()
         assert message_response_stateless_model_json2 == message_response_stateless_model_json
 
-class TestModel_Pagination():
+
+class TestModel_Pagination:
     """
     Test Class for Pagination
     """
@@ -6651,7 +6855,8 @@ class TestModel_Pagination():
         pagination_model_json2 = pagination_model.to_dict()
         assert pagination_model_json2 == pagination_model_json
 
-class TestModel_Release():
+
+class TestModel_Release:
     """
     Test Class for Release
     """
@@ -6680,7 +6885,8 @@ class TestModel_Release():
         release_model_json2 = release_model.to_dict()
         assert release_model_json2 == release_model_json
 
-class TestModel_ReleaseCollection():
+
+class TestModel_ReleaseCollection:
     """
     Test Class for ReleaseCollection
     """
@@ -6692,10 +6898,10 @@ class TestModel_ReleaseCollection():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        release_model = {} # Release
+        release_model = {}  # Release
         release_model['description'] = 'testString'
 
-        pagination_model = {} # Pagination
+        pagination_model = {}  # Pagination
         pagination_model['refresh_url'] = 'testString'
         pagination_model['next_url'] = 'testString'
         pagination_model['total'] = 38
@@ -6723,7 +6929,8 @@ class TestModel_ReleaseCollection():
         release_collection_model_json2 = release_collection_model.to_dict()
         assert release_collection_model_json2 == release_collection_model_json
 
-class TestModel_ReleaseContent():
+
+class TestModel_ReleaseContent:
     """
     Test Class for ReleaseContent
     """
@@ -6751,7 +6958,8 @@ class TestModel_ReleaseContent():
         release_content_model_json2 = release_content_model.to_dict()
         assert release_content_model_json2 == release_content_model_json
 
-class TestModel_ReleaseSkill():
+
+class TestModel_ReleaseSkill:
     """
     Test Class for ReleaseSkill
     """
@@ -6782,7 +6990,8 @@ class TestModel_ReleaseSkill():
         release_skill_model_json2 = release_skill_model.to_dict()
         assert release_skill_model_json2 == release_skill_model_json
 
-class TestModel_RequestAnalytics():
+
+class TestModel_RequestAnalytics:
     """
     Test Class for RequestAnalytics
     """
@@ -6813,7 +7022,8 @@ class TestModel_RequestAnalytics():
         request_analytics_model_json2 = request_analytics_model.to_dict()
         assert request_analytics_model_json2 == request_analytics_model_json
 
-class TestModel_ResponseGenericChannel():
+
+class TestModel_ResponseGenericChannel:
     """
     Test Class for ResponseGenericChannel
     """
@@ -6842,7 +7052,8 @@ class TestModel_ResponseGenericChannel():
         response_generic_channel_model_json2 = response_generic_channel_model.to_dict()
         assert response_generic_channel_model_json2 == response_generic_channel_model_json
 
-class TestModel_RuntimeEntity():
+
+class TestModel_RuntimeEntity:
     """
     Test Class for RuntimeEntity
     """
@@ -6854,11 +7065,11 @@ class TestModel_RuntimeEntity():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        capture_group_model = {} # CaptureGroup
+        capture_group_model = {}  # CaptureGroup
         capture_group_model['group'] = 'testString'
         capture_group_model['location'] = [38]
 
-        runtime_entity_interpretation_model = {} # RuntimeEntityInterpretation
+        runtime_entity_interpretation_model = {}  # RuntimeEntityInterpretation
         runtime_entity_interpretation_model['calendar_type'] = 'testString'
         runtime_entity_interpretation_model['datetime_link'] = 'testString'
         runtime_entity_interpretation_model['festival'] = 'testString'
@@ -6886,11 +7097,11 @@ class TestModel_RuntimeEntity():
         runtime_entity_interpretation_model['specific_second'] = 72.5
         runtime_entity_interpretation_model['timezone'] = 'testString'
 
-        runtime_entity_alternative_model = {} # RuntimeEntityAlternative
+        runtime_entity_alternative_model = {}  # RuntimeEntityAlternative
         runtime_entity_alternative_model['value'] = 'testString'
         runtime_entity_alternative_model['confidence'] = 72.5
 
-        runtime_entity_role_model = {} # RuntimeEntityRole
+        runtime_entity_role_model = {}  # RuntimeEntityRole
         runtime_entity_role_model['type'] = 'date_from'
 
         # Construct a json representation of a RuntimeEntity model
@@ -6920,7 +7131,8 @@ class TestModel_RuntimeEntity():
         runtime_entity_model_json2 = runtime_entity_model.to_dict()
         assert runtime_entity_model_json2 == runtime_entity_model_json
 
-class TestModel_RuntimeEntityAlternative():
+
+class TestModel_RuntimeEntityAlternative:
     """
     Test Class for RuntimeEntityAlternative
     """
@@ -6950,7 +7162,8 @@ class TestModel_RuntimeEntityAlternative():
         runtime_entity_alternative_model_json2 = runtime_entity_alternative_model.to_dict()
         assert runtime_entity_alternative_model_json2 == runtime_entity_alternative_model_json
 
-class TestModel_RuntimeEntityInterpretation():
+
+class TestModel_RuntimeEntityInterpretation:
     """
     Test Class for RuntimeEntityInterpretation
     """
@@ -7004,7 +7217,8 @@ class TestModel_RuntimeEntityInterpretation():
         runtime_entity_interpretation_model_json2 = runtime_entity_interpretation_model.to_dict()
         assert runtime_entity_interpretation_model_json2 == runtime_entity_interpretation_model_json
 
-class TestModel_RuntimeEntityRole():
+
+class TestModel_RuntimeEntityRole:
     """
     Test Class for RuntimeEntityRole
     """
@@ -7033,7 +7247,8 @@ class TestModel_RuntimeEntityRole():
         runtime_entity_role_model_json2 = runtime_entity_role_model.to_dict()
         assert runtime_entity_role_model_json2 == runtime_entity_role_model_json
 
-class TestModel_RuntimeIntent():
+
+class TestModel_RuntimeIntent:
     """
     Test Class for RuntimeIntent
     """
@@ -7064,7 +7279,8 @@ class TestModel_RuntimeIntent():
         runtime_intent_model_json2 = runtime_intent_model.to_dict()
         assert runtime_intent_model_json2 == runtime_intent_model_json
 
-class TestModel_SearchResult():
+
+class TestModel_SearchResult:
     """
     Test Class for SearchResult
     """
@@ -7076,17 +7292,17 @@ class TestModel_SearchResult():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        search_result_metadata_model = {} # SearchResultMetadata
+        search_result_metadata_model = {}  # SearchResultMetadata
         search_result_metadata_model['confidence'] = 72.5
         search_result_metadata_model['score'] = 72.5
 
-        search_result_highlight_model = {} # SearchResultHighlight
+        search_result_highlight_model = {}  # SearchResultHighlight
         search_result_highlight_model['body'] = ['testString']
         search_result_highlight_model['title'] = ['testString']
         search_result_highlight_model['url'] = ['testString']
         search_result_highlight_model['foo'] = ['testString']
 
-        search_result_answer_model = {} # SearchResultAnswer
+        search_result_answer_model = {}  # SearchResultAnswer
         search_result_answer_model['text'] = 'testString'
         search_result_answer_model['confidence'] = 0
 
@@ -7115,7 +7331,8 @@ class TestModel_SearchResult():
         search_result_model_json2 = search_result_model.to_dict()
         assert search_result_model_json2 == search_result_model_json
 
-class TestModel_SearchResultAnswer():
+
+class TestModel_SearchResultAnswer:
     """
     Test Class for SearchResultAnswer
     """
@@ -7145,7 +7362,8 @@ class TestModel_SearchResultAnswer():
         search_result_answer_model_json2 = search_result_answer_model.to_dict()
         assert search_result_answer_model_json2 == search_result_answer_model_json
 
-class TestModel_SearchResultHighlight():
+
+class TestModel_SearchResultHighlight:
     """
     Test Class for SearchResultHighlight
     """
@@ -7187,7 +7405,8 @@ class TestModel_SearchResultHighlight():
         actual_dict = search_result_highlight_model.get_properties()
         assert actual_dict == expected_dict
 
-class TestModel_SearchResultMetadata():
+
+class TestModel_SearchResultMetadata:
     """
     Test Class for SearchResultMetadata
     """
@@ -7217,7 +7436,8 @@ class TestModel_SearchResultMetadata():
         search_result_metadata_model_json2 = search_result_metadata_model.to_dict()
         assert search_result_metadata_model_json2 == search_result_metadata_model_json
 
-class TestModel_SearchSettings():
+
+class TestModel_SearchSettings:
     """
     Test Class for SearchSettings
     """
@@ -7229,11 +7449,11 @@ class TestModel_SearchSettings():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        search_settings_discovery_authentication_model = {} # SearchSettingsDiscoveryAuthentication
+        search_settings_discovery_authentication_model = {}  # SearchSettingsDiscoveryAuthentication
         search_settings_discovery_authentication_model['basic'] = 'testString'
         search_settings_discovery_authentication_model['bearer'] = 'testString'
 
-        search_settings_discovery_model = {} # SearchSettingsDiscovery
+        search_settings_discovery_model = {}  # SearchSettingsDiscovery
         search_settings_discovery_model['instance_id'] = 'testString'
         search_settings_discovery_model['project_id'] = 'testString'
         search_settings_discovery_model['url'] = 'testString'
@@ -7244,12 +7464,12 @@ class TestModel_SearchSettings():
         search_settings_discovery_model['find_answers'] = True
         search_settings_discovery_model['authentication'] = search_settings_discovery_authentication_model
 
-        search_settings_messages_model = {} # SearchSettingsMessages
+        search_settings_messages_model = {}  # SearchSettingsMessages
         search_settings_messages_model['success'] = 'testString'
         search_settings_messages_model['error'] = 'testString'
         search_settings_messages_model['no_result'] = 'testString'
 
-        search_settings_schema_mapping_model = {} # SearchSettingsSchemaMapping
+        search_settings_schema_mapping_model = {}  # SearchSettingsSchemaMapping
         search_settings_schema_mapping_model['url'] = 'testString'
         search_settings_schema_mapping_model['body'] = 'testString'
         search_settings_schema_mapping_model['title'] = 'testString'
@@ -7275,7 +7495,8 @@ class TestModel_SearchSettings():
         search_settings_model_json2 = search_settings_model.to_dict()
         assert search_settings_model_json2 == search_settings_model_json
 
-class TestModel_SearchSettingsDiscovery():
+
+class TestModel_SearchSettingsDiscovery:
     """
     Test Class for SearchSettingsDiscovery
     """
@@ -7287,7 +7508,7 @@ class TestModel_SearchSettingsDiscovery():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        search_settings_discovery_authentication_model = {} # SearchSettingsDiscoveryAuthentication
+        search_settings_discovery_authentication_model = {}  # SearchSettingsDiscoveryAuthentication
         search_settings_discovery_authentication_model['basic'] = 'testString'
         search_settings_discovery_authentication_model['bearer'] = 'testString'
 
@@ -7318,7 +7539,8 @@ class TestModel_SearchSettingsDiscovery():
         search_settings_discovery_model_json2 = search_settings_discovery_model.to_dict()
         assert search_settings_discovery_model_json2 == search_settings_discovery_model_json
 
-class TestModel_SearchSettingsDiscoveryAuthentication():
+
+class TestModel_SearchSettingsDiscoveryAuthentication:
     """
     Test Class for SearchSettingsDiscoveryAuthentication
     """
@@ -7348,7 +7570,8 @@ class TestModel_SearchSettingsDiscoveryAuthentication():
         search_settings_discovery_authentication_model_json2 = search_settings_discovery_authentication_model.to_dict()
         assert search_settings_discovery_authentication_model_json2 == search_settings_discovery_authentication_model_json
 
-class TestModel_SearchSettingsMessages():
+
+class TestModel_SearchSettingsMessages:
     """
     Test Class for SearchSettingsMessages
     """
@@ -7379,7 +7602,8 @@ class TestModel_SearchSettingsMessages():
         search_settings_messages_model_json2 = search_settings_messages_model.to_dict()
         assert search_settings_messages_model_json2 == search_settings_messages_model_json
 
-class TestModel_SearchSettingsSchemaMapping():
+
+class TestModel_SearchSettingsSchemaMapping:
     """
     Test Class for SearchSettingsSchemaMapping
     """
@@ -7410,7 +7634,8 @@ class TestModel_SearchSettingsSchemaMapping():
         search_settings_schema_mapping_model_json2 = search_settings_schema_mapping_model.to_dict()
         assert search_settings_schema_mapping_model_json2 == search_settings_schema_mapping_model_json
 
-class TestModel_SearchSkillWarning():
+
+class TestModel_SearchSkillWarning:
     """
     Test Class for SearchSkillWarning
     """
@@ -7441,7 +7666,8 @@ class TestModel_SearchSkillWarning():
         search_skill_warning_model_json2 = search_skill_warning_model.to_dict()
         assert search_skill_warning_model_json2 == search_skill_warning_model_json
 
-class TestModel_SessionResponse():
+
+class TestModel_SessionResponse:
     """
     Test Class for SessionResponse
     """
@@ -7470,7 +7696,8 @@ class TestModel_SessionResponse():
         session_response_model_json2 = session_response_model.to_dict()
         assert session_response_model_json2 == session_response_model_json
 
-class TestModel_Skill():
+
+class TestModel_Skill:
     """
     Test Class for Skill
     """
@@ -7482,11 +7709,11 @@ class TestModel_Skill():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        search_settings_discovery_authentication_model = {} # SearchSettingsDiscoveryAuthentication
+        search_settings_discovery_authentication_model = {}  # SearchSettingsDiscoveryAuthentication
         search_settings_discovery_authentication_model['basic'] = 'testString'
         search_settings_discovery_authentication_model['bearer'] = 'testString'
 
-        search_settings_discovery_model = {} # SearchSettingsDiscovery
+        search_settings_discovery_model = {}  # SearchSettingsDiscovery
         search_settings_discovery_model['instance_id'] = 'testString'
         search_settings_discovery_model['project_id'] = 'testString'
         search_settings_discovery_model['url'] = 'testString'
@@ -7497,17 +7724,17 @@ class TestModel_Skill():
         search_settings_discovery_model['find_answers'] = True
         search_settings_discovery_model['authentication'] = search_settings_discovery_authentication_model
 
-        search_settings_messages_model = {} # SearchSettingsMessages
+        search_settings_messages_model = {}  # SearchSettingsMessages
         search_settings_messages_model['success'] = 'testString'
         search_settings_messages_model['error'] = 'testString'
         search_settings_messages_model['no_result'] = 'testString'
 
-        search_settings_schema_mapping_model = {} # SearchSettingsSchemaMapping
+        search_settings_schema_mapping_model = {}  # SearchSettingsSchemaMapping
         search_settings_schema_mapping_model['url'] = 'testString'
         search_settings_schema_mapping_model['body'] = 'testString'
         search_settings_schema_mapping_model['title'] = 'testString'
 
-        search_settings_model = {} # SearchSettings
+        search_settings_model = {}  # SearchSettings
         search_settings_model['discovery'] = search_settings_discovery_model
         search_settings_model['messages'] = search_settings_messages_model
         search_settings_model['schema_mapping'] = search_settings_schema_mapping_model
@@ -7516,8 +7743,8 @@ class TestModel_Skill():
         skill_model_json = {}
         skill_model_json['name'] = 'testString'
         skill_model_json['description'] = 'testString'
-        skill_model_json['workspace'] = {'foo': 'bar'}
-        skill_model_json['dialog_settings'] = {'foo': 'bar'}
+        skill_model_json['workspace'] = {'anyKey': 'anyValue'}
+        skill_model_json['dialog_settings'] = {'anyKey': 'anyValue'}
         skill_model_json['search_settings'] = search_settings_model
         skill_model_json['language'] = 'testString'
         skill_model_json['type'] = 'action'
@@ -7537,7 +7764,8 @@ class TestModel_Skill():
         skill_model_json2 = skill_model.to_dict()
         assert skill_model_json2 == skill_model_json
 
-class TestModel_SkillImport():
+
+class TestModel_SkillImport:
     """
     Test Class for SkillImport
     """
@@ -7549,11 +7777,11 @@ class TestModel_SkillImport():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        search_settings_discovery_authentication_model = {} # SearchSettingsDiscoveryAuthentication
+        search_settings_discovery_authentication_model = {}  # SearchSettingsDiscoveryAuthentication
         search_settings_discovery_authentication_model['basic'] = 'testString'
         search_settings_discovery_authentication_model['bearer'] = 'testString'
 
-        search_settings_discovery_model = {} # SearchSettingsDiscovery
+        search_settings_discovery_model = {}  # SearchSettingsDiscovery
         search_settings_discovery_model['instance_id'] = 'testString'
         search_settings_discovery_model['project_id'] = 'testString'
         search_settings_discovery_model['url'] = 'testString'
@@ -7564,17 +7792,17 @@ class TestModel_SkillImport():
         search_settings_discovery_model['find_answers'] = True
         search_settings_discovery_model['authentication'] = search_settings_discovery_authentication_model
 
-        search_settings_messages_model = {} # SearchSettingsMessages
+        search_settings_messages_model = {}  # SearchSettingsMessages
         search_settings_messages_model['success'] = 'testString'
         search_settings_messages_model['error'] = 'testString'
         search_settings_messages_model['no_result'] = 'testString'
 
-        search_settings_schema_mapping_model = {} # SearchSettingsSchemaMapping
+        search_settings_schema_mapping_model = {}  # SearchSettingsSchemaMapping
         search_settings_schema_mapping_model['url'] = 'testString'
         search_settings_schema_mapping_model['body'] = 'testString'
         search_settings_schema_mapping_model['title'] = 'testString'
 
-        search_settings_model = {} # SearchSettings
+        search_settings_model = {}  # SearchSettings
         search_settings_model['discovery'] = search_settings_discovery_model
         search_settings_model['messages'] = search_settings_messages_model
         search_settings_model['schema_mapping'] = search_settings_schema_mapping_model
@@ -7583,8 +7811,8 @@ class TestModel_SkillImport():
         skill_import_model_json = {}
         skill_import_model_json['name'] = 'testString'
         skill_import_model_json['description'] = 'testString'
-        skill_import_model_json['workspace'] = {'foo': 'bar'}
-        skill_import_model_json['dialog_settings'] = {'foo': 'bar'}
+        skill_import_model_json['workspace'] = {'anyKey': 'anyValue'}
+        skill_import_model_json['dialog_settings'] = {'anyKey': 'anyValue'}
         skill_import_model_json['search_settings'] = search_settings_model
         skill_import_model_json['language'] = 'testString'
         skill_import_model_json['type'] = 'action'
@@ -7604,7 +7832,8 @@ class TestModel_SkillImport():
         skill_import_model_json2 = skill_import_model.to_dict()
         assert skill_import_model_json2 == skill_import_model_json
 
-class TestModel_SkillsAsyncRequestStatus():
+
+class TestModel_SkillsAsyncRequestStatus:
     """
     Test Class for SkillsAsyncRequestStatus
     """
@@ -7632,7 +7861,8 @@ class TestModel_SkillsAsyncRequestStatus():
         skills_async_request_status_model_json2 = skills_async_request_status_model.to_dict()
         assert skills_async_request_status_model_json2 == skills_async_request_status_model_json
 
-class TestModel_SkillsExport():
+
+class TestModel_SkillsExport:
     """
     Test Class for SkillsExport
     """
@@ -7644,11 +7874,11 @@ class TestModel_SkillsExport():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        search_settings_discovery_authentication_model = {} # SearchSettingsDiscoveryAuthentication
+        search_settings_discovery_authentication_model = {}  # SearchSettingsDiscoveryAuthentication
         search_settings_discovery_authentication_model['basic'] = 'testString'
         search_settings_discovery_authentication_model['bearer'] = 'testString'
 
-        search_settings_discovery_model = {} # SearchSettingsDiscovery
+        search_settings_discovery_model = {}  # SearchSettingsDiscovery
         search_settings_discovery_model['instance_id'] = 'testString'
         search_settings_discovery_model['project_id'] = 'testString'
         search_settings_discovery_model['url'] = 'testString'
@@ -7659,31 +7889,31 @@ class TestModel_SkillsExport():
         search_settings_discovery_model['find_answers'] = True
         search_settings_discovery_model['authentication'] = search_settings_discovery_authentication_model
 
-        search_settings_messages_model = {} # SearchSettingsMessages
+        search_settings_messages_model = {}  # SearchSettingsMessages
         search_settings_messages_model['success'] = 'testString'
         search_settings_messages_model['error'] = 'testString'
         search_settings_messages_model['no_result'] = 'testString'
 
-        search_settings_schema_mapping_model = {} # SearchSettingsSchemaMapping
+        search_settings_schema_mapping_model = {}  # SearchSettingsSchemaMapping
         search_settings_schema_mapping_model['url'] = 'testString'
         search_settings_schema_mapping_model['body'] = 'testString'
         search_settings_schema_mapping_model['title'] = 'testString'
 
-        search_settings_model = {} # SearchSettings
+        search_settings_model = {}  # SearchSettings
         search_settings_model['discovery'] = search_settings_discovery_model
         search_settings_model['messages'] = search_settings_messages_model
         search_settings_model['schema_mapping'] = search_settings_schema_mapping_model
 
-        skill_model = {} # Skill
+        skill_model = {}  # Skill
         skill_model['name'] = 'testString'
         skill_model['description'] = 'testString'
-        skill_model['workspace'] = {'foo': 'bar'}
-        skill_model['dialog_settings'] = {'foo': 'bar'}
+        skill_model['workspace'] = {'anyKey': 'anyValue'}
+        skill_model['dialog_settings'] = {'anyKey': 'anyValue'}
         skill_model['search_settings'] = search_settings_model
         skill_model['language'] = 'testString'
         skill_model['type'] = 'action'
 
-        assistant_state_model = {} # AssistantState
+        assistant_state_model = {}  # AssistantState
         assistant_state_model['action_disabled'] = True
         assistant_state_model['dialog_disabled'] = True
 
@@ -7707,7 +7937,8 @@ class TestModel_SkillsExport():
         skills_export_model_json2 = skills_export_model.to_dict()
         assert skills_export_model_json2 == skills_export_model_json
 
-class TestModel_StatusError():
+
+class TestModel_StatusError:
     """
     Test Class for StatusError
     """
@@ -7736,7 +7967,8 @@ class TestModel_StatusError():
         status_error_model_json2 = status_error_model.to_dict()
         assert status_error_model_json2 == status_error_model_json
 
-class TestModel_TurnEventActionSource():
+
+class TestModel_TurnEventActionSource:
     """
     Test Class for TurnEventActionSource
     """
@@ -7768,7 +8000,8 @@ class TestModel_TurnEventActionSource():
         turn_event_action_source_model_json2 = turn_event_action_source_model.to_dict()
         assert turn_event_action_source_model_json2 == turn_event_action_source_model_json
 
-class TestModel_TurnEventCalloutCallout():
+
+class TestModel_TurnEventCalloutCallout:
     """
     Test Class for TurnEventCalloutCallout
     """
@@ -7781,7 +8014,7 @@ class TestModel_TurnEventCalloutCallout():
         # Construct a json representation of a TurnEventCalloutCallout model
         turn_event_callout_callout_model_json = {}
         turn_event_callout_callout_model_json['type'] = 'integration_interaction'
-        turn_event_callout_callout_model_json['internal'] = {'foo': 'bar'}
+        turn_event_callout_callout_model_json['internal'] = {'anyKey': 'anyValue'}
         turn_event_callout_callout_model_json['result_variable'] = 'testString'
 
         # Construct a model instance of TurnEventCalloutCallout by calling from_dict on the json representation
@@ -7799,7 +8032,8 @@ class TestModel_TurnEventCalloutCallout():
         turn_event_callout_callout_model_json2 = turn_event_callout_callout_model.to_dict()
         assert turn_event_callout_callout_model_json2 == turn_event_callout_callout_model_json
 
-class TestModel_TurnEventCalloutError():
+
+class TestModel_TurnEventCalloutError:
     """
     Test Class for TurnEventCalloutError
     """
@@ -7828,7 +8062,8 @@ class TestModel_TurnEventCalloutError():
         turn_event_callout_error_model_json2 = turn_event_callout_error_model.to_dict()
         assert turn_event_callout_error_model_json2 == turn_event_callout_error_model_json
 
-class TestModel_TurnEventNodeSource():
+
+class TestModel_TurnEventNodeSource:
     """
     Test Class for TurnEventNodeSource
     """
@@ -7860,7 +8095,8 @@ class TestModel_TurnEventNodeSource():
         turn_event_node_source_model_json2 = turn_event_node_source_model.to_dict()
         assert turn_event_node_source_model_json2 == turn_event_node_source_model_json
 
-class TestModel_TurnEventSearchError():
+
+class TestModel_TurnEventSearchError:
     """
     Test Class for TurnEventSearchError
     """
@@ -7889,7 +8125,8 @@ class TestModel_TurnEventSearchError():
         turn_event_search_error_model_json2 = turn_event_search_error_model.to_dict()
         assert turn_event_search_error_model_json2 == turn_event_search_error_model_json
 
-class TestModel_LogMessageSourceAction():
+
+class TestModel_LogMessageSourceAction:
     """
     Test Class for LogMessageSourceAction
     """
@@ -7919,7 +8156,8 @@ class TestModel_LogMessageSourceAction():
         log_message_source_action_model_json2 = log_message_source_action_model.to_dict()
         assert log_message_source_action_model_json2 == log_message_source_action_model_json
 
-class TestModel_LogMessageSourceDialogNode():
+
+class TestModel_LogMessageSourceDialogNode:
     """
     Test Class for LogMessageSourceDialogNode
     """
@@ -7949,7 +8187,8 @@ class TestModel_LogMessageSourceDialogNode():
         log_message_source_dialog_node_model_json2 = log_message_source_dialog_node_model.to_dict()
         assert log_message_source_dialog_node_model_json2 == log_message_source_dialog_node_model_json
 
-class TestModel_LogMessageSourceHandler():
+
+class TestModel_LogMessageSourceHandler:
     """
     Test Class for LogMessageSourceHandler
     """
@@ -7981,7 +8220,8 @@ class TestModel_LogMessageSourceHandler():
         log_message_source_handler_model_json2 = log_message_source_handler_model.to_dict()
         assert log_message_source_handler_model_json2 == log_message_source_handler_model_json
 
-class TestModel_LogMessageSourceStep():
+
+class TestModel_LogMessageSourceStep:
     """
     Test Class for LogMessageSourceStep
     """
@@ -8012,7 +8252,8 @@ class TestModel_LogMessageSourceStep():
         log_message_source_step_model_json2 = log_message_source_step_model.to_dict()
         assert log_message_source_step_model_json2 == log_message_source_step_model_json
 
-class TestModel_MessageOutputDebugTurnEventTurnEventActionFinished():
+
+class TestModel_MessageOutputDebugTurnEventTurnEventActionFinished:
     """
     Test Class for MessageOutputDebugTurnEventTurnEventActionFinished
     """
@@ -8024,7 +8265,7 @@ class TestModel_MessageOutputDebugTurnEventTurnEventActionFinished():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        turn_event_action_source_model = {} # TurnEventActionSource
+        turn_event_action_source_model = {}  # TurnEventActionSource
         turn_event_action_source_model['type'] = 'action'
         turn_event_action_source_model['action'] = 'testString'
         turn_event_action_source_model['action_title'] = 'testString'
@@ -8037,7 +8278,7 @@ class TestModel_MessageOutputDebugTurnEventTurnEventActionFinished():
         message_output_debug_turn_event_turn_event_action_finished_model_json['action_start_time'] = 'testString'
         message_output_debug_turn_event_turn_event_action_finished_model_json['condition_type'] = 'user_defined'
         message_output_debug_turn_event_turn_event_action_finished_model_json['reason'] = 'all_steps_done'
-        message_output_debug_turn_event_turn_event_action_finished_model_json['action_variables'] = {'foo': 'bar'}
+        message_output_debug_turn_event_turn_event_action_finished_model_json['action_variables'] = {'anyKey': 'anyValue'}
 
         # Construct a model instance of MessageOutputDebugTurnEventTurnEventActionFinished by calling from_dict on the json representation
         message_output_debug_turn_event_turn_event_action_finished_model = MessageOutputDebugTurnEventTurnEventActionFinished.from_dict(message_output_debug_turn_event_turn_event_action_finished_model_json)
@@ -8054,7 +8295,8 @@ class TestModel_MessageOutputDebugTurnEventTurnEventActionFinished():
         message_output_debug_turn_event_turn_event_action_finished_model_json2 = message_output_debug_turn_event_turn_event_action_finished_model.to_dict()
         assert message_output_debug_turn_event_turn_event_action_finished_model_json2 == message_output_debug_turn_event_turn_event_action_finished_model_json
 
-class TestModel_MessageOutputDebugTurnEventTurnEventActionVisited():
+
+class TestModel_MessageOutputDebugTurnEventTurnEventActionVisited:
     """
     Test Class for MessageOutputDebugTurnEventTurnEventActionVisited
     """
@@ -8066,7 +8308,7 @@ class TestModel_MessageOutputDebugTurnEventTurnEventActionVisited():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        turn_event_action_source_model = {} # TurnEventActionSource
+        turn_event_action_source_model = {}  # TurnEventActionSource
         turn_event_action_source_model['type'] = 'action'
         turn_event_action_source_model['action'] = 'testString'
         turn_event_action_source_model['action_title'] = 'testString'
@@ -8096,7 +8338,8 @@ class TestModel_MessageOutputDebugTurnEventTurnEventActionVisited():
         message_output_debug_turn_event_turn_event_action_visited_model_json2 = message_output_debug_turn_event_turn_event_action_visited_model.to_dict()
         assert message_output_debug_turn_event_turn_event_action_visited_model_json2 == message_output_debug_turn_event_turn_event_action_visited_model_json
 
-class TestModel_MessageOutputDebugTurnEventTurnEventCallout():
+
+class TestModel_MessageOutputDebugTurnEventTurnEventCallout:
     """
     Test Class for MessageOutputDebugTurnEventTurnEventCallout
     """
@@ -8108,18 +8351,18 @@ class TestModel_MessageOutputDebugTurnEventTurnEventCallout():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        turn_event_action_source_model = {} # TurnEventActionSource
+        turn_event_action_source_model = {}  # TurnEventActionSource
         turn_event_action_source_model['type'] = 'action'
         turn_event_action_source_model['action'] = 'testString'
         turn_event_action_source_model['action_title'] = 'testString'
         turn_event_action_source_model['condition'] = 'testString'
 
-        turn_event_callout_callout_model = {} # TurnEventCalloutCallout
+        turn_event_callout_callout_model = {}  # TurnEventCalloutCallout
         turn_event_callout_callout_model['type'] = 'integration_interaction'
-        turn_event_callout_callout_model['internal'] = {'foo': 'bar'}
+        turn_event_callout_callout_model['internal'] = {'anyKey': 'anyValue'}
         turn_event_callout_callout_model['result_variable'] = 'testString'
 
-        turn_event_callout_error_model = {} # TurnEventCalloutError
+        turn_event_callout_error_model = {}  # TurnEventCalloutError
         turn_event_callout_error_model['message'] = 'testString'
 
         # Construct a json representation of a MessageOutputDebugTurnEventTurnEventCallout model
@@ -8144,7 +8387,8 @@ class TestModel_MessageOutputDebugTurnEventTurnEventCallout():
         message_output_debug_turn_event_turn_event_callout_model_json2 = message_output_debug_turn_event_turn_event_callout_model.to_dict()
         assert message_output_debug_turn_event_turn_event_callout_model_json2 == message_output_debug_turn_event_turn_event_callout_model_json
 
-class TestModel_MessageOutputDebugTurnEventTurnEventHandlerVisited():
+
+class TestModel_MessageOutputDebugTurnEventTurnEventHandlerVisited:
     """
     Test Class for MessageOutputDebugTurnEventTurnEventHandlerVisited
     """
@@ -8156,7 +8400,7 @@ class TestModel_MessageOutputDebugTurnEventTurnEventHandlerVisited():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        turn_event_action_source_model = {} # TurnEventActionSource
+        turn_event_action_source_model = {}  # TurnEventActionSource
         turn_event_action_source_model['type'] = 'action'
         turn_event_action_source_model['action'] = 'testString'
         turn_event_action_source_model['action_title'] = 'testString'
@@ -8183,7 +8427,8 @@ class TestModel_MessageOutputDebugTurnEventTurnEventHandlerVisited():
         message_output_debug_turn_event_turn_event_handler_visited_model_json2 = message_output_debug_turn_event_turn_event_handler_visited_model.to_dict()
         assert message_output_debug_turn_event_turn_event_handler_visited_model_json2 == message_output_debug_turn_event_turn_event_handler_visited_model_json
 
-class TestModel_MessageOutputDebugTurnEventTurnEventNodeVisited():
+
+class TestModel_MessageOutputDebugTurnEventTurnEventNodeVisited:
     """
     Test Class for MessageOutputDebugTurnEventTurnEventNodeVisited
     """
@@ -8195,7 +8440,7 @@ class TestModel_MessageOutputDebugTurnEventTurnEventNodeVisited():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        turn_event_node_source_model = {} # TurnEventNodeSource
+        turn_event_node_source_model = {}  # TurnEventNodeSource
         turn_event_node_source_model['type'] = 'dialog_node'
         turn_event_node_source_model['dialog_node'] = 'testString'
         turn_event_node_source_model['title'] = 'testString'
@@ -8222,7 +8467,8 @@ class TestModel_MessageOutputDebugTurnEventTurnEventNodeVisited():
         message_output_debug_turn_event_turn_event_node_visited_model_json2 = message_output_debug_turn_event_turn_event_node_visited_model.to_dict()
         assert message_output_debug_turn_event_turn_event_node_visited_model_json2 == message_output_debug_turn_event_turn_event_node_visited_model_json
 
-class TestModel_MessageOutputDebugTurnEventTurnEventSearch():
+
+class TestModel_MessageOutputDebugTurnEventTurnEventSearch:
     """
     Test Class for MessageOutputDebugTurnEventTurnEventSearch
     """
@@ -8234,13 +8480,13 @@ class TestModel_MessageOutputDebugTurnEventTurnEventSearch():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        turn_event_action_source_model = {} # TurnEventActionSource
+        turn_event_action_source_model = {}  # TurnEventActionSource
         turn_event_action_source_model['type'] = 'action'
         turn_event_action_source_model['action'] = 'testString'
         turn_event_action_source_model['action_title'] = 'testString'
         turn_event_action_source_model['condition'] = 'testString'
 
-        turn_event_search_error_model = {} # TurnEventSearchError
+        turn_event_search_error_model = {}  # TurnEventSearchError
         turn_event_search_error_model['message'] = 'testString'
 
         # Construct a json representation of a MessageOutputDebugTurnEventTurnEventSearch model
@@ -8264,7 +8510,8 @@ class TestModel_MessageOutputDebugTurnEventTurnEventSearch():
         message_output_debug_turn_event_turn_event_search_model_json2 = message_output_debug_turn_event_turn_event_search_model.to_dict()
         assert message_output_debug_turn_event_turn_event_search_model_json2 == message_output_debug_turn_event_turn_event_search_model_json
 
-class TestModel_MessageOutputDebugTurnEventTurnEventStepAnswered():
+
+class TestModel_MessageOutputDebugTurnEventTurnEventStepAnswered:
     """
     Test Class for MessageOutputDebugTurnEventTurnEventStepAnswered
     """
@@ -8276,7 +8523,7 @@ class TestModel_MessageOutputDebugTurnEventTurnEventStepAnswered():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        turn_event_action_source_model = {} # TurnEventActionSource
+        turn_event_action_source_model = {}  # TurnEventActionSource
         turn_event_action_source_model['type'] = 'action'
         turn_event_action_source_model['action'] = 'testString'
         turn_event_action_source_model['action_title'] = 'testString'
@@ -8305,7 +8552,8 @@ class TestModel_MessageOutputDebugTurnEventTurnEventStepAnswered():
         message_output_debug_turn_event_turn_event_step_answered_model_json2 = message_output_debug_turn_event_turn_event_step_answered_model.to_dict()
         assert message_output_debug_turn_event_turn_event_step_answered_model_json2 == message_output_debug_turn_event_turn_event_step_answered_model_json
 
-class TestModel_MessageOutputDebugTurnEventTurnEventStepVisited():
+
+class TestModel_MessageOutputDebugTurnEventTurnEventStepVisited:
     """
     Test Class for MessageOutputDebugTurnEventTurnEventStepVisited
     """
@@ -8317,7 +8565,7 @@ class TestModel_MessageOutputDebugTurnEventTurnEventStepVisited():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        turn_event_action_source_model = {} # TurnEventActionSource
+        turn_event_action_source_model = {}  # TurnEventActionSource
         turn_event_action_source_model['type'] = 'action'
         turn_event_action_source_model['action'] = 'testString'
         turn_event_action_source_model['action_title'] = 'testString'
@@ -8346,7 +8594,8 @@ class TestModel_MessageOutputDebugTurnEventTurnEventStepVisited():
         message_output_debug_turn_event_turn_event_step_visited_model_json2 = message_output_debug_turn_event_turn_event_step_visited_model.to_dict()
         assert message_output_debug_turn_event_turn_event_step_visited_model_json2 == message_output_debug_turn_event_turn_event_step_visited_model_json
 
-class TestModel_RuntimeResponseGenericRuntimeResponseTypeAudio():
+
+class TestModel_RuntimeResponseGenericRuntimeResponseTypeAudio:
     """
     Test Class for RuntimeResponseGenericRuntimeResponseTypeAudio
     """
@@ -8358,7 +8607,7 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeAudio():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'testString'
 
         # Construct a json representation of a RuntimeResponseGenericRuntimeResponseTypeAudio model
@@ -8368,7 +8617,7 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeAudio():
         runtime_response_generic_runtime_response_type_audio_model_json['title'] = 'testString'
         runtime_response_generic_runtime_response_type_audio_model_json['description'] = 'testString'
         runtime_response_generic_runtime_response_type_audio_model_json['channels'] = [response_generic_channel_model]
-        runtime_response_generic_runtime_response_type_audio_model_json['channel_options'] = {'foo': 'bar'}
+        runtime_response_generic_runtime_response_type_audio_model_json['channel_options'] = {'anyKey': 'anyValue'}
         runtime_response_generic_runtime_response_type_audio_model_json['alt_text'] = 'testString'
 
         # Construct a model instance of RuntimeResponseGenericRuntimeResponseTypeAudio by calling from_dict on the json representation
@@ -8386,7 +8635,8 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeAudio():
         runtime_response_generic_runtime_response_type_audio_model_json2 = runtime_response_generic_runtime_response_type_audio_model.to_dict()
         assert runtime_response_generic_runtime_response_type_audio_model_json2 == runtime_response_generic_runtime_response_type_audio_model_json
 
-class TestModel_RuntimeResponseGenericRuntimeResponseTypeChannelTransfer():
+
+class TestModel_RuntimeResponseGenericRuntimeResponseTypeChannelTransfer:
     """
     Test Class for RuntimeResponseGenericRuntimeResponseTypeChannelTransfer
     """
@@ -8398,16 +8648,16 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeChannelTransfer():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        channel_transfer_target_chat_model = {} # ChannelTransferTargetChat
+        channel_transfer_target_chat_model = {}  # ChannelTransferTargetChat
         channel_transfer_target_chat_model['url'] = 'testString'
 
-        channel_transfer_target_model = {} # ChannelTransferTarget
+        channel_transfer_target_model = {}  # ChannelTransferTarget
         channel_transfer_target_model['chat'] = channel_transfer_target_chat_model
 
-        channel_transfer_info_model = {} # ChannelTransferInfo
+        channel_transfer_info_model = {}  # ChannelTransferInfo
         channel_transfer_info_model['target'] = channel_transfer_target_model
 
-        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'testString'
 
         # Construct a json representation of a RuntimeResponseGenericRuntimeResponseTypeChannelTransfer model
@@ -8432,7 +8682,8 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeChannelTransfer():
         runtime_response_generic_runtime_response_type_channel_transfer_model_json2 = runtime_response_generic_runtime_response_type_channel_transfer_model.to_dict()
         assert runtime_response_generic_runtime_response_type_channel_transfer_model_json2 == runtime_response_generic_runtime_response_type_channel_transfer_model_json
 
-class TestModel_RuntimeResponseGenericRuntimeResponseTypeConnectToAgent():
+
+class TestModel_RuntimeResponseGenericRuntimeResponseTypeConnectToAgent:
     """
     Test Class for RuntimeResponseGenericRuntimeResponseTypeConnectToAgent
     """
@@ -8444,13 +8695,13 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeConnectToAgent():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        agent_availability_message_model = {} # AgentAvailabilityMessage
+        agent_availability_message_model = {}  # AgentAvailabilityMessage
         agent_availability_message_model['message'] = 'testString'
 
-        dialog_node_output_connect_to_agent_transfer_info_model = {} # DialogNodeOutputConnectToAgentTransferInfo
-        dialog_node_output_connect_to_agent_transfer_info_model['target'] = {'key1': {'foo': 'bar'}}
+        dialog_node_output_connect_to_agent_transfer_info_model = {}  # DialogNodeOutputConnectToAgentTransferInfo
+        dialog_node_output_connect_to_agent_transfer_info_model['target'] = {'key1': {'anyKey': 'anyValue'}}
 
-        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'testString'
 
         # Construct a json representation of a RuntimeResponseGenericRuntimeResponseTypeConnectToAgent model
@@ -8478,7 +8729,8 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeConnectToAgent():
         runtime_response_generic_runtime_response_type_connect_to_agent_model_json2 = runtime_response_generic_runtime_response_type_connect_to_agent_model.to_dict()
         assert runtime_response_generic_runtime_response_type_connect_to_agent_model_json2 == runtime_response_generic_runtime_response_type_connect_to_agent_model_json
 
-class TestModel_RuntimeResponseGenericRuntimeResponseTypeDate():
+
+class TestModel_RuntimeResponseGenericRuntimeResponseTypeDate:
     """
     Test Class for RuntimeResponseGenericRuntimeResponseTypeDate
     """
@@ -8507,7 +8759,8 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeDate():
         runtime_response_generic_runtime_response_type_date_model_json2 = runtime_response_generic_runtime_response_type_date_model.to_dict()
         assert runtime_response_generic_runtime_response_type_date_model_json2 == runtime_response_generic_runtime_response_type_date_model_json
 
-class TestModel_RuntimeResponseGenericRuntimeResponseTypeIframe():
+
+class TestModel_RuntimeResponseGenericRuntimeResponseTypeIframe:
     """
     Test Class for RuntimeResponseGenericRuntimeResponseTypeIframe
     """
@@ -8519,7 +8772,7 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeIframe():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'testString'
 
         # Construct a json representation of a RuntimeResponseGenericRuntimeResponseTypeIframe model
@@ -8546,7 +8799,8 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeIframe():
         runtime_response_generic_runtime_response_type_iframe_model_json2 = runtime_response_generic_runtime_response_type_iframe_model.to_dict()
         assert runtime_response_generic_runtime_response_type_iframe_model_json2 == runtime_response_generic_runtime_response_type_iframe_model_json
 
-class TestModel_RuntimeResponseGenericRuntimeResponseTypeImage():
+
+class TestModel_RuntimeResponseGenericRuntimeResponseTypeImage:
     """
     Test Class for RuntimeResponseGenericRuntimeResponseTypeImage
     """
@@ -8558,7 +8812,7 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeImage():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'testString'
 
         # Construct a json representation of a RuntimeResponseGenericRuntimeResponseTypeImage model
@@ -8585,7 +8839,8 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeImage():
         runtime_response_generic_runtime_response_type_image_model_json2 = runtime_response_generic_runtime_response_type_image_model.to_dict()
         assert runtime_response_generic_runtime_response_type_image_model_json2 == runtime_response_generic_runtime_response_type_image_model_json
 
-class TestModel_RuntimeResponseGenericRuntimeResponseTypeOption():
+
+class TestModel_RuntimeResponseGenericRuntimeResponseTypeOption:
     """
     Test Class for RuntimeResponseGenericRuntimeResponseTypeOption
     """
@@ -8597,16 +8852,16 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeOption():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        runtime_intent_model = {} # RuntimeIntent
+        runtime_intent_model = {}  # RuntimeIntent
         runtime_intent_model['intent'] = 'testString'
         runtime_intent_model['confidence'] = 72.5
         runtime_intent_model['skill'] = 'testString'
 
-        capture_group_model = {} # CaptureGroup
+        capture_group_model = {}  # CaptureGroup
         capture_group_model['group'] = 'testString'
         capture_group_model['location'] = [38]
 
-        runtime_entity_interpretation_model = {} # RuntimeEntityInterpretation
+        runtime_entity_interpretation_model = {}  # RuntimeEntityInterpretation
         runtime_entity_interpretation_model['calendar_type'] = 'testString'
         runtime_entity_interpretation_model['datetime_link'] = 'testString'
         runtime_entity_interpretation_model['festival'] = 'testString'
@@ -8634,14 +8889,14 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeOption():
         runtime_entity_interpretation_model['specific_second'] = 72.5
         runtime_entity_interpretation_model['timezone'] = 'testString'
 
-        runtime_entity_alternative_model = {} # RuntimeEntityAlternative
+        runtime_entity_alternative_model = {}  # RuntimeEntityAlternative
         runtime_entity_alternative_model['value'] = 'testString'
         runtime_entity_alternative_model['confidence'] = 72.5
 
-        runtime_entity_role_model = {} # RuntimeEntityRole
+        runtime_entity_role_model = {}  # RuntimeEntityRole
         runtime_entity_role_model['type'] = 'date_from'
 
-        runtime_entity_model = {} # RuntimeEntity
+        runtime_entity_model = {}  # RuntimeEntity
         runtime_entity_model['entity'] = 'testString'
         runtime_entity_model['location'] = [38]
         runtime_entity_model['value'] = 'testString'
@@ -8652,20 +8907,20 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeOption():
         runtime_entity_model['role'] = runtime_entity_role_model
         runtime_entity_model['skill'] = 'testString'
 
-        message_input_attachment_model = {} # MessageInputAttachment
+        message_input_attachment_model = {}  # MessageInputAttachment
         message_input_attachment_model['url'] = 'testString'
         message_input_attachment_model['media_type'] = 'testString'
 
-        request_analytics_model = {} # RequestAnalytics
+        request_analytics_model = {}  # RequestAnalytics
         request_analytics_model['browser'] = 'testString'
         request_analytics_model['device'] = 'testString'
         request_analytics_model['pageUrl'] = 'testString'
 
-        message_input_options_spelling_model = {} # MessageInputOptionsSpelling
+        message_input_options_spelling_model = {}  # MessageInputOptionsSpelling
         message_input_options_spelling_model['suggestions'] = True
         message_input_options_spelling_model['auto_correct'] = True
 
-        message_input_options_model = {} # MessageInputOptions
+        message_input_options_model = {}  # MessageInputOptions
         message_input_options_model['restart'] = False
         message_input_options_model['alternate_intents'] = False
         message_input_options_model['spelling'] = message_input_options_spelling_model
@@ -8673,7 +8928,7 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeOption():
         message_input_options_model['return_context'] = False
         message_input_options_model['export'] = False
 
-        message_input_model = {} # MessageInput
+        message_input_model = {}  # MessageInput
         message_input_model['message_type'] = 'text'
         message_input_model['text'] = 'testString'
         message_input_model['intents'] = [runtime_intent_model]
@@ -8683,14 +8938,14 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeOption():
         message_input_model['analytics'] = request_analytics_model
         message_input_model['options'] = message_input_options_model
 
-        dialog_node_output_options_element_value_model = {} # DialogNodeOutputOptionsElementValue
+        dialog_node_output_options_element_value_model = {}  # DialogNodeOutputOptionsElementValue
         dialog_node_output_options_element_value_model['input'] = message_input_model
 
-        dialog_node_output_options_element_model = {} # DialogNodeOutputOptionsElement
+        dialog_node_output_options_element_model = {}  # DialogNodeOutputOptionsElement
         dialog_node_output_options_element_model['label'] = 'testString'
         dialog_node_output_options_element_model['value'] = dialog_node_output_options_element_value_model
 
-        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'testString'
 
         # Construct a json representation of a RuntimeResponseGenericRuntimeResponseTypeOption model
@@ -8717,7 +8972,8 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeOption():
         runtime_response_generic_runtime_response_type_option_model_json2 = runtime_response_generic_runtime_response_type_option_model.to_dict()
         assert runtime_response_generic_runtime_response_type_option_model_json2 == runtime_response_generic_runtime_response_type_option_model_json
 
-class TestModel_RuntimeResponseGenericRuntimeResponseTypePause():
+
+class TestModel_RuntimeResponseGenericRuntimeResponseTypePause:
     """
     Test Class for RuntimeResponseGenericRuntimeResponseTypePause
     """
@@ -8729,7 +8985,7 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypePause():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'testString'
 
         # Construct a json representation of a RuntimeResponseGenericRuntimeResponseTypePause model
@@ -8754,7 +9010,8 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypePause():
         runtime_response_generic_runtime_response_type_pause_model_json2 = runtime_response_generic_runtime_response_type_pause_model.to_dict()
         assert runtime_response_generic_runtime_response_type_pause_model_json2 == runtime_response_generic_runtime_response_type_pause_model_json
 
-class TestModel_RuntimeResponseGenericRuntimeResponseTypeSearch():
+
+class TestModel_RuntimeResponseGenericRuntimeResponseTypeSearch:
     """
     Test Class for RuntimeResponseGenericRuntimeResponseTypeSearch
     """
@@ -8766,21 +9023,21 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeSearch():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        search_result_metadata_model = {} # SearchResultMetadata
+        search_result_metadata_model = {}  # SearchResultMetadata
         search_result_metadata_model['confidence'] = 72.5
         search_result_metadata_model['score'] = 72.5
 
-        search_result_highlight_model = {} # SearchResultHighlight
+        search_result_highlight_model = {}  # SearchResultHighlight
         search_result_highlight_model['body'] = ['testString']
         search_result_highlight_model['title'] = ['testString']
         search_result_highlight_model['url'] = ['testString']
         search_result_highlight_model['foo'] = ['testString']
 
-        search_result_answer_model = {} # SearchResultAnswer
+        search_result_answer_model = {}  # SearchResultAnswer
         search_result_answer_model['text'] = 'testString'
         search_result_answer_model['confidence'] = 0
 
-        search_result_model = {} # SearchResult
+        search_result_model = {}  # SearchResult
         search_result_model['id'] = 'testString'
         search_result_model['result_metadata'] = search_result_metadata_model
         search_result_model['body'] = 'testString'
@@ -8789,7 +9046,7 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeSearch():
         search_result_model['highlight'] = search_result_highlight_model
         search_result_model['answers'] = [search_result_answer_model]
 
-        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'testString'
 
         # Construct a json representation of a RuntimeResponseGenericRuntimeResponseTypeSearch model
@@ -8815,7 +9072,8 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeSearch():
         runtime_response_generic_runtime_response_type_search_model_json2 = runtime_response_generic_runtime_response_type_search_model.to_dict()
         assert runtime_response_generic_runtime_response_type_search_model_json2 == runtime_response_generic_runtime_response_type_search_model_json
 
-class TestModel_RuntimeResponseGenericRuntimeResponseTypeSuggestion():
+
+class TestModel_RuntimeResponseGenericRuntimeResponseTypeSuggestion:
     """
     Test Class for RuntimeResponseGenericRuntimeResponseTypeSuggestion
     """
@@ -8827,16 +9085,16 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeSuggestion():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        runtime_intent_model = {} # RuntimeIntent
+        runtime_intent_model = {}  # RuntimeIntent
         runtime_intent_model['intent'] = 'testString'
         runtime_intent_model['confidence'] = 72.5
         runtime_intent_model['skill'] = 'testString'
 
-        capture_group_model = {} # CaptureGroup
+        capture_group_model = {}  # CaptureGroup
         capture_group_model['group'] = 'testString'
         capture_group_model['location'] = [38]
 
-        runtime_entity_interpretation_model = {} # RuntimeEntityInterpretation
+        runtime_entity_interpretation_model = {}  # RuntimeEntityInterpretation
         runtime_entity_interpretation_model['calendar_type'] = 'testString'
         runtime_entity_interpretation_model['datetime_link'] = 'testString'
         runtime_entity_interpretation_model['festival'] = 'testString'
@@ -8864,14 +9122,14 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeSuggestion():
         runtime_entity_interpretation_model['specific_second'] = 72.5
         runtime_entity_interpretation_model['timezone'] = 'testString'
 
-        runtime_entity_alternative_model = {} # RuntimeEntityAlternative
+        runtime_entity_alternative_model = {}  # RuntimeEntityAlternative
         runtime_entity_alternative_model['value'] = 'testString'
         runtime_entity_alternative_model['confidence'] = 72.5
 
-        runtime_entity_role_model = {} # RuntimeEntityRole
+        runtime_entity_role_model = {}  # RuntimeEntityRole
         runtime_entity_role_model['type'] = 'date_from'
 
-        runtime_entity_model = {} # RuntimeEntity
+        runtime_entity_model = {}  # RuntimeEntity
         runtime_entity_model['entity'] = 'testString'
         runtime_entity_model['location'] = [38]
         runtime_entity_model['value'] = 'testString'
@@ -8882,20 +9140,20 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeSuggestion():
         runtime_entity_model['role'] = runtime_entity_role_model
         runtime_entity_model['skill'] = 'testString'
 
-        message_input_attachment_model = {} # MessageInputAttachment
+        message_input_attachment_model = {}  # MessageInputAttachment
         message_input_attachment_model['url'] = 'testString'
         message_input_attachment_model['media_type'] = 'testString'
 
-        request_analytics_model = {} # RequestAnalytics
+        request_analytics_model = {}  # RequestAnalytics
         request_analytics_model['browser'] = 'testString'
         request_analytics_model['device'] = 'testString'
         request_analytics_model['pageUrl'] = 'testString'
 
-        message_input_options_spelling_model = {} # MessageInputOptionsSpelling
+        message_input_options_spelling_model = {}  # MessageInputOptionsSpelling
         message_input_options_spelling_model['suggestions'] = True
         message_input_options_spelling_model['auto_correct'] = True
 
-        message_input_options_model = {} # MessageInputOptions
+        message_input_options_model = {}  # MessageInputOptions
         message_input_options_model['restart'] = False
         message_input_options_model['alternate_intents'] = False
         message_input_options_model['spelling'] = message_input_options_spelling_model
@@ -8903,7 +9161,7 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeSuggestion():
         message_input_options_model['return_context'] = False
         message_input_options_model['export'] = False
 
-        message_input_model = {} # MessageInput
+        message_input_model = {}  # MessageInput
         message_input_model['message_type'] = 'text'
         message_input_model['text'] = 'testString'
         message_input_model['intents'] = [runtime_intent_model]
@@ -8913,15 +9171,15 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeSuggestion():
         message_input_model['analytics'] = request_analytics_model
         message_input_model['options'] = message_input_options_model
 
-        dialog_suggestion_value_model = {} # DialogSuggestionValue
+        dialog_suggestion_value_model = {}  # DialogSuggestionValue
         dialog_suggestion_value_model['input'] = message_input_model
 
-        dialog_suggestion_model = {} # DialogSuggestion
+        dialog_suggestion_model = {}  # DialogSuggestion
         dialog_suggestion_model['label'] = 'testString'
         dialog_suggestion_model['value'] = dialog_suggestion_value_model
-        dialog_suggestion_model['output'] = {'foo': 'bar'}
+        dialog_suggestion_model['output'] = {'anyKey': 'anyValue'}
 
-        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'testString'
 
         # Construct a json representation of a RuntimeResponseGenericRuntimeResponseTypeSuggestion model
@@ -8946,7 +9204,8 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeSuggestion():
         runtime_response_generic_runtime_response_type_suggestion_model_json2 = runtime_response_generic_runtime_response_type_suggestion_model.to_dict()
         assert runtime_response_generic_runtime_response_type_suggestion_model_json2 == runtime_response_generic_runtime_response_type_suggestion_model_json
 
-class TestModel_RuntimeResponseGenericRuntimeResponseTypeText():
+
+class TestModel_RuntimeResponseGenericRuntimeResponseTypeText:
     """
     Test Class for RuntimeResponseGenericRuntimeResponseTypeText
     """
@@ -8958,7 +9217,7 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeText():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'testString'
 
         # Construct a json representation of a RuntimeResponseGenericRuntimeResponseTypeText model
@@ -8982,7 +9241,8 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeText():
         runtime_response_generic_runtime_response_type_text_model_json2 = runtime_response_generic_runtime_response_type_text_model.to_dict()
         assert runtime_response_generic_runtime_response_type_text_model_json2 == runtime_response_generic_runtime_response_type_text_model_json
 
-class TestModel_RuntimeResponseGenericRuntimeResponseTypeUserDefined():
+
+class TestModel_RuntimeResponseGenericRuntimeResponseTypeUserDefined:
     """
     Test Class for RuntimeResponseGenericRuntimeResponseTypeUserDefined
     """
@@ -8994,13 +9254,13 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeUserDefined():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'testString'
 
         # Construct a json representation of a RuntimeResponseGenericRuntimeResponseTypeUserDefined model
         runtime_response_generic_runtime_response_type_user_defined_model_json = {}
         runtime_response_generic_runtime_response_type_user_defined_model_json['response_type'] = 'user_defined'
-        runtime_response_generic_runtime_response_type_user_defined_model_json['user_defined'] = {'foo': 'bar'}
+        runtime_response_generic_runtime_response_type_user_defined_model_json['user_defined'] = {'anyKey': 'anyValue'}
         runtime_response_generic_runtime_response_type_user_defined_model_json['channels'] = [response_generic_channel_model]
 
         # Construct a model instance of RuntimeResponseGenericRuntimeResponseTypeUserDefined by calling from_dict on the json representation
@@ -9018,7 +9278,8 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeUserDefined():
         runtime_response_generic_runtime_response_type_user_defined_model_json2 = runtime_response_generic_runtime_response_type_user_defined_model.to_dict()
         assert runtime_response_generic_runtime_response_type_user_defined_model_json2 == runtime_response_generic_runtime_response_type_user_defined_model_json
 
-class TestModel_RuntimeResponseGenericRuntimeResponseTypeVideo():
+
+class TestModel_RuntimeResponseGenericRuntimeResponseTypeVideo:
     """
     Test Class for RuntimeResponseGenericRuntimeResponseTypeVideo
     """
@@ -9030,7 +9291,7 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeVideo():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        response_generic_channel_model = {} # ResponseGenericChannel
+        response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'testString'
 
         # Construct a json representation of a RuntimeResponseGenericRuntimeResponseTypeVideo model
@@ -9040,7 +9301,7 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeVideo():
         runtime_response_generic_runtime_response_type_video_model_json['title'] = 'testString'
         runtime_response_generic_runtime_response_type_video_model_json['description'] = 'testString'
         runtime_response_generic_runtime_response_type_video_model_json['channels'] = [response_generic_channel_model]
-        runtime_response_generic_runtime_response_type_video_model_json['channel_options'] = {'foo': 'bar'}
+        runtime_response_generic_runtime_response_type_video_model_json['channel_options'] = {'anyKey': 'anyValue'}
         runtime_response_generic_runtime_response_type_video_model_json['alt_text'] = 'testString'
 
         # Construct a model instance of RuntimeResponseGenericRuntimeResponseTypeVideo by calling from_dict on the json representation

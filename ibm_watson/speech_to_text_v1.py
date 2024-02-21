@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 3.64.1-cee95189-20230124-211647
+# IBM OpenAPI SDK Code Generator Version: 3.85.0-75c38f8f-20240206-210220
 """
 The IBM Watson&trade; Speech to Text service provides APIs that use IBM's
 speech-recognition capabilities to produce transcripts of spoken audio. The service can
@@ -51,7 +51,7 @@ See: https://cloud.ibm.com/docs/speech-to-text
 """
 
 from enum import Enum
-from typing import BinaryIO, Dict, List
+from typing import BinaryIO, Dict, List, Optional
 import json
 
 from ibm_cloud_sdk_core import BaseService, DetailedResponse
@@ -95,7 +95,10 @@ class SpeechToTextV1(BaseService):
     # Models
     #########################
 
-    def list_models(self, **kwargs) -> DetailedResponse:
+    def list_models(
+        self,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         List models.
 
@@ -112,9 +115,11 @@ class SpeechToTextV1(BaseService):
         """
 
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='list_models')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='list_models',
+        )
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
@@ -123,12 +128,20 @@ class SpeechToTextV1(BaseService):
         headers['Accept'] = 'application/json'
 
         url = '/v1/models'
-        request = self.prepare_request(method='GET', url=url, headers=headers)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def get_model(self, model_id: str, **kwargs) -> DetailedResponse:
+    def get_model(
+        self,
+        model_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Get a model.
 
@@ -148,9 +161,11 @@ class SpeechToTextV1(BaseService):
         if not model_id:
             raise ValueError('model_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='get_model')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='get_model',
+        )
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
@@ -162,7 +177,11 @@ class SpeechToTextV1(BaseService):
         path_param_values = self.encode_path_vars(model_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/models/{model_id}'.format(**path_param_dict)
-        request = self.prepare_request(method='GET', url=url, headers=headers)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+        )
 
         response = self.send(request, **kwargs)
         return response
@@ -171,35 +190,37 @@ class SpeechToTextV1(BaseService):
     # Synchronous
     #########################
 
-    def recognize(self,
-                  audio: BinaryIO,
-                  *,
-                  content_type: str = None,
-                  model: str = None,
-                  language_customization_id: str = None,
-                  acoustic_customization_id: str = None,
-                  base_model_version: str = None,
-                  customization_weight: float = None,
-                  inactivity_timeout: int = None,
-                  keywords: List[str] = None,
-                  keywords_threshold: float = None,
-                  max_alternatives: int = None,
-                  word_alternatives_threshold: float = None,
-                  word_confidence: bool = None,
-                  timestamps: bool = None,
-                  profanity_filter: bool = None,
-                  smart_formatting: bool = None,
-                  speaker_labels: bool = None,
-                  grammar_name: str = None,
-                  redaction: bool = None,
-                  audio_metrics: bool = None,
-                  end_of_phrase_silence_time: float = None,
-                  split_transcript_at_phrase_end: bool = None,
-                  speech_detector_sensitivity: float = None,
-                  background_audio_suppression: float = None,
-                  low_latency: bool = None,
-                  character_insertion_bias: float = None,
-                  **kwargs) -> DetailedResponse:
+    def recognize(
+        self,
+        audio: BinaryIO,
+        *,
+        content_type: Optional[str] = None,
+        model: Optional[str] = None,
+        language_customization_id: Optional[str] = None,
+        acoustic_customization_id: Optional[str] = None,
+        base_model_version: Optional[str] = None,
+        customization_weight: Optional[float] = None,
+        inactivity_timeout: Optional[int] = None,
+        keywords: Optional[List[str]] = None,
+        keywords_threshold: Optional[float] = None,
+        max_alternatives: Optional[int] = None,
+        word_alternatives_threshold: Optional[float] = None,
+        word_confidence: Optional[bool] = None,
+        timestamps: Optional[bool] = None,
+        profanity_filter: Optional[bool] = None,
+        smart_formatting: Optional[bool] = None,
+        speaker_labels: Optional[bool] = None,
+        grammar_name: Optional[str] = None,
+        redaction: Optional[bool] = None,
+        audio_metrics: Optional[bool] = None,
+        end_of_phrase_silence_time: Optional[float] = None,
+        split_transcript_at_phrase_end: Optional[bool] = None,
+        speech_detector_sensitivity: Optional[float] = None,
+        background_audio_suppression: Optional[float] = None,
+        low_latency: Optional[bool] = None,
+        character_insertion_bias: Optional[float] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Recognize audio.
 
@@ -575,9 +596,11 @@ class SpeechToTextV1(BaseService):
         headers = {
             'Content-Type': content_type,
         }
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='recognize')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='recognize',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -615,11 +638,13 @@ class SpeechToTextV1(BaseService):
         headers['Accept'] = 'application/json'
 
         url = '/v1/recognize'
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       data=data)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+        )
 
         response = self.send(request, **kwargs)
         return response
@@ -628,11 +653,13 @@ class SpeechToTextV1(BaseService):
     # Asynchronous
     #########################
 
-    def register_callback(self,
-                          callback_url: str,
-                          *,
-                          user_secret: str = None,
-                          **kwargs) -> DetailedResponse:
+    def register_callback(
+        self,
+        callback_url: str,
+        *,
+        user_secret: Optional[str] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Register a callback.
 
@@ -685,9 +712,11 @@ class SpeechToTextV1(BaseService):
         if not callback_url:
             raise ValueError('callback_url must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='register_callback')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='register_callback',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -701,16 +730,21 @@ class SpeechToTextV1(BaseService):
         headers['Accept'] = 'application/json'
 
         url = '/v1/register_callback'
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def unregister_callback(self, callback_url: str,
-                            **kwargs) -> DetailedResponse:
+    def unregister_callback(
+        self,
+        callback_url: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Unregister a callback.
 
@@ -730,9 +764,11 @@ class SpeechToTextV1(BaseService):
         if not callback_url:
             raise ValueError('callback_url must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='unregister_callback')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='unregister_callback',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -744,49 +780,53 @@ class SpeechToTextV1(BaseService):
             del kwargs['headers']
 
         url = '/v1/unregister_callback'
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def create_job(self,
-                   audio: BinaryIO,
-                   *,
-                   content_type: str = None,
-                   model: str = None,
-                   callback_url: str = None,
-                   events: str = None,
-                   user_token: str = None,
-                   results_ttl: int = None,
-                   language_customization_id: str = None,
-                   acoustic_customization_id: str = None,
-                   base_model_version: str = None,
-                   customization_weight: float = None,
-                   inactivity_timeout: int = None,
-                   keywords: List[str] = None,
-                   keywords_threshold: float = None,
-                   max_alternatives: int = None,
-                   word_alternatives_threshold: float = None,
-                   word_confidence: bool = None,
-                   timestamps: bool = None,
-                   profanity_filter: bool = None,
-                   smart_formatting: bool = None,
-                   speaker_labels: bool = None,
-                   grammar_name: str = None,
-                   redaction: bool = None,
-                   processing_metrics: bool = None,
-                   processing_metrics_interval: float = None,
-                   audio_metrics: bool = None,
-                   end_of_phrase_silence_time: float = None,
-                   split_transcript_at_phrase_end: bool = None,
-                   speech_detector_sensitivity: float = None,
-                   background_audio_suppression: float = None,
-                   low_latency: bool = None,
-                   character_insertion_bias: float = None,
-                   **kwargs) -> DetailedResponse:
+    def create_job(
+        self,
+        audio: BinaryIO,
+        *,
+        content_type: Optional[str] = None,
+        model: Optional[str] = None,
+        callback_url: Optional[str] = None,
+        events: Optional[str] = None,
+        user_token: Optional[str] = None,
+        results_ttl: Optional[int] = None,
+        language_customization_id: Optional[str] = None,
+        acoustic_customization_id: Optional[str] = None,
+        base_model_version: Optional[str] = None,
+        customization_weight: Optional[float] = None,
+        inactivity_timeout: Optional[int] = None,
+        keywords: Optional[List[str]] = None,
+        keywords_threshold: Optional[float] = None,
+        max_alternatives: Optional[int] = None,
+        word_alternatives_threshold: Optional[float] = None,
+        word_confidence: Optional[bool] = None,
+        timestamps: Optional[bool] = None,
+        profanity_filter: Optional[bool] = None,
+        smart_formatting: Optional[bool] = None,
+        speaker_labels: Optional[bool] = None,
+        grammar_name: Optional[str] = None,
+        redaction: Optional[bool] = None,
+        processing_metrics: Optional[bool] = None,
+        processing_metrics_interval: Optional[float] = None,
+        audio_metrics: Optional[bool] = None,
+        end_of_phrase_silence_time: Optional[float] = None,
+        split_transcript_at_phrase_end: Optional[bool] = None,
+        speech_detector_sensitivity: Optional[float] = None,
+        background_audio_suppression: Optional[float] = None,
+        low_latency: Optional[bool] = None,
+        character_insertion_bias: Optional[float] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Create a job.
 
@@ -1232,9 +1272,11 @@ class SpeechToTextV1(BaseService):
         headers = {
             'Content-Type': content_type,
         }
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='create_job')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='create_job',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -1278,16 +1320,21 @@ class SpeechToTextV1(BaseService):
         headers['Accept'] = 'application/json'
 
         url = '/v1/recognitions'
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       data=data)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def check_jobs(self, **kwargs) -> DetailedResponse:
+    def check_jobs(
+        self,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Check jobs.
 
@@ -1308,9 +1355,11 @@ class SpeechToTextV1(BaseService):
         """
 
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='check_jobs')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='check_jobs',
+        )
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
@@ -1319,12 +1368,20 @@ class SpeechToTextV1(BaseService):
         headers['Accept'] = 'application/json'
 
         url = '/v1/recognitions'
-        request = self.prepare_request(method='GET', url=url, headers=headers)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def check_job(self, id: str, **kwargs) -> DetailedResponse:
+    def check_job(
+        self,
+        id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Check a job.
 
@@ -1352,9 +1409,11 @@ class SpeechToTextV1(BaseService):
         if not id:
             raise ValueError('id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='check_job')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='check_job',
+        )
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
@@ -1366,12 +1425,20 @@ class SpeechToTextV1(BaseService):
         path_param_values = self.encode_path_vars(id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/recognitions/{id}'.format(**path_param_dict)
-        request = self.prepare_request(method='GET', url=url, headers=headers)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def delete_job(self, id: str, **kwargs) -> DetailedResponse:
+    def delete_job(
+        self,
+        id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Delete a job.
 
@@ -1394,9 +1461,11 @@ class SpeechToTextV1(BaseService):
         if not id:
             raise ValueError('id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='delete_job')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='delete_job',
+        )
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
@@ -1407,9 +1476,11 @@ class SpeechToTextV1(BaseService):
         path_param_values = self.encode_path_vars(id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/recognitions/{id}'.format(**path_param_dict)
-        request = self.prepare_request(method='DELETE',
-                                       url=url,
-                                       headers=headers)
+        request = self.prepare_request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+        )
 
         response = self.send(request, **kwargs)
         return response
@@ -1418,13 +1489,15 @@ class SpeechToTextV1(BaseService):
     # Custom language models
     #########################
 
-    def create_language_model(self,
-                              name: str,
-                              base_model_name: str,
-                              *,
-                              dialect: str = None,
-                              description: str = None,
-                              **kwargs) -> DetailedResponse:
+    def create_language_model(
+        self,
+        name: str,
+        base_model_name: str,
+        *,
+        dialect: Optional[str] = None,
+        description: Optional[str] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Create a custom language model.
 
@@ -1493,9 +1566,11 @@ class SpeechToTextV1(BaseService):
         if base_model_name is None:
             raise ValueError('base_model_name must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='create_language_model')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='create_language_model',
+        )
         headers.update(sdk_headers)
 
         data = {
@@ -1514,18 +1589,22 @@ class SpeechToTextV1(BaseService):
         headers['Accept'] = 'application/json'
 
         url = '/v1/customizations'
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       data=data)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            data=data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def list_language_models(self,
-                             *,
-                             language: str = None,
-                             **kwargs) -> DetailedResponse:
+    def list_language_models(
+        self,
+        *,
+        language: Optional[str] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         List custom language models.
 
@@ -1555,9 +1634,11 @@ class SpeechToTextV1(BaseService):
         """
 
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='list_language_models')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='list_language_models',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -1570,16 +1651,21 @@ class SpeechToTextV1(BaseService):
         headers['Accept'] = 'application/json'
 
         url = '/v1/customizations'
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def get_language_model(self, customization_id: str,
-                           **kwargs) -> DetailedResponse:
+    def get_language_model(
+        self,
+        customization_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Get a custom language model.
 
@@ -1603,9 +1689,11 @@ class SpeechToTextV1(BaseService):
         if not customization_id:
             raise ValueError('customization_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='get_language_model')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='get_language_model',
+        )
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
@@ -1617,13 +1705,20 @@ class SpeechToTextV1(BaseService):
         path_param_values = self.encode_path_vars(customization_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/customizations/{customization_id}'.format(**path_param_dict)
-        request = self.prepare_request(method='GET', url=url, headers=headers)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def delete_language_model(self, customization_id: str,
-                              **kwargs) -> DetailedResponse:
+    def delete_language_model(
+        self,
+        customization_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Delete a custom language model.
 
@@ -1649,9 +1744,11 @@ class SpeechToTextV1(BaseService):
         if not customization_id:
             raise ValueError('customization_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='delete_language_model')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='delete_language_model',
+        )
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
@@ -1663,20 +1760,24 @@ class SpeechToTextV1(BaseService):
         path_param_values = self.encode_path_vars(customization_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/customizations/{customization_id}'.format(**path_param_dict)
-        request = self.prepare_request(method='DELETE',
-                                       url=url,
-                                       headers=headers)
+        request = self.prepare_request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def train_language_model(self,
-                             customization_id: str,
-                             *,
-                             word_type_to_add: str = None,
-                             customization_weight: float = None,
-                             strict: bool = None,
-                             **kwargs) -> DetailedResponse:
+    def train_language_model(
+        self,
+        customization_id: str,
+        *,
+        word_type_to_add: Optional[str] = None,
+        customization_weight: Optional[float] = None,
+        strict: Optional[bool] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Train a custom language model.
 
@@ -1770,9 +1871,11 @@ class SpeechToTextV1(BaseService):
         if not customization_id:
             raise ValueError('customization_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='train_language_model')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='train_language_model',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -1791,16 +1894,21 @@ class SpeechToTextV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/customizations/{customization_id}/train'.format(
             **path_param_dict)
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def reset_language_model(self, customization_id: str,
-                             **kwargs) -> DetailedResponse:
+    def reset_language_model(
+        self,
+        customization_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Reset a custom language model.
 
@@ -1828,9 +1936,11 @@ class SpeechToTextV1(BaseService):
         if not customization_id:
             raise ValueError('customization_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='reset_language_model')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='reset_language_model',
+        )
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
@@ -1843,13 +1953,20 @@ class SpeechToTextV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/customizations/{customization_id}/reset'.format(
             **path_param_dict)
-        request = self.prepare_request(method='POST', url=url, headers=headers)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def upgrade_language_model(self, customization_id: str,
-                               **kwargs) -> DetailedResponse:
+    def upgrade_language_model(
+        self,
+        customization_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Upgrade a custom language model.
 
@@ -1892,9 +2009,11 @@ class SpeechToTextV1(BaseService):
         if not customization_id:
             raise ValueError('customization_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='upgrade_language_model')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='upgrade_language_model',
+        )
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
@@ -1907,7 +2026,11 @@ class SpeechToTextV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/customizations/{customization_id}/upgrade_model'.format(
             **path_param_dict)
-        request = self.prepare_request(method='POST', url=url, headers=headers)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+        )
 
         response = self.send(request, **kwargs)
         return response
@@ -1916,7 +2039,11 @@ class SpeechToTextV1(BaseService):
     # Custom corpora
     #########################
 
-    def list_corpora(self, customization_id: str, **kwargs) -> DetailedResponse:
+    def list_corpora(
+        self,
+        customization_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         List corpora.
 
@@ -1940,9 +2067,11 @@ class SpeechToTextV1(BaseService):
         if not customization_id:
             raise ValueError('customization_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='list_corpora')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='list_corpora',
+        )
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
@@ -1955,18 +2084,24 @@ class SpeechToTextV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/customizations/{customization_id}/corpora'.format(
             **path_param_dict)
-        request = self.prepare_request(method='GET', url=url, headers=headers)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def add_corpus(self,
-                   customization_id: str,
-                   corpus_name: str,
-                   corpus_file: BinaryIO,
-                   *,
-                   allow_overwrite: bool = None,
-                   **kwargs) -> DetailedResponse:
+    def add_corpus(
+        self,
+        customization_id: str,
+        corpus_name: str,
+        corpus_file: BinaryIO,
+        *,
+        allow_overwrite: Optional[bool] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Add a corpus.
 
@@ -2067,9 +2202,11 @@ class SpeechToTextV1(BaseService):
         if corpus_file is None:
             raise ValueError('corpus_file must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='add_corpus')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='add_corpus',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -2089,17 +2226,23 @@ class SpeechToTextV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/customizations/{customization_id}/corpora/{corpus_name}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       files=form_data)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            files=form_data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def get_corpus(self, customization_id: str, corpus_name: str,
-                   **kwargs) -> DetailedResponse:
+    def get_corpus(
+        self,
+        customization_id: str,
+        corpus_name: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Get a corpus.
 
@@ -2127,9 +2270,11 @@ class SpeechToTextV1(BaseService):
         if not corpus_name:
             raise ValueError('corpus_name must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='get_corpus')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='get_corpus',
+        )
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
@@ -2142,13 +2287,21 @@ class SpeechToTextV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/customizations/{customization_id}/corpora/{corpus_name}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='GET', url=url, headers=headers)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def delete_corpus(self, customization_id: str, corpus_name: str,
-                      **kwargs) -> DetailedResponse:
+    def delete_corpus(
+        self,
+        customization_id: str,
+        corpus_name: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Delete a corpus.
 
@@ -2180,9 +2333,11 @@ class SpeechToTextV1(BaseService):
         if not corpus_name:
             raise ValueError('corpus_name must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='delete_corpus')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='delete_corpus',
+        )
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
@@ -2195,9 +2350,11 @@ class SpeechToTextV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/customizations/{customization_id}/corpora/{corpus_name}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='DELETE',
-                                       url=url,
-                                       headers=headers)
+        request = self.prepare_request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+        )
 
         response = self.send(request, **kwargs)
         return response
@@ -2206,12 +2363,14 @@ class SpeechToTextV1(BaseService):
     # Custom words
     #########################
 
-    def list_words(self,
-                   customization_id: str,
-                   *,
-                   word_type: str = None,
-                   sort: str = None,
-                   **kwargs) -> DetailedResponse:
+    def list_words(
+        self,
+        customization_id: str,
+        *,
+        word_type: Optional[str] = None,
+        sort: Optional[str] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         List custom words.
 
@@ -2260,9 +2419,11 @@ class SpeechToTextV1(BaseService):
         if not customization_id:
             raise ValueError('customization_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='list_words')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='list_words',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -2280,16 +2441,22 @@ class SpeechToTextV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/customizations/{customization_id}/words'.format(
             **path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def add_words(self, customization_id: str, words: List['CustomWord'],
-                  **kwargs) -> DetailedResponse:
+    def add_words(
+        self,
+        customization_id: str,
+        words: List['CustomWord'],
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Add custom words.
 
@@ -2373,9 +2540,11 @@ class SpeechToTextV1(BaseService):
             raise ValueError('words must be provided')
         words = [convert_model(x) for x in words]
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='add_words')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='add_words',
+        )
         headers.update(sdk_headers)
 
         data = {
@@ -2395,22 +2564,26 @@ class SpeechToTextV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/customizations/{customization_id}/words'.format(
             **path_param_dict)
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       data=data)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            data=data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def add_word(self,
-                 customization_id: str,
-                 word_name: str,
-                 *,
-                 word: str = None,
-                 sounds_like: List[str] = None,
-                 display_as: str = None,
-                 **kwargs) -> DetailedResponse:
+    def add_word(
+        self,
+        customization_id: str,
+        word_name: str,
+        *,
+        word: Optional[str] = None,
+        sounds_like: Optional[List[str]] = None,
+        display_as: Optional[str] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Add a custom word.
 
@@ -2505,9 +2678,11 @@ class SpeechToTextV1(BaseService):
         if not word_name:
             raise ValueError('word_name must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='add_word')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='add_word',
+        )
         headers.update(sdk_headers)
 
         data = {
@@ -2529,16 +2704,22 @@ class SpeechToTextV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/customizations/{customization_id}/words/{word_name}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='PUT',
-                                       url=url,
-                                       headers=headers,
-                                       data=data)
+        request = self.prepare_request(
+            method='PUT',
+            url=url,
+            headers=headers,
+            data=data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def get_word(self, customization_id: str, word_name: str,
-                 **kwargs) -> DetailedResponse:
+    def get_word(
+        self,
+        customization_id: str,
+        word_name: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Get a custom word.
 
@@ -2566,9 +2747,11 @@ class SpeechToTextV1(BaseService):
         if not word_name:
             raise ValueError('word_name must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='get_word')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='get_word',
+        )
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
@@ -2581,13 +2764,21 @@ class SpeechToTextV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/customizations/{customization_id}/words/{word_name}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='GET', url=url, headers=headers)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def delete_word(self, customization_id: str, word_name: str,
-                    **kwargs) -> DetailedResponse:
+    def delete_word(
+        self,
+        customization_id: str,
+        word_name: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Delete a custom word.
 
@@ -2619,9 +2810,11 @@ class SpeechToTextV1(BaseService):
         if not word_name:
             raise ValueError('word_name must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='delete_word')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='delete_word',
+        )
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
@@ -2634,9 +2827,11 @@ class SpeechToTextV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/customizations/{customization_id}/words/{word_name}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='DELETE',
-                                       url=url,
-                                       headers=headers)
+        request = self.prepare_request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+        )
 
         response = self.send(request, **kwargs)
         return response
@@ -2645,8 +2840,11 @@ class SpeechToTextV1(BaseService):
     # Custom grammars
     #########################
 
-    def list_grammars(self, customization_id: str,
-                      **kwargs) -> DetailedResponse:
+    def list_grammars(
+        self,
+        customization_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         List grammars.
 
@@ -2673,9 +2871,11 @@ class SpeechToTextV1(BaseService):
         if not customization_id:
             raise ValueError('customization_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='list_grammars')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='list_grammars',
+        )
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
@@ -2688,19 +2888,25 @@ class SpeechToTextV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/customizations/{customization_id}/grammars'.format(
             **path_param_dict)
-        request = self.prepare_request(method='GET', url=url, headers=headers)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def add_grammar(self,
-                    customization_id: str,
-                    grammar_name: str,
-                    grammar_file: BinaryIO,
-                    content_type: str,
-                    *,
-                    allow_overwrite: bool = None,
-                    **kwargs) -> DetailedResponse:
+    def add_grammar(
+        self,
+        customization_id: str,
+        grammar_name: str,
+        grammar_file: BinaryIO,
+        content_type: str,
+        *,
+        allow_overwrite: Optional[bool] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Add a grammar.
 
@@ -2797,9 +3003,11 @@ class SpeechToTextV1(BaseService):
         headers = {
             'Content-Type': content_type,
         }
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='add_grammar')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='add_grammar',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -2819,17 +3027,23 @@ class SpeechToTextV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/customizations/{customization_id}/grammars/{grammar_name}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       data=data)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def get_grammar(self, customization_id: str, grammar_name: str,
-                    **kwargs) -> DetailedResponse:
+    def get_grammar(
+        self,
+        customization_id: str,
+        grammar_name: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Get a grammar.
 
@@ -2860,9 +3074,11 @@ class SpeechToTextV1(BaseService):
         if not grammar_name:
             raise ValueError('grammar_name must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='get_grammar')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='get_grammar',
+        )
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
@@ -2876,13 +3092,21 @@ class SpeechToTextV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/customizations/{customization_id}/grammars/{grammar_name}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='GET', url=url, headers=headers)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def delete_grammar(self, customization_id: str, grammar_name: str,
-                       **kwargs) -> DetailedResponse:
+    def delete_grammar(
+        self,
+        customization_id: str,
+        grammar_name: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Delete a grammar.
 
@@ -2917,9 +3141,11 @@ class SpeechToTextV1(BaseService):
         if not grammar_name:
             raise ValueError('grammar_name must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='delete_grammar')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='delete_grammar',
+        )
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
@@ -2933,9 +3159,11 @@ class SpeechToTextV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/customizations/{customization_id}/grammars/{grammar_name}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='DELETE',
-                                       url=url,
-                                       headers=headers)
+        request = self.prepare_request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+        )
 
         response = self.send(request, **kwargs)
         return response
@@ -2944,12 +3172,14 @@ class SpeechToTextV1(BaseService):
     # Custom acoustic models
     #########################
 
-    def create_acoustic_model(self,
-                              name: str,
-                              base_model_name: str,
-                              *,
-                              description: str = None,
-                              **kwargs) -> DetailedResponse:
+    def create_acoustic_model(
+        self,
+        name: str,
+        base_model_name: str,
+        *,
+        description: Optional[str] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Create a custom acoustic model.
 
@@ -2999,9 +3229,11 @@ class SpeechToTextV1(BaseService):
         if base_model_name is None:
             raise ValueError('base_model_name must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='create_acoustic_model')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='create_acoustic_model',
+        )
         headers.update(sdk_headers)
 
         data = {
@@ -3019,18 +3251,22 @@ class SpeechToTextV1(BaseService):
         headers['Accept'] = 'application/json'
 
         url = '/v1/acoustic_customizations'
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       data=data)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            data=data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def list_acoustic_models(self,
-                             *,
-                             language: str = None,
-                             **kwargs) -> DetailedResponse:
+    def list_acoustic_models(
+        self,
+        *,
+        language: Optional[str] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         List custom acoustic models.
 
@@ -3059,9 +3295,11 @@ class SpeechToTextV1(BaseService):
         """
 
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='list_acoustic_models')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='list_acoustic_models',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -3074,16 +3312,21 @@ class SpeechToTextV1(BaseService):
         headers['Accept'] = 'application/json'
 
         url = '/v1/acoustic_customizations'
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def get_acoustic_model(self, customization_id: str,
-                           **kwargs) -> DetailedResponse:
+    def get_acoustic_model(
+        self,
+        customization_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Get a custom acoustic model.
 
@@ -3106,9 +3349,11 @@ class SpeechToTextV1(BaseService):
         if not customization_id:
             raise ValueError('customization_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='get_acoustic_model')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='get_acoustic_model',
+        )
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
@@ -3121,13 +3366,20 @@ class SpeechToTextV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/acoustic_customizations/{customization_id}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='GET', url=url, headers=headers)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def delete_acoustic_model(self, customization_id: str,
-                              **kwargs) -> DetailedResponse:
+    def delete_acoustic_model(
+        self,
+        customization_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Delete a custom acoustic model.
 
@@ -3152,9 +3404,11 @@ class SpeechToTextV1(BaseService):
         if not customization_id:
             raise ValueError('customization_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='delete_acoustic_model')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='delete_acoustic_model',
+        )
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
@@ -3167,19 +3421,23 @@ class SpeechToTextV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/acoustic_customizations/{customization_id}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='DELETE',
-                                       url=url,
-                                       headers=headers)
+        request = self.prepare_request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def train_acoustic_model(self,
-                             customization_id: str,
-                             *,
-                             custom_language_model_id: str = None,
-                             strict: bool = None,
-                             **kwargs) -> DetailedResponse:
+    def train_acoustic_model(
+        self,
+        customization_id: str,
+        *,
+        custom_language_model_id: Optional[str] = None,
+        strict: Optional[bool] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Train a custom acoustic model.
 
@@ -3269,9 +3527,11 @@ class SpeechToTextV1(BaseService):
         if not customization_id:
             raise ValueError('customization_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='train_acoustic_model')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='train_acoustic_model',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -3289,16 +3549,21 @@ class SpeechToTextV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/acoustic_customizations/{customization_id}/train'.format(
             **path_param_dict)
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def reset_acoustic_model(self, customization_id: str,
-                             **kwargs) -> DetailedResponse:
+    def reset_acoustic_model(
+        self,
+        customization_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Reset a custom acoustic model.
 
@@ -3327,9 +3592,11 @@ class SpeechToTextV1(BaseService):
         if not customization_id:
             raise ValueError('customization_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='reset_acoustic_model')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='reset_acoustic_model',
+        )
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
@@ -3342,17 +3609,23 @@ class SpeechToTextV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/acoustic_customizations/{customization_id}/reset'.format(
             **path_param_dict)
-        request = self.prepare_request(method='POST', url=url, headers=headers)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def upgrade_acoustic_model(self,
-                               customization_id: str,
-                               *,
-                               custom_language_model_id: str = None,
-                               force: bool = None,
-                               **kwargs) -> DetailedResponse:
+    def upgrade_acoustic_model(
+        self,
+        customization_id: str,
+        *,
+        custom_language_model_id: Optional[str] = None,
+        force: Optional[bool] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Upgrade a custom acoustic model.
 
@@ -3408,9 +3681,11 @@ class SpeechToTextV1(BaseService):
         if not customization_id:
             raise ValueError('customization_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='upgrade_acoustic_model')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='upgrade_acoustic_model',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -3428,10 +3703,12 @@ class SpeechToTextV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/acoustic_customizations/{customization_id}/upgrade_model'.format(
             **path_param_dict)
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
@@ -3440,7 +3717,11 @@ class SpeechToTextV1(BaseService):
     # Custom audio resources
     #########################
 
-    def list_audio(self, customization_id: str, **kwargs) -> DetailedResponse:
+    def list_audio(
+        self,
+        customization_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         List audio resources.
 
@@ -3467,9 +3748,11 @@ class SpeechToTextV1(BaseService):
         if not customization_id:
             raise ValueError('customization_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='list_audio')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='list_audio',
+        )
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
@@ -3482,20 +3765,26 @@ class SpeechToTextV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/acoustic_customizations/{customization_id}/audio'.format(
             **path_param_dict)
-        request = self.prepare_request(method='GET', url=url, headers=headers)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def add_audio(self,
-                  customization_id: str,
-                  audio_name: str,
-                  audio_resource: BinaryIO,
-                  *,
-                  content_type: str = None,
-                  contained_content_type: str = None,
-                  allow_overwrite: bool = None,
-                  **kwargs) -> DetailedResponse:
+    def add_audio(
+        self,
+        customization_id: str,
+        audio_name: str,
+        audio_resource: BinaryIO,
+        *,
+        content_type: Optional[str] = None,
+        contained_content_type: Optional[str] = None,
+        allow_overwrite: Optional[bool] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Add an audio resource.
 
@@ -3649,9 +3938,11 @@ class SpeechToTextV1(BaseService):
             'Content-Type': content_type,
             'Contained-Content-Type': contained_content_type,
         }
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='add_audio')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='add_audio',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -3670,17 +3961,23 @@ class SpeechToTextV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/acoustic_customizations/{customization_id}/audio/{audio_name}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       data=data)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def get_audio(self, customization_id: str, audio_name: str,
-                  **kwargs) -> DetailedResponse:
+    def get_audio(
+        self,
+        customization_id: str,
+        audio_name: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Get an audio resource.
 
@@ -3723,9 +4020,11 @@ class SpeechToTextV1(BaseService):
         if not audio_name:
             raise ValueError('audio_name must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='get_audio')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='get_audio',
+        )
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
@@ -3738,13 +4037,21 @@ class SpeechToTextV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/acoustic_customizations/{customization_id}/audio/{audio_name}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='GET', url=url, headers=headers)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def delete_audio(self, customization_id: str, audio_name: str,
-                     **kwargs) -> DetailedResponse:
+    def delete_audio(
+        self,
+        customization_id: str,
+        audio_name: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Delete an audio resource.
 
@@ -3778,9 +4085,11 @@ class SpeechToTextV1(BaseService):
         if not audio_name:
             raise ValueError('audio_name must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='delete_audio')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='delete_audio',
+        )
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
@@ -3793,9 +4102,11 @@ class SpeechToTextV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/acoustic_customizations/{customization_id}/audio/{audio_name}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='DELETE',
-                                       url=url,
-                                       headers=headers)
+        request = self.prepare_request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+        )
 
         response = self.send(request, **kwargs)
         return response
@@ -3804,7 +4115,11 @@ class SpeechToTextV1(BaseService):
     # User data
     #########################
 
-    def delete_user_data(self, customer_id: str, **kwargs) -> DetailedResponse:
+    def delete_user_data(
+        self,
+        customer_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Delete labeled data.
 
@@ -3833,9 +4148,11 @@ class SpeechToTextV1(BaseService):
         if not customer_id:
             raise ValueError('customer_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='delete_user_data')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='delete_user_data',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -3847,10 +4164,12 @@ class SpeechToTextV1(BaseService):
             del kwargs['headers']
 
         url = '/v1/user_data'
-        request = self.prepare_request(method='DELETE',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
@@ -3866,6 +4185,7 @@ class GetModelEnums:
         The identifier of the model in the form of its name from the output of the [List
         models](#listmodels) method.
         """
+
         AR_MS_BROADBANDMODEL = 'ar-MS_BroadbandModel'
         AR_MS_TELEPHONY = 'ar-MS_Telephony'
         CS_CZ_TELEPHONY = 'cs-CZ_Telephony'
@@ -3949,6 +4269,7 @@ class RecognizeEnums:
         The format (MIME type) of the audio. For more information about specifying an
         audio format, see **Audio formats (content types)** in the method description.
         """
+
         APPLICATION_OCTET_STREAM = 'application/octet-stream'
         AUDIO_ALAW = 'audio/alaw'
         AUDIO_BASIC = 'audio/basic'
@@ -3979,6 +4300,7 @@ class RecognizeEnums:
         * [Using the default
         model](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-models-use#models-use-default).
         """
+
         AR_MS_BROADBANDMODEL = 'ar-MS_BroadbandModel'
         AR_MS_TELEPHONY = 'ar-MS_Telephony'
         CS_CZ_TELEPHONY = 'cs-CZ_Telephony'
@@ -4062,6 +4384,7 @@ class CreateJobEnums:
         The format (MIME type) of the audio. For more information about specifying an
         audio format, see **Audio formats (content types)** in the method description.
         """
+
         APPLICATION_OCTET_STREAM = 'application/octet-stream'
         AUDIO_ALAW = 'audio/alaw'
         AUDIO_BASIC = 'audio/basic'
@@ -4092,6 +4415,7 @@ class CreateJobEnums:
         * [Using the default
         model](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-models-use#models-use-default).
         """
+
         AR_MS_BROADBANDMODEL = 'ar-MS_BroadbandModel'
         AR_MS_TELEPHONY = 'ar-MS_Telephony'
         CS_CZ_TELEPHONY = 'cs-CZ_Telephony'
@@ -4184,6 +4508,7 @@ class CreateJobEnums:
         `recognitions.failed`. If the job does not include a callback URL, omit the
         parameter.
         """
+
         RECOGNITIONS_STARTED = 'recognitions.started'
         RECOGNITIONS_COMPLETED = 'recognitions.completed'
         RECOGNITIONS_COMPLETED_WITH_RESULTS = 'recognitions.completed_with_results'
@@ -4206,6 +4531,7 @@ class ListLanguageModelsEnums:
         support for
         customization](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-custom-support).
         """
+
         AR_MS = 'ar-MS'
         CS_CZ = 'cs-CZ'
         DE_DE = 'de-DE'
@@ -4253,6 +4579,7 @@ class TrainLanguageModelEnums:
         the parameter. The words resource contains only custom words that the user adds or
         modifies directly, so the parameter is unnecessary.
         """
+
         ALL = 'all'
         USER = 'user'
 
@@ -4273,6 +4600,7 @@ class ListWordsEnums:
         `user` apply. Both options return the same results. Words from other sources are
         not added to custom models that are based on next-generation models.
         """
+
         ALL = 'all'
         USER = 'user'
         CORPORA = 'corpora'
@@ -4288,6 +4616,7 @@ class ListWordsEnums:
         letters. For count ordering, values with the same count are ordered
         alphabetically. With the `curl` command, URL-encode the `+` symbol as `%2B`.
         """
+
         ALPHABETICAL = 'alphabetical'
         COUNT = 'count'
 
@@ -4305,6 +4634,7 @@ class AddGrammarEnums:
         * `application/srgs+xml` for XML Form, which uses XML elements to represent the
         grammar.
         """
+
         APPLICATION_SRGS = 'application/srgs'
         APPLICATION_SRGS_XML = 'application/srgs+xml'
 
@@ -4325,6 +4655,7 @@ class ListAcousticModelsEnums:
         support for
         customization](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-custom-support).
         """
+
         AR_MS = 'ar-MS'
         CS_CZ = 'cs-CZ'
         DE_DE = 'de-DE'
@@ -4367,6 +4698,7 @@ class AddAudioEnums:
         information, see **Content types for archive-type resources** in the method
         description.
         """
+
         APPLICATION_ZIP = 'application/zip'
         APPLICATION_GZIP = 'application/gzip'
         AUDIO_ALAW = 'audio/alaw'
@@ -4400,6 +4732,7 @@ class AddAudioEnums:
         resources** in the method description.
         _For an audio-type resource_, omit the header.
         """
+
         AUDIO_ALAW = 'audio/alaw'
         AUDIO_BASIC = 'audio/basic'
         AUDIO_FLAC = 'audio/flac'
@@ -4422,35 +4755,35 @@ class AddAudioEnums:
 ##############################################################################
 
 
-class AcousticModel():
+class AcousticModel:
     """
     Information about an existing custom acoustic model.
 
-    :attr str customization_id: The customization ID (GUID) of the custom acoustic
+    :param str customization_id: The customization ID (GUID) of the custom acoustic
           model. The [Create a custom acoustic model](#createacousticmodel) method returns
           only this field of the object; it does not return the other fields.
-    :attr str created: (optional) The date and time in Coordinated Universal Time
+    :param str created: (optional) The date and time in Coordinated Universal Time
           (UTC) at which the custom acoustic model was created. The value is provided in
           full ISO 8601 format (`YYYY-MM-DDThh:mm:ss.sTZD`).
-    :attr str updated: (optional) The date and time in Coordinated Universal Time
+    :param str updated: (optional) The date and time in Coordinated Universal Time
           (UTC) at which the custom acoustic model was last modified. The `created` and
           `updated` fields are equal when an acoustic model is first added but has yet to
           be updated. The value is provided in full ISO 8601 format
           (YYYY-MM-DDThh:mm:ss.sTZD).
-    :attr str language: (optional) The language identifier of the custom acoustic
+    :param str language: (optional) The language identifier of the custom acoustic
           model (for example, `en-US`).
-    :attr List[str] versions: (optional) A list of the available versions of the
+    :param List[str] versions: (optional) A list of the available versions of the
           custom acoustic model. Each element of the array indicates a version of the base
           model with which the custom model can be used. Multiple versions exist only if
           the custom model has been upgraded to a new version of its base model.
           Otherwise, only a single version is shown.
-    :attr str owner: (optional) The GUID of the credentials for the instance of the
+    :param str owner: (optional) The GUID of the credentials for the instance of the
           service that owns the custom acoustic model.
-    :attr str name: (optional) The name of the custom acoustic model.
-    :attr str description: (optional) The description of the custom acoustic model.
-    :attr str base_model_name: (optional) The name of the language model for which
+    :param str name: (optional) The name of the custom acoustic model.
+    :param str description: (optional) The description of the custom acoustic model.
+    :param str base_model_name: (optional) The name of the language model for which
           the custom acoustic model was created.
-    :attr str status: (optional) The current status of the custom acoustic model:
+    :param str status: (optional) The current status of the custom acoustic model:
           * `pending`: The model was created but is waiting either for valid training data
           to be added or for the service to finish analyzing added data.
           * `ready`: The model contains valid data and is ready to be trained. If the
@@ -4460,31 +4793,33 @@ class AcousticModel():
           * `available`: The model is trained and ready to use.
           * `upgrading`: The model is currently being upgraded.
           * `failed`: Training of the model failed.
-    :attr int progress: (optional) A percentage that indicates the progress of the
+    :param int progress: (optional) A percentage that indicates the progress of the
           custom acoustic model's current training. A value of `100` means that the model
           is fully trained. **Note:** The `progress` field does not currently reflect the
           progress of the training. The field changes from `0` to `100` when training is
           complete.
-    :attr str warnings: (optional) If the request included unknown parameters, the
+    :param str warnings: (optional) If the request included unknown parameters, the
           following message: `Unexpected query parameter(s) ['parameters'] detected`,
           where `parameters` is a list that includes a quoted string for each unknown
           parameter.
     """
 
-    def __init__(self,
-                 customization_id: str,
-                 *,
-                 created: str = None,
-                 updated: str = None,
-                 language: str = None,
-                 versions: List[str] = None,
-                 owner: str = None,
-                 name: str = None,
-                 description: str = None,
-                 base_model_name: str = None,
-                 status: str = None,
-                 progress: int = None,
-                 warnings: str = None) -> None:
+    def __init__(
+        self,
+        customization_id: str,
+        *,
+        created: Optional[str] = None,
+        updated: Optional[str] = None,
+        language: Optional[str] = None,
+        versions: Optional[List[str]] = None,
+        owner: Optional[str] = None,
+        name: Optional[str] = None,
+        description: Optional[str] = None,
+        base_model_name: Optional[str] = None,
+        status: Optional[str] = None,
+        progress: Optional[int] = None,
+        warnings: Optional[str] = None,
+    ) -> None:
         """
         Initialize a AcousticModel object.
 
@@ -4552,34 +4887,34 @@ class AcousticModel():
     def from_dict(cls, _dict: Dict) -> 'AcousticModel':
         """Initialize a AcousticModel object from a json dictionary."""
         args = {}
-        if 'customization_id' in _dict:
-            args['customization_id'] = _dict.get('customization_id')
+        if (customization_id := _dict.get('customization_id')) is not None:
+            args['customization_id'] = customization_id
         else:
             raise ValueError(
                 'Required property \'customization_id\' not present in AcousticModel JSON'
             )
-        if 'created' in _dict:
-            args['created'] = _dict.get('created')
-        if 'updated' in _dict:
-            args['updated'] = _dict.get('updated')
-        if 'language' in _dict:
-            args['language'] = _dict.get('language')
-        if 'versions' in _dict:
-            args['versions'] = _dict.get('versions')
-        if 'owner' in _dict:
-            args['owner'] = _dict.get('owner')
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
-        if 'description' in _dict:
-            args['description'] = _dict.get('description')
-        if 'base_model_name' in _dict:
-            args['base_model_name'] = _dict.get('base_model_name')
-        if 'status' in _dict:
-            args['status'] = _dict.get('status')
-        if 'progress' in _dict:
-            args['progress'] = _dict.get('progress')
-        if 'warnings' in _dict:
-            args['warnings'] = _dict.get('warnings')
+        if (created := _dict.get('created')) is not None:
+            args['created'] = created
+        if (updated := _dict.get('updated')) is not None:
+            args['updated'] = updated
+        if (language := _dict.get('language')) is not None:
+            args['language'] = language
+        if (versions := _dict.get('versions')) is not None:
+            args['versions'] = versions
+        if (owner := _dict.get('owner')) is not None:
+            args['owner'] = owner
+        if (name := _dict.get('name')) is not None:
+            args['name'] = name
+        if (description := _dict.get('description')) is not None:
+            args['description'] = description
+        if (base_model_name := _dict.get('base_model_name')) is not None:
+            args['base_model_name'] = base_model_name
+        if (status := _dict.get('status')) is not None:
+            args['status'] = status
+        if (progress := _dict.get('progress')) is not None:
+            args['progress'] = progress
+        if (warnings := _dict.get('warnings')) is not None:
+            args['warnings'] = warnings
         return cls(**args)
 
     @classmethod
@@ -4649,6 +4984,7 @@ class AcousticModel():
         * `upgrading`: The model is currently being upgraded.
         * `failed`: Training of the model failed.
         """
+
         PENDING = 'pending'
         READY = 'ready'
         TRAINING = 'training'
@@ -4657,18 +4993,21 @@ class AcousticModel():
         FAILED = 'failed'
 
 
-class AcousticModels():
+class AcousticModels:
     """
     Information about existing custom acoustic models.
 
-    :attr List[AcousticModel] customizations: An array of `AcousticModel` objects
+    :param List[AcousticModel] customizations: An array of `AcousticModel` objects
           that provides information about each available custom acoustic model. The array
           is empty if the requesting credentials own no custom acoustic models (if no
           language is specified) or own no custom acoustic models for the specified
           language.
     """
 
-    def __init__(self, customizations: List['AcousticModel']) -> None:
+    def __init__(
+        self,
+        customizations: List['AcousticModel'],
+    ) -> None:
         """
         Initialize a AcousticModels object.
 
@@ -4684,9 +5023,9 @@ class AcousticModels():
     def from_dict(cls, _dict: Dict) -> 'AcousticModels':
         """Initialize a AcousticModels object from a json dictionary."""
         args = {}
-        if 'customizations' in _dict:
+        if (customizations := _dict.get('customizations')) is not None:
             args['customizations'] = [
-                AcousticModel.from_dict(v) for v in _dict.get('customizations')
+                AcousticModel.from_dict(v) for v in customizations
             ]
         else:
             raise ValueError(
@@ -4731,35 +5070,37 @@ class AcousticModels():
         return not self == other
 
 
-class AudioDetails():
+class AudioDetails:
     """
     Information about an audio resource from a custom acoustic model.
 
-    :attr str type: (optional) The type of the audio resource:
+    :param str type: (optional) The type of the audio resource:
           * `audio` for an individual audio file
           * `archive` for an archive (**.zip** or **.tar.gz**) file that contains audio
           files
           * `undetermined` for a resource that the service cannot validate (for example,
           if the user mistakenly passes a file that does not contain audio, such as a JPEG
           file).
-    :attr str codec: (optional) _For an audio-type resource_, the codec in which the
-          audio is encoded. Omitted for an archive-type resource.
-    :attr int frequency: (optional) _For an audio-type resource_, the sampling rate
+    :param str codec: (optional) _For an audio-type resource_, the codec in which
+          the audio is encoded. Omitted for an archive-type resource.
+    :param int frequency: (optional) _For an audio-type resource_, the sampling rate
           of the audio in Hertz (samples per second). Omitted for an archive-type
           resource.
-    :attr str compression: (optional) _For an archive-type resource_, the format of
+    :param str compression: (optional) _For an archive-type resource_, the format of
           the compressed archive:
           * `zip` for a **.zip** file
           * `gzip` for a **.tar.gz** file
           Omitted for an audio-type resource.
     """
 
-    def __init__(self,
-                 *,
-                 type: str = None,
-                 codec: str = None,
-                 frequency: int = None,
-                 compression: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        type: Optional[str] = None,
+        codec: Optional[str] = None,
+        frequency: Optional[int] = None,
+        compression: Optional[str] = None,
+    ) -> None:
         """
         Initialize a AudioDetails object.
 
@@ -4790,14 +5131,14 @@ class AudioDetails():
     def from_dict(cls, _dict: Dict) -> 'AudioDetails':
         """Initialize a AudioDetails object from a json dictionary."""
         args = {}
-        if 'type' in _dict:
-            args['type'] = _dict.get('type')
-        if 'codec' in _dict:
-            args['codec'] = _dict.get('codec')
-        if 'frequency' in _dict:
-            args['frequency'] = _dict.get('frequency')
-        if 'compression' in _dict:
-            args['compression'] = _dict.get('compression')
+        if (type := _dict.get('type')) is not None:
+            args['type'] = type
+        if (codec := _dict.get('codec')) is not None:
+            args['codec'] = codec
+        if (frequency := _dict.get('frequency')) is not None:
+            args['frequency'] = frequency
+        if (compression := _dict.get('compression')) is not None:
+            args['compression'] = compression
         return cls(**args)
 
     @classmethod
@@ -4846,6 +5187,7 @@ class AudioDetails():
         the user mistakenly passes a file that does not contain audio, such as a JPEG
         file).
         """
+
         AUDIO = 'audio'
         ARCHIVE = 'archive'
         UNDETERMINED = 'undetermined'
@@ -4857,23 +5199,24 @@ class AudioDetails():
         * `gzip` for a **.tar.gz** file
         Omitted for an audio-type resource.
         """
+
         ZIP = 'zip'
         GZIP = 'gzip'
 
 
-class AudioListing():
+class AudioListing:
     """
     Information about an audio resource from a custom acoustic model.
 
-    :attr int duration: (optional) _For an audio-type resource_, the total seconds
+    :param int duration: (optional) _For an audio-type resource_, the total seconds
           of audio in the resource. Omitted for an archive-type resource.
-    :attr str name: (optional) _For an audio-type resource_, the user-specified name
-          of the resource. Omitted for an archive-type resource.
-    :attr AudioDetails details: (optional) _For an audio-type resource_, an
+    :param str name: (optional) _For an audio-type resource_, the user-specified
+          name of the resource. Omitted for an archive-type resource.
+    :param AudioDetails details: (optional) _For an audio-type resource_, an
           `AudioDetails` object that provides detailed information about the resource. The
           object is empty until the service finishes processing the audio. Omitted for an
           archive-type resource.
-    :attr str status: (optional) _For an audio-type resource_, the status of the
+    :param str status: (optional) _For an audio-type resource_, the status of the
           resource:
           * `ok`: The service successfully analyzed the audio data. The data can be used
           to train the custom model.
@@ -4883,23 +5226,25 @@ class AudioListing():
           * `invalid`: The audio data is not valid for training the custom model (possibly
           because it has the wrong format or sampling rate, or because it is corrupted).
           Omitted for an archive-type resource.
-    :attr AudioResource container: (optional) _For an archive-type resource_, an
+    :param AudioResource container: (optional) _For an archive-type resource_, an
           object of type `AudioResource` that provides information about the resource.
           Omitted for an audio-type resource.
-    :attr List[AudioResource] audio: (optional) _For an archive-type resource_, an
+    :param List[AudioResource] audio: (optional) _For an archive-type resource_, an
           array of `AudioResource` objects that provides information about the audio-type
           resources that are contained in the resource. Omitted for an audio-type
           resource.
     """
 
-    def __init__(self,
-                 *,
-                 duration: int = None,
-                 name: str = None,
-                 details: 'AudioDetails' = None,
-                 status: str = None,
-                 container: 'AudioResource' = None,
-                 audio: List['AudioResource'] = None) -> None:
+    def __init__(
+        self,
+        *,
+        duration: Optional[int] = None,
+        name: Optional[str] = None,
+        details: Optional['AudioDetails'] = None,
+        status: Optional[str] = None,
+        container: Optional['AudioResource'] = None,
+        audio: Optional[List['AudioResource']] = None,
+    ) -> None:
         """
         Initialize a AudioListing object.
 
@@ -4941,20 +5286,18 @@ class AudioListing():
     def from_dict(cls, _dict: Dict) -> 'AudioListing':
         """Initialize a AudioListing object from a json dictionary."""
         args = {}
-        if 'duration' in _dict:
-            args['duration'] = _dict.get('duration')
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
-        if 'details' in _dict:
-            args['details'] = AudioDetails.from_dict(_dict.get('details'))
-        if 'status' in _dict:
-            args['status'] = _dict.get('status')
-        if 'container' in _dict:
-            args['container'] = AudioResource.from_dict(_dict.get('container'))
-        if 'audio' in _dict:
-            args['audio'] = [
-                AudioResource.from_dict(v) for v in _dict.get('audio')
-            ]
+        if (duration := _dict.get('duration')) is not None:
+            args['duration'] = duration
+        if (name := _dict.get('name')) is not None:
+            args['name'] = name
+        if (details := _dict.get('details')) is not None:
+            args['details'] = AudioDetails.from_dict(details)
+        if (status := _dict.get('status')) is not None:
+            args['status'] = status
+        if (container := _dict.get('container')) is not None:
+            args['container'] = AudioResource.from_dict(container)
+        if (audio := _dict.get('audio')) is not None:
+            args['audio'] = [AudioResource.from_dict(v) for v in audio]
         return cls(**args)
 
     @classmethod
@@ -5021,27 +5364,31 @@ class AudioListing():
         because it has the wrong format or sampling rate, or because it is corrupted).
         Omitted for an archive-type resource.
         """
+
         OK = 'ok'
         BEING_PROCESSED = 'being_processed'
         INVALID = 'invalid'
 
 
-class AudioMetrics():
+class AudioMetrics:
     """
     If audio metrics are requested, information about the signal characteristics of the
     input audio.
 
-    :attr float sampling_interval: The interval in seconds (typically 0.1 seconds)
+    :param float sampling_interval: The interval in seconds (typically 0.1 seconds)
           at which the service calculated the audio metrics. In other words, how often the
           service calculated the metrics. A single unit in each histogram (see the
           `AudioMetricsHistogramBin` object) is calculated based on a `sampling_interval`
           length of audio.
-    :attr AudioMetricsDetails accumulated: Detailed information about the signal
+    :param AudioMetricsDetails accumulated: Detailed information about the signal
           characteristics of the input audio.
     """
 
-    def __init__(self, sampling_interval: float,
-                 accumulated: 'AudioMetricsDetails') -> None:
+    def __init__(
+        self,
+        sampling_interval: float,
+        accumulated: 'AudioMetricsDetails',
+    ) -> None:
         """
         Initialize a AudioMetrics object.
 
@@ -5060,15 +5407,14 @@ class AudioMetrics():
     def from_dict(cls, _dict: Dict) -> 'AudioMetrics':
         """Initialize a AudioMetrics object from a json dictionary."""
         args = {}
-        if 'sampling_interval' in _dict:
-            args['sampling_interval'] = _dict.get('sampling_interval')
+        if (sampling_interval := _dict.get('sampling_interval')) is not None:
+            args['sampling_interval'] = sampling_interval
         else:
             raise ValueError(
                 'Required property \'sampling_interval\' not present in AudioMetrics JSON'
             )
-        if 'accumulated' in _dict:
-            args['accumulated'] = AudioMetricsDetails.from_dict(
-                _dict.get('accumulated'))
+        if (accumulated := _dict.get('accumulated')) is not None:
+            args['accumulated'] = AudioMetricsDetails.from_dict(accumulated)
         else:
             raise ValueError(
                 'Required property \'accumulated\' not present in AudioMetrics JSON'
@@ -5112,23 +5458,23 @@ class AudioMetrics():
         return not self == other
 
 
-class AudioMetricsDetails():
+class AudioMetricsDetails:
     """
     Detailed information about the signal characteristics of the input audio.
 
-    :attr bool final: If `true`, indicates the end of the audio stream, meaning that
-          transcription is complete. Currently, the field is always `true`. The service
-          returns metrics just once per audio stream. The results provide aggregated audio
-          metrics that pertain to the complete audio stream.
-    :attr float end_time: The end time in seconds of the block of audio to which the
-          metrics apply.
-    :attr float signal_to_noise_ratio: (optional) The signal-to-noise ratio (SNR)
+    :param bool final: If `true`, indicates the end of the audio stream, meaning
+          that transcription is complete. Currently, the field is always `true`. The
+          service returns metrics just once per audio stream. The results provide
+          aggregated audio metrics that pertain to the complete audio stream.
+    :param float end_time: The end time in seconds of the block of audio to which
+          the metrics apply.
+    :param float signal_to_noise_ratio: (optional) The signal-to-noise ratio (SNR)
           for the audio signal. The value indicates the ratio of speech to noise in the
           audio. A valid value lies in the range of 0 to 100 decibels (dB). The service
           omits the field if it cannot compute the SNR for the audio.
-    :attr float speech_ratio: The ratio of speech to non-speech segments in the
+    :param float speech_ratio: The ratio of speech to non-speech segments in the
           audio signal. The value lies in the range of 0.0 to 1.0.
-    :attr float high_frequency_loss: The probability that the audio signal is
+    :param float high_frequency_loss: The probability that the audio signal is
           missing the upper half of its frequency content.
           * A value close to 1.0 typically indicates artificially up-sampled audio, which
           negatively impacts the accuracy of the transcription results.
@@ -5136,10 +5482,10 @@ class AudioMetricsDetails():
           spectrum.
           * A value around 0.5 means that detection of the frequency content is unreliable
           or not available.
-    :attr List[AudioMetricsHistogramBin] direct_current_offset: An array of
+    :param List[AudioMetricsHistogramBin] direct_current_offset: An array of
           `AudioMetricsHistogramBin` objects that defines a histogram of the cumulative
           direct current (DC) component of the audio signal.
-    :attr List[AudioMetricsHistogramBin] clipping_rate: An array of
+    :param List[AudioMetricsHistogramBin] clipping_rate: An array of
           `AudioMetricsHistogramBin` objects that defines a histogram of the clipping rate
           for the audio segments. The clipping rate is defined as the fraction of samples
           in the segment that reach the maximum or minimum value that is offered by the
@@ -5147,29 +5493,31 @@ class AudioMetricsDetails():
           Modulation(PCM) audio range (-32768 to +32767) or a unit range (-1.0 to +1.0).
           The clipping rate is between 0.0 and 1.0, with higher values indicating possible
           degradation of speech recognition.
-    :attr List[AudioMetricsHistogramBin] speech_level: An array of
+    :param List[AudioMetricsHistogramBin] speech_level: An array of
           `AudioMetricsHistogramBin` objects that defines a histogram of the signal level
           in segments of the audio that contain speech. The signal level is computed as
           the Root-Mean-Square (RMS) value in a decibel (dB) scale normalized to the range
           0.0 (minimum level) to 1.0 (maximum level).
-    :attr List[AudioMetricsHistogramBin] non_speech_level: An array of
+    :param List[AudioMetricsHistogramBin] non_speech_level: An array of
           `AudioMetricsHistogramBin` objects that defines a histogram of the signal level
           in segments of the audio that do not contain speech. The signal level is
           computed as the Root-Mean-Square (RMS) value in a decibel (dB) scale normalized
           to the range 0.0 (minimum level) to 1.0 (maximum level).
     """
 
-    def __init__(self,
-                 final: bool,
-                 end_time: float,
-                 speech_ratio: float,
-                 high_frequency_loss: float,
-                 direct_current_offset: List['AudioMetricsHistogramBin'],
-                 clipping_rate: List['AudioMetricsHistogramBin'],
-                 speech_level: List['AudioMetricsHistogramBin'],
-                 non_speech_level: List['AudioMetricsHistogramBin'],
-                 *,
-                 signal_to_noise_ratio: float = None) -> None:
+    def __init__(
+        self,
+        final: bool,
+        end_time: float,
+        speech_ratio: float,
+        high_frequency_loss: float,
+        direct_current_offset: List['AudioMetricsHistogramBin'],
+        clipping_rate: List['AudioMetricsHistogramBin'],
+        speech_level: List['AudioMetricsHistogramBin'],
+        non_speech_level: List['AudioMetricsHistogramBin'],
+        *,
+        signal_to_noise_ratio: Optional[float] = None,
+    ) -> None:
         """
         Initialize a AudioMetricsDetails object.
 
@@ -5230,63 +5578,63 @@ class AudioMetricsDetails():
     def from_dict(cls, _dict: Dict) -> 'AudioMetricsDetails':
         """Initialize a AudioMetricsDetails object from a json dictionary."""
         args = {}
-        if 'final' in _dict:
-            args['final'] = _dict.get('final')
+        if (final := _dict.get('final')) is not None:
+            args['final'] = final
         else:
             raise ValueError(
                 'Required property \'final\' not present in AudioMetricsDetails JSON'
             )
-        if 'end_time' in _dict:
-            args['end_time'] = _dict.get('end_time')
+        if (end_time := _dict.get('end_time')) is not None:
+            args['end_time'] = end_time
         else:
             raise ValueError(
                 'Required property \'end_time\' not present in AudioMetricsDetails JSON'
             )
-        if 'signal_to_noise_ratio' in _dict:
-            args['signal_to_noise_ratio'] = _dict.get('signal_to_noise_ratio')
-        if 'speech_ratio' in _dict:
-            args['speech_ratio'] = _dict.get('speech_ratio')
+        if (signal_to_noise_ratio :=
+                _dict.get('signal_to_noise_ratio')) is not None:
+            args['signal_to_noise_ratio'] = signal_to_noise_ratio
+        if (speech_ratio := _dict.get('speech_ratio')) is not None:
+            args['speech_ratio'] = speech_ratio
         else:
             raise ValueError(
                 'Required property \'speech_ratio\' not present in AudioMetricsDetails JSON'
             )
-        if 'high_frequency_loss' in _dict:
-            args['high_frequency_loss'] = _dict.get('high_frequency_loss')
+        if (high_frequency_loss :=
+                _dict.get('high_frequency_loss')) is not None:
+            args['high_frequency_loss'] = high_frequency_loss
         else:
             raise ValueError(
                 'Required property \'high_frequency_loss\' not present in AudioMetricsDetails JSON'
             )
-        if 'direct_current_offset' in _dict:
+        if (direct_current_offset :=
+                _dict.get('direct_current_offset')) is not None:
             args['direct_current_offset'] = [
                 AudioMetricsHistogramBin.from_dict(v)
-                for v in _dict.get('direct_current_offset')
+                for v in direct_current_offset
             ]
         else:
             raise ValueError(
                 'Required property \'direct_current_offset\' not present in AudioMetricsDetails JSON'
             )
-        if 'clipping_rate' in _dict:
+        if (clipping_rate := _dict.get('clipping_rate')) is not None:
             args['clipping_rate'] = [
-                AudioMetricsHistogramBin.from_dict(v)
-                for v in _dict.get('clipping_rate')
+                AudioMetricsHistogramBin.from_dict(v) for v in clipping_rate
             ]
         else:
             raise ValueError(
                 'Required property \'clipping_rate\' not present in AudioMetricsDetails JSON'
             )
-        if 'speech_level' in _dict:
+        if (speech_level := _dict.get('speech_level')) is not None:
             args['speech_level'] = [
-                AudioMetricsHistogramBin.from_dict(v)
-                for v in _dict.get('speech_level')
+                AudioMetricsHistogramBin.from_dict(v) for v in speech_level
             ]
         else:
             raise ValueError(
                 'Required property \'speech_level\' not present in AudioMetricsDetails JSON'
             )
-        if 'non_speech_level' in _dict:
+        if (non_speech_level := _dict.get('non_speech_level')) is not None:
             args['non_speech_level'] = [
-                AudioMetricsHistogramBin.from_dict(v)
-                for v in _dict.get('non_speech_level')
+                AudioMetricsHistogramBin.from_dict(v) for v in non_speech_level
             ]
         else:
             raise ValueError(
@@ -5370,19 +5718,24 @@ class AudioMetricsDetails():
         return not self == other
 
 
-class AudioMetricsHistogramBin():
+class AudioMetricsHistogramBin:
     """
     A bin with defined boundaries that indicates the number of values in a range of signal
     characteristics for a histogram. The first and last bins of a histogram are the
     boundary bins. They cover the intervals between negative infinity and the first
     boundary, and between the last boundary and positive infinity, respectively.
 
-    :attr float begin: The lower boundary of the bin in the histogram.
-    :attr float end: The upper boundary of the bin in the histogram.
-    :attr int count: The number of values in the bin of the histogram.
+    :param float begin: The lower boundary of the bin in the histogram.
+    :param float end: The upper boundary of the bin in the histogram.
+    :param int count: The number of values in the bin of the histogram.
     """
 
-    def __init__(self, begin: float, end: float, count: int) -> None:
+    def __init__(
+        self,
+        begin: float,
+        end: float,
+        count: int,
+    ) -> None:
         """
         Initialize a AudioMetricsHistogramBin object.
 
@@ -5398,20 +5751,20 @@ class AudioMetricsHistogramBin():
     def from_dict(cls, _dict: Dict) -> 'AudioMetricsHistogramBin':
         """Initialize a AudioMetricsHistogramBin object from a json dictionary."""
         args = {}
-        if 'begin' in _dict:
-            args['begin'] = _dict.get('begin')
+        if (begin := _dict.get('begin')) is not None:
+            args['begin'] = begin
         else:
             raise ValueError(
                 'Required property \'begin\' not present in AudioMetricsHistogramBin JSON'
             )
-        if 'end' in _dict:
-            args['end'] = _dict.get('end')
+        if (end := _dict.get('end')) is not None:
+            args['end'] = end
         else:
             raise ValueError(
                 'Required property \'end\' not present in AudioMetricsHistogramBin JSON'
             )
-        if 'count' in _dict:
-            args['count'] = _dict.get('count')
+        if (count := _dict.get('count')) is not None:
+            args['count'] = count
         else:
             raise ValueError(
                 'Required property \'count\' not present in AudioMetricsHistogramBin JSON'
@@ -5453,20 +5806,20 @@ class AudioMetricsHistogramBin():
         return not self == other
 
 
-class AudioResource():
+class AudioResource:
     """
     Information about an audio resource from a custom acoustic model.
 
-    :attr int duration: The total seconds of audio in the audio resource.
-    :attr str name: _For an archive-type resource_, the user-specified name of the
+    :param int duration: The total seconds of audio in the audio resource.
+    :param str name: _For an archive-type resource_, the user-specified name of the
           resource.
           _For an audio-type resource_, the user-specified name of the resource or the
           name of the audio file that the user added for the resource. The value depends
           on the method that is called.
-    :attr AudioDetails details: An `AudioDetails` object that provides detailed
+    :param AudioDetails details: An `AudioDetails` object that provides detailed
           information about the audio resource. The object is empty until the service
           finishes processing the audio.
-    :attr str status: The status of the audio resource:
+    :param str status: The status of the audio resource:
           * `ok`: The service successfully analyzed the audio data. The data can be used
           to train the custom model.
           * `being_processed`: The service is still analyzing the audio data. The service
@@ -5478,8 +5831,13 @@ class AudioResource():
           invalid.
     """
 
-    def __init__(self, duration: int, name: str, details: 'AudioDetails',
-                 status: str) -> None:
+    def __init__(
+        self,
+        duration: int,
+        name: str,
+        details: 'AudioDetails',
+        status: str,
+    ) -> None:
         """
         Initialize a AudioResource object.
 
@@ -5512,25 +5870,25 @@ class AudioResource():
     def from_dict(cls, _dict: Dict) -> 'AudioResource':
         """Initialize a AudioResource object from a json dictionary."""
         args = {}
-        if 'duration' in _dict:
-            args['duration'] = _dict.get('duration')
+        if (duration := _dict.get('duration')) is not None:
+            args['duration'] = duration
         else:
             raise ValueError(
                 'Required property \'duration\' not present in AudioResource JSON'
             )
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
+        if (name := _dict.get('name')) is not None:
+            args['name'] = name
         else:
             raise ValueError(
                 'Required property \'name\' not present in AudioResource JSON')
-        if 'details' in _dict:
-            args['details'] = AudioDetails.from_dict(_dict.get('details'))
+        if (details := _dict.get('details')) is not None:
+            args['details'] = AudioDetails.from_dict(details)
         else:
             raise ValueError(
                 'Required property \'details\' not present in AudioResource JSON'
             )
-        if 'status' in _dict:
-            args['status'] = _dict.get('status')
+        if (status := _dict.get('status')) is not None:
+            args['status'] = status
         else:
             raise ValueError(
                 'Required property \'status\' not present in AudioResource JSON'
@@ -5589,26 +5947,30 @@ class AudioResource():
         an archive file, the entire archive is invalid if any of its audio files are
         invalid.
         """
+
         OK = 'ok'
         BEING_PROCESSED = 'being_processed'
         INVALID = 'invalid'
 
 
-class AudioResources():
+class AudioResources:
     """
     Information about the audio resources from a custom acoustic model.
 
-    :attr float total_minutes_of_audio: The total minutes of accumulated audio
+    :param float total_minutes_of_audio: The total minutes of accumulated audio
           summed over all of the valid audio resources for the custom acoustic model. You
           can use this value to determine whether the custom model has too little or too
           much audio to begin training.
-    :attr List[AudioResource] audio: An array of `AudioResource` objects that
+    :param List[AudioResource] audio: An array of `AudioResource` objects that
           provides information about the audio resources of the custom acoustic model. The
           array is empty if the custom model has no audio resources.
     """
 
-    def __init__(self, total_minutes_of_audio: float,
-                 audio: List['AudioResource']) -> None:
+    def __init__(
+        self,
+        total_minutes_of_audio: float,
+        audio: List['AudioResource'],
+    ) -> None:
         """
         Initialize a AudioResources object.
 
@@ -5627,16 +5989,15 @@ class AudioResources():
     def from_dict(cls, _dict: Dict) -> 'AudioResources':
         """Initialize a AudioResources object from a json dictionary."""
         args = {}
-        if 'total_minutes_of_audio' in _dict:
-            args['total_minutes_of_audio'] = _dict.get('total_minutes_of_audio')
+        if (total_minutes_of_audio :=
+                _dict.get('total_minutes_of_audio')) is not None:
+            args['total_minutes_of_audio'] = total_minutes_of_audio
         else:
             raise ValueError(
                 'Required property \'total_minutes_of_audio\' not present in AudioResources JSON'
             )
-        if 'audio' in _dict:
-            args['audio'] = [
-                AudioResource.from_dict(v) for v in _dict.get('audio')
-            ]
+        if (audio := _dict.get('audio')) is not None:
+            args['audio'] = [AudioResource.from_dict(v) for v in audio]
         else:
             raise ValueError(
                 'Required property \'audio\' not present in AudioResources JSON'
@@ -5683,16 +6044,19 @@ class AudioResources():
         return not self == other
 
 
-class Corpora():
+class Corpora:
     """
     Information about the corpora from a custom language model.
 
-    :attr List[Corpus] corpora: An array of `Corpus` objects that provides
+    :param List[Corpus] corpora: An array of `Corpus` objects that provides
           information about the corpora for the custom model. The array is empty if the
           custom model has no corpora.
     """
 
-    def __init__(self, corpora: List['Corpus']) -> None:
+    def __init__(
+        self,
+        corpora: List['Corpus'],
+    ) -> None:
         """
         Initialize a Corpora object.
 
@@ -5706,10 +6070,8 @@ class Corpora():
     def from_dict(cls, _dict: Dict) -> 'Corpora':
         """Initialize a Corpora object from a json dictionary."""
         args = {}
-        if 'corpora' in _dict:
-            args['corpora'] = [
-                Corpus.from_dict(v) for v in _dict.get('corpora')
-            ]
+        if (corpora := _dict.get('corpora')) is not None:
+            args['corpora'] = [Corpus.from_dict(v) for v in corpora]
         else:
             raise ValueError(
                 'Required property \'corpora\' not present in Corpora JSON')
@@ -5752,37 +6114,39 @@ class Corpora():
         return not self == other
 
 
-class Corpus():
+class Corpus:
     """
     Information about a corpus from a custom language model.
 
-    :attr str name: The name of the corpus.
-    :attr int total_words: The total number of words in the corpus. The value is `0`
-          while the corpus is being processed.
-    :attr int out_of_vocabulary_words: _For custom models that are based on
+    :param str name: The name of the corpus.
+    :param int total_words: The total number of words in the corpus. The value is
+          `0` while the corpus is being processed.
+    :param int out_of_vocabulary_words: _For custom models that are based on
           previous-generation models_, the number of OOV words extracted from the corpus.
           The value is `0` while the corpus is being processed.
           _For custom models that are based on next-generation models_, no OOV words are
           extracted from corpora, so the value is always `0`.
-    :attr str status: The status of the corpus:
+    :param str status: The status of the corpus:
           * `analyzed`: The service successfully analyzed the corpus. The custom model can
           be trained with data from the corpus.
           * `being_processed`: The service is still analyzing the corpus. The service
           cannot accept requests to add new resources or to train the custom model.
           * `undetermined`: The service encountered an error while processing the corpus.
           The `error` field describes the failure.
-    :attr str error: (optional) If the status of the corpus is `undetermined`, the
+    :param str error: (optional) If the status of the corpus is `undetermined`, the
           following message: `Analysis of corpus 'name' failed. Please try adding the
           corpus again by setting the 'allow_overwrite' flag to 'true'`.
     """
 
-    def __init__(self,
-                 name: str,
-                 total_words: int,
-                 out_of_vocabulary_words: int,
-                 status: str,
-                 *,
-                 error: str = None) -> None:
+    def __init__(
+        self,
+        name: str,
+        total_words: int,
+        out_of_vocabulary_words: int,
+        status: str,
+        *,
+        error: Optional[str] = None,
+    ) -> None:
         """
         Initialize a Corpus object.
 
@@ -5815,30 +6179,30 @@ class Corpus():
     def from_dict(cls, _dict: Dict) -> 'Corpus':
         """Initialize a Corpus object from a json dictionary."""
         args = {}
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
+        if (name := _dict.get('name')) is not None:
+            args['name'] = name
         else:
             raise ValueError(
                 'Required property \'name\' not present in Corpus JSON')
-        if 'total_words' in _dict:
-            args['total_words'] = _dict.get('total_words')
+        if (total_words := _dict.get('total_words')) is not None:
+            args['total_words'] = total_words
         else:
             raise ValueError(
                 'Required property \'total_words\' not present in Corpus JSON')
-        if 'out_of_vocabulary_words' in _dict:
-            args['out_of_vocabulary_words'] = _dict.get(
-                'out_of_vocabulary_words')
+        if (out_of_vocabulary_words :=
+                _dict.get('out_of_vocabulary_words')) is not None:
+            args['out_of_vocabulary_words'] = out_of_vocabulary_words
         else:
             raise ValueError(
                 'Required property \'out_of_vocabulary_words\' not present in Corpus JSON'
             )
-        if 'status' in _dict:
-            args['status'] = _dict.get('status')
+        if (status := _dict.get('status')) is not None:
+            args['status'] = status
         else:
             raise ValueError(
                 'Required property \'status\' not present in Corpus JSON')
-        if 'error' in _dict:
-            args['error'] = _dict.get('error')
+        if (error := _dict.get('error')) is not None:
+            args['error'] = error
         return cls(**args)
 
     @classmethod
@@ -5890,21 +6254,22 @@ class Corpus():
         * `undetermined`: The service encountered an error while processing the corpus.
         The `error` field describes the failure.
         """
+
         ANALYZED = 'analyzed'
         BEING_PROCESSED = 'being_processed'
         UNDETERMINED = 'undetermined'
 
 
-class CustomWord():
+class CustomWord:
     """
     Information about a word that is to be added to a custom language model.
 
-    :attr str word: (optional) For the [Add custom words](#addwords) method, you
+    :param str word: (optional) For the [Add custom words](#addwords) method, you
           must specify the custom word that is to be added to or updated in the custom
           model. Do not include spaces in the word. Use a `-` (dash) or `_` (underscore)
           to connect the tokens of compound words.
           Omit this parameter for the [Add a custom word](#addword) method.
-    :attr List[str] sounds_like: (optional) As array of sounds-like pronunciations
+    :param List[str] sounds_like: (optional) As array of sounds-like pronunciations
           for the custom word. Specify how words that are difficult to pronounce, foreign
           words, acronyms, and so on can be pronounced by users.
           * _For custom models that are based on previous-generation models_, for a word
@@ -5916,7 +6281,7 @@ class CustomWord():
           the base vocabulary.
           A word can have at most five sounds-like pronunciations. A pronunciation can
           include at most 40 characters not including spaces.
-    :attr str display_as: (optional) An alternative spelling for the custom word
+    :param str display_as: (optional) An alternative spelling for the custom word
           when it appears in a transcript. Use the parameter when you want the word to
           have a spelling that is different from its usual representation or from its
           spelling in corpora training data.
@@ -5924,11 +6289,13 @@ class CustomWord():
           the spelling of the word as the display-as value if you omit the field.
     """
 
-    def __init__(self,
-                 *,
-                 word: str = None,
-                 sounds_like: List[str] = None,
-                 display_as: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        word: Optional[str] = None,
+        sounds_like: Optional[List[str]] = None,
+        display_as: Optional[str] = None,
+    ) -> None:
         """
         Initialize a CustomWord object.
 
@@ -5966,12 +6333,12 @@ class CustomWord():
     def from_dict(cls, _dict: Dict) -> 'CustomWord':
         """Initialize a CustomWord object from a json dictionary."""
         args = {}
-        if 'word' in _dict:
-            args['word'] = _dict.get('word')
-        if 'sounds_like' in _dict:
-            args['sounds_like'] = _dict.get('sounds_like')
-        if 'display_as' in _dict:
-            args['display_as'] = _dict.get('display_as')
+        if (word := _dict.get('word')) is not None:
+            args['word'] = word
+        if (sounds_like := _dict.get('sounds_like')) is not None:
+            args['sounds_like'] = sounds_like
+        if (display_as := _dict.get('display_as')) is not None:
+            args['display_as'] = display_as
         return cls(**args)
 
     @classmethod
@@ -6009,35 +6376,37 @@ class CustomWord():
         return not self == other
 
 
-class Grammar():
+class Grammar:
     """
     Information about a grammar from a custom language model.
 
-    :attr str name: The name of the grammar.
-    :attr int out_of_vocabulary_words: _For custom models that are based on
+    :param str name: The name of the grammar.
+    :param int out_of_vocabulary_words: _For custom models that are based on
           previous-generation models_, the number of OOV words extracted from the grammar.
           The value is `0` while the grammar is being processed.
           _For custom models that are based on next-generation models_, no OOV words are
           extracted from grammars, so the value is always `0`.
-    :attr str status: The status of the grammar:
+    :param str status: The status of the grammar:
           * `analyzed`: The service successfully analyzed the grammar. The custom model
           can be trained with data from the grammar.
           * `being_processed`: The service is still analyzing the grammar. The service
           cannot accept requests to add new resources or to train the custom model.
           * `undetermined`: The service encountered an error while processing the grammar.
           The `error` field describes the failure.
-    :attr str error: (optional) If the status of the grammar is `undetermined`, the
+    :param str error: (optional) If the status of the grammar is `undetermined`, the
           following message: `Analysis of grammar '{grammar_name}' failed. Please try
           fixing the error or adding the grammar again by setting the 'allow_overwrite'
           flag to 'true'.`.
     """
 
-    def __init__(self,
-                 name: str,
-                 out_of_vocabulary_words: int,
-                 status: str,
-                 *,
-                 error: str = None) -> None:
+    def __init__(
+        self,
+        name: str,
+        out_of_vocabulary_words: int,
+        status: str,
+        *,
+        error: Optional[str] = None,
+    ) -> None:
         """
         Initialize a Grammar object.
 
@@ -6069,25 +6438,25 @@ class Grammar():
     def from_dict(cls, _dict: Dict) -> 'Grammar':
         """Initialize a Grammar object from a json dictionary."""
         args = {}
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
+        if (name := _dict.get('name')) is not None:
+            args['name'] = name
         else:
             raise ValueError(
                 'Required property \'name\' not present in Grammar JSON')
-        if 'out_of_vocabulary_words' in _dict:
-            args['out_of_vocabulary_words'] = _dict.get(
-                'out_of_vocabulary_words')
+        if (out_of_vocabulary_words :=
+                _dict.get('out_of_vocabulary_words')) is not None:
+            args['out_of_vocabulary_words'] = out_of_vocabulary_words
         else:
             raise ValueError(
                 'Required property \'out_of_vocabulary_words\' not present in Grammar JSON'
             )
-        if 'status' in _dict:
-            args['status'] = _dict.get('status')
+        if (status := _dict.get('status')) is not None:
+            args['status'] = status
         else:
             raise ValueError(
                 'Required property \'status\' not present in Grammar JSON')
-        if 'error' in _dict:
-            args['error'] = _dict.get('error')
+        if (error := _dict.get('error')) is not None:
+            args['error'] = error
         return cls(**args)
 
     @classmethod
@@ -6137,21 +6506,25 @@ class Grammar():
         * `undetermined`: The service encountered an error while processing the grammar.
         The `error` field describes the failure.
         """
+
         ANALYZED = 'analyzed'
         BEING_PROCESSED = 'being_processed'
         UNDETERMINED = 'undetermined'
 
 
-class Grammars():
+class Grammars:
     """
     Information about the grammars from a custom language model.
 
-    :attr List[Grammar] grammars: An array of `Grammar` objects that provides
+    :param List[Grammar] grammars: An array of `Grammar` objects that provides
           information about the grammars for the custom model. The array is empty if the
           custom model has no grammars.
     """
 
-    def __init__(self, grammars: List['Grammar']) -> None:
+    def __init__(
+        self,
+        grammars: List['Grammar'],
+    ) -> None:
         """
         Initialize a Grammars object.
 
@@ -6165,10 +6538,8 @@ class Grammars():
     def from_dict(cls, _dict: Dict) -> 'Grammars':
         """Initialize a Grammars object from a json dictionary."""
         args = {}
-        if 'grammars' in _dict:
-            args['grammars'] = [
-                Grammar.from_dict(v) for v in _dict.get('grammars')
-            ]
+        if (grammars := _dict.get('grammars')) is not None:
+            args['grammars'] = [Grammar.from_dict(v) for v in grammars]
         else:
             raise ValueError(
                 'Required property \'grammars\' not present in Grammars JSON')
@@ -6211,20 +6582,25 @@ class Grammars():
         return not self == other
 
 
-class KeywordResult():
+class KeywordResult:
     """
     Information about a match for a keyword from speech recognition results.
 
-    :attr str normalized_text: A specified keyword normalized to the spoken phrase
+    :param str normalized_text: A specified keyword normalized to the spoken phrase
           that matched in the audio input.
-    :attr float start_time: The start time in seconds of the keyword match.
-    :attr float end_time: The end time in seconds of the keyword match.
-    :attr float confidence: A confidence score for the keyword match in the range of
-          0.0 to 1.0.
+    :param float start_time: The start time in seconds of the keyword match.
+    :param float end_time: The end time in seconds of the keyword match.
+    :param float confidence: A confidence score for the keyword match in the range
+          of 0.0 to 1.0.
     """
 
-    def __init__(self, normalized_text: str, start_time: float, end_time: float,
-                 confidence: float) -> None:
+    def __init__(
+        self,
+        normalized_text: str,
+        start_time: float,
+        end_time: float,
+        confidence: float,
+    ) -> None:
         """
         Initialize a KeywordResult object.
 
@@ -6244,26 +6620,26 @@ class KeywordResult():
     def from_dict(cls, _dict: Dict) -> 'KeywordResult':
         """Initialize a KeywordResult object from a json dictionary."""
         args = {}
-        if 'normalized_text' in _dict:
-            args['normalized_text'] = _dict.get('normalized_text')
+        if (normalized_text := _dict.get('normalized_text')) is not None:
+            args['normalized_text'] = normalized_text
         else:
             raise ValueError(
                 'Required property \'normalized_text\' not present in KeywordResult JSON'
             )
-        if 'start_time' in _dict:
-            args['start_time'] = _dict.get('start_time')
+        if (start_time := _dict.get('start_time')) is not None:
+            args['start_time'] = start_time
         else:
             raise ValueError(
                 'Required property \'start_time\' not present in KeywordResult JSON'
             )
-        if 'end_time' in _dict:
-            args['end_time'] = _dict.get('end_time')
+        if (end_time := _dict.get('end_time')) is not None:
+            args['end_time'] = end_time
         else:
             raise ValueError(
                 'Required property \'end_time\' not present in KeywordResult JSON'
             )
-        if 'confidence' in _dict:
-            args['confidence'] = _dict.get('confidence')
+        if (confidence := _dict.get('confidence')) is not None:
+            args['confidence'] = confidence
         else:
             raise ValueError(
                 'Required property \'confidence\' not present in KeywordResult JSON'
@@ -6308,26 +6684,26 @@ class KeywordResult():
         return not self == other
 
 
-class LanguageModel():
+class LanguageModel:
     """
     Information about an existing custom language model.
 
-    :attr str customization_id: The customization ID (GUID) of the custom language
+    :param str customization_id: The customization ID (GUID) of the custom language
           model. The [Create a custom language model](#createlanguagemodel) method returns
           only this field of the object; it does not return the other fields.
-    :attr str created: (optional) The date and time in Coordinated Universal Time
+    :param str created: (optional) The date and time in Coordinated Universal Time
           (UTC) at which the custom language model was created. The value is provided in
           full ISO 8601 format (`YYYY-MM-DDThh:mm:ss.sTZD`).
-    :attr str updated: (optional) The date and time in Coordinated Universal Time
+    :param str updated: (optional) The date and time in Coordinated Universal Time
           (UTC) at which the custom language model was last modified. The `created` and
           `updated` fields are equal when a language model is first added but has yet to
           be updated. The value is provided in full ISO 8601 format
           (YYYY-MM-DDThh:mm:ss.sTZD).
-    :attr str language: (optional) The language identifier of the custom language
+    :param str language: (optional) The language identifier of the custom language
           model (for example, `en-US`). The value matches the five-character language
           identifier from the name of the base model for the custom model. This value
           might be different from the value of the `dialect` field.
-    :attr str dialect: (optional) The dialect of the language for the custom
+    :param str dialect: (optional) The dialect of the language for the custom
           language model. _For custom models that are based on non-Spanish
           previous-generation models and on next-generation models,_ the field matches the
           language of the base model; for example, `en-US` for one of the US English
@@ -6340,18 +6716,18 @@ class LanguageModel():
           models)
           * `es-US` for Mexican (North American) Spanish (`es-MX` models)
           Dialect values are case-insensitive.
-    :attr List[str] versions: (optional) A list of the available versions of the
+    :param List[str] versions: (optional) A list of the available versions of the
           custom language model. Each element of the array indicates a version of the base
           model with which the custom model can be used. Multiple versions exist only if
           the custom model has been upgraded to a new version of its base model.
           Otherwise, only a single version is shown.
-    :attr str owner: (optional) The GUID of the credentials for the instance of the
+    :param str owner: (optional) The GUID of the credentials for the instance of the
           service that owns the custom language model.
-    :attr str name: (optional) The name of the custom language model.
-    :attr str description: (optional) The description of the custom language model.
-    :attr str base_model_name: (optional) The name of the language model for which
+    :param str name: (optional) The name of the custom language model.
+    :param str description: (optional) The description of the custom language model.
+    :param str base_model_name: (optional) The name of the language model for which
           the custom language model was created.
-    :attr str status: (optional) The current status of the custom language model:
+    :param str status: (optional) The current status of the custom language model:
           * `pending`: The model was created but is waiting either for valid training data
           to be added or for the service to finish analyzing added data.
           * `ready`: The model contains valid data and is ready to be trained. If the
@@ -6361,37 +6737,39 @@ class LanguageModel():
           * `available`: The model is trained and ready to use.
           * `upgrading`: The model is currently being upgraded.
           * `failed`: Training of the model failed.
-    :attr int progress: (optional) A percentage that indicates the progress of the
+    :param int progress: (optional) A percentage that indicates the progress of the
           custom language model's current training. A value of `100` means that the model
           is fully trained. **Note:** The `progress` field does not currently reflect the
           progress of the training. The field changes from `0` to `100` when training is
           complete.
-    :attr str error: (optional) If an error occurred while adding a grammar file to
+    :param str error: (optional) If an error occurred while adding a grammar file to
           the custom language model, a message that describes an `Internal Server Error`
           and includes the string `Cannot compile grammar`. The status of the custom model
           is not affected by the error, but the grammar cannot be used with the model.
-    :attr str warnings: (optional) If the request included unknown parameters, the
+    :param str warnings: (optional) If the request included unknown parameters, the
           following message: `Unexpected query parameter(s) ['parameters'] detected`,
           where `parameters` is a list that includes a quoted string for each unknown
           parameter.
     """
 
-    def __init__(self,
-                 customization_id: str,
-                 *,
-                 created: str = None,
-                 updated: str = None,
-                 language: str = None,
-                 dialect: str = None,
-                 versions: List[str] = None,
-                 owner: str = None,
-                 name: str = None,
-                 description: str = None,
-                 base_model_name: str = None,
-                 status: str = None,
-                 progress: int = None,
-                 error: str = None,
-                 warnings: str = None) -> None:
+    def __init__(
+        self,
+        customization_id: str,
+        *,
+        created: Optional[str] = None,
+        updated: Optional[str] = None,
+        language: Optional[str] = None,
+        dialect: Optional[str] = None,
+        versions: Optional[List[str]] = None,
+        owner: Optional[str] = None,
+        name: Optional[str] = None,
+        description: Optional[str] = None,
+        base_model_name: Optional[str] = None,
+        status: Optional[str] = None,
+        progress: Optional[int] = None,
+        error: Optional[str] = None,
+        warnings: Optional[str] = None,
+    ) -> None:
         """
         Initialize a LanguageModel object.
 
@@ -6481,38 +6859,38 @@ class LanguageModel():
     def from_dict(cls, _dict: Dict) -> 'LanguageModel':
         """Initialize a LanguageModel object from a json dictionary."""
         args = {}
-        if 'customization_id' in _dict:
-            args['customization_id'] = _dict.get('customization_id')
+        if (customization_id := _dict.get('customization_id')) is not None:
+            args['customization_id'] = customization_id
         else:
             raise ValueError(
                 'Required property \'customization_id\' not present in LanguageModel JSON'
             )
-        if 'created' in _dict:
-            args['created'] = _dict.get('created')
-        if 'updated' in _dict:
-            args['updated'] = _dict.get('updated')
-        if 'language' in _dict:
-            args['language'] = _dict.get('language')
-        if 'dialect' in _dict:
-            args['dialect'] = _dict.get('dialect')
-        if 'versions' in _dict:
-            args['versions'] = _dict.get('versions')
-        if 'owner' in _dict:
-            args['owner'] = _dict.get('owner')
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
-        if 'description' in _dict:
-            args['description'] = _dict.get('description')
-        if 'base_model_name' in _dict:
-            args['base_model_name'] = _dict.get('base_model_name')
-        if 'status' in _dict:
-            args['status'] = _dict.get('status')
-        if 'progress' in _dict:
-            args['progress'] = _dict.get('progress')
-        if 'error' in _dict:
-            args['error'] = _dict.get('error')
-        if 'warnings' in _dict:
-            args['warnings'] = _dict.get('warnings')
+        if (created := _dict.get('created')) is not None:
+            args['created'] = created
+        if (updated := _dict.get('updated')) is not None:
+            args['updated'] = updated
+        if (language := _dict.get('language')) is not None:
+            args['language'] = language
+        if (dialect := _dict.get('dialect')) is not None:
+            args['dialect'] = dialect
+        if (versions := _dict.get('versions')) is not None:
+            args['versions'] = versions
+        if (owner := _dict.get('owner')) is not None:
+            args['owner'] = owner
+        if (name := _dict.get('name')) is not None:
+            args['name'] = name
+        if (description := _dict.get('description')) is not None:
+            args['description'] = description
+        if (base_model_name := _dict.get('base_model_name')) is not None:
+            args['base_model_name'] = base_model_name
+        if (status := _dict.get('status')) is not None:
+            args['status'] = status
+        if (progress := _dict.get('progress')) is not None:
+            args['progress'] = progress
+        if (error := _dict.get('error')) is not None:
+            args['error'] = error
+        if (warnings := _dict.get('warnings')) is not None:
+            args['warnings'] = warnings
         return cls(**args)
 
     @classmethod
@@ -6586,6 +6964,7 @@ class LanguageModel():
         * `upgrading`: The model is currently being upgraded.
         * `failed`: Training of the model failed.
         """
+
         PENDING = 'pending'
         READY = 'ready'
         TRAINING = 'training'
@@ -6594,18 +6973,21 @@ class LanguageModel():
         FAILED = 'failed'
 
 
-class LanguageModels():
+class LanguageModels:
     """
     Information about existing custom language models.
 
-    :attr List[LanguageModel] customizations: An array of `LanguageModel` objects
+    :param List[LanguageModel] customizations: An array of `LanguageModel` objects
           that provides information about each available custom language model. The array
           is empty if the requesting credentials own no custom language models (if no
           language is specified) or own no custom language models for the specified
           language.
     """
 
-    def __init__(self, customizations: List['LanguageModel']) -> None:
+    def __init__(
+        self,
+        customizations: List['LanguageModel'],
+    ) -> None:
         """
         Initialize a LanguageModels object.
 
@@ -6621,9 +7003,9 @@ class LanguageModels():
     def from_dict(cls, _dict: Dict) -> 'LanguageModels':
         """Initialize a LanguageModels object from a json dictionary."""
         args = {}
-        if 'customizations' in _dict:
+        if (customizations := _dict.get('customizations')) is not None:
             args['customizations'] = [
-                LanguageModel.from_dict(v) for v in _dict.get('customizations')
+                LanguageModel.from_dict(v) for v in customizations
             ]
         else:
             raise ValueError(
@@ -6668,38 +7050,40 @@ class LanguageModels():
         return not self == other
 
 
-class ProcessedAudio():
+class ProcessedAudio:
     """
     Detailed timing information about the service's processing of the input audio.
 
-    :attr float received: The seconds of audio that the service has received as of
+    :param float received: The seconds of audio that the service has received as of
           this response. The value of the field is greater than the values of the
           `transcription` and `speaker_labels` fields during speech recognition
           processing, since the service first has to receive the audio before it can begin
           to process it. The final value can also be greater than the value of the
           `transcription` and `speaker_labels` fields by a fractional number of seconds.
-    :attr float seen_by_engine: The seconds of audio that the service has passed to
+    :param float seen_by_engine: The seconds of audio that the service has passed to
           its speech-processing engine as of this response. The value of the field is
           greater than the values of the `transcription` and `speaker_labels` fields
           during speech recognition processing. The `received` and `seen_by_engine` fields
           have identical values when the service has finished processing all audio. This
           final value can be greater than the value of the `transcription` and
           `speaker_labels` fields by a fractional number of seconds.
-    :attr float transcription: The seconds of audio that the service has processed
+    :param float transcription: The seconds of audio that the service has processed
           for speech recognition as of this response.
-    :attr float speaker_labels: (optional) If speaker labels are requested, the
+    :param float speaker_labels: (optional) If speaker labels are requested, the
           seconds of audio that the service has processed to determine speaker labels as
           of this response. This value often trails the value of the `transcription` field
           during speech recognition processing. The `transcription` and `speaker_labels`
           fields have identical values when the service has finished processing all audio.
     """
 
-    def __init__(self,
-                 received: float,
-                 seen_by_engine: float,
-                 transcription: float,
-                 *,
-                 speaker_labels: float = None) -> None:
+    def __init__(
+        self,
+        received: float,
+        seen_by_engine: float,
+        transcription: float,
+        *,
+        speaker_labels: Optional[float] = None,
+    ) -> None:
         """
         Initialize a ProcessedAudio object.
 
@@ -6736,26 +7120,26 @@ class ProcessedAudio():
     def from_dict(cls, _dict: Dict) -> 'ProcessedAudio':
         """Initialize a ProcessedAudio object from a json dictionary."""
         args = {}
-        if 'received' in _dict:
-            args['received'] = _dict.get('received')
+        if (received := _dict.get('received')) is not None:
+            args['received'] = received
         else:
             raise ValueError(
                 'Required property \'received\' not present in ProcessedAudio JSON'
             )
-        if 'seen_by_engine' in _dict:
-            args['seen_by_engine'] = _dict.get('seen_by_engine')
+        if (seen_by_engine := _dict.get('seen_by_engine')) is not None:
+            args['seen_by_engine'] = seen_by_engine
         else:
             raise ValueError(
                 'Required property \'seen_by_engine\' not present in ProcessedAudio JSON'
             )
-        if 'transcription' in _dict:
-            args['transcription'] = _dict.get('transcription')
+        if (transcription := _dict.get('transcription')) is not None:
+            args['transcription'] = transcription
         else:
             raise ValueError(
                 'Required property \'transcription\' not present in ProcessedAudio JSON'
             )
-        if 'speaker_labels' in _dict:
-            args['speaker_labels'] = _dict.get('speaker_labels')
+        if (speaker_labels := _dict.get('speaker_labels')) is not None:
+            args['speaker_labels'] = speaker_labels
         return cls(**args)
 
     @classmethod
@@ -6795,15 +7179,15 @@ class ProcessedAudio():
         return not self == other
 
 
-class ProcessingMetrics():
+class ProcessingMetrics:
     """
     If processing metrics are requested, information about the service's processing of the
     input audio. Processing metrics are not available with the synchronous [Recognize
     audio](#recognize) method.
 
-    :attr ProcessedAudio processed_audio: Detailed timing information about the
+    :param ProcessedAudio processed_audio: Detailed timing information about the
           service's processing of the input audio.
-    :attr float wall_clock_since_first_byte_received: The amount of real time in
+    :param float wall_clock_since_first_byte_received: The amount of real time in
           seconds that has passed since the service received the first byte of input
           audio. Values in this field are generally multiples of the specified metrics
           interval, with two differences:
@@ -6813,7 +7197,7 @@ class ProcessingMetrics():
           * The service also returns values for transcription events if you set the
           `interim_results` parameter to `true`. The service returns both processing
           metrics and transcription results when such events occur.
-    :attr bool periodic: An indication of whether the metrics apply to a periodic
+    :param bool periodic: An indication of whether the metrics apply to a periodic
           interval or a transcription event:
           * `true` means that the response was triggered by a specified processing
           interval. The information contains processing metrics only.
@@ -6823,9 +7207,12 @@ class ProcessingMetrics():
           different results if necessary.
     """
 
-    def __init__(self, processed_audio: 'ProcessedAudio',
-                 wall_clock_since_first_byte_received: float,
-                 periodic: bool) -> None:
+    def __init__(
+        self,
+        processed_audio: 'ProcessedAudio',
+        wall_clock_since_first_byte_received: float,
+        periodic: bool,
+    ) -> None:
         """
         Initialize a ProcessingMetrics object.
 
@@ -6858,22 +7245,22 @@ class ProcessingMetrics():
     def from_dict(cls, _dict: Dict) -> 'ProcessingMetrics':
         """Initialize a ProcessingMetrics object from a json dictionary."""
         args = {}
-        if 'processed_audio' in _dict:
-            args['processed_audio'] = ProcessedAudio.from_dict(
-                _dict.get('processed_audio'))
+        if (processed_audio := _dict.get('processed_audio')) is not None:
+            args['processed_audio'] = ProcessedAudio.from_dict(processed_audio)
         else:
             raise ValueError(
                 'Required property \'processed_audio\' not present in ProcessingMetrics JSON'
             )
-        if 'wall_clock_since_first_byte_received' in _dict:
-            args['wall_clock_since_first_byte_received'] = _dict.get(
-                'wall_clock_since_first_byte_received')
+        if (wall_clock_since_first_byte_received :=
+                _dict.get('wall_clock_since_first_byte_received')) is not None:
+            args[
+                'wall_clock_since_first_byte_received'] = wall_clock_since_first_byte_received
         else:
             raise ValueError(
                 'Required property \'wall_clock_since_first_byte_received\' not present in ProcessingMetrics JSON'
             )
-        if 'periodic' in _dict:
-            args['periodic'] = _dict.get('periodic')
+        if (periodic := _dict.get('periodic')) is not None:
+            args['periodic'] = periodic
         else:
             raise ValueError(
                 'Required property \'periodic\' not present in ProcessingMetrics JSON'
@@ -6921,12 +7308,12 @@ class ProcessingMetrics():
         return not self == other
 
 
-class RecognitionJob():
+class RecognitionJob:
     """
     Information about a current asynchronous speech recognition job.
 
-    :attr str id: The ID of the asynchronous job.
-    :attr str status: The current status of the job:
+    :param str id: The ID of the asynchronous job.
+    :param str status: The current status of the job:
           * `waiting`: The service is preparing the job for processing. The service
           returns this status when the job is initially created or when it is waiting for
           capacity to process the job. The job remains in this state until the service has
@@ -6937,24 +7324,24 @@ class RecognitionJob():
           sent the results with the callback notification. Otherwise, you must retrieve
           the results by checking the individual job.
           * `failed`: The job failed.
-    :attr str created: The date and time in Coordinated Universal Time (UTC) at
+    :param str created: The date and time in Coordinated Universal Time (UTC) at
           which the job was created. The value is provided in full ISO 8601 format
           (`YYYY-MM-DDThh:mm:ss.sTZD`).
-    :attr str updated: (optional) The date and time in Coordinated Universal Time
+    :param str updated: (optional) The date and time in Coordinated Universal Time
           (UTC) at which the job was last updated by the service. The value is provided in
           full ISO 8601 format (`YYYY-MM-DDThh:mm:ss.sTZD`). This field is returned only
           by the [Check jobs](#checkjobs) and [Check a job[(#checkjob) methods.
-    :attr str url: (optional) The URL to use to request information about the job
+    :param str url: (optional) The URL to use to request information about the job
           with the [Check a job](#checkjob) method. This field is returned only by the
           [Create a job](#createjob) method.
-    :attr str user_token: (optional) The user token associated with a job that was
+    :param str user_token: (optional) The user token associated with a job that was
           created with a callback URL and a user token. This field can be returned only by
           the [Check jobs](#checkjobs) method.
-    :attr List[SpeechRecognitionResults] results: (optional) If the status is
+    :param List[SpeechRecognitionResults] results: (optional) If the status is
           `completed`, the results of the recognition request as an array that includes a
           single instance of a `SpeechRecognitionResults` object. This field is returned
           only by the [Check a job](#checkjob) method.
-    :attr List[str] warnings: (optional) An array of warning messages about invalid
+    :param List[str] warnings: (optional) An array of warning messages about invalid
           parameters included with the request. Each warning includes a descriptive
           message and a list of invalid argument strings, for example, `"unexpected query
           parameter 'user_token', query parameter 'callback_url' was not specified"`. The
@@ -6964,16 +7351,18 @@ class RecognitionJob():
           parameter as `lambdaBias`.).
     """
 
-    def __init__(self,
-                 id: str,
-                 status: str,
-                 created: str,
-                 *,
-                 updated: str = None,
-                 url: str = None,
-                 user_token: str = None,
-                 results: List['SpeechRecognitionResults'] = None,
-                 warnings: List[str] = None) -> None:
+    def __init__(
+        self,
+        id: str,
+        status: str,
+        created: str,
+        *,
+        updated: Optional[str] = None,
+        url: Optional[str] = None,
+        user_token: Optional[str] = None,
+        results: Optional[List['SpeechRecognitionResults']] = None,
+        warnings: Optional[List[str]] = None,
+    ) -> None:
         """
         Initialize a RecognitionJob object.
 
@@ -7030,36 +7419,35 @@ class RecognitionJob():
     def from_dict(cls, _dict: Dict) -> 'RecognitionJob':
         """Initialize a RecognitionJob object from a json dictionary."""
         args = {}
-        if 'id' in _dict:
-            args['id'] = _dict.get('id')
+        if (id := _dict.get('id')) is not None:
+            args['id'] = id
         else:
             raise ValueError(
                 'Required property \'id\' not present in RecognitionJob JSON')
-        if 'status' in _dict:
-            args['status'] = _dict.get('status')
+        if (status := _dict.get('status')) is not None:
+            args['status'] = status
         else:
             raise ValueError(
                 'Required property \'status\' not present in RecognitionJob JSON'
             )
-        if 'created' in _dict:
-            args['created'] = _dict.get('created')
+        if (created := _dict.get('created')) is not None:
+            args['created'] = created
         else:
             raise ValueError(
                 'Required property \'created\' not present in RecognitionJob JSON'
             )
-        if 'updated' in _dict:
-            args['updated'] = _dict.get('updated')
-        if 'url' in _dict:
-            args['url'] = _dict.get('url')
-        if 'user_token' in _dict:
-            args['user_token'] = _dict.get('user_token')
-        if 'results' in _dict:
+        if (updated := _dict.get('updated')) is not None:
+            args['updated'] = updated
+        if (url := _dict.get('url')) is not None:
+            args['url'] = url
+        if (user_token := _dict.get('user_token')) is not None:
+            args['user_token'] = user_token
+        if (results := _dict.get('results')) is not None:
             args['results'] = [
-                SpeechRecognitionResults.from_dict(v)
-                for v in _dict.get('results')
+                SpeechRecognitionResults.from_dict(v) for v in results
             ]
-        if 'warnings' in _dict:
-            args['warnings'] = _dict.get('warnings')
+        if (warnings := _dict.get('warnings')) is not None:
+            args['warnings'] = warnings
         return cls(**args)
 
     @classmethod
@@ -7126,22 +7514,26 @@ class RecognitionJob():
         results by checking the individual job.
         * `failed`: The job failed.
         """
+
         WAITING = 'waiting'
         PROCESSING = 'processing'
         COMPLETED = 'completed'
         FAILED = 'failed'
 
 
-class RecognitionJobs():
+class RecognitionJobs:
     """
     Information about current asynchronous speech recognition jobs.
 
-    :attr List[RecognitionJob] recognitions: An array of `RecognitionJob` objects
+    :param List[RecognitionJob] recognitions: An array of `RecognitionJob` objects
           that provides the status for each of the user's current jobs. The array is empty
           if the user has no current jobs.
     """
 
-    def __init__(self, recognitions: List['RecognitionJob']) -> None:
+    def __init__(
+        self,
+        recognitions: List['RecognitionJob'],
+    ) -> None:
         """
         Initialize a RecognitionJobs object.
 
@@ -7155,9 +7547,9 @@ class RecognitionJobs():
     def from_dict(cls, _dict: Dict) -> 'RecognitionJobs':
         """Initialize a RecognitionJobs object from a json dictionary."""
         args = {}
-        if 'recognitions' in _dict:
+        if (recognitions := _dict.get('recognitions')) is not None:
             args['recognitions'] = [
-                RecognitionJob.from_dict(v) for v in _dict.get('recognitions')
+                RecognitionJob.from_dict(v) for v in recognitions
             ]
         else:
             raise ValueError(
@@ -7202,19 +7594,23 @@ class RecognitionJobs():
         return not self == other
 
 
-class RegisterStatus():
+class RegisterStatus:
     """
     Information about a request to register a callback for asynchronous speech
     recognition.
 
-    :attr str status: The current status of the job:
+    :param str status: The current status of the job:
           * `created`: The service successfully allowlisted the callback URL as a result
           of the call.
           * `already created`: The URL was already allowlisted.
-    :attr str url: The callback URL that is successfully registered.
+    :param str url: The callback URL that is successfully registered.
     """
 
-    def __init__(self, status: str, url: str) -> None:
+    def __init__(
+        self,
+        status: str,
+        url: str,
+    ) -> None:
         """
         Initialize a RegisterStatus object.
 
@@ -7231,14 +7627,14 @@ class RegisterStatus():
     def from_dict(cls, _dict: Dict) -> 'RegisterStatus':
         """Initialize a RegisterStatus object from a json dictionary."""
         args = {}
-        if 'status' in _dict:
-            args['status'] = _dict.get('status')
+        if (status := _dict.get('status')) is not None:
+            args['status'] = status
         else:
             raise ValueError(
                 'Required property \'status\' not present in RegisterStatus JSON'
             )
-        if 'url' in _dict:
-            args['url'] = _dict.get('url')
+        if (url := _dict.get('url')) is not None:
+            args['url'] = url
         else:
             raise ValueError(
                 'Required property \'url\' not present in RegisterStatus JSON')
@@ -7283,33 +7679,41 @@ class RegisterStatus():
         the call.
         * `already created`: The URL was already allowlisted.
         """
+
         CREATED = 'created'
         ALREADY_CREATED = 'already created'
 
 
-class SpeakerLabelsResult():
+class SpeakerLabelsResult:
     """
     Information about the speakers from speech recognition results.
 
-    :attr float from_: The start time of a word from the transcript. The value
+    :param float from_: The start time of a word from the transcript. The value
           matches the start time of a word from the `timestamps` array.
-    :attr float to: The end time of a word from the transcript. The value matches
+    :param float to: The end time of a word from the transcript. The value matches
           the end time of a word from the `timestamps` array.
-    :attr int speaker: The numeric identifier that the service assigns to a speaker
+    :param int speaker: The numeric identifier that the service assigns to a speaker
           from the audio. Speaker IDs begin at `0` initially but can evolve and change
           across interim results (if supported by the method) and between interim and
           final results as the service processes the audio. They are not guaranteed to be
           sequential, contiguous, or ordered.
-    :attr float confidence: A score that indicates the service's confidence in its
+    :param float confidence: A score that indicates the service's confidence in its
           identification of the speaker in the range of 0.0 to 1.0.
-    :attr bool final: An indication of whether the service might further change word
-          and speaker-label results. A value of `true` means that the service guarantees
-          not to send any further updates for the current or any preceding results;
-          `false` means that the service might send further updates to the results.
+    :param bool final: An indication of whether the service might further change
+          word and speaker-label results. A value of `true` means that the service
+          guarantees not to send any further updates for the current or any preceding
+          results; `false` means that the service might send further updates to the
+          results.
     """
 
-    def __init__(self, from_: float, to: float, speaker: int, confidence: float,
-                 final: bool) -> None:
+    def __init__(
+        self,
+        from_: float,
+        to: float,
+        speaker: int,
+        confidence: float,
+        final: bool,
+    ) -> None:
         """
         Initialize a SpeakerLabelsResult object.
 
@@ -7340,32 +7744,32 @@ class SpeakerLabelsResult():
     def from_dict(cls, _dict: Dict) -> 'SpeakerLabelsResult':
         """Initialize a SpeakerLabelsResult object from a json dictionary."""
         args = {}
-        if 'from' in _dict:
-            args['from_'] = _dict.get('from')
+        if (from_ := _dict.get('from')) is not None:
+            args['from_'] = from_
         else:
             raise ValueError(
                 'Required property \'from\' not present in SpeakerLabelsResult JSON'
             )
-        if 'to' in _dict:
-            args['to'] = _dict.get('to')
+        if (to := _dict.get('to')) is not None:
+            args['to'] = to
         else:
             raise ValueError(
                 'Required property \'to\' not present in SpeakerLabelsResult JSON'
             )
-        if 'speaker' in _dict:
-            args['speaker'] = _dict.get('speaker')
+        if (speaker := _dict.get('speaker')) is not None:
+            args['speaker'] = speaker
         else:
             raise ValueError(
                 'Required property \'speaker\' not present in SpeakerLabelsResult JSON'
             )
-        if 'confidence' in _dict:
-            args['confidence'] = _dict.get('confidence')
+        if (confidence := _dict.get('confidence')) is not None:
+            args['confidence'] = confidence
         else:
             raise ValueError(
                 'Required property \'confidence\' not present in SpeakerLabelsResult JSON'
             )
-        if 'final' in _dict:
-            args['final'] = _dict.get('final')
+        if (final := _dict.get('final')) is not None:
+            args['final'] = final
         else:
             raise ValueError(
                 'Required property \'final\' not present in SpeakerLabelsResult JSON'
@@ -7411,24 +7815,31 @@ class SpeakerLabelsResult():
         return not self == other
 
 
-class SpeechModel():
+class SpeechModel:
     """
     Information about an available language model.
 
-    :attr str name: The name of the model for use as an identifier in calls to the
+    :param str name: The name of the model for use as an identifier in calls to the
           service (for example, `en-US_BroadbandModel`).
-    :attr str language: The language identifier of the model (for example, `en-US`).
-    :attr int rate: The sampling rate (minimum acceptable rate for audio) used by
+    :param str language: The language identifier of the model (for example,
+          `en-US`).
+    :param int rate: The sampling rate (minimum acceptable rate for audio) used by
           the model in Hertz.
-    :attr str url: The URI for the model.
-    :attr SupportedFeatures supported_features: Indicates whether select service
+    :param str url: The URI for the model.
+    :param SupportedFeatures supported_features: Indicates whether select service
           features are supported with the model.
-    :attr str description: A brief description of the model.
+    :param str description: A brief description of the model.
     """
 
-    def __init__(self, name: str, language: str, rate: int, url: str,
-                 supported_features: 'SupportedFeatures',
-                 description: str) -> None:
+    def __init__(
+        self,
+        name: str,
+        language: str,
+        rate: int,
+        url: str,
+        supported_features: 'SupportedFeatures',
+        description: str,
+    ) -> None:
         """
         Initialize a SpeechModel object.
 
@@ -7454,36 +7865,36 @@ class SpeechModel():
     def from_dict(cls, _dict: Dict) -> 'SpeechModel':
         """Initialize a SpeechModel object from a json dictionary."""
         args = {}
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
+        if (name := _dict.get('name')) is not None:
+            args['name'] = name
         else:
             raise ValueError(
                 'Required property \'name\' not present in SpeechModel JSON')
-        if 'language' in _dict:
-            args['language'] = _dict.get('language')
+        if (language := _dict.get('language')) is not None:
+            args['language'] = language
         else:
             raise ValueError(
                 'Required property \'language\' not present in SpeechModel JSON'
             )
-        if 'rate' in _dict:
-            args['rate'] = _dict.get('rate')
+        if (rate := _dict.get('rate')) is not None:
+            args['rate'] = rate
         else:
             raise ValueError(
                 'Required property \'rate\' not present in SpeechModel JSON')
-        if 'url' in _dict:
-            args['url'] = _dict.get('url')
+        if (url := _dict.get('url')) is not None:
+            args['url'] = url
         else:
             raise ValueError(
                 'Required property \'url\' not present in SpeechModel JSON')
-        if 'supported_features' in _dict:
+        if (supported_features := _dict.get('supported_features')) is not None:
             args['supported_features'] = SupportedFeatures.from_dict(
-                _dict.get('supported_features'))
+                supported_features)
         else:
             raise ValueError(
                 'Required property \'supported_features\' not present in SpeechModel JSON'
             )
-        if 'description' in _dict:
-            args['description'] = _dict.get('description')
+        if (description := _dict.get('description')) is not None:
+            args['description'] = description
         else:
             raise ValueError(
                 'Required property \'description\' not present in SpeechModel JSON'
@@ -7536,15 +7947,18 @@ class SpeechModel():
         return not self == other
 
 
-class SpeechModels():
+class SpeechModels:
     """
     Information about the available language models.
 
-    :attr List[SpeechModel] models: An array of `SpeechModel` objects that provides
+    :param List[SpeechModel] models: An array of `SpeechModel` objects that provides
           information about each available model.
     """
 
-    def __init__(self, models: List['SpeechModel']) -> None:
+    def __init__(
+        self,
+        models: List['SpeechModel'],
+    ) -> None:
         """
         Initialize a SpeechModels object.
 
@@ -7557,10 +7971,8 @@ class SpeechModels():
     def from_dict(cls, _dict: Dict) -> 'SpeechModels':
         """Initialize a SpeechModels object from a json dictionary."""
         args = {}
-        if 'models' in _dict:
-            args['models'] = [
-                SpeechModel.from_dict(v) for v in _dict.get('models')
-            ]
+        if (models := _dict.get('models')) is not None:
+            args['models'] = [SpeechModel.from_dict(v) for v in models]
         else:
             raise ValueError(
                 'Required property \'models\' not present in SpeechModels JSON')
@@ -7603,33 +8015,35 @@ class SpeechModels():
         return not self == other
 
 
-class SpeechRecognitionAlternative():
+class SpeechRecognitionAlternative:
     """
     An alternative transcript from speech recognition results.
 
-    :attr str transcript: A transcription of the audio.
-    :attr float confidence: (optional) A score that indicates the service's
+    :param str transcript: A transcription of the audio.
+    :param float confidence: (optional) A score that indicates the service's
           confidence in the transcript in the range of 0.0 to 1.0. The service returns a
           confidence score only for the best alternative and only with results marked as
           final.
-    :attr List[str] timestamps: (optional) Time alignments for each word from the
+    :param List[str] timestamps: (optional) Time alignments for each word from the
           transcript as a list of lists. Each inner list consists of three elements: the
           word followed by its start and end time in seconds, for example:
           `[["hello",0.0,1.2],["world",1.2,2.5]]`. Timestamps are returned only for the
           best alternative.
-    :attr List[str] word_confidence: (optional) A confidence score for each word of
+    :param List[str] word_confidence: (optional) A confidence score for each word of
           the transcript as a list of lists. Each inner list consists of two elements: the
           word and its confidence score in the range of 0.0 to 1.0, for example:
           `[["hello",0.95],["world",0.86]]`. Confidence scores are returned only for the
           best alternative and only with results marked as final.
     """
 
-    def __init__(self,
-                 transcript: str,
-                 *,
-                 confidence: float = None,
-                 timestamps: List[str] = None,
-                 word_confidence: List[str] = None) -> None:
+    def __init__(
+        self,
+        transcript: str,
+        *,
+        confidence: Optional[float] = None,
+        timestamps: Optional[List[str]] = None,
+        word_confidence: Optional[List[str]] = None,
+    ) -> None:
         """
         Initialize a SpeechRecognitionAlternative object.
 
@@ -7658,18 +8072,18 @@ class SpeechRecognitionAlternative():
     def from_dict(cls, _dict: Dict) -> 'SpeechRecognitionAlternative':
         """Initialize a SpeechRecognitionAlternative object from a json dictionary."""
         args = {}
-        if 'transcript' in _dict:
-            args['transcript'] = _dict.get('transcript')
+        if (transcript := _dict.get('transcript')) is not None:
+            args['transcript'] = transcript
         else:
             raise ValueError(
                 'Required property \'transcript\' not present in SpeechRecognitionAlternative JSON'
             )
-        if 'confidence' in _dict:
-            args['confidence'] = _dict.get('confidence')
-        if 'timestamps' in _dict:
-            args['timestamps'] = _dict.get('timestamps')
-        if 'word_confidence' in _dict:
-            args['word_confidence'] = _dict.get('word_confidence')
+        if (confidence := _dict.get('confidence')) is not None:
+            args['confidence'] = confidence
+        if (timestamps := _dict.get('timestamps')) is not None:
+            args['timestamps'] = timestamps
+        if (word_confidence := _dict.get('word_confidence')) is not None:
+            args['word_confidence'] = word_confidence
         return cls(**args)
 
     @classmethod
@@ -7710,31 +8124,31 @@ class SpeechRecognitionAlternative():
         return not self == other
 
 
-class SpeechRecognitionResult():
+class SpeechRecognitionResult:
     """
     Component results for a speech recognition request.
 
-    :attr bool final: An indication of whether the transcription results are final:
+    :param bool final: An indication of whether the transcription results are final:
           * If `true`, the results for this utterance are final. They are guaranteed not
           to be updated further.
           * If `false`, the results are interim. They can be updated with further interim
           results until final results are eventually sent.
           **Note:** Because `final` is a reserved word in Java and Swift, the field is
           renamed `xFinal` in Java and is escaped with back quotes in Swift.
-    :attr List[SpeechRecognitionAlternative] alternatives: An array of alternative
+    :param List[SpeechRecognitionAlternative] alternatives: An array of alternative
           transcripts. The `alternatives` array can include additional requested output
           such as word confidence or timestamps.
-    :attr dict keywords_result: (optional) A dictionary (or associative array) whose
-          keys are the strings specified for `keywords` if both that parameter and
+    :param dict keywords_result: (optional) A dictionary (or associative array)
+          whose keys are the strings specified for `keywords` if both that parameter and
           `keywords_threshold` are specified. The value for each key is an array of
           matches spotted in the audio for that keyword. Each match is described by a
           `KeywordResult` object. A keyword for which no matches are found is omitted from
           the dictionary. The dictionary is omitted entirely if no matches are found for
           any keywords.
-    :attr List[WordAlternativeResults] word_alternatives: (optional) An array of
+    :param List[WordAlternativeResults] word_alternatives: (optional) An array of
           alternative hypotheses found for words of the input audio if a
           `word_alternatives_threshold` is specified.
-    :attr str end_of_utterance: (optional) If the `split_transcript_at_phrase_end`
+    :param str end_of_utterance: (optional) If the `split_transcript_at_phrase_end`
           parameter is `true`, describes the reason for the split:
           * `end_of_data` - The end of the input audio stream.
           * `full_stop` - A full semantic stop, such as for the conclusion of a
@@ -7746,13 +8160,15 @@ class SpeechRecognitionResult():
           * `silence` - A pause or silence that is at least as long as the pause interval.
     """
 
-    def __init__(self,
-                 final: bool,
-                 alternatives: List['SpeechRecognitionAlternative'],
-                 *,
-                 keywords_result: dict = None,
-                 word_alternatives: List['WordAlternativeResults'] = None,
-                 end_of_utterance: str = None) -> None:
+    def __init__(
+        self,
+        final: bool,
+        alternatives: List['SpeechRecognitionAlternative'],
+        *,
+        keywords_result: Optional[dict] = None,
+        word_alternatives: Optional[List['WordAlternativeResults']] = None,
+        end_of_utterance: Optional[str] = None,
+    ) -> None:
         """
         Initialize a SpeechRecognitionResult object.
 
@@ -7800,30 +8216,28 @@ class SpeechRecognitionResult():
     def from_dict(cls, _dict: Dict) -> 'SpeechRecognitionResult':
         """Initialize a SpeechRecognitionResult object from a json dictionary."""
         args = {}
-        if 'final' in _dict:
-            args['final'] = _dict.get('final')
+        if (final := _dict.get('final')) is not None:
+            args['final'] = final
         else:
             raise ValueError(
                 'Required property \'final\' not present in SpeechRecognitionResult JSON'
             )
-        if 'alternatives' in _dict:
+        if (alternatives := _dict.get('alternatives')) is not None:
             args['alternatives'] = [
-                SpeechRecognitionAlternative.from_dict(v)
-                for v in _dict.get('alternatives')
+                SpeechRecognitionAlternative.from_dict(v) for v in alternatives
             ]
         else:
             raise ValueError(
                 'Required property \'alternatives\' not present in SpeechRecognitionResult JSON'
             )
-        if 'keywords_result' in _dict:
-            args['keywords_result'] = _dict.get('keywords_result')
-        if 'word_alternatives' in _dict:
+        if (keywords_result := _dict.get('keywords_result')) is not None:
+            args['keywords_result'] = keywords_result
+        if (word_alternatives := _dict.get('word_alternatives')) is not None:
             args['word_alternatives'] = [
-                WordAlternativeResults.from_dict(v)
-                for v in _dict.get('word_alternatives')
+                WordAlternativeResults.from_dict(v) for v in word_alternatives
             ]
-        if 'end_of_utterance' in _dict:
-            args['end_of_utterance'] = _dict.get('end_of_utterance')
+        if (end_of_utterance := _dict.get('end_of_utterance')) is not None:
+            args['end_of_utterance'] = end_of_utterance
         return cls(**args)
 
     @classmethod
@@ -7892,17 +8306,18 @@ class SpeechRecognitionResult():
         use.
         * `silence` - A pause or silence that is at least as long as the pause interval.
         """
+
         END_OF_DATA = 'end_of_data'
         FULL_STOP = 'full_stop'
         RESET = 'reset'
         SILENCE = 'silence'
 
 
-class SpeechRecognitionResults():
+class SpeechRecognitionResults:
     """
     The complete results for a speech recognition request.
 
-    :attr List[SpeechRecognitionResult] results: (optional) An array of
+    :param List[SpeechRecognitionResult] results: (optional) An array of
           `SpeechRecognitionResult` objects that can include interim and final results
           (interim results are returned only if supported by the method). Final results
           are guaranteed not to change; interim results might be replaced by further
@@ -7913,24 +8328,24 @@ class SpeechRecognitionResults():
           incremented to the lowest index in the array that has changed for new results.
           For more information, see [Understanding speech recognition
           results](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-basic-response).
-    :attr int result_index: (optional) An index that indicates a change point in the
-          `results` array. The service increments the index for additional results that it
-          sends for new audio for the same request. All results with the same index are
-          delivered at the same time. The same index can include multiple final results
-          that are delivered with the same response.
-    :attr List[SpeakerLabelsResult] speaker_labels: (optional) An array of
+    :param int result_index: (optional) An index that indicates a change point in
+          the `results` array. The service increments the index for additional results
+          that it sends for new audio for the same request. All results with the same
+          index are delivered at the same time. The same index can include multiple final
+          results that are delivered with the same response.
+    :param List[SpeakerLabelsResult] speaker_labels: (optional) An array of
           `SpeakerLabelsResult` objects that identifies which words were spoken by which
           speakers in a multi-person exchange. The array is returned only if the
           `speaker_labels` parameter is `true`. When interim results are also requested
           for methods that support them, it is possible for a `SpeechRecognitionResults`
           object to include only the `speaker_labels` field.
-    :attr ProcessingMetrics processing_metrics: (optional) If processing metrics are
-          requested, information about the service's processing of the input audio.
+    :param ProcessingMetrics processing_metrics: (optional) If processing metrics
+          are requested, information about the service's processing of the input audio.
           Processing metrics are not available with the synchronous [Recognize
           audio](#recognize) method.
-    :attr AudioMetrics audio_metrics: (optional) If audio metrics are requested,
+    :param AudioMetrics audio_metrics: (optional) If audio metrics are requested,
           information about the signal characteristics of the input audio.
-    :attr List[str] warnings: (optional) An array of warning messages associated
+    :param List[str] warnings: (optional) An array of warning messages associated
           with the request:
           * Warnings for invalid parameters or fields can include a descriptive message
           and a list of invalid argument strings, for example, `"Unknown arguments:"` or
@@ -7948,14 +8363,16 @@ class SpeechRecognitionResults():
           In both cases, the request succeeds despite the warnings.
     """
 
-    def __init__(self,
-                 *,
-                 results: List['SpeechRecognitionResult'] = None,
-                 result_index: int = None,
-                 speaker_labels: List['SpeakerLabelsResult'] = None,
-                 processing_metrics: 'ProcessingMetrics' = None,
-                 audio_metrics: 'AudioMetrics' = None,
-                 warnings: List[str] = None) -> None:
+    def __init__(
+        self,
+        *,
+        results: Optional[List['SpeechRecognitionResult']] = None,
+        result_index: Optional[int] = None,
+        speaker_labels: Optional[List['SpeakerLabelsResult']] = None,
+        processing_metrics: Optional['ProcessingMetrics'] = None,
+        audio_metrics: Optional['AudioMetrics'] = None,
+        warnings: Optional[List[str]] = None,
+    ) -> None:
         """
         Initialize a SpeechRecognitionResults object.
 
@@ -8017,26 +8434,23 @@ class SpeechRecognitionResults():
     def from_dict(cls, _dict: Dict) -> 'SpeechRecognitionResults':
         """Initialize a SpeechRecognitionResults object from a json dictionary."""
         args = {}
-        if 'results' in _dict:
+        if (results := _dict.get('results')) is not None:
             args['results'] = [
-                SpeechRecognitionResult.from_dict(v)
-                for v in _dict.get('results')
+                SpeechRecognitionResult.from_dict(v) for v in results
             ]
-        if 'result_index' in _dict:
-            args['result_index'] = _dict.get('result_index')
-        if 'speaker_labels' in _dict:
+        if (result_index := _dict.get('result_index')) is not None:
+            args['result_index'] = result_index
+        if (speaker_labels := _dict.get('speaker_labels')) is not None:
             args['speaker_labels'] = [
-                SpeakerLabelsResult.from_dict(v)
-                for v in _dict.get('speaker_labels')
+                SpeakerLabelsResult.from_dict(v) for v in speaker_labels
             ]
-        if 'processing_metrics' in _dict:
+        if (processing_metrics := _dict.get('processing_metrics')) is not None:
             args['processing_metrics'] = ProcessingMetrics.from_dict(
-                _dict.get('processing_metrics'))
-        if 'audio_metrics' in _dict:
-            args['audio_metrics'] = AudioMetrics.from_dict(
-                _dict.get('audio_metrics'))
-        if 'warnings' in _dict:
-            args['warnings'] = _dict.get('warnings')
+                processing_metrics)
+        if (audio_metrics := _dict.get('audio_metrics')) is not None:
+            args['audio_metrics'] = AudioMetrics.from_dict(audio_metrics)
+        if (warnings := _dict.get('warnings')) is not None:
+            args['warnings'] = warnings
         return cls(**args)
 
     @classmethod
@@ -8100,15 +8514,15 @@ class SpeechRecognitionResults():
         return not self == other
 
 
-class SupportedFeatures():
+class SupportedFeatures:
     """
     Indicates whether select service features are supported with the model.
 
-    :attr bool custom_language_model: Indicates whether the customization interface
+    :param bool custom_language_model: Indicates whether the customization interface
           can be used to create a custom language model based on the language model.
-    :attr bool custom_acoustic_model: Indicates whether the customization interface
+    :param bool custom_acoustic_model: Indicates whether the customization interface
           can be used to create a custom acoustic model based on the language model.
-    :attr bool speaker_labels: Indicates whether the `speaker_labels` parameter can
+    :param bool speaker_labels: Indicates whether the `speaker_labels` parameter can
           be used with the language model.
           **Note:** The field returns `true` for all models. However, speaker labels are
           supported for use only with the following languages and models:
@@ -8119,18 +8533,20 @@ class SupportedFeatures():
           (Australian, Indian, UK, and US), German, Japanese, Korean, and Spanish
           transcription only.
           Speaker labels are not supported for use with any other languages or models.
-    :attr bool low_latency: (optional) Indicates whether the `low_latency` parameter
-          can be used with a next-generation language model. The field is returned only
-          for next-generation models. Previous-generation models do not support the
-          `low_latency` parameter.
+    :param bool low_latency: (optional) Indicates whether the `low_latency`
+          parameter can be used with a next-generation language model. The field is
+          returned only for next-generation models. Previous-generation models do not
+          support the `low_latency` parameter.
     """
 
-    def __init__(self,
-                 custom_language_model: bool,
-                 custom_acoustic_model: bool,
-                 speaker_labels: bool,
-                 *,
-                 low_latency: bool = None) -> None:
+    def __init__(
+        self,
+        custom_language_model: bool,
+        custom_acoustic_model: bool,
+        speaker_labels: bool,
+        *,
+        low_latency: Optional[bool] = None,
+    ) -> None:
         """
         Initialize a SupportedFeatures object.
 
@@ -8167,26 +8583,28 @@ class SupportedFeatures():
     def from_dict(cls, _dict: Dict) -> 'SupportedFeatures':
         """Initialize a SupportedFeatures object from a json dictionary."""
         args = {}
-        if 'custom_language_model' in _dict:
-            args['custom_language_model'] = _dict.get('custom_language_model')
+        if (custom_language_model :=
+                _dict.get('custom_language_model')) is not None:
+            args['custom_language_model'] = custom_language_model
         else:
             raise ValueError(
                 'Required property \'custom_language_model\' not present in SupportedFeatures JSON'
             )
-        if 'custom_acoustic_model' in _dict:
-            args['custom_acoustic_model'] = _dict.get('custom_acoustic_model')
+        if (custom_acoustic_model :=
+                _dict.get('custom_acoustic_model')) is not None:
+            args['custom_acoustic_model'] = custom_acoustic_model
         else:
             raise ValueError(
                 'Required property \'custom_acoustic_model\' not present in SupportedFeatures JSON'
             )
-        if 'speaker_labels' in _dict:
-            args['speaker_labels'] = _dict.get('speaker_labels')
+        if (speaker_labels := _dict.get('speaker_labels')) is not None:
+            args['speaker_labels'] = speaker_labels
         else:
             raise ValueError(
                 'Required property \'speaker_labels\' not present in SupportedFeatures JSON'
             )
-        if 'low_latency' in _dict:
-            args['low_latency'] = _dict.get('low_latency')
+        if (low_latency := _dict.get('low_latency')) is not None:
+            args['low_latency'] = low_latency
         return cls(**args)
 
     @classmethod
@@ -8228,18 +8646,22 @@ class SupportedFeatures():
         return not self == other
 
 
-class TrainingResponse():
+class TrainingResponse:
     """
     The response from training of a custom language or custom acoustic model.
 
-    :attr List[TrainingWarning] warnings: (optional) An array of `TrainingWarning`
+    :param List[TrainingWarning] warnings: (optional) An array of `TrainingWarning`
           objects that lists any invalid resources contained in the custom model. For
           custom language models, invalid resources are grouped and identified by type of
           resource. The method can return warnings only if the `strict` parameter is set
           to `false`.
     """
 
-    def __init__(self, *, warnings: List['TrainingWarning'] = None) -> None:
+    def __init__(
+        self,
+        *,
+        warnings: Optional[List['TrainingWarning']] = None,
+    ) -> None:
         """
         Initialize a TrainingResponse object.
 
@@ -8255,10 +8677,8 @@ class TrainingResponse():
     def from_dict(cls, _dict: Dict) -> 'TrainingResponse':
         """Initialize a TrainingResponse object from a json dictionary."""
         args = {}
-        if 'warnings' in _dict:
-            args['warnings'] = [
-                TrainingWarning.from_dict(v) for v in _dict.get('warnings')
-            ]
+        if (warnings := _dict.get('warnings')) is not None:
+            args['warnings'] = [TrainingWarning.from_dict(v) for v in warnings]
         return cls(**args)
 
     @classmethod
@@ -8298,20 +8718,24 @@ class TrainingResponse():
         return not self == other
 
 
-class TrainingWarning():
+class TrainingWarning:
     """
     A warning from training of a custom language or custom acoustic model.
 
-    :attr str code: An identifier for the type of invalid resources listed in the
+    :param str code: An identifier for the type of invalid resources listed in the
           `description` field.
-    :attr str message: A warning message that lists the invalid resources that are
+    :param str message: A warning message that lists the invalid resources that are
           excluded from the custom model's training. The message has the following format:
           `Analysis of the following {resource_type} has not completed successfully:
           [{resource_names}]. They will be excluded from custom {model_type} model
           training.`.
     """
 
-    def __init__(self, code: str, message: str) -> None:
+    def __init__(
+        self,
+        code: str,
+        message: str,
+    ) -> None:
         """
         Initialize a TrainingWarning object.
 
@@ -8330,14 +8754,14 @@ class TrainingWarning():
     def from_dict(cls, _dict: Dict) -> 'TrainingWarning':
         """Initialize a TrainingWarning object from a json dictionary."""
         args = {}
-        if 'code' in _dict:
-            args['code'] = _dict.get('code')
+        if (code := _dict.get('code')) is not None:
+            args['code'] = code
         else:
             raise ValueError(
                 'Required property \'code\' not present in TrainingWarning JSON'
             )
-        if 'message' in _dict:
-            args['message'] = _dict.get('message')
+        if (message := _dict.get('message')) is not None:
+            args['message'] = message
         else:
             raise ValueError(
                 'Required property \'message\' not present in TrainingWarning JSON'
@@ -8380,19 +8804,20 @@ class TrainingWarning():
         """
         An identifier for the type of invalid resources listed in the `description` field.
         """
+
         INVALID_AUDIO_FILES = 'invalid_audio_files'
         INVALID_CORPUS_FILES = 'invalid_corpus_files'
         INVALID_GRAMMAR_FILES = 'invalid_grammar_files'
         INVALID_WORDS = 'invalid_words'
 
 
-class Word():
+class Word:
     """
     Information about a word from a custom language model.
 
-    :attr str word: A word from the custom model's words resource. The spelling of
+    :param str word: A word from the custom model's words resource. The spelling of
           the word is used to train the model.
-    :attr List[str] sounds_like: An array of as many as five pronunciations for the
+    :param List[str] sounds_like: An array of as many as five pronunciations for the
           word.
           * _For a custom model that is based on a previous-generation model_, in addition
           to sounds-like pronunciations that were added by a user, the array can include a
@@ -8400,7 +8825,7 @@ class Word():
           is provided when the word is added to the custom model.
           * _For a custom model that is based on a next-generation model_, the array can
           include only sounds-like pronunciations that were added by a user.
-    :attr str display_as: The spelling of the word that the service uses to display
+    :param str display_as: The spelling of the word that the service uses to display
           the word in a transcript.
           * _For a custom model that is based on a previous-generation model_, the field
           can contain an empty string if no display-as value is provided for a word that
@@ -8409,7 +8834,7 @@ class Word():
           * _For a custom model that is based on a next-generation model_, the service
           uses the spelling of the word as the value of the display-as field when the word
           is added to the model.
-    :attr int count: _For a custom model that is based on a previous-generation
+    :param int count: _For a custom model that is based on a previous-generation
           model_, a sum of the number of times the word is found across all corpora and
           grammars. For example, if the word occurs five times in one corpus and seven
           times in another, its count is `12`. If you add a custom word to a model before
@@ -8418,7 +8843,7 @@ class Word():
           the number of times it is found in corpora and grammars.
           _For a custom model that is based on a next-generation model_, the `count` field
           for any word is always `1`.
-    :attr List[str] source: An array of sources that describes how the word was
+    :param List[str] source: An array of sources that describes how the word was
           added to the custom model's words resource.
           * _For a custom model that is based on previous-generation model,_ the field
           includes the name of each corpus and grammar from which the service extracted
@@ -8429,19 +8854,21 @@ class Word():
           shows only `user` for custom words that were added directly to the custom model.
           Words from corpora and grammars are not added to the words resource for custom
           models that are based on next-generation models.
-    :attr List[WordError] error: (optional) If the service discovered one or more
+    :param List[WordError] error: (optional) If the service discovered one or more
           problems that you need to correct for the word's definition, an array that
           describes each of the errors.
     """
 
-    def __init__(self,
-                 word: str,
-                 sounds_like: List[str],
-                 display_as: str,
-                 count: int,
-                 source: List[str],
-                 *,
-                 error: List['WordError'] = None) -> None:
+    def __init__(
+        self,
+        word: str,
+        sounds_like: List[str],
+        display_as: str,
+        count: int,
+        source: List[str],
+        *,
+        error: Optional[List['WordError']] = None,
+    ) -> None:
         """
         Initialize a Word object.
 
@@ -8500,33 +8927,33 @@ class Word():
     def from_dict(cls, _dict: Dict) -> 'Word':
         """Initialize a Word object from a json dictionary."""
         args = {}
-        if 'word' in _dict:
-            args['word'] = _dict.get('word')
+        if (word := _dict.get('word')) is not None:
+            args['word'] = word
         else:
             raise ValueError(
                 'Required property \'word\' not present in Word JSON')
-        if 'sounds_like' in _dict:
-            args['sounds_like'] = _dict.get('sounds_like')
+        if (sounds_like := _dict.get('sounds_like')) is not None:
+            args['sounds_like'] = sounds_like
         else:
             raise ValueError(
                 'Required property \'sounds_like\' not present in Word JSON')
-        if 'display_as' in _dict:
-            args['display_as'] = _dict.get('display_as')
+        if (display_as := _dict.get('display_as')) is not None:
+            args['display_as'] = display_as
         else:
             raise ValueError(
                 'Required property \'display_as\' not present in Word JSON')
-        if 'count' in _dict:
-            args['count'] = _dict.get('count')
+        if (count := _dict.get('count')) is not None:
+            args['count'] = count
         else:
             raise ValueError(
                 'Required property \'count\' not present in Word JSON')
-        if 'source' in _dict:
-            args['source'] = _dict.get('source')
+        if (source := _dict.get('source')) is not None:
+            args['source'] = source
         else:
             raise ValueError(
                 'Required property \'source\' not present in Word JSON')
-        if 'error' in _dict:
-            args['error'] = [WordError.from_dict(v) for v in _dict.get('error')]
+        if (error := _dict.get('error')) is not None:
+            args['error'] = [WordError.from_dict(v) for v in error]
         return cls(**args)
 
     @classmethod
@@ -8576,16 +9003,20 @@ class Word():
         return not self == other
 
 
-class WordAlternativeResult():
+class WordAlternativeResult:
     """
     An alternative hypothesis for a word from speech recognition results.
 
-    :attr float confidence: A confidence score for the word alternative hypothesis
+    :param float confidence: A confidence score for the word alternative hypothesis
           in the range of 0.0 to 1.0.
-    :attr str word: An alternative hypothesis for a word from the input audio.
+    :param str word: An alternative hypothesis for a word from the input audio.
     """
 
-    def __init__(self, confidence: float, word: str) -> None:
+    def __init__(
+        self,
+        confidence: float,
+        word: str,
+    ) -> None:
         """
         Initialize a WordAlternativeResult object.
 
@@ -8600,14 +9031,14 @@ class WordAlternativeResult():
     def from_dict(cls, _dict: Dict) -> 'WordAlternativeResult':
         """Initialize a WordAlternativeResult object from a json dictionary."""
         args = {}
-        if 'confidence' in _dict:
-            args['confidence'] = _dict.get('confidence')
+        if (confidence := _dict.get('confidence')) is not None:
+            args['confidence'] = confidence
         else:
             raise ValueError(
                 'Required property \'confidence\' not present in WordAlternativeResult JSON'
             )
-        if 'word' in _dict:
-            args['word'] = _dict.get('word')
+        if (word := _dict.get('word')) is not None:
+            args['word'] = word
         else:
             raise ValueError(
                 'Required property \'word\' not present in WordAlternativeResult JSON'
@@ -8647,20 +9078,24 @@ class WordAlternativeResult():
         return not self == other
 
 
-class WordAlternativeResults():
+class WordAlternativeResults:
     """
     Information about alternative hypotheses for words from speech recognition results.
 
-    :attr float start_time: The start time in seconds of the word from the input
+    :param float start_time: The start time in seconds of the word from the input
           audio that corresponds to the word alternatives.
-    :attr float end_time: The end time in seconds of the word from the input audio
+    :param float end_time: The end time in seconds of the word from the input audio
           that corresponds to the word alternatives.
-    :attr List[WordAlternativeResult] alternatives: An array of alternative
+    :param List[WordAlternativeResult] alternatives: An array of alternative
           hypotheses for a word from the input audio.
     """
 
-    def __init__(self, start_time: float, end_time: float,
-                 alternatives: List['WordAlternativeResult']) -> None:
+    def __init__(
+        self,
+        start_time: float,
+        end_time: float,
+        alternatives: List['WordAlternativeResult'],
+    ) -> None:
         """
         Initialize a WordAlternativeResults object.
 
@@ -8679,22 +9114,21 @@ class WordAlternativeResults():
     def from_dict(cls, _dict: Dict) -> 'WordAlternativeResults':
         """Initialize a WordAlternativeResults object from a json dictionary."""
         args = {}
-        if 'start_time' in _dict:
-            args['start_time'] = _dict.get('start_time')
+        if (start_time := _dict.get('start_time')) is not None:
+            args['start_time'] = start_time
         else:
             raise ValueError(
                 'Required property \'start_time\' not present in WordAlternativeResults JSON'
             )
-        if 'end_time' in _dict:
-            args['end_time'] = _dict.get('end_time')
+        if (end_time := _dict.get('end_time')) is not None:
+            args['end_time'] = end_time
         else:
             raise ValueError(
                 'Required property \'end_time\' not present in WordAlternativeResults JSON'
             )
-        if 'alternatives' in _dict:
+        if (alternatives := _dict.get('alternatives')) is not None:
             args['alternatives'] = [
-                WordAlternativeResult.from_dict(v)
-                for v in _dict.get('alternatives')
+                WordAlternativeResult.from_dict(v) for v in alternatives
             ]
         else:
             raise ValueError(
@@ -8743,11 +9177,11 @@ class WordAlternativeResults():
         return not self == other
 
 
-class WordError():
+class WordError:
     """
     An error associated with a word from a custom language model.
 
-    :attr str element: A key-value pair that describes an error associated with the
+    :param str element: A key-value pair that describes an error associated with the
           definition of a word in the words resource. The pair has the format `"element":
           "message"`, where `element` is the aspect of the definition that caused the
           problem and `message` describes the problem. The following example describes a
@@ -8756,7 +9190,10 @@ class WordError():
           '{suggested_string}'."`.
     """
 
-    def __init__(self, element: str) -> None:
+    def __init__(
+        self,
+        element: str,
+    ) -> None:
         """
         Initialize a WordError object.
 
@@ -8774,8 +9211,8 @@ class WordError():
     def from_dict(cls, _dict: Dict) -> 'WordError':
         """Initialize a WordError object from a json dictionary."""
         args = {}
-        if 'element' in _dict:
-            args['element'] = _dict.get('element')
+        if (element := _dict.get('element')) is not None:
+            args['element'] = element
         else:
             raise ValueError(
                 'Required property \'element\' not present in WordError JSON')
@@ -8812,16 +9249,19 @@ class WordError():
         return not self == other
 
 
-class Words():
+class Words:
     """
     Information about the words from a custom language model.
 
-    :attr List[Word] words: An array of `Word` objects that provides information
+    :param List[Word] words: An array of `Word` objects that provides information
           about each word in the custom model's words resource. The array is empty if the
           custom model has no words.
     """
 
-    def __init__(self, words: List['Word']) -> None:
+    def __init__(
+        self,
+        words: List['Word'],
+    ) -> None:
         """
         Initialize a Words object.
 
@@ -8835,8 +9275,8 @@ class Words():
     def from_dict(cls, _dict: Dict) -> 'Words':
         """Initialize a Words object from a json dictionary."""
         args = {}
-        if 'words' in _dict:
-            args['words'] = [Word.from_dict(v) for v in _dict.get('words')]
+        if (words := _dict.get('words')) is not None:
+            args['words'] = [Word.from_dict(v) for v in words]
         else:
             raise ValueError(
                 'Required property \'words\' not present in Words JSON')

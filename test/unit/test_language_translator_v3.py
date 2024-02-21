@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2018, 2023.
+# (C) Copyright IBM Corp. 2018, 2024.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -64,8 +64,7 @@ def preprocess_url(operation_path: str):
     # Otherwise, return a regular expression that matches one or more trailing /.
     if re.fullmatch('.*/+', request_url) is None:
         return request_url
-    else:
-        return re.compile(request_url.rstrip('/') + '/+')
+    return re.compile(request_url.rstrip('/') + '/+')
 
 
 ##############################################################################
@@ -73,7 +72,8 @@ def preprocess_url(operation_path: str):
 ##############################################################################
 # region
 
-class TestListLanguages():
+
+class TestListLanguages:
     """
     Test Class for list_languages
     """
@@ -86,15 +86,16 @@ class TestListLanguages():
         # Set up mock
         url = preprocess_url('/v3/languages')
         mock_response = '{"languages": [{"language": "language", "language_name": "language_name", "native_language_name": "native_language_name", "country_code": "country_code", "words_separated": false, "direction": "direction", "supported_as_source": false, "supported_as_target": false, "identifiable": true}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Invoke method
         response = _service.list_languages()
-
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -117,17 +118,19 @@ class TestListLanguages():
         # Set up mock
         url = preprocess_url('/v3/languages')
         mock_response = '{"languages": [{"language": "language", "language_name": "language_name", "native_language_name": "native_language_name", "country_code": "country_code", "words_separated": false, "direction": "direction", "supported_as_source": false, "supported_as_target": false, "identifiable": true}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Pass in all but one required param and check for a ValueError
         req_param_dict = {
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_languages(**req_copy)
 
@@ -140,6 +143,7 @@ class TestListLanguages():
         _service.disable_retries()
         self.test_list_languages_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: Languages
@@ -150,7 +154,8 @@ class TestListLanguages():
 ##############################################################################
 # region
 
-class TestTranslate():
+
+class TestTranslate:
     """
     Test Class for translate
     """
@@ -163,11 +168,13 @@ class TestTranslate():
         # Set up mock
         url = preprocess_url('/v3/translate')
         mock_response = '{"word_count": 10, "character_count": 15, "detected_language": "detected_language", "detected_language_confidence": 0, "translations": [{"translation": "translation"}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         text = ['testString']
@@ -181,7 +188,7 @@ class TestTranslate():
             model_id=model_id,
             source=source,
             target=target,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -211,11 +218,13 @@ class TestTranslate():
         # Set up mock
         url = preprocess_url('/v3/translate')
         mock_response = '{"word_count": 10, "character_count": 15, "detected_language": "detected_language", "detected_language_confidence": 0, "translations": [{"translation": "translation"}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         text = ['testString']
@@ -228,7 +237,7 @@ class TestTranslate():
             "text": text,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.translate(**req_copy)
 
@@ -241,6 +250,7 @@ class TestTranslate():
         _service.disable_retries()
         self.test_translate_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: Translation
@@ -251,7 +261,8 @@ class TestTranslate():
 ##############################################################################
 # region
 
-class TestListIdentifiableLanguages():
+
+class TestListIdentifiableLanguages:
     """
     Test Class for list_identifiable_languages
     """
@@ -264,15 +275,16 @@ class TestListIdentifiableLanguages():
         # Set up mock
         url = preprocess_url('/v3/identifiable_languages')
         mock_response = '{"languages": [{"language": "language", "name": "name"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Invoke method
         response = _service.list_identifiable_languages()
-
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -295,17 +307,19 @@ class TestListIdentifiableLanguages():
         # Set up mock
         url = preprocess_url('/v3/identifiable_languages')
         mock_response = '{"languages": [{"language": "language", "name": "name"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Pass in all but one required param and check for a ValueError
         req_param_dict = {
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_identifiable_languages(**req_copy)
 
@@ -318,7 +332,8 @@ class TestListIdentifiableLanguages():
         _service.disable_retries()
         self.test_list_identifiable_languages_value_error()
 
-class TestIdentify():
+
+class TestIdentify:
     """
     Test Class for identify
     """
@@ -331,11 +346,13 @@ class TestIdentify():
         # Set up mock
         url = preprocess_url('/v3/identify')
         mock_response = '{"languages": [{"language": "language", "confidence": 0}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         text = 'testString'
@@ -343,7 +360,7 @@ class TestIdentify():
         # Invoke method
         response = _service.identify(
             text,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -369,11 +386,13 @@ class TestIdentify():
         # Set up mock
         url = preprocess_url('/v3/identify')
         mock_response = '{"languages": [{"language": "language", "confidence": 0}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         text = 'testString'
@@ -383,7 +402,7 @@ class TestIdentify():
             "text": text,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.identify(**req_copy)
 
@@ -396,6 +415,7 @@ class TestIdentify():
         _service.disable_retries()
         self.test_identify_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: Identification
@@ -406,7 +426,8 @@ class TestIdentify():
 ##############################################################################
 # region
 
-class TestListModels():
+
+class TestListModels:
     """
     Test Class for list_models
     """
@@ -419,11 +440,13 @@ class TestListModels():
         # Set up mock
         url = preprocess_url('/v3/models')
         mock_response = '{"models": [{"model_id": "model_id", "name": "name", "source": "source", "target": "target", "base_model_id": "base_model_id", "domain": "domain", "customizable": true, "default_model": false, "owner": "owner", "status": "uploading"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         source = 'testString'
@@ -435,14 +458,14 @@ class TestListModels():
             source=source,
             target=target,
             default=default,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'source={}'.format(source) in query_string
         assert 'target={}'.format(target) in query_string
@@ -465,15 +488,16 @@ class TestListModels():
         # Set up mock
         url = preprocess_url('/v3/models')
         mock_response = '{"models": [{"model_id": "model_id", "name": "name", "source": "source", "target": "target", "base_model_id": "base_model_id", "domain": "domain", "customizable": true, "default_model": false, "owner": "owner", "status": "uploading"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Invoke method
         response = _service.list_models()
-
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -496,17 +520,19 @@ class TestListModels():
         # Set up mock
         url = preprocess_url('/v3/models')
         mock_response = '{"models": [{"model_id": "model_id", "name": "name", "source": "source", "target": "target", "base_model_id": "base_model_id", "domain": "domain", "customizable": true, "default_model": false, "owner": "owner", "status": "uploading"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Pass in all but one required param and check for a ValueError
         req_param_dict = {
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_models(**req_copy)
 
@@ -519,7 +545,8 @@ class TestListModels():
         _service.disable_retries()
         self.test_list_models_value_error()
 
-class TestCreateModel():
+
+class TestCreateModel:
     """
     Test Class for create_model
     """
@@ -532,11 +559,13 @@ class TestCreateModel():
         # Set up mock
         url = preprocess_url('/v3/models')
         mock_response = '{"model_id": "model_id", "name": "name", "source": "source", "target": "target", "base_model_id": "base_model_id", "domain": "domain", "customizable": true, "default_model": false, "owner": "owner", "status": "uploading"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         base_model_id = 'testString'
@@ -554,14 +583,14 @@ class TestCreateModel():
             parallel_corpus=parallel_corpus,
             parallel_corpus_content_type=parallel_corpus_content_type,
             name=name,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'base_model_id={}'.format(base_model_id) in query_string
         assert 'name={}'.format(name) in query_string
@@ -583,11 +612,13 @@ class TestCreateModel():
         # Set up mock
         url = preprocess_url('/v3/models')
         mock_response = '{"model_id": "model_id", "name": "name", "source": "source", "target": "target", "base_model_id": "base_model_id", "domain": "domain", "customizable": true, "default_model": false, "owner": "owner", "status": "uploading"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         base_model_id = 'testString'
@@ -595,14 +626,14 @@ class TestCreateModel():
         # Invoke method
         response = _service.create_model(
             base_model_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'base_model_id={}'.format(base_model_id) in query_string
 
@@ -623,11 +654,13 @@ class TestCreateModel():
         # Set up mock
         url = preprocess_url('/v3/models')
         mock_response = '{"model_id": "model_id", "name": "name", "source": "source", "target": "target", "base_model_id": "base_model_id", "domain": "domain", "customizable": true, "default_model": false, "owner": "owner", "status": "uploading"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         base_model_id = 'testString'
@@ -637,7 +670,7 @@ class TestCreateModel():
             "base_model_id": base_model_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.create_model(**req_copy)
 
@@ -650,7 +683,8 @@ class TestCreateModel():
         _service.disable_retries()
         self.test_create_model_value_error()
 
-class TestDeleteModel():
+
+class TestDeleteModel:
     """
     Test Class for delete_model
     """
@@ -663,11 +697,13 @@ class TestDeleteModel():
         # Set up mock
         url = preprocess_url('/v3/models/testString')
         mock_response = '{"status": "status"}'
-        responses.add(responses.DELETE,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.DELETE,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         model_id = 'testString'
@@ -675,7 +711,7 @@ class TestDeleteModel():
         # Invoke method
         response = _service.delete_model(
             model_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -699,11 +735,13 @@ class TestDeleteModel():
         # Set up mock
         url = preprocess_url('/v3/models/testString')
         mock_response = '{"status": "status"}'
-        responses.add(responses.DELETE,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.DELETE,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         model_id = 'testString'
@@ -713,7 +751,7 @@ class TestDeleteModel():
             "model_id": model_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_model(**req_copy)
 
@@ -726,7 +764,8 @@ class TestDeleteModel():
         _service.disable_retries()
         self.test_delete_model_value_error()
 
-class TestGetModel():
+
+class TestGetModel:
     """
     Test Class for get_model
     """
@@ -739,11 +778,13 @@ class TestGetModel():
         # Set up mock
         url = preprocess_url('/v3/models/testString')
         mock_response = '{"model_id": "model_id", "name": "name", "source": "source", "target": "target", "base_model_id": "base_model_id", "domain": "domain", "customizable": true, "default_model": false, "owner": "owner", "status": "uploading"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         model_id = 'testString'
@@ -751,7 +792,7 @@ class TestGetModel():
         # Invoke method
         response = _service.get_model(
             model_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -775,11 +816,13 @@ class TestGetModel():
         # Set up mock
         url = preprocess_url('/v3/models/testString')
         mock_response = '{"model_id": "model_id", "name": "name", "source": "source", "target": "target", "base_model_id": "base_model_id", "domain": "domain", "customizable": true, "default_model": false, "owner": "owner", "status": "uploading"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         model_id = 'testString'
@@ -789,7 +832,7 @@ class TestGetModel():
             "model_id": model_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_model(**req_copy)
 
@@ -802,6 +845,7 @@ class TestGetModel():
         _service.disable_retries()
         self.test_get_model_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: Models
@@ -812,7 +856,8 @@ class TestGetModel():
 ##############################################################################
 # region
 
-class TestListDocuments():
+
+class TestListDocuments:
     """
     Test Class for list_documents
     """
@@ -825,15 +870,16 @@ class TestListDocuments():
         # Set up mock
         url = preprocess_url('/v3/documents')
         mock_response = '{"documents": [{"document_id": "document_id", "filename": "filename", "status": "processing", "model_id": "model_id", "base_model_id": "base_model_id", "source": "source", "detected_language_confidence": 0, "target": "target", "created": "2019-01-01T12:00:00.000Z", "completed": "2019-01-01T12:00:00.000Z", "word_count": 10, "character_count": 15}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Invoke method
         response = _service.list_documents()
-
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -856,17 +902,19 @@ class TestListDocuments():
         # Set up mock
         url = preprocess_url('/v3/documents')
         mock_response = '{"documents": [{"document_id": "document_id", "filename": "filename", "status": "processing", "model_id": "model_id", "base_model_id": "base_model_id", "source": "source", "detected_language_confidence": 0, "target": "target", "created": "2019-01-01T12:00:00.000Z", "completed": "2019-01-01T12:00:00.000Z", "word_count": 10, "character_count": 15}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Pass in all but one required param and check for a ValueError
         req_param_dict = {
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_documents(**req_copy)
 
@@ -879,7 +927,8 @@ class TestListDocuments():
         _service.disable_retries()
         self.test_list_documents_value_error()
 
-class TestTranslateDocument():
+
+class TestTranslateDocument:
     """
     Test Class for translate_document
     """
@@ -892,11 +941,13 @@ class TestTranslateDocument():
         # Set up mock
         url = preprocess_url('/v3/documents')
         mock_response = '{"document_id": "document_id", "filename": "filename", "status": "processing", "model_id": "model_id", "base_model_id": "base_model_id", "source": "source", "detected_language_confidence": 0, "target": "target", "created": "2019-01-01T12:00:00.000Z", "completed": "2019-01-01T12:00:00.000Z", "word_count": 10, "character_count": 15}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=202)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=202,
+        )
 
         # Set up parameter values
         file = io.BytesIO(b'This is a mock file.').getvalue()
@@ -916,7 +967,7 @@ class TestTranslateDocument():
             source=source,
             target=target,
             document_id=document_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -940,11 +991,13 @@ class TestTranslateDocument():
         # Set up mock
         url = preprocess_url('/v3/documents')
         mock_response = '{"document_id": "document_id", "filename": "filename", "status": "processing", "model_id": "model_id", "base_model_id": "base_model_id", "source": "source", "detected_language_confidence": 0, "target": "target", "created": "2019-01-01T12:00:00.000Z", "completed": "2019-01-01T12:00:00.000Z", "word_count": 10, "character_count": 15}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=202)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=202,
+        )
 
         # Set up parameter values
         file = io.BytesIO(b'This is a mock file.').getvalue()
@@ -954,7 +1007,7 @@ class TestTranslateDocument():
         response = _service.translate_document(
             file,
             filename=filename,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -978,11 +1031,13 @@ class TestTranslateDocument():
         # Set up mock
         url = preprocess_url('/v3/documents')
         mock_response = '{"document_id": "document_id", "filename": "filename", "status": "processing", "model_id": "model_id", "base_model_id": "base_model_id", "source": "source", "detected_language_confidence": 0, "target": "target", "created": "2019-01-01T12:00:00.000Z", "completed": "2019-01-01T12:00:00.000Z", "word_count": 10, "character_count": 15}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=202)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=202,
+        )
 
         # Set up parameter values
         file = io.BytesIO(b'This is a mock file.').getvalue()
@@ -993,7 +1048,7 @@ class TestTranslateDocument():
             "file": file,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.translate_document(**req_copy)
 
@@ -1006,7 +1061,8 @@ class TestTranslateDocument():
         _service.disable_retries()
         self.test_translate_document_value_error()
 
-class TestGetDocumentStatus():
+
+class TestGetDocumentStatus:
     """
     Test Class for get_document_status
     """
@@ -1019,11 +1075,13 @@ class TestGetDocumentStatus():
         # Set up mock
         url = preprocess_url('/v3/documents/testString')
         mock_response = '{"document_id": "document_id", "filename": "filename", "status": "processing", "model_id": "model_id", "base_model_id": "base_model_id", "source": "source", "detected_language_confidence": 0, "target": "target", "created": "2019-01-01T12:00:00.000Z", "completed": "2019-01-01T12:00:00.000Z", "word_count": 10, "character_count": 15}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         document_id = 'testString'
@@ -1031,7 +1089,7 @@ class TestGetDocumentStatus():
         # Invoke method
         response = _service.get_document_status(
             document_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1055,11 +1113,13 @@ class TestGetDocumentStatus():
         # Set up mock
         url = preprocess_url('/v3/documents/testString')
         mock_response = '{"document_id": "document_id", "filename": "filename", "status": "processing", "model_id": "model_id", "base_model_id": "base_model_id", "source": "source", "detected_language_confidence": 0, "target": "target", "created": "2019-01-01T12:00:00.000Z", "completed": "2019-01-01T12:00:00.000Z", "word_count": 10, "character_count": 15}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         document_id = 'testString'
@@ -1069,7 +1129,7 @@ class TestGetDocumentStatus():
             "document_id": document_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_document_status(**req_copy)
 
@@ -1082,7 +1142,8 @@ class TestGetDocumentStatus():
         _service.disable_retries()
         self.test_get_document_status_value_error()
 
-class TestDeleteDocument():
+
+class TestDeleteDocument:
     """
     Test Class for delete_document
     """
@@ -1094,9 +1155,11 @@ class TestDeleteDocument():
         """
         # Set up mock
         url = preprocess_url('/v3/documents/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=204,
+        )
 
         # Set up parameter values
         document_id = 'testString'
@@ -1104,7 +1167,7 @@ class TestDeleteDocument():
         # Invoke method
         response = _service.delete_document(
             document_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1127,9 +1190,11 @@ class TestDeleteDocument():
         """
         # Set up mock
         url = preprocess_url('/v3/documents/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=204,
+        )
 
         # Set up parameter values
         document_id = 'testString'
@@ -1139,7 +1204,7 @@ class TestDeleteDocument():
             "document_id": document_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_document(**req_copy)
 
@@ -1152,7 +1217,8 @@ class TestDeleteDocument():
         _service.disable_retries()
         self.test_delete_document_value_error()
 
-class TestGetTranslatedDocument():
+
+class TestGetTranslatedDocument:
     """
     Test Class for get_translated_document
     """
@@ -1165,11 +1231,13 @@ class TestGetTranslatedDocument():
         # Set up mock
         url = preprocess_url('/v3/documents/testString/translated_document')
         mock_response = 'This is a mock binary response.'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/powerpoint',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/powerpoint',
+            status=200,
+        )
 
         # Set up parameter values
         document_id = 'testString'
@@ -1179,7 +1247,7 @@ class TestGetTranslatedDocument():
         response = _service.get_translated_document(
             document_id,
             accept=accept,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1203,11 +1271,13 @@ class TestGetTranslatedDocument():
         # Set up mock
         url = preprocess_url('/v3/documents/testString/translated_document')
         mock_response = 'This is a mock binary response.'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/powerpoint',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/powerpoint',
+            status=200,
+        )
 
         # Set up parameter values
         document_id = 'testString'
@@ -1215,7 +1285,7 @@ class TestGetTranslatedDocument():
         # Invoke method
         response = _service.get_translated_document(
             document_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1239,11 +1309,13 @@ class TestGetTranslatedDocument():
         # Set up mock
         url = preprocess_url('/v3/documents/testString/translated_document')
         mock_response = 'This is a mock binary response.'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/powerpoint',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/powerpoint',
+            status=200,
+        )
 
         # Set up parameter values
         document_id = 'testString'
@@ -1253,7 +1325,7 @@ class TestGetTranslatedDocument():
             "document_id": document_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_translated_document(**req_copy)
 
@@ -1266,6 +1338,7 @@ class TestGetTranslatedDocument():
         _service.disable_retries()
         self.test_get_translated_document_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: DocumentTranslation
@@ -1276,7 +1349,9 @@ class TestGetTranslatedDocument():
 # Start of Model Tests
 ##############################################################################
 # region
-class TestModel_DeleteModelResult():
+
+
+class TestModel_DeleteModelResult:
     """
     Test Class for DeleteModelResult
     """
@@ -1305,7 +1380,8 @@ class TestModel_DeleteModelResult():
         delete_model_result_model_json2 = delete_model_result_model.to_dict()
         assert delete_model_result_model_json2 == delete_model_result_model_json
 
-class TestModel_DocumentList():
+
+class TestModel_DocumentList:
     """
     Test Class for DocumentList
     """
@@ -1317,7 +1393,7 @@ class TestModel_DocumentList():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        document_status_model = {} # DocumentStatus
+        document_status_model = {}  # DocumentStatus
         document_status_model['document_id'] = 'testString'
         document_status_model['filename'] = 'testString'
         document_status_model['status'] = 'processing'
@@ -1350,7 +1426,8 @@ class TestModel_DocumentList():
         document_list_model_json2 = document_list_model.to_dict()
         assert document_list_model_json2 == document_list_model_json
 
-class TestModel_DocumentStatus():
+
+class TestModel_DocumentStatus:
     """
     Test Class for DocumentStatus
     """
@@ -1390,7 +1467,8 @@ class TestModel_DocumentStatus():
         document_status_model_json2 = document_status_model.to_dict()
         assert document_status_model_json2 == document_status_model_json
 
-class TestModel_IdentifiableLanguage():
+
+class TestModel_IdentifiableLanguage:
     """
     Test Class for IdentifiableLanguage
     """
@@ -1420,7 +1498,8 @@ class TestModel_IdentifiableLanguage():
         identifiable_language_model_json2 = identifiable_language_model.to_dict()
         assert identifiable_language_model_json2 == identifiable_language_model_json
 
-class TestModel_IdentifiableLanguages():
+
+class TestModel_IdentifiableLanguages:
     """
     Test Class for IdentifiableLanguages
     """
@@ -1432,7 +1511,7 @@ class TestModel_IdentifiableLanguages():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        identifiable_language_model = {} # IdentifiableLanguage
+        identifiable_language_model = {}  # IdentifiableLanguage
         identifiable_language_model['language'] = 'testString'
         identifiable_language_model['name'] = 'testString'
 
@@ -1455,7 +1534,8 @@ class TestModel_IdentifiableLanguages():
         identifiable_languages_model_json2 = identifiable_languages_model.to_dict()
         assert identifiable_languages_model_json2 == identifiable_languages_model_json
 
-class TestModel_IdentifiedLanguage():
+
+class TestModel_IdentifiedLanguage:
     """
     Test Class for IdentifiedLanguage
     """
@@ -1485,7 +1565,8 @@ class TestModel_IdentifiedLanguage():
         identified_language_model_json2 = identified_language_model.to_dict()
         assert identified_language_model_json2 == identified_language_model_json
 
-class TestModel_IdentifiedLanguages():
+
+class TestModel_IdentifiedLanguages:
     """
     Test Class for IdentifiedLanguages
     """
@@ -1497,7 +1578,7 @@ class TestModel_IdentifiedLanguages():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        identified_language_model = {} # IdentifiedLanguage
+        identified_language_model = {}  # IdentifiedLanguage
         identified_language_model['language'] = 'testString'
         identified_language_model['confidence'] = 0
 
@@ -1520,7 +1601,8 @@ class TestModel_IdentifiedLanguages():
         identified_languages_model_json2 = identified_languages_model.to_dict()
         assert identified_languages_model_json2 == identified_languages_model_json
 
-class TestModel_Language():
+
+class TestModel_Language:
     """
     Test Class for Language
     """
@@ -1557,7 +1639,8 @@ class TestModel_Language():
         language_model_json2 = language_model.to_dict()
         assert language_model_json2 == language_model_json
 
-class TestModel_Languages():
+
+class TestModel_Languages:
     """
     Test Class for Languages
     """
@@ -1569,7 +1652,7 @@ class TestModel_Languages():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        language_model = {} # Language
+        language_model = {}  # Language
         language_model['language'] = 'testString'
         language_model['language_name'] = 'testString'
         language_model['native_language_name'] = 'testString'
@@ -1599,7 +1682,8 @@ class TestModel_Languages():
         languages_model_json2 = languages_model.to_dict()
         assert languages_model_json2 == languages_model_json
 
-class TestModel_Translation():
+
+class TestModel_Translation:
     """
     Test Class for Translation
     """
@@ -1628,7 +1712,8 @@ class TestModel_Translation():
         translation_model_json2 = translation_model.to_dict()
         assert translation_model_json2 == translation_model_json
 
-class TestModel_TranslationModel():
+
+class TestModel_TranslationModel:
     """
     Test Class for TranslationModel
     """
@@ -1666,7 +1751,8 @@ class TestModel_TranslationModel():
         translation_model_model_json2 = translation_model_model.to_dict()
         assert translation_model_model_json2 == translation_model_model_json
 
-class TestModel_TranslationModels():
+
+class TestModel_TranslationModels:
     """
     Test Class for TranslationModels
     """
@@ -1678,7 +1764,7 @@ class TestModel_TranslationModels():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        translation_model_model = {} # TranslationModel
+        translation_model_model = {}  # TranslationModel
         translation_model_model['model_id'] = 'testString'
         translation_model_model['name'] = 'testString'
         translation_model_model['source'] = 'testString'
@@ -1709,7 +1795,8 @@ class TestModel_TranslationModels():
         translation_models_model_json2 = translation_models_model.to_dict()
         assert translation_models_model_json2 == translation_models_model_json
 
-class TestModel_TranslationResult():
+
+class TestModel_TranslationResult:
     """
     Test Class for TranslationResult
     """
@@ -1721,7 +1808,7 @@ class TestModel_TranslationResult():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        translation_model = {} # Translation
+        translation_model = {}  # Translation
         translation_model['translation'] = 'testString'
 
         # Construct a json representation of a TranslationResult model

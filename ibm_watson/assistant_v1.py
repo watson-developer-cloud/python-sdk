@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 3.64.1-cee95189-20230124-211647
+# IBM OpenAPI SDK Code Generator Version: 3.85.0-75c38f8f-20240206-210220
 """
 The IBM Watson&trade; Assistant service combines machine learning, natural language
 understanding, and an integrated dialog editor to create conversation flows between your
@@ -28,7 +28,7 @@ See: https://cloud.ibm.com/docs/assistant
 
 from datetime import datetime
 from enum import Enum
-from typing import Dict, List
+from typing import Dict, List, Optional
 import json
 import sys
 
@@ -81,18 +81,20 @@ class AssistantV1(BaseService):
     # Message
     #########################
 
-    def message(self,
-                workspace_id: str,
-                *,
-                input: 'MessageInput' = None,
-                intents: List['RuntimeIntent'] = None,
-                entities: List['RuntimeEntity'] = None,
-                alternate_intents: bool = None,
-                context: 'Context' = None,
-                output: 'OutputData' = None,
-                user_id: str = None,
-                nodes_visited_details: bool = None,
-                **kwargs) -> DetailedResponse:
+    def message(
+        self,
+        workspace_id: str,
+        *,
+        input: Optional['MessageInput'] = None,
+        intents: Optional[List['RuntimeIntent']] = None,
+        entities: Optional[List['RuntimeEntity']] = None,
+        alternate_intents: Optional[bool] = None,
+        context: Optional['Context'] = None,
+        output: Optional['OutputData'] = None,
+        user_id: Optional[str] = None,
+        nodes_visited_details: Optional[bool] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Get response to user input.
 
@@ -151,9 +153,11 @@ class AssistantV1(BaseService):
         if output is not None:
             output = convert_model(output)
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='message')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='message',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -183,11 +187,13 @@ class AssistantV1(BaseService):
         path_param_values = self.encode_path_vars(workspace_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/workspaces/{workspace_id}/message'.format(**path_param_dict)
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       data=data)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+        )
 
         response = self.send(request, **kwargs)
         return response
@@ -196,11 +202,13 @@ class AssistantV1(BaseService):
     # Bulk classify
     #########################
 
-    def bulk_classify(self,
-                      workspace_id: str,
-                      *,
-                      input: List['BulkClassifyUtterance'] = None,
-                      **kwargs) -> DetailedResponse:
+    def bulk_classify(
+        self,
+        workspace_id: str,
+        *,
+        input: Optional[List['BulkClassifyUtterance']] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Identify intents and entities in multiple user utterances.
 
@@ -222,9 +230,11 @@ class AssistantV1(BaseService):
         if input is not None:
             input = [convert_model(x) for x in input]
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='bulk_classify')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='bulk_classify',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -248,11 +258,13 @@ class AssistantV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/workspaces/{workspace_id}/bulk_classify'.format(
             **path_param_dict)
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       data=data)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+        )
 
         response = self.send(request, **kwargs)
         return response
@@ -261,14 +273,16 @@ class AssistantV1(BaseService):
     # Workspaces
     #########################
 
-    def list_workspaces(self,
-                        *,
-                        page_limit: int = None,
-                        include_count: bool = None,
-                        sort: str = None,
-                        cursor: str = None,
-                        include_audit: bool = None,
-                        **kwargs) -> DetailedResponse:
+    def list_workspaces(
+        self,
+        *,
+        page_limit: Optional[int] = None,
+        include_count: Optional[bool] = None,
+        sort: Optional[str] = None,
+        cursor: Optional[str] = None,
+        include_audit: Optional[bool] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         List workspaces.
 
@@ -293,9 +307,11 @@ class AssistantV1(BaseService):
         """
 
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='list_workspaces')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='list_workspaces',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -313,29 +329,33 @@ class AssistantV1(BaseService):
         headers['Accept'] = 'application/json'
 
         url = '/v1/workspaces'
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def create_workspace(self,
-                         *,
-                         name: str = None,
-                         description: str = None,
-                         language: str = None,
-                         dialog_nodes: List['DialogNode'] = None,
-                         counterexamples: List['Counterexample'] = None,
-                         metadata: dict = None,
-                         learning_opt_out: bool = None,
-                         system_settings: 'WorkspaceSystemSettings' = None,
-                         webhooks: List['Webhook'] = None,
-                         intents: List['CreateIntent'] = None,
-                         entities: List['CreateEntity'] = None,
-                         include_audit: bool = None,
-                         **kwargs) -> DetailedResponse:
+    def create_workspace(
+        self,
+        *,
+        name: Optional[str] = None,
+        description: Optional[str] = None,
+        language: Optional[str] = None,
+        dialog_nodes: Optional[List['DialogNode']] = None,
+        counterexamples: Optional[List['Counterexample']] = None,
+        metadata: Optional[dict] = None,
+        learning_opt_out: Optional[bool] = None,
+        system_settings: Optional['WorkspaceSystemSettings'] = None,
+        webhooks: Optional[List['Webhook']] = None,
+        intents: Optional[List['CreateIntent']] = None,
+        entities: Optional[List['CreateEntity']] = None,
+        include_audit: Optional[bool] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Create workspace.
 
@@ -385,9 +405,11 @@ class AssistantV1(BaseService):
         if entities is not None:
             entities = [convert_model(x) for x in entities]
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='create_workspace')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='create_workspace',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -418,22 +440,26 @@ class AssistantV1(BaseService):
         headers['Accept'] = 'application/json'
 
         url = '/v1/workspaces'
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       data=data)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def get_workspace(self,
-                      workspace_id: str,
-                      *,
-                      export: bool = None,
-                      include_audit: bool = None,
-                      sort: str = None,
-                      **kwargs) -> DetailedResponse:
+    def get_workspace(
+        self,
+        workspace_id: str,
+        *,
+        export: Optional[bool] = None,
+        include_audit: Optional[bool] = None,
+        sort: Optional[str] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Get information about a workspace.
 
@@ -458,9 +484,11 @@ class AssistantV1(BaseService):
         if not workspace_id:
             raise ValueError('workspace_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='get_workspace')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='get_workspace',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -479,31 +507,35 @@ class AssistantV1(BaseService):
         path_param_values = self.encode_path_vars(workspace_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/workspaces/{workspace_id}'.format(**path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def update_workspace(self,
-                         workspace_id: str,
-                         *,
-                         name: str = None,
-                         description: str = None,
-                         language: str = None,
-                         dialog_nodes: List['DialogNode'] = None,
-                         counterexamples: List['Counterexample'] = None,
-                         metadata: dict = None,
-                         learning_opt_out: bool = None,
-                         system_settings: 'WorkspaceSystemSettings' = None,
-                         webhooks: List['Webhook'] = None,
-                         intents: List['CreateIntent'] = None,
-                         entities: List['CreateEntity'] = None,
-                         append: bool = None,
-                         include_audit: bool = None,
-                         **kwargs) -> DetailedResponse:
+    def update_workspace(
+        self,
+        workspace_id: str,
+        *,
+        name: Optional[str] = None,
+        description: Optional[str] = None,
+        language: Optional[str] = None,
+        dialog_nodes: Optional[List['DialogNode']] = None,
+        counterexamples: Optional[List['Counterexample']] = None,
+        metadata: Optional[dict] = None,
+        learning_opt_out: Optional[bool] = None,
+        system_settings: Optional['WorkspaceSystemSettings'] = None,
+        webhooks: Optional[List['Webhook']] = None,
+        intents: Optional[List['CreateIntent']] = None,
+        entities: Optional[List['CreateEntity']] = None,
+        append: Optional[bool] = None,
+        include_audit: Optional[bool] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Update workspace.
 
@@ -565,9 +597,11 @@ class AssistantV1(BaseService):
         if entities is not None:
             entities = [convert_model(x) for x in entities]
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='update_workspace')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='update_workspace',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -602,16 +636,22 @@ class AssistantV1(BaseService):
         path_param_values = self.encode_path_vars(workspace_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/workspaces/{workspace_id}'.format(**path_param_dict)
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       data=data)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def delete_workspace(self, workspace_id: str, **kwargs) -> DetailedResponse:
+    def delete_workspace(
+        self,
+        workspace_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Delete workspace.
 
@@ -626,9 +666,11 @@ class AssistantV1(BaseService):
         if not workspace_id:
             raise ValueError('workspace_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='delete_workspace')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='delete_workspace',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -644,29 +686,32 @@ class AssistantV1(BaseService):
         path_param_values = self.encode_path_vars(workspace_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/workspaces/{workspace_id}'.format(**path_param_dict)
-        request = self.prepare_request(method='DELETE',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
     def create_workspace_async(
-            self,
-            *,
-            name: str = None,
-            description: str = None,
-            language: str = None,
-            dialog_nodes: List['DialogNode'] = None,
-            counterexamples: List['Counterexample'] = None,
-            metadata: dict = None,
-            learning_opt_out: bool = None,
-            system_settings: 'WorkspaceSystemSettings' = None,
-            webhooks: List['Webhook'] = None,
-            intents: List['CreateIntent'] = None,
-            entities: List['CreateEntity'] = None,
-            **kwargs) -> DetailedResponse:
+        self,
+        *,
+        name: Optional[str] = None,
+        description: Optional[str] = None,
+        language: Optional[str] = None,
+        dialog_nodes: Optional[List['DialogNode']] = None,
+        counterexamples: Optional[List['Counterexample']] = None,
+        metadata: Optional[dict] = None,
+        learning_opt_out: Optional[bool] = None,
+        system_settings: Optional['WorkspaceSystemSettings'] = None,
+        webhooks: Optional[List['Webhook']] = None,
+        intents: Optional[List['CreateIntent']] = None,
+        entities: Optional[List['CreateEntity']] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Create workspace asynchronously.
 
@@ -716,9 +761,11 @@ class AssistantV1(BaseService):
         if entities is not None:
             entities = [convert_model(x) for x in entities]
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='create_workspace_async')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='create_workspace_async',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -748,32 +795,35 @@ class AssistantV1(BaseService):
         headers['Accept'] = 'application/json'
 
         url = '/v1/workspaces_async'
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       data=data)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
     def update_workspace_async(
-            self,
-            workspace_id: str,
-            *,
-            name: str = None,
-            description: str = None,
-            language: str = None,
-            dialog_nodes: List['DialogNode'] = None,
-            counterexamples: List['Counterexample'] = None,
-            metadata: dict = None,
-            learning_opt_out: bool = None,
-            system_settings: 'WorkspaceSystemSettings' = None,
-            webhooks: List['Webhook'] = None,
-            intents: List['CreateIntent'] = None,
-            entities: List['CreateEntity'] = None,
-            append: bool = None,
-            **kwargs) -> DetailedResponse:
+        self,
+        workspace_id: str,
+        *,
+        name: Optional[str] = None,
+        description: Optional[str] = None,
+        language: Optional[str] = None,
+        dialog_nodes: Optional[List['DialogNode']] = None,
+        counterexamples: Optional[List['Counterexample']] = None,
+        metadata: Optional[dict] = None,
+        learning_opt_out: Optional[bool] = None,
+        system_settings: Optional['WorkspaceSystemSettings'] = None,
+        webhooks: Optional[List['Webhook']] = None,
+        intents: Optional[List['CreateIntent']] = None,
+        entities: Optional[List['CreateEntity']] = None,
+        append: Optional[bool] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Update workspace asynchronously.
 
@@ -835,9 +885,11 @@ class AssistantV1(BaseService):
         if entities is not None:
             entities = [convert_model(x) for x in entities]
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='update_workspace_async')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='update_workspace_async',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -871,22 +923,26 @@ class AssistantV1(BaseService):
         path_param_values = self.encode_path_vars(workspace_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/workspaces_async/{workspace_id}'.format(**path_param_dict)
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       data=data)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def export_workspace_async(self,
-                               workspace_id: str,
-                               *,
-                               include_audit: bool = None,
-                               sort: str = None,
-                               verbose: bool = None,
-                               **kwargs) -> DetailedResponse:
+    def export_workspace_async(
+        self,
+        workspace_id: str,
+        *,
+        include_audit: Optional[bool] = None,
+        sort: Optional[str] = None,
+        verbose: Optional[bool] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Export workspace asynchronously.
 
@@ -915,9 +971,11 @@ class AssistantV1(BaseService):
         if not workspace_id:
             raise ValueError('workspace_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='export_workspace_async')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='export_workspace_async',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -937,10 +995,12 @@ class AssistantV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/workspaces_async/{workspace_id}/export'.format(
             **path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
@@ -949,16 +1009,18 @@ class AssistantV1(BaseService):
     # Intents
     #########################
 
-    def list_intents(self,
-                     workspace_id: str,
-                     *,
-                     export: bool = None,
-                     page_limit: int = None,
-                     include_count: bool = None,
-                     sort: str = None,
-                     cursor: str = None,
-                     include_audit: bool = None,
-                     **kwargs) -> DetailedResponse:
+    def list_intents(
+        self,
+        workspace_id: str,
+        *,
+        export: Optional[bool] = None,
+        page_limit: Optional[int] = None,
+        include_count: Optional[bool] = None,
+        sort: Optional[str] = None,
+        cursor: Optional[str] = None,
+        include_audit: Optional[bool] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         List intents.
 
@@ -990,9 +1052,11 @@ class AssistantV1(BaseService):
         if not workspace_id:
             raise ValueError('workspace_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='list_intents')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='list_intents',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -1014,22 +1078,26 @@ class AssistantV1(BaseService):
         path_param_values = self.encode_path_vars(workspace_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/workspaces/{workspace_id}/intents'.format(**path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def create_intent(self,
-                      workspace_id: str,
-                      intent: str,
-                      *,
-                      description: str = None,
-                      examples: List['Example'] = None,
-                      include_audit: bool = None,
-                      **kwargs) -> DetailedResponse:
+    def create_intent(
+        self,
+        workspace_id: str,
+        intent: str,
+        *,
+        description: Optional[str] = None,
+        examples: Optional[List['Example']] = None,
+        include_audit: Optional[bool] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Create intent.
 
@@ -1061,9 +1129,11 @@ class AssistantV1(BaseService):
         if examples is not None:
             examples = [convert_model(x) for x in examples]
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='create_intent')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='create_intent',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -1089,22 +1159,26 @@ class AssistantV1(BaseService):
         path_param_values = self.encode_path_vars(workspace_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/workspaces/{workspace_id}/intents'.format(**path_param_dict)
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       data=data)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def get_intent(self,
-                   workspace_id: str,
-                   intent: str,
-                   *,
-                   export: bool = None,
-                   include_audit: bool = None,
-                   **kwargs) -> DetailedResponse:
+    def get_intent(
+        self,
+        workspace_id: str,
+        intent: str,
+        *,
+        export: Optional[bool] = None,
+        include_audit: Optional[bool] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Get intent.
 
@@ -1128,9 +1202,11 @@ class AssistantV1(BaseService):
         if not intent:
             raise ValueError('intent must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='get_intent')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='get_intent',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -1149,24 +1225,28 @@ class AssistantV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/workspaces/{workspace_id}/intents/{intent}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def update_intent(self,
-                      workspace_id: str,
-                      intent: str,
-                      *,
-                      new_intent: str = None,
-                      new_description: str = None,
-                      new_examples: List['Example'] = None,
-                      append: bool = None,
-                      include_audit: bool = None,
-                      **kwargs) -> DetailedResponse:
+    def update_intent(
+        self,
+        workspace_id: str,
+        intent: str,
+        *,
+        new_intent: Optional[str] = None,
+        new_description: Optional[str] = None,
+        new_examples: Optional[List['Example']] = None,
+        append: Optional[bool] = None,
+        include_audit: Optional[bool] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Update intent.
 
@@ -1209,9 +1289,11 @@ class AssistantV1(BaseService):
         if new_examples is not None:
             new_examples = [convert_model(x) for x in new_examples]
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='update_intent')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='update_intent',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -1239,17 +1321,23 @@ class AssistantV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/workspaces/{workspace_id}/intents/{intent}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       data=data)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def delete_intent(self, workspace_id: str, intent: str,
-                      **kwargs) -> DetailedResponse:
+    def delete_intent(
+        self,
+        workspace_id: str,
+        intent: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Delete intent.
 
@@ -1267,9 +1355,11 @@ class AssistantV1(BaseService):
         if not intent:
             raise ValueError('intent must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='delete_intent')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='delete_intent',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -1286,10 +1376,12 @@ class AssistantV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/workspaces/{workspace_id}/intents/{intent}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='DELETE',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
@@ -1298,16 +1390,18 @@ class AssistantV1(BaseService):
     # Examples
     #########################
 
-    def list_examples(self,
-                      workspace_id: str,
-                      intent: str,
-                      *,
-                      page_limit: int = None,
-                      include_count: bool = None,
-                      sort: str = None,
-                      cursor: str = None,
-                      include_audit: bool = None,
-                      **kwargs) -> DetailedResponse:
+    def list_examples(
+        self,
+        workspace_id: str,
+        intent: str,
+        *,
+        page_limit: Optional[int] = None,
+        include_count: Optional[bool] = None,
+        sort: Optional[str] = None,
+        cursor: Optional[str] = None,
+        include_audit: Optional[bool] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         List user input examples.
 
@@ -1339,9 +1433,11 @@ class AssistantV1(BaseService):
         if not intent:
             raise ValueError('intent must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='list_examples')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='list_examples',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -1363,22 +1459,26 @@ class AssistantV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/workspaces/{workspace_id}/intents/{intent}/examples'.format(
             **path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def create_example(self,
-                       workspace_id: str,
-                       intent: str,
-                       text: str,
-                       *,
-                       mentions: List['Mention'] = None,
-                       include_audit: bool = None,
-                       **kwargs) -> DetailedResponse:
+    def create_example(
+        self,
+        workspace_id: str,
+        intent: str,
+        text: str,
+        *,
+        mentions: Optional[List['Mention']] = None,
+        include_audit: Optional[bool] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Create user input example.
 
@@ -1410,9 +1510,11 @@ class AssistantV1(BaseService):
         if mentions is not None:
             mentions = [convert_model(x) for x in mentions]
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='create_example')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='create_example',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -1438,22 +1540,26 @@ class AssistantV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/workspaces/{workspace_id}/intents/{intent}/examples'.format(
             **path_param_dict)
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       data=data)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def get_example(self,
-                    workspace_id: str,
-                    intent: str,
-                    text: str,
-                    *,
-                    include_audit: bool = None,
-                    **kwargs) -> DetailedResponse:
+    def get_example(
+        self,
+        workspace_id: str,
+        intent: str,
+        text: str,
+        *,
+        include_audit: Optional[bool] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Get user input example.
 
@@ -1476,9 +1582,11 @@ class AssistantV1(BaseService):
         if not text:
             raise ValueError('text must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='get_example')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='get_example',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -1496,23 +1604,27 @@ class AssistantV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/workspaces/{workspace_id}/intents/{intent}/examples/{text}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def update_example(self,
-                       workspace_id: str,
-                       intent: str,
-                       text: str,
-                       *,
-                       new_text: str = None,
-                       new_mentions: List['Mention'] = None,
-                       include_audit: bool = None,
-                       **kwargs) -> DetailedResponse:
+    def update_example(
+        self,
+        workspace_id: str,
+        intent: str,
+        text: str,
+        *,
+        new_text: Optional[str] = None,
+        new_mentions: Optional[List['Mention']] = None,
+        include_audit: Optional[bool] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Update user input example.
 
@@ -1545,9 +1657,11 @@ class AssistantV1(BaseService):
         if new_mentions is not None:
             new_mentions = [convert_model(x) for x in new_mentions]
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='update_example')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='update_example',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -1573,17 +1687,24 @@ class AssistantV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/workspaces/{workspace_id}/intents/{intent}/examples/{text}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       data=data)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def delete_example(self, workspace_id: str, intent: str, text: str,
-                       **kwargs) -> DetailedResponse:
+    def delete_example(
+        self,
+        workspace_id: str,
+        intent: str,
+        text: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Delete user input example.
 
@@ -1604,9 +1725,11 @@ class AssistantV1(BaseService):
         if not text:
             raise ValueError('text must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='delete_example')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='delete_example',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -1623,10 +1746,12 @@ class AssistantV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/workspaces/{workspace_id}/intents/{intent}/examples/{text}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='DELETE',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
@@ -1635,15 +1760,17 @@ class AssistantV1(BaseService):
     # Counterexamples
     #########################
 
-    def list_counterexamples(self,
-                             workspace_id: str,
-                             *,
-                             page_limit: int = None,
-                             include_count: bool = None,
-                             sort: str = None,
-                             cursor: str = None,
-                             include_audit: bool = None,
-                             **kwargs) -> DetailedResponse:
+    def list_counterexamples(
+        self,
+        workspace_id: str,
+        *,
+        page_limit: Optional[int] = None,
+        include_count: Optional[bool] = None,
+        sort: Optional[str] = None,
+        cursor: Optional[str] = None,
+        include_audit: Optional[bool] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         List counterexamples.
 
@@ -1672,9 +1799,11 @@ class AssistantV1(BaseService):
         if not workspace_id:
             raise ValueError('workspace_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='list_counterexamples')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='list_counterexamples',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -1696,20 +1825,24 @@ class AssistantV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/workspaces/{workspace_id}/counterexamples'.format(
             **path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def create_counterexample(self,
-                              workspace_id: str,
-                              text: str,
-                              *,
-                              include_audit: bool = None,
-                              **kwargs) -> DetailedResponse:
+    def create_counterexample(
+        self,
+        workspace_id: str,
+        text: str,
+        *,
+        include_audit: Optional[bool] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Create counterexample.
 
@@ -1735,9 +1868,11 @@ class AssistantV1(BaseService):
         if text is None:
             raise ValueError('text must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='create_counterexample')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='create_counterexample',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -1762,21 +1897,25 @@ class AssistantV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/workspaces/{workspace_id}/counterexamples'.format(
             **path_param_dict)
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       data=data)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def get_counterexample(self,
-                           workspace_id: str,
-                           text: str,
-                           *,
-                           include_audit: bool = None,
-                           **kwargs) -> DetailedResponse:
+    def get_counterexample(
+        self,
+        workspace_id: str,
+        text: str,
+        *,
+        include_audit: Optional[bool] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Get counterexample.
 
@@ -1798,9 +1937,11 @@ class AssistantV1(BaseService):
         if not text:
             raise ValueError('text must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='get_counterexample')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='get_counterexample',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -1818,21 +1959,25 @@ class AssistantV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/workspaces/{workspace_id}/counterexamples/{text}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def update_counterexample(self,
-                              workspace_id: str,
-                              text: str,
-                              *,
-                              new_text: str = None,
-                              include_audit: bool = None,
-                              **kwargs) -> DetailedResponse:
+    def update_counterexample(
+        self,
+        workspace_id: str,
+        text: str,
+        *,
+        new_text: Optional[str] = None,
+        include_audit: Optional[bool] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Update counterexample.
 
@@ -1858,9 +2003,11 @@ class AssistantV1(BaseService):
         if not text:
             raise ValueError('text must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='update_counterexample')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='update_counterexample',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -1885,17 +2032,23 @@ class AssistantV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/workspaces/{workspace_id}/counterexamples/{text}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       data=data)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def delete_counterexample(self, workspace_id: str, text: str,
-                              **kwargs) -> DetailedResponse:
+    def delete_counterexample(
+        self,
+        workspace_id: str,
+        text: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Delete counterexample.
 
@@ -1915,9 +2068,11 @@ class AssistantV1(BaseService):
         if not text:
             raise ValueError('text must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='delete_counterexample')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='delete_counterexample',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -1934,10 +2089,12 @@ class AssistantV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/workspaces/{workspace_id}/counterexamples/{text}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='DELETE',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
@@ -1946,16 +2103,18 @@ class AssistantV1(BaseService):
     # Entities
     #########################
 
-    def list_entities(self,
-                      workspace_id: str,
-                      *,
-                      export: bool = None,
-                      page_limit: int = None,
-                      include_count: bool = None,
-                      sort: str = None,
-                      cursor: str = None,
-                      include_audit: bool = None,
-                      **kwargs) -> DetailedResponse:
+    def list_entities(
+        self,
+        workspace_id: str,
+        *,
+        export: Optional[bool] = None,
+        page_limit: Optional[int] = None,
+        include_count: Optional[bool] = None,
+        sort: Optional[str] = None,
+        cursor: Optional[str] = None,
+        include_audit: Optional[bool] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         List entities.
 
@@ -1987,9 +2146,11 @@ class AssistantV1(BaseService):
         if not workspace_id:
             raise ValueError('workspace_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='list_entities')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='list_entities',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -2011,24 +2172,28 @@ class AssistantV1(BaseService):
         path_param_values = self.encode_path_vars(workspace_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/workspaces/{workspace_id}/entities'.format(**path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def create_entity(self,
-                      workspace_id: str,
-                      entity: str,
-                      *,
-                      description: str = None,
-                      metadata: dict = None,
-                      fuzzy_match: bool = None,
-                      values: List['CreateValue'] = None,
-                      include_audit: bool = None,
-                      **kwargs) -> DetailedResponse:
+    def create_entity(
+        self,
+        workspace_id: str,
+        entity: str,
+        *,
+        description: Optional[str] = None,
+        metadata: Optional[dict] = None,
+        fuzzy_match: Optional[bool] = None,
+        values: Optional[List['CreateValue']] = None,
+        include_audit: Optional[bool] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Create entity.
 
@@ -2065,9 +2230,11 @@ class AssistantV1(BaseService):
         if values is not None:
             values = [convert_model(x) for x in values]
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='create_entity')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='create_entity',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -2095,22 +2262,26 @@ class AssistantV1(BaseService):
         path_param_values = self.encode_path_vars(workspace_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/workspaces/{workspace_id}/entities'.format(**path_param_dict)
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       data=data)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def get_entity(self,
-                   workspace_id: str,
-                   entity: str,
-                   *,
-                   export: bool = None,
-                   include_audit: bool = None,
-                   **kwargs) -> DetailedResponse:
+    def get_entity(
+        self,
+        workspace_id: str,
+        entity: str,
+        *,
+        export: Optional[bool] = None,
+        include_audit: Optional[bool] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Get entity.
 
@@ -2134,9 +2305,11 @@ class AssistantV1(BaseService):
         if not entity:
             raise ValueError('entity must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='get_entity')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='get_entity',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -2155,26 +2328,30 @@ class AssistantV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/workspaces/{workspace_id}/entities/{entity}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def update_entity(self,
-                      workspace_id: str,
-                      entity: str,
-                      *,
-                      new_entity: str = None,
-                      new_description: str = None,
-                      new_metadata: dict = None,
-                      new_fuzzy_match: bool = None,
-                      new_values: List['CreateValue'] = None,
-                      append: bool = None,
-                      include_audit: bool = None,
-                      **kwargs) -> DetailedResponse:
+    def update_entity(
+        self,
+        workspace_id: str,
+        entity: str,
+        *,
+        new_entity: Optional[str] = None,
+        new_description: Optional[str] = None,
+        new_metadata: Optional[dict] = None,
+        new_fuzzy_match: Optional[bool] = None,
+        new_values: Optional[List['CreateValue']] = None,
+        append: Optional[bool] = None,
+        include_audit: Optional[bool] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Update entity.
 
@@ -2220,9 +2397,11 @@ class AssistantV1(BaseService):
         if new_values is not None:
             new_values = [convert_model(x) for x in new_values]
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='update_entity')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='update_entity',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -2252,17 +2431,23 @@ class AssistantV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/workspaces/{workspace_id}/entities/{entity}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       data=data)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def delete_entity(self, workspace_id: str, entity: str,
-                      **kwargs) -> DetailedResponse:
+    def delete_entity(
+        self,
+        workspace_id: str,
+        entity: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Delete entity.
 
@@ -2280,9 +2465,11 @@ class AssistantV1(BaseService):
         if not entity:
             raise ValueError('entity must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='delete_entity')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='delete_entity',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -2299,10 +2486,12 @@ class AssistantV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/workspaces/{workspace_id}/entities/{entity}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='DELETE',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
@@ -2311,13 +2500,15 @@ class AssistantV1(BaseService):
     # Mentions
     #########################
 
-    def list_mentions(self,
-                      workspace_id: str,
-                      entity: str,
-                      *,
-                      export: bool = None,
-                      include_audit: bool = None,
-                      **kwargs) -> DetailedResponse:
+    def list_mentions(
+        self,
+        workspace_id: str,
+        entity: str,
+        *,
+        export: Optional[bool] = None,
+        include_audit: Optional[bool] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         List entity mentions.
 
@@ -2342,9 +2533,11 @@ class AssistantV1(BaseService):
         if not entity:
             raise ValueError('entity must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='list_mentions')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='list_mentions',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -2363,10 +2556,12 @@ class AssistantV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/workspaces/{workspace_id}/entities/{entity}/mentions'.format(
             **path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
@@ -2375,17 +2570,19 @@ class AssistantV1(BaseService):
     # Values
     #########################
 
-    def list_values(self,
-                    workspace_id: str,
-                    entity: str,
-                    *,
-                    export: bool = None,
-                    page_limit: int = None,
-                    include_count: bool = None,
-                    sort: str = None,
-                    cursor: str = None,
-                    include_audit: bool = None,
-                    **kwargs) -> DetailedResponse:
+    def list_values(
+        self,
+        workspace_id: str,
+        entity: str,
+        *,
+        export: Optional[bool] = None,
+        page_limit: Optional[int] = None,
+        include_count: Optional[bool] = None,
+        sort: Optional[str] = None,
+        cursor: Optional[str] = None,
+        include_audit: Optional[bool] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         List entity values.
 
@@ -2420,9 +2617,11 @@ class AssistantV1(BaseService):
         if not entity:
             raise ValueError('entity must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='list_values')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='list_values',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -2445,25 +2644,29 @@ class AssistantV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/workspaces/{workspace_id}/entities/{entity}/values'.format(
             **path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def create_value(self,
-                     workspace_id: str,
-                     entity: str,
-                     value: str,
-                     *,
-                     metadata: dict = None,
-                     type: str = None,
-                     synonyms: List[str] = None,
-                     patterns: List[str] = None,
-                     include_audit: bool = None,
-                     **kwargs) -> DetailedResponse:
+    def create_value(
+        self,
+        workspace_id: str,
+        entity: str,
+        value: str,
+        *,
+        metadata: Optional[dict] = None,
+        type: Optional[str] = None,
+        synonyms: Optional[List[str]] = None,
+        patterns: Optional[List[str]] = None,
+        include_audit: Optional[bool] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Create entity value.
 
@@ -2504,9 +2707,11 @@ class AssistantV1(BaseService):
         if value is None:
             raise ValueError('value must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='create_value')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='create_value',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -2535,23 +2740,27 @@ class AssistantV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/workspaces/{workspace_id}/entities/{entity}/values'.format(
             **path_param_dict)
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       data=data)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def get_value(self,
-                  workspace_id: str,
-                  entity: str,
-                  value: str,
-                  *,
-                  export: bool = None,
-                  include_audit: bool = None,
-                  **kwargs) -> DetailedResponse:
+    def get_value(
+        self,
+        workspace_id: str,
+        entity: str,
+        value: str,
+        *,
+        export: Optional[bool] = None,
+        include_audit: Optional[bool] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Get entity value.
 
@@ -2578,9 +2787,11 @@ class AssistantV1(BaseService):
         if not value:
             raise ValueError('value must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='get_value')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='get_value',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -2599,27 +2810,31 @@ class AssistantV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/workspaces/{workspace_id}/entities/{entity}/values/{value}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def update_value(self,
-                     workspace_id: str,
-                     entity: str,
-                     value: str,
-                     *,
-                     new_value: str = None,
-                     new_metadata: dict = None,
-                     new_type: str = None,
-                     new_synonyms: List[str] = None,
-                     new_patterns: List[str] = None,
-                     append: bool = None,
-                     include_audit: bool = None,
-                     **kwargs) -> DetailedResponse:
+    def update_value(
+        self,
+        workspace_id: str,
+        entity: str,
+        value: str,
+        *,
+        new_value: Optional[str] = None,
+        new_metadata: Optional[dict] = None,
+        new_type: Optional[str] = None,
+        new_synonyms: Optional[List[str]] = None,
+        new_patterns: Optional[List[str]] = None,
+        append: Optional[bool] = None,
+        include_audit: Optional[bool] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Update entity value.
 
@@ -2673,9 +2888,11 @@ class AssistantV1(BaseService):
         if not value:
             raise ValueError('value must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='update_value')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='update_value',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -2705,17 +2922,24 @@ class AssistantV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/workspaces/{workspace_id}/entities/{entity}/values/{value}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       data=data)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def delete_value(self, workspace_id: str, entity: str, value: str,
-                     **kwargs) -> DetailedResponse:
+    def delete_value(
+        self,
+        workspace_id: str,
+        entity: str,
+        value: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Delete entity value.
 
@@ -2736,9 +2960,11 @@ class AssistantV1(BaseService):
         if not value:
             raise ValueError('value must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='delete_value')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='delete_value',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -2755,10 +2981,12 @@ class AssistantV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/workspaces/{workspace_id}/entities/{entity}/values/{value}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='DELETE',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
@@ -2767,17 +2995,19 @@ class AssistantV1(BaseService):
     # Synonyms
     #########################
 
-    def list_synonyms(self,
-                      workspace_id: str,
-                      entity: str,
-                      value: str,
-                      *,
-                      page_limit: int = None,
-                      include_count: bool = None,
-                      sort: str = None,
-                      cursor: str = None,
-                      include_audit: bool = None,
-                      **kwargs) -> DetailedResponse:
+    def list_synonyms(
+        self,
+        workspace_id: str,
+        entity: str,
+        value: str,
+        *,
+        page_limit: Optional[int] = None,
+        include_count: Optional[bool] = None,
+        sort: Optional[str] = None,
+        cursor: Optional[str] = None,
+        include_audit: Optional[bool] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         List entity value synonyms.
 
@@ -2811,9 +3041,11 @@ class AssistantV1(BaseService):
         if not value:
             raise ValueError('value must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='list_synonyms')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='list_synonyms',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -2835,22 +3067,26 @@ class AssistantV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/workspaces/{workspace_id}/entities/{entity}/values/{value}/synonyms'.format(
             **path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def create_synonym(self,
-                       workspace_id: str,
-                       entity: str,
-                       value: str,
-                       synonym: str,
-                       *,
-                       include_audit: bool = None,
-                       **kwargs) -> DetailedResponse:
+    def create_synonym(
+        self,
+        workspace_id: str,
+        entity: str,
+        value: str,
+        synonym: str,
+        *,
+        include_audit: Optional[bool] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Create entity value synonym.
 
@@ -2882,9 +3118,11 @@ class AssistantV1(BaseService):
         if synonym is None:
             raise ValueError('synonym must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='create_synonym')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='create_synonym',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -2909,23 +3147,27 @@ class AssistantV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/workspaces/{workspace_id}/entities/{entity}/values/{value}/synonyms'.format(
             **path_param_dict)
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       data=data)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def get_synonym(self,
-                    workspace_id: str,
-                    entity: str,
-                    value: str,
-                    synonym: str,
-                    *,
-                    include_audit: bool = None,
-                    **kwargs) -> DetailedResponse:
+    def get_synonym(
+        self,
+        workspace_id: str,
+        entity: str,
+        value: str,
+        synonym: str,
+        *,
+        include_audit: Optional[bool] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Get entity value synonym.
 
@@ -2951,9 +3193,11 @@ class AssistantV1(BaseService):
         if not synonym:
             raise ValueError('synonym must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='get_synonym')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='get_synonym',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -2972,23 +3216,27 @@ class AssistantV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/workspaces/{workspace_id}/entities/{entity}/values/{value}/synonyms/{synonym}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def update_synonym(self,
-                       workspace_id: str,
-                       entity: str,
-                       value: str,
-                       synonym: str,
-                       *,
-                       new_synonym: str = None,
-                       include_audit: bool = None,
-                       **kwargs) -> DetailedResponse:
+    def update_synonym(
+        self,
+        workspace_id: str,
+        entity: str,
+        value: str,
+        synonym: str,
+        *,
+        new_synonym: Optional[str] = None,
+        include_audit: Optional[bool] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Update entity value synonym.
 
@@ -3021,9 +3269,11 @@ class AssistantV1(BaseService):
         if not synonym:
             raise ValueError('synonym must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='update_synonym')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='update_synonym',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -3049,17 +3299,25 @@ class AssistantV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/workspaces/{workspace_id}/entities/{entity}/values/{value}/synonyms/{synonym}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       data=data)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def delete_synonym(self, workspace_id: str, entity: str, value: str,
-                       synonym: str, **kwargs) -> DetailedResponse:
+    def delete_synonym(
+        self,
+        workspace_id: str,
+        entity: str,
+        value: str,
+        synonym: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Delete entity value synonym.
 
@@ -3083,9 +3341,11 @@ class AssistantV1(BaseService):
         if not synonym:
             raise ValueError('synonym must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='delete_synonym')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='delete_synonym',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -3103,10 +3363,12 @@ class AssistantV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/workspaces/{workspace_id}/entities/{entity}/values/{value}/synonyms/{synonym}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='DELETE',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
@@ -3115,15 +3377,17 @@ class AssistantV1(BaseService):
     # Dialog nodes
     #########################
 
-    def list_dialog_nodes(self,
-                          workspace_id: str,
-                          *,
-                          page_limit: int = None,
-                          include_count: bool = None,
-                          sort: str = None,
-                          cursor: str = None,
-                          include_audit: bool = None,
-                          **kwargs) -> DetailedResponse:
+    def list_dialog_nodes(
+        self,
+        workspace_id: str,
+        *,
+        page_limit: Optional[int] = None,
+        include_count: Optional[bool] = None,
+        sort: Optional[str] = None,
+        cursor: Optional[str] = None,
+        include_audit: Optional[bool] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         List dialog nodes.
 
@@ -3151,9 +3415,11 @@ class AssistantV1(BaseService):
         if not workspace_id:
             raise ValueError('workspace_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='list_dialog_nodes')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='list_dialog_nodes',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -3175,38 +3441,42 @@ class AssistantV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/workspaces/{workspace_id}/dialog_nodes'.format(
             **path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def create_dialog_node(self,
-                           workspace_id: str,
-                           dialog_node: str,
-                           *,
-                           description: str = None,
-                           conditions: str = None,
-                           parent: str = None,
-                           previous_sibling: str = None,
-                           output: 'DialogNodeOutput' = None,
-                           context: 'DialogNodeContext' = None,
-                           metadata: dict = None,
-                           next_step: 'DialogNodeNextStep' = None,
-                           title: str = None,
-                           type: str = None,
-                           event_name: str = None,
-                           variable: str = None,
-                           actions: List['DialogNodeAction'] = None,
-                           digress_in: str = None,
-                           digress_out: str = None,
-                           digress_out_slots: str = None,
-                           user_label: str = None,
-                           disambiguation_opt_out: bool = None,
-                           include_audit: bool = None,
-                           **kwargs) -> DetailedResponse:
+    def create_dialog_node(
+        self,
+        workspace_id: str,
+        dialog_node: str,
+        *,
+        description: Optional[str] = None,
+        conditions: Optional[str] = None,
+        parent: Optional[str] = None,
+        previous_sibling: Optional[str] = None,
+        output: Optional['DialogNodeOutput'] = None,
+        context: Optional['DialogNodeContext'] = None,
+        metadata: Optional[dict] = None,
+        next_step: Optional['DialogNodeNextStep'] = None,
+        title: Optional[str] = None,
+        type: Optional[str] = None,
+        event_name: Optional[str] = None,
+        variable: Optional[str] = None,
+        actions: Optional[List['DialogNodeAction']] = None,
+        digress_in: Optional[str] = None,
+        digress_out: Optional[str] = None,
+        digress_out_slots: Optional[str] = None,
+        user_label: Optional[str] = None,
+        disambiguation_opt_out: Optional[bool] = None,
+        include_audit: Optional[bool] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Create dialog node.
 
@@ -3285,9 +3555,11 @@ class AssistantV1(BaseService):
         if actions is not None:
             actions = [convert_model(x) for x in actions]
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='create_dialog_node')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='create_dialog_node',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -3330,21 +3602,25 @@ class AssistantV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/workspaces/{workspace_id}/dialog_nodes'.format(
             **path_param_dict)
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       data=data)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def get_dialog_node(self,
-                        workspace_id: str,
-                        dialog_node: str,
-                        *,
-                        include_audit: bool = None,
-                        **kwargs) -> DetailedResponse:
+    def get_dialog_node(
+        self,
+        workspace_id: str,
+        dialog_node: str,
+        *,
+        include_audit: Optional[bool] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Get dialog node.
 
@@ -3365,9 +3641,11 @@ class AssistantV1(BaseService):
         if not dialog_node:
             raise ValueError('dialog_node must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='get_dialog_node')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='get_dialog_node',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -3385,39 +3663,43 @@ class AssistantV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/workspaces/{workspace_id}/dialog_nodes/{dialog_node}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def update_dialog_node(self,
-                           workspace_id: str,
-                           dialog_node: str,
-                           *,
-                           new_dialog_node: str = None,
-                           new_description: str = None,
-                           new_conditions: str = None,
-                           new_parent: str = None,
-                           new_previous_sibling: str = None,
-                           new_output: 'DialogNodeOutput' = None,
-                           new_context: 'DialogNodeContext' = None,
-                           new_metadata: dict = None,
-                           new_next_step: 'DialogNodeNextStep' = None,
-                           new_title: str = None,
-                           new_type: str = None,
-                           new_event_name: str = None,
-                           new_variable: str = None,
-                           new_actions: List['DialogNodeAction'] = None,
-                           new_digress_in: str = None,
-                           new_digress_out: str = None,
-                           new_digress_out_slots: str = None,
-                           new_user_label: str = None,
-                           new_disambiguation_opt_out: bool = None,
-                           include_audit: bool = None,
-                           **kwargs) -> DetailedResponse:
+    def update_dialog_node(
+        self,
+        workspace_id: str,
+        dialog_node: str,
+        *,
+        new_dialog_node: Optional[str] = None,
+        new_description: Optional[str] = None,
+        new_conditions: Optional[str] = None,
+        new_parent: Optional[str] = None,
+        new_previous_sibling: Optional[str] = None,
+        new_output: Optional['DialogNodeOutput'] = None,
+        new_context: Optional['DialogNodeContext'] = None,
+        new_metadata: Optional[dict] = None,
+        new_next_step: Optional['DialogNodeNextStep'] = None,
+        new_title: Optional[str] = None,
+        new_type: Optional[str] = None,
+        new_event_name: Optional[str] = None,
+        new_variable: Optional[str] = None,
+        new_actions: Optional[List['DialogNodeAction']] = None,
+        new_digress_in: Optional[str] = None,
+        new_digress_out: Optional[str] = None,
+        new_digress_out_slots: Optional[str] = None,
+        new_user_label: Optional[str] = None,
+        new_disambiguation_opt_out: Optional[bool] = None,
+        include_audit: Optional[bool] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Update dialog node.
 
@@ -3500,9 +3782,11 @@ class AssistantV1(BaseService):
         if new_actions is not None:
             new_actions = [convert_model(x) for x in new_actions]
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='update_dialog_node')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='update_dialog_node',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -3545,17 +3829,23 @@ class AssistantV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/workspaces/{workspace_id}/dialog_nodes/{dialog_node}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       data=data)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def delete_dialog_node(self, workspace_id: str, dialog_node: str,
-                           **kwargs) -> DetailedResponse:
+    def delete_dialog_node(
+        self,
+        workspace_id: str,
+        dialog_node: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Delete dialog node.
 
@@ -3574,9 +3864,11 @@ class AssistantV1(BaseService):
         if not dialog_node:
             raise ValueError('dialog_node must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='delete_dialog_node')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='delete_dialog_node',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -3593,10 +3885,12 @@ class AssistantV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/workspaces/{workspace_id}/dialog_nodes/{dialog_node}'.format(
             **path_param_dict)
-        request = self.prepare_request(method='DELETE',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
@@ -3605,14 +3899,16 @@ class AssistantV1(BaseService):
     # Logs
     #########################
 
-    def list_logs(self,
-                  workspace_id: str,
-                  *,
-                  sort: str = None,
-                  filter: str = None,
-                  page_limit: int = None,
-                  cursor: str = None,
-                  **kwargs) -> DetailedResponse:
+    def list_logs(
+        self,
+        workspace_id: str,
+        *,
+        sort: Optional[str] = None,
+        filter: Optional[str] = None,
+        page_limit: Optional[int] = None,
+        cursor: Optional[str] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         List log events in a workspace.
 
@@ -3642,9 +3938,11 @@ class AssistantV1(BaseService):
         if not workspace_id:
             raise ValueError('workspace_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='list_logs')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='list_logs',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -3664,21 +3962,25 @@ class AssistantV1(BaseService):
         path_param_values = self.encode_path_vars(workspace_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v1/workspaces/{workspace_id}/logs'.format(**path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
 
-    def list_all_logs(self,
-                      filter: str,
-                      *,
-                      sort: str = None,
-                      page_limit: int = None,
-                      cursor: str = None,
-                      **kwargs) -> DetailedResponse:
+    def list_all_logs(
+        self,
+        filter: str,
+        *,
+        sort: Optional[str] = None,
+        page_limit: Optional[int] = None,
+        cursor: Optional[str] = None,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         List log events in all workspaces.
 
@@ -3711,9 +4013,11 @@ class AssistantV1(BaseService):
         if not filter:
             raise ValueError('filter must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='list_all_logs')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='list_all_logs',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -3730,10 +4034,12 @@ class AssistantV1(BaseService):
         headers['Accept'] = 'application/json'
 
         url = '/v1/logs'
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
@@ -3742,7 +4048,11 @@ class AssistantV1(BaseService):
     # User data
     #########################
 
-    def delete_user_data(self, customer_id: str, **kwargs) -> DetailedResponse:
+    def delete_user_data(
+        self,
+        customer_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
         """
         Delete labeled data.
 
@@ -3768,9 +4078,11 @@ class AssistantV1(BaseService):
         if not customer_id:
             raise ValueError('customer_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='delete_user_data')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='delete_user_data',
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -3784,10 +4096,12 @@ class AssistantV1(BaseService):
         headers['Accept'] = 'application/json'
 
         url = '/v1/user_data'
-        request = self.prepare_request(method='DELETE',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
         response = self.send(request, **kwargs)
         return response
@@ -3803,6 +4117,7 @@ class ListWorkspacesEnums:
         The attribute by which returned workspaces will be sorted. To reverse the sort
         order, prefix the value with a minus sign (`-`).
         """
+
         NAME = 'name'
         UPDATED = 'updated'
 
@@ -3818,6 +4133,7 @@ class GetWorkspaceEnums:
         only if **export**=`true`. Specify `sort=stable` to sort all workspace objects by
         unique identifier, in ascending alphabetical order.
         """
+
         STABLE = 'stable'
 
 
@@ -3831,6 +4147,7 @@ class ExportWorkspaceAsyncEnums:
         Indicates how the returned workspace data will be sorted. Specify `sort=stable` to
         sort all workspace objects by unique identifier, in ascending alphabetical order.
         """
+
         STABLE = 'stable'
 
 
@@ -3844,6 +4161,7 @@ class ListIntentsEnums:
         The attribute by which returned intents will be sorted. To reverse the sort order,
         prefix the value with a minus sign (`-`).
         """
+
         INTENT = 'intent'
         UPDATED = 'updated'
 
@@ -3858,6 +4176,7 @@ class ListExamplesEnums:
         The attribute by which returned examples will be sorted. To reverse the sort
         order, prefix the value with a minus sign (`-`).
         """
+
         TEXT = 'text'
         UPDATED = 'updated'
 
@@ -3872,6 +4191,7 @@ class ListCounterexamplesEnums:
         The attribute by which returned counterexamples will be sorted. To reverse the
         sort order, prefix the value with a minus sign (`-`).
         """
+
         TEXT = 'text'
         UPDATED = 'updated'
 
@@ -3886,6 +4206,7 @@ class ListEntitiesEnums:
         The attribute by which returned entities will be sorted. To reverse the sort
         order, prefix the value with a minus sign (`-`).
         """
+
         ENTITY = 'entity'
         UPDATED = 'updated'
 
@@ -3900,6 +4221,7 @@ class ListValuesEnums:
         The attribute by which returned entity values will be sorted. To reverse the sort
         order, prefix the value with a minus sign (`-`).
         """
+
         VALUE = 'value'
         UPDATED = 'updated'
 
@@ -3914,6 +4236,7 @@ class ListSynonymsEnums:
         The attribute by which returned entity value synonyms will be sorted. To reverse
         the sort order, prefix the value with a minus sign (`-`).
         """
+
         SYNONYM = 'synonym'
         UPDATED = 'updated'
 
@@ -3928,6 +4251,7 @@ class ListDialogNodesEnums:
         The attribute by which returned dialog nodes will be sorted. To reverse the sort
         order, prefix the value with a minus sign (`-`).
         """
+
         DIALOG_NODE = 'dialog_node'
         UPDATED = 'updated'
 
@@ -3937,14 +4261,18 @@ class ListDialogNodesEnums:
 ##############################################################################
 
 
-class AgentAvailabilityMessage():
+class AgentAvailabilityMessage:
     """
     AgentAvailabilityMessage.
 
-    :attr str message: (optional) The text of the message.
+    :param str message: (optional) The text of the message.
     """
 
-    def __init__(self, *, message: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        message: Optional[str] = None,
+    ) -> None:
         """
         Initialize a AgentAvailabilityMessage object.
 
@@ -3956,8 +4284,8 @@ class AgentAvailabilityMessage():
     def from_dict(cls, _dict: Dict) -> 'AgentAvailabilityMessage':
         """Initialize a AgentAvailabilityMessage object from a json dictionary."""
         args = {}
-        if 'message' in _dict:
-            args['message'] = _dict.get('message')
+        if (message := _dict.get('message')) is not None:
+            args['message'] = message
         return cls(**args)
 
     @classmethod
@@ -3991,23 +4319,25 @@ class AgentAvailabilityMessage():
         return not self == other
 
 
-class BulkClassifyOutput():
+class BulkClassifyOutput:
     """
     BulkClassifyOutput.
 
-    :attr BulkClassifyUtterance input: (optional) The user input utterance to
+    :param BulkClassifyUtterance input: (optional) The user input utterance to
           classify.
-    :attr List[RuntimeEntity] entities: (optional) An array of entities identified
+    :param List[RuntimeEntity] entities: (optional) An array of entities identified
           in the utterance.
-    :attr List[RuntimeIntent] intents: (optional) An array of intents recognized in
+    :param List[RuntimeIntent] intents: (optional) An array of intents recognized in
           the utterance.
     """
 
-    def __init__(self,
-                 *,
-                 input: 'BulkClassifyUtterance' = None,
-                 entities: List['RuntimeEntity'] = None,
-                 intents: List['RuntimeIntent'] = None) -> None:
+    def __init__(
+        self,
+        *,
+        input: Optional['BulkClassifyUtterance'] = None,
+        entities: Optional[List['RuntimeEntity']] = None,
+        intents: Optional[List['RuntimeIntent']] = None,
+    ) -> None:
         """
         Initialize a BulkClassifyOutput object.
 
@@ -4026,16 +4356,12 @@ class BulkClassifyOutput():
     def from_dict(cls, _dict: Dict) -> 'BulkClassifyOutput':
         """Initialize a BulkClassifyOutput object from a json dictionary."""
         args = {}
-        if 'input' in _dict:
-            args['input'] = BulkClassifyUtterance.from_dict(_dict.get('input'))
-        if 'entities' in _dict:
-            args['entities'] = [
-                RuntimeEntity.from_dict(v) for v in _dict.get('entities')
-            ]
-        if 'intents' in _dict:
-            args['intents'] = [
-                RuntimeIntent.from_dict(v) for v in _dict.get('intents')
-            ]
+        if (input := _dict.get('input')) is not None:
+            args['input'] = BulkClassifyUtterance.from_dict(input)
+        if (entities := _dict.get('entities')) is not None:
+            args['entities'] = [RuntimeEntity.from_dict(v) for v in entities]
+        if (intents := _dict.get('intents')) is not None:
+            args['intents'] = [RuntimeIntent.from_dict(v) for v in intents]
         return cls(**args)
 
     @classmethod
@@ -4088,15 +4414,19 @@ class BulkClassifyOutput():
         return not self == other
 
 
-class BulkClassifyResponse():
+class BulkClassifyResponse:
     """
     BulkClassifyResponse.
 
-    :attr List[BulkClassifyOutput] output: (optional) An array of objects that
+    :param List[BulkClassifyOutput] output: (optional) An array of objects that
           contain classification information for the submitted input utterances.
     """
 
-    def __init__(self, *, output: List['BulkClassifyOutput'] = None) -> None:
+    def __init__(
+        self,
+        *,
+        output: Optional[List['BulkClassifyOutput']] = None,
+    ) -> None:
         """
         Initialize a BulkClassifyResponse object.
 
@@ -4109,10 +4439,8 @@ class BulkClassifyResponse():
     def from_dict(cls, _dict: Dict) -> 'BulkClassifyResponse':
         """Initialize a BulkClassifyResponse object from a json dictionary."""
         args = {}
-        if 'output' in _dict:
-            args['output'] = [
-                BulkClassifyOutput.from_dict(v) for v in _dict.get('output')
-            ]
+        if (output := _dict.get('output')) is not None:
+            args['output'] = [BulkClassifyOutput.from_dict(v) for v in output]
         return cls(**args)
 
     @classmethod
@@ -4152,14 +4480,17 @@ class BulkClassifyResponse():
         return not self == other
 
 
-class BulkClassifyUtterance():
+class BulkClassifyUtterance:
     """
     The user input utterance to classify.
 
-    :attr str text: The text of the input utterance.
+    :param str text: The text of the input utterance.
     """
 
-    def __init__(self, text: str) -> None:
+    def __init__(
+        self,
+        text: str,
+    ) -> None:
         """
         Initialize a BulkClassifyUtterance object.
 
@@ -4171,8 +4502,8 @@ class BulkClassifyUtterance():
     def from_dict(cls, _dict: Dict) -> 'BulkClassifyUtterance':
         """Initialize a BulkClassifyUtterance object from a json dictionary."""
         args = {}
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
+        if (text := _dict.get('text')) is not None:
+            args['text'] = text
         else:
             raise ValueError(
                 'Required property \'text\' not present in BulkClassifyUtterance JSON'
@@ -4210,16 +4541,21 @@ class BulkClassifyUtterance():
         return not self == other
 
 
-class CaptureGroup():
+class CaptureGroup:
     """
     A recognized capture group for a pattern-based entity.
 
-    :attr str group: A recognized capture group for the entity.
-    :attr List[int] location: (optional) Zero-based character offsets that indicate
+    :param str group: A recognized capture group for the entity.
+    :param List[int] location: (optional) Zero-based character offsets that indicate
           where the entity value begins and ends in the input text.
     """
 
-    def __init__(self, group: str, *, location: List[int] = None) -> None:
+    def __init__(
+        self,
+        group: str,
+        *,
+        location: Optional[List[int]] = None,
+    ) -> None:
         """
         Initialize a CaptureGroup object.
 
@@ -4234,13 +4570,13 @@ class CaptureGroup():
     def from_dict(cls, _dict: Dict) -> 'CaptureGroup':
         """Initialize a CaptureGroup object from a json dictionary."""
         args = {}
-        if 'group' in _dict:
-            args['group'] = _dict.get('group')
+        if (group := _dict.get('group')) is not None:
+            args['group'] = group
         else:
             raise ValueError(
                 'Required property \'group\' not present in CaptureGroup JSON')
-        if 'location' in _dict:
-            args['location'] = _dict.get('location')
+        if (location := _dict.get('location')) is not None:
+            args['location'] = location
         return cls(**args)
 
     @classmethod
@@ -4276,18 +4612,21 @@ class CaptureGroup():
         return not self == other
 
 
-class ChannelTransferInfo():
+class ChannelTransferInfo:
     """
     Information used by an integration to transfer the conversation to a different
     channel.
 
-    :attr ChannelTransferTarget target: An object specifying target channels
+    :param ChannelTransferTarget target: An object specifying target channels
           available for the transfer. Each property of this object represents an available
           transfer target. Currently, the only supported property is **chat**,
           representing the web chat integration.
     """
 
-    def __init__(self, target: 'ChannelTransferTarget') -> None:
+    def __init__(
+        self,
+        target: 'ChannelTransferTarget',
+    ) -> None:
         """
         Initialize a ChannelTransferInfo object.
 
@@ -4302,9 +4641,8 @@ class ChannelTransferInfo():
     def from_dict(cls, _dict: Dict) -> 'ChannelTransferInfo':
         """Initialize a ChannelTransferInfo object from a json dictionary."""
         args = {}
-        if 'target' in _dict:
-            args['target'] = ChannelTransferTarget.from_dict(
-                _dict.get('target'))
+        if (target := _dict.get('target')) is not None:
+            args['target'] = ChannelTransferTarget.from_dict(target)
         else:
             raise ValueError(
                 'Required property \'target\' not present in ChannelTransferInfo JSON'
@@ -4345,17 +4683,21 @@ class ChannelTransferInfo():
         return not self == other
 
 
-class ChannelTransferTarget():
+class ChannelTransferTarget:
     """
     An object specifying target channels available for the transfer. Each property of this
     object represents an available transfer target. Currently, the only supported property
     is **chat**, representing the web chat integration.
 
-    :attr ChannelTransferTargetChat chat: (optional) Information for transferring to
-          the web chat integration.
+    :param ChannelTransferTargetChat chat: (optional) Information for transferring
+          to the web chat integration.
     """
 
-    def __init__(self, *, chat: 'ChannelTransferTargetChat' = None) -> None:
+    def __init__(
+        self,
+        *,
+        chat: Optional['ChannelTransferTargetChat'] = None,
+    ) -> None:
         """
         Initialize a ChannelTransferTarget object.
 
@@ -4368,9 +4710,8 @@ class ChannelTransferTarget():
     def from_dict(cls, _dict: Dict) -> 'ChannelTransferTarget':
         """Initialize a ChannelTransferTarget object from a json dictionary."""
         args = {}
-        if 'chat' in _dict:
-            args['chat'] = ChannelTransferTargetChat.from_dict(
-                _dict.get('chat'))
+        if (chat := _dict.get('chat')) is not None:
+            args['chat'] = ChannelTransferTargetChat.from_dict(chat)
         return cls(**args)
 
     @classmethod
@@ -4407,14 +4748,18 @@ class ChannelTransferTarget():
         return not self == other
 
 
-class ChannelTransferTargetChat():
+class ChannelTransferTargetChat:
     """
     Information for transferring to the web chat integration.
 
-    :attr str url: (optional) The URL of the target web chat.
+    :param str url: (optional) The URL of the target web chat.
     """
 
-    def __init__(self, *, url: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        url: Optional[str] = None,
+    ) -> None:
         """
         Initialize a ChannelTransferTargetChat object.
 
@@ -4426,8 +4771,8 @@ class ChannelTransferTargetChat():
     def from_dict(cls, _dict: Dict) -> 'ChannelTransferTargetChat':
         """Initialize a ChannelTransferTargetChat object from a json dictionary."""
         args = {}
-        if 'url' in _dict:
-            args['url'] = _dict.get('url')
+        if (url := _dict.get('url')) is not None:
+            args['url'] = url
         return cls(**args)
 
     @classmethod
@@ -4461,28 +4806,31 @@ class ChannelTransferTargetChat():
         return not self == other
 
 
-class Context():
+class Context:
     """
     State information for the conversation. To maintain state, include the context from
     the previous response.
 
-    :attr str conversation_id: (optional) The unique identifier of the conversation.
-          The conversation ID cannot contain any of the following characters: `+` `=` `&&`
-          `||` `>` `<` `!` `(` `)` `{` `}` `[` `]` `^` `"` `~` `*` `?` `:` `\` `/`.
-    :attr dict system: (optional) For internal use only.
-    :attr MessageContextMetadata metadata: (optional) Metadata related to the
+    :param str conversation_id: (optional) The unique identifier of the
+          conversation. The conversation ID cannot contain any of the following
+          characters: `+` `=` `&&` `||` `>` `<` `!` `(` `)` `{` `}` `[` `]` `^` `"` `~`
+          `*` `?` `:` `\` `/`.
+    :param dict system: (optional) For internal use only.
+    :param MessageContextMetadata metadata: (optional) Metadata related to the
           message.
     """
 
     # The set of defined properties for the class
     _properties = frozenset(['conversation_id', 'system', 'metadata'])
 
-    def __init__(self,
-                 *,
-                 conversation_id: str = None,
-                 system: dict = None,
-                 metadata: 'MessageContextMetadata' = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        conversation_id: Optional[str] = None,
+        system: Optional[dict] = None,
+        metadata: Optional['MessageContextMetadata'] = None,
+        **kwargs,
+    ) -> None:
         """
         Initialize a Context object.
 
@@ -4505,13 +4853,12 @@ class Context():
     def from_dict(cls, _dict: Dict) -> 'Context':
         """Initialize a Context object from a json dictionary."""
         args = {}
-        if 'conversation_id' in _dict:
-            args['conversation_id'] = _dict.get('conversation_id')
-        if 'system' in _dict:
-            args['system'] = _dict.get('system')
-        if 'metadata' in _dict:
-            args['metadata'] = MessageContextMetadata.from_dict(
-                _dict.get('metadata'))
+        if (conversation_id := _dict.get('conversation_id')) is not None:
+            args['conversation_id'] = conversation_id
+        if (system := _dict.get('system')) is not None:
+            args['system'] = system
+        if (metadata := _dict.get('metadata')) is not None:
+            args['metadata'] = MessageContextMetadata.from_dict(metadata)
         args.update(
             {k: v for (k, v) in _dict.items() if k not in cls._properties})
         return cls(**args)
@@ -4580,24 +4927,26 @@ class Context():
         return not self == other
 
 
-class Counterexample():
+class Counterexample:
     """
     Counterexample.
 
-    :attr str text: The text of a user input marked as irrelevant input. This string
-          must conform to the following restrictions:
+    :param str text: The text of a user input marked as irrelevant input. This
+          string must conform to the following restrictions:
           - It cannot contain carriage return, newline, or tab characters.
           - It cannot consist of only whitespace characters.
-    :attr datetime created: (optional) The timestamp for creation of the object.
-    :attr datetime updated: (optional) The timestamp for the most recent update to
+    :param datetime created: (optional) The timestamp for creation of the object.
+    :param datetime updated: (optional) The timestamp for the most recent update to
           the object.
     """
 
-    def __init__(self,
-                 text: str,
-                 *,
-                 created: datetime = None,
-                 updated: datetime = None) -> None:
+    def __init__(
+        self,
+        text: str,
+        *,
+        created: Optional[datetime] = None,
+        updated: Optional[datetime] = None,
+    ) -> None:
         """
         Initialize a Counterexample object.
 
@@ -4614,15 +4963,15 @@ class Counterexample():
     def from_dict(cls, _dict: Dict) -> 'Counterexample':
         """Initialize a Counterexample object from a json dictionary."""
         args = {}
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
+        if (text := _dict.get('text')) is not None:
+            args['text'] = text
         else:
             raise ValueError(
                 'Required property \'text\' not present in Counterexample JSON')
-        if 'created' in _dict:
-            args['created'] = string_to_datetime(_dict.get('created'))
-        if 'updated' in _dict:
-            args['updated'] = string_to_datetime(_dict.get('updated'))
+        if (created := _dict.get('created')) is not None:
+            args['created'] = string_to_datetime(created)
+        if (updated := _dict.get('updated')) is not None:
+            args['updated'] = string_to_datetime(updated)
         return cls(**args)
 
     @classmethod
@@ -4660,18 +5009,21 @@ class Counterexample():
         return not self == other
 
 
-class CounterexampleCollection():
+class CounterexampleCollection:
     """
     CounterexampleCollection.
 
-    :attr List[Counterexample] counterexamples: An array of objects describing the
+    :param List[Counterexample] counterexamples: An array of objects describing the
           examples marked as irrelevant input.
-    :attr Pagination pagination: The pagination data for the returned objects. For
+    :param Pagination pagination: The pagination data for the returned objects. For
           more information about using pagination, see [Pagination](#pagination).
     """
 
-    def __init__(self, counterexamples: List['Counterexample'],
-                 pagination: 'Pagination') -> None:
+    def __init__(
+        self,
+        counterexamples: List['Counterexample'],
+        pagination: 'Pagination',
+    ) -> None:
         """
         Initialize a CounterexampleCollection object.
 
@@ -4687,17 +5039,16 @@ class CounterexampleCollection():
     def from_dict(cls, _dict: Dict) -> 'CounterexampleCollection':
         """Initialize a CounterexampleCollection object from a json dictionary."""
         args = {}
-        if 'counterexamples' in _dict:
+        if (counterexamples := _dict.get('counterexamples')) is not None:
             args['counterexamples'] = [
-                Counterexample.from_dict(v)
-                for v in _dict.get('counterexamples')
+                Counterexample.from_dict(v) for v in counterexamples
             ]
         else:
             raise ValueError(
                 'Required property \'counterexamples\' not present in CounterexampleCollection JSON'
             )
-        if 'pagination' in _dict:
-            args['pagination'] = Pagination.from_dict(_dict.get('pagination'))
+        if (pagination := _dict.get('pagination')) is not None:
+            args['pagination'] = Pagination.from_dict(pagination)
         else:
             raise ValueError(
                 'Required property \'pagination\' not present in CounterexampleCollection JSON'
@@ -4747,36 +5098,39 @@ class CounterexampleCollection():
         return not self == other
 
 
-class CreateEntity():
+class CreateEntity:
     """
     CreateEntity.
 
-    :attr str entity: The name of the entity. This string must conform to the
+    :param str entity: The name of the entity. This string must conform to the
           following restrictions:
           - It can contain only Unicode alphanumeric, underscore, and hyphen characters.
           - If you specify an entity name beginning with the reserved prefix `sys-`, it
           must be the name of a system entity that you want to enable. (Any entity content
           specified with the request is ignored.).
-    :attr str description: (optional) The description of the entity. This string
+    :param str description: (optional) The description of the entity. This string
           cannot contain carriage return, newline, or tab characters.
-    :attr dict metadata: (optional) Any metadata related to the entity.
-    :attr bool fuzzy_match: (optional) Whether to use fuzzy matching for the entity.
-    :attr datetime created: (optional) The timestamp for creation of the object.
-    :attr datetime updated: (optional) The timestamp for the most recent update to
+    :param dict metadata: (optional) Any metadata related to the entity.
+    :param bool fuzzy_match: (optional) Whether to use fuzzy matching for the
+          entity.
+    :param datetime created: (optional) The timestamp for creation of the object.
+    :param datetime updated: (optional) The timestamp for the most recent update to
           the object.
-    :attr List[CreateValue] values: (optional) An array of objects describing the
+    :param List[CreateValue] values: (optional) An array of objects describing the
           entity values.
     """
 
-    def __init__(self,
-                 entity: str,
-                 *,
-                 description: str = None,
-                 metadata: dict = None,
-                 fuzzy_match: bool = None,
-                 created: datetime = None,
-                 updated: datetime = None,
-                 values: List['CreateValue'] = None) -> None:
+    def __init__(
+        self,
+        entity: str,
+        *,
+        description: Optional[str] = None,
+        metadata: Optional[dict] = None,
+        fuzzy_match: Optional[bool] = None,
+        created: Optional[datetime] = None,
+        updated: Optional[datetime] = None,
+        values: Optional[List['CreateValue']] = None,
+    ) -> None:
         """
         Initialize a CreateEntity object.
 
@@ -4807,25 +5161,23 @@ class CreateEntity():
     def from_dict(cls, _dict: Dict) -> 'CreateEntity':
         """Initialize a CreateEntity object from a json dictionary."""
         args = {}
-        if 'entity' in _dict:
-            args['entity'] = _dict.get('entity')
+        if (entity := _dict.get('entity')) is not None:
+            args['entity'] = entity
         else:
             raise ValueError(
                 'Required property \'entity\' not present in CreateEntity JSON')
-        if 'description' in _dict:
-            args['description'] = _dict.get('description')
-        if 'metadata' in _dict:
-            args['metadata'] = _dict.get('metadata')
-        if 'fuzzy_match' in _dict:
-            args['fuzzy_match'] = _dict.get('fuzzy_match')
-        if 'created' in _dict:
-            args['created'] = string_to_datetime(_dict.get('created'))
-        if 'updated' in _dict:
-            args['updated'] = string_to_datetime(_dict.get('updated'))
-        if 'values' in _dict:
-            args['values'] = [
-                CreateValue.from_dict(v) for v in _dict.get('values')
-            ]
+        if (description := _dict.get('description')) is not None:
+            args['description'] = description
+        if (metadata := _dict.get('metadata')) is not None:
+            args['metadata'] = metadata
+        if (fuzzy_match := _dict.get('fuzzy_match')) is not None:
+            args['fuzzy_match'] = fuzzy_match
+        if (created := _dict.get('created')) is not None:
+            args['created'] = string_to_datetime(created)
+        if (updated := _dict.get('updated')) is not None:
+            args['updated'] = string_to_datetime(updated)
+        if (values := _dict.get('values')) is not None:
+            args['values'] = [CreateValue.from_dict(v) for v in values]
         return cls(**args)
 
     @classmethod
@@ -4877,31 +5229,33 @@ class CreateEntity():
         return not self == other
 
 
-class CreateIntent():
+class CreateIntent:
     """
     CreateIntent.
 
-    :attr str intent: The name of the intent. This string must conform to the
+    :param str intent: The name of the intent. This string must conform to the
           following restrictions:
           - It can contain only Unicode alphanumeric, underscore, hyphen, and dot
           characters.
           - It cannot begin with the reserved prefix `sys-`.
-    :attr str description: (optional) The description of the intent. This string
+    :param str description: (optional) The description of the intent. This string
           cannot contain carriage return, newline, or tab characters.
-    :attr datetime created: (optional) The timestamp for creation of the object.
-    :attr datetime updated: (optional) The timestamp for the most recent update to
+    :param datetime created: (optional) The timestamp for creation of the object.
+    :param datetime updated: (optional) The timestamp for the most recent update to
           the object.
-    :attr List[Example] examples: (optional) An array of user input examples for the
-          intent.
+    :param List[Example] examples: (optional) An array of user input examples for
+          the intent.
     """
 
-    def __init__(self,
-                 intent: str,
-                 *,
-                 description: str = None,
-                 created: datetime = None,
-                 updated: datetime = None,
-                 examples: List['Example'] = None) -> None:
+    def __init__(
+        self,
+        intent: str,
+        *,
+        description: Optional[str] = None,
+        created: Optional[datetime] = None,
+        updated: Optional[datetime] = None,
+        examples: Optional[List['Example']] = None,
+    ) -> None:
         """
         Initialize a CreateIntent object.
 
@@ -4925,21 +5279,19 @@ class CreateIntent():
     def from_dict(cls, _dict: Dict) -> 'CreateIntent':
         """Initialize a CreateIntent object from a json dictionary."""
         args = {}
-        if 'intent' in _dict:
-            args['intent'] = _dict.get('intent')
+        if (intent := _dict.get('intent')) is not None:
+            args['intent'] = intent
         else:
             raise ValueError(
                 'Required property \'intent\' not present in CreateIntent JSON')
-        if 'description' in _dict:
-            args['description'] = _dict.get('description')
-        if 'created' in _dict:
-            args['created'] = string_to_datetime(_dict.get('created'))
-        if 'updated' in _dict:
-            args['updated'] = string_to_datetime(_dict.get('updated'))
-        if 'examples' in _dict:
-            args['examples'] = [
-                Example.from_dict(v) for v in _dict.get('examples')
-            ]
+        if (description := _dict.get('description')) is not None:
+            args['description'] = description
+        if (created := _dict.get('created')) is not None:
+            args['created'] = string_to_datetime(created)
+        if (updated := _dict.get('updated')) is not None:
+            args['updated'] = string_to_datetime(updated)
+        if (examples := _dict.get('examples')) is not None:
+            args['examples'] = [Example.from_dict(v) for v in examples]
         return cls(**args)
 
     @classmethod
@@ -4987,40 +5339,42 @@ class CreateIntent():
         return not self == other
 
 
-class CreateValue():
+class CreateValue:
     """
     CreateValue.
 
-    :attr str value: The text of the entity value. This string must conform to the
+    :param str value: The text of the entity value. This string must conform to the
           following restrictions:
           - It cannot contain carriage return, newline, or tab characters.
           - It cannot consist of only whitespace characters.
-    :attr dict metadata: (optional) Any metadata related to the entity value.
-    :attr str type: (optional) Specifies the type of entity value.
-    :attr List[str] synonyms: (optional) An array of synonyms for the entity value.
+    :param dict metadata: (optional) Any metadata related to the entity value.
+    :param str type: (optional) Specifies the type of entity value.
+    :param List[str] synonyms: (optional) An array of synonyms for the entity value.
           A value can specify either synonyms or patterns (depending on the value type),
           but not both. A synonym must conform to the following resrictions:
           - It cannot contain carriage return, newline, or tab characters.
           - It cannot consist of only whitespace characters.
-    :attr List[str] patterns: (optional) An array of patterns for the entity value.
+    :param List[str] patterns: (optional) An array of patterns for the entity value.
           A value can specify either synonyms or patterns (depending on the value type),
           but not both. A pattern is a regular expression; for more information about how
           to specify a pattern, see the
           [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-entities#entities-create-dictionary-based).
-    :attr datetime created: (optional) The timestamp for creation of the object.
-    :attr datetime updated: (optional) The timestamp for the most recent update to
+    :param datetime created: (optional) The timestamp for creation of the object.
+    :param datetime updated: (optional) The timestamp for the most recent update to
           the object.
     """
 
-    def __init__(self,
-                 value: str,
-                 *,
-                 metadata: dict = None,
-                 type: str = None,
-                 synonyms: List[str] = None,
-                 patterns: List[str] = None,
-                 created: datetime = None,
-                 updated: datetime = None) -> None:
+    def __init__(
+        self,
+        value: str,
+        *,
+        metadata: Optional[dict] = None,
+        type: Optional[str] = None,
+        synonyms: Optional[List[str]] = None,
+        patterns: Optional[List[str]] = None,
+        created: Optional[datetime] = None,
+        updated: Optional[datetime] = None,
+    ) -> None:
         """
         Initialize a CreateValue object.
 
@@ -5054,23 +5408,23 @@ class CreateValue():
     def from_dict(cls, _dict: Dict) -> 'CreateValue':
         """Initialize a CreateValue object from a json dictionary."""
         args = {}
-        if 'value' in _dict:
-            args['value'] = _dict.get('value')
+        if (value := _dict.get('value')) is not None:
+            args['value'] = value
         else:
             raise ValueError(
                 'Required property \'value\' not present in CreateValue JSON')
-        if 'metadata' in _dict:
-            args['metadata'] = _dict.get('metadata')
-        if 'type' in _dict:
-            args['type'] = _dict.get('type')
-        if 'synonyms' in _dict:
-            args['synonyms'] = _dict.get('synonyms')
-        if 'patterns' in _dict:
-            args['patterns'] = _dict.get('patterns')
-        if 'created' in _dict:
-            args['created'] = string_to_datetime(_dict.get('created'))
-        if 'updated' in _dict:
-            args['updated'] = string_to_datetime(_dict.get('updated'))
+        if (metadata := _dict.get('metadata')) is not None:
+            args['metadata'] = metadata
+        if (type := _dict.get('type')) is not None:
+            args['type'] = type
+        if (synonyms := _dict.get('synonyms')) is not None:
+            args['synonyms'] = synonyms
+        if (patterns := _dict.get('patterns')) is not None:
+            args['patterns'] = patterns
+        if (created := _dict.get('created')) is not None:
+            args['created'] = string_to_datetime(created)
+        if (updated := _dict.get('updated')) is not None:
+            args['updated'] = string_to_datetime(updated)
         return cls(**args)
 
     @classmethod
@@ -5119,91 +5473,94 @@ class CreateValue():
         """
         Specifies the type of entity value.
         """
+
         SYNONYMS = 'synonyms'
         PATTERNS = 'patterns'
 
 
-class DialogNode():
+class DialogNode:
     """
     DialogNode.
 
-    :attr str dialog_node: The unique ID of the dialog node. This is an internal
+    :param str dialog_node: The unique ID of the dialog node. This is an internal
           identifier used to refer to the dialog node from other dialog nodes and in the
           diagnostic information included with message responses.
           This string can contain only Unicode alphanumeric, space, underscore, hyphen,
           and dot characters.
-    :attr str description: (optional) The description of the dialog node. This
+    :param str description: (optional) The description of the dialog node. This
           string cannot contain carriage return, newline, or tab characters.
-    :attr str conditions: (optional) The condition that will trigger the dialog
+    :param str conditions: (optional) The condition that will trigger the dialog
           node. This string cannot contain carriage return, newline, or tab characters.
-    :attr str parent: (optional) The unique ID of the parent dialog node. This
+    :param str parent: (optional) The unique ID of the parent dialog node. This
           property is omitted if the dialog node has no parent.
-    :attr str previous_sibling: (optional) The unique ID of the previous sibling
+    :param str previous_sibling: (optional) The unique ID of the previous sibling
           dialog node. This property is omitted if the dialog node has no previous
           sibling.
-    :attr DialogNodeOutput output: (optional) The output of the dialog node. For
+    :param DialogNodeOutput output: (optional) The output of the dialog node. For
           more information about how to specify dialog node output, see the
           [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-dialog-overview#dialog-overview-responses).
-    :attr DialogNodeContext context: (optional) The context for the dialog node.
-    :attr dict metadata: (optional) The metadata for the dialog node.
-    :attr DialogNodeNextStep next_step: (optional) The next step to execute
+    :param DialogNodeContext context: (optional) The context for the dialog node.
+    :param dict metadata: (optional) The metadata for the dialog node.
+    :param DialogNodeNextStep next_step: (optional) The next step to execute
           following this dialog node.
-    :attr str title: (optional) A human-readable name for the dialog node. If the
+    :param str title: (optional) A human-readable name for the dialog node. If the
           node is included in disambiguation, this title is used to populate the **label**
           property of the corresponding suggestion in the `suggestion` response type
           (unless it is overridden by the **user_label** property). The title is also used
           to populate the **topic** property in the `connect_to_agent` response type.
           This string can contain only Unicode alphanumeric, space, underscore, hyphen,
           and dot characters.
-    :attr str type: (optional) How the dialog node is processed.
-    :attr str event_name: (optional) How an `event_handler` node is processed.
-    :attr str variable: (optional) The location in the dialog context where output
+    :param str type: (optional) How the dialog node is processed.
+    :param str event_name: (optional) How an `event_handler` node is processed.
+    :param str variable: (optional) The location in the dialog context where output
           is stored.
-    :attr List[DialogNodeAction] actions: (optional) An array of objects describing
+    :param List[DialogNodeAction] actions: (optional) An array of objects describing
           any actions to be invoked by the dialog node.
-    :attr str digress_in: (optional) Whether this top-level dialog node can be
+    :param str digress_in: (optional) Whether this top-level dialog node can be
           digressed into.
-    :attr str digress_out: (optional) Whether this dialog node can be returned to
+    :param str digress_out: (optional) Whether this dialog node can be returned to
           after a digression.
-    :attr str digress_out_slots: (optional) Whether the user can digress to
+    :param str digress_out_slots: (optional) Whether the user can digress to
           top-level nodes while filling out slots.
-    :attr str user_label: (optional) A label that can be displayed externally to
+    :param str user_label: (optional) A label that can be displayed externally to
           describe the purpose of the node to users. If set, this label is used to
           identify the node in disambiguation responses (overriding the value of the
           **title** property).
-    :attr bool disambiguation_opt_out: (optional) Whether the dialog node should be
+    :param bool disambiguation_opt_out: (optional) Whether the dialog node should be
           excluded from disambiguation suggestions. Valid only when **type**=`standard` or
           `frame`.
-    :attr bool disabled: (optional) For internal use only.
-    :attr datetime created: (optional) The timestamp for creation of the object.
-    :attr datetime updated: (optional) The timestamp for the most recent update to
+    :param bool disabled: (optional) For internal use only.
+    :param datetime created: (optional) The timestamp for creation of the object.
+    :param datetime updated: (optional) The timestamp for the most recent update to
           the object.
     """
 
-    def __init__(self,
-                 dialog_node: str,
-                 *,
-                 description: str = None,
-                 conditions: str = None,
-                 parent: str = None,
-                 previous_sibling: str = None,
-                 output: 'DialogNodeOutput' = None,
-                 context: 'DialogNodeContext' = None,
-                 metadata: dict = None,
-                 next_step: 'DialogNodeNextStep' = None,
-                 title: str = None,
-                 type: str = None,
-                 event_name: str = None,
-                 variable: str = None,
-                 actions: List['DialogNodeAction'] = None,
-                 digress_in: str = None,
-                 digress_out: str = None,
-                 digress_out_slots: str = None,
-                 user_label: str = None,
-                 disambiguation_opt_out: bool = None,
-                 disabled: bool = None,
-                 created: datetime = None,
-                 updated: datetime = None) -> None:
+    def __init__(
+        self,
+        dialog_node: str,
+        *,
+        description: Optional[str] = None,
+        conditions: Optional[str] = None,
+        parent: Optional[str] = None,
+        previous_sibling: Optional[str] = None,
+        output: Optional['DialogNodeOutput'] = None,
+        context: Optional['DialogNodeContext'] = None,
+        metadata: Optional[dict] = None,
+        next_step: Optional['DialogNodeNextStep'] = None,
+        title: Optional[str] = None,
+        type: Optional[str] = None,
+        event_name: Optional[str] = None,
+        variable: Optional[str] = None,
+        actions: Optional[List['DialogNodeAction']] = None,
+        digress_in: Optional[str] = None,
+        digress_out: Optional[str] = None,
+        digress_out_slots: Optional[str] = None,
+        user_label: Optional[str] = None,
+        disambiguation_opt_out: Optional[bool] = None,
+        disabled: Optional[bool] = None,
+        created: Optional[datetime] = None,
+        updated: Optional[datetime] = None,
+    ) -> None:
         """
         Initialize a DialogNode object.
 
@@ -5285,57 +5642,55 @@ class DialogNode():
     def from_dict(cls, _dict: Dict) -> 'DialogNode':
         """Initialize a DialogNode object from a json dictionary."""
         args = {}
-        if 'dialog_node' in _dict:
-            args['dialog_node'] = _dict.get('dialog_node')
+        if (dialog_node := _dict.get('dialog_node')) is not None:
+            args['dialog_node'] = dialog_node
         else:
             raise ValueError(
                 'Required property \'dialog_node\' not present in DialogNode JSON'
             )
-        if 'description' in _dict:
-            args['description'] = _dict.get('description')
-        if 'conditions' in _dict:
-            args['conditions'] = _dict.get('conditions')
-        if 'parent' in _dict:
-            args['parent'] = _dict.get('parent')
-        if 'previous_sibling' in _dict:
-            args['previous_sibling'] = _dict.get('previous_sibling')
-        if 'output' in _dict:
-            args['output'] = DialogNodeOutput.from_dict(_dict.get('output'))
-        if 'context' in _dict:
-            args['context'] = DialogNodeContext.from_dict(_dict.get('context'))
-        if 'metadata' in _dict:
-            args['metadata'] = _dict.get('metadata')
-        if 'next_step' in _dict:
-            args['next_step'] = DialogNodeNextStep.from_dict(
-                _dict.get('next_step'))
-        if 'title' in _dict:
-            args['title'] = _dict.get('title')
-        if 'type' in _dict:
-            args['type'] = _dict.get('type')
-        if 'event_name' in _dict:
-            args['event_name'] = _dict.get('event_name')
-        if 'variable' in _dict:
-            args['variable'] = _dict.get('variable')
-        if 'actions' in _dict:
-            args['actions'] = [
-                DialogNodeAction.from_dict(v) for v in _dict.get('actions')
-            ]
-        if 'digress_in' in _dict:
-            args['digress_in'] = _dict.get('digress_in')
-        if 'digress_out' in _dict:
-            args['digress_out'] = _dict.get('digress_out')
-        if 'digress_out_slots' in _dict:
-            args['digress_out_slots'] = _dict.get('digress_out_slots')
-        if 'user_label' in _dict:
-            args['user_label'] = _dict.get('user_label')
-        if 'disambiguation_opt_out' in _dict:
-            args['disambiguation_opt_out'] = _dict.get('disambiguation_opt_out')
-        if 'disabled' in _dict:
-            args['disabled'] = _dict.get('disabled')
-        if 'created' in _dict:
-            args['created'] = string_to_datetime(_dict.get('created'))
-        if 'updated' in _dict:
-            args['updated'] = string_to_datetime(_dict.get('updated'))
+        if (description := _dict.get('description')) is not None:
+            args['description'] = description
+        if (conditions := _dict.get('conditions')) is not None:
+            args['conditions'] = conditions
+        if (parent := _dict.get('parent')) is not None:
+            args['parent'] = parent
+        if (previous_sibling := _dict.get('previous_sibling')) is not None:
+            args['previous_sibling'] = previous_sibling
+        if (output := _dict.get('output')) is not None:
+            args['output'] = DialogNodeOutput.from_dict(output)
+        if (context := _dict.get('context')) is not None:
+            args['context'] = DialogNodeContext.from_dict(context)
+        if (metadata := _dict.get('metadata')) is not None:
+            args['metadata'] = metadata
+        if (next_step := _dict.get('next_step')) is not None:
+            args['next_step'] = DialogNodeNextStep.from_dict(next_step)
+        if (title := _dict.get('title')) is not None:
+            args['title'] = title
+        if (type := _dict.get('type')) is not None:
+            args['type'] = type
+        if (event_name := _dict.get('event_name')) is not None:
+            args['event_name'] = event_name
+        if (variable := _dict.get('variable')) is not None:
+            args['variable'] = variable
+        if (actions := _dict.get('actions')) is not None:
+            args['actions'] = [DialogNodeAction.from_dict(v) for v in actions]
+        if (digress_in := _dict.get('digress_in')) is not None:
+            args['digress_in'] = digress_in
+        if (digress_out := _dict.get('digress_out')) is not None:
+            args['digress_out'] = digress_out
+        if (digress_out_slots := _dict.get('digress_out_slots')) is not None:
+            args['digress_out_slots'] = digress_out_slots
+        if (user_label := _dict.get('user_label')) is not None:
+            args['user_label'] = user_label
+        if (disambiguation_opt_out :=
+                _dict.get('disambiguation_opt_out')) is not None:
+            args['disambiguation_opt_out'] = disambiguation_opt_out
+        if (disabled := _dict.get('disabled')) is not None:
+            args['disabled'] = disabled
+        if (created := _dict.get('created')) is not None:
+            args['created'] = string_to_datetime(created)
+        if (updated := _dict.get('updated')) is not None:
+            args['updated'] = string_to_datetime(updated)
         return cls(**args)
 
     @classmethod
@@ -5432,6 +5787,7 @@ class DialogNode():
         """
         How the dialog node is processed.
         """
+
         STANDARD = 'standard'
         EVENT_HANDLER = 'event_handler'
         FRAME = 'frame'
@@ -5443,6 +5799,7 @@ class DialogNode():
         """
         How an `event_handler` node is processed.
         """
+
         FOCUS = 'focus'
         INPUT = 'input'
         FILLED = 'filled'
@@ -5457,6 +5814,7 @@ class DialogNode():
         """
         Whether this top-level dialog node can be digressed into.
         """
+
         NOT_AVAILABLE = 'not_available'
         RETURNS = 'returns'
         DOES_NOT_RETURN = 'does_not_return'
@@ -5465,6 +5823,7 @@ class DialogNode():
         """
         Whether this dialog node can be returned to after a digression.
         """
+
         ALLOW_RETURNING = 'allow_returning'
         ALLOW_ALL = 'allow_all'
         ALLOW_ALL_NEVER_RETURN = 'allow_all_never_return'
@@ -5473,32 +5832,35 @@ class DialogNode():
         """
         Whether the user can digress to top-level nodes while filling out slots.
         """
+
         NOT_ALLOWED = 'not_allowed'
         ALLOW_RETURNING = 'allow_returning'
         ALLOW_ALL = 'allow_all'
 
 
-class DialogNodeAction():
+class DialogNodeAction:
     """
     DialogNodeAction.
 
-    :attr str name: The name of the action.
-    :attr str type: (optional) The type of action to invoke.
-    :attr dict parameters: (optional) A map of key/value pairs to be provided to the
-          action.
-    :attr str result_variable: The location in the dialog context where the result
+    :param str name: The name of the action.
+    :param str type: (optional) The type of action to invoke.
+    :param dict parameters: (optional) A map of key/value pairs to be provided to
+          the action.
+    :param str result_variable: The location in the dialog context where the result
           of the action is stored.
-    :attr str credentials: (optional) The name of the context variable that the
+    :param str credentials: (optional) The name of the context variable that the
           client application will use to pass in credentials for the action.
     """
 
-    def __init__(self,
-                 name: str,
-                 result_variable: str,
-                 *,
-                 type: str = None,
-                 parameters: dict = None,
-                 credentials: str = None) -> None:
+    def __init__(
+        self,
+        name: str,
+        result_variable: str,
+        *,
+        type: Optional[str] = None,
+        parameters: Optional[dict] = None,
+        credentials: Optional[str] = None,
+    ) -> None:
         """
         Initialize a DialogNodeAction object.
 
@@ -5521,24 +5883,24 @@ class DialogNodeAction():
     def from_dict(cls, _dict: Dict) -> 'DialogNodeAction':
         """Initialize a DialogNodeAction object from a json dictionary."""
         args = {}
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
+        if (name := _dict.get('name')) is not None:
+            args['name'] = name
         else:
             raise ValueError(
                 'Required property \'name\' not present in DialogNodeAction JSON'
             )
-        if 'type' in _dict:
-            args['type'] = _dict.get('type')
-        if 'parameters' in _dict:
-            args['parameters'] = _dict.get('parameters')
-        if 'result_variable' in _dict:
-            args['result_variable'] = _dict.get('result_variable')
+        if (type := _dict.get('type')) is not None:
+            args['type'] = type
+        if (parameters := _dict.get('parameters')) is not None:
+            args['parameters'] = parameters
+        if (result_variable := _dict.get('result_variable')) is not None:
+            args['result_variable'] = result_variable
         else:
             raise ValueError(
                 'Required property \'result_variable\' not present in DialogNodeAction JSON'
             )
-        if 'credentials' in _dict:
-            args['credentials'] = _dict.get('credentials')
+        if (credentials := _dict.get('credentials')) is not None:
+            args['credentials'] = credentials
         return cls(**args)
 
     @classmethod
@@ -5584,6 +5946,7 @@ class DialogNodeAction():
         """
         The type of action to invoke.
         """
+
         CLIENT = 'client'
         SERVER = 'server'
         CLOUD_FUNCTION = 'cloud_function'
@@ -5591,18 +5954,21 @@ class DialogNodeAction():
         WEBHOOK = 'webhook'
 
 
-class DialogNodeCollection():
+class DialogNodeCollection:
     """
     An array of dialog nodes.
 
-    :attr List[DialogNode] dialog_nodes: An array of objects describing the dialog
+    :param List[DialogNode] dialog_nodes: An array of objects describing the dialog
           nodes defined for the workspace.
-    :attr Pagination pagination: The pagination data for the returned objects. For
+    :param Pagination pagination: The pagination data for the returned objects. For
           more information about using pagination, see [Pagination](#pagination).
     """
 
-    def __init__(self, dialog_nodes: List['DialogNode'],
-                 pagination: 'Pagination') -> None:
+    def __init__(
+        self,
+        dialog_nodes: List['DialogNode'],
+        pagination: 'Pagination',
+    ) -> None:
         """
         Initialize a DialogNodeCollection object.
 
@@ -5618,16 +5984,16 @@ class DialogNodeCollection():
     def from_dict(cls, _dict: Dict) -> 'DialogNodeCollection':
         """Initialize a DialogNodeCollection object from a json dictionary."""
         args = {}
-        if 'dialog_nodes' in _dict:
+        if (dialog_nodes := _dict.get('dialog_nodes')) is not None:
             args['dialog_nodes'] = [
-                DialogNode.from_dict(v) for v in _dict.get('dialog_nodes')
+                DialogNode.from_dict(v) for v in dialog_nodes
             ]
         else:
             raise ValueError(
                 'Required property \'dialog_nodes\' not present in DialogNodeCollection JSON'
             )
-        if 'pagination' in _dict:
-            args['pagination'] = Pagination.from_dict(_dict.get('pagination'))
+        if (pagination := _dict.get('pagination')) is not None:
+            args['pagination'] = Pagination.from_dict(pagination)
         else:
             raise ValueError(
                 'Required property \'pagination\' not present in DialogNodeCollection JSON'
@@ -5676,18 +6042,23 @@ class DialogNodeCollection():
         return not self == other
 
 
-class DialogNodeContext():
+class DialogNodeContext:
     """
     The context for the dialog node.
 
-    :attr dict integrations: (optional) Context data intended for specific
+    :param dict integrations: (optional) Context data intended for specific
           integrations.
     """
 
     # The set of defined properties for the class
     _properties = frozenset(['integrations'])
 
-    def __init__(self, *, integrations: dict = None, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        integrations: Optional[dict] = None,
+        **kwargs,
+    ) -> None:
         """
         Initialize a DialogNodeContext object.
 
@@ -5703,8 +6074,8 @@ class DialogNodeContext():
     def from_dict(cls, _dict: Dict) -> 'DialogNodeContext':
         """Initialize a DialogNodeContext object from a json dictionary."""
         args = {}
-        if 'integrations' in _dict:
-            args['integrations'] = _dict.get('integrations')
+        if (integrations := _dict.get('integrations')) is not None:
+            args['integrations'] = integrations
         args.update(
             {k: v for (k, v) in _dict.items() if k not in cls._properties})
         return cls(**args)
@@ -5768,11 +6139,11 @@ class DialogNodeContext():
         return not self == other
 
 
-class DialogNodeNextStep():
+class DialogNodeNextStep:
     """
     The next step to execute following this dialog node.
 
-    :attr str behavior: What happens after the dialog node completes. The valid
+    :param str behavior: What happens after the dialog node completes. The valid
           values depend on the node type:
           - The following values are valid for any node:
             - `get_user_input`
@@ -5793,16 +6164,18 @@ class DialogNodeNextStep():
               - `skip_all_slots`
                If you specify `jump_to`, then you must also specify a value for the
           `dialog_node` property.
-    :attr str dialog_node: (optional) The unique ID of the dialog node to process
+    :param str dialog_node: (optional) The unique ID of the dialog node to process
           next. This parameter is required if **behavior**=`jump_to`.
-    :attr str selector: (optional) Which part of the dialog node to process next.
+    :param str selector: (optional) Which part of the dialog node to process next.
     """
 
-    def __init__(self,
-                 behavior: str,
-                 *,
-                 dialog_node: str = None,
-                 selector: str = None) -> None:
+    def __init__(
+        self,
+        behavior: str,
+        *,
+        dialog_node: Optional[str] = None,
+        selector: Optional[str] = None,
+    ) -> None:
         """
         Initialize a DialogNodeNextStep object.
 
@@ -5840,16 +6213,16 @@ class DialogNodeNextStep():
     def from_dict(cls, _dict: Dict) -> 'DialogNodeNextStep':
         """Initialize a DialogNodeNextStep object from a json dictionary."""
         args = {}
-        if 'behavior' in _dict:
-            args['behavior'] = _dict.get('behavior')
+        if (behavior := _dict.get('behavior')) is not None:
+            args['behavior'] = behavior
         else:
             raise ValueError(
                 'Required property \'behavior\' not present in DialogNodeNextStep JSON'
             )
-        if 'dialog_node' in _dict:
-            args['dialog_node'] = _dict.get('dialog_node')
-        if 'selector' in _dict:
-            args['selector'] = _dict.get('selector')
+        if (dialog_node := _dict.get('dialog_node')) is not None:
+            args['dialog_node'] = dialog_node
+        if (selector := _dict.get('selector')) is not None:
+            args['selector'] = selector
         return cls(**args)
 
     @classmethod
@@ -5910,6 +6283,7 @@ class DialogNodeNextStep():
              If you specify `jump_to`, then you must also specify a value for the
         `dialog_node` property.
         """
+
         GET_USER_INPUT = 'get_user_input'
         SKIP_USER_INPUT = 'skip_user_input'
         JUMP_TO = 'jump_to'
@@ -5921,36 +6295,39 @@ class DialogNodeNextStep():
         """
         Which part of the dialog node to process next.
         """
+
         CONDITION = 'condition'
         CLIENT = 'client'
         USER_INPUT = 'user_input'
         BODY = 'body'
 
 
-class DialogNodeOutput():
+class DialogNodeOutput:
     """
     The output of the dialog node. For more information about how to specify dialog node
     output, see the
     [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-dialog-overview#dialog-overview-responses).
 
-    :attr List[DialogNodeOutputGeneric] generic: (optional) An array of objects
+    :param List[DialogNodeOutputGeneric] generic: (optional) An array of objects
           describing the output defined for the dialog node.
-    :attr dict integrations: (optional) Output intended for specific integrations.
+    :param dict integrations: (optional) Output intended for specific integrations.
           For more information, see the
           [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-dialog-responses-json).
-    :attr DialogNodeOutputModifiers modifiers: (optional) Options that modify how
+    :param DialogNodeOutputModifiers modifiers: (optional) Options that modify how
           specified output is handled.
     """
 
     # The set of defined properties for the class
     _properties = frozenset(['generic', 'integrations', 'modifiers'])
 
-    def __init__(self,
-                 *,
-                 generic: List['DialogNodeOutputGeneric'] = None,
-                 integrations: dict = None,
-                 modifiers: 'DialogNodeOutputModifiers' = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        generic: Optional[List['DialogNodeOutputGeneric']] = None,
+        integrations: Optional[dict] = None,
+        modifiers: Optional['DialogNodeOutputModifiers'] = None,
+        **kwargs,
+    ) -> None:
         """
         Initialize a DialogNodeOutput object.
 
@@ -5973,16 +6350,14 @@ class DialogNodeOutput():
     def from_dict(cls, _dict: Dict) -> 'DialogNodeOutput':
         """Initialize a DialogNodeOutput object from a json dictionary."""
         args = {}
-        if 'generic' in _dict:
+        if (generic := _dict.get('generic')) is not None:
             args['generic'] = [
-                DialogNodeOutputGeneric.from_dict(v)
-                for v in _dict.get('generic')
+                DialogNodeOutputGeneric.from_dict(v) for v in generic
             ]
-        if 'integrations' in _dict:
-            args['integrations'] = _dict.get('integrations')
-        if 'modifiers' in _dict:
-            args['modifiers'] = DialogNodeOutputModifiers.from_dict(
-                _dict.get('modifiers'))
+        if (integrations := _dict.get('integrations')) is not None:
+            args['integrations'] = integrations
+        if (modifiers := _dict.get('modifiers')) is not None:
+            args['modifiers'] = DialogNodeOutputModifiers.from_dict(modifiers)
         args.update(
             {k: v for (k, v) in _dict.items() if k not in cls._properties})
         return cls(**args)
@@ -6059,14 +6434,18 @@ class DialogNodeOutput():
         return not self == other
 
 
-class DialogNodeOutputConnectToAgentTransferInfo():
+class DialogNodeOutputConnectToAgentTransferInfo:
     """
     Routing or other contextual information to be used by target service desk systems.
 
-    :attr dict target: (optional)
+    :param dict target: (optional)
     """
 
-    def __init__(self, *, target: dict = None) -> None:
+    def __init__(
+        self,
+        *,
+        target: Optional[dict] = None,
+    ) -> None:
         """
         Initialize a DialogNodeOutputConnectToAgentTransferInfo object.
 
@@ -6079,8 +6458,8 @@ class DialogNodeOutputConnectToAgentTransferInfo():
                   _dict: Dict) -> 'DialogNodeOutputConnectToAgentTransferInfo':
         """Initialize a DialogNodeOutputConnectToAgentTransferInfo object from a json dictionary."""
         args = {}
-        if 'target' in _dict:
-            args['target'] = _dict.get('target')
+        if (target := _dict.get('target')) is not None:
+            args['target'] = target
         return cls(**args)
 
     @classmethod
@@ -6116,13 +6495,13 @@ class DialogNodeOutputConnectToAgentTransferInfo():
         return not self == other
 
 
-class DialogNodeOutputGeneric():
+class DialogNodeOutputGeneric:
     """
     DialogNodeOutputGeneric.
 
     """
 
-    def __init__(self) -> None:
+    def __init__(self,) -> None:
         """
         Initialize a DialogNodeOutputGeneric object.
 
@@ -6149,22 +6528,20 @@ class DialogNodeOutputGeneric():
         disc_class = cls._get_class_by_discriminator(_dict)
         if disc_class != cls:
             return disc_class.from_dict(_dict)
-        msg = (
-            "Cannot convert dictionary into an instance of base class 'DialogNodeOutputGeneric'. "
-            + "The discriminator value should map to a valid subclass: {1}"
-        ).format(", ".join([
-            'DialogNodeOutputGenericDialogNodeOutputResponseTypeText',
-            'DialogNodeOutputGenericDialogNodeOutputResponseTypePause',
-            'DialogNodeOutputGenericDialogNodeOutputResponseTypeImage',
-            'DialogNodeOutputGenericDialogNodeOutputResponseTypeOption',
-            'DialogNodeOutputGenericDialogNodeOutputResponseTypeConnectToAgent',
-            'DialogNodeOutputGenericDialogNodeOutputResponseTypeSearchSkill',
-            'DialogNodeOutputGenericDialogNodeOutputResponseTypeChannelTransfer',
-            'DialogNodeOutputGenericDialogNodeOutputResponseTypeUserDefined',
-            'DialogNodeOutputGenericDialogNodeOutputResponseTypeVideo',
-            'DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio',
-            'DialogNodeOutputGenericDialogNodeOutputResponseTypeIframe'
-        ]))
+        msg = "Cannot convert dictionary into an instance of base class 'DialogNodeOutputGeneric'. The discriminator value should map to a valid subclass: {1}".format(
+            ", ".join([
+                'DialogNodeOutputGenericDialogNodeOutputResponseTypeText',
+                'DialogNodeOutputGenericDialogNodeOutputResponseTypePause',
+                'DialogNodeOutputGenericDialogNodeOutputResponseTypeImage',
+                'DialogNodeOutputGenericDialogNodeOutputResponseTypeOption',
+                'DialogNodeOutputGenericDialogNodeOutputResponseTypeConnectToAgent',
+                'DialogNodeOutputGenericDialogNodeOutputResponseTypeSearchSkill',
+                'DialogNodeOutputGenericDialogNodeOutputResponseTypeChannelTransfer',
+                'DialogNodeOutputGenericDialogNodeOutputResponseTypeUserDefined',
+                'DialogNodeOutputGenericDialogNodeOutputResponseTypeVideo',
+                'DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio',
+                'DialogNodeOutputGenericDialogNodeOutputResponseTypeIframe'
+            ]))
         raise Exception(msg)
 
     @classmethod
@@ -6212,17 +6589,21 @@ class DialogNodeOutputGeneric():
         raise TypeError('%s is not a discriminator class' % class_name)
 
 
-class DialogNodeOutputModifiers():
+class DialogNodeOutputModifiers:
     """
     Options that modify how specified output is handled.
 
-    :attr bool overwrite: (optional) Whether values in the output will overwrite
+    :param bool overwrite: (optional) Whether values in the output will overwrite
           output values in an array specified by previously executed dialog nodes. If this
           option is set to `false`, new values will be appended to previously specified
           values.
     """
 
-    def __init__(self, *, overwrite: bool = None) -> None:
+    def __init__(
+        self,
+        *,
+        overwrite: Optional[bool] = None,
+    ) -> None:
         """
         Initialize a DialogNodeOutputModifiers object.
 
@@ -6237,8 +6618,8 @@ class DialogNodeOutputModifiers():
     def from_dict(cls, _dict: Dict) -> 'DialogNodeOutputModifiers':
         """Initialize a DialogNodeOutputModifiers object from a json dictionary."""
         args = {}
-        if 'overwrite' in _dict:
-            args['overwrite'] = _dict.get('overwrite')
+        if (overwrite := _dict.get('overwrite')) is not None:
+            args['overwrite'] = overwrite
         return cls(**args)
 
     @classmethod
@@ -6272,18 +6653,21 @@ class DialogNodeOutputModifiers():
         return not self == other
 
 
-class DialogNodeOutputOptionsElement():
+class DialogNodeOutputOptionsElement:
     """
     DialogNodeOutputOptionsElement.
 
-    :attr str label: The user-facing label for the option.
-    :attr DialogNodeOutputOptionsElementValue value: An object defining the message
+    :param str label: The user-facing label for the option.
+    :param DialogNodeOutputOptionsElementValue value: An object defining the message
           input to be sent to the Watson Assistant service if the user selects the
           corresponding option.
     """
 
-    def __init__(self, label: str,
-                 value: 'DialogNodeOutputOptionsElementValue') -> None:
+    def __init__(
+        self,
+        label: str,
+        value: 'DialogNodeOutputOptionsElementValue',
+    ) -> None:
         """
         Initialize a DialogNodeOutputOptionsElement object.
 
@@ -6299,15 +6683,14 @@ class DialogNodeOutputOptionsElement():
     def from_dict(cls, _dict: Dict) -> 'DialogNodeOutputOptionsElement':
         """Initialize a DialogNodeOutputOptionsElement object from a json dictionary."""
         args = {}
-        if 'label' in _dict:
-            args['label'] = _dict.get('label')
+        if (label := _dict.get('label')) is not None:
+            args['label'] = label
         else:
             raise ValueError(
                 'Required property \'label\' not present in DialogNodeOutputOptionsElement JSON'
             )
-        if 'value' in _dict:
-            args['value'] = DialogNodeOutputOptionsElementValue.from_dict(
-                _dict.get('value'))
+        if (value := _dict.get('value')) is not None:
+            args['value'] = DialogNodeOutputOptionsElementValue.from_dict(value)
         else:
             raise ValueError(
                 'Required property \'value\' not present in DialogNodeOutputOptionsElement JSON'
@@ -6350,28 +6733,30 @@ class DialogNodeOutputOptionsElement():
         return not self == other
 
 
-class DialogNodeOutputOptionsElementValue():
+class DialogNodeOutputOptionsElementValue:
     """
     An object defining the message input to be sent to the Watson Assistant service if the
     user selects the corresponding option.
 
-    :attr MessageInput input: (optional) An input object that includes the input
+    :param MessageInput input: (optional) An input object that includes the input
           text.
-    :attr List[RuntimeIntent] intents: (optional) An array of intents to be used
+    :param List[RuntimeIntent] intents: (optional) An array of intents to be used
           while processing the input.
           **Note:** This property is supported for backward compatibility with
           applications that use the v1 **Get response to user input** method.
-    :attr List[RuntimeEntity] entities: (optional) An array of entities to be used
+    :param List[RuntimeEntity] entities: (optional) An array of entities to be used
           while processing the user input.
           **Note:** This property is supported for backward compatibility with
           applications that use the v1 **Get response to user input** method.
     """
 
-    def __init__(self,
-                 *,
-                 input: 'MessageInput' = None,
-                 intents: List['RuntimeIntent'] = None,
-                 entities: List['RuntimeEntity'] = None) -> None:
+    def __init__(
+        self,
+        *,
+        input: Optional['MessageInput'] = None,
+        intents: Optional[List['RuntimeIntent']] = None,
+        entities: Optional[List['RuntimeEntity']] = None,
+    ) -> None:
         """
         Initialize a DialogNodeOutputOptionsElementValue object.
 
@@ -6394,16 +6779,12 @@ class DialogNodeOutputOptionsElementValue():
     def from_dict(cls, _dict: Dict) -> 'DialogNodeOutputOptionsElementValue':
         """Initialize a DialogNodeOutputOptionsElementValue object from a json dictionary."""
         args = {}
-        if 'input' in _dict:
-            args['input'] = MessageInput.from_dict(_dict.get('input'))
-        if 'intents' in _dict:
-            args['intents'] = [
-                RuntimeIntent.from_dict(v) for v in _dict.get('intents')
-            ]
-        if 'entities' in _dict:
-            args['entities'] = [
-                RuntimeEntity.from_dict(v) for v in _dict.get('entities')
-            ]
+        if (input := _dict.get('input')) is not None:
+            args['input'] = MessageInput.from_dict(input)
+        if (intents := _dict.get('intents')) is not None:
+            args['intents'] = [RuntimeIntent.from_dict(v) for v in intents]
+        if (entities := _dict.get('entities')) is not None:
+            args['entities'] = [RuntimeEntity.from_dict(v) for v in entities]
         return cls(**args)
 
     @classmethod
@@ -6456,16 +6837,20 @@ class DialogNodeOutputOptionsElementValue():
         return not self == other
 
 
-class DialogNodeOutputTextValuesElement():
+class DialogNodeOutputTextValuesElement:
     """
     DialogNodeOutputTextValuesElement.
 
-    :attr str text: (optional) The text of a response. This string can include
+    :param str text: (optional) The text of a response. This string can include
           newline characters (`\n`), Markdown tagging, or other special characters, if
           supported by the channel.
     """
 
-    def __init__(self, *, text: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        text: Optional[str] = None,
+    ) -> None:
         """
         Initialize a DialogNodeOutputTextValuesElement object.
 
@@ -6479,8 +6864,8 @@ class DialogNodeOutputTextValuesElement():
     def from_dict(cls, _dict: Dict) -> 'DialogNodeOutputTextValuesElement':
         """Initialize a DialogNodeOutputTextValuesElement object from a json dictionary."""
         args = {}
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
+        if (text := _dict.get('text')) is not None:
+            args['text'] = text
         return cls(**args)
 
     @classmethod
@@ -6514,21 +6899,23 @@ class DialogNodeOutputTextValuesElement():
         return not self == other
 
 
-class DialogNodeVisitedDetails():
+class DialogNodeVisitedDetails:
     """
     DialogNodeVisitedDetails.
 
-    :attr str dialog_node: (optional) The unique ID of a dialog node that was
+    :param str dialog_node: (optional) The unique ID of a dialog node that was
           triggered during processing of the input message.
-    :attr str title: (optional) The title of the dialog node.
-    :attr str conditions: (optional) The conditions that trigger the dialog node.
+    :param str title: (optional) The title of the dialog node.
+    :param str conditions: (optional) The conditions that trigger the dialog node.
     """
 
-    def __init__(self,
-                 *,
-                 dialog_node: str = None,
-                 title: str = None,
-                 conditions: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        dialog_node: Optional[str] = None,
+        title: Optional[str] = None,
+        conditions: Optional[str] = None,
+    ) -> None:
         """
         Initialize a DialogNodeVisitedDetails object.
 
@@ -6546,12 +6933,12 @@ class DialogNodeVisitedDetails():
     def from_dict(cls, _dict: Dict) -> 'DialogNodeVisitedDetails':
         """Initialize a DialogNodeVisitedDetails object from a json dictionary."""
         args = {}
-        if 'dialog_node' in _dict:
-            args['dialog_node'] = _dict.get('dialog_node')
-        if 'title' in _dict:
-            args['title'] = _dict.get('title')
-        if 'conditions' in _dict:
-            args['conditions'] = _dict.get('conditions')
+        if (dialog_node := _dict.get('dialog_node')) is not None:
+            args['dialog_node'] = dialog_node
+        if (title := _dict.get('title')) is not None:
+            args['title'] = title
+        if (conditions := _dict.get('conditions')) is not None:
+            args['conditions'] = conditions
         return cls(**args)
 
     @classmethod
@@ -6589,32 +6976,34 @@ class DialogNodeVisitedDetails():
         return not self == other
 
 
-class DialogSuggestion():
+class DialogSuggestion:
     """
     DialogSuggestion.
 
-    :attr str label: The user-facing label for the disambiguation option. This label
-          is taken from the **title** or **user_label** property of the corresponding
-          dialog node.
-    :attr DialogSuggestionValue value: An object defining the message input,
+    :param str label: The user-facing label for the disambiguation option. This
+          label is taken from the **title** or **user_label** property of the
+          corresponding dialog node.
+    :param DialogSuggestionValue value: An object defining the message input,
           intents, and entities to be sent to the Watson Assistant service if the user
           selects the corresponding disambiguation option.
            **Note:** These properties must be included in the request body of the next
           message sent to the assistant. Do not modify or remove any of the included
           properties.
-    :attr dict output: (optional) The dialog output that will be returned from the
+    :param dict output: (optional) The dialog output that will be returned from the
           Watson Assistant service if the user selects the corresponding option.
-    :attr str dialog_node: (optional) The unique ID of the dialog node that the
+    :param str dialog_node: (optional) The unique ID of the dialog node that the
           **label** property is taken from. The **label** property is populated using the
           value of the dialog node's **title** or **user_label** property.
     """
 
-    def __init__(self,
-                 label: str,
-                 value: 'DialogSuggestionValue',
-                 *,
-                 output: dict = None,
-                 dialog_node: str = None) -> None:
+    def __init__(
+        self,
+        label: str,
+        value: 'DialogSuggestionValue',
+        *,
+        output: Optional[dict] = None,
+        dialog_node: Optional[str] = None,
+    ) -> None:
         """
         Initialize a DialogSuggestion object.
 
@@ -6642,22 +7031,22 @@ class DialogSuggestion():
     def from_dict(cls, _dict: Dict) -> 'DialogSuggestion':
         """Initialize a DialogSuggestion object from a json dictionary."""
         args = {}
-        if 'label' in _dict:
-            args['label'] = _dict.get('label')
+        if (label := _dict.get('label')) is not None:
+            args['label'] = label
         else:
             raise ValueError(
                 'Required property \'label\' not present in DialogSuggestion JSON'
             )
-        if 'value' in _dict:
-            args['value'] = DialogSuggestionValue.from_dict(_dict.get('value'))
+        if (value := _dict.get('value')) is not None:
+            args['value'] = DialogSuggestionValue.from_dict(value)
         else:
             raise ValueError(
                 'Required property \'value\' not present in DialogSuggestion JSON'
             )
-        if 'output' in _dict:
-            args['output'] = _dict.get('output')
-        if 'dialog_node' in _dict:
-            args['dialog_node'] = _dict.get('dialog_node')
+        if (output := _dict.get('output')) is not None:
+            args['output'] = output
+        if (dialog_node := _dict.get('dialog_node')) is not None:
+            args['dialog_node'] = dialog_node
         return cls(**args)
 
     @classmethod
@@ -6700,26 +7089,28 @@ class DialogSuggestion():
         return not self == other
 
 
-class DialogSuggestionValue():
+class DialogSuggestionValue:
     """
     An object defining the message input, intents, and entities to be sent to the Watson
     Assistant service if the user selects the corresponding disambiguation option.
      **Note:** These properties must be included in the request body of the next message
     sent to the assistant. Do not modify or remove any of the included properties.
 
-    :attr MessageInput input: (optional) An input object that includes the input
+    :param MessageInput input: (optional) An input object that includes the input
           text.
-    :attr List[RuntimeIntent] intents: (optional) An array of intents to be sent
+    :param List[RuntimeIntent] intents: (optional) An array of intents to be sent
           along with the user input.
-    :attr List[RuntimeEntity] entities: (optional) An array of entities to be sent
+    :param List[RuntimeEntity] entities: (optional) An array of entities to be sent
           along with the user input.
     """
 
-    def __init__(self,
-                 *,
-                 input: 'MessageInput' = None,
-                 intents: List['RuntimeIntent'] = None,
-                 entities: List['RuntimeEntity'] = None) -> None:
+    def __init__(
+        self,
+        *,
+        input: Optional['MessageInput'] = None,
+        intents: Optional[List['RuntimeIntent']] = None,
+        entities: Optional[List['RuntimeEntity']] = None,
+    ) -> None:
         """
         Initialize a DialogSuggestionValue object.
 
@@ -6738,16 +7129,12 @@ class DialogSuggestionValue():
     def from_dict(cls, _dict: Dict) -> 'DialogSuggestionValue':
         """Initialize a DialogSuggestionValue object from a json dictionary."""
         args = {}
-        if 'input' in _dict:
-            args['input'] = MessageInput.from_dict(_dict.get('input'))
-        if 'intents' in _dict:
-            args['intents'] = [
-                RuntimeIntent.from_dict(v) for v in _dict.get('intents')
-            ]
-        if 'entities' in _dict:
-            args['entities'] = [
-                RuntimeEntity.from_dict(v) for v in _dict.get('entities')
-            ]
+        if (input := _dict.get('input')) is not None:
+            args['input'] = MessageInput.from_dict(input)
+        if (intents := _dict.get('intents')) is not None:
+            args['intents'] = [RuntimeIntent.from_dict(v) for v in intents]
+        if (entities := _dict.get('entities')) is not None:
+            args['entities'] = [RuntimeEntity.from_dict(v) for v in entities]
         return cls(**args)
 
     @classmethod
@@ -6800,36 +7187,39 @@ class DialogSuggestionValue():
         return not self == other
 
 
-class Entity():
+class Entity:
     """
     Entity.
 
-    :attr str entity: The name of the entity. This string must conform to the
+    :param str entity: The name of the entity. This string must conform to the
           following restrictions:
           - It can contain only Unicode alphanumeric, underscore, and hyphen characters.
           - If you specify an entity name beginning with the reserved prefix `sys-`, it
           must be the name of a system entity that you want to enable. (Any entity content
           specified with the request is ignored.).
-    :attr str description: (optional) The description of the entity. This string
+    :param str description: (optional) The description of the entity. This string
           cannot contain carriage return, newline, or tab characters.
-    :attr dict metadata: (optional) Any metadata related to the entity.
-    :attr bool fuzzy_match: (optional) Whether to use fuzzy matching for the entity.
-    :attr datetime created: (optional) The timestamp for creation of the object.
-    :attr datetime updated: (optional) The timestamp for the most recent update to
+    :param dict metadata: (optional) Any metadata related to the entity.
+    :param bool fuzzy_match: (optional) Whether to use fuzzy matching for the
+          entity.
+    :param datetime created: (optional) The timestamp for creation of the object.
+    :param datetime updated: (optional) The timestamp for the most recent update to
           the object.
-    :attr List[Value] values: (optional) An array of objects describing the entity
+    :param List[Value] values: (optional) An array of objects describing the entity
           values.
     """
 
-    def __init__(self,
-                 entity: str,
-                 *,
-                 description: str = None,
-                 metadata: dict = None,
-                 fuzzy_match: bool = None,
-                 created: datetime = None,
-                 updated: datetime = None,
-                 values: List['Value'] = None) -> None:
+    def __init__(
+        self,
+        entity: str,
+        *,
+        description: Optional[str] = None,
+        metadata: Optional[dict] = None,
+        fuzzy_match: Optional[bool] = None,
+        created: Optional[datetime] = None,
+        updated: Optional[datetime] = None,
+        values: Optional[List['Value']] = None,
+    ) -> None:
         """
         Initialize a Entity object.
 
@@ -6860,23 +7250,23 @@ class Entity():
     def from_dict(cls, _dict: Dict) -> 'Entity':
         """Initialize a Entity object from a json dictionary."""
         args = {}
-        if 'entity' in _dict:
-            args['entity'] = _dict.get('entity')
+        if (entity := _dict.get('entity')) is not None:
+            args['entity'] = entity
         else:
             raise ValueError(
                 'Required property \'entity\' not present in Entity JSON')
-        if 'description' in _dict:
-            args['description'] = _dict.get('description')
-        if 'metadata' in _dict:
-            args['metadata'] = _dict.get('metadata')
-        if 'fuzzy_match' in _dict:
-            args['fuzzy_match'] = _dict.get('fuzzy_match')
-        if 'created' in _dict:
-            args['created'] = string_to_datetime(_dict.get('created'))
-        if 'updated' in _dict:
-            args['updated'] = string_to_datetime(_dict.get('updated'))
-        if 'values' in _dict:
-            args['values'] = [Value.from_dict(v) for v in _dict.get('values')]
+        if (description := _dict.get('description')) is not None:
+            args['description'] = description
+        if (metadata := _dict.get('metadata')) is not None:
+            args['metadata'] = metadata
+        if (fuzzy_match := _dict.get('fuzzy_match')) is not None:
+            args['fuzzy_match'] = fuzzy_match
+        if (created := _dict.get('created')) is not None:
+            args['created'] = string_to_datetime(created)
+        if (updated := _dict.get('updated')) is not None:
+            args['updated'] = string_to_datetime(updated)
+        if (values := _dict.get('values')) is not None:
+            args['values'] = [Value.from_dict(v) for v in values]
         return cls(**args)
 
     @classmethod
@@ -6928,18 +7318,21 @@ class Entity():
         return not self == other
 
 
-class EntityCollection():
+class EntityCollection:
     """
     An array of objects describing the entities for the workspace.
 
-    :attr List[Entity] entities: An array of objects describing the entities defined
-          for the workspace.
-    :attr Pagination pagination: The pagination data for the returned objects. For
+    :param List[Entity] entities: An array of objects describing the entities
+          defined for the workspace.
+    :param Pagination pagination: The pagination data for the returned objects. For
           more information about using pagination, see [Pagination](#pagination).
     """
 
-    def __init__(self, entities: List['Entity'],
-                 pagination: 'Pagination') -> None:
+    def __init__(
+        self,
+        entities: List['Entity'],
+        pagination: 'Pagination',
+    ) -> None:
         """
         Initialize a EntityCollection object.
 
@@ -6955,16 +7348,14 @@ class EntityCollection():
     def from_dict(cls, _dict: Dict) -> 'EntityCollection':
         """Initialize a EntityCollection object from a json dictionary."""
         args = {}
-        if 'entities' in _dict:
-            args['entities'] = [
-                Entity.from_dict(v) for v in _dict.get('entities')
-            ]
+        if (entities := _dict.get('entities')) is not None:
+            args['entities'] = [Entity.from_dict(v) for v in entities]
         else:
             raise ValueError(
                 'Required property \'entities\' not present in EntityCollection JSON'
             )
-        if 'pagination' in _dict:
-            args['pagination'] = Pagination.from_dict(_dict.get('pagination'))
+        if (pagination := _dict.get('pagination')) is not None:
+            args['pagination'] = Pagination.from_dict(pagination)
         else:
             raise ValueError(
                 'Required property \'pagination\' not present in EntityCollection JSON'
@@ -7013,17 +7404,22 @@ class EntityCollection():
         return not self == other
 
 
-class EntityMention():
+class EntityMention:
     """
     An object describing a contextual entity mention.
 
-    :attr str text: The text of the user input example.
-    :attr str intent: The name of the intent.
-    :attr List[int] location: An array of zero-based character offsets that indicate
-          where the entity mentions begin and end in the input text.
+    :param str text: The text of the user input example.
+    :param str intent: The name of the intent.
+    :param List[int] location: An array of zero-based character offsets that
+          indicate where the entity mentions begin and end in the input text.
     """
 
-    def __init__(self, text: str, intent: str, location: List[int]) -> None:
+    def __init__(
+        self,
+        text: str,
+        intent: str,
+        location: List[int],
+    ) -> None:
         """
         Initialize a EntityMention object.
 
@@ -7040,19 +7436,19 @@ class EntityMention():
     def from_dict(cls, _dict: Dict) -> 'EntityMention':
         """Initialize a EntityMention object from a json dictionary."""
         args = {}
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
+        if (text := _dict.get('text')) is not None:
+            args['text'] = text
         else:
             raise ValueError(
                 'Required property \'text\' not present in EntityMention JSON')
-        if 'intent' in _dict:
-            args['intent'] = _dict.get('intent')
+        if (intent := _dict.get('intent')) is not None:
+            args['intent'] = intent
         else:
             raise ValueError(
                 'Required property \'intent\' not present in EntityMention JSON'
             )
-        if 'location' in _dict:
-            args['location'] = _dict.get('location')
+        if (location := _dict.get('location')) is not None:
+            args['location'] = location
         else:
             raise ValueError(
                 'Required property \'location\' not present in EntityMention JSON'
@@ -7094,18 +7490,21 @@ class EntityMention():
         return not self == other
 
 
-class EntityMentionCollection():
+class EntityMentionCollection:
     """
     EntityMentionCollection.
 
-    :attr List[EntityMention] examples: An array of objects describing the entity
+    :param List[EntityMention] examples: An array of objects describing the entity
           mentions defined for an entity.
-    :attr Pagination pagination: The pagination data for the returned objects. For
+    :param Pagination pagination: The pagination data for the returned objects. For
           more information about using pagination, see [Pagination](#pagination).
     """
 
-    def __init__(self, examples: List['EntityMention'],
-                 pagination: 'Pagination') -> None:
+    def __init__(
+        self,
+        examples: List['EntityMention'],
+        pagination: 'Pagination',
+    ) -> None:
         """
         Initialize a EntityMentionCollection object.
 
@@ -7121,16 +7520,14 @@ class EntityMentionCollection():
     def from_dict(cls, _dict: Dict) -> 'EntityMentionCollection':
         """Initialize a EntityMentionCollection object from a json dictionary."""
         args = {}
-        if 'examples' in _dict:
-            args['examples'] = [
-                EntityMention.from_dict(v) for v in _dict.get('examples')
-            ]
+        if (examples := _dict.get('examples')) is not None:
+            args['examples'] = [EntityMention.from_dict(v) for v in examples]
         else:
             raise ValueError(
                 'Required property \'examples\' not present in EntityMentionCollection JSON'
             )
-        if 'pagination' in _dict:
-            args['pagination'] = Pagination.from_dict(_dict.get('pagination'))
+        if (pagination := _dict.get('pagination')) is not None:
+            args['pagination'] = Pagination.from_dict(pagination)
         else:
             raise ValueError(
                 'Required property \'pagination\' not present in EntityMentionCollection JSON'
@@ -7179,26 +7576,29 @@ class EntityMentionCollection():
         return not self == other
 
 
-class Example():
+class Example:
     """
     Example.
 
-    :attr str text: The text of a user input example. This string must conform to
+    :param str text: The text of a user input example. This string must conform to
           the following restrictions:
           - It cannot contain carriage return, newline, or tab characters.
           - It cannot consist of only whitespace characters.
-    :attr List[Mention] mentions: (optional) An array of contextual entity mentions.
-    :attr datetime created: (optional) The timestamp for creation of the object.
-    :attr datetime updated: (optional) The timestamp for the most recent update to
+    :param List[Mention] mentions: (optional) An array of contextual entity
+          mentions.
+    :param datetime created: (optional) The timestamp for creation of the object.
+    :param datetime updated: (optional) The timestamp for the most recent update to
           the object.
     """
 
-    def __init__(self,
-                 text: str,
-                 *,
-                 mentions: List['Mention'] = None,
-                 created: datetime = None,
-                 updated: datetime = None) -> None:
+    def __init__(
+        self,
+        text: str,
+        *,
+        mentions: Optional[List['Mention']] = None,
+        created: Optional[datetime] = None,
+        updated: Optional[datetime] = None,
+    ) -> None:
         """
         Initialize a Example object.
 
@@ -7218,19 +7618,17 @@ class Example():
     def from_dict(cls, _dict: Dict) -> 'Example':
         """Initialize a Example object from a json dictionary."""
         args = {}
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
+        if (text := _dict.get('text')) is not None:
+            args['text'] = text
         else:
             raise ValueError(
                 'Required property \'text\' not present in Example JSON')
-        if 'mentions' in _dict:
-            args['mentions'] = [
-                Mention.from_dict(v) for v in _dict.get('mentions')
-            ]
-        if 'created' in _dict:
-            args['created'] = string_to_datetime(_dict.get('created'))
-        if 'updated' in _dict:
-            args['updated'] = string_to_datetime(_dict.get('updated'))
+        if (mentions := _dict.get('mentions')) is not None:
+            args['mentions'] = [Mention.from_dict(v) for v in mentions]
+        if (created := _dict.get('created')) is not None:
+            args['created'] = string_to_datetime(created)
+        if (updated := _dict.get('updated')) is not None:
+            args['updated'] = string_to_datetime(updated)
         return cls(**args)
 
     @classmethod
@@ -7276,18 +7674,21 @@ class Example():
         return not self == other
 
 
-class ExampleCollection():
+class ExampleCollection:
     """
     ExampleCollection.
 
-    :attr List[Example] examples: An array of objects describing the examples
+    :param List[Example] examples: An array of objects describing the examples
           defined for the intent.
-    :attr Pagination pagination: The pagination data for the returned objects. For
+    :param Pagination pagination: The pagination data for the returned objects. For
           more information about using pagination, see [Pagination](#pagination).
     """
 
-    def __init__(self, examples: List['Example'],
-                 pagination: 'Pagination') -> None:
+    def __init__(
+        self,
+        examples: List['Example'],
+        pagination: 'Pagination',
+    ) -> None:
         """
         Initialize a ExampleCollection object.
 
@@ -7303,16 +7704,14 @@ class ExampleCollection():
     def from_dict(cls, _dict: Dict) -> 'ExampleCollection':
         """Initialize a ExampleCollection object from a json dictionary."""
         args = {}
-        if 'examples' in _dict:
-            args['examples'] = [
-                Example.from_dict(v) for v in _dict.get('examples')
-            ]
+        if (examples := _dict.get('examples')) is not None:
+            args['examples'] = [Example.from_dict(v) for v in examples]
         else:
             raise ValueError(
                 'Required property \'examples\' not present in ExampleCollection JSON'
             )
-        if 'pagination' in _dict:
-            args['pagination'] = Pagination.from_dict(_dict.get('pagination'))
+        if (pagination := _dict.get('pagination')) is not None:
+            args['pagination'] = Pagination.from_dict(pagination)
         else:
             raise ValueError(
                 'Required property \'pagination\' not present in ExampleCollection JSON'
@@ -7361,31 +7760,33 @@ class ExampleCollection():
         return not self == other
 
 
-class Intent():
+class Intent:
     """
     Intent.
 
-    :attr str intent: The name of the intent. This string must conform to the
+    :param str intent: The name of the intent. This string must conform to the
           following restrictions:
           - It can contain only Unicode alphanumeric, underscore, hyphen, and dot
           characters.
           - It cannot begin with the reserved prefix `sys-`.
-    :attr str description: (optional) The description of the intent. This string
+    :param str description: (optional) The description of the intent. This string
           cannot contain carriage return, newline, or tab characters.
-    :attr datetime created: (optional) The timestamp for creation of the object.
-    :attr datetime updated: (optional) The timestamp for the most recent update to
+    :param datetime created: (optional) The timestamp for creation of the object.
+    :param datetime updated: (optional) The timestamp for the most recent update to
           the object.
-    :attr List[Example] examples: (optional) An array of user input examples for the
-          intent.
+    :param List[Example] examples: (optional) An array of user input examples for
+          the intent.
     """
 
-    def __init__(self,
-                 intent: str,
-                 *,
-                 description: str = None,
-                 created: datetime = None,
-                 updated: datetime = None,
-                 examples: List['Example'] = None) -> None:
+    def __init__(
+        self,
+        intent: str,
+        *,
+        description: Optional[str] = None,
+        created: Optional[datetime] = None,
+        updated: Optional[datetime] = None,
+        examples: Optional[List['Example']] = None,
+    ) -> None:
         """
         Initialize a Intent object.
 
@@ -7409,21 +7810,19 @@ class Intent():
     def from_dict(cls, _dict: Dict) -> 'Intent':
         """Initialize a Intent object from a json dictionary."""
         args = {}
-        if 'intent' in _dict:
-            args['intent'] = _dict.get('intent')
+        if (intent := _dict.get('intent')) is not None:
+            args['intent'] = intent
         else:
             raise ValueError(
                 'Required property \'intent\' not present in Intent JSON')
-        if 'description' in _dict:
-            args['description'] = _dict.get('description')
-        if 'created' in _dict:
-            args['created'] = string_to_datetime(_dict.get('created'))
-        if 'updated' in _dict:
-            args['updated'] = string_to_datetime(_dict.get('updated'))
-        if 'examples' in _dict:
-            args['examples'] = [
-                Example.from_dict(v) for v in _dict.get('examples')
-            ]
+        if (description := _dict.get('description')) is not None:
+            args['description'] = description
+        if (created := _dict.get('created')) is not None:
+            args['created'] = string_to_datetime(created)
+        if (updated := _dict.get('updated')) is not None:
+            args['updated'] = string_to_datetime(updated)
+        if (examples := _dict.get('examples')) is not None:
+            args['examples'] = [Example.from_dict(v) for v in examples]
         return cls(**args)
 
     @classmethod
@@ -7471,18 +7870,21 @@ class Intent():
         return not self == other
 
 
-class IntentCollection():
+class IntentCollection:
     """
     IntentCollection.
 
-    :attr List[Intent] intents: An array of objects describing the intents defined
+    :param List[Intent] intents: An array of objects describing the intents defined
           for the workspace.
-    :attr Pagination pagination: The pagination data for the returned objects. For
+    :param Pagination pagination: The pagination data for the returned objects. For
           more information about using pagination, see [Pagination](#pagination).
     """
 
-    def __init__(self, intents: List['Intent'],
-                 pagination: 'Pagination') -> None:
+    def __init__(
+        self,
+        intents: List['Intent'],
+        pagination: 'Pagination',
+    ) -> None:
         """
         Initialize a IntentCollection object.
 
@@ -7498,16 +7900,14 @@ class IntentCollection():
     def from_dict(cls, _dict: Dict) -> 'IntentCollection':
         """Initialize a IntentCollection object from a json dictionary."""
         args = {}
-        if 'intents' in _dict:
-            args['intents'] = [
-                Intent.from_dict(v) for v in _dict.get('intents')
-            ]
+        if (intents := _dict.get('intents')) is not None:
+            args['intents'] = [Intent.from_dict(v) for v in intents]
         else:
             raise ValueError(
                 'Required property \'intents\' not present in IntentCollection JSON'
             )
-        if 'pagination' in _dict:
-            args['pagination'] = Pagination.from_dict(_dict.get('pagination'))
+        if (pagination := _dict.get('pagination')) is not None:
+            args['pagination'] = Pagination.from_dict(pagination)
         else:
             raise ValueError(
                 'Required property \'pagination\' not present in IntentCollection JSON'
@@ -7556,27 +7956,34 @@ class IntentCollection():
         return not self == other
 
 
-class Log():
+class Log:
     """
     Log.
 
-    :attr MessageRequest request: A request sent to the workspace, including the
+    :param MessageRequest request: A request sent to the workspace, including the
           user input and context.
-    :attr MessageResponse response: The response sent by the workspace, including
+    :param MessageResponse response: The response sent by the workspace, including
           the output text, detected intents and entities, and context.
-    :attr str log_id: A unique identifier for the logged event.
-    :attr str request_timestamp: The timestamp for receipt of the message.
-    :attr str response_timestamp: The timestamp for the system response to the
+    :param str log_id: A unique identifier for the logged event.
+    :param str request_timestamp: The timestamp for receipt of the message.
+    :param str response_timestamp: The timestamp for the system response to the
           message.
-    :attr str workspace_id: The unique identifier of the workspace where the request
-          was made.
-    :attr str language: The language of the workspace where the message request was
+    :param str workspace_id: The unique identifier of the workspace where the
+          request was made.
+    :param str language: The language of the workspace where the message request was
           made.
     """
 
-    def __init__(self, request: 'MessageRequest', response: 'MessageResponse',
-                 log_id: str, request_timestamp: str, response_timestamp: str,
-                 workspace_id: str, language: str) -> None:
+    def __init__(
+        self,
+        request: 'MessageRequest',
+        response: 'MessageResponse',
+        log_id: str,
+        request_timestamp: str,
+        response_timestamp: str,
+        workspace_id: str,
+        language: str,
+    ) -> None:
         """
         Initialize a Log object.
 
@@ -7605,40 +8012,40 @@ class Log():
     def from_dict(cls, _dict: Dict) -> 'Log':
         """Initialize a Log object from a json dictionary."""
         args = {}
-        if 'request' in _dict:
-            args['request'] = MessageRequest.from_dict(_dict.get('request'))
+        if (request := _dict.get('request')) is not None:
+            args['request'] = MessageRequest.from_dict(request)
         else:
             raise ValueError(
                 'Required property \'request\' not present in Log JSON')
-        if 'response' in _dict:
-            args['response'] = MessageResponse.from_dict(_dict.get('response'))
+        if (response := _dict.get('response')) is not None:
+            args['response'] = MessageResponse.from_dict(response)
         else:
             raise ValueError(
                 'Required property \'response\' not present in Log JSON')
-        if 'log_id' in _dict:
-            args['log_id'] = _dict.get('log_id')
+        if (log_id := _dict.get('log_id')) is not None:
+            args['log_id'] = log_id
         else:
             raise ValueError(
                 'Required property \'log_id\' not present in Log JSON')
-        if 'request_timestamp' in _dict:
-            args['request_timestamp'] = _dict.get('request_timestamp')
+        if (request_timestamp := _dict.get('request_timestamp')) is not None:
+            args['request_timestamp'] = request_timestamp
         else:
             raise ValueError(
                 'Required property \'request_timestamp\' not present in Log JSON'
             )
-        if 'response_timestamp' in _dict:
-            args['response_timestamp'] = _dict.get('response_timestamp')
+        if (response_timestamp := _dict.get('response_timestamp')) is not None:
+            args['response_timestamp'] = response_timestamp
         else:
             raise ValueError(
                 'Required property \'response_timestamp\' not present in Log JSON'
             )
-        if 'workspace_id' in _dict:
-            args['workspace_id'] = _dict.get('workspace_id')
+        if (workspace_id := _dict.get('workspace_id')) is not None:
+            args['workspace_id'] = workspace_id
         else:
             raise ValueError(
                 'Required property \'workspace_id\' not present in Log JSON')
-        if 'language' in _dict:
-            args['language'] = _dict.get('language')
+        if (language := _dict.get('language')) is not None:
+            args['language'] = language
         else:
             raise ValueError(
                 'Required property \'language\' not present in Log JSON')
@@ -7696,16 +8103,20 @@ class Log():
         return not self == other
 
 
-class LogCollection():
+class LogCollection:
     """
     LogCollection.
 
-    :attr List[Log] logs: An array of objects describing log events.
-    :attr LogPagination pagination: The pagination data for the returned objects.
+    :param List[Log] logs: An array of objects describing log events.
+    :param LogPagination pagination: The pagination data for the returned objects.
           For more information about using pagination, see [Pagination](#pagination).
     """
 
-    def __init__(self, logs: List['Log'], pagination: 'LogPagination') -> None:
+    def __init__(
+        self,
+        logs: List['Log'],
+        pagination: 'LogPagination',
+    ) -> None:
         """
         Initialize a LogCollection object.
 
@@ -7721,14 +8132,13 @@ class LogCollection():
     def from_dict(cls, _dict: Dict) -> 'LogCollection':
         """Initialize a LogCollection object from a json dictionary."""
         args = {}
-        if 'logs' in _dict:
-            args['logs'] = [Log.from_dict(v) for v in _dict.get('logs')]
+        if (logs := _dict.get('logs')) is not None:
+            args['logs'] = [Log.from_dict(v) for v in logs]
         else:
             raise ValueError(
                 'Required property \'logs\' not present in LogCollection JSON')
-        if 'pagination' in _dict:
-            args['pagination'] = LogPagination.from_dict(
-                _dict.get('pagination'))
+        if (pagination := _dict.get('pagination')) is not None:
+            args['pagination'] = LogPagination.from_dict(pagination)
         else:
             raise ValueError(
                 'Required property \'pagination\' not present in LogCollection JSON'
@@ -7777,24 +8187,26 @@ class LogCollection():
         return not self == other
 
 
-class LogMessage():
+class LogMessage:
     """
     Log message details.
 
-    :attr str level: The severity of the log message.
-    :attr str msg: The text of the log message.
-    :attr str code: A code that indicates the category to which the error message
+    :param str level: The severity of the log message.
+    :param str msg: The text of the log message.
+    :param str code: A code that indicates the category to which the error message
           belongs.
-    :attr LogMessageSource source: (optional) An object that identifies the dialog
+    :param LogMessageSource source: (optional) An object that identifies the dialog
           element that generated the error message.
     """
 
-    def __init__(self,
-                 level: str,
-                 msg: str,
-                 code: str,
-                 *,
-                 source: 'LogMessageSource' = None) -> None:
+    def __init__(
+        self,
+        level: str,
+        msg: str,
+        code: str,
+        *,
+        source: Optional['LogMessageSource'] = None,
+    ) -> None:
         """
         Initialize a LogMessage object.
 
@@ -7814,23 +8226,23 @@ class LogMessage():
     def from_dict(cls, _dict: Dict) -> 'LogMessage':
         """Initialize a LogMessage object from a json dictionary."""
         args = {}
-        if 'level' in _dict:
-            args['level'] = _dict.get('level')
+        if (level := _dict.get('level')) is not None:
+            args['level'] = level
         else:
             raise ValueError(
                 'Required property \'level\' not present in LogMessage JSON')
-        if 'msg' in _dict:
-            args['msg'] = _dict.get('msg')
+        if (msg := _dict.get('msg')) is not None:
+            args['msg'] = msg
         else:
             raise ValueError(
                 'Required property \'msg\' not present in LogMessage JSON')
-        if 'code' in _dict:
-            args['code'] = _dict.get('code')
+        if (code := _dict.get('code')) is not None:
+            args['code'] = code
         else:
             raise ValueError(
                 'Required property \'code\' not present in LogMessage JSON')
-        if 'source' in _dict:
-            args['source'] = LogMessageSource.from_dict(_dict.get('source'))
+        if (source := _dict.get('source')) is not None:
+            args['source'] = LogMessageSource.from_dict(source)
         return cls(**args)
 
     @classmethod
@@ -7876,22 +8288,28 @@ class LogMessage():
         """
         The severity of the log message.
         """
+
         INFO = 'info'
         ERROR = 'error'
         WARN = 'warn'
 
 
-class LogMessageSource():
+class LogMessageSource:
     """
     An object that identifies the dialog element that generated the error message.
 
-    :attr str type: (optional) A string that indicates the type of dialog element
+    :param str type: (optional) A string that indicates the type of dialog element
           that generated the error message.
-    :attr str dialog_node: (optional) The unique identifier of the dialog node that
+    :param str dialog_node: (optional) The unique identifier of the dialog node that
           generated the error message.
     """
 
-    def __init__(self, *, type: str = None, dialog_node: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        type: Optional[str] = None,
+        dialog_node: Optional[str] = None,
+    ) -> None:
         """
         Initialize a LogMessageSource object.
 
@@ -7907,10 +8325,10 @@ class LogMessageSource():
     def from_dict(cls, _dict: Dict) -> 'LogMessageSource':
         """Initialize a LogMessageSource object from a json dictionary."""
         args = {}
-        if 'type' in _dict:
-            args['type'] = _dict.get('type')
-        if 'dialog_node' in _dict:
-            args['dialog_node'] = _dict.get('dialog_node')
+        if (type := _dict.get('type')) is not None:
+            args['type'] = type
+        if (dialog_node := _dict.get('dialog_node')) is not None:
+            args['dialog_node'] = dialog_node
         return cls(**args)
 
     @classmethod
@@ -7950,25 +8368,28 @@ class LogMessageSource():
         A string that indicates the type of dialog element that generated the error
         message.
         """
+
         DIALOG_NODE = 'dialog_node'
 
 
-class LogPagination():
+class LogPagination:
     """
     The pagination data for the returned objects. For more information about using
     pagination, see [Pagination](#pagination).
 
-    :attr str next_url: (optional) The URL that will return the next page of
+    :param str next_url: (optional) The URL that will return the next page of
           results, if any.
-    :attr int matched: (optional) Reserved for future use.
-    :attr str next_cursor: (optional) A token identifying the next page of results.
+    :param int matched: (optional) Reserved for future use.
+    :param str next_cursor: (optional) A token identifying the next page of results.
     """
 
-    def __init__(self,
-                 *,
-                 next_url: str = None,
-                 matched: int = None,
-                 next_cursor: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        next_url: Optional[str] = None,
+        matched: Optional[int] = None,
+        next_cursor: Optional[str] = None,
+    ) -> None:
         """
         Initialize a LogPagination object.
 
@@ -7986,12 +8407,12 @@ class LogPagination():
     def from_dict(cls, _dict: Dict) -> 'LogPagination':
         """Initialize a LogPagination object from a json dictionary."""
         args = {}
-        if 'next_url' in _dict:
-            args['next_url'] = _dict.get('next_url')
-        if 'matched' in _dict:
-            args['matched'] = _dict.get('matched')
-        if 'next_cursor' in _dict:
-            args['next_cursor'] = _dict.get('next_cursor')
+        if (next_url := _dict.get('next_url')) is not None:
+            args['next_url'] = next_url
+        if (matched := _dict.get('matched')) is not None:
+            args['matched'] = matched
+        if (next_cursor := _dict.get('next_cursor')) is not None:
+            args['next_cursor'] = next_cursor
         return cls(**args)
 
     @classmethod
@@ -8029,16 +8450,20 @@ class LogPagination():
         return not self == other
 
 
-class Mention():
+class Mention:
     """
     A mention of a contextual entity.
 
-    :attr str entity: The name of the entity.
-    :attr List[int] location: An array of zero-based character offsets that indicate
-          where the entity mentions begin and end in the input text.
+    :param str entity: The name of the entity.
+    :param List[int] location: An array of zero-based character offsets that
+          indicate where the entity mentions begin and end in the input text.
     """
 
-    def __init__(self, entity: str, location: List[int]) -> None:
+    def __init__(
+        self,
+        entity: str,
+        location: List[int],
+    ) -> None:
         """
         Initialize a Mention object.
 
@@ -8053,13 +8478,13 @@ class Mention():
     def from_dict(cls, _dict: Dict) -> 'Mention':
         """Initialize a Mention object from a json dictionary."""
         args = {}
-        if 'entity' in _dict:
-            args['entity'] = _dict.get('entity')
+        if (entity := _dict.get('entity')) is not None:
+            args['entity'] = entity
         else:
             raise ValueError(
                 'Required property \'entity\' not present in Mention JSON')
-        if 'location' in _dict:
-            args['location'] = _dict.get('location')
+        if (location := _dict.get('location')) is not None:
+            args['location'] = location
         else:
             raise ValueError(
                 'Required property \'location\' not present in Mention JSON')
@@ -8098,14 +8523,14 @@ class Mention():
         return not self == other
 
 
-class MessageContextMetadata():
+class MessageContextMetadata:
     """
     Metadata related to the message.
 
-    :attr str deployment: (optional) A label identifying the deployment environment,
-          used for filtering log data. This string cannot contain carriage return,
-          newline, or tab characters.
-    :attr str user_id: (optional) A string value that identifies the user who is
+    :param str deployment: (optional) A label identifying the deployment
+          environment, used for filtering log data. This string cannot contain carriage
+          return, newline, or tab characters.
+    :param str user_id: (optional) A string value that identifies the user who is
           interacting with the workspace. The client must provide a unique identifier for
           each individual end user who accesses the application. For user-based plans,
           this user ID is used to identify unique users for billing purposes. This string
@@ -8117,7 +8542,12 @@ class MessageContextMetadata():
           request, the value specified at the root is used.
     """
 
-    def __init__(self, *, deployment: str = None, user_id: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        deployment: Optional[str] = None,
+        user_id: Optional[str] = None,
+    ) -> None:
         """
         Initialize a MessageContextMetadata object.
 
@@ -8142,10 +8572,10 @@ class MessageContextMetadata():
     def from_dict(cls, _dict: Dict) -> 'MessageContextMetadata':
         """Initialize a MessageContextMetadata object from a json dictionary."""
         args = {}
-        if 'deployment' in _dict:
-            args['deployment'] = _dict.get('deployment')
-        if 'user_id' in _dict:
-            args['user_id'] = _dict.get('user_id')
+        if (deployment := _dict.get('deployment')) is not None:
+            args['deployment'] = deployment
+        if (user_id := _dict.get('user_id')) is not None:
+            args['user_id'] = user_id
         return cls(**args)
 
     @classmethod
@@ -8181,16 +8611,16 @@ class MessageContextMetadata():
         return not self == other
 
 
-class MessageInput():
+class MessageInput:
     """
     An input object that includes the input text.
 
-    :attr str text: (optional) The text of the user input. This string cannot
+    :param str text: (optional) The text of the user input. This string cannot
           contain carriage return, newline, or tab characters.
-    :attr bool spelling_suggestions: (optional) Whether to use spelling correction
+    :param bool spelling_suggestions: (optional) Whether to use spelling correction
           when processing the input. This property overrides the value of the
           **spelling_suggestions** property in the workspace settings.
-    :attr bool spelling_auto_correct: (optional) Whether to use autocorrection when
+    :param bool spelling_auto_correct: (optional) Whether to use autocorrection when
           processing the input. If spelling correction is used and this property is
           `false`, any suggested corrections are returned in the **suggested_text**
           property of the message response. If this property is `true`, any corrections
@@ -8198,10 +8628,10 @@ class MessageInput():
           in the **original_text** property of the message response. This property
           overrides the value of the **spelling_auto_correct** property in the workspace
           settings.
-    :attr str suggested_text: (optional) Any suggested corrections of the input
+    :param str suggested_text: (optional) Any suggested corrections of the input
           text. This property is returned only if spelling correction is enabled and
           autocorrection is disabled.
-    :attr str original_text: (optional) The original user input text. This property
+    :param str original_text: (optional) The original user input text. This property
           is returned only if autocorrection is enabled and the user input was corrected.
     """
 
@@ -8211,14 +8641,16 @@ class MessageInput():
         'suggested_text', 'original_text'
     ])
 
-    def __init__(self,
-                 *,
-                 text: str = None,
-                 spelling_suggestions: bool = None,
-                 spelling_auto_correct: bool = None,
-                 suggested_text: str = None,
-                 original_text: str = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        text: Optional[str] = None,
+        spelling_suggestions: Optional[bool] = None,
+        spelling_auto_correct: Optional[bool] = None,
+        suggested_text: Optional[str] = None,
+        original_text: Optional[str] = None,
+        **kwargs,
+    ) -> None:
         """
         Initialize a MessageInput object.
 
@@ -8249,16 +8681,18 @@ class MessageInput():
     def from_dict(cls, _dict: Dict) -> 'MessageInput':
         """Initialize a MessageInput object from a json dictionary."""
         args = {}
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
-        if 'spelling_suggestions' in _dict:
-            args['spelling_suggestions'] = _dict.get('spelling_suggestions')
-        if 'spelling_auto_correct' in _dict:
-            args['spelling_auto_correct'] = _dict.get('spelling_auto_correct')
-        if 'suggested_text' in _dict:
-            args['suggested_text'] = _dict.get('suggested_text')
-        if 'original_text' in _dict:
-            args['original_text'] = _dict.get('original_text')
+        if (text := _dict.get('text')) is not None:
+            args['text'] = text
+        if (spelling_suggestions :=
+                _dict.get('spelling_suggestions')) is not None:
+            args['spelling_suggestions'] = spelling_suggestions
+        if (spelling_auto_correct :=
+                _dict.get('spelling_auto_correct')) is not None:
+            args['spelling_auto_correct'] = spelling_auto_correct
+        if (suggested_text := _dict.get('suggested_text')) is not None:
+            args['suggested_text'] = suggested_text
+        if (original_text := _dict.get('original_text')) is not None:
+            args['original_text'] = original_text
         args.update(
             {k: v for (k, v) in _dict.items() if k not in cls._properties})
         return cls(**args)
@@ -8334,27 +8768,27 @@ class MessageInput():
         return not self == other
 
 
-class MessageRequest():
+class MessageRequest:
     """
     A request sent to the workspace, including the user input and context.
 
-    :attr MessageInput input: (optional) An input object that includes the input
+    :param MessageInput input: (optional) An input object that includes the input
           text.
-    :attr List[RuntimeIntent] intents: (optional) Intents to use when evaluating the
-          user input. Include intents from the previous response to continue using those
-          intents rather than trying to recognize intents in the new input.
-    :attr List[RuntimeEntity] entities: (optional) Entities to use when evaluating
+    :param List[RuntimeIntent] intents: (optional) Intents to use when evaluating
+          the user input. Include intents from the previous response to continue using
+          those intents rather than trying to recognize intents in the new input.
+    :param List[RuntimeEntity] entities: (optional) Entities to use when evaluating
           the message. Include entities from the previous response to continue using those
           entities rather than detecting entities in the new input.
-    :attr bool alternate_intents: (optional) Whether to return more than one intent.
-          A value of `true` indicates that all matching intents are returned.
-    :attr Context context: (optional) State information for the conversation. To
+    :param bool alternate_intents: (optional) Whether to return more than one
+          intent. A value of `true` indicates that all matching intents are returned.
+    :param Context context: (optional) State information for the conversation. To
           maintain state, include the context from the previous response.
-    :attr OutputData output: (optional) An output object that includes the response
+    :param OutputData output: (optional) An output object that includes the response
           to the user, the dialog nodes that were triggered, and messages from the log.
-    :attr List[DialogNodeAction] actions: (optional) An array of objects describing
+    :param List[DialogNodeAction] actions: (optional) An array of objects describing
           any actions requested by the dialog node.
-    :attr str user_id: (optional) A string value that identifies the user who is
+    :param str user_id: (optional) A string value that identifies the user who is
           interacting with the workspace. The client must provide a unique identifier for
           each individual end user who accesses the application. For user-based plans,
           this user ID is used to identify unique users for billing purposes. This string
@@ -8366,16 +8800,18 @@ class MessageRequest():
           the value specified at the root is used.
     """
 
-    def __init__(self,
-                 *,
-                 input: 'MessageInput' = None,
-                 intents: List['RuntimeIntent'] = None,
-                 entities: List['RuntimeEntity'] = None,
-                 alternate_intents: bool = None,
-                 context: 'Context' = None,
-                 output: 'OutputData' = None,
-                 actions: List['DialogNodeAction'] = None,
-                 user_id: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        input: Optional['MessageInput'] = None,
+        intents: Optional[List['RuntimeIntent']] = None,
+        entities: Optional[List['RuntimeEntity']] = None,
+        alternate_intents: Optional[bool] = None,
+        context: Optional['Context'] = None,
+        output: Optional['OutputData'] = None,
+        actions: Optional[List['DialogNodeAction']] = None,
+        user_id: Optional[str] = None,
+    ) -> None:
         """
         Initialize a MessageRequest object.
 
@@ -8420,28 +8856,22 @@ class MessageRequest():
     def from_dict(cls, _dict: Dict) -> 'MessageRequest':
         """Initialize a MessageRequest object from a json dictionary."""
         args = {}
-        if 'input' in _dict:
-            args['input'] = MessageInput.from_dict(_dict.get('input'))
-        if 'intents' in _dict:
-            args['intents'] = [
-                RuntimeIntent.from_dict(v) for v in _dict.get('intents')
-            ]
-        if 'entities' in _dict:
-            args['entities'] = [
-                RuntimeEntity.from_dict(v) for v in _dict.get('entities')
-            ]
-        if 'alternate_intents' in _dict:
-            args['alternate_intents'] = _dict.get('alternate_intents')
-        if 'context' in _dict:
-            args['context'] = Context.from_dict(_dict.get('context'))
-        if 'output' in _dict:
-            args['output'] = OutputData.from_dict(_dict.get('output'))
-        if 'actions' in _dict:
-            args['actions'] = [
-                DialogNodeAction.from_dict(v) for v in _dict.get('actions')
-            ]
-        if 'user_id' in _dict:
-            args['user_id'] = _dict.get('user_id')
+        if (input := _dict.get('input')) is not None:
+            args['input'] = MessageInput.from_dict(input)
+        if (intents := _dict.get('intents')) is not None:
+            args['intents'] = [RuntimeIntent.from_dict(v) for v in intents]
+        if (entities := _dict.get('entities')) is not None:
+            args['entities'] = [RuntimeEntity.from_dict(v) for v in entities]
+        if (alternate_intents := _dict.get('alternate_intents')) is not None:
+            args['alternate_intents'] = alternate_intents
+        if (context := _dict.get('context')) is not None:
+            args['context'] = Context.from_dict(context)
+        if (output := _dict.get('output')) is not None:
+            args['output'] = OutputData.from_dict(output)
+        if (actions := _dict.get('actions')) is not None:
+            args['actions'] = [DialogNodeAction.from_dict(v) for v in actions]
+        if (user_id := _dict.get('user_id')) is not None:
+            args['user_id'] = user_id
         return cls(**args)
 
     @classmethod
@@ -8517,25 +8947,25 @@ class MessageRequest():
         return not self == other
 
 
-class MessageResponse():
+class MessageResponse:
     """
     The response sent by the workspace, including the output text, detected intents and
     entities, and context.
 
-    :attr MessageInput input: An input object that includes the input text.
-    :attr List[RuntimeIntent] intents: An array of intents recognized in the user
+    :param MessageInput input: An input object that includes the input text.
+    :param List[RuntimeIntent] intents: An array of intents recognized in the user
           input, sorted in descending order of confidence.
-    :attr List[RuntimeEntity] entities: An array of entities identified in the user
+    :param List[RuntimeEntity] entities: An array of entities identified in the user
           input.
-    :attr bool alternate_intents: (optional) Whether to return more than one intent.
-          A value of `true` indicates that all matching intents are returned.
-    :attr Context context: State information for the conversation. To maintain
+    :param bool alternate_intents: (optional) Whether to return more than one
+          intent. A value of `true` indicates that all matching intents are returned.
+    :param Context context: State information for the conversation. To maintain
           state, include the context from the previous response.
-    :attr OutputData output: An output object that includes the response to the
+    :param OutputData output: An output object that includes the response to the
           user, the dialog nodes that were triggered, and messages from the log.
-    :attr List[DialogNodeAction] actions: (optional) An array of objects describing
+    :param List[DialogNodeAction] actions: (optional) An array of objects describing
           any actions requested by the dialog node.
-    :attr str user_id: A string value that identifies the user who is interacting
+    :param str user_id: A string value that identifies the user who is interacting
           with the workspace. The client must provide a unique identifier for each
           individual end user who accesses the application. For user-based plans, this
           user ID is used to identify unique users for billing purposes. This string
@@ -8547,16 +8977,18 @@ class MessageResponse():
           the value specified at the root is used.
     """
 
-    def __init__(self,
-                 input: 'MessageInput',
-                 intents: List['RuntimeIntent'],
-                 entities: List['RuntimeEntity'],
-                 context: 'Context',
-                 output: 'OutputData',
-                 user_id: str,
-                 *,
-                 alternate_intents: bool = None,
-                 actions: List['DialogNodeAction'] = None) -> None:
+    def __init__(
+        self,
+        input: 'MessageInput',
+        intents: List['RuntimeIntent'],
+        entities: List['RuntimeEntity'],
+        context: 'Context',
+        output: 'OutputData',
+        user_id: str,
+        *,
+        alternate_intents: Optional[bool] = None,
+        actions: Optional[List['DialogNodeAction']] = None,
+    ) -> None:
         """
         Initialize a MessageResponse object.
 
@@ -8595,48 +9027,42 @@ class MessageResponse():
     def from_dict(cls, _dict: Dict) -> 'MessageResponse':
         """Initialize a MessageResponse object from a json dictionary."""
         args = {}
-        if 'input' in _dict:
-            args['input'] = MessageInput.from_dict(_dict.get('input'))
+        if (input := _dict.get('input')) is not None:
+            args['input'] = MessageInput.from_dict(input)
         else:
             raise ValueError(
                 'Required property \'input\' not present in MessageResponse JSON'
             )
-        if 'intents' in _dict:
-            args['intents'] = [
-                RuntimeIntent.from_dict(v) for v in _dict.get('intents')
-            ]
+        if (intents := _dict.get('intents')) is not None:
+            args['intents'] = [RuntimeIntent.from_dict(v) for v in intents]
         else:
             raise ValueError(
                 'Required property \'intents\' not present in MessageResponse JSON'
             )
-        if 'entities' in _dict:
-            args['entities'] = [
-                RuntimeEntity.from_dict(v) for v in _dict.get('entities')
-            ]
+        if (entities := _dict.get('entities')) is not None:
+            args['entities'] = [RuntimeEntity.from_dict(v) for v in entities]
         else:
             raise ValueError(
                 'Required property \'entities\' not present in MessageResponse JSON'
             )
-        if 'alternate_intents' in _dict:
-            args['alternate_intents'] = _dict.get('alternate_intents')
-        if 'context' in _dict:
-            args['context'] = Context.from_dict(_dict.get('context'))
+        if (alternate_intents := _dict.get('alternate_intents')) is not None:
+            args['alternate_intents'] = alternate_intents
+        if (context := _dict.get('context')) is not None:
+            args['context'] = Context.from_dict(context)
         else:
             raise ValueError(
                 'Required property \'context\' not present in MessageResponse JSON'
             )
-        if 'output' in _dict:
-            args['output'] = OutputData.from_dict(_dict.get('output'))
+        if (output := _dict.get('output')) is not None:
+            args['output'] = OutputData.from_dict(output)
         else:
             raise ValueError(
                 'Required property \'output\' not present in MessageResponse JSON'
             )
-        if 'actions' in _dict:
-            args['actions'] = [
-                DialogNodeAction.from_dict(v) for v in _dict.get('actions')
-            ]
-        if 'user_id' in _dict:
-            args['user_id'] = _dict.get('user_id')
+        if (actions := _dict.get('actions')) is not None:
+            args['actions'] = [DialogNodeAction.from_dict(v) for v in actions]
+        if (user_id := _dict.get('user_id')) is not None:
+            args['user_id'] = user_id
         else:
             raise ValueError(
                 'Required property \'user_id\' not present in MessageResponse JSON'
@@ -8716,22 +9142,22 @@ class MessageResponse():
         return not self == other
 
 
-class OutputData():
+class OutputData:
     """
     An output object that includes the response to the user, the dialog nodes that were
     triggered, and messages from the log.
 
-    :attr List[str] nodes_visited: (optional) An array of the nodes that were
+    :param List[str] nodes_visited: (optional) An array of the nodes that were
           triggered to create the response, in the order in which they were visited. This
           information is useful for debugging and for tracing the path taken through the
           node tree.
-    :attr List[DialogNodeVisitedDetails] nodes_visited_details: (optional) An array
+    :param List[DialogNodeVisitedDetails] nodes_visited_details: (optional) An array
           of objects containing detailed diagnostic information about the nodes that were
           triggered during processing of the input message. Included only if
           **nodes_visited_details** is set to `true` in the message request.
-    :attr List[LogMessage] log_messages: An array of up to 50 messages logged with
+    :param List[LogMessage] log_messages: An array of up to 50 messages logged with
           the request.
-    :attr List[RuntimeResponseGeneric] generic: (optional) Output intended for any
+    :param List[RuntimeResponseGeneric] generic: (optional) Output intended for any
           channel. It is the responsibility of the client application to implement the
           supported response types.
     """
@@ -8740,13 +9166,16 @@ class OutputData():
     _properties = frozenset(
         ['nodes_visited', 'nodes_visited_details', 'log_messages', 'generic'])
 
-    def __init__(self,
-                 log_messages: List['LogMessage'],
-                 *,
-                 nodes_visited: List[str] = None,
-                 nodes_visited_details: List['DialogNodeVisitedDetails'] = None,
-                 generic: List['RuntimeResponseGeneric'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        log_messages: List['LogMessage'],
+        *,
+        nodes_visited: Optional[List[str]] = None,
+        nodes_visited_details: Optional[
+            List['DialogNodeVisitedDetails']] = None,
+        generic: Optional[List['RuntimeResponseGeneric']] = None,
+        **kwargs,
+    ) -> None:
         """
         Initialize a OutputData object.
 
@@ -8776,25 +9205,25 @@ class OutputData():
     def from_dict(cls, _dict: Dict) -> 'OutputData':
         """Initialize a OutputData object from a json dictionary."""
         args = {}
-        if 'nodes_visited' in _dict:
-            args['nodes_visited'] = _dict.get('nodes_visited')
-        if 'nodes_visited_details' in _dict:
+        if (nodes_visited := _dict.get('nodes_visited')) is not None:
+            args['nodes_visited'] = nodes_visited
+        if (nodes_visited_details :=
+                _dict.get('nodes_visited_details')) is not None:
             args['nodes_visited_details'] = [
                 DialogNodeVisitedDetails.from_dict(v)
-                for v in _dict.get('nodes_visited_details')
+                for v in nodes_visited_details
             ]
-        if 'log_messages' in _dict:
+        if (log_messages := _dict.get('log_messages')) is not None:
             args['log_messages'] = [
-                LogMessage.from_dict(v) for v in _dict.get('log_messages')
+                LogMessage.from_dict(v) for v in log_messages
             ]
         else:
             raise ValueError(
                 'Required property \'log_messages\' not present in OutputData JSON'
             )
-        if 'generic' in _dict:
+        if (generic := _dict.get('generic')) is not None:
             args['generic'] = [
-                RuntimeResponseGeneric.from_dict(v)
-                for v in _dict.get('generic')
+                RuntimeResponseGeneric.from_dict(v) for v in generic
             ]
         args.update(
             {k: v for (k, v) in _dict.items() if k not in cls._properties})
@@ -8881,31 +9310,33 @@ class OutputData():
         return not self == other
 
 
-class Pagination():
+class Pagination:
     """
     The pagination data for the returned objects. For more information about using
     pagination, see [Pagination](#pagination).
 
-    :attr str refresh_url: The URL that will return the same page of results.
-    :attr str next_url: (optional) The URL that will return the next page of
+    :param str refresh_url: The URL that will return the same page of results.
+    :param str next_url: (optional) The URL that will return the next page of
           results.
-    :attr int total: (optional) The total number of objects that satisfy the
+    :param int total: (optional) The total number of objects that satisfy the
           request. This total includes all results, not just those included in the current
           page.
-    :attr int matched: (optional) Reserved for future use.
-    :attr str refresh_cursor: (optional) A token identifying the current page of
+    :param int matched: (optional) Reserved for future use.
+    :param str refresh_cursor: (optional) A token identifying the current page of
           results.
-    :attr str next_cursor: (optional) A token identifying the next page of results.
+    :param str next_cursor: (optional) A token identifying the next page of results.
     """
 
-    def __init__(self,
-                 refresh_url: str,
-                 *,
-                 next_url: str = None,
-                 total: int = None,
-                 matched: int = None,
-                 refresh_cursor: str = None,
-                 next_cursor: str = None) -> None:
+    def __init__(
+        self,
+        refresh_url: str,
+        *,
+        next_url: Optional[str] = None,
+        total: Optional[int] = None,
+        matched: Optional[int] = None,
+        refresh_cursor: Optional[str] = None,
+        next_cursor: Optional[str] = None,
+    ) -> None:
         """
         Initialize a Pagination object.
 
@@ -8932,22 +9363,22 @@ class Pagination():
     def from_dict(cls, _dict: Dict) -> 'Pagination':
         """Initialize a Pagination object from a json dictionary."""
         args = {}
-        if 'refresh_url' in _dict:
-            args['refresh_url'] = _dict.get('refresh_url')
+        if (refresh_url := _dict.get('refresh_url')) is not None:
+            args['refresh_url'] = refresh_url
         else:
             raise ValueError(
                 'Required property \'refresh_url\' not present in Pagination JSON'
             )
-        if 'next_url' in _dict:
-            args['next_url'] = _dict.get('next_url')
-        if 'total' in _dict:
-            args['total'] = _dict.get('total')
-        if 'matched' in _dict:
-            args['matched'] = _dict.get('matched')
-        if 'refresh_cursor' in _dict:
-            args['refresh_cursor'] = _dict.get('refresh_cursor')
-        if 'next_cursor' in _dict:
-            args['next_cursor'] = _dict.get('next_cursor')
+        if (next_url := _dict.get('next_url')) is not None:
+            args['next_url'] = next_url
+        if (total := _dict.get('total')) is not None:
+            args['total'] = total
+        if (matched := _dict.get('matched')) is not None:
+            args['matched'] = matched
+        if (refresh_cursor := _dict.get('refresh_cursor')) is not None:
+            args['refresh_cursor'] = refresh_cursor
+        if (next_cursor := _dict.get('next_cursor')) is not None:
+            args['next_cursor'] = next_cursor
         return cls(**args)
 
     @classmethod
@@ -8991,15 +9422,19 @@ class Pagination():
         return not self == other
 
 
-class ResponseGenericChannel():
+class ResponseGenericChannel:
     """
     ResponseGenericChannel.
 
-    :attr str channel: (optional) A channel for which the response is intended.
+    :param str channel: (optional) A channel for which the response is intended.
            **Note:** On IBM Cloud Pak for Data, only `chat` is supported.
     """
 
-    def __init__(self, *, channel: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        channel: Optional[str] = None,
+    ) -> None:
         """
         Initialize a ResponseGenericChannel object.
 
@@ -9013,8 +9448,8 @@ class ResponseGenericChannel():
     def from_dict(cls, _dict: Dict) -> 'ResponseGenericChannel':
         """Initialize a ResponseGenericChannel object from a json dictionary."""
         args = {}
-        if 'channel' in _dict:
-            args['channel'] = _dict.get('channel')
+        if (channel := _dict.get('channel')) is not None:
+            args['channel'] = channel
         return cls(**args)
 
     @classmethod
@@ -9052,6 +9487,7 @@ class ResponseGenericChannel():
         A channel for which the response is intended.
          **Note:** On IBM Cloud Pak for Data, only `chat` is supported.
         """
+
         CHAT = 'chat'
         FACEBOOK = 'facebook'
         INTERCOM = 'intercom'
@@ -9061,44 +9497,46 @@ class ResponseGenericChannel():
         WHATSAPP = 'whatsapp'
 
 
-class RuntimeEntity():
+class RuntimeEntity:
     """
     A term from the request that was identified as an entity.
 
-    :attr str entity: An entity detected in the input.
-    :attr List[int] location: (optional) An array of zero-based character offsets
+    :param str entity: An entity detected in the input.
+    :param List[int] location: (optional) An array of zero-based character offsets
           that indicate where the detected entity values begin and end in the input text.
-    :attr str value: The entity value that was recognized in the user input.
-    :attr float confidence: (optional) A decimal percentage that represents Watson's
-          confidence in the recognized entity.
-    :attr List[CaptureGroup] groups: (optional) The recognized capture groups for
+    :param str value: The entity value that was recognized in the user input.
+    :param float confidence: (optional) A decimal percentage that represents
+          Watson's confidence in the recognized entity.
+    :param List[CaptureGroup] groups: (optional) The recognized capture groups for
           the entity, as defined by the entity pattern.
-    :attr RuntimeEntityInterpretation interpretation: (optional) An object
+    :param RuntimeEntityInterpretation interpretation: (optional) An object
           containing detailed information about the entity recognized in the user input.
           For more information about how system entities are interpreted, see the
           [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-system-entities).
-    :attr List[RuntimeEntityAlternative] alternatives: (optional) An array of
+    :param List[RuntimeEntityAlternative] alternatives: (optional) An array of
           possible alternative values that the user might have intended instead of the
           value returned in the **value** property. This property is returned only for
           `@sys-time` and `@sys-date` entities when the user's input is ambiguous.
           This property is included only if the new system entities are enabled for the
           workspace.
-    :attr RuntimeEntityRole role: (optional) An object describing the role played by
-          a system entity that is specifies the beginning or end of a range recognized in
-          the user input. This property is included only if the new system entities are
+    :param RuntimeEntityRole role: (optional) An object describing the role played
+          by a system entity that is specifies the beginning or end of a range recognized
+          in the user input. This property is included only if the new system entities are
           enabled for the workspace.
     """
 
-    def __init__(self,
-                 entity: str,
-                 value: str,
-                 *,
-                 location: List[int] = None,
-                 confidence: float = None,
-                 groups: List['CaptureGroup'] = None,
-                 interpretation: 'RuntimeEntityInterpretation' = None,
-                 alternatives: List['RuntimeEntityAlternative'] = None,
-                 role: 'RuntimeEntityRole' = None) -> None:
+    def __init__(
+        self,
+        entity: str,
+        value: str,
+        *,
+        location: Optional[List[int]] = None,
+        confidence: Optional[float] = None,
+        groups: Optional[List['CaptureGroup']] = None,
+        interpretation: Optional['RuntimeEntityInterpretation'] = None,
+        alternatives: Optional[List['RuntimeEntityAlternative']] = None,
+        role: Optional['RuntimeEntityRole'] = None,
+    ) -> None:
         """
         Initialize a RuntimeEntity object.
 
@@ -9141,35 +9579,32 @@ class RuntimeEntity():
     def from_dict(cls, _dict: Dict) -> 'RuntimeEntity':
         """Initialize a RuntimeEntity object from a json dictionary."""
         args = {}
-        if 'entity' in _dict:
-            args['entity'] = _dict.get('entity')
+        if (entity := _dict.get('entity')) is not None:
+            args['entity'] = entity
         else:
             raise ValueError(
                 'Required property \'entity\' not present in RuntimeEntity JSON'
             )
-        if 'location' in _dict:
-            args['location'] = _dict.get('location')
-        if 'value' in _dict:
-            args['value'] = _dict.get('value')
+        if (location := _dict.get('location')) is not None:
+            args['location'] = location
+        if (value := _dict.get('value')) is not None:
+            args['value'] = value
         else:
             raise ValueError(
                 'Required property \'value\' not present in RuntimeEntity JSON')
-        if 'confidence' in _dict:
-            args['confidence'] = _dict.get('confidence')
-        if 'groups' in _dict:
-            args['groups'] = [
-                CaptureGroup.from_dict(v) for v in _dict.get('groups')
-            ]
-        if 'interpretation' in _dict:
+        if (confidence := _dict.get('confidence')) is not None:
+            args['confidence'] = confidence
+        if (groups := _dict.get('groups')) is not None:
+            args['groups'] = [CaptureGroup.from_dict(v) for v in groups]
+        if (interpretation := _dict.get('interpretation')) is not None:
             args['interpretation'] = RuntimeEntityInterpretation.from_dict(
-                _dict.get('interpretation'))
-        if 'alternatives' in _dict:
+                interpretation)
+        if (alternatives := _dict.get('alternatives')) is not None:
             args['alternatives'] = [
-                RuntimeEntityAlternative.from_dict(v)
-                for v in _dict.get('alternatives')
+                RuntimeEntityAlternative.from_dict(v) for v in alternatives
             ]
-        if 'role' in _dict:
-            args['role'] = RuntimeEntityRole.from_dict(_dict.get('role'))
+        if (role := _dict.get('role')) is not None:
+            args['role'] = RuntimeEntityRole.from_dict(role)
         return cls(**args)
 
     @classmethod
@@ -9235,17 +9670,22 @@ class RuntimeEntity():
         return not self == other
 
 
-class RuntimeEntityAlternative():
+class RuntimeEntityAlternative:
     """
     An alternative value for the recognized entity.
 
-    :attr str value: (optional) The entity value that was recognized in the user
+    :param str value: (optional) The entity value that was recognized in the user
           input.
-    :attr float confidence: (optional) A decimal percentage that represents Watson's
-          confidence in the recognized entity.
+    :param float confidence: (optional) A decimal percentage that represents
+          Watson's confidence in the recognized entity.
     """
 
-    def __init__(self, *, value: str = None, confidence: float = None) -> None:
+    def __init__(
+        self,
+        *,
+        value: Optional[str] = None,
+        confidence: Optional[float] = None,
+    ) -> None:
         """
         Initialize a RuntimeEntityAlternative object.
 
@@ -9261,10 +9701,10 @@ class RuntimeEntityAlternative():
     def from_dict(cls, _dict: Dict) -> 'RuntimeEntityAlternative':
         """Initialize a RuntimeEntityAlternative object from a json dictionary."""
         args = {}
-        if 'value' in _dict:
-            args['value'] = _dict.get('value')
-        if 'confidence' in _dict:
-            args['confidence'] = _dict.get('confidence')
+        if (value := _dict.get('value')) is not None:
+            args['value'] = value
+        if (confidence := _dict.get('confidence')) is not None:
+            args['confidence'] = confidence
         return cls(**args)
 
     @classmethod
@@ -9300,108 +9740,110 @@ class RuntimeEntityAlternative():
         return not self == other
 
 
-class RuntimeEntityInterpretation():
+class RuntimeEntityInterpretation:
     """
     RuntimeEntityInterpretation.
 
-    :attr str calendar_type: (optional) The calendar used to represent a recognized
+    :param str calendar_type: (optional) The calendar used to represent a recognized
           date (for example, `Gregorian`).
-    :attr str datetime_link: (optional) A unique identifier used to associate a
+    :param str datetime_link: (optional) A unique identifier used to associate a
           recognized time and date. If the user input contains a date and time that are
           mentioned together (for example, `Today at 5`, the same **datetime_link** value
           is returned for both the `@sys-date` and `@sys-time` entities).
-    :attr str festival: (optional) A locale-specific holiday name (such as
+    :param str festival: (optional) A locale-specific holiday name (such as
           `thanksgiving` or `christmas`). This property is included when a `@sys-date`
           entity is recognized based on a holiday name in the user input.
-    :attr str granularity: (optional) The precision or duration of a time range
+    :param str granularity: (optional) The precision or duration of a time range
           specified by a recognized `@sys-time` or `@sys-date` entity.
-    :attr str range_link: (optional) A unique identifier used to associate multiple
+    :param str range_link: (optional) A unique identifier used to associate multiple
           recognized `@sys-date`, `@sys-time`, or `@sys-number` entities that are
           recognized as a range of values in the user's input (for example, `from July 4
           until July 14` or `from 20 to 25`).
-    :attr str range_modifier: (optional) The word in the user input that indicates
+    :param str range_modifier: (optional) The word in the user input that indicates
           that a `sys-date` or `sys-time` entity is part of an implied range where only
           one date or time is specified (for example, `since` or `until`).
-    :attr float relative_day: (optional) A recognized mention of a relative day,
+    :param float relative_day: (optional) A recognized mention of a relative day,
           represented numerically as an offset from the current date (for example, `-1`
           for `yesterday` or `10` for `in ten days`).
-    :attr float relative_month: (optional) A recognized mention of a relative month,
-          represented numerically as an offset from the current month (for example, `1`
-          for `next month` or `-3` for `three months ago`).
-    :attr float relative_week: (optional) A recognized mention of a relative week,
+    :param float relative_month: (optional) A recognized mention of a relative
+          month, represented numerically as an offset from the current month (for example,
+          `1` for `next month` or `-3` for `three months ago`).
+    :param float relative_week: (optional) A recognized mention of a relative week,
           represented numerically as an offset from the current week (for example, `2` for
           `in two weeks` or `-1` for `last week).
-    :attr float relative_weekend: (optional) A recognized mention of a relative date
-          range for a weekend, represented numerically as an offset from the current
+    :param float relative_weekend: (optional) A recognized mention of a relative
+          date range for a weekend, represented numerically as an offset from the current
           weekend (for example, `0` for `this weekend` or `-1` for `last weekend`).
-    :attr float relative_year: (optional) A recognized mention of a relative year,
+    :param float relative_year: (optional) A recognized mention of a relative year,
           represented numerically as an offset from the current year (for example, `1` for
           `next year` or `-5` for `five years ago`).
-    :attr float specific_day: (optional) A recognized mention of a specific date,
+    :param float specific_day: (optional) A recognized mention of a specific date,
           represented numerically as the date within the month (for example, `30` for
           `June 30`.).
-    :attr str specific_day_of_week: (optional) A recognized mention of a specific
+    :param str specific_day_of_week: (optional) A recognized mention of a specific
           day of the week as a lowercase string (for example, `monday`).
-    :attr float specific_month: (optional) A recognized mention of a specific month,
-          represented numerically (for example, `7` for `July`).
-    :attr float specific_quarter: (optional) A recognized mention of a specific
+    :param float specific_month: (optional) A recognized mention of a specific
+          month, represented numerically (for example, `7` for `July`).
+    :param float specific_quarter: (optional) A recognized mention of a specific
           quarter, represented numerically (for example, `3` for `the third quarter`).
-    :attr float specific_year: (optional) A recognized mention of a specific year
+    :param float specific_year: (optional) A recognized mention of a specific year
           (for example, `2016`).
-    :attr float numeric_value: (optional) A recognized numeric value, represented as
-          an integer or double.
-    :attr str subtype: (optional) The type of numeric value recognized in the user
+    :param float numeric_value: (optional) A recognized numeric value, represented
+          as an integer or double.
+    :param str subtype: (optional) The type of numeric value recognized in the user
           input (`integer` or `rational`).
-    :attr str part_of_day: (optional) A recognized term for a time that was
+    :param str part_of_day: (optional) A recognized term for a time that was
           mentioned as a part of the day in the user's input (for example, `morning` or
           `afternoon`).
-    :attr float relative_hour: (optional) A recognized mention of a relative hour,
+    :param float relative_hour: (optional) A recognized mention of a relative hour,
           represented numerically as an offset from the current hour (for example, `3` for
           `in three hours` or `-1` for `an hour ago`).
-    :attr float relative_minute: (optional) A recognized mention of a relative time,
-          represented numerically as an offset in minutes from the current time (for
+    :param float relative_minute: (optional) A recognized mention of a relative
+          time, represented numerically as an offset in minutes from the current time (for
           example, `5` for `in five minutes` or `-15` for `fifteen minutes ago`).
-    :attr float relative_second: (optional) A recognized mention of a relative time,
-          represented numerically as an offset in seconds from the current time (for
+    :param float relative_second: (optional) A recognized mention of a relative
+          time, represented numerically as an offset in seconds from the current time (for
           example, `10` for `in ten seconds` or `-30` for `thirty seconds ago`).
-    :attr float specific_hour: (optional) A recognized specific hour mentioned as
+    :param float specific_hour: (optional) A recognized specific hour mentioned as
           part of a time value (for example, `10` for `10:15 AM`.).
-    :attr float specific_minute: (optional) A recognized specific minute mentioned
+    :param float specific_minute: (optional) A recognized specific minute mentioned
           as part of a time value (for example, `15` for `10:15 AM`.).
-    :attr float specific_second: (optional) A recognized specific second mentioned
+    :param float specific_second: (optional) A recognized specific second mentioned
           as part of a time value (for example, `30` for `10:15:30 AM`.).
-    :attr str timezone: (optional) A recognized time zone mentioned as part of a
+    :param str timezone: (optional) A recognized time zone mentioned as part of a
           time value (for example, `EST`).
     """
 
-    def __init__(self,
-                 *,
-                 calendar_type: str = None,
-                 datetime_link: str = None,
-                 festival: str = None,
-                 granularity: str = None,
-                 range_link: str = None,
-                 range_modifier: str = None,
-                 relative_day: float = None,
-                 relative_month: float = None,
-                 relative_week: float = None,
-                 relative_weekend: float = None,
-                 relative_year: float = None,
-                 specific_day: float = None,
-                 specific_day_of_week: str = None,
-                 specific_month: float = None,
-                 specific_quarter: float = None,
-                 specific_year: float = None,
-                 numeric_value: float = None,
-                 subtype: str = None,
-                 part_of_day: str = None,
-                 relative_hour: float = None,
-                 relative_minute: float = None,
-                 relative_second: float = None,
-                 specific_hour: float = None,
-                 specific_minute: float = None,
-                 specific_second: float = None,
-                 timezone: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        calendar_type: Optional[str] = None,
+        datetime_link: Optional[str] = None,
+        festival: Optional[str] = None,
+        granularity: Optional[str] = None,
+        range_link: Optional[str] = None,
+        range_modifier: Optional[str] = None,
+        relative_day: Optional[float] = None,
+        relative_month: Optional[float] = None,
+        relative_week: Optional[float] = None,
+        relative_weekend: Optional[float] = None,
+        relative_year: Optional[float] = None,
+        specific_day: Optional[float] = None,
+        specific_day_of_week: Optional[str] = None,
+        specific_month: Optional[float] = None,
+        specific_quarter: Optional[float] = None,
+        specific_year: Optional[float] = None,
+        numeric_value: Optional[float] = None,
+        subtype: Optional[str] = None,
+        part_of_day: Optional[str] = None,
+        relative_hour: Optional[float] = None,
+        relative_minute: Optional[float] = None,
+        relative_second: Optional[float] = None,
+        specific_hour: Optional[float] = None,
+        specific_minute: Optional[float] = None,
+        specific_second: Optional[float] = None,
+        timezone: Optional[str] = None,
+    ) -> None:
         """
         Initialize a RuntimeEntityInterpretation object.
 
@@ -9510,58 +9952,59 @@ class RuntimeEntityInterpretation():
     def from_dict(cls, _dict: Dict) -> 'RuntimeEntityInterpretation':
         """Initialize a RuntimeEntityInterpretation object from a json dictionary."""
         args = {}
-        if 'calendar_type' in _dict:
-            args['calendar_type'] = _dict.get('calendar_type')
-        if 'datetime_link' in _dict:
-            args['datetime_link'] = _dict.get('datetime_link')
-        if 'festival' in _dict:
-            args['festival'] = _dict.get('festival')
-        if 'granularity' in _dict:
-            args['granularity'] = _dict.get('granularity')
-        if 'range_link' in _dict:
-            args['range_link'] = _dict.get('range_link')
-        if 'range_modifier' in _dict:
-            args['range_modifier'] = _dict.get('range_modifier')
-        if 'relative_day' in _dict:
-            args['relative_day'] = _dict.get('relative_day')
-        if 'relative_month' in _dict:
-            args['relative_month'] = _dict.get('relative_month')
-        if 'relative_week' in _dict:
-            args['relative_week'] = _dict.get('relative_week')
-        if 'relative_weekend' in _dict:
-            args['relative_weekend'] = _dict.get('relative_weekend')
-        if 'relative_year' in _dict:
-            args['relative_year'] = _dict.get('relative_year')
-        if 'specific_day' in _dict:
-            args['specific_day'] = _dict.get('specific_day')
-        if 'specific_day_of_week' in _dict:
-            args['specific_day_of_week'] = _dict.get('specific_day_of_week')
-        if 'specific_month' in _dict:
-            args['specific_month'] = _dict.get('specific_month')
-        if 'specific_quarter' in _dict:
-            args['specific_quarter'] = _dict.get('specific_quarter')
-        if 'specific_year' in _dict:
-            args['specific_year'] = _dict.get('specific_year')
-        if 'numeric_value' in _dict:
-            args['numeric_value'] = _dict.get('numeric_value')
-        if 'subtype' in _dict:
-            args['subtype'] = _dict.get('subtype')
-        if 'part_of_day' in _dict:
-            args['part_of_day'] = _dict.get('part_of_day')
-        if 'relative_hour' in _dict:
-            args['relative_hour'] = _dict.get('relative_hour')
-        if 'relative_minute' in _dict:
-            args['relative_minute'] = _dict.get('relative_minute')
-        if 'relative_second' in _dict:
-            args['relative_second'] = _dict.get('relative_second')
-        if 'specific_hour' in _dict:
-            args['specific_hour'] = _dict.get('specific_hour')
-        if 'specific_minute' in _dict:
-            args['specific_minute'] = _dict.get('specific_minute')
-        if 'specific_second' in _dict:
-            args['specific_second'] = _dict.get('specific_second')
-        if 'timezone' in _dict:
-            args['timezone'] = _dict.get('timezone')
+        if (calendar_type := _dict.get('calendar_type')) is not None:
+            args['calendar_type'] = calendar_type
+        if (datetime_link := _dict.get('datetime_link')) is not None:
+            args['datetime_link'] = datetime_link
+        if (festival := _dict.get('festival')) is not None:
+            args['festival'] = festival
+        if (granularity := _dict.get('granularity')) is not None:
+            args['granularity'] = granularity
+        if (range_link := _dict.get('range_link')) is not None:
+            args['range_link'] = range_link
+        if (range_modifier := _dict.get('range_modifier')) is not None:
+            args['range_modifier'] = range_modifier
+        if (relative_day := _dict.get('relative_day')) is not None:
+            args['relative_day'] = relative_day
+        if (relative_month := _dict.get('relative_month')) is not None:
+            args['relative_month'] = relative_month
+        if (relative_week := _dict.get('relative_week')) is not None:
+            args['relative_week'] = relative_week
+        if (relative_weekend := _dict.get('relative_weekend')) is not None:
+            args['relative_weekend'] = relative_weekend
+        if (relative_year := _dict.get('relative_year')) is not None:
+            args['relative_year'] = relative_year
+        if (specific_day := _dict.get('specific_day')) is not None:
+            args['specific_day'] = specific_day
+        if (specific_day_of_week :=
+                _dict.get('specific_day_of_week')) is not None:
+            args['specific_day_of_week'] = specific_day_of_week
+        if (specific_month := _dict.get('specific_month')) is not None:
+            args['specific_month'] = specific_month
+        if (specific_quarter := _dict.get('specific_quarter')) is not None:
+            args['specific_quarter'] = specific_quarter
+        if (specific_year := _dict.get('specific_year')) is not None:
+            args['specific_year'] = specific_year
+        if (numeric_value := _dict.get('numeric_value')) is not None:
+            args['numeric_value'] = numeric_value
+        if (subtype := _dict.get('subtype')) is not None:
+            args['subtype'] = subtype
+        if (part_of_day := _dict.get('part_of_day')) is not None:
+            args['part_of_day'] = part_of_day
+        if (relative_hour := _dict.get('relative_hour')) is not None:
+            args['relative_hour'] = relative_hour
+        if (relative_minute := _dict.get('relative_minute')) is not None:
+            args['relative_minute'] = relative_minute
+        if (relative_second := _dict.get('relative_second')) is not None:
+            args['relative_second'] = relative_second
+        if (specific_hour := _dict.get('specific_hour')) is not None:
+            args['specific_hour'] = specific_hour
+        if (specific_minute := _dict.get('specific_minute')) is not None:
+            args['specific_minute'] = specific_minute
+        if (specific_second := _dict.get('specific_second')) is not None:
+            args['specific_second'] = specific_second
+        if (timezone := _dict.get('timezone')) is not None:
+            args['timezone'] = timezone
         return cls(**args)
 
     @classmethod
@@ -9656,6 +10099,7 @@ class RuntimeEntityInterpretation():
         The precision or duration of a time range specified by a recognized `@sys-time` or
         `@sys-date` entity.
         """
+
         DAY = 'day'
         FORTNIGHT = 'fortnight'
         HOUR = 'hour'
@@ -9669,16 +10113,20 @@ class RuntimeEntityInterpretation():
         YEAR = 'year'
 
 
-class RuntimeEntityRole():
+class RuntimeEntityRole:
     """
     An object describing the role played by a system entity that is specifies the
     beginning or end of a range recognized in the user input. This property is included
     only if the new system entities are enabled for the workspace.
 
-    :attr str type: (optional) The relationship of the entity to the range.
+    :param str type: (optional) The relationship of the entity to the range.
     """
 
-    def __init__(self, *, type: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        type: Optional[str] = None,
+    ) -> None:
         """
         Initialize a RuntimeEntityRole object.
 
@@ -9690,8 +10138,8 @@ class RuntimeEntityRole():
     def from_dict(cls, _dict: Dict) -> 'RuntimeEntityRole':
         """Initialize a RuntimeEntityRole object from a json dictionary."""
         args = {}
-        if 'type' in _dict:
-            args['type'] = _dict.get('type')
+        if (type := _dict.get('type')) is not None:
+            args['type'] = type
         return cls(**args)
 
     @classmethod
@@ -9728,6 +10176,7 @@ class RuntimeEntityRole():
         """
         The relationship of the entity to the range.
         """
+
         DATE_FROM = 'date_from'
         DATE_TO = 'date_to'
         NUMBER_FROM = 'number_from'
@@ -9736,17 +10185,22 @@ class RuntimeEntityRole():
         TIME_TO = 'time_to'
 
 
-class RuntimeIntent():
+class RuntimeIntent:
     """
     An intent identified in the user input.
 
-    :attr str intent: The name of the recognized intent.
-    :attr float confidence: (optional) A decimal percentage that represents Watson's
-          confidence in the intent. If you are specifying an intent as part of a request,
-          but you do not have a calculated confidence value, specify `1`.
+    :param str intent: The name of the recognized intent.
+    :param float confidence: (optional) A decimal percentage that represents
+          Watson's confidence in the intent. If you are specifying an intent as part of a
+          request, but you do not have a calculated confidence value, specify `1`.
     """
 
-    def __init__(self, intent: str, *, confidence: float = None) -> None:
+    def __init__(
+        self,
+        intent: str,
+        *,
+        confidence: Optional[float] = None,
+    ) -> None:
         """
         Initialize a RuntimeIntent object.
 
@@ -9763,14 +10217,14 @@ class RuntimeIntent():
     def from_dict(cls, _dict: Dict) -> 'RuntimeIntent':
         """Initialize a RuntimeIntent object from a json dictionary."""
         args = {}
-        if 'intent' in _dict:
-            args['intent'] = _dict.get('intent')
+        if (intent := _dict.get('intent')) is not None:
+            args['intent'] = intent
         else:
             raise ValueError(
                 'Required property \'intent\' not present in RuntimeIntent JSON'
             )
-        if 'confidence' in _dict:
-            args['confidence'] = _dict.get('confidence')
+        if (confidence := _dict.get('confidence')) is not None:
+            args['confidence'] = confidence
         return cls(**args)
 
     @classmethod
@@ -9806,13 +10260,13 @@ class RuntimeIntent():
         return not self == other
 
 
-class RuntimeResponseGeneric():
+class RuntimeResponseGeneric:
     """
     RuntimeResponseGeneric.
 
     """
 
-    def __init__(self) -> None:
+    def __init__(self,) -> None:
         """
         Initialize a RuntimeResponseGeneric object.
 
@@ -9839,22 +10293,20 @@ class RuntimeResponseGeneric():
         disc_class = cls._get_class_by_discriminator(_dict)
         if disc_class != cls:
             return disc_class.from_dict(_dict)
-        msg = (
-            "Cannot convert dictionary into an instance of base class 'RuntimeResponseGeneric'. "
-            + "The discriminator value should map to a valid subclass: {1}"
-        ).format(", ".join([
-            'RuntimeResponseGenericRuntimeResponseTypeText',
-            'RuntimeResponseGenericRuntimeResponseTypePause',
-            'RuntimeResponseGenericRuntimeResponseTypeImage',
-            'RuntimeResponseGenericRuntimeResponseTypeOption',
-            'RuntimeResponseGenericRuntimeResponseTypeConnectToAgent',
-            'RuntimeResponseGenericRuntimeResponseTypeSuggestion',
-            'RuntimeResponseGenericRuntimeResponseTypeChannelTransfer',
-            'RuntimeResponseGenericRuntimeResponseTypeUserDefined',
-            'RuntimeResponseGenericRuntimeResponseTypeVideo',
-            'RuntimeResponseGenericRuntimeResponseTypeAudio',
-            'RuntimeResponseGenericRuntimeResponseTypeIframe'
-        ]))
+        msg = "Cannot convert dictionary into an instance of base class 'RuntimeResponseGeneric'. The discriminator value should map to a valid subclass: {1}".format(
+            ", ".join([
+                'RuntimeResponseGenericRuntimeResponseTypeText',
+                'RuntimeResponseGenericRuntimeResponseTypePause',
+                'RuntimeResponseGenericRuntimeResponseTypeImage',
+                'RuntimeResponseGenericRuntimeResponseTypeOption',
+                'RuntimeResponseGenericRuntimeResponseTypeConnectToAgent',
+                'RuntimeResponseGenericRuntimeResponseTypeSuggestion',
+                'RuntimeResponseGenericRuntimeResponseTypeChannelTransfer',
+                'RuntimeResponseGenericRuntimeResponseTypeUserDefined',
+                'RuntimeResponseGenericRuntimeResponseTypeVideo',
+                'RuntimeResponseGenericRuntimeResponseTypeAudio',
+                'RuntimeResponseGenericRuntimeResponseTypeIframe'
+            ]))
         raise Exception(msg)
 
     @classmethod
@@ -9895,15 +10347,19 @@ class RuntimeResponseGeneric():
         raise TypeError('%s is not a discriminator class' % class_name)
 
 
-class StatusError():
+class StatusError:
     """
     An object describing an error that occurred during processing of an asynchronous
     operation.
 
-    :attr str message: (optional) The text of the error message.
+    :param str message: (optional) The text of the error message.
     """
 
-    def __init__(self, *, message: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        message: Optional[str] = None,
+    ) -> None:
         """
         Initialize a StatusError object.
 
@@ -9915,8 +10371,8 @@ class StatusError():
     def from_dict(cls, _dict: Dict) -> 'StatusError':
         """Initialize a StatusError object from a json dictionary."""
         args = {}
-        if 'message' in _dict:
-            args['message'] = _dict.get('message')
+        if (message := _dict.get('message')) is not None:
+            args['message'] = message
         return cls(**args)
 
     @classmethod
@@ -9950,24 +10406,26 @@ class StatusError():
         return not self == other
 
 
-class Synonym():
+class Synonym:
     """
     Synonym.
 
-    :attr str synonym: The text of the synonym. This string must conform to the
+    :param str synonym: The text of the synonym. This string must conform to the
           following restrictions:
           - It cannot contain carriage return, newline, or tab characters.
           - It cannot consist of only whitespace characters.
-    :attr datetime created: (optional) The timestamp for creation of the object.
-    :attr datetime updated: (optional) The timestamp for the most recent update to
+    :param datetime created: (optional) The timestamp for creation of the object.
+    :param datetime updated: (optional) The timestamp for the most recent update to
           the object.
     """
 
-    def __init__(self,
-                 synonym: str,
-                 *,
-                 created: datetime = None,
-                 updated: datetime = None) -> None:
+    def __init__(
+        self,
+        synonym: str,
+        *,
+        created: Optional[datetime] = None,
+        updated: Optional[datetime] = None,
+    ) -> None:
         """
         Initialize a Synonym object.
 
@@ -9984,15 +10442,15 @@ class Synonym():
     def from_dict(cls, _dict: Dict) -> 'Synonym':
         """Initialize a Synonym object from a json dictionary."""
         args = {}
-        if 'synonym' in _dict:
-            args['synonym'] = _dict.get('synonym')
+        if (synonym := _dict.get('synonym')) is not None:
+            args['synonym'] = synonym
         else:
             raise ValueError(
                 'Required property \'synonym\' not present in Synonym JSON')
-        if 'created' in _dict:
-            args['created'] = string_to_datetime(_dict.get('created'))
-        if 'updated' in _dict:
-            args['updated'] = string_to_datetime(_dict.get('updated'))
+        if (created := _dict.get('created')) is not None:
+            args['created'] = string_to_datetime(created)
+        if (updated := _dict.get('updated')) is not None:
+            args['updated'] = string_to_datetime(updated)
         return cls(**args)
 
     @classmethod
@@ -10030,17 +10488,20 @@ class Synonym():
         return not self == other
 
 
-class SynonymCollection():
+class SynonymCollection:
     """
     SynonymCollection.
 
-    :attr List[Synonym] synonyms: An array of synonyms.
-    :attr Pagination pagination: The pagination data for the returned objects. For
+    :param List[Synonym] synonyms: An array of synonyms.
+    :param Pagination pagination: The pagination data for the returned objects. For
           more information about using pagination, see [Pagination](#pagination).
     """
 
-    def __init__(self, synonyms: List['Synonym'],
-                 pagination: 'Pagination') -> None:
+    def __init__(
+        self,
+        synonyms: List['Synonym'],
+        pagination: 'Pagination',
+    ) -> None:
         """
         Initialize a SynonymCollection object.
 
@@ -10055,16 +10516,14 @@ class SynonymCollection():
     def from_dict(cls, _dict: Dict) -> 'SynonymCollection':
         """Initialize a SynonymCollection object from a json dictionary."""
         args = {}
-        if 'synonyms' in _dict:
-            args['synonyms'] = [
-                Synonym.from_dict(v) for v in _dict.get('synonyms')
-            ]
+        if (synonyms := _dict.get('synonyms')) is not None:
+            args['synonyms'] = [Synonym.from_dict(v) for v in synonyms]
         else:
             raise ValueError(
                 'Required property \'synonyms\' not present in SynonymCollection JSON'
             )
-        if 'pagination' in _dict:
-            args['pagination'] = Pagination.from_dict(_dict.get('pagination'))
+        if (pagination := _dict.get('pagination')) is not None:
+            args['pagination'] = Pagination.from_dict(pagination)
         else:
             raise ValueError(
                 'Required property \'pagination\' not present in SynonymCollection JSON'
@@ -10113,40 +10572,42 @@ class SynonymCollection():
         return not self == other
 
 
-class Value():
+class Value:
     """
     Value.
 
-    :attr str value: The text of the entity value. This string must conform to the
+    :param str value: The text of the entity value. This string must conform to the
           following restrictions:
           - It cannot contain carriage return, newline, or tab characters.
           - It cannot consist of only whitespace characters.
-    :attr dict metadata: (optional) Any metadata related to the entity value.
-    :attr str type: Specifies the type of entity value.
-    :attr List[str] synonyms: (optional) An array of synonyms for the entity value.
+    :param dict metadata: (optional) Any metadata related to the entity value.
+    :param str type: Specifies the type of entity value.
+    :param List[str] synonyms: (optional) An array of synonyms for the entity value.
           A value can specify either synonyms or patterns (depending on the value type),
           but not both. A synonym must conform to the following resrictions:
           - It cannot contain carriage return, newline, or tab characters.
           - It cannot consist of only whitespace characters.
-    :attr List[str] patterns: (optional) An array of patterns for the entity value.
+    :param List[str] patterns: (optional) An array of patterns for the entity value.
           A value can specify either synonyms or patterns (depending on the value type),
           but not both. A pattern is a regular expression; for more information about how
           to specify a pattern, see the
           [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-entities#entities-create-dictionary-based).
-    :attr datetime created: (optional) The timestamp for creation of the object.
-    :attr datetime updated: (optional) The timestamp for the most recent update to
+    :param datetime created: (optional) The timestamp for creation of the object.
+    :param datetime updated: (optional) The timestamp for the most recent update to
           the object.
     """
 
-    def __init__(self,
-                 value: str,
-                 type: str,
-                 *,
-                 metadata: dict = None,
-                 synonyms: List[str] = None,
-                 patterns: List[str] = None,
-                 created: datetime = None,
-                 updated: datetime = None) -> None:
+    def __init__(
+        self,
+        value: str,
+        type: str,
+        *,
+        metadata: Optional[dict] = None,
+        synonyms: Optional[List[str]] = None,
+        patterns: Optional[List[str]] = None,
+        created: Optional[datetime] = None,
+        updated: Optional[datetime] = None,
+    ) -> None:
         """
         Initialize a Value object.
 
@@ -10180,26 +10641,26 @@ class Value():
     def from_dict(cls, _dict: Dict) -> 'Value':
         """Initialize a Value object from a json dictionary."""
         args = {}
-        if 'value' in _dict:
-            args['value'] = _dict.get('value')
+        if (value := _dict.get('value')) is not None:
+            args['value'] = value
         else:
             raise ValueError(
                 'Required property \'value\' not present in Value JSON')
-        if 'metadata' in _dict:
-            args['metadata'] = _dict.get('metadata')
-        if 'type' in _dict:
-            args['type'] = _dict.get('type')
+        if (metadata := _dict.get('metadata')) is not None:
+            args['metadata'] = metadata
+        if (type := _dict.get('type')) is not None:
+            args['type'] = type
         else:
             raise ValueError(
                 'Required property \'type\' not present in Value JSON')
-        if 'synonyms' in _dict:
-            args['synonyms'] = _dict.get('synonyms')
-        if 'patterns' in _dict:
-            args['patterns'] = _dict.get('patterns')
-        if 'created' in _dict:
-            args['created'] = string_to_datetime(_dict.get('created'))
-        if 'updated' in _dict:
-            args['updated'] = string_to_datetime(_dict.get('updated'))
+        if (synonyms := _dict.get('synonyms')) is not None:
+            args['synonyms'] = synonyms
+        if (patterns := _dict.get('patterns')) is not None:
+            args['patterns'] = patterns
+        if (created := _dict.get('created')) is not None:
+            args['created'] = string_to_datetime(created)
+        if (updated := _dict.get('updated')) is not None:
+            args['updated'] = string_to_datetime(updated)
         return cls(**args)
 
     @classmethod
@@ -10248,20 +10709,25 @@ class Value():
         """
         Specifies the type of entity value.
         """
+
         SYNONYMS = 'synonyms'
         PATTERNS = 'patterns'
 
 
-class ValueCollection():
+class ValueCollection:
     """
     ValueCollection.
 
-    :attr List[Value] values: An array of entity values.
-    :attr Pagination pagination: The pagination data for the returned objects. For
+    :param List[Value] values: An array of entity values.
+    :param Pagination pagination: The pagination data for the returned objects. For
           more information about using pagination, see [Pagination](#pagination).
     """
 
-    def __init__(self, values: List['Value'], pagination: 'Pagination') -> None:
+    def __init__(
+        self,
+        values: List['Value'],
+        pagination: 'Pagination',
+    ) -> None:
         """
         Initialize a ValueCollection object.
 
@@ -10276,14 +10742,14 @@ class ValueCollection():
     def from_dict(cls, _dict: Dict) -> 'ValueCollection':
         """Initialize a ValueCollection object from a json dictionary."""
         args = {}
-        if 'values' in _dict:
-            args['values'] = [Value.from_dict(v) for v in _dict.get('values')]
+        if (values := _dict.get('values')) is not None:
+            args['values'] = [Value.from_dict(v) for v in values]
         else:
             raise ValueError(
                 'Required property \'values\' not present in ValueCollection JSON'
             )
-        if 'pagination' in _dict:
-            args['pagination'] = Pagination.from_dict(_dict.get('pagination'))
+        if (pagination := _dict.get('pagination')) is not None:
+            args['pagination'] = Pagination.from_dict(pagination)
         else:
             raise ValueError(
                 'Required property \'pagination\' not present in ValueCollection JSON'
@@ -10332,25 +10798,27 @@ class ValueCollection():
         return not self == other
 
 
-class Webhook():
+class Webhook:
     """
     A webhook that can be used by dialog nodes to make programmatic calls to an external
     function.
     **Note:** Currently, only a single webhook named `main_webhook` is supported.
 
-    :attr str url: The URL for the external service or application to which you want
-          to send HTTP POST requests.
-    :attr str name: The name of the webhook. Currently, `main_webhook` is the only
+    :param str url: The URL for the external service or application to which you
+          want to send HTTP POST requests.
+    :param str name: The name of the webhook. Currently, `main_webhook` is the only
           supported value.
-    :attr List[WebhookHeader] headers_: (optional) An optional array of HTTP headers
-          to pass with the HTTP request.
+    :param List[WebhookHeader] headers_: (optional) An optional array of HTTP
+          headers to pass with the HTTP request.
     """
 
-    def __init__(self,
-                 url: str,
-                 name: str,
-                 *,
-                 headers_: List['WebhookHeader'] = None) -> None:
+    def __init__(
+        self,
+        url: str,
+        name: str,
+        *,
+        headers_: Optional[List['WebhookHeader']] = None,
+    ) -> None:
         """
         Initialize a Webhook object.
 
@@ -10369,20 +10837,18 @@ class Webhook():
     def from_dict(cls, _dict: Dict) -> 'Webhook':
         """Initialize a Webhook object from a json dictionary."""
         args = {}
-        if 'url' in _dict:
-            args['url'] = _dict.get('url')
+        if (url := _dict.get('url')) is not None:
+            args['url'] = url
         else:
             raise ValueError(
                 'Required property \'url\' not present in Webhook JSON')
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
+        if (name := _dict.get('name')) is not None:
+            args['name'] = name
         else:
             raise ValueError(
                 'Required property \'name\' not present in Webhook JSON')
-        if 'headers' in _dict:
-            args['headers_'] = [
-                WebhookHeader.from_dict(v) for v in _dict.get('headers')
-            ]
+        if (headers_ := _dict.get('headers')) is not None:
+            args['headers_'] = [WebhookHeader.from_dict(v) for v in headers_]
         return cls(**args)
 
     @classmethod
@@ -10426,15 +10892,19 @@ class Webhook():
         return not self == other
 
 
-class WebhookHeader():
+class WebhookHeader:
     """
     A key/value pair defining an HTTP header and a value.
 
-    :attr str name: The name of an HTTP header (for example, `Authorization`).
-    :attr str value: The value of an HTTP header.
+    :param str name: The name of an HTTP header (for example, `Authorization`).
+    :param str value: The value of an HTTP header.
     """
 
-    def __init__(self, name: str, value: str) -> None:
+    def __init__(
+        self,
+        name: str,
+        value: str,
+    ) -> None:
         """
         Initialize a WebhookHeader object.
 
@@ -10448,13 +10918,13 @@ class WebhookHeader():
     def from_dict(cls, _dict: Dict) -> 'WebhookHeader':
         """Initialize a WebhookHeader object from a json dictionary."""
         args = {}
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
+        if (name := _dict.get('name')) is not None:
+            args['name'] = name
         else:
             raise ValueError(
                 'Required property \'name\' not present in WebhookHeader JSON')
-        if 'value' in _dict:
-            args['value'] = _dict.get('value')
+        if (value := _dict.get('value')) is not None:
+            args['value'] = value
         else:
             raise ValueError(
                 'Required property \'value\' not present in WebhookHeader JSON')
@@ -10493,30 +10963,31 @@ class WebhookHeader():
         return not self == other
 
 
-class Workspace():
+class Workspace:
     """
     Workspace.
 
-    :attr str name: The name of the workspace. This string cannot contain carriage
+    :param str name: The name of the workspace. This string cannot contain carriage
           return, newline, or tab characters.
-    :attr str description: (optional) The description of the workspace. This string
+    :param str description: (optional) The description of the workspace. This string
           cannot contain carriage return, newline, or tab characters.
-    :attr str language: The language of the workspace.
-    :attr str workspace_id: (optional) The workspace ID of the workspace.
-    :attr List[DialogNode] dialog_nodes: (optional) An array of objects describing
+    :param str language: The language of the workspace.
+    :param str workspace_id: (optional) The workspace ID of the workspace.
+    :param List[DialogNode] dialog_nodes: (optional) An array of objects describing
           the dialog nodes in the workspace.
-    :attr List[Counterexample] counterexamples: (optional) An array of objects
+    :param List[Counterexample] counterexamples: (optional) An array of objects
           defining input examples that have been marked as irrelevant input.
-    :attr datetime created: (optional) The timestamp for creation of the object.
-    :attr datetime updated: (optional) The timestamp for the most recent update to
+    :param datetime created: (optional) The timestamp for creation of the object.
+    :param datetime updated: (optional) The timestamp for the most recent update to
           the object.
-    :attr dict metadata: (optional) Any metadata related to the workspace.
-    :attr bool learning_opt_out: Whether training data from the workspace (including
-          artifacts such as intents and entities) can be used by IBM for general service
-          improvements. `true` indicates that workspace training data is not to be used.
-    :attr WorkspaceSystemSettings system_settings: (optional) Global settings for
+    :param dict metadata: (optional) Any metadata related to the workspace.
+    :param bool learning_opt_out: Whether training data from the workspace
+          (including artifacts such as intents and entities) can be used by IBM for
+          general service improvements. `true` indicates that workspace training data is
+          not to be used.
+    :param WorkspaceSystemSettings system_settings: (optional) Global settings for
           the workspace.
-    :attr str status: (optional) The current status of the workspace:
+    :param str status: (optional) The current status of the workspace:
            - **Available**: The workspace is available and ready to process messages.
            - **Failed**: An asynchronous operation has failed. See the **status_errors**
           property for more information about the cause of the failure.
@@ -10524,38 +10995,40 @@ class Workspace():
            - **Processing**: An asynchronous operation has not yet completed.
            - **Training**: The workspace is training based on new data such as intents or
           examples.
-    :attr List[StatusError] status_errors: (optional) An array of messages about
+    :param List[StatusError] status_errors: (optional) An array of messages about
           errors that caused an asynchronous operation to fail.
-    :attr List[Webhook] webhooks: (optional)
-    :attr List[Intent] intents: (optional) An array of intents.
-    :attr List[Entity] entities: (optional) An array of objects describing the
+    :param List[Webhook] webhooks: (optional)
+    :param List[Intent] intents: (optional) An array of intents.
+    :param List[Entity] entities: (optional) An array of objects describing the
           entities for the workspace.
-    :attr WorkspaceCounts counts: (optional) An object containing properties that
+    :param WorkspaceCounts counts: (optional) An object containing properties that
           indicate how many intents, entities, and dialog nodes are defined in the
           workspace. This property is included only in responses from the **Export
           workspace asynchronously** method, and only when the **verbose** query parameter
           is set to `true`.
     """
 
-    def __init__(self,
-                 name: str,
-                 language: str,
-                 learning_opt_out: bool,
-                 *,
-                 description: str = None,
-                 workspace_id: str = None,
-                 dialog_nodes: List['DialogNode'] = None,
-                 counterexamples: List['Counterexample'] = None,
-                 created: datetime = None,
-                 updated: datetime = None,
-                 metadata: dict = None,
-                 system_settings: 'WorkspaceSystemSettings' = None,
-                 status: str = None,
-                 status_errors: List['StatusError'] = None,
-                 webhooks: List['Webhook'] = None,
-                 intents: List['Intent'] = None,
-                 entities: List['Entity'] = None,
-                 counts: 'WorkspaceCounts' = None) -> None:
+    def __init__(
+        self,
+        name: str,
+        language: str,
+        learning_opt_out: bool,
+        *,
+        description: Optional[str] = None,
+        workspace_id: Optional[str] = None,
+        dialog_nodes: Optional[List['DialogNode']] = None,
+        counterexamples: Optional[List['Counterexample']] = None,
+        created: Optional[datetime] = None,
+        updated: Optional[datetime] = None,
+        metadata: Optional[dict] = None,
+        system_settings: Optional['WorkspaceSystemSettings'] = None,
+        status: Optional[str] = None,
+        status_errors: Optional[List['StatusError']] = None,
+        webhooks: Optional[List['Webhook']] = None,
+        intents: Optional[List['Intent']] = None,
+        entities: Optional[List['Entity']] = None,
+        counts: Optional['WorkspaceCounts'] = None,
+    ) -> None:
         """
         Initialize a Workspace object.
 
@@ -10602,64 +11075,57 @@ class Workspace():
     def from_dict(cls, _dict: Dict) -> 'Workspace':
         """Initialize a Workspace object from a json dictionary."""
         args = {}
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
+        if (name := _dict.get('name')) is not None:
+            args['name'] = name
         else:
             raise ValueError(
                 'Required property \'name\' not present in Workspace JSON')
-        if 'description' in _dict:
-            args['description'] = _dict.get('description')
-        if 'language' in _dict:
-            args['language'] = _dict.get('language')
+        if (description := _dict.get('description')) is not None:
+            args['description'] = description
+        if (language := _dict.get('language')) is not None:
+            args['language'] = language
         else:
             raise ValueError(
                 'Required property \'language\' not present in Workspace JSON')
-        if 'workspace_id' in _dict:
-            args['workspace_id'] = _dict.get('workspace_id')
-        if 'dialog_nodes' in _dict:
+        if (workspace_id := _dict.get('workspace_id')) is not None:
+            args['workspace_id'] = workspace_id
+        if (dialog_nodes := _dict.get('dialog_nodes')) is not None:
             args['dialog_nodes'] = [
-                DialogNode.from_dict(v) for v in _dict.get('dialog_nodes')
+                DialogNode.from_dict(v) for v in dialog_nodes
             ]
-        if 'counterexamples' in _dict:
+        if (counterexamples := _dict.get('counterexamples')) is not None:
             args['counterexamples'] = [
-                Counterexample.from_dict(v)
-                for v in _dict.get('counterexamples')
+                Counterexample.from_dict(v) for v in counterexamples
             ]
-        if 'created' in _dict:
-            args['created'] = string_to_datetime(_dict.get('created'))
-        if 'updated' in _dict:
-            args['updated'] = string_to_datetime(_dict.get('updated'))
-        if 'metadata' in _dict:
-            args['metadata'] = _dict.get('metadata')
-        if 'learning_opt_out' in _dict:
-            args['learning_opt_out'] = _dict.get('learning_opt_out')
+        if (created := _dict.get('created')) is not None:
+            args['created'] = string_to_datetime(created)
+        if (updated := _dict.get('updated')) is not None:
+            args['updated'] = string_to_datetime(updated)
+        if (metadata := _dict.get('metadata')) is not None:
+            args['metadata'] = metadata
+        if (learning_opt_out := _dict.get('learning_opt_out')) is not None:
+            args['learning_opt_out'] = learning_opt_out
         else:
             raise ValueError(
                 'Required property \'learning_opt_out\' not present in Workspace JSON'
             )
-        if 'system_settings' in _dict:
+        if (system_settings := _dict.get('system_settings')) is not None:
             args['system_settings'] = WorkspaceSystemSettings.from_dict(
-                _dict.get('system_settings'))
-        if 'status' in _dict:
-            args['status'] = _dict.get('status')
-        if 'status_errors' in _dict:
+                system_settings)
+        if (status := _dict.get('status')) is not None:
+            args['status'] = status
+        if (status_errors := _dict.get('status_errors')) is not None:
             args['status_errors'] = [
-                StatusError.from_dict(v) for v in _dict.get('status_errors')
+                StatusError.from_dict(v) for v in status_errors
             ]
-        if 'webhooks' in _dict:
-            args['webhooks'] = [
-                Webhook.from_dict(v) for v in _dict.get('webhooks')
-            ]
-        if 'intents' in _dict:
-            args['intents'] = [
-                Intent.from_dict(v) for v in _dict.get('intents')
-            ]
-        if 'entities' in _dict:
-            args['entities'] = [
-                Entity.from_dict(v) for v in _dict.get('entities')
-            ]
-        if 'counts' in _dict:
-            args['counts'] = WorkspaceCounts.from_dict(_dict.get('counts'))
+        if (webhooks := _dict.get('webhooks')) is not None:
+            args['webhooks'] = [Webhook.from_dict(v) for v in webhooks]
+        if (intents := _dict.get('intents')) is not None:
+            args['intents'] = [Intent.from_dict(v) for v in intents]
+        if (entities := _dict.get('entities')) is not None:
+            args['entities'] = [Entity.from_dict(v) for v in entities]
+        if (counts := _dict.get('counts')) is not None:
+            args['counts'] = WorkspaceCounts.from_dict(counts)
         return cls(**args)
 
     @classmethod
@@ -10782,6 +11248,7 @@ class Workspace():
          - **Training**: The workspace is training based on new data such as intents or
         examples.
         """
+
         AVAILABLE = 'Available'
         FAILED = 'Failed'
         NON_EXISTENT = 'Non Existent'
@@ -10790,18 +11257,21 @@ class Workspace():
         UNAVAILABLE = 'Unavailable'
 
 
-class WorkspaceCollection():
+class WorkspaceCollection:
     """
     WorkspaceCollection.
 
-    :attr List[Workspace] workspaces: An array of objects describing the workspaces
+    :param List[Workspace] workspaces: An array of objects describing the workspaces
           associated with the service instance.
-    :attr Pagination pagination: The pagination data for the returned objects. For
+    :param Pagination pagination: The pagination data for the returned objects. For
           more information about using pagination, see [Pagination](#pagination).
     """
 
-    def __init__(self, workspaces: List['Workspace'],
-                 pagination: 'Pagination') -> None:
+    def __init__(
+        self,
+        workspaces: List['Workspace'],
+        pagination: 'Pagination',
+    ) -> None:
         """
         Initialize a WorkspaceCollection object.
 
@@ -10817,16 +11287,14 @@ class WorkspaceCollection():
     def from_dict(cls, _dict: Dict) -> 'WorkspaceCollection':
         """Initialize a WorkspaceCollection object from a json dictionary."""
         args = {}
-        if 'workspaces' in _dict:
-            args['workspaces'] = [
-                Workspace.from_dict(v) for v in _dict.get('workspaces')
-            ]
+        if (workspaces := _dict.get('workspaces')) is not None:
+            args['workspaces'] = [Workspace.from_dict(v) for v in workspaces]
         else:
             raise ValueError(
                 'Required property \'workspaces\' not present in WorkspaceCollection JSON'
             )
-        if 'pagination' in _dict:
-            args['pagination'] = Pagination.from_dict(_dict.get('pagination'))
+        if (pagination := _dict.get('pagination')) is not None:
+            args['pagination'] = Pagination.from_dict(pagination)
         else:
             raise ValueError(
                 'Required property \'pagination\' not present in WorkspaceCollection JSON'
@@ -10875,23 +11343,25 @@ class WorkspaceCollection():
         return not self == other
 
 
-class WorkspaceCounts():
+class WorkspaceCounts:
     """
     An object containing properties that indicate how many intents, entities, and dialog
     nodes are defined in the workspace. This property is included only in responses from
     the **Export workspace asynchronously** method, and only when the **verbose** query
     parameter is set to `true`.
 
-    :attr int intent: (optional) The number of intents defined in the workspace.
-    :attr int entity: (optional) The number of entities defined in the workspace.
-    :attr int node: (optional) The number of nodes defined in the workspace.
+    :param int intent: (optional) The number of intents defined in the workspace.
+    :param int entity: (optional) The number of entities defined in the workspace.
+    :param int node: (optional) The number of nodes defined in the workspace.
     """
 
-    def __init__(self,
-                 *,
-                 intent: int = None,
-                 entity: int = None,
-                 node: int = None) -> None:
+    def __init__(
+        self,
+        *,
+        intent: Optional[int] = None,
+        entity: Optional[int] = None,
+        node: Optional[int] = None,
+    ) -> None:
         """
         Initialize a WorkspaceCounts object.
 
@@ -10909,12 +11379,12 @@ class WorkspaceCounts():
     def from_dict(cls, _dict: Dict) -> 'WorkspaceCounts':
         """Initialize a WorkspaceCounts object from a json dictionary."""
         args = {}
-        if 'intent' in _dict:
-            args['intent'] = _dict.get('intent')
-        if 'entity' in _dict:
-            args['entity'] = _dict.get('entity')
-        if 'node' in _dict:
-            args['node'] = _dict.get('node')
+        if (intent := _dict.get('intent')) is not None:
+            args['intent'] = intent
+        if (entity := _dict.get('entity')) is not None:
+            args['entity'] = entity
+        if (node := _dict.get('node')) is not None:
+            args['node'] = node
         return cls(**args)
 
     @classmethod
@@ -10952,28 +11422,28 @@ class WorkspaceCounts():
         return not self == other
 
 
-class WorkspaceSystemSettings():
+class WorkspaceSystemSettings:
     """
     Global settings for the workspace.
 
-    :attr WorkspaceSystemSettingsTooling tooling: (optional) Workspace settings
+    :param WorkspaceSystemSettingsTooling tooling: (optional) Workspace settings
           related to the Watson Assistant user interface.
-    :attr WorkspaceSystemSettingsDisambiguation disambiguation: (optional) Workspace
-          settings related to the disambiguation feature.
-    :attr dict human_agent_assist: (optional) For internal use only.
-    :attr bool spelling_suggestions: (optional) Whether spelling correction is
+    :param WorkspaceSystemSettingsDisambiguation disambiguation: (optional)
+          Workspace settings related to the disambiguation feature.
+    :param dict human_agent_assist: (optional) For internal use only.
+    :param bool spelling_suggestions: (optional) Whether spelling correction is
           enabled for the workspace.
-    :attr bool spelling_auto_correct: (optional) Whether autocorrection is enabled
+    :param bool spelling_auto_correct: (optional) Whether autocorrection is enabled
           for the workspace. If spelling correction is enabled and this property is
           `false`, any suggested corrections are returned in the **suggested_text**
           property of the message response. If this property is `true`, any corrections
           are automatically applied to the user input, and the original text is returned
           in the **original_text** property of the message response.
-    :attr WorkspaceSystemSettingsSystemEntities system_entities: (optional)
+    :param WorkspaceSystemSettingsSystemEntities system_entities: (optional)
           Workspace settings related to the behavior of system entities.
-    :attr WorkspaceSystemSettingsOffTopic off_topic: (optional) Workspace settings
+    :param WorkspaceSystemSettingsOffTopic off_topic: (optional) Workspace settings
           related to detection of irrelevant input.
-    :attr WorkspaceSystemSettingsNlp nlp: (optional) Workspace settings related to
+    :param WorkspaceSystemSettingsNlp nlp: (optional) Workspace settings related to
           the version of the training algorithms currently used by the skill.
     """
 
@@ -10985,17 +11455,20 @@ class WorkspaceSystemSettings():
     ])
 
     def __init__(
-            self,
-            *,
-            tooling: 'WorkspaceSystemSettingsTooling' = None,
-            disambiguation: 'WorkspaceSystemSettingsDisambiguation' = None,
-            human_agent_assist: dict = None,
-            spelling_suggestions: bool = None,
-            spelling_auto_correct: bool = None,
-            system_entities: 'WorkspaceSystemSettingsSystemEntities' = None,
-            off_topic: 'WorkspaceSystemSettingsOffTopic' = None,
-            nlp: 'WorkspaceSystemSettingsNlp' = None,
-            **kwargs) -> None:
+        self,
+        *,
+        tooling: Optional['WorkspaceSystemSettingsTooling'] = None,
+        disambiguation: Optional[
+            'WorkspaceSystemSettingsDisambiguation'] = None,
+        human_agent_assist: Optional[dict] = None,
+        spelling_suggestions: Optional[bool] = None,
+        spelling_auto_correct: Optional[bool] = None,
+        system_entities: Optional[
+            'WorkspaceSystemSettingsSystemEntities'] = None,
+        off_topic: Optional['WorkspaceSystemSettingsOffTopic'] = None,
+        nlp: Optional['WorkspaceSystemSettingsNlp'] = None,
+        **kwargs,
+    ) -> None:
         """
         Initialize a WorkspaceSystemSettings object.
 
@@ -11037,28 +11510,29 @@ class WorkspaceSystemSettings():
     def from_dict(cls, _dict: Dict) -> 'WorkspaceSystemSettings':
         """Initialize a WorkspaceSystemSettings object from a json dictionary."""
         args = {}
-        if 'tooling' in _dict:
-            args['tooling'] = WorkspaceSystemSettingsTooling.from_dict(
-                _dict.get('tooling'))
-        if 'disambiguation' in _dict:
+        if (tooling := _dict.get('tooling')) is not None:
+            args['tooling'] = WorkspaceSystemSettingsTooling.from_dict(tooling)
+        if (disambiguation := _dict.get('disambiguation')) is not None:
             args[
                 'disambiguation'] = WorkspaceSystemSettingsDisambiguation.from_dict(
-                    _dict.get('disambiguation'))
-        if 'human_agent_assist' in _dict:
-            args['human_agent_assist'] = _dict.get('human_agent_assist')
-        if 'spelling_suggestions' in _dict:
-            args['spelling_suggestions'] = _dict.get('spelling_suggestions')
-        if 'spelling_auto_correct' in _dict:
-            args['spelling_auto_correct'] = _dict.get('spelling_auto_correct')
-        if 'system_entities' in _dict:
+                    disambiguation)
+        if (human_agent_assist := _dict.get('human_agent_assist')) is not None:
+            args['human_agent_assist'] = human_agent_assist
+        if (spelling_suggestions :=
+                _dict.get('spelling_suggestions')) is not None:
+            args['spelling_suggestions'] = spelling_suggestions
+        if (spelling_auto_correct :=
+                _dict.get('spelling_auto_correct')) is not None:
+            args['spelling_auto_correct'] = spelling_auto_correct
+        if (system_entities := _dict.get('system_entities')) is not None:
             args[
                 'system_entities'] = WorkspaceSystemSettingsSystemEntities.from_dict(
-                    _dict.get('system_entities'))
-        if 'off_topic' in _dict:
+                    system_entities)
+        if (off_topic := _dict.get('off_topic')) is not None:
             args['off_topic'] = WorkspaceSystemSettingsOffTopic.from_dict(
-                _dict.get('off_topic'))
-        if 'nlp' in _dict:
-            args['nlp'] = WorkspaceSystemSettingsNlp.from_dict(_dict.get('nlp'))
+                off_topic)
+        if (nlp := _dict.get('nlp')) is not None:
+            args['nlp'] = WorkspaceSystemSettingsNlp.from_dict(nlp)
         args.update(
             {k: v for (k, v) in _dict.items() if k not in cls._properties})
         return cls(**args)
@@ -11156,37 +11630,39 @@ class WorkspaceSystemSettings():
         return not self == other
 
 
-class WorkspaceSystemSettingsDisambiguation():
+class WorkspaceSystemSettingsDisambiguation:
     """
     Workspace settings related to the disambiguation feature.
 
-    :attr str prompt: (optional) The text of the introductory prompt that
+    :param str prompt: (optional) The text of the introductory prompt that
           accompanies disambiguation options presented to the user.
-    :attr str none_of_the_above_prompt: (optional) The user-facing label for the
+    :param str none_of_the_above_prompt: (optional) The user-facing label for the
           option users can select if none of the suggested options is correct. If no value
           is specified for this property, this option does not appear.
-    :attr bool enabled: (optional) Whether the disambiguation feature is enabled for
-          the workspace.
-    :attr str sensitivity: (optional) The sensitivity of the disambiguation feature
+    :param bool enabled: (optional) Whether the disambiguation feature is enabled
+          for the workspace.
+    :param str sensitivity: (optional) The sensitivity of the disambiguation feature
           to intent detection uncertainty. Higher sensitivity means that the
           disambiguation feature is triggered more often and includes more choices.
-    :attr bool randomize: (optional) Whether the order in which disambiguation
+    :param bool randomize: (optional) Whether the order in which disambiguation
           suggestions are presented should be randomized (but still influenced by relative
           confidence).
-    :attr int max_suggestions: (optional) The maximum number of disambigation
+    :param int max_suggestions: (optional) The maximum number of disambigation
           suggestions that can be included in a `suggestion` response.
-    :attr str suggestion_text_policy: (optional) For internal use only.
+    :param str suggestion_text_policy: (optional) For internal use only.
     """
 
-    def __init__(self,
-                 *,
-                 prompt: str = None,
-                 none_of_the_above_prompt: str = None,
-                 enabled: bool = None,
-                 sensitivity: str = None,
-                 randomize: bool = None,
-                 max_suggestions: int = None,
-                 suggestion_text_policy: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        prompt: Optional[str] = None,
+        none_of_the_above_prompt: Optional[str] = None,
+        enabled: Optional[bool] = None,
+        sensitivity: Optional[str] = None,
+        randomize: Optional[bool] = None,
+        max_suggestions: Optional[int] = None,
+        suggestion_text_policy: Optional[str] = None,
+    ) -> None:
         """
         Initialize a WorkspaceSystemSettingsDisambiguation object.
 
@@ -11219,21 +11695,22 @@ class WorkspaceSystemSettingsDisambiguation():
     def from_dict(cls, _dict: Dict) -> 'WorkspaceSystemSettingsDisambiguation':
         """Initialize a WorkspaceSystemSettingsDisambiguation object from a json dictionary."""
         args = {}
-        if 'prompt' in _dict:
-            args['prompt'] = _dict.get('prompt')
-        if 'none_of_the_above_prompt' in _dict:
-            args['none_of_the_above_prompt'] = _dict.get(
-                'none_of_the_above_prompt')
-        if 'enabled' in _dict:
-            args['enabled'] = _dict.get('enabled')
-        if 'sensitivity' in _dict:
-            args['sensitivity'] = _dict.get('sensitivity')
-        if 'randomize' in _dict:
-            args['randomize'] = _dict.get('randomize')
-        if 'max_suggestions' in _dict:
-            args['max_suggestions'] = _dict.get('max_suggestions')
-        if 'suggestion_text_policy' in _dict:
-            args['suggestion_text_policy'] = _dict.get('suggestion_text_policy')
+        if (prompt := _dict.get('prompt')) is not None:
+            args['prompt'] = prompt
+        if (none_of_the_above_prompt :=
+                _dict.get('none_of_the_above_prompt')) is not None:
+            args['none_of_the_above_prompt'] = none_of_the_above_prompt
+        if (enabled := _dict.get('enabled')) is not None:
+            args['enabled'] = enabled
+        if (sensitivity := _dict.get('sensitivity')) is not None:
+            args['sensitivity'] = sensitivity
+        if (randomize := _dict.get('randomize')) is not None:
+            args['randomize'] = randomize
+        if (max_suggestions := _dict.get('max_suggestions')) is not None:
+            args['max_suggestions'] = max_suggestions
+        if (suggestion_text_policy :=
+                _dict.get('suggestion_text_policy')) is not None:
+            args['suggestion_text_policy'] = suggestion_text_policy
         return cls(**args)
 
     @classmethod
@@ -11287,6 +11764,7 @@ class WorkspaceSystemSettingsDisambiguation():
         Higher sensitivity means that the disambiguation feature is triggered more often
         and includes more choices.
         """
+
         AUTO = 'auto'
         HIGH = 'high'
         MEDIUM_HIGH = 'medium_high'
@@ -11295,12 +11773,12 @@ class WorkspaceSystemSettingsDisambiguation():
         LOW = 'low'
 
 
-class WorkspaceSystemSettingsNlp():
+class WorkspaceSystemSettingsNlp:
     """
     Workspace settings related to the version of the training algorithms currently used by
     the skill.
 
-    :attr str model: (optional) The policy the skill follows for selecting the
+    :param str model: (optional) The policy the skill follows for selecting the
           algorithm version to use. For more information, see the
           [documentation](/docs/watson-assistant?topic=watson-assistant-algorithm-version).
            On IBM Cloud, you can specify `latest`, `previous`, or `beta`.
@@ -11308,7 +11786,11 @@ class WorkspaceSystemSettingsNlp():
           version you want to use, in `YYYY-MM-DD` format.
     """
 
-    def __init__(self, *, model: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        model: Optional[str] = None,
+    ) -> None:
         """
         Initialize a WorkspaceSystemSettingsNlp object.
 
@@ -11325,8 +11807,8 @@ class WorkspaceSystemSettingsNlp():
     def from_dict(cls, _dict: Dict) -> 'WorkspaceSystemSettingsNlp':
         """Initialize a WorkspaceSystemSettingsNlp object from a json dictionary."""
         args = {}
-        if 'model' in _dict:
-            args['model'] = _dict.get('model')
+        if (model := _dict.get('model')) is not None:
+            args['model'] = model
         return cls(**args)
 
     @classmethod
@@ -11360,15 +11842,19 @@ class WorkspaceSystemSettingsNlp():
         return not self == other
 
 
-class WorkspaceSystemSettingsOffTopic():
+class WorkspaceSystemSettingsOffTopic:
     """
     Workspace settings related to detection of irrelevant input.
 
-    :attr bool enabled: (optional) Whether enhanced irrelevance detection is enabled
-          for the workspace.
+    :param bool enabled: (optional) Whether enhanced irrelevance detection is
+          enabled for the workspace.
     """
 
-    def __init__(self, *, enabled: bool = None) -> None:
+    def __init__(
+        self,
+        *,
+        enabled: Optional[bool] = None,
+    ) -> None:
         """
         Initialize a WorkspaceSystemSettingsOffTopic object.
 
@@ -11381,8 +11867,8 @@ class WorkspaceSystemSettingsOffTopic():
     def from_dict(cls, _dict: Dict) -> 'WorkspaceSystemSettingsOffTopic':
         """Initialize a WorkspaceSystemSettingsOffTopic object from a json dictionary."""
         args = {}
-        if 'enabled' in _dict:
-            args['enabled'] = _dict.get('enabled')
+        if (enabled := _dict.get('enabled')) is not None:
+            args['enabled'] = enabled
         return cls(**args)
 
     @classmethod
@@ -11416,15 +11902,19 @@ class WorkspaceSystemSettingsOffTopic():
         return not self == other
 
 
-class WorkspaceSystemSettingsSystemEntities():
+class WorkspaceSystemSettingsSystemEntities:
     """
     Workspace settings related to the behavior of system entities.
 
-    :attr bool enabled: (optional) Whether the new system entities are enabled for
+    :param bool enabled: (optional) Whether the new system entities are enabled for
           the workspace.
     """
 
-    def __init__(self, *, enabled: bool = None) -> None:
+    def __init__(
+        self,
+        *,
+        enabled: Optional[bool] = None,
+    ) -> None:
         """
         Initialize a WorkspaceSystemSettingsSystemEntities object.
 
@@ -11437,8 +11927,8 @@ class WorkspaceSystemSettingsSystemEntities():
     def from_dict(cls, _dict: Dict) -> 'WorkspaceSystemSettingsSystemEntities':
         """Initialize a WorkspaceSystemSettingsSystemEntities object from a json dictionary."""
         args = {}
-        if 'enabled' in _dict:
-            args['enabled'] = _dict.get('enabled')
+        if (enabled := _dict.get('enabled')) is not None:
+            args['enabled'] = enabled
         return cls(**args)
 
     @classmethod
@@ -11472,15 +11962,19 @@ class WorkspaceSystemSettingsSystemEntities():
         return not self == other
 
 
-class WorkspaceSystemSettingsTooling():
+class WorkspaceSystemSettingsTooling:
     """
     Workspace settings related to the Watson Assistant user interface.
 
-    :attr bool store_generic_responses: (optional) Whether the dialog JSON editor
+    :param bool store_generic_responses: (optional) Whether the dialog JSON editor
           displays text responses within the `output.generic` object.
     """
 
-    def __init__(self, *, store_generic_responses: bool = None) -> None:
+    def __init__(
+        self,
+        *,
+        store_generic_responses: Optional[bool] = None,
+    ) -> None:
         """
         Initialize a WorkspaceSystemSettingsTooling object.
 
@@ -11493,9 +11987,9 @@ class WorkspaceSystemSettingsTooling():
     def from_dict(cls, _dict: Dict) -> 'WorkspaceSystemSettingsTooling':
         """Initialize a WorkspaceSystemSettingsTooling object from a json dictionary."""
         args = {}
-        if 'store_generic_responses' in _dict:
-            args['store_generic_responses'] = _dict.get(
-                'store_generic_responses')
+        if (store_generic_responses :=
+                _dict.get('store_generic_responses')) is not None:
+            args['store_generic_responses'] = store_generic_responses
         return cls(**args)
 
     @classmethod
@@ -11535,30 +12029,32 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio(
     """
     DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio.
 
-    :attr str response_type: The type of response returned by the dialog node. The
+    :param str response_type: The type of response returned by the dialog node. The
           specified response type must be supported by the client application or channel.
-    :attr str source: The `https:` URL of the audio clip.
-    :attr str title: (optional) An optional title to show before the response.
-    :attr str description: (optional) An optional description to show with the
+    :param str source: The `https:` URL of the audio clip.
+    :param str title: (optional) An optional title to show before the response.
+    :param str description: (optional) An optional description to show with the
           response.
-    :attr List[ResponseGenericChannel] channels: (optional) An array of objects
+    :param List[ResponseGenericChannel] channels: (optional) An array of objects
           specifying channels for which the response is intended. If **channels** is
           present, the response is intended for a built-in integration and should not be
           handled by an API client.
-    :attr dict channel_options: (optional) For internal use only.
-    :attr str alt_text: (optional) Descriptive text that can be used for screen
+    :param dict channel_options: (optional) For internal use only.
+    :param str alt_text: (optional) Descriptive text that can be used for screen
           readers or other situations where the audio player cannot be seen.
     """
 
-    def __init__(self,
-                 response_type: str,
-                 source: str,
-                 *,
-                 title: str = None,
-                 description: str = None,
-                 channels: List['ResponseGenericChannel'] = None,
-                 channel_options: dict = None,
-                 alt_text: str = None) -> None:
+    def __init__(
+        self,
+        response_type: str,
+        source: str,
+        *,
+        title: Optional[str] = None,
+        description: Optional[str] = None,
+        channels: Optional[List['ResponseGenericChannel']] = None,
+        channel_options: Optional[dict] = None,
+        alt_text: Optional[str] = None,
+    ) -> None:
         """
         Initialize a DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio object.
 
@@ -11592,31 +12088,30 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio(
     ) -> 'DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio':
         """Initialize a DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio object from a json dictionary."""
         args = {}
-        if 'response_type' in _dict:
-            args['response_type'] = _dict.get('response_type')
+        if (response_type := _dict.get('response_type')) is not None:
+            args['response_type'] = response_type
         else:
             raise ValueError(
                 'Required property \'response_type\' not present in DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio JSON'
             )
-        if 'source' in _dict:
-            args['source'] = _dict.get('source')
+        if (source := _dict.get('source')) is not None:
+            args['source'] = source
         else:
             raise ValueError(
                 'Required property \'source\' not present in DialogNodeOutputGenericDialogNodeOutputResponseTypeAudio JSON'
             )
-        if 'title' in _dict:
-            args['title'] = _dict.get('title')
-        if 'description' in _dict:
-            args['description'] = _dict.get('description')
-        if 'channels' in _dict:
+        if (title := _dict.get('title')) is not None:
+            args['title'] = title
+        if (description := _dict.get('description')) is not None:
+            args['description'] = description
+        if (channels := _dict.get('channels')) is not None:
             args['channels'] = [
-                ResponseGenericChannel.from_dict(v)
-                for v in _dict.get('channels')
+                ResponseGenericChannel.from_dict(v) for v in channels
             ]
-        if 'channel_options' in _dict:
-            args['channel_options'] = _dict.get('channel_options')
-        if 'alt_text' in _dict:
-            args['alt_text'] = _dict.get('alt_text')
+        if (channel_options := _dict.get('channel_options')) is not None:
+            args['channel_options'] = channel_options
+        if (alt_text := _dict.get('alt_text')) is not None:
+            args['alt_text'] = alt_text
         return cls(**args)
 
     @classmethod
@@ -11678,24 +12173,26 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeChannelTransfer(
     """
     DialogNodeOutputGenericDialogNodeOutputResponseTypeChannelTransfer.
 
-    :attr str response_type: The type of response returned by the dialog node. The
+    :param str response_type: The type of response returned by the dialog node. The
           specified response type must be supported by the client application or channel.
            **Note:** The `channel_transfer` response type is not supported on IBM Cloud
           Pak for Data.
-    :attr str message_to_user: The message to display to the user when initiating a
+    :param str message_to_user: The message to display to the user when initiating a
           channel transfer.
-    :attr ChannelTransferInfo transfer_info: Information used by an integration to
+    :param ChannelTransferInfo transfer_info: Information used by an integration to
           transfer the conversation to a different channel.
-    :attr List[ResponseGenericChannel] channels: (optional) An array of objects
+    :param List[ResponseGenericChannel] channels: (optional) An array of objects
           specifying channels for which the response is intended.
     """
 
-    def __init__(self,
-                 response_type: str,
-                 message_to_user: str,
-                 transfer_info: 'ChannelTransferInfo',
-                 *,
-                 channels: List['ResponseGenericChannel'] = None) -> None:
+    def __init__(
+        self,
+        response_type: str,
+        message_to_user: str,
+        transfer_info: 'ChannelTransferInfo',
+        *,
+        channels: Optional[List['ResponseGenericChannel']] = None,
+    ) -> None:
         """
         Initialize a DialogNodeOutputGenericDialogNodeOutputResponseTypeChannelTransfer object.
 
@@ -11723,29 +12220,27 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeChannelTransfer(
     ) -> 'DialogNodeOutputGenericDialogNodeOutputResponseTypeChannelTransfer':
         """Initialize a DialogNodeOutputGenericDialogNodeOutputResponseTypeChannelTransfer object from a json dictionary."""
         args = {}
-        if 'response_type' in _dict:
-            args['response_type'] = _dict.get('response_type')
+        if (response_type := _dict.get('response_type')) is not None:
+            args['response_type'] = response_type
         else:
             raise ValueError(
                 'Required property \'response_type\' not present in DialogNodeOutputGenericDialogNodeOutputResponseTypeChannelTransfer JSON'
             )
-        if 'message_to_user' in _dict:
-            args['message_to_user'] = _dict.get('message_to_user')
+        if (message_to_user := _dict.get('message_to_user')) is not None:
+            args['message_to_user'] = message_to_user
         else:
             raise ValueError(
                 'Required property \'message_to_user\' not present in DialogNodeOutputGenericDialogNodeOutputResponseTypeChannelTransfer JSON'
             )
-        if 'transfer_info' in _dict:
-            args['transfer_info'] = ChannelTransferInfo.from_dict(
-                _dict.get('transfer_info'))
+        if (transfer_info := _dict.get('transfer_info')) is not None:
+            args['transfer_info'] = ChannelTransferInfo.from_dict(transfer_info)
         else:
             raise ValueError(
                 'Required property \'transfer_info\' not present in DialogNodeOutputGenericDialogNodeOutputResponseTypeChannelTransfer JSON'
             )
-        if 'channels' in _dict:
+        if (channels := _dict.get('channels')) is not None:
             args['channels'] = [
-                ResponseGenericChannel.from_dict(v)
-                for v in _dict.get('channels')
+                ResponseGenericChannel.from_dict(v) for v in channels
             ]
         return cls(**args)
 
@@ -11807,32 +12302,34 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeConnectToAgent(
     """
     DialogNodeOutputGenericDialogNodeOutputResponseTypeConnectToAgent.
 
-    :attr str response_type: The type of response returned by the dialog node. The
+    :param str response_type: The type of response returned by the dialog node. The
           specified response type must be supported by the client application or channel.
-    :attr str message_to_human_agent: (optional) An optional message to be sent to
+    :param str message_to_human_agent: (optional) An optional message to be sent to
           the human agent who will be taking over the conversation.
-    :attr AgentAvailabilityMessage agent_available: (optional) An optional message
+    :param AgentAvailabilityMessage agent_available: (optional) An optional message
           to be displayed to the user to indicate that the conversation will be
           transferred to the next available agent.
-    :attr AgentAvailabilityMessage agent_unavailable: (optional) An optional message
-          to be displayed to the user to indicate that no online agent is available to
-          take over the conversation.
-    :attr DialogNodeOutputConnectToAgentTransferInfo transfer_info: (optional)
+    :param AgentAvailabilityMessage agent_unavailable: (optional) An optional
+          message to be displayed to the user to indicate that no online agent is
+          available to take over the conversation.
+    :param DialogNodeOutputConnectToAgentTransferInfo transfer_info: (optional)
           Routing or other contextual information to be used by target service desk
           systems.
-    :attr List[ResponseGenericChannel] channels: (optional) An array of objects
+    :param List[ResponseGenericChannel] channels: (optional) An array of objects
           specifying channels for which the response is intended.
     """
 
     def __init__(
-            self,
-            response_type: str,
-            *,
-            message_to_human_agent: str = None,
-            agent_available: 'AgentAvailabilityMessage' = None,
-            agent_unavailable: 'AgentAvailabilityMessage' = None,
-            transfer_info: 'DialogNodeOutputConnectToAgentTransferInfo' = None,
-            channels: List['ResponseGenericChannel'] = None) -> None:
+        self,
+        response_type: str,
+        *,
+        message_to_human_agent: Optional[str] = None,
+        agent_available: Optional['AgentAvailabilityMessage'] = None,
+        agent_unavailable: Optional['AgentAvailabilityMessage'] = None,
+        transfer_info: Optional[
+            'DialogNodeOutputConnectToAgentTransferInfo'] = None,
+        channels: Optional[List['ResponseGenericChannel']] = None,
+    ) -> None:
         """
         Initialize a DialogNodeOutputGenericDialogNodeOutputResponseTypeConnectToAgent object.
 
@@ -11867,28 +12364,28 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeConnectToAgent(
     ) -> 'DialogNodeOutputGenericDialogNodeOutputResponseTypeConnectToAgent':
         """Initialize a DialogNodeOutputGenericDialogNodeOutputResponseTypeConnectToAgent object from a json dictionary."""
         args = {}
-        if 'response_type' in _dict:
-            args['response_type'] = _dict.get('response_type')
+        if (response_type := _dict.get('response_type')) is not None:
+            args['response_type'] = response_type
         else:
             raise ValueError(
                 'Required property \'response_type\' not present in DialogNodeOutputGenericDialogNodeOutputResponseTypeConnectToAgent JSON'
             )
-        if 'message_to_human_agent' in _dict:
-            args['message_to_human_agent'] = _dict.get('message_to_human_agent')
-        if 'agent_available' in _dict:
+        if (message_to_human_agent :=
+                _dict.get('message_to_human_agent')) is not None:
+            args['message_to_human_agent'] = message_to_human_agent
+        if (agent_available := _dict.get('agent_available')) is not None:
             args['agent_available'] = AgentAvailabilityMessage.from_dict(
-                _dict.get('agent_available'))
-        if 'agent_unavailable' in _dict:
+                agent_available)
+        if (agent_unavailable := _dict.get('agent_unavailable')) is not None:
             args['agent_unavailable'] = AgentAvailabilityMessage.from_dict(
-                _dict.get('agent_unavailable'))
-        if 'transfer_info' in _dict:
+                agent_unavailable)
+        if (transfer_info := _dict.get('transfer_info')) is not None:
             args[
                 'transfer_info'] = DialogNodeOutputConnectToAgentTransferInfo.from_dict(
-                    _dict.get('transfer_info'))
-        if 'channels' in _dict:
+                    transfer_info)
+        if (channels := _dict.get('channels')) is not None:
             args['channels'] = [
-                ResponseGenericChannel.from_dict(v)
-                for v in _dict.get('channels')
+                ResponseGenericChannel.from_dict(v) for v in channels
             ]
         return cls(**args)
 
@@ -11962,28 +12459,30 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeIframe(
     """
     DialogNodeOutputGenericDialogNodeOutputResponseTypeIframe.
 
-    :attr str response_type: The type of response returned by the dialog node. The
+    :param str response_type: The type of response returned by the dialog node. The
           specified response type must be supported by the client application or channel.
-    :attr str source: The `https:` URL of the embeddable content.
-    :attr str title: (optional) An optional title to show before the response.
-    :attr str description: (optional) An optional description to show with the
+    :param str source: The `https:` URL of the embeddable content.
+    :param str title: (optional) An optional title to show before the response.
+    :param str description: (optional) An optional description to show with the
           response.
-    :attr str image_url: (optional) The URL of an image that shows a preview of the
+    :param str image_url: (optional) The URL of an image that shows a preview of the
           embedded content.
-    :attr List[ResponseGenericChannel] channels: (optional) An array of objects
+    :param List[ResponseGenericChannel] channels: (optional) An array of objects
           specifying channels for which the response is intended. If **channels** is
           present, the response is intended for a built-in integration and should not be
           handled by an API client.
     """
 
-    def __init__(self,
-                 response_type: str,
-                 source: str,
-                 *,
-                 title: str = None,
-                 description: str = None,
-                 image_url: str = None,
-                 channels: List['ResponseGenericChannel'] = None) -> None:
+    def __init__(
+        self,
+        response_type: str,
+        source: str,
+        *,
+        title: Optional[str] = None,
+        description: Optional[str] = None,
+        image_url: Optional[str] = None,
+        channels: Optional[List['ResponseGenericChannel']] = None,
+    ) -> None:
         """
         Initialize a DialogNodeOutputGenericDialogNodeOutputResponseTypeIframe object.
 
@@ -12015,28 +12514,27 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeIframe(
     ) -> 'DialogNodeOutputGenericDialogNodeOutputResponseTypeIframe':
         """Initialize a DialogNodeOutputGenericDialogNodeOutputResponseTypeIframe object from a json dictionary."""
         args = {}
-        if 'response_type' in _dict:
-            args['response_type'] = _dict.get('response_type')
+        if (response_type := _dict.get('response_type')) is not None:
+            args['response_type'] = response_type
         else:
             raise ValueError(
                 'Required property \'response_type\' not present in DialogNodeOutputGenericDialogNodeOutputResponseTypeIframe JSON'
             )
-        if 'source' in _dict:
-            args['source'] = _dict.get('source')
+        if (source := _dict.get('source')) is not None:
+            args['source'] = source
         else:
             raise ValueError(
                 'Required property \'source\' not present in DialogNodeOutputGenericDialogNodeOutputResponseTypeIframe JSON'
             )
-        if 'title' in _dict:
-            args['title'] = _dict.get('title')
-        if 'description' in _dict:
-            args['description'] = _dict.get('description')
-        if 'image_url' in _dict:
-            args['image_url'] = _dict.get('image_url')
-        if 'channels' in _dict:
+        if (title := _dict.get('title')) is not None:
+            args['title'] = title
+        if (description := _dict.get('description')) is not None:
+            args['description'] = description
+        if (image_url := _dict.get('image_url')) is not None:
+            args['image_url'] = image_url
+        if (channels := _dict.get('channels')) is not None:
             args['channels'] = [
-                ResponseGenericChannel.from_dict(v)
-                for v in _dict.get('channels')
+                ResponseGenericChannel.from_dict(v) for v in channels
             ]
         return cls(**args)
 
@@ -12096,26 +12594,28 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeImage(
     """
     DialogNodeOutputGenericDialogNodeOutputResponseTypeImage.
 
-    :attr str response_type: The type of response returned by the dialog node. The
+    :param str response_type: The type of response returned by the dialog node. The
           specified response type must be supported by the client application or channel.
-    :attr str source: The `https:` URL of the image.
-    :attr str title: (optional) An optional title to show before the response.
-    :attr str description: (optional) An optional description to show with the
+    :param str source: The `https:` URL of the image.
+    :param str title: (optional) An optional title to show before the response.
+    :param str description: (optional) An optional description to show with the
           response.
-    :attr List[ResponseGenericChannel] channels: (optional) An array of objects
+    :param List[ResponseGenericChannel] channels: (optional) An array of objects
           specifying channels for which the response is intended.
-    :attr str alt_text: (optional) Descriptive text that can be used for screen
+    :param str alt_text: (optional) Descriptive text that can be used for screen
           readers or other situations where the image cannot be seen.
     """
 
-    def __init__(self,
-                 response_type: str,
-                 source: str,
-                 *,
-                 title: str = None,
-                 description: str = None,
-                 channels: List['ResponseGenericChannel'] = None,
-                 alt_text: str = None) -> None:
+    def __init__(
+        self,
+        response_type: str,
+        source: str,
+        *,
+        title: Optional[str] = None,
+        description: Optional[str] = None,
+        channels: Optional[List['ResponseGenericChannel']] = None,
+        alt_text: Optional[str] = None,
+    ) -> None:
         """
         Initialize a DialogNodeOutputGenericDialogNodeOutputResponseTypeImage object.
 
@@ -12145,29 +12645,28 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeImage(
     ) -> 'DialogNodeOutputGenericDialogNodeOutputResponseTypeImage':
         """Initialize a DialogNodeOutputGenericDialogNodeOutputResponseTypeImage object from a json dictionary."""
         args = {}
-        if 'response_type' in _dict:
-            args['response_type'] = _dict.get('response_type')
+        if (response_type := _dict.get('response_type')) is not None:
+            args['response_type'] = response_type
         else:
             raise ValueError(
                 'Required property \'response_type\' not present in DialogNodeOutputGenericDialogNodeOutputResponseTypeImage JSON'
             )
-        if 'source' in _dict:
-            args['source'] = _dict.get('source')
+        if (source := _dict.get('source')) is not None:
+            args['source'] = source
         else:
             raise ValueError(
                 'Required property \'source\' not present in DialogNodeOutputGenericDialogNodeOutputResponseTypeImage JSON'
             )
-        if 'title' in _dict:
-            args['title'] = _dict.get('title')
-        if 'description' in _dict:
-            args['description'] = _dict.get('description')
-        if 'channels' in _dict:
+        if (title := _dict.get('title')) is not None:
+            args['title'] = title
+        if (description := _dict.get('description')) is not None:
+            args['description'] = description
+        if (channels := _dict.get('channels')) is not None:
             args['channels'] = [
-                ResponseGenericChannel.from_dict(v)
-                for v in _dict.get('channels')
+                ResponseGenericChannel.from_dict(v) for v in channels
             ]
-        if 'alt_text' in _dict:
-            args['alt_text'] = _dict.get('alt_text')
+        if (alt_text := _dict.get('alt_text')) is not None:
+            args['alt_text'] = alt_text
         return cls(**args)
 
     @classmethod
@@ -12226,28 +12725,30 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeOption(
     """
     DialogNodeOutputGenericDialogNodeOutputResponseTypeOption.
 
-    :attr str response_type: The type of response returned by the dialog node. The
+    :param str response_type: The type of response returned by the dialog node. The
           specified response type must be supported by the client application or channel.
-    :attr str title: An optional title to show before the response.
-    :attr str description: (optional) An optional description to show with the
+    :param str title: An optional title to show before the response.
+    :param str description: (optional) An optional description to show with the
           response.
-    :attr str preference: (optional) The preferred type of control to display, if
+    :param str preference: (optional) The preferred type of control to display, if
           supported by the channel.
-    :attr List[DialogNodeOutputOptionsElement] options: An array of objects
+    :param List[DialogNodeOutputOptionsElement] options: An array of objects
           describing the options from which the user can choose. You can include up to 20
           options.
-    :attr List[ResponseGenericChannel] channels: (optional) An array of objects
+    :param List[ResponseGenericChannel] channels: (optional) An array of objects
           specifying channels for which the response is intended.
     """
 
-    def __init__(self,
-                 response_type: str,
-                 title: str,
-                 options: List['DialogNodeOutputOptionsElement'],
-                 *,
-                 description: str = None,
-                 preference: str = None,
-                 channels: List['ResponseGenericChannel'] = None) -> None:
+    def __init__(
+        self,
+        response_type: str,
+        title: str,
+        options: List['DialogNodeOutputOptionsElement'],
+        *,
+        description: Optional[str] = None,
+        preference: Optional[str] = None,
+        channels: Optional[List['ResponseGenericChannel']] = None,
+    ) -> None:
         """
         Initialize a DialogNodeOutputGenericDialogNodeOutputResponseTypeOption object.
 
@@ -12279,35 +12780,33 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeOption(
     ) -> 'DialogNodeOutputGenericDialogNodeOutputResponseTypeOption':
         """Initialize a DialogNodeOutputGenericDialogNodeOutputResponseTypeOption object from a json dictionary."""
         args = {}
-        if 'response_type' in _dict:
-            args['response_type'] = _dict.get('response_type')
+        if (response_type := _dict.get('response_type')) is not None:
+            args['response_type'] = response_type
         else:
             raise ValueError(
                 'Required property \'response_type\' not present in DialogNodeOutputGenericDialogNodeOutputResponseTypeOption JSON'
             )
-        if 'title' in _dict:
-            args['title'] = _dict.get('title')
+        if (title := _dict.get('title')) is not None:
+            args['title'] = title
         else:
             raise ValueError(
                 'Required property \'title\' not present in DialogNodeOutputGenericDialogNodeOutputResponseTypeOption JSON'
             )
-        if 'description' in _dict:
-            args['description'] = _dict.get('description')
-        if 'preference' in _dict:
-            args['preference'] = _dict.get('preference')
-        if 'options' in _dict:
+        if (description := _dict.get('description')) is not None:
+            args['description'] = description
+        if (preference := _dict.get('preference')) is not None:
+            args['preference'] = preference
+        if (options := _dict.get('options')) is not None:
             args['options'] = [
-                DialogNodeOutputOptionsElement.from_dict(v)
-                for v in _dict.get('options')
+                DialogNodeOutputOptionsElement.from_dict(v) for v in options
             ]
         else:
             raise ValueError(
                 'Required property \'options\' not present in DialogNodeOutputGenericDialogNodeOutputResponseTypeOption JSON'
             )
-        if 'channels' in _dict:
+        if (channels := _dict.get('channels')) is not None:
             args['channels'] = [
-                ResponseGenericChannel.from_dict(v)
-                for v in _dict.get('channels')
+                ResponseGenericChannel.from_dict(v) for v in channels
             ]
         return cls(**args)
 
@@ -12371,6 +12870,7 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeOption(
         """
         The preferred type of control to display, if supported by the channel.
         """
+
         DROPDOWN = 'dropdown'
         BUTTON = 'button'
 
@@ -12380,22 +12880,24 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypePause(
     """
     DialogNodeOutputGenericDialogNodeOutputResponseTypePause.
 
-    :attr str response_type: The type of response returned by the dialog node. The
+    :param str response_type: The type of response returned by the dialog node. The
           specified response type must be supported by the client application or channel.
-    :attr int time: How long to pause, in milliseconds. The valid values are from 0
+    :param int time: How long to pause, in milliseconds. The valid values are from 0
           to 10000.
-    :attr bool typing: (optional) Whether to send a "user is typing" event during
+    :param bool typing: (optional) Whether to send a "user is typing" event during
           the pause. Ignored if the channel does not support this event.
-    :attr List[ResponseGenericChannel] channels: (optional) An array of objects
+    :param List[ResponseGenericChannel] channels: (optional) An array of objects
           specifying channels for which the response is intended.
     """
 
-    def __init__(self,
-                 response_type: str,
-                 time: int,
-                 *,
-                 typing: bool = None,
-                 channels: List['ResponseGenericChannel'] = None) -> None:
+    def __init__(
+        self,
+        response_type: str,
+        time: int,
+        *,
+        typing: Optional[bool] = None,
+        channels: Optional[List['ResponseGenericChannel']] = None,
+    ) -> None:
         """
         Initialize a DialogNodeOutputGenericDialogNodeOutputResponseTypePause object.
 
@@ -12421,24 +12923,23 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypePause(
     ) -> 'DialogNodeOutputGenericDialogNodeOutputResponseTypePause':
         """Initialize a DialogNodeOutputGenericDialogNodeOutputResponseTypePause object from a json dictionary."""
         args = {}
-        if 'response_type' in _dict:
-            args['response_type'] = _dict.get('response_type')
+        if (response_type := _dict.get('response_type')) is not None:
+            args['response_type'] = response_type
         else:
             raise ValueError(
                 'Required property \'response_type\' not present in DialogNodeOutputGenericDialogNodeOutputResponseTypePause JSON'
             )
-        if 'time' in _dict:
-            args['time'] = _dict.get('time')
+        if (time := _dict.get('time')) is not None:
+            args['time'] = time
         else:
             raise ValueError(
                 'Required property \'time\' not present in DialogNodeOutputGenericDialogNodeOutputResponseTypePause JSON'
             )
-        if 'typing' in _dict:
-            args['typing'] = _dict.get('typing')
-        if 'channels' in _dict:
+        if (typing := _dict.get('typing')) is not None:
+            args['typing'] = typing
+        if (channels := _dict.get('channels')) is not None:
             args['channels'] = [
-                ResponseGenericChannel.from_dict(v)
-                for v in _dict.get('channels')
+                ResponseGenericChannel.from_dict(v) for v in channels
             ]
         return cls(**args)
 
@@ -12494,33 +12995,35 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeSearchSkill(
     """
     DialogNodeOutputGenericDialogNodeOutputResponseTypeSearchSkill.
 
-    :attr str response_type: The type of response returned by the dialog node. The
+    :param str response_type: The type of response returned by the dialog node. The
           specified response type must be supported by the client application or channel.
           **Note:** The **search_skill** response type is used only by the v2 runtime API.
-    :attr str query: The text of the search query. This can be either a
+    :param str query: The text of the search query. This can be either a
           natural-language query or a query that uses the Discovery query language syntax,
           depending on the value of the **query_type** property. For more information, see
           the [Discovery service
           documentation](https://cloud.ibm.com/docs/discovery?topic=discovery-query-operators#query-operators).
-    :attr str query_type: The type of the search query.
-    :attr str filter: (optional) An optional filter that narrows the set of
+    :param str query_type: The type of the search query.
+    :param str filter: (optional) An optional filter that narrows the set of
           documents to be searched. For more information, see the [Discovery service
           documentation]([Discovery service
           documentation](https://cloud.ibm.com/docs/discovery?topic=discovery-query-parameters#filter).
-    :attr str discovery_version: (optional) The version of the Discovery service API
-          to use for the query.
-    :attr List[ResponseGenericChannel] channels: (optional) An array of objects
+    :param str discovery_version: (optional) The version of the Discovery service
+          API to use for the query.
+    :param List[ResponseGenericChannel] channels: (optional) An array of objects
           specifying channels for which the response is intended.
     """
 
-    def __init__(self,
-                 response_type: str,
-                 query: str,
-                 query_type: str,
-                 *,
-                 filter: str = None,
-                 discovery_version: str = None,
-                 channels: List['ResponseGenericChannel'] = None) -> None:
+    def __init__(
+        self,
+        response_type: str,
+        query: str,
+        query_type: str,
+        *,
+        filter: Optional[str] = None,
+        discovery_version: Optional[str] = None,
+        channels: Optional[List['ResponseGenericChannel']] = None,
+    ) -> None:
         """
         Initialize a DialogNodeOutputGenericDialogNodeOutputResponseTypeSearchSkill object.
 
@@ -12558,32 +13061,31 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeSearchSkill(
     ) -> 'DialogNodeOutputGenericDialogNodeOutputResponseTypeSearchSkill':
         """Initialize a DialogNodeOutputGenericDialogNodeOutputResponseTypeSearchSkill object from a json dictionary."""
         args = {}
-        if 'response_type' in _dict:
-            args['response_type'] = _dict.get('response_type')
+        if (response_type := _dict.get('response_type')) is not None:
+            args['response_type'] = response_type
         else:
             raise ValueError(
                 'Required property \'response_type\' not present in DialogNodeOutputGenericDialogNodeOutputResponseTypeSearchSkill JSON'
             )
-        if 'query' in _dict:
-            args['query'] = _dict.get('query')
+        if (query := _dict.get('query')) is not None:
+            args['query'] = query
         else:
             raise ValueError(
                 'Required property \'query\' not present in DialogNodeOutputGenericDialogNodeOutputResponseTypeSearchSkill JSON'
             )
-        if 'query_type' in _dict:
-            args['query_type'] = _dict.get('query_type')
+        if (query_type := _dict.get('query_type')) is not None:
+            args['query_type'] = query_type
         else:
             raise ValueError(
                 'Required property \'query_type\' not present in DialogNodeOutputGenericDialogNodeOutputResponseTypeSearchSkill JSON'
             )
-        if 'filter' in _dict:
-            args['filter'] = _dict.get('filter')
-        if 'discovery_version' in _dict:
-            args['discovery_version'] = _dict.get('discovery_version')
-        if 'channels' in _dict:
+        if (filter := _dict.get('filter')) is not None:
+            args['filter'] = filter
+        if (discovery_version := _dict.get('discovery_version')) is not None:
+            args['discovery_version'] = discovery_version
+        if (channels := _dict.get('channels')) is not None:
             args['channels'] = [
-                ResponseGenericChannel.from_dict(v)
-                for v in _dict.get('channels')
+                ResponseGenericChannel.from_dict(v) for v in channels
             ]
         return cls(**args)
 
@@ -12644,6 +13146,7 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeSearchSkill(
         """
         The type of the search query.
         """
+
         NATURAL_LANGUAGE = 'natural_language'
         DISCOVERY_QUERY_LANGUAGE = 'discovery_query_language'
 
@@ -12653,25 +13156,27 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeText(
     """
     DialogNodeOutputGenericDialogNodeOutputResponseTypeText.
 
-    :attr str response_type: The type of response returned by the dialog node. The
+    :param str response_type: The type of response returned by the dialog node. The
           specified response type must be supported by the client application or channel.
-    :attr List[DialogNodeOutputTextValuesElement] values: A list of one or more
+    :param List[DialogNodeOutputTextValuesElement] values: A list of one or more
           objects defining text responses.
-    :attr str selection_policy: (optional) How a response is selected from the list,
-          if more than one response is specified.
-    :attr str delimiter: (optional) The delimiter to use as a separator between
+    :param str selection_policy: (optional) How a response is selected from the
+          list, if more than one response is specified.
+    :param str delimiter: (optional) The delimiter to use as a separator between
           responses when `selection_policy`=`multiline`.
-    :attr List[ResponseGenericChannel] channels: (optional) An array of objects
+    :param List[ResponseGenericChannel] channels: (optional) An array of objects
           specifying channels for which the response is intended.
     """
 
-    def __init__(self,
-                 response_type: str,
-                 values: List['DialogNodeOutputTextValuesElement'],
-                 *,
-                 selection_policy: str = None,
-                 delimiter: str = None,
-                 channels: List['ResponseGenericChannel'] = None) -> None:
+    def __init__(
+        self,
+        response_type: str,
+        values: List['DialogNodeOutputTextValuesElement'],
+        *,
+        selection_policy: Optional[str] = None,
+        delimiter: Optional[str] = None,
+        channels: Optional[List['ResponseGenericChannel']] = None,
+    ) -> None:
         """
         Initialize a DialogNodeOutputGenericDialogNodeOutputResponseTypeText object.
 
@@ -12700,29 +13205,27 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeText(
     ) -> 'DialogNodeOutputGenericDialogNodeOutputResponseTypeText':
         """Initialize a DialogNodeOutputGenericDialogNodeOutputResponseTypeText object from a json dictionary."""
         args = {}
-        if 'response_type' in _dict:
-            args['response_type'] = _dict.get('response_type')
+        if (response_type := _dict.get('response_type')) is not None:
+            args['response_type'] = response_type
         else:
             raise ValueError(
                 'Required property \'response_type\' not present in DialogNodeOutputGenericDialogNodeOutputResponseTypeText JSON'
             )
-        if 'values' in _dict:
+        if (values := _dict.get('values')) is not None:
             args['values'] = [
-                DialogNodeOutputTextValuesElement.from_dict(v)
-                for v in _dict.get('values')
+                DialogNodeOutputTextValuesElement.from_dict(v) for v in values
             ]
         else:
             raise ValueError(
                 'Required property \'values\' not present in DialogNodeOutputGenericDialogNodeOutputResponseTypeText JSON'
             )
-        if 'selection_policy' in _dict:
-            args['selection_policy'] = _dict.get('selection_policy')
-        if 'delimiter' in _dict:
-            args['delimiter'] = _dict.get('delimiter')
-        if 'channels' in _dict:
+        if (selection_policy := _dict.get('selection_policy')) is not None:
+            args['selection_policy'] = selection_policy
+        if (delimiter := _dict.get('delimiter')) is not None:
+            args['delimiter'] = delimiter
+        if (channels := _dict.get('channels')) is not None:
             args['channels'] = [
-                ResponseGenericChannel.from_dict(v)
-                for v in _dict.get('channels')
+                ResponseGenericChannel.from_dict(v) for v in channels
             ]
         return cls(**args)
 
@@ -12785,6 +13288,7 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeText(
         """
         How a response is selected from the list, if more than one response is specified.
         """
+
         SEQUENTIAL = 'sequential'
         RANDOM = 'random'
         MULTILINE = 'multiline'
@@ -12795,20 +13299,22 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeUserDefined(
     """
     DialogNodeOutputGenericDialogNodeOutputResponseTypeUserDefined.
 
-    :attr str response_type: The type of response returned by the dialog node. The
+    :param str response_type: The type of response returned by the dialog node. The
           specified response type must be supported by the client application or channel.
-    :attr dict user_defined: An object containing any properties for the
+    :param dict user_defined: An object containing any properties for the
           user-defined response type. The total size of this object cannot exceed 5000
           bytes.
-    :attr List[ResponseGenericChannel] channels: (optional) An array of objects
+    :param List[ResponseGenericChannel] channels: (optional) An array of objects
           specifying channels for which the response is intended.
     """
 
-    def __init__(self,
-                 response_type: str,
-                 user_defined: dict,
-                 *,
-                 channels: List['ResponseGenericChannel'] = None) -> None:
+    def __init__(
+        self,
+        response_type: str,
+        user_defined: dict,
+        *,
+        channels: Optional[List['ResponseGenericChannel']] = None,
+    ) -> None:
         """
         Initialize a DialogNodeOutputGenericDialogNodeOutputResponseTypeUserDefined object.
 
@@ -12832,22 +13338,21 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeUserDefined(
     ) -> 'DialogNodeOutputGenericDialogNodeOutputResponseTypeUserDefined':
         """Initialize a DialogNodeOutputGenericDialogNodeOutputResponseTypeUserDefined object from a json dictionary."""
         args = {}
-        if 'response_type' in _dict:
-            args['response_type'] = _dict.get('response_type')
+        if (response_type := _dict.get('response_type')) is not None:
+            args['response_type'] = response_type
         else:
             raise ValueError(
                 'Required property \'response_type\' not present in DialogNodeOutputGenericDialogNodeOutputResponseTypeUserDefined JSON'
             )
-        if 'user_defined' in _dict:
-            args['user_defined'] = _dict.get('user_defined')
+        if (user_defined := _dict.get('user_defined')) is not None:
+            args['user_defined'] = user_defined
         else:
             raise ValueError(
                 'Required property \'user_defined\' not present in DialogNodeOutputGenericDialogNodeOutputResponseTypeUserDefined JSON'
             )
-        if 'channels' in _dict:
+        if (channels := _dict.get('channels')) is not None:
             args['channels'] = [
-                ResponseGenericChannel.from_dict(v)
-                for v in _dict.get('channels')
+                ResponseGenericChannel.from_dict(v) for v in channels
             ]
         return cls(**args)
 
@@ -12903,30 +13408,32 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeVideo(
     """
     DialogNodeOutputGenericDialogNodeOutputResponseTypeVideo.
 
-    :attr str response_type: The type of response returned by the dialog node. The
+    :param str response_type: The type of response returned by the dialog node. The
           specified response type must be supported by the client application or channel.
-    :attr str source: The `https:` URL of the video.
-    :attr str title: (optional) An optional title to show before the response.
-    :attr str description: (optional) An optional description to show with the
+    :param str source: The `https:` URL of the video.
+    :param str title: (optional) An optional title to show before the response.
+    :param str description: (optional) An optional description to show with the
           response.
-    :attr List[ResponseGenericChannel] channels: (optional) An array of objects
+    :param List[ResponseGenericChannel] channels: (optional) An array of objects
           specifying channels for which the response is intended. If **channels** is
           present, the response is intended for a built-in integration and should not be
           handled by an API client.
-    :attr dict channel_options: (optional) For internal use only.
-    :attr str alt_text: (optional) Descriptive text that can be used for screen
+    :param dict channel_options: (optional) For internal use only.
+    :param str alt_text: (optional) Descriptive text that can be used for screen
           readers or other situations where the video cannot be seen.
     """
 
-    def __init__(self,
-                 response_type: str,
-                 source: str,
-                 *,
-                 title: str = None,
-                 description: str = None,
-                 channels: List['ResponseGenericChannel'] = None,
-                 channel_options: dict = None,
-                 alt_text: str = None) -> None:
+    def __init__(
+        self,
+        response_type: str,
+        source: str,
+        *,
+        title: Optional[str] = None,
+        description: Optional[str] = None,
+        channels: Optional[List['ResponseGenericChannel']] = None,
+        channel_options: Optional[dict] = None,
+        alt_text: Optional[str] = None,
+    ) -> None:
         """
         Initialize a DialogNodeOutputGenericDialogNodeOutputResponseTypeVideo object.
 
@@ -12960,31 +13467,30 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeVideo(
     ) -> 'DialogNodeOutputGenericDialogNodeOutputResponseTypeVideo':
         """Initialize a DialogNodeOutputGenericDialogNodeOutputResponseTypeVideo object from a json dictionary."""
         args = {}
-        if 'response_type' in _dict:
-            args['response_type'] = _dict.get('response_type')
+        if (response_type := _dict.get('response_type')) is not None:
+            args['response_type'] = response_type
         else:
             raise ValueError(
                 'Required property \'response_type\' not present in DialogNodeOutputGenericDialogNodeOutputResponseTypeVideo JSON'
             )
-        if 'source' in _dict:
-            args['source'] = _dict.get('source')
+        if (source := _dict.get('source')) is not None:
+            args['source'] = source
         else:
             raise ValueError(
                 'Required property \'source\' not present in DialogNodeOutputGenericDialogNodeOutputResponseTypeVideo JSON'
             )
-        if 'title' in _dict:
-            args['title'] = _dict.get('title')
-        if 'description' in _dict:
-            args['description'] = _dict.get('description')
-        if 'channels' in _dict:
+        if (title := _dict.get('title')) is not None:
+            args['title'] = title
+        if (description := _dict.get('description')) is not None:
+            args['description'] = description
+        if (channels := _dict.get('channels')) is not None:
             args['channels'] = [
-                ResponseGenericChannel.from_dict(v)
-                for v in _dict.get('channels')
+                ResponseGenericChannel.from_dict(v) for v in channels
             ]
-        if 'channel_options' in _dict:
-            args['channel_options'] = _dict.get('channel_options')
-        if 'alt_text' in _dict:
-            args['alt_text'] = _dict.get('alt_text')
+        if (channel_options := _dict.get('channel_options')) is not None:
+            args['channel_options'] = channel_options
+        if (alt_text := _dict.get('alt_text')) is not None:
+            args['alt_text'] = alt_text
         return cls(**args)
 
     @classmethod
@@ -13045,30 +13551,32 @@ class RuntimeResponseGenericRuntimeResponseTypeAudio(RuntimeResponseGeneric):
     """
     RuntimeResponseGenericRuntimeResponseTypeAudio.
 
-    :attr str response_type: The type of response returned by the dialog node. The
+    :param str response_type: The type of response returned by the dialog node. The
           specified response type must be supported by the client application or channel.
-    :attr str source: The `https:` URL of the audio clip.
-    :attr str title: (optional) The title or introductory text to show before the
+    :param str source: The `https:` URL of the audio clip.
+    :param str title: (optional) The title or introductory text to show before the
           response.
-    :attr str description: (optional) The description to show with the response.
-    :attr List[ResponseGenericChannel] channels: (optional) An array of objects
+    :param str description: (optional) The description to show with the response.
+    :param List[ResponseGenericChannel] channels: (optional) An array of objects
           specifying channels for which the response is intended. If **channels** is
           present, the response is intended for a built-in integration and should not be
           handled by an API client.
-    :attr dict channel_options: (optional) For internal use only.
-    :attr str alt_text: (optional) Descriptive text that can be used for screen
+    :param dict channel_options: (optional) For internal use only.
+    :param str alt_text: (optional) Descriptive text that can be used for screen
           readers or other situations where the audio player cannot be seen.
     """
 
-    def __init__(self,
-                 response_type: str,
-                 source: str,
-                 *,
-                 title: str = None,
-                 description: str = None,
-                 channels: List['ResponseGenericChannel'] = None,
-                 channel_options: dict = None,
-                 alt_text: str = None) -> None:
+    def __init__(
+        self,
+        response_type: str,
+        source: str,
+        *,
+        title: Optional[str] = None,
+        description: Optional[str] = None,
+        channels: Optional[List['ResponseGenericChannel']] = None,
+        channel_options: Optional[dict] = None,
+        alt_text: Optional[str] = None,
+    ) -> None:
         """
         Initialize a RuntimeResponseGenericRuntimeResponseTypeAudio object.
 
@@ -13103,31 +13611,30 @@ class RuntimeResponseGenericRuntimeResponseTypeAudio(RuntimeResponseGeneric):
             _dict: Dict) -> 'RuntimeResponseGenericRuntimeResponseTypeAudio':
         """Initialize a RuntimeResponseGenericRuntimeResponseTypeAudio object from a json dictionary."""
         args = {}
-        if 'response_type' in _dict:
-            args['response_type'] = _dict.get('response_type')
+        if (response_type := _dict.get('response_type')) is not None:
+            args['response_type'] = response_type
         else:
             raise ValueError(
                 'Required property \'response_type\' not present in RuntimeResponseGenericRuntimeResponseTypeAudio JSON'
             )
-        if 'source' in _dict:
-            args['source'] = _dict.get('source')
+        if (source := _dict.get('source')) is not None:
+            args['source'] = source
         else:
             raise ValueError(
                 'Required property \'source\' not present in RuntimeResponseGenericRuntimeResponseTypeAudio JSON'
             )
-        if 'title' in _dict:
-            args['title'] = _dict.get('title')
-        if 'description' in _dict:
-            args['description'] = _dict.get('description')
-        if 'channels' in _dict:
+        if (title := _dict.get('title')) is not None:
+            args['title'] = title
+        if (description := _dict.get('description')) is not None:
+            args['description'] = description
+        if (channels := _dict.get('channels')) is not None:
             args['channels'] = [
-                ResponseGenericChannel.from_dict(v)
-                for v in _dict.get('channels')
+                ResponseGenericChannel.from_dict(v) for v in channels
             ]
-        if 'channel_options' in _dict:
-            args['channel_options'] = _dict.get('channel_options')
-        if 'alt_text' in _dict:
-            args['alt_text'] = _dict.get('alt_text')
+        if (channel_options := _dict.get('channel_options')) is not None:
+            args['channel_options'] = channel_options
+        if (alt_text := _dict.get('alt_text')) is not None:
+            args['alt_text'] = alt_text
         return cls(**args)
 
     @classmethod
@@ -13187,26 +13694,28 @@ class RuntimeResponseGenericRuntimeResponseTypeChannelTransfer(
     """
     RuntimeResponseGenericRuntimeResponseTypeChannelTransfer.
 
-    :attr str response_type: The type of response returned by the dialog node. The
+    :param str response_type: The type of response returned by the dialog node. The
           specified response type must be supported by the client application or channel.
            **Note:** The `channel_transfer` response type is not supported on IBM Cloud
           Pak for Data.
-    :attr str message_to_user: The message to display to the user when initiating a
+    :param str message_to_user: The message to display to the user when initiating a
           channel transfer.
-    :attr ChannelTransferInfo transfer_info: Information used by an integration to
+    :param ChannelTransferInfo transfer_info: Information used by an integration to
           transfer the conversation to a different channel.
-    :attr List[ResponseGenericChannel] channels: (optional) An array of objects
+    :param List[ResponseGenericChannel] channels: (optional) An array of objects
           specifying channels for which the response is intended. If **channels** is
           present, the response is intended only for a built-in integration and should not
           be handled by an API client.
     """
 
-    def __init__(self,
-                 response_type: str,
-                 message_to_user: str,
-                 transfer_info: 'ChannelTransferInfo',
-                 *,
-                 channels: List['ResponseGenericChannel'] = None) -> None:
+    def __init__(
+        self,
+        response_type: str,
+        message_to_user: str,
+        transfer_info: 'ChannelTransferInfo',
+        *,
+        channels: Optional[List['ResponseGenericChannel']] = None,
+    ) -> None:
         """
         Initialize a RuntimeResponseGenericRuntimeResponseTypeChannelTransfer object.
 
@@ -13236,29 +13745,27 @@ class RuntimeResponseGenericRuntimeResponseTypeChannelTransfer(
     ) -> 'RuntimeResponseGenericRuntimeResponseTypeChannelTransfer':
         """Initialize a RuntimeResponseGenericRuntimeResponseTypeChannelTransfer object from a json dictionary."""
         args = {}
-        if 'response_type' in _dict:
-            args['response_type'] = _dict.get('response_type')
+        if (response_type := _dict.get('response_type')) is not None:
+            args['response_type'] = response_type
         else:
             raise ValueError(
                 'Required property \'response_type\' not present in RuntimeResponseGenericRuntimeResponseTypeChannelTransfer JSON'
             )
-        if 'message_to_user' in _dict:
-            args['message_to_user'] = _dict.get('message_to_user')
+        if (message_to_user := _dict.get('message_to_user')) is not None:
+            args['message_to_user'] = message_to_user
         else:
             raise ValueError(
                 'Required property \'message_to_user\' not present in RuntimeResponseGenericRuntimeResponseTypeChannelTransfer JSON'
             )
-        if 'transfer_info' in _dict:
-            args['transfer_info'] = ChannelTransferInfo.from_dict(
-                _dict.get('transfer_info'))
+        if (transfer_info := _dict.get('transfer_info')) is not None:
+            args['transfer_info'] = ChannelTransferInfo.from_dict(transfer_info)
         else:
             raise ValueError(
                 'Required property \'transfer_info\' not present in RuntimeResponseGenericRuntimeResponseTypeChannelTransfer JSON'
             )
-        if 'channels' in _dict:
+        if (channels := _dict.get('channels')) is not None:
             args['channels'] = [
-                ResponseGenericChannel.from_dict(v)
-                for v in _dict.get('channels')
+                ResponseGenericChannel.from_dict(v) for v in channels
             ]
         return cls(**args)
 
@@ -13318,42 +13825,44 @@ class RuntimeResponseGenericRuntimeResponseTypeConnectToAgent(
     """
     RuntimeResponseGenericRuntimeResponseTypeConnectToAgent.
 
-    :attr str response_type: The type of response returned by the dialog node. The
+    :param str response_type: The type of response returned by the dialog node. The
           specified response type must be supported by the client application or channel.
-    :attr str message_to_human_agent: (optional) A message to be sent to the human
+    :param str message_to_human_agent: (optional) A message to be sent to the human
           agent who will be taking over the conversation.
-    :attr AgentAvailabilityMessage agent_available: (optional) An optional message
+    :param AgentAvailabilityMessage agent_available: (optional) An optional message
           to be displayed to the user to indicate that the conversation will be
           transferred to the next available agent.
-    :attr AgentAvailabilityMessage agent_unavailable: (optional) An optional message
-          to be displayed to the user to indicate that no online agent is available to
-          take over the conversation.
-    :attr DialogNodeOutputConnectToAgentTransferInfo transfer_info: (optional)
+    :param AgentAvailabilityMessage agent_unavailable: (optional) An optional
+          message to be displayed to the user to indicate that no online agent is
+          available to take over the conversation.
+    :param DialogNodeOutputConnectToAgentTransferInfo transfer_info: (optional)
           Routing or other contextual information to be used by target service desk
           systems.
-    :attr str topic: (optional) A label identifying the topic of the conversation,
+    :param str topic: (optional) A label identifying the topic of the conversation,
           derived from the **title** property of the relevant node or the **topic**
           property of the dialog node response.
-    :attr str dialog_node: (optional) The unique ID of the dialog node that the
+    :param str dialog_node: (optional) The unique ID of the dialog node that the
           **topic** property is taken from. The **topic** property is populated using the
           value of the dialog node's **title** property.
-    :attr List[ResponseGenericChannel] channels: (optional) An array of objects
+    :param List[ResponseGenericChannel] channels: (optional) An array of objects
           specifying channels for which the response is intended. If **channels** is
           present, the response is intended for a built-in integration and should not be
           handled by an API client.
     """
 
     def __init__(
-            self,
-            response_type: str,
-            *,
-            message_to_human_agent: str = None,
-            agent_available: 'AgentAvailabilityMessage' = None,
-            agent_unavailable: 'AgentAvailabilityMessage' = None,
-            transfer_info: 'DialogNodeOutputConnectToAgentTransferInfo' = None,
-            topic: str = None,
-            dialog_node: str = None,
-            channels: List['ResponseGenericChannel'] = None) -> None:
+        self,
+        response_type: str,
+        *,
+        message_to_human_agent: Optional[str] = None,
+        agent_available: Optional['AgentAvailabilityMessage'] = None,
+        agent_unavailable: Optional['AgentAvailabilityMessage'] = None,
+        transfer_info: Optional[
+            'DialogNodeOutputConnectToAgentTransferInfo'] = None,
+        topic: Optional[str] = None,
+        dialog_node: Optional[str] = None,
+        channels: Optional[List['ResponseGenericChannel']] = None,
+    ) -> None:
         """
         Initialize a RuntimeResponseGenericRuntimeResponseTypeConnectToAgent object.
 
@@ -13398,32 +13907,32 @@ class RuntimeResponseGenericRuntimeResponseTypeConnectToAgent(
     ) -> 'RuntimeResponseGenericRuntimeResponseTypeConnectToAgent':
         """Initialize a RuntimeResponseGenericRuntimeResponseTypeConnectToAgent object from a json dictionary."""
         args = {}
-        if 'response_type' in _dict:
-            args['response_type'] = _dict.get('response_type')
+        if (response_type := _dict.get('response_type')) is not None:
+            args['response_type'] = response_type
         else:
             raise ValueError(
                 'Required property \'response_type\' not present in RuntimeResponseGenericRuntimeResponseTypeConnectToAgent JSON'
             )
-        if 'message_to_human_agent' in _dict:
-            args['message_to_human_agent'] = _dict.get('message_to_human_agent')
-        if 'agent_available' in _dict:
+        if (message_to_human_agent :=
+                _dict.get('message_to_human_agent')) is not None:
+            args['message_to_human_agent'] = message_to_human_agent
+        if (agent_available := _dict.get('agent_available')) is not None:
             args['agent_available'] = AgentAvailabilityMessage.from_dict(
-                _dict.get('agent_available'))
-        if 'agent_unavailable' in _dict:
+                agent_available)
+        if (agent_unavailable := _dict.get('agent_unavailable')) is not None:
             args['agent_unavailable'] = AgentAvailabilityMessage.from_dict(
-                _dict.get('agent_unavailable'))
-        if 'transfer_info' in _dict:
+                agent_unavailable)
+        if (transfer_info := _dict.get('transfer_info')) is not None:
             args[
                 'transfer_info'] = DialogNodeOutputConnectToAgentTransferInfo.from_dict(
-                    _dict.get('transfer_info'))
-        if 'topic' in _dict:
-            args['topic'] = _dict.get('topic')
-        if 'dialog_node' in _dict:
-            args['dialog_node'] = _dict.get('dialog_node')
-        if 'channels' in _dict:
+                    transfer_info)
+        if (topic := _dict.get('topic')) is not None:
+            args['topic'] = topic
+        if (dialog_node := _dict.get('dialog_node')) is not None:
+            args['dialog_node'] = dialog_node
+        if (channels := _dict.get('channels')) is not None:
             args['channels'] = [
-                ResponseGenericChannel.from_dict(v)
-                for v in _dict.get('channels')
+                ResponseGenericChannel.from_dict(v) for v in channels
             ]
         return cls(**args)
 
@@ -13498,28 +14007,30 @@ class RuntimeResponseGenericRuntimeResponseTypeIframe(RuntimeResponseGeneric):
     """
     RuntimeResponseGenericRuntimeResponseTypeIframe.
 
-    :attr str response_type: The type of response returned by the dialog node. The
+    :param str response_type: The type of response returned by the dialog node. The
           specified response type must be supported by the client application or channel.
-    :attr str source: The `https:` URL of the embeddable content.
-    :attr str title: (optional) The title or introductory text to show before the
+    :param str source: The `https:` URL of the embeddable content.
+    :param str title: (optional) The title or introductory text to show before the
           response.
-    :attr str description: (optional) The description to show with the response.
-    :attr str image_url: (optional) The URL of an image that shows a preview of the
+    :param str description: (optional) The description to show with the response.
+    :param str image_url: (optional) The URL of an image that shows a preview of the
           embedded content.
-    :attr List[ResponseGenericChannel] channels: (optional) An array of objects
+    :param List[ResponseGenericChannel] channels: (optional) An array of objects
           specifying channels for which the response is intended. If **channels** is
           present, the response is intended for a built-in integration and should not be
           handled by an API client.
     """
 
-    def __init__(self,
-                 response_type: str,
-                 source: str,
-                 *,
-                 title: str = None,
-                 description: str = None,
-                 image_url: str = None,
-                 channels: List['ResponseGenericChannel'] = None) -> None:
+    def __init__(
+        self,
+        response_type: str,
+        source: str,
+        *,
+        title: Optional[str] = None,
+        description: Optional[str] = None,
+        image_url: Optional[str] = None,
+        channels: Optional[List['ResponseGenericChannel']] = None,
+    ) -> None:
         """
         Initialize a RuntimeResponseGenericRuntimeResponseTypeIframe object.
 
@@ -13552,28 +14063,27 @@ class RuntimeResponseGenericRuntimeResponseTypeIframe(RuntimeResponseGeneric):
             _dict: Dict) -> 'RuntimeResponseGenericRuntimeResponseTypeIframe':
         """Initialize a RuntimeResponseGenericRuntimeResponseTypeIframe object from a json dictionary."""
         args = {}
-        if 'response_type' in _dict:
-            args['response_type'] = _dict.get('response_type')
+        if (response_type := _dict.get('response_type')) is not None:
+            args['response_type'] = response_type
         else:
             raise ValueError(
                 'Required property \'response_type\' not present in RuntimeResponseGenericRuntimeResponseTypeIframe JSON'
             )
-        if 'source' in _dict:
-            args['source'] = _dict.get('source')
+        if (source := _dict.get('source')) is not None:
+            args['source'] = source
         else:
             raise ValueError(
                 'Required property \'source\' not present in RuntimeResponseGenericRuntimeResponseTypeIframe JSON'
             )
-        if 'title' in _dict:
-            args['title'] = _dict.get('title')
-        if 'description' in _dict:
-            args['description'] = _dict.get('description')
-        if 'image_url' in _dict:
-            args['image_url'] = _dict.get('image_url')
-        if 'channels' in _dict:
+        if (title := _dict.get('title')) is not None:
+            args['title'] = title
+        if (description := _dict.get('description')) is not None:
+            args['description'] = description
+        if (image_url := _dict.get('image_url')) is not None:
+            args['image_url'] = image_url
+        if (channels := _dict.get('channels')) is not None:
             args['channels'] = [
-                ResponseGenericChannel.from_dict(v)
-                for v in _dict.get('channels')
+                ResponseGenericChannel.from_dict(v) for v in channels
             ]
         return cls(**args)
 
@@ -13632,28 +14142,30 @@ class RuntimeResponseGenericRuntimeResponseTypeImage(RuntimeResponseGeneric):
     """
     RuntimeResponseGenericRuntimeResponseTypeImage.
 
-    :attr str response_type: The type of response returned by the dialog node. The
+    :param str response_type: The type of response returned by the dialog node. The
           specified response type must be supported by the client application or channel.
-    :attr str source: The `https:` URL of the image.
-    :attr str title: (optional) The title or introductory text to show before the
+    :param str source: The `https:` URL of the image.
+    :param str title: (optional) The title or introductory text to show before the
           response.
-    :attr str description: (optional) The description to show with the response.
-    :attr List[ResponseGenericChannel] channels: (optional) An array of objects
+    :param str description: (optional) The description to show with the response.
+    :param List[ResponseGenericChannel] channels: (optional) An array of objects
           specifying channels for which the response is intended. If **channels** is
           present, the response is intended for a built-in integration and should not be
           handled by an API client.
-    :attr str alt_text: (optional) Descriptive text that can be used for screen
+    :param str alt_text: (optional) Descriptive text that can be used for screen
           readers or other situations where the image cannot be seen.
     """
 
-    def __init__(self,
-                 response_type: str,
-                 source: str,
-                 *,
-                 title: str = None,
-                 description: str = None,
-                 channels: List['ResponseGenericChannel'] = None,
-                 alt_text: str = None) -> None:
+    def __init__(
+        self,
+        response_type: str,
+        source: str,
+        *,
+        title: Optional[str] = None,
+        description: Optional[str] = None,
+        channels: Optional[List['ResponseGenericChannel']] = None,
+        alt_text: Optional[str] = None,
+    ) -> None:
         """
         Initialize a RuntimeResponseGenericRuntimeResponseTypeImage object.
 
@@ -13686,29 +14198,28 @@ class RuntimeResponseGenericRuntimeResponseTypeImage(RuntimeResponseGeneric):
             _dict: Dict) -> 'RuntimeResponseGenericRuntimeResponseTypeImage':
         """Initialize a RuntimeResponseGenericRuntimeResponseTypeImage object from a json dictionary."""
         args = {}
-        if 'response_type' in _dict:
-            args['response_type'] = _dict.get('response_type')
+        if (response_type := _dict.get('response_type')) is not None:
+            args['response_type'] = response_type
         else:
             raise ValueError(
                 'Required property \'response_type\' not present in RuntimeResponseGenericRuntimeResponseTypeImage JSON'
             )
-        if 'source' in _dict:
-            args['source'] = _dict.get('source')
+        if (source := _dict.get('source')) is not None:
+            args['source'] = source
         else:
             raise ValueError(
                 'Required property \'source\' not present in RuntimeResponseGenericRuntimeResponseTypeImage JSON'
             )
-        if 'title' in _dict:
-            args['title'] = _dict.get('title')
-        if 'description' in _dict:
-            args['description'] = _dict.get('description')
-        if 'channels' in _dict:
+        if (title := _dict.get('title')) is not None:
+            args['title'] = title
+        if (description := _dict.get('description')) is not None:
+            args['description'] = description
+        if (channels := _dict.get('channels')) is not None:
             args['channels'] = [
-                ResponseGenericChannel.from_dict(v)
-                for v in _dict.get('channels')
+                ResponseGenericChannel.from_dict(v) for v in channels
             ]
-        if 'alt_text' in _dict:
-            args['alt_text'] = _dict.get('alt_text')
+        if (alt_text := _dict.get('alt_text')) is not None:
+            args['alt_text'] = alt_text
         return cls(**args)
 
     @classmethod
@@ -13764,27 +14275,29 @@ class RuntimeResponseGenericRuntimeResponseTypeOption(RuntimeResponseGeneric):
     """
     RuntimeResponseGenericRuntimeResponseTypeOption.
 
-    :attr str response_type: The type of response returned by the dialog node. The
+    :param str response_type: The type of response returned by the dialog node. The
           specified response type must be supported by the client application or channel.
-    :attr str title: The title or introductory text to show before the response.
-    :attr str description: (optional) The description to show with the response.
-    :attr str preference: (optional) The preferred type of control to display.
-    :attr List[DialogNodeOutputOptionsElement] options: An array of objects
+    :param str title: The title or introductory text to show before the response.
+    :param str description: (optional) The description to show with the response.
+    :param str preference: (optional) The preferred type of control to display.
+    :param List[DialogNodeOutputOptionsElement] options: An array of objects
           describing the options from which the user can choose.
-    :attr List[ResponseGenericChannel] channels: (optional) An array of objects
+    :param List[ResponseGenericChannel] channels: (optional) An array of objects
           specifying channels for which the response is intended. If **channels** is
           present, the response is intended for a built-in integration and should not be
           handled by an API client.
     """
 
-    def __init__(self,
-                 response_type: str,
-                 title: str,
-                 options: List['DialogNodeOutputOptionsElement'],
-                 *,
-                 description: str = None,
-                 preference: str = None,
-                 channels: List['ResponseGenericChannel'] = None) -> None:
+    def __init__(
+        self,
+        response_type: str,
+        title: str,
+        options: List['DialogNodeOutputOptionsElement'],
+        *,
+        description: Optional[str] = None,
+        preference: Optional[str] = None,
+        channels: Optional[List['ResponseGenericChannel']] = None,
+    ) -> None:
         """
         Initialize a RuntimeResponseGenericRuntimeResponseTypeOption object.
 
@@ -13817,35 +14330,33 @@ class RuntimeResponseGenericRuntimeResponseTypeOption(RuntimeResponseGeneric):
             _dict: Dict) -> 'RuntimeResponseGenericRuntimeResponseTypeOption':
         """Initialize a RuntimeResponseGenericRuntimeResponseTypeOption object from a json dictionary."""
         args = {}
-        if 'response_type' in _dict:
-            args['response_type'] = _dict.get('response_type')
+        if (response_type := _dict.get('response_type')) is not None:
+            args['response_type'] = response_type
         else:
             raise ValueError(
                 'Required property \'response_type\' not present in RuntimeResponseGenericRuntimeResponseTypeOption JSON'
             )
-        if 'title' in _dict:
-            args['title'] = _dict.get('title')
+        if (title := _dict.get('title')) is not None:
+            args['title'] = title
         else:
             raise ValueError(
                 'Required property \'title\' not present in RuntimeResponseGenericRuntimeResponseTypeOption JSON'
             )
-        if 'description' in _dict:
-            args['description'] = _dict.get('description')
-        if 'preference' in _dict:
-            args['preference'] = _dict.get('preference')
-        if 'options' in _dict:
+        if (description := _dict.get('description')) is not None:
+            args['description'] = description
+        if (preference := _dict.get('preference')) is not None:
+            args['preference'] = preference
+        if (options := _dict.get('options')) is not None:
             args['options'] = [
-                DialogNodeOutputOptionsElement.from_dict(v)
-                for v in _dict.get('options')
+                DialogNodeOutputOptionsElement.from_dict(v) for v in options
             ]
         else:
             raise ValueError(
                 'Required property \'options\' not present in RuntimeResponseGenericRuntimeResponseTypeOption JSON'
             )
-        if 'channels' in _dict:
+        if (channels := _dict.get('channels')) is not None:
             args['channels'] = [
-                ResponseGenericChannel.from_dict(v)
-                for v in _dict.get('channels')
+                ResponseGenericChannel.from_dict(v) for v in channels
             ]
         return cls(**args)
 
@@ -13909,6 +14420,7 @@ class RuntimeResponseGenericRuntimeResponseTypeOption(RuntimeResponseGeneric):
         """
         The preferred type of control to display.
         """
+
         DROPDOWN = 'dropdown'
         BUTTON = 'button'
 
@@ -13917,23 +14429,25 @@ class RuntimeResponseGenericRuntimeResponseTypePause(RuntimeResponseGeneric):
     """
     RuntimeResponseGenericRuntimeResponseTypePause.
 
-    :attr str response_type: The type of response returned by the dialog node. The
+    :param str response_type: The type of response returned by the dialog node. The
           specified response type must be supported by the client application or channel.
-    :attr int time: How long to pause, in milliseconds.
-    :attr bool typing: (optional) Whether to send a "user is typing" event during
+    :param int time: How long to pause, in milliseconds.
+    :param bool typing: (optional) Whether to send a "user is typing" event during
           the pause.
-    :attr List[ResponseGenericChannel] channels: (optional) An array of objects
+    :param List[ResponseGenericChannel] channels: (optional) An array of objects
           specifying channels for which the response is intended. If **channels** is
           present, the response is intended for a built-in integration and should not be
           handled by an API client.
     """
 
-    def __init__(self,
-                 response_type: str,
-                 time: int,
-                 *,
-                 typing: bool = None,
-                 channels: List['ResponseGenericChannel'] = None) -> None:
+    def __init__(
+        self,
+        response_type: str,
+        time: int,
+        *,
+        typing: Optional[bool] = None,
+        channels: Optional[List['ResponseGenericChannel']] = None,
+    ) -> None:
         """
         Initialize a RuntimeResponseGenericRuntimeResponseTypePause object.
 
@@ -13960,24 +14474,23 @@ class RuntimeResponseGenericRuntimeResponseTypePause(RuntimeResponseGeneric):
             _dict: Dict) -> 'RuntimeResponseGenericRuntimeResponseTypePause':
         """Initialize a RuntimeResponseGenericRuntimeResponseTypePause object from a json dictionary."""
         args = {}
-        if 'response_type' in _dict:
-            args['response_type'] = _dict.get('response_type')
+        if (response_type := _dict.get('response_type')) is not None:
+            args['response_type'] = response_type
         else:
             raise ValueError(
                 'Required property \'response_type\' not present in RuntimeResponseGenericRuntimeResponseTypePause JSON'
             )
-        if 'time' in _dict:
-            args['time'] = _dict.get('time')
+        if (time := _dict.get('time')) is not None:
+            args['time'] = time
         else:
             raise ValueError(
                 'Required property \'time\' not present in RuntimeResponseGenericRuntimeResponseTypePause JSON'
             )
-        if 'typing' in _dict:
-            args['typing'] = _dict.get('typing')
-        if 'channels' in _dict:
+        if (typing := _dict.get('typing')) is not None:
+            args['typing'] = typing
+        if (channels := _dict.get('channels')) is not None:
             args['channels'] = [
-                ResponseGenericChannel.from_dict(v)
-                for v in _dict.get('channels')
+                ResponseGenericChannel.from_dict(v) for v in channels
             ]
         return cls(**args)
 
@@ -14031,23 +14544,25 @@ class RuntimeResponseGenericRuntimeResponseTypeSuggestion(
     """
     RuntimeResponseGenericRuntimeResponseTypeSuggestion.
 
-    :attr str response_type: The type of response returned by the dialog node. The
+    :param str response_type: The type of response returned by the dialog node. The
           specified response type must be supported by the client application or channel.
-    :attr str title: The title or introductory text to show before the response.
-    :attr List[DialogSuggestion] suggestions: An array of objects describing the
+    :param str title: The title or introductory text to show before the response.
+    :param List[DialogSuggestion] suggestions: An array of objects describing the
           possible matching dialog nodes from which the user can choose.
-    :attr List[ResponseGenericChannel] channels: (optional) An array of objects
+    :param List[ResponseGenericChannel] channels: (optional) An array of objects
           specifying channels for which the response is intended. If **channels** is
           present, the response is intended for a built-in integration and should not be
           handled by an API client.
     """
 
-    def __init__(self,
-                 response_type: str,
-                 title: str,
-                 suggestions: List['DialogSuggestion'],
-                 *,
-                 channels: List['ResponseGenericChannel'] = None) -> None:
+    def __init__(
+        self,
+        response_type: str,
+        title: str,
+        suggestions: List['DialogSuggestion'],
+        *,
+        channels: Optional[List['ResponseGenericChannel']] = None,
+    ) -> None:
         """
         Initialize a RuntimeResponseGenericRuntimeResponseTypeSuggestion object.
 
@@ -14075,30 +14590,29 @@ class RuntimeResponseGenericRuntimeResponseTypeSuggestion(
     ) -> 'RuntimeResponseGenericRuntimeResponseTypeSuggestion':
         """Initialize a RuntimeResponseGenericRuntimeResponseTypeSuggestion object from a json dictionary."""
         args = {}
-        if 'response_type' in _dict:
-            args['response_type'] = _dict.get('response_type')
+        if (response_type := _dict.get('response_type')) is not None:
+            args['response_type'] = response_type
         else:
             raise ValueError(
                 'Required property \'response_type\' not present in RuntimeResponseGenericRuntimeResponseTypeSuggestion JSON'
             )
-        if 'title' in _dict:
-            args['title'] = _dict.get('title')
+        if (title := _dict.get('title')) is not None:
+            args['title'] = title
         else:
             raise ValueError(
                 'Required property \'title\' not present in RuntimeResponseGenericRuntimeResponseTypeSuggestion JSON'
             )
-        if 'suggestions' in _dict:
+        if (suggestions := _dict.get('suggestions')) is not None:
             args['suggestions'] = [
-                DialogSuggestion.from_dict(v) for v in _dict.get('suggestions')
+                DialogSuggestion.from_dict(v) for v in suggestions
             ]
         else:
             raise ValueError(
                 'Required property \'suggestions\' not present in RuntimeResponseGenericRuntimeResponseTypeSuggestion JSON'
             )
-        if 'channels' in _dict:
+        if (channels := _dict.get('channels')) is not None:
             args['channels'] = [
-                ResponseGenericChannel.from_dict(v)
-                for v in _dict.get('channels')
+                ResponseGenericChannel.from_dict(v) for v in channels
             ]
         return cls(**args)
 
@@ -14159,20 +14673,22 @@ class RuntimeResponseGenericRuntimeResponseTypeText(RuntimeResponseGeneric):
     """
     RuntimeResponseGenericRuntimeResponseTypeText.
 
-    :attr str response_type: The type of response returned by the dialog node. The
+    :param str response_type: The type of response returned by the dialog node. The
           specified response type must be supported by the client application or channel.
-    :attr str text: The text of the response.
-    :attr List[ResponseGenericChannel] channels: (optional) An array of objects
+    :param str text: The text of the response.
+    :param List[ResponseGenericChannel] channels: (optional) An array of objects
           specifying channels for which the response is intended. If **channels** is
           present, the response is intended for a built-in integration and should not be
           handled by an API client.
     """
 
-    def __init__(self,
-                 response_type: str,
-                 text: str,
-                 *,
-                 channels: List['ResponseGenericChannel'] = None) -> None:
+    def __init__(
+        self,
+        response_type: str,
+        text: str,
+        *,
+        channels: Optional[List['ResponseGenericChannel']] = None,
+    ) -> None:
         """
         Initialize a RuntimeResponseGenericRuntimeResponseTypeText object.
 
@@ -14196,22 +14712,21 @@ class RuntimeResponseGenericRuntimeResponseTypeText(RuntimeResponseGeneric):
             _dict: Dict) -> 'RuntimeResponseGenericRuntimeResponseTypeText':
         """Initialize a RuntimeResponseGenericRuntimeResponseTypeText object from a json dictionary."""
         args = {}
-        if 'response_type' in _dict:
-            args['response_type'] = _dict.get('response_type')
+        if (response_type := _dict.get('response_type')) is not None:
+            args['response_type'] = response_type
         else:
             raise ValueError(
                 'Required property \'response_type\' not present in RuntimeResponseGenericRuntimeResponseTypeText JSON'
             )
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
+        if (text := _dict.get('text')) is not None:
+            args['text'] = text
         else:
             raise ValueError(
                 'Required property \'text\' not present in RuntimeResponseGenericRuntimeResponseTypeText JSON'
             )
-        if 'channels' in _dict:
+        if (channels := _dict.get('channels')) is not None:
             args['channels'] = [
-                ResponseGenericChannel.from_dict(v)
-                for v in _dict.get('channels')
+                ResponseGenericChannel.from_dict(v) for v in channels
             ]
         return cls(**args)
 
@@ -14263,21 +14778,23 @@ class RuntimeResponseGenericRuntimeResponseTypeUserDefined(
     """
     RuntimeResponseGenericRuntimeResponseTypeUserDefined.
 
-    :attr str response_type: The type of response returned by the dialog node. The
+    :param str response_type: The type of response returned by the dialog node. The
           specified response type must be supported by the client application or channel.
-    :attr dict user_defined: An object containing any properties for the
+    :param dict user_defined: An object containing any properties for the
           user-defined response type.
-    :attr List[ResponseGenericChannel] channels: (optional) An array of objects
+    :param List[ResponseGenericChannel] channels: (optional) An array of objects
           specifying channels for which the response is intended. If **channels** is
           present, the response is intended for a built-in integration and should not be
           handled by an API client.
     """
 
-    def __init__(self,
-                 response_type: str,
-                 user_defined: dict,
-                 *,
-                 channels: List['ResponseGenericChannel'] = None) -> None:
+    def __init__(
+        self,
+        response_type: str,
+        user_defined: dict,
+        *,
+        channels: Optional[List['ResponseGenericChannel']] = None,
+    ) -> None:
         """
         Initialize a RuntimeResponseGenericRuntimeResponseTypeUserDefined object.
 
@@ -14302,22 +14819,21 @@ class RuntimeResponseGenericRuntimeResponseTypeUserDefined(
     ) -> 'RuntimeResponseGenericRuntimeResponseTypeUserDefined':
         """Initialize a RuntimeResponseGenericRuntimeResponseTypeUserDefined object from a json dictionary."""
         args = {}
-        if 'response_type' in _dict:
-            args['response_type'] = _dict.get('response_type')
+        if (response_type := _dict.get('response_type')) is not None:
+            args['response_type'] = response_type
         else:
             raise ValueError(
                 'Required property \'response_type\' not present in RuntimeResponseGenericRuntimeResponseTypeUserDefined JSON'
             )
-        if 'user_defined' in _dict:
-            args['user_defined'] = _dict.get('user_defined')
+        if (user_defined := _dict.get('user_defined')) is not None:
+            args['user_defined'] = user_defined
         else:
             raise ValueError(
                 'Required property \'user_defined\' not present in RuntimeResponseGenericRuntimeResponseTypeUserDefined JSON'
             )
-        if 'channels' in _dict:
+        if (channels := _dict.get('channels')) is not None:
             args['channels'] = [
-                ResponseGenericChannel.from_dict(v)
-                for v in _dict.get('channels')
+                ResponseGenericChannel.from_dict(v) for v in channels
             ]
         return cls(**args)
 
@@ -14370,30 +14886,32 @@ class RuntimeResponseGenericRuntimeResponseTypeVideo(RuntimeResponseGeneric):
     """
     RuntimeResponseGenericRuntimeResponseTypeVideo.
 
-    :attr str response_type: The type of response returned by the dialog node. The
+    :param str response_type: The type of response returned by the dialog node. The
           specified response type must be supported by the client application or channel.
-    :attr str source: The `https:` URL of the video.
-    :attr str title: (optional) The title or introductory text to show before the
+    :param str source: The `https:` URL of the video.
+    :param str title: (optional) The title or introductory text to show before the
           response.
-    :attr str description: (optional) The description to show with the response.
-    :attr List[ResponseGenericChannel] channels: (optional) An array of objects
+    :param str description: (optional) The description to show with the response.
+    :param List[ResponseGenericChannel] channels: (optional) An array of objects
           specifying channels for which the response is intended. If **channels** is
           present, the response is intended for a built-in integration and should not be
           handled by an API client.
-    :attr dict channel_options: (optional) For internal use only.
-    :attr str alt_text: (optional) Descriptive text that can be used for screen
+    :param dict channel_options: (optional) For internal use only.
+    :param str alt_text: (optional) Descriptive text that can be used for screen
           readers or other situations where the video cannot be seen.
     """
 
-    def __init__(self,
-                 response_type: str,
-                 source: str,
-                 *,
-                 title: str = None,
-                 description: str = None,
-                 channels: List['ResponseGenericChannel'] = None,
-                 channel_options: dict = None,
-                 alt_text: str = None) -> None:
+    def __init__(
+        self,
+        response_type: str,
+        source: str,
+        *,
+        title: Optional[str] = None,
+        description: Optional[str] = None,
+        channels: Optional[List['ResponseGenericChannel']] = None,
+        channel_options: Optional[dict] = None,
+        alt_text: Optional[str] = None,
+    ) -> None:
         """
         Initialize a RuntimeResponseGenericRuntimeResponseTypeVideo object.
 
@@ -14428,31 +14946,30 @@ class RuntimeResponseGenericRuntimeResponseTypeVideo(RuntimeResponseGeneric):
             _dict: Dict) -> 'RuntimeResponseGenericRuntimeResponseTypeVideo':
         """Initialize a RuntimeResponseGenericRuntimeResponseTypeVideo object from a json dictionary."""
         args = {}
-        if 'response_type' in _dict:
-            args['response_type'] = _dict.get('response_type')
+        if (response_type := _dict.get('response_type')) is not None:
+            args['response_type'] = response_type
         else:
             raise ValueError(
                 'Required property \'response_type\' not present in RuntimeResponseGenericRuntimeResponseTypeVideo JSON'
             )
-        if 'source' in _dict:
-            args['source'] = _dict.get('source')
+        if (source := _dict.get('source')) is not None:
+            args['source'] = source
         else:
             raise ValueError(
                 'Required property \'source\' not present in RuntimeResponseGenericRuntimeResponseTypeVideo JSON'
             )
-        if 'title' in _dict:
-            args['title'] = _dict.get('title')
-        if 'description' in _dict:
-            args['description'] = _dict.get('description')
-        if 'channels' in _dict:
+        if (title := _dict.get('title')) is not None:
+            args['title'] = title
+        if (description := _dict.get('description')) is not None:
+            args['description'] = description
+        if (channels := _dict.get('channels')) is not None:
             args['channels'] = [
-                ResponseGenericChannel.from_dict(v)
-                for v in _dict.get('channels')
+                ResponseGenericChannel.from_dict(v) for v in channels
             ]
-        if 'channel_options' in _dict:
-            args['channel_options'] = _dict.get('channel_options')
-        if 'alt_text' in _dict:
-            args['alt_text'] = _dict.get('alt_text')
+        if (channel_options := _dict.get('channel_options')) is not None:
+            args['channel_options'] = channel_options
+        if (alt_text := _dict.get('alt_text')) is not None:
+            args['alt_text'] = alt_text
         return cls(**args)
 
     @classmethod
