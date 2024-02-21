@@ -237,6 +237,7 @@ class TestRecognize:
         timestamps = False
         profanity_filter = True
         smart_formatting = False
+        smart_formatting_version = False
         speaker_labels = False
         grammar_name = 'testString'
         redaction = False
@@ -266,6 +267,7 @@ class TestRecognize:
             timestamps=timestamps,
             profanity_filter=profanity_filter,
             smart_formatting=smart_formatting,
+            smart_formatting_version=smart_formatting_version,
             speaker_labels=speaker_labels,
             grammar_name=grammar_name,
             redaction=redaction,
@@ -297,6 +299,7 @@ class TestRecognize:
         assert 'timestamps={}'.format('true' if timestamps else 'false') in query_string
         assert 'profanity_filter={}'.format('true' if profanity_filter else 'false') in query_string
         assert 'smart_formatting={}'.format('true' if smart_formatting else 'false') in query_string
+        assert 'smart_formatting_version={}'.format('true' if smart_formatting_version else 'false') in query_string
         assert 'speaker_labels={}'.format('true' if speaker_labels else 'false') in query_string
         assert 'grammar_name={}'.format(grammar_name) in query_string
         assert 'redaction={}'.format('true' if redaction else 'false') in query_string
@@ -654,6 +657,7 @@ class TestCreateJob:
         timestamps = False
         profanity_filter = True
         smart_formatting = False
+        smart_formatting_version = False
         speaker_labels = False
         grammar_name = 'testString'
         redaction = False
@@ -689,6 +693,7 @@ class TestCreateJob:
             timestamps=timestamps,
             profanity_filter=profanity_filter,
             smart_formatting=smart_formatting,
+            smart_formatting_version=smart_formatting_version,
             speaker_labels=speaker_labels,
             grammar_name=grammar_name,
             redaction=redaction,
@@ -726,6 +731,7 @@ class TestCreateJob:
         assert 'timestamps={}'.format('true' if timestamps else 'false') in query_string
         assert 'profanity_filter={}'.format('true' if profanity_filter else 'false') in query_string
         assert 'smart_formatting={}'.format('true' if smart_formatting else 'false') in query_string
+        assert 'smart_formatting_version={}'.format('true' if smart_formatting_version else 'false') in query_string
         assert 'speaker_labels={}'.format('true' if speaker_labels else 'false') in query_string
         assert 'grammar_name={}'.format(grammar_name) in query_string
         assert 'redaction={}'.format('true' if redaction else 'false') in query_string
@@ -1386,6 +1392,7 @@ class TestTrainLanguageModel:
         word_type_to_add = 'all'
         customization_weight = 72.5
         strict = True
+        force = False
 
         # Invoke method
         response = _service.train_language_model(
@@ -1393,6 +1400,7 @@ class TestTrainLanguageModel:
             word_type_to_add=word_type_to_add,
             customization_weight=customization_weight,
             strict=strict,
+            force=force,
             headers={},
         )
 
@@ -1405,6 +1413,7 @@ class TestTrainLanguageModel:
         assert 'word_type_to_add={}'.format(word_type_to_add) in query_string
         assert 'customization_weight={}'.format(customization_weight) in query_string
         assert 'strict={}'.format('true' if strict else 'false') in query_string
+        assert 'force={}'.format('true' if force else 'false') in query_string
 
     def test_train_language_model_all_params_with_retries(self):
         # Enable retries and run test_train_language_model_all_params.
@@ -2048,7 +2057,7 @@ class TestListWords:
         """
         # Set up mock
         url = preprocess_url('/v1/customizations/testString/words')
-        mock_response = '{"words": [{"word": "word", "sounds_like": ["sounds_like"], "display_as": "display_as", "count": 5, "source": ["source"], "error": [{"element": "element"}]}]}'
+        mock_response = '{"words": [{"word": "word", "mapping_only": ["mapping_only"], "sounds_like": ["sounds_like"], "display_as": "display_as", "count": 5, "source": ["source"], "error": [{"element": "element"}]}]}'
         responses.add(
             responses.GET,
             url,
@@ -2095,7 +2104,7 @@ class TestListWords:
         """
         # Set up mock
         url = preprocess_url('/v1/customizations/testString/words')
-        mock_response = '{"words": [{"word": "word", "sounds_like": ["sounds_like"], "display_as": "display_as", "count": 5, "source": ["source"], "error": [{"element": "element"}]}]}'
+        mock_response = '{"words": [{"word": "word", "mapping_only": ["mapping_only"], "sounds_like": ["sounds_like"], "display_as": "display_as", "count": 5, "source": ["source"], "error": [{"element": "element"}]}]}'
         responses.add(
             responses.GET,
             url,
@@ -2133,7 +2142,7 @@ class TestListWords:
         """
         # Set up mock
         url = preprocess_url('/v1/customizations/testString/words')
-        mock_response = '{"words": [{"word": "word", "sounds_like": ["sounds_like"], "display_as": "display_as", "count": 5, "source": ["source"], "error": [{"element": "element"}]}]}'
+        mock_response = '{"words": [{"word": "word", "mapping_only": ["mapping_only"], "sounds_like": ["sounds_like"], "display_as": "display_as", "count": 5, "source": ["source"], "error": [{"element": "element"}]}]}'
         responses.add(
             responses.GET,
             url,
@@ -2185,6 +2194,7 @@ class TestAddWords:
         # Construct a dict representation of a CustomWord model
         custom_word_model = {}
         custom_word_model['word'] = 'testString'
+        custom_word_model['mapping_only'] = ['testString']
         custom_word_model['sounds_like'] = ['testString']
         custom_word_model['display_as'] = 'testString'
 
@@ -2231,6 +2241,7 @@ class TestAddWords:
         # Construct a dict representation of a CustomWord model
         custom_word_model = {}
         custom_word_model['word'] = 'testString'
+        custom_word_model['mapping_only'] = ['testString']
         custom_word_model['sounds_like'] = ['testString']
         custom_word_model['display_as'] = 'testString'
 
@@ -2280,6 +2291,7 @@ class TestAddWord:
         customization_id = 'testString'
         word_name = 'testString'
         word = 'testString'
+        mapping_only = ['testString']
         sounds_like = ['testString']
         display_as = 'testString'
 
@@ -2288,6 +2300,7 @@ class TestAddWord:
             customization_id,
             word_name,
             word=word,
+            mapping_only=mapping_only,
             sounds_like=sounds_like,
             display_as=display_as,
             headers={},
@@ -2299,6 +2312,7 @@ class TestAddWord:
         # Validate body params
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['word'] == 'testString'
+        assert req_body['mapping_only'] == ['testString']
         assert req_body['sounds_like'] == ['testString']
         assert req_body['display_as'] == 'testString'
 
@@ -2328,6 +2342,7 @@ class TestAddWord:
         customization_id = 'testString'
         word_name = 'testString'
         word = 'testString'
+        mapping_only = ['testString']
         sounds_like = ['testString']
         display_as = 'testString'
 
@@ -2363,7 +2378,7 @@ class TestGetWord:
         """
         # Set up mock
         url = preprocess_url('/v1/customizations/testString/words/testString')
-        mock_response = '{"word": "word", "sounds_like": ["sounds_like"], "display_as": "display_as", "count": 5, "source": ["source"], "error": [{"element": "element"}]}'
+        mock_response = '{"word": "word", "mapping_only": ["mapping_only"], "sounds_like": ["sounds_like"], "display_as": "display_as", "count": 5, "source": ["source"], "error": [{"element": "element"}]}'
         responses.add(
             responses.GET,
             url,
@@ -2403,7 +2418,7 @@ class TestGetWord:
         """
         # Set up mock
         url = preprocess_url('/v1/customizations/testString/words/testString')
-        mock_response = '{"word": "word", "sounds_like": ["sounds_like"], "display_as": "display_as", "count": 5, "source": ["source"], "error": [{"element": "element"}]}'
+        mock_response = '{"word": "word", "mapping_only": ["mapping_only"], "sounds_like": ["sounds_like"], "display_as": "display_as", "count": 5, "source": ["source"], "error": [{"element": "element"}]}'
         responses.add(
             responses.GET,
             url,
@@ -4528,6 +4543,7 @@ class TestModel_CustomWord:
         # Construct a json representation of a CustomWord model
         custom_word_model_json = {}
         custom_word_model_json['word'] = 'testString'
+        custom_word_model_json['mapping_only'] = ['testString']
         custom_word_model_json['sounds_like'] = ['testString']
         custom_word_model_json['display_as'] = 'testString'
 
@@ -5509,6 +5525,7 @@ class TestModel_Word:
         # Construct a json representation of a Word model
         word_model_json = {}
         word_model_json['word'] = 'testString'
+        word_model_json['mapping_only'] = ['testString']
         word_model_json['sounds_like'] = ['testString']
         word_model_json['display_as'] = 'testString'
         word_model_json['count'] = 38
@@ -5647,6 +5664,7 @@ class TestModel_Words:
 
         word_model = {}  # Word
         word_model['word'] = 'testString'
+        word_model['mapping_only'] = ['testString']
         word_model['sounds_like'] = ['testString']
         word_model['display_as'] = 'testString'
         word_model['count'] = 38
