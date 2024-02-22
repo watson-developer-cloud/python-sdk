@@ -530,8 +530,8 @@ class AssistantV2(BaseService):
         self,
         assistant_id: str,
         *,
-        input: Optional['MessageInputStateless'] = None,
-        context: Optional['MessageContextStateless'] = None,
+        input: Optional['StatelessMessageInput'] = None,
+        context: Optional['StatelessMessageContext'] = None,
         user_id: Optional[str] = None,
         **kwargs,
     ) -> DetailedResponse:
@@ -4233,9 +4233,9 @@ class Log:
     Log.
 
     :param str log_id: A unique identifier for the logged event.
-    :param MessageRequest request: A stateful message request formatted for the
-          Watson Assistant service.
-    :param MessageResponse response: A response from the Watson Assistant service.
+    :param LogRequest request: A message request formatted for the watsonx Assistant
+          service.
+    :param LogResponse response: A response from the watsonx Assistant service.
     :param str assistant_id: Unique identifier of the assistant.
     :param str session_id: The ID of the session the message was part of.
     :param str skill_id: The unique identifier of the skill that responded to the
@@ -4254,8 +4254,8 @@ class Log:
     def __init__(
         self,
         log_id: str,
-        request: 'MessageRequest',
-        response: 'MessageResponse',
+        request: 'LogRequest',
+        response: 'LogResponse',
         assistant_id: str,
         session_id: str,
         skill_id: str,
@@ -4270,10 +4270,9 @@ class Log:
         Initialize a Log object.
 
         :param str log_id: A unique identifier for the logged event.
-        :param MessageRequest request: A stateful message request formatted for the
-               Watson Assistant service.
-        :param MessageResponse response: A response from the Watson Assistant
-               service.
+        :param LogRequest request: A message request formatted for the watsonx
+               Assistant service.
+        :param LogResponse response: A response from the watsonx Assistant service.
         :param str assistant_id: Unique identifier of the assistant.
         :param str session_id: The ID of the session the message was part of.
         :param str skill_id: The unique identifier of the skill that responded to
@@ -4310,12 +4309,12 @@ class Log:
             raise ValueError(
                 'Required property \'log_id\' not present in Log JSON')
         if (request := _dict.get('request')) is not None:
-            args['request'] = MessageRequest.from_dict(request)
+            args['request'] = LogRequest.from_dict(request)
         else:
             raise ValueError(
                 'Required property \'request\' not present in Log JSON')
         if (response := _dict.get('response')) is not None:
-            args['response'] = MessageResponse.from_dict(response)
+            args['response'] = LogResponse.from_dict(response)
         else:
             raise ValueError(
                 'Required property \'response\' not present in Log JSON')
@@ -4640,6 +4639,577 @@ class LogPagination:
         return not self == other
 
 
+class LogRequest:
+    """
+    A message request formatted for the watsonx Assistant service.
+
+    :param LogRequestInput input: (optional) An input object that includes the input
+          text. All private data is masked or removed.
+    :param MessageContext context: (optional) Context data for the conversation. You
+          can use this property to set or modify context variables, which can also be
+          accessed by dialog nodes. The context is stored by the assistant on a
+          per-session basis.
+          **Note:** The total size of the context data stored for a stateful session
+          cannot exceed 100KB.
+    :param str user_id: (optional) A string value that identifies the user who is
+          interacting with the assistant. The client must provide a unique identifier for
+          each individual end user who accesses the application. For user-based plans,
+          this user ID is used to identify unique users for billing purposes. This string
+          cannot contain carriage return, newline, or tab characters. If no value is
+          specified in the input, **user_id** is automatically set to the value of
+          **context.global.session_id**.
+          **Note:** This property is the same as the **user_id** property in the global
+          system context. If **user_id** is specified in both locations, the value
+          specified at the root is used.
+    """
+
+    def __init__(
+        self,
+        *,
+        input: Optional['LogRequestInput'] = None,
+        context: Optional['MessageContext'] = None,
+        user_id: Optional[str] = None,
+    ) -> None:
+        """
+        Initialize a LogRequest object.
+
+        :param LogRequestInput input: (optional) An input object that includes the
+               input text. All private data is masked or removed.
+        :param MessageContext context: (optional) Context data for the
+               conversation. You can use this property to set or modify context variables,
+               which can also be accessed by dialog nodes. The context is stored by the
+               assistant on a per-session basis.
+               **Note:** The total size of the context data stored for a stateful session
+               cannot exceed 100KB.
+        :param str user_id: (optional) A string value that identifies the user who
+               is interacting with the assistant. The client must provide a unique
+               identifier for each individual end user who accesses the application. For
+               user-based plans, this user ID is used to identify unique users for billing
+               purposes. This string cannot contain carriage return, newline, or tab
+               characters. If no value is specified in the input, **user_id** is
+               automatically set to the value of **context.global.session_id**.
+               **Note:** This property is the same as the **user_id** property in the
+               global system context. If **user_id** is specified in both locations, the
+               value specified at the root is used.
+        """
+        self.input = input
+        self.context = context
+        self.user_id = user_id
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'LogRequest':
+        """Initialize a LogRequest object from a json dictionary."""
+        args = {}
+        if (input := _dict.get('input')) is not None:
+            args['input'] = LogRequestInput.from_dict(input)
+        if (context := _dict.get('context')) is not None:
+            args['context'] = MessageContext.from_dict(context)
+        if (user_id := _dict.get('user_id')) is not None:
+            args['user_id'] = user_id
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a LogRequest object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'input') and self.input is not None:
+            if isinstance(self.input, dict):
+                _dict['input'] = self.input
+            else:
+                _dict['input'] = self.input.to_dict()
+        if hasattr(self, 'context') and self.context is not None:
+            if isinstance(self.context, dict):
+                _dict['context'] = self.context
+            else:
+                _dict['context'] = self.context.to_dict()
+        if hasattr(self, 'user_id') and self.user_id is not None:
+            _dict['user_id'] = self.user_id
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this LogRequest object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'LogRequest') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'LogRequest') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class LogRequestInput:
+    """
+    An input object that includes the input text. All private data is masked or removed.
+
+    :param str message_type: (optional) The type of the message:
+          - `text`: The user input is processed normally by the assistant.
+          - `search`: Only search results are returned. (Any dialog or action skill is
+          bypassed.)
+          **Note:** A `search` message results in an error if no search skill is
+          configured for the assistant.
+    :param str text: (optional) The text of the user input. This string cannot
+          contain carriage return, newline, or tab characters.
+    :param List[RuntimeIntent] intents: (optional) Intents to use when evaluating
+          the user input. Include intents from the previous response to continue using
+          those intents rather than trying to recognize intents in the new input.
+    :param List[RuntimeEntity] entities: (optional) Entities to use when evaluating
+          the message. Include entities from the previous response to continue using those
+          entities rather than detecting entities in the new input.
+    :param str suggestion_id: (optional) For internal use only.
+    :param List[MessageInputAttachment] attachments: (optional) An array of
+          multimedia attachments to be sent with the message. Attachments are not
+          processed by the assistant itself, but can be sent to external services by
+          webhooks.
+           **Note:** Attachments are not supported on IBM Cloud Pak for Data.
+    :param RequestAnalytics analytics: (optional) An optional object containing
+          analytics data. Currently, this data is used only for events sent to the Segment
+          extension.
+    :param MessageInputOptions options: (optional) Optional properties that control
+          how the assistant responds.
+    """
+
+    def __init__(
+        self,
+        *,
+        message_type: Optional[str] = None,
+        text: Optional[str] = None,
+        intents: Optional[List['RuntimeIntent']] = None,
+        entities: Optional[List['RuntimeEntity']] = None,
+        suggestion_id: Optional[str] = None,
+        attachments: Optional[List['MessageInputAttachment']] = None,
+        analytics: Optional['RequestAnalytics'] = None,
+        options: Optional['MessageInputOptions'] = None,
+    ) -> None:
+        """
+        Initialize a LogRequestInput object.
+
+        :param str message_type: (optional) The type of the message:
+               - `text`: The user input is processed normally by the assistant.
+               - `search`: Only search results are returned. (Any dialog or action skill
+               is bypassed.)
+               **Note:** A `search` message results in an error if no search skill is
+               configured for the assistant.
+        :param str text: (optional) The text of the user input. This string cannot
+               contain carriage return, newline, or tab characters.
+        :param List[RuntimeIntent] intents: (optional) Intents to use when
+               evaluating the user input. Include intents from the previous response to
+               continue using those intents rather than trying to recognize intents in the
+               new input.
+        :param List[RuntimeEntity] entities: (optional) Entities to use when
+               evaluating the message. Include entities from the previous response to
+               continue using those entities rather than detecting entities in the new
+               input.
+        :param str suggestion_id: (optional) For internal use only.
+        :param List[MessageInputAttachment] attachments: (optional) An array of
+               multimedia attachments to be sent with the message. Attachments are not
+               processed by the assistant itself, but can be sent to external services by
+               webhooks.
+                **Note:** Attachments are not supported on IBM Cloud Pak for Data.
+        :param RequestAnalytics analytics: (optional) An optional object containing
+               analytics data. Currently, this data is used only for events sent to the
+               Segment extension.
+        :param MessageInputOptions options: (optional) Optional properties that
+               control how the assistant responds.
+        """
+        self.message_type = message_type
+        self.text = text
+        self.intents = intents
+        self.entities = entities
+        self.suggestion_id = suggestion_id
+        self.attachments = attachments
+        self.analytics = analytics
+        self.options = options
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'LogRequestInput':
+        """Initialize a LogRequestInput object from a json dictionary."""
+        args = {}
+        if (message_type := _dict.get('message_type')) is not None:
+            args['message_type'] = message_type
+        if (text := _dict.get('text')) is not None:
+            args['text'] = text
+        if (intents := _dict.get('intents')) is not None:
+            args['intents'] = [RuntimeIntent.from_dict(v) for v in intents]
+        if (entities := _dict.get('entities')) is not None:
+            args['entities'] = [RuntimeEntity.from_dict(v) for v in entities]
+        if (suggestion_id := _dict.get('suggestion_id')) is not None:
+            args['suggestion_id'] = suggestion_id
+        if (attachments := _dict.get('attachments')) is not None:
+            args['attachments'] = [
+                MessageInputAttachment.from_dict(v) for v in attachments
+            ]
+        if (analytics := _dict.get('analytics')) is not None:
+            args['analytics'] = RequestAnalytics.from_dict(analytics)
+        if (options := _dict.get('options')) is not None:
+            args['options'] = MessageInputOptions.from_dict(options)
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a LogRequestInput object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'message_type') and self.message_type is not None:
+            _dict['message_type'] = self.message_type
+        if hasattr(self, 'text') and self.text is not None:
+            _dict['text'] = self.text
+        if hasattr(self, 'intents') and self.intents is not None:
+            intents_list = []
+            for v in self.intents:
+                if isinstance(v, dict):
+                    intents_list.append(v)
+                else:
+                    intents_list.append(v.to_dict())
+            _dict['intents'] = intents_list
+        if hasattr(self, 'entities') and self.entities is not None:
+            entities_list = []
+            for v in self.entities:
+                if isinstance(v, dict):
+                    entities_list.append(v)
+                else:
+                    entities_list.append(v.to_dict())
+            _dict['entities'] = entities_list
+        if hasattr(self, 'suggestion_id') and self.suggestion_id is not None:
+            _dict['suggestion_id'] = self.suggestion_id
+        if hasattr(self, 'attachments') and self.attachments is not None:
+            attachments_list = []
+            for v in self.attachments:
+                if isinstance(v, dict):
+                    attachments_list.append(v)
+                else:
+                    attachments_list.append(v.to_dict())
+            _dict['attachments'] = attachments_list
+        if hasattr(self, 'analytics') and self.analytics is not None:
+            if isinstance(self.analytics, dict):
+                _dict['analytics'] = self.analytics
+            else:
+                _dict['analytics'] = self.analytics.to_dict()
+        if hasattr(self, 'options') and self.options is not None:
+            if isinstance(self.options, dict):
+                _dict['options'] = self.options
+            else:
+                _dict['options'] = self.options.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this LogRequestInput object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'LogRequestInput') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'LogRequestInput') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class MessageTypeEnum(str, Enum):
+        """
+        The type of the message:
+        - `text`: The user input is processed normally by the assistant.
+        - `search`: Only search results are returned. (Any dialog or action skill is
+        bypassed.)
+        **Note:** A `search` message results in an error if no search skill is configured
+        for the assistant.
+        """
+
+        TEXT = 'text'
+        SEARCH = 'search'
+
+
+class LogResponse:
+    """
+    A response from the watsonx Assistant service.
+
+    :param LogResponseOutput output: Assistant output to be rendered or processed by
+          the client. All private data is masked or removed.
+    :param MessageContext context: (optional) Context data for the conversation. You
+          can use this property to access context variables. The context is stored by the
+          assistant on a per-session basis.
+          **Note:** The context is included in message responses only if
+          **return_context**=`true` in the message request. Full context is always
+          included in logs.
+    :param str user_id: A string value that identifies the user who is interacting
+          with the assistant. The client must provide a unique identifier for each
+          individual end user who accesses the application. For user-based plans, this
+          user ID is used to identify unique users for billing purposes. This string
+          cannot contain carriage return, newline, or tab characters. If no value is
+          specified in the input, **user_id** is automatically set to the value of
+          **context.global.session_id**.
+          **Note:** This property is the same as the **user_id** property in the global
+          system context.
+    """
+
+    def __init__(
+        self,
+        output: 'LogResponseOutput',
+        user_id: str,
+        *,
+        context: Optional['MessageContext'] = None,
+    ) -> None:
+        """
+        Initialize a LogResponse object.
+
+        :param LogResponseOutput output: Assistant output to be rendered or
+               processed by the client. All private data is masked or removed.
+        :param str user_id: A string value that identifies the user who is
+               interacting with the assistant. The client must provide a unique identifier
+               for each individual end user who accesses the application. For user-based
+               plans, this user ID is used to identify unique users for billing purposes.
+               This string cannot contain carriage return, newline, or tab characters. If
+               no value is specified in the input, **user_id** is automatically set to the
+               value of **context.global.session_id**.
+               **Note:** This property is the same as the **user_id** property in the
+               global system context.
+        :param MessageContext context: (optional) Context data for the
+               conversation. You can use this property to access context variables. The
+               context is stored by the assistant on a per-session basis.
+               **Note:** The context is included in message responses only if
+               **return_context**=`true` in the message request. Full context is always
+               included in logs.
+        """
+        self.output = output
+        self.context = context
+        self.user_id = user_id
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'LogResponse':
+        """Initialize a LogResponse object from a json dictionary."""
+        args = {}
+        if (output := _dict.get('output')) is not None:
+            args['output'] = LogResponseOutput.from_dict(output)
+        else:
+            raise ValueError(
+                'Required property \'output\' not present in LogResponse JSON')
+        if (context := _dict.get('context')) is not None:
+            args['context'] = MessageContext.from_dict(context)
+        if (user_id := _dict.get('user_id')) is not None:
+            args['user_id'] = user_id
+        else:
+            raise ValueError(
+                'Required property \'user_id\' not present in LogResponse JSON')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a LogResponse object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'output') and self.output is not None:
+            if isinstance(self.output, dict):
+                _dict['output'] = self.output
+            else:
+                _dict['output'] = self.output.to_dict()
+        if hasattr(self, 'context') and self.context is not None:
+            if isinstance(self.context, dict):
+                _dict['context'] = self.context
+            else:
+                _dict['context'] = self.context.to_dict()
+        if hasattr(self, 'user_id') and self.user_id is not None:
+            _dict['user_id'] = self.user_id
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this LogResponse object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'LogResponse') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'LogResponse') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class LogResponseOutput:
+    """
+    Assistant output to be rendered or processed by the client. All private data is masked
+    or removed.
+
+    :param List[RuntimeResponseGeneric] generic: (optional) Output intended for any
+          channel. It is the responsibility of the client application to implement the
+          supported response types.
+    :param List[RuntimeIntent] intents: (optional) An array of intents recognized in
+          the user input, sorted in descending order of confidence.
+    :param List[RuntimeEntity] entities: (optional) An array of entities identified
+          in the user input.
+    :param List[DialogNodeAction] actions: (optional) An array of objects describing
+          any actions requested by the dialog node.
+    :param MessageOutputDebug debug: (optional) Additional detailed information
+          about a message response and how it was generated.
+    :param dict user_defined: (optional) An object containing any custom properties
+          included in the response. This object includes any arbitrary properties defined
+          in the dialog JSON editor as part of the dialog node output.
+    :param MessageOutputSpelling spelling: (optional) Properties describing any
+          spelling corrections in the user input that was received.
+    """
+
+    def __init__(
+        self,
+        *,
+        generic: Optional[List['RuntimeResponseGeneric']] = None,
+        intents: Optional[List['RuntimeIntent']] = None,
+        entities: Optional[List['RuntimeEntity']] = None,
+        actions: Optional[List['DialogNodeAction']] = None,
+        debug: Optional['MessageOutputDebug'] = None,
+        user_defined: Optional[dict] = None,
+        spelling: Optional['MessageOutputSpelling'] = None,
+    ) -> None:
+        """
+        Initialize a LogResponseOutput object.
+
+        :param List[RuntimeResponseGeneric] generic: (optional) Output intended for
+               any channel. It is the responsibility of the client application to
+               implement the supported response types.
+        :param List[RuntimeIntent] intents: (optional) An array of intents
+               recognized in the user input, sorted in descending order of confidence.
+        :param List[RuntimeEntity] entities: (optional) An array of entities
+               identified in the user input.
+        :param List[DialogNodeAction] actions: (optional) An array of objects
+               describing any actions requested by the dialog node.
+        :param MessageOutputDebug debug: (optional) Additional detailed information
+               about a message response and how it was generated.
+        :param dict user_defined: (optional) An object containing any custom
+               properties included in the response. This object includes any arbitrary
+               properties defined in the dialog JSON editor as part of the dialog node
+               output.
+        :param MessageOutputSpelling spelling: (optional) Properties describing any
+               spelling corrections in the user input that was received.
+        """
+        self.generic = generic
+        self.intents = intents
+        self.entities = entities
+        self.actions = actions
+        self.debug = debug
+        self.user_defined = user_defined
+        self.spelling = spelling
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'LogResponseOutput':
+        """Initialize a LogResponseOutput object from a json dictionary."""
+        args = {}
+        if (generic := _dict.get('generic')) is not None:
+            args['generic'] = [
+                RuntimeResponseGeneric.from_dict(v) for v in generic
+            ]
+        if (intents := _dict.get('intents')) is not None:
+            args['intents'] = [RuntimeIntent.from_dict(v) for v in intents]
+        if (entities := _dict.get('entities')) is not None:
+            args['entities'] = [RuntimeEntity.from_dict(v) for v in entities]
+        if (actions := _dict.get('actions')) is not None:
+            args['actions'] = [DialogNodeAction.from_dict(v) for v in actions]
+        if (debug := _dict.get('debug')) is not None:
+            args['debug'] = MessageOutputDebug.from_dict(debug)
+        if (user_defined := _dict.get('user_defined')) is not None:
+            args['user_defined'] = user_defined
+        if (spelling := _dict.get('spelling')) is not None:
+            args['spelling'] = MessageOutputSpelling.from_dict(spelling)
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a LogResponseOutput object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'generic') and self.generic is not None:
+            generic_list = []
+            for v in self.generic:
+                if isinstance(v, dict):
+                    generic_list.append(v)
+                else:
+                    generic_list.append(v.to_dict())
+            _dict['generic'] = generic_list
+        if hasattr(self, 'intents') and self.intents is not None:
+            intents_list = []
+            for v in self.intents:
+                if isinstance(v, dict):
+                    intents_list.append(v)
+                else:
+                    intents_list.append(v.to_dict())
+            _dict['intents'] = intents_list
+        if hasattr(self, 'entities') and self.entities is not None:
+            entities_list = []
+            for v in self.entities:
+                if isinstance(v, dict):
+                    entities_list.append(v)
+                else:
+                    entities_list.append(v.to_dict())
+            _dict['entities'] = entities_list
+        if hasattr(self, 'actions') and self.actions is not None:
+            actions_list = []
+            for v in self.actions:
+                if isinstance(v, dict):
+                    actions_list.append(v)
+                else:
+                    actions_list.append(v.to_dict())
+            _dict['actions'] = actions_list
+        if hasattr(self, 'debug') and self.debug is not None:
+            if isinstance(self.debug, dict):
+                _dict['debug'] = self.debug
+            else:
+                _dict['debug'] = self.debug.to_dict()
+        if hasattr(self, 'user_defined') and self.user_defined is not None:
+            _dict['user_defined'] = self.user_defined
+        if hasattr(self, 'spelling') and self.spelling is not None:
+            if isinstance(self.spelling, dict):
+                _dict['spelling'] = self.spelling
+            else:
+                _dict['spelling'] = self.spelling.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this LogResponseOutput object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'LogResponseOutput') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'LogResponseOutput') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class MessageContext:
     """
     MessageContext.
@@ -4728,6 +5298,181 @@ class MessageContext:
         return not self == other
 
 
+class MessageContextActionSkill:
+    """
+    Context variables that are used by the action skill. Private variables are persisted,
+    but not shown.
+
+    :param dict user_defined: (optional) An object containing any arbitrary
+          variables that can be read and written by a particular skill.
+    :param MessageContextSkillSystem system: (optional) System context data used by
+          the skill.
+    :param dict action_variables: (optional) An object containing action variables.
+          Action variables can be accessed only by steps in the same action, and do not
+          persist after the action ends.
+    :param dict skill_variables: (optional) An object containing skill variables.
+          (In the watsonx Assistant user interface, skill variables are called _session
+          variables_.) Skill variables can be accessed by any action and persist for the
+          duration of the session.
+    """
+
+    def __init__(
+        self,
+        *,
+        user_defined: Optional[dict] = None,
+        system: Optional['MessageContextSkillSystem'] = None,
+        action_variables: Optional[dict] = None,
+        skill_variables: Optional[dict] = None,
+    ) -> None:
+        """
+        Initialize a MessageContextActionSkill object.
+
+        :param dict user_defined: (optional) An object containing any arbitrary
+               variables that can be read and written by a particular skill.
+        :param MessageContextSkillSystem system: (optional) System context data
+               used by the skill.
+        :param dict action_variables: (optional) An object containing action
+               variables. Action variables can be accessed only by steps in the same
+               action, and do not persist after the action ends.
+        :param dict skill_variables: (optional) An object containing skill
+               variables. (In the watsonx Assistant user interface, skill variables are
+               called _session variables_.) Skill variables can be accessed by any action
+               and persist for the duration of the session.
+        """
+        self.user_defined = user_defined
+        self.system = system
+        self.action_variables = action_variables
+        self.skill_variables = skill_variables
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'MessageContextActionSkill':
+        """Initialize a MessageContextActionSkill object from a json dictionary."""
+        args = {}
+        if (user_defined := _dict.get('user_defined')) is not None:
+            args['user_defined'] = user_defined
+        if (system := _dict.get('system')) is not None:
+            args['system'] = MessageContextSkillSystem.from_dict(system)
+        if (action_variables := _dict.get('action_variables')) is not None:
+            args['action_variables'] = action_variables
+        if (skill_variables := _dict.get('skill_variables')) is not None:
+            args['skill_variables'] = skill_variables
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a MessageContextActionSkill object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'user_defined') and self.user_defined is not None:
+            _dict['user_defined'] = self.user_defined
+        if hasattr(self, 'system') and self.system is not None:
+            if isinstance(self.system, dict):
+                _dict['system'] = self.system
+            else:
+                _dict['system'] = self.system.to_dict()
+        if hasattr(self,
+                   'action_variables') and self.action_variables is not None:
+            _dict['action_variables'] = self.action_variables
+        if hasattr(self,
+                   'skill_variables') and self.skill_variables is not None:
+            _dict['skill_variables'] = self.skill_variables
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this MessageContextActionSkill object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'MessageContextActionSkill') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'MessageContextActionSkill') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class MessageContextDialogSkill:
+    """
+    Context variables that are used by the dialog skill.
+
+    :param dict user_defined: (optional) An object containing any arbitrary
+          variables that can be read and written by a particular skill.
+    :param MessageContextSkillSystem system: (optional) System context data used by
+          the skill.
+    """
+
+    def __init__(
+        self,
+        *,
+        user_defined: Optional[dict] = None,
+        system: Optional['MessageContextSkillSystem'] = None,
+    ) -> None:
+        """
+        Initialize a MessageContextDialogSkill object.
+
+        :param dict user_defined: (optional) An object containing any arbitrary
+               variables that can be read and written by a particular skill.
+        :param MessageContextSkillSystem system: (optional) System context data
+               used by the skill.
+        """
+        self.user_defined = user_defined
+        self.system = system
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'MessageContextDialogSkill':
+        """Initialize a MessageContextDialogSkill object from a json dictionary."""
+        args = {}
+        if (user_defined := _dict.get('user_defined')) is not None:
+            args['user_defined'] = user_defined
+        if (system := _dict.get('system')) is not None:
+            args['system'] = MessageContextSkillSystem.from_dict(system)
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a MessageContextDialogSkill object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'user_defined') and self.user_defined is not None:
+            _dict['user_defined'] = self.user_defined
+        if hasattr(self, 'system') and self.system is not None:
+            if isinstance(self.system, dict):
+                _dict['system'] = self.system
+            else:
+                _dict['system'] = self.system.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this MessageContextDialogSkill object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'MessageContextDialogSkill') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'MessageContextDialogSkill') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class MessageContextGlobal:
     """
     Session context data that is shared by all skills used by the assistant.
@@ -4795,77 +5540,6 @@ class MessageContextGlobal:
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'MessageContextGlobal') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class MessageContextGlobalStateless:
-    """
-    Session context data that is shared by all skills used by the assistant.
-
-    :param MessageContextGlobalSystem system: (optional) Built-in system properties
-          that apply to all skills used by the assistant.
-    :param str session_id: (optional) The session ID.
-    """
-
-    def __init__(
-        self,
-        *,
-        system: Optional['MessageContextGlobalSystem'] = None,
-        session_id: Optional[str] = None,
-    ) -> None:
-        """
-        Initialize a MessageContextGlobalStateless object.
-
-        :param MessageContextGlobalSystem system: (optional) Built-in system
-               properties that apply to all skills used by the assistant.
-        :param str session_id: (optional) The unique identifier of the session.
-        """
-        self.system = system
-        self.session_id = session_id
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'MessageContextGlobalStateless':
-        """Initialize a MessageContextGlobalStateless object from a json dictionary."""
-        args = {}
-        if (system := _dict.get('system')) is not None:
-            args['system'] = MessageContextGlobalSystem.from_dict(system)
-        if (session_id := _dict.get('session_id')) is not None:
-            args['session_id'] = session_id
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a MessageContextGlobalStateless object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'system') and self.system is not None:
-            if isinstance(self.system, dict):
-                _dict['system'] = self.system
-            else:
-                _dict['system'] = self.system.to_dict()
-        if hasattr(self, 'session_id') and self.session_id is not None:
-            _dict['session_id'] = self.session_id
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this MessageContextGlobalStateless object."""
-        return json.dumps(self.to_dict(), indent=2)
-
-    def __eq__(self, other: 'MessageContextGlobalStateless') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'MessageContextGlobalStateless') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -5093,180 +5767,6 @@ class MessageContextGlobalSystem:
         ZH_TW = 'zh-tw'
 
 
-class MessageContextSkillAction:
-    """
-    Context variables that are used by the action skill.
-
-    :param dict user_defined: (optional) An object containing any arbitrary
-          variables that can be read and written by a particular skill.
-    :param MessageContextSkillSystem system: (optional) System context data used by
-          the skill.
-    :param dict action_variables: (optional) An object containing action variables.
-          Action variables can be accessed only by steps in the same action, and do not
-          persist after the action ends.
-    :param dict skill_variables: (optional) An object containing skill variables.
-          (In the Watson Assistant user interface, skill variables are called _session
-          variables_.) Skill variables can be accessed by any action and persist for the
-          duration of the session.
-    """
-
-    def __init__(
-        self,
-        *,
-        user_defined: Optional[dict] = None,
-        system: Optional['MessageContextSkillSystem'] = None,
-        action_variables: Optional[dict] = None,
-        skill_variables: Optional[dict] = None,
-    ) -> None:
-        """
-        Initialize a MessageContextSkillAction object.
-
-        :param dict user_defined: (optional) An object containing any arbitrary
-               variables that can be read and written by a particular skill.
-        :param MessageContextSkillSystem system: (optional) System context data
-               used by the skill.
-        :param dict action_variables: (optional) An object containing action
-               variables. Action variables can be accessed only by steps in the same
-               action, and do not persist after the action ends.
-        :param dict skill_variables: (optional) An object containing skill
-               variables. (In the Watson Assistant user interface, skill variables are
-               called _session variables_.) Skill variables can be accessed by any action
-               and persist for the duration of the session.
-        """
-        self.user_defined = user_defined
-        self.system = system
-        self.action_variables = action_variables
-        self.skill_variables = skill_variables
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'MessageContextSkillAction':
-        """Initialize a MessageContextSkillAction object from a json dictionary."""
-        args = {}
-        if (user_defined := _dict.get('user_defined')) is not None:
-            args['user_defined'] = user_defined
-        if (system := _dict.get('system')) is not None:
-            args['system'] = MessageContextSkillSystem.from_dict(system)
-        if (action_variables := _dict.get('action_variables')) is not None:
-            args['action_variables'] = action_variables
-        if (skill_variables := _dict.get('skill_variables')) is not None:
-            args['skill_variables'] = skill_variables
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a MessageContextSkillAction object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'user_defined') and self.user_defined is not None:
-            _dict['user_defined'] = self.user_defined
-        if hasattr(self, 'system') and self.system is not None:
-            if isinstance(self.system, dict):
-                _dict['system'] = self.system
-            else:
-                _dict['system'] = self.system.to_dict()
-        if hasattr(self,
-                   'action_variables') and self.action_variables is not None:
-            _dict['action_variables'] = self.action_variables
-        if hasattr(self,
-                   'skill_variables') and self.skill_variables is not None:
-            _dict['skill_variables'] = self.skill_variables
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this MessageContextSkillAction object."""
-        return json.dumps(self.to_dict(), indent=2)
-
-    def __eq__(self, other: 'MessageContextSkillAction') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'MessageContextSkillAction') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class MessageContextSkillDialog:
-    """
-    Context variables that are used by the dialog skill.
-
-    :param dict user_defined: (optional) An object containing any arbitrary
-          variables that can be read and written by a particular skill.
-    :param MessageContextSkillSystem system: (optional) System context data used by
-          the skill.
-    """
-
-    def __init__(
-        self,
-        *,
-        user_defined: Optional[dict] = None,
-        system: Optional['MessageContextSkillSystem'] = None,
-    ) -> None:
-        """
-        Initialize a MessageContextSkillDialog object.
-
-        :param dict user_defined: (optional) An object containing any arbitrary
-               variables that can be read and written by a particular skill.
-        :param MessageContextSkillSystem system: (optional) System context data
-               used by the skill.
-        """
-        self.user_defined = user_defined
-        self.system = system
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'MessageContextSkillDialog':
-        """Initialize a MessageContextSkillDialog object from a json dictionary."""
-        args = {}
-        if (user_defined := _dict.get('user_defined')) is not None:
-            args['user_defined'] = user_defined
-        if (system := _dict.get('system')) is not None:
-            args['system'] = MessageContextSkillSystem.from_dict(system)
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a MessageContextSkillDialog object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'user_defined') and self.user_defined is not None:
-            _dict['user_defined'] = self.user_defined
-        if hasattr(self, 'system') and self.system is not None:
-            if isinstance(self.system, dict):
-                _dict['system'] = self.system
-            else:
-                _dict['system'] = self.system.to_dict()
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this MessageContextSkillDialog object."""
-        return json.dumps(self.to_dict(), indent=2)
-
-    def __eq__(self, other: 'MessageContextSkillDialog') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'MessageContextSkillDialog') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
 class MessageContextSkillSystem:
     """
     System context data used by the skill.
@@ -5374,25 +5874,27 @@ class MessageContextSkills:
     """
     Context data specific to particular skills used by the assistant.
 
-    :param MessageContextSkillDialog main_skill: (optional) Context variables that
+    :param MessageContextDialogSkill main_skill: (optional) Context variables that
           are used by the dialog skill.
-    :param MessageContextSkillAction actions_skill: (optional) Context variables
-          that are used by the action skill.
+    :param MessageContextActionSkill actions_skill: (optional) Context variables
+          that are used by the action skill. Private variables are persisted, but not
+          shown.
     """
 
     def __init__(
         self,
         *,
-        main_skill: Optional['MessageContextSkillDialog'] = None,
-        actions_skill: Optional['MessageContextSkillAction'] = None,
+        main_skill: Optional['MessageContextDialogSkill'] = None,
+        actions_skill: Optional['MessageContextActionSkill'] = None,
     ) -> None:
         """
         Initialize a MessageContextSkills object.
 
-        :param MessageContextSkillDialog main_skill: (optional) Context variables
+        :param MessageContextDialogSkill main_skill: (optional) Context variables
                that are used by the dialog skill.
-        :param MessageContextSkillAction actions_skill: (optional) Context
-               variables that are used by the action skill.
+        :param MessageContextActionSkill actions_skill: (optional) Context
+               variables that are used by the action skill. Private variables are
+               persisted, but not shown.
         """
         self.main_skill = main_skill
         self.actions_skill = actions_skill
@@ -5402,9 +5904,9 @@ class MessageContextSkills:
         """Initialize a MessageContextSkills object from a json dictionary."""
         args = {}
         if (main_skill := _dict.get('main skill')) is not None:
-            args['main_skill'] = MessageContextSkillDialog.from_dict(main_skill)
+            args['main_skill'] = MessageContextDialogSkill.from_dict(main_skill)
         if (actions_skill := _dict.get('actions skill')) is not None:
-            args['actions_skill'] = MessageContextSkillAction.from_dict(
+            args['actions_skill'] = MessageContextActionSkill.from_dict(
                 actions_skill)
         return cls(**args)
 
@@ -5443,94 +5945,6 @@ class MessageContextSkills:
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'MessageContextSkills') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class MessageContextStateless:
-    """
-    MessageContextStateless.
-
-    :param MessageContextGlobalStateless global_: (optional) Session context data
-          that is shared by all skills used by the assistant.
-    :param MessageContextSkills skills: (optional) Context data specific to
-          particular skills used by the assistant.
-    :param dict integrations: (optional) An object containing context data that is
-          specific to particular integrations. For more information, see the
-          [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-dialog-integrations).
-    """
-
-    def __init__(
-        self,
-        *,
-        global_: Optional['MessageContextGlobalStateless'] = None,
-        skills: Optional['MessageContextSkills'] = None,
-        integrations: Optional[dict] = None,
-    ) -> None:
-        """
-        Initialize a MessageContextStateless object.
-
-        :param MessageContextGlobalStateless global_: (optional) Session context
-               data that is shared by all skills used by the assistant.
-        :param MessageContextSkills skills: (optional) Context data specific to
-               particular skills used by the assistant.
-        :param dict integrations: (optional) An object containing context data that
-               is specific to particular integrations. For more information, see the
-               [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-dialog-integrations).
-        """
-        self.global_ = global_
-        self.skills = skills
-        self.integrations = integrations
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'MessageContextStateless':
-        """Initialize a MessageContextStateless object from a json dictionary."""
-        args = {}
-        if (global_ := _dict.get('global')) is not None:
-            args['global_'] = MessageContextGlobalStateless.from_dict(global_)
-        if (skills := _dict.get('skills')) is not None:
-            args['skills'] = MessageContextSkills.from_dict(skills)
-        if (integrations := _dict.get('integrations')) is not None:
-            args['integrations'] = integrations
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a MessageContextStateless object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'global_') and self.global_ is not None:
-            if isinstance(self.global_, dict):
-                _dict['global'] = self.global_
-            else:
-                _dict['global'] = self.global_.to_dict()
-        if hasattr(self, 'skills') and self.skills is not None:
-            if isinstance(self.skills, dict):
-                _dict['skills'] = self.skills
-            else:
-                _dict['skills'] = self.skills.to_dict()
-        if hasattr(self, 'integrations') and self.integrations is not None:
-            _dict['integrations'] = self.integrations
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this MessageContextStateless object."""
-        return json.dumps(self.to_dict(), indent=2)
-
-    def __eq__(self, other: 'MessageContextStateless') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'MessageContextStateless') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -6039,295 +6453,6 @@ class MessageInputOptionsSpelling:
         return not self == other
 
 
-class MessageInputOptionsStateless:
-    """
-    Optional properties that control how the assistant responds.
-
-    :param bool restart: (optional) Whether to restart dialog processing at the root
-          of the dialog, regardless of any previously visited nodes. **Note:** This does
-          not affect `turn_count` or any other context variables.
-    :param bool alternate_intents: (optional) Whether to return more than one
-          intent. Set to `true` to return all matching intents.
-    :param MessageInputOptionsSpelling spelling: (optional) Spelling correction
-          options for the message. Any options specified on an individual message override
-          the settings configured for the skill.
-    :param bool debug: (optional) Whether to return additional diagnostic
-          information. Set to `true` to return additional information in the
-          `output.debug` property.
-    """
-
-    def __init__(
-        self,
-        *,
-        restart: Optional[bool] = None,
-        alternate_intents: Optional[bool] = None,
-        spelling: Optional['MessageInputOptionsSpelling'] = None,
-        debug: Optional[bool] = None,
-    ) -> None:
-        """
-        Initialize a MessageInputOptionsStateless object.
-
-        :param bool restart: (optional) Whether to restart dialog processing at the
-               root of the dialog, regardless of any previously visited nodes. **Note:**
-               This does not affect `turn_count` or any other context variables.
-        :param bool alternate_intents: (optional) Whether to return more than one
-               intent. Set to `true` to return all matching intents.
-        :param MessageInputOptionsSpelling spelling: (optional) Spelling correction
-               options for the message. Any options specified on an individual message
-               override the settings configured for the skill.
-        :param bool debug: (optional) Whether to return additional diagnostic
-               information. Set to `true` to return additional information in the
-               `output.debug` property.
-        """
-        self.restart = restart
-        self.alternate_intents = alternate_intents
-        self.spelling = spelling
-        self.debug = debug
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'MessageInputOptionsStateless':
-        """Initialize a MessageInputOptionsStateless object from a json dictionary."""
-        args = {}
-        if (restart := _dict.get('restart')) is not None:
-            args['restart'] = restart
-        if (alternate_intents := _dict.get('alternate_intents')) is not None:
-            args['alternate_intents'] = alternate_intents
-        if (spelling := _dict.get('spelling')) is not None:
-            args['spelling'] = MessageInputOptionsSpelling.from_dict(spelling)
-        if (debug := _dict.get('debug')) is not None:
-            args['debug'] = debug
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a MessageInputOptionsStateless object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'restart') and self.restart is not None:
-            _dict['restart'] = self.restart
-        if hasattr(self,
-                   'alternate_intents') and self.alternate_intents is not None:
-            _dict['alternate_intents'] = self.alternate_intents
-        if hasattr(self, 'spelling') and self.spelling is not None:
-            if isinstance(self.spelling, dict):
-                _dict['spelling'] = self.spelling
-            else:
-                _dict['spelling'] = self.spelling.to_dict()
-        if hasattr(self, 'debug') and self.debug is not None:
-            _dict['debug'] = self.debug
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this MessageInputOptionsStateless object."""
-        return json.dumps(self.to_dict(), indent=2)
-
-    def __eq__(self, other: 'MessageInputOptionsStateless') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'MessageInputOptionsStateless') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class MessageInputStateless:
-    """
-    An input object that includes the input text.
-
-    :param str message_type: (optional) The type of the message:
-          - `text`: The user input is processed normally by the assistant.
-          - `search`: Only search results are returned. (Any dialog or action skill is
-          bypassed.)
-          **Note:** A `search` message results in an error if no search skill is
-          configured for the assistant.
-    :param str text: (optional) The text of the user input. This string cannot
-          contain carriage return, newline, or tab characters.
-    :param List[RuntimeIntent] intents: (optional) Intents to use when evaluating
-          the user input. Include intents from the previous response to continue using
-          those intents rather than trying to recognize intents in the new input.
-    :param List[RuntimeEntity] entities: (optional) Entities to use when evaluating
-          the message. Include entities from the previous response to continue using those
-          entities rather than detecting entities in the new input.
-    :param str suggestion_id: (optional) For internal use only.
-    :param List[MessageInputAttachment] attachments: (optional) An array of
-          multimedia attachments to be sent with the message. Attachments are not
-          processed by the assistant itself, but can be sent to external services by
-          webhooks.
-           **Note:** Attachments are not supported on IBM Cloud Pak for Data.
-    :param RequestAnalytics analytics: (optional) An optional object containing
-          analytics data. Currently, this data is used only for events sent to the Segment
-          extension.
-    :param MessageInputOptionsStateless options: (optional) Optional properties that
-          control how the assistant responds.
-    """
-
-    def __init__(
-        self,
-        *,
-        message_type: Optional[str] = None,
-        text: Optional[str] = None,
-        intents: Optional[List['RuntimeIntent']] = None,
-        entities: Optional[List['RuntimeEntity']] = None,
-        suggestion_id: Optional[str] = None,
-        attachments: Optional[List['MessageInputAttachment']] = None,
-        analytics: Optional['RequestAnalytics'] = None,
-        options: Optional['MessageInputOptionsStateless'] = None,
-    ) -> None:
-        """
-        Initialize a MessageInputStateless object.
-
-        :param str message_type: (optional) The type of the message:
-               - `text`: The user input is processed normally by the assistant.
-               - `search`: Only search results are returned. (Any dialog or action skill
-               is bypassed.)
-               **Note:** A `search` message results in an error if no search skill is
-               configured for the assistant.
-        :param str text: (optional) The text of the user input. This string cannot
-               contain carriage return, newline, or tab characters.
-        :param List[RuntimeIntent] intents: (optional) Intents to use when
-               evaluating the user input. Include intents from the previous response to
-               continue using those intents rather than trying to recognize intents in the
-               new input.
-        :param List[RuntimeEntity] entities: (optional) Entities to use when
-               evaluating the message. Include entities from the previous response to
-               continue using those entities rather than detecting entities in the new
-               input.
-        :param str suggestion_id: (optional) For internal use only.
-        :param List[MessageInputAttachment] attachments: (optional) An array of
-               multimedia attachments to be sent with the message. Attachments are not
-               processed by the assistant itself, but can be sent to external services by
-               webhooks.
-                **Note:** Attachments are not supported on IBM Cloud Pak for Data.
-        :param RequestAnalytics analytics: (optional) An optional object containing
-               analytics data. Currently, this data is used only for events sent to the
-               Segment extension.
-        :param MessageInputOptionsStateless options: (optional) Optional properties
-               that control how the assistant responds.
-        """
-        self.message_type = message_type
-        self.text = text
-        self.intents = intents
-        self.entities = entities
-        self.suggestion_id = suggestion_id
-        self.attachments = attachments
-        self.analytics = analytics
-        self.options = options
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'MessageInputStateless':
-        """Initialize a MessageInputStateless object from a json dictionary."""
-        args = {}
-        if (message_type := _dict.get('message_type')) is not None:
-            args['message_type'] = message_type
-        if (text := _dict.get('text')) is not None:
-            args['text'] = text
-        if (intents := _dict.get('intents')) is not None:
-            args['intents'] = [RuntimeIntent.from_dict(v) for v in intents]
-        if (entities := _dict.get('entities')) is not None:
-            args['entities'] = [RuntimeEntity.from_dict(v) for v in entities]
-        if (suggestion_id := _dict.get('suggestion_id')) is not None:
-            args['suggestion_id'] = suggestion_id
-        if (attachments := _dict.get('attachments')) is not None:
-            args['attachments'] = [
-                MessageInputAttachment.from_dict(v) for v in attachments
-            ]
-        if (analytics := _dict.get('analytics')) is not None:
-            args['analytics'] = RequestAnalytics.from_dict(analytics)
-        if (options := _dict.get('options')) is not None:
-            args['options'] = MessageInputOptionsStateless.from_dict(options)
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a MessageInputStateless object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'message_type') and self.message_type is not None:
-            _dict['message_type'] = self.message_type
-        if hasattr(self, 'text') and self.text is not None:
-            _dict['text'] = self.text
-        if hasattr(self, 'intents') and self.intents is not None:
-            intents_list = []
-            for v in self.intents:
-                if isinstance(v, dict):
-                    intents_list.append(v)
-                else:
-                    intents_list.append(v.to_dict())
-            _dict['intents'] = intents_list
-        if hasattr(self, 'entities') and self.entities is not None:
-            entities_list = []
-            for v in self.entities:
-                if isinstance(v, dict):
-                    entities_list.append(v)
-                else:
-                    entities_list.append(v.to_dict())
-            _dict['entities'] = entities_list
-        if hasattr(self, 'suggestion_id') and self.suggestion_id is not None:
-            _dict['suggestion_id'] = self.suggestion_id
-        if hasattr(self, 'attachments') and self.attachments is not None:
-            attachments_list = []
-            for v in self.attachments:
-                if isinstance(v, dict):
-                    attachments_list.append(v)
-                else:
-                    attachments_list.append(v.to_dict())
-            _dict['attachments'] = attachments_list
-        if hasattr(self, 'analytics') and self.analytics is not None:
-            if isinstance(self.analytics, dict):
-                _dict['analytics'] = self.analytics
-            else:
-                _dict['analytics'] = self.analytics.to_dict()
-        if hasattr(self, 'options') and self.options is not None:
-            if isinstance(self.options, dict):
-                _dict['options'] = self.options
-            else:
-                _dict['options'] = self.options.to_dict()
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this MessageInputStateless object."""
-        return json.dumps(self.to_dict(), indent=2)
-
-    def __eq__(self, other: 'MessageInputStateless') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'MessageInputStateless') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-    class MessageTypeEnum(str, Enum):
-        """
-        The type of the message:
-        - `text`: The user input is processed normally by the assistant.
-        - `search`: Only search results are returned. (Any dialog or action skill is
-        bypassed.)
-        **Note:** A `search` message results in an error if no search skill is configured
-        for the assistant.
-        """
-
-        TEXT = 'text'
-        SEARCH = 'search'
-
-
 class MessageOutput:
     """
     Assistant output to be rendered or processed by the client.
@@ -6789,344 +6914,6 @@ class MessageOutputSpelling:
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'MessageOutputSpelling') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class MessageRequest:
-    """
-    A stateful message request formatted for the Watson Assistant service.
-
-    :param MessageInput input: (optional) An input object that includes the input
-          text.
-    :param MessageContext context: (optional) Context data for the conversation. You
-          can use this property to set or modify context variables, which can also be
-          accessed by dialog nodes. The context is stored by the assistant on a
-          per-session basis.
-          **Note:** The total size of the context data stored for a stateful session
-          cannot exceed 100KB.
-    :param str user_id: (optional) A string value that identifies the user who is
-          interacting with the assistant. The client must provide a unique identifier for
-          each individual end user who accesses the application. For user-based plans,
-          this user ID is used to identify unique users for billing purposes. This string
-          cannot contain carriage return, newline, or tab characters. If no value is
-          specified in the input, **user_id** is automatically set to the value of
-          **context.global.session_id**.
-          **Note:** This property is the same as the **user_id** property in the global
-          system context. If **user_id** is specified in both locations, the value
-          specified at the root is used.
-    """
-
-    def __init__(
-        self,
-        *,
-        input: Optional['MessageInput'] = None,
-        context: Optional['MessageContext'] = None,
-        user_id: Optional[str] = None,
-    ) -> None:
-        """
-        Initialize a MessageRequest object.
-
-        :param MessageInput input: (optional) An input object that includes the
-               input text.
-        :param MessageContext context: (optional) Context data for the
-               conversation. You can use this property to set or modify context variables,
-               which can also be accessed by dialog nodes. The context is stored by the
-               assistant on a per-session basis.
-               **Note:** The total size of the context data stored for a stateful session
-               cannot exceed 100KB.
-        :param str user_id: (optional) A string value that identifies the user who
-               is interacting with the assistant. The client must provide a unique
-               identifier for each individual end user who accesses the application. For
-               user-based plans, this user ID is used to identify unique users for billing
-               purposes. This string cannot contain carriage return, newline, or tab
-               characters. If no value is specified in the input, **user_id** is
-               automatically set to the value of **context.global.session_id**.
-               **Note:** This property is the same as the **user_id** property in the
-               global system context. If **user_id** is specified in both locations, the
-               value specified at the root is used.
-        """
-        self.input = input
-        self.context = context
-        self.user_id = user_id
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'MessageRequest':
-        """Initialize a MessageRequest object from a json dictionary."""
-        args = {}
-        if (input := _dict.get('input')) is not None:
-            args['input'] = MessageInput.from_dict(input)
-        if (context := _dict.get('context')) is not None:
-            args['context'] = MessageContext.from_dict(context)
-        if (user_id := _dict.get('user_id')) is not None:
-            args['user_id'] = user_id
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a MessageRequest object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'input') and self.input is not None:
-            if isinstance(self.input, dict):
-                _dict['input'] = self.input
-            else:
-                _dict['input'] = self.input.to_dict()
-        if hasattr(self, 'context') and self.context is not None:
-            if isinstance(self.context, dict):
-                _dict['context'] = self.context
-            else:
-                _dict['context'] = self.context.to_dict()
-        if hasattr(self, 'user_id') and self.user_id is not None:
-            _dict['user_id'] = self.user_id
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this MessageRequest object."""
-        return json.dumps(self.to_dict(), indent=2)
-
-    def __eq__(self, other: 'MessageRequest') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'MessageRequest') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class MessageResponse:
-    """
-    A response from the Watson Assistant service.
-
-    :param MessageOutput output: Assistant output to be rendered or processed by the
-          client.
-    :param MessageContext context: (optional) Context data for the conversation. You
-          can use this property to access context variables. The context is stored by the
-          assistant on a per-session basis.
-          **Note:** The context is included in message responses only if
-          **return_context**=`true` in the message request. Full context is always
-          included in logs.
-    :param str user_id: A string value that identifies the user who is interacting
-          with the assistant. The client must provide a unique identifier for each
-          individual end user who accesses the application. For user-based plans, this
-          user ID is used to identify unique users for billing purposes. This string
-          cannot contain carriage return, newline, or tab characters. If no value is
-          specified in the input, **user_id** is automatically set to the value of
-          **context.global.session_id**.
-          **Note:** This property is the same as the **user_id** property in the global
-          system context.
-    """
-
-    def __init__(
-        self,
-        output: 'MessageOutput',
-        user_id: str,
-        *,
-        context: Optional['MessageContext'] = None,
-    ) -> None:
-        """
-        Initialize a MessageResponse object.
-
-        :param MessageOutput output: Assistant output to be rendered or processed
-               by the client.
-        :param str user_id: A string value that identifies the user who is
-               interacting with the assistant. The client must provide a unique identifier
-               for each individual end user who accesses the application. For user-based
-               plans, this user ID is used to identify unique users for billing purposes.
-               This string cannot contain carriage return, newline, or tab characters. If
-               no value is specified in the input, **user_id** is automatically set to the
-               value of **context.global.session_id**.
-               **Note:** This property is the same as the **user_id** property in the
-               global system context.
-        :param MessageContext context: (optional) Context data for the
-               conversation. You can use this property to access context variables. The
-               context is stored by the assistant on a per-session basis.
-               **Note:** The context is included in message responses only if
-               **return_context**=`true` in the message request. Full context is always
-               included in logs.
-        """
-        self.output = output
-        self.context = context
-        self.user_id = user_id
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'MessageResponse':
-        """Initialize a MessageResponse object from a json dictionary."""
-        args = {}
-        if (output := _dict.get('output')) is not None:
-            args['output'] = MessageOutput.from_dict(output)
-        else:
-            raise ValueError(
-                'Required property \'output\' not present in MessageResponse JSON'
-            )
-        if (context := _dict.get('context')) is not None:
-            args['context'] = MessageContext.from_dict(context)
-        if (user_id := _dict.get('user_id')) is not None:
-            args['user_id'] = user_id
-        else:
-            raise ValueError(
-                'Required property \'user_id\' not present in MessageResponse JSON'
-            )
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a MessageResponse object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'output') and self.output is not None:
-            if isinstance(self.output, dict):
-                _dict['output'] = self.output
-            else:
-                _dict['output'] = self.output.to_dict()
-        if hasattr(self, 'context') and self.context is not None:
-            if isinstance(self.context, dict):
-                _dict['context'] = self.context
-            else:
-                _dict['context'] = self.context.to_dict()
-        if hasattr(self, 'user_id') and self.user_id is not None:
-            _dict['user_id'] = self.user_id
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this MessageResponse object."""
-        return json.dumps(self.to_dict(), indent=2)
-
-    def __eq__(self, other: 'MessageResponse') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'MessageResponse') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class MessageResponseStateless:
-    """
-    A stateless response from the Watson Assistant service.
-
-    :param MessageOutput output: Assistant output to be rendered or processed by the
-          client.
-    :param MessageContextStateless context: Context data for the conversation. You
-          can use this property to access context variables. The context is not stored by
-          the assistant; to maintain session state, include the context from the response
-          in the next message.
-    :param str user_id: (optional) A string value that identifies the user who is
-          interacting with the assistant. The client must provide a unique identifier for
-          each individual end user who accesses the application. For user-based plans,
-          this user ID is used to identify unique users for billing purposes. This string
-          cannot contain carriage return, newline, or tab characters. If no value is
-          specified in the input, **user_id** is automatically set to the value of
-          **context.global.session_id**.
-          **Note:** This property is the same as the **user_id** property in the global
-          system context.
-    """
-
-    def __init__(
-        self,
-        output: 'MessageOutput',
-        context: 'MessageContextStateless',
-        *,
-        user_id: Optional[str] = None,
-    ) -> None:
-        """
-        Initialize a MessageResponseStateless object.
-
-        :param MessageOutput output: Assistant output to be rendered or processed
-               by the client.
-        :param MessageContextStateless context: Context data for the conversation.
-               You can use this property to access context variables. The context is not
-               stored by the assistant; to maintain session state, include the context
-               from the response in the next message.
-        :param str user_id: (optional) A string value that identifies the user who
-               is interacting with the assistant. The client must provide a unique
-               identifier for each individual end user who accesses the application. For
-               user-based plans, this user ID is used to identify unique users for billing
-               purposes. This string cannot contain carriage return, newline, or tab
-               characters. If no value is specified in the input, **user_id** is
-               automatically set to the value of **context.global.session_id**.
-               **Note:** This property is the same as the **user_id** property in the
-               global system context.
-        """
-        self.output = output
-        self.context = context
-        self.user_id = user_id
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'MessageResponseStateless':
-        """Initialize a MessageResponseStateless object from a json dictionary."""
-        args = {}
-        if (output := _dict.get('output')) is not None:
-            args['output'] = MessageOutput.from_dict(output)
-        else:
-            raise ValueError(
-                'Required property \'output\' not present in MessageResponseStateless JSON'
-            )
-        if (context := _dict.get('context')) is not None:
-            args['context'] = MessageContextStateless.from_dict(context)
-        else:
-            raise ValueError(
-                'Required property \'context\' not present in MessageResponseStateless JSON'
-            )
-        if (user_id := _dict.get('user_id')) is not None:
-            args['user_id'] = user_id
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a MessageResponseStateless object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'output') and self.output is not None:
-            if isinstance(self.output, dict):
-                _dict['output'] = self.output
-            else:
-                _dict['output'] = self.output.to_dict()
-        if hasattr(self, 'context') and self.context is not None:
-            if isinstance(self.context, dict):
-                _dict['context'] = self.context
-            else:
-                _dict['context'] = self.context.to_dict()
-        if hasattr(self, 'user_id') and self.user_id is not None:
-            _dict['user_id'] = self.user_id
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this MessageResponseStateless object."""
-        return json.dumps(self.to_dict(), indent=2)
-
-    def __eq__(self, other: 'MessageResponseStateless') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'MessageResponseStateless') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -10495,6 +10282,971 @@ class SkillsExport:
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'SkillsExport') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class StatefulMessageResponse:
+    """
+    A response from the watsonx Assistant service.
+
+    :param MessageOutput output: Assistant output to be rendered or processed by the
+          client.
+    :param MessageContext context: (optional) Context data for the conversation. You
+          can use this property to access context variables. The context is stored by the
+          assistant on a per-session basis.
+          **Note:** The context is included in message responses only if
+          **return_context**=`true` in the message request. Full context is always
+          included in logs.
+    :param str user_id: A string value that identifies the user who is interacting
+          with the assistant. The client must provide a unique identifier for each
+          individual end user who accesses the application. For user-based plans, this
+          user ID is used to identify unique users for billing purposes. This string
+          cannot contain carriage return, newline, or tab characters. If no value is
+          specified in the input, **user_id** is automatically set to the value of
+          **context.global.session_id**.
+          **Note:** This property is the same as the **user_id** property in the global
+          system context.
+    :param MessageOutput masked_output: (optional) Assistant output to be rendered
+          or processed by the client. All private data is masked or removed.
+    :param MessageInput masked_input: (optional) An input object that includes the
+          input text. All private data is masked or removed.
+    """
+
+    def __init__(
+        self,
+        output: 'MessageOutput',
+        user_id: str,
+        *,
+        context: Optional['MessageContext'] = None,
+        masked_output: Optional['MessageOutput'] = None,
+        masked_input: Optional['MessageInput'] = None,
+    ) -> None:
+        """
+        Initialize a StatefulMessageResponse object.
+
+        :param MessageOutput output: Assistant output to be rendered or processed
+               by the client.
+        :param str user_id: A string value that identifies the user who is
+               interacting with the assistant. The client must provide a unique identifier
+               for each individual end user who accesses the application. For user-based
+               plans, this user ID is used to identify unique users for billing purposes.
+               This string cannot contain carriage return, newline, or tab characters. If
+               no value is specified in the input, **user_id** is automatically set to the
+               value of **context.global.session_id**.
+               **Note:** This property is the same as the **user_id** property in the
+               global system context.
+        :param MessageContext context: (optional) Context data for the
+               conversation. You can use this property to access context variables. The
+               context is stored by the assistant on a per-session basis.
+               **Note:** The context is included in message responses only if
+               **return_context**=`true` in the message request. Full context is always
+               included in logs.
+        :param MessageOutput masked_output: (optional) Assistant output to be
+               rendered or processed by the client. All private data is masked or removed.
+        :param MessageInput masked_input: (optional) An input object that includes
+               the input text. All private data is masked or removed.
+        """
+        self.output = output
+        self.context = context
+        self.user_id = user_id
+        self.masked_output = masked_output
+        self.masked_input = masked_input
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'StatefulMessageResponse':
+        """Initialize a StatefulMessageResponse object from a json dictionary."""
+        args = {}
+        if (output := _dict.get('output')) is not None:
+            args['output'] = MessageOutput.from_dict(output)
+        else:
+            raise ValueError(
+                'Required property \'output\' not present in StatefulMessageResponse JSON'
+            )
+        if (context := _dict.get('context')) is not None:
+            args['context'] = MessageContext.from_dict(context)
+        if (user_id := _dict.get('user_id')) is not None:
+            args['user_id'] = user_id
+        else:
+            raise ValueError(
+                'Required property \'user_id\' not present in StatefulMessageResponse JSON'
+            )
+        if (masked_output := _dict.get('masked_output')) is not None:
+            args['masked_output'] = MessageOutput.from_dict(masked_output)
+        if (masked_input := _dict.get('masked_input')) is not None:
+            args['masked_input'] = MessageInput.from_dict(masked_input)
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a StatefulMessageResponse object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'output') and self.output is not None:
+            if isinstance(self.output, dict):
+                _dict['output'] = self.output
+            else:
+                _dict['output'] = self.output.to_dict()
+        if hasattr(self, 'context') and self.context is not None:
+            if isinstance(self.context, dict):
+                _dict['context'] = self.context
+            else:
+                _dict['context'] = self.context.to_dict()
+        if hasattr(self, 'user_id') and self.user_id is not None:
+            _dict['user_id'] = self.user_id
+        if hasattr(self, 'masked_output') and self.masked_output is not None:
+            if isinstance(self.masked_output, dict):
+                _dict['masked_output'] = self.masked_output
+            else:
+                _dict['masked_output'] = self.masked_output.to_dict()
+        if hasattr(self, 'masked_input') and self.masked_input is not None:
+            if isinstance(self.masked_input, dict):
+                _dict['masked_input'] = self.masked_input
+            else:
+                _dict['masked_input'] = self.masked_input.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this StatefulMessageResponse object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'StatefulMessageResponse') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'StatefulMessageResponse') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class StatelessMessageContext:
+    """
+    StatelessMessageContext.
+
+    :param StatelessMessageContextGlobal global_: (optional) Session context data
+          that is shared by all skills used by the assistant.
+    :param StatelessMessageContextSkills skills: (optional) Context data specific to
+          particular skills used by the assistant.
+    :param dict integrations: (optional) An object containing context data that is
+          specific to particular integrations. For more information, see the
+          [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-dialog-integrations).
+    """
+
+    def __init__(
+        self,
+        *,
+        global_: Optional['StatelessMessageContextGlobal'] = None,
+        skills: Optional['StatelessMessageContextSkills'] = None,
+        integrations: Optional[dict] = None,
+    ) -> None:
+        """
+        Initialize a StatelessMessageContext object.
+
+        :param StatelessMessageContextGlobal global_: (optional) Session context
+               data that is shared by all skills used by the assistant.
+        :param StatelessMessageContextSkills skills: (optional) Context data
+               specific to particular skills used by the assistant.
+        :param dict integrations: (optional) An object containing context data that
+               is specific to particular integrations. For more information, see the
+               [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-dialog-integrations).
+        """
+        self.global_ = global_
+        self.skills = skills
+        self.integrations = integrations
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'StatelessMessageContext':
+        """Initialize a StatelessMessageContext object from a json dictionary."""
+        args = {}
+        if (global_ := _dict.get('global')) is not None:
+            args['global_'] = StatelessMessageContextGlobal.from_dict(global_)
+        if (skills := _dict.get('skills')) is not None:
+            args['skills'] = StatelessMessageContextSkills.from_dict(skills)
+        if (integrations := _dict.get('integrations')) is not None:
+            args['integrations'] = integrations
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a StatelessMessageContext object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'global_') and self.global_ is not None:
+            if isinstance(self.global_, dict):
+                _dict['global'] = self.global_
+            else:
+                _dict['global'] = self.global_.to_dict()
+        if hasattr(self, 'skills') and self.skills is not None:
+            if isinstance(self.skills, dict):
+                _dict['skills'] = self.skills
+            else:
+                _dict['skills'] = self.skills.to_dict()
+        if hasattr(self, 'integrations') and self.integrations is not None:
+            _dict['integrations'] = self.integrations
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this StatelessMessageContext object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'StatelessMessageContext') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'StatelessMessageContext') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class StatelessMessageContextGlobal:
+    """
+    Session context data that is shared by all skills used by the assistant.
+
+    :param MessageContextGlobalSystem system: (optional) Built-in system properties
+          that apply to all skills used by the assistant.
+    :param str session_id: (optional) The unique identifier of the session.
+    """
+
+    def __init__(
+        self,
+        *,
+        system: Optional['MessageContextGlobalSystem'] = None,
+        session_id: Optional[str] = None,
+    ) -> None:
+        """
+        Initialize a StatelessMessageContextGlobal object.
+
+        :param MessageContextGlobalSystem system: (optional) Built-in system
+               properties that apply to all skills used by the assistant.
+        :param str session_id: (optional) The unique identifier of the session.
+        """
+        self.system = system
+        self.session_id = session_id
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'StatelessMessageContextGlobal':
+        """Initialize a StatelessMessageContextGlobal object from a json dictionary."""
+        args = {}
+        if (system := _dict.get('system')) is not None:
+            args['system'] = MessageContextGlobalSystem.from_dict(system)
+        if (session_id := _dict.get('session_id')) is not None:
+            args['session_id'] = session_id
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a StatelessMessageContextGlobal object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'system') and self.system is not None:
+            if isinstance(self.system, dict):
+                _dict['system'] = self.system
+            else:
+                _dict['system'] = self.system.to_dict()
+        if hasattr(self, 'session_id') and self.session_id is not None:
+            _dict['session_id'] = self.session_id
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this StatelessMessageContextGlobal object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'StatelessMessageContextGlobal') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'StatelessMessageContextGlobal') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class StatelessMessageContextSkills:
+    """
+    Context data specific to particular skills used by the assistant.
+
+    :param MessageContextDialogSkill main_skill: (optional) Context variables that
+          are used by the dialog skill.
+    :param StatelessMessageContextSkillsActionsSkill actions_skill: (optional)
+          Context variables that are used by the action skill.
+    """
+
+    def __init__(
+        self,
+        *,
+        main_skill: Optional['MessageContextDialogSkill'] = None,
+        actions_skill: Optional[
+            'StatelessMessageContextSkillsActionsSkill'] = None,
+    ) -> None:
+        """
+        Initialize a StatelessMessageContextSkills object.
+
+        :param MessageContextDialogSkill main_skill: (optional) Context variables
+               that are used by the dialog skill.
+        :param StatelessMessageContextSkillsActionsSkill actions_skill: (optional)
+               Context variables that are used by the action skill.
+        """
+        self.main_skill = main_skill
+        self.actions_skill = actions_skill
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'StatelessMessageContextSkills':
+        """Initialize a StatelessMessageContextSkills object from a json dictionary."""
+        args = {}
+        if (main_skill := _dict.get('main skill')) is not None:
+            args['main_skill'] = MessageContextDialogSkill.from_dict(main_skill)
+        if (actions_skill := _dict.get('actions skill')) is not None:
+            args[
+                'actions_skill'] = StatelessMessageContextSkillsActionsSkill.from_dict(
+                    actions_skill)
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a StatelessMessageContextSkills object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'main_skill') and self.main_skill is not None:
+            if isinstance(self.main_skill, dict):
+                _dict['main skill'] = self.main_skill
+            else:
+                _dict['main skill'] = self.main_skill.to_dict()
+        if hasattr(self, 'actions_skill') and self.actions_skill is not None:
+            if isinstance(self.actions_skill, dict):
+                _dict['actions skill'] = self.actions_skill
+            else:
+                _dict['actions skill'] = self.actions_skill.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this StatelessMessageContextSkills object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'StatelessMessageContextSkills') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'StatelessMessageContextSkills') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class StatelessMessageContextSkillsActionsSkill:
+    """
+    Context variables that are used by the action skill.
+
+    :param dict user_defined: (optional) An object containing any arbitrary
+          variables that can be read and written by a particular skill.
+    :param MessageContextSkillSystem system: (optional) System context data used by
+          the skill.
+    :param dict action_variables: (optional) An object containing action variables.
+          Action variables can be accessed only by steps in the same action, and do not
+          persist after the action ends.
+    :param dict skill_variables: (optional) An object containing skill variables.
+          (In the watsonx Assistant user interface, skill variables are called _session
+          variables_.) Skill variables can be accessed by any action and persist for the
+          duration of the session.
+    :param dict private_action_variables: (optional) An object containing private
+          action variables. Action variables can be accessed only by steps in the same
+          action, and do not persist after the action ends. Private variables are
+          encrypted.
+    :param dict private_skill_variables: (optional) An object containing private
+          skill variables. (In the watsonx Assistant user interface, skill variables are
+          called _session variables_.) Skill variables can be accessed by any action and
+          persist for the duration of the session. Private variables are encrypted.
+    """
+
+    def __init__(
+        self,
+        *,
+        user_defined: Optional[dict] = None,
+        system: Optional['MessageContextSkillSystem'] = None,
+        action_variables: Optional[dict] = None,
+        skill_variables: Optional[dict] = None,
+        private_action_variables: Optional[dict] = None,
+        private_skill_variables: Optional[dict] = None,
+    ) -> None:
+        """
+        Initialize a StatelessMessageContextSkillsActionsSkill object.
+
+        :param dict user_defined: (optional) An object containing any arbitrary
+               variables that can be read and written by a particular skill.
+        :param MessageContextSkillSystem system: (optional) System context data
+               used by the skill.
+        :param dict action_variables: (optional) An object containing action
+               variables. Action variables can be accessed only by steps in the same
+               action, and do not persist after the action ends.
+        :param dict skill_variables: (optional) An object containing skill
+               variables. (In the watsonx Assistant user interface, skill variables are
+               called _session variables_.) Skill variables can be accessed by any action
+               and persist for the duration of the session.
+        :param dict private_action_variables: (optional) An object containing
+               private action variables. Action variables can be accessed only by steps in
+               the same action, and do not persist after the action ends. Private
+               variables are encrypted.
+        :param dict private_skill_variables: (optional) An object containing
+               private skill variables. (In the watsonx Assistant user interface, skill
+               variables are called _session variables_.) Skill variables can be accessed
+               by any action and persist for the duration of the session. Private
+               variables are encrypted.
+        """
+        self.user_defined = user_defined
+        self.system = system
+        self.action_variables = action_variables
+        self.skill_variables = skill_variables
+        self.private_action_variables = private_action_variables
+        self.private_skill_variables = private_skill_variables
+
+    @classmethod
+    def from_dict(cls,
+                  _dict: Dict) -> 'StatelessMessageContextSkillsActionsSkill':
+        """Initialize a StatelessMessageContextSkillsActionsSkill object from a json dictionary."""
+        args = {}
+        if (user_defined := _dict.get('user_defined')) is not None:
+            args['user_defined'] = user_defined
+        if (system := _dict.get('system')) is not None:
+            args['system'] = MessageContextSkillSystem.from_dict(system)
+        if (action_variables := _dict.get('action_variables')) is not None:
+            args['action_variables'] = action_variables
+        if (skill_variables := _dict.get('skill_variables')) is not None:
+            args['skill_variables'] = skill_variables
+        if (private_action_variables :=
+                _dict.get('private_action_variables')) is not None:
+            args['private_action_variables'] = private_action_variables
+        if (private_skill_variables :=
+                _dict.get('private_skill_variables')) is not None:
+            args['private_skill_variables'] = private_skill_variables
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a StatelessMessageContextSkillsActionsSkill object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'user_defined') and self.user_defined is not None:
+            _dict['user_defined'] = self.user_defined
+        if hasattr(self, 'system') and self.system is not None:
+            if isinstance(self.system, dict):
+                _dict['system'] = self.system
+            else:
+                _dict['system'] = self.system.to_dict()
+        if hasattr(self,
+                   'action_variables') and self.action_variables is not None:
+            _dict['action_variables'] = self.action_variables
+        if hasattr(self,
+                   'skill_variables') and self.skill_variables is not None:
+            _dict['skill_variables'] = self.skill_variables
+        if hasattr(self, 'private_action_variables'
+                  ) and self.private_action_variables is not None:
+            _dict['private_action_variables'] = self.private_action_variables
+        if hasattr(self, 'private_skill_variables'
+                  ) and self.private_skill_variables is not None:
+            _dict['private_skill_variables'] = self.private_skill_variables
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this StatelessMessageContextSkillsActionsSkill object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self,
+               other: 'StatelessMessageContextSkillsActionsSkill') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self,
+               other: 'StatelessMessageContextSkillsActionsSkill') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class StatelessMessageInput:
+    """
+    An input object that includes the input text.
+
+    :param str message_type: (optional) The type of the message:
+          - `text`: The user input is processed normally by the assistant.
+          - `search`: Only search results are returned. (Any dialog or action skill is
+          bypassed.)
+          **Note:** A `search` message results in an error if no search skill is
+          configured for the assistant.
+    :param str text: (optional) The text of the user input. This string cannot
+          contain carriage return, newline, or tab characters.
+    :param List[RuntimeIntent] intents: (optional) Intents to use when evaluating
+          the user input. Include intents from the previous response to continue using
+          those intents rather than trying to recognize intents in the new input.
+    :param List[RuntimeEntity] entities: (optional) Entities to use when evaluating
+          the message. Include entities from the previous response to continue using those
+          entities rather than detecting entities in the new input.
+    :param str suggestion_id: (optional) For internal use only.
+    :param List[MessageInputAttachment] attachments: (optional) An array of
+          multimedia attachments to be sent with the message. Attachments are not
+          processed by the assistant itself, but can be sent to external services by
+          webhooks.
+           **Note:** Attachments are not supported on IBM Cloud Pak for Data.
+    :param RequestAnalytics analytics: (optional) An optional object containing
+          analytics data. Currently, this data is used only for events sent to the Segment
+          extension.
+    :param StatelessMessageInputOptions options: (optional) Optional properties that
+          control how the assistant responds.
+    """
+
+    def __init__(
+        self,
+        *,
+        message_type: Optional[str] = None,
+        text: Optional[str] = None,
+        intents: Optional[List['RuntimeIntent']] = None,
+        entities: Optional[List['RuntimeEntity']] = None,
+        suggestion_id: Optional[str] = None,
+        attachments: Optional[List['MessageInputAttachment']] = None,
+        analytics: Optional['RequestAnalytics'] = None,
+        options: Optional['StatelessMessageInputOptions'] = None,
+    ) -> None:
+        """
+        Initialize a StatelessMessageInput object.
+
+        :param str message_type: (optional) The type of the message:
+               - `text`: The user input is processed normally by the assistant.
+               - `search`: Only search results are returned. (Any dialog or action skill
+               is bypassed.)
+               **Note:** A `search` message results in an error if no search skill is
+               configured for the assistant.
+        :param str text: (optional) The text of the user input. This string cannot
+               contain carriage return, newline, or tab characters.
+        :param List[RuntimeIntent] intents: (optional) Intents to use when
+               evaluating the user input. Include intents from the previous response to
+               continue using those intents rather than trying to recognize intents in the
+               new input.
+        :param List[RuntimeEntity] entities: (optional) Entities to use when
+               evaluating the message. Include entities from the previous response to
+               continue using those entities rather than detecting entities in the new
+               input.
+        :param str suggestion_id: (optional) For internal use only.
+        :param List[MessageInputAttachment] attachments: (optional) An array of
+               multimedia attachments to be sent with the message. Attachments are not
+               processed by the assistant itself, but can be sent to external services by
+               webhooks.
+                **Note:** Attachments are not supported on IBM Cloud Pak for Data.
+        :param RequestAnalytics analytics: (optional) An optional object containing
+               analytics data. Currently, this data is used only for events sent to the
+               Segment extension.
+        :param StatelessMessageInputOptions options: (optional) Optional properties
+               that control how the assistant responds.
+        """
+        self.message_type = message_type
+        self.text = text
+        self.intents = intents
+        self.entities = entities
+        self.suggestion_id = suggestion_id
+        self.attachments = attachments
+        self.analytics = analytics
+        self.options = options
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'StatelessMessageInput':
+        """Initialize a StatelessMessageInput object from a json dictionary."""
+        args = {}
+        if (message_type := _dict.get('message_type')) is not None:
+            args['message_type'] = message_type
+        if (text := _dict.get('text')) is not None:
+            args['text'] = text
+        if (intents := _dict.get('intents')) is not None:
+            args['intents'] = [RuntimeIntent.from_dict(v) for v in intents]
+        if (entities := _dict.get('entities')) is not None:
+            args['entities'] = [RuntimeEntity.from_dict(v) for v in entities]
+        if (suggestion_id := _dict.get('suggestion_id')) is not None:
+            args['suggestion_id'] = suggestion_id
+        if (attachments := _dict.get('attachments')) is not None:
+            args['attachments'] = [
+                MessageInputAttachment.from_dict(v) for v in attachments
+            ]
+        if (analytics := _dict.get('analytics')) is not None:
+            args['analytics'] = RequestAnalytics.from_dict(analytics)
+        if (options := _dict.get('options')) is not None:
+            args['options'] = StatelessMessageInputOptions.from_dict(options)
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a StatelessMessageInput object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'message_type') and self.message_type is not None:
+            _dict['message_type'] = self.message_type
+        if hasattr(self, 'text') and self.text is not None:
+            _dict['text'] = self.text
+        if hasattr(self, 'intents') and self.intents is not None:
+            intents_list = []
+            for v in self.intents:
+                if isinstance(v, dict):
+                    intents_list.append(v)
+                else:
+                    intents_list.append(v.to_dict())
+            _dict['intents'] = intents_list
+        if hasattr(self, 'entities') and self.entities is not None:
+            entities_list = []
+            for v in self.entities:
+                if isinstance(v, dict):
+                    entities_list.append(v)
+                else:
+                    entities_list.append(v.to_dict())
+            _dict['entities'] = entities_list
+        if hasattr(self, 'suggestion_id') and self.suggestion_id is not None:
+            _dict['suggestion_id'] = self.suggestion_id
+        if hasattr(self, 'attachments') and self.attachments is not None:
+            attachments_list = []
+            for v in self.attachments:
+                if isinstance(v, dict):
+                    attachments_list.append(v)
+                else:
+                    attachments_list.append(v.to_dict())
+            _dict['attachments'] = attachments_list
+        if hasattr(self, 'analytics') and self.analytics is not None:
+            if isinstance(self.analytics, dict):
+                _dict['analytics'] = self.analytics
+            else:
+                _dict['analytics'] = self.analytics.to_dict()
+        if hasattr(self, 'options') and self.options is not None:
+            if isinstance(self.options, dict):
+                _dict['options'] = self.options
+            else:
+                _dict['options'] = self.options.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this StatelessMessageInput object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'StatelessMessageInput') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'StatelessMessageInput') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class MessageTypeEnum(str, Enum):
+        """
+        The type of the message:
+        - `text`: The user input is processed normally by the assistant.
+        - `search`: Only search results are returned. (Any dialog or action skill is
+        bypassed.)
+        **Note:** A `search` message results in an error if no search skill is configured
+        for the assistant.
+        """
+
+        TEXT = 'text'
+        SEARCH = 'search'
+
+
+class StatelessMessageInputOptions:
+    """
+    Optional properties that control how the assistant responds.
+
+    :param bool restart: (optional) Whether to restart dialog processing at the root
+          of the dialog, regardless of any previously visited nodes. **Note:** This does
+          not affect `turn_count` or any other context variables.
+    :param bool alternate_intents: (optional) Whether to return more than one
+          intent. Set to `true` to return all matching intents.
+    :param bool async_callout: (optional) Whether custom extension callouts are
+          executed asynchronously. Asynchronous execution means the response to the
+          extension callout will be processed on the subsequent message call, the initial
+          message response signals to the client that the operation may be long running.
+          With synchronous execution the custom extension is executed and returns the
+          response in a single message turn. **Note:** **async_callout** defaults to true
+          for API versions earlier than 2023-06-15.
+    :param MessageInputOptionsSpelling spelling: (optional) Spelling correction
+          options for the message. Any options specified on an individual message override
+          the settings configured for the skill.
+    :param bool debug: (optional) Whether to return additional diagnostic
+          information. Set to `true` to return additional information in the
+          `output.debug` property.
+    """
+
+    def __init__(
+        self,
+        *,
+        restart: Optional[bool] = None,
+        alternate_intents: Optional[bool] = None,
+        async_callout: Optional[bool] = None,
+        spelling: Optional['MessageInputOptionsSpelling'] = None,
+        debug: Optional[bool] = None,
+    ) -> None:
+        """
+        Initialize a StatelessMessageInputOptions object.
+
+        :param bool restart: (optional) Whether to restart dialog processing at the
+               root of the dialog, regardless of any previously visited nodes. **Note:**
+               This does not affect `turn_count` or any other context variables.
+        :param bool alternate_intents: (optional) Whether to return more than one
+               intent. Set to `true` to return all matching intents.
+        :param bool async_callout: (optional) Whether custom extension callouts are
+               executed asynchronously. Asynchronous execution means the response to the
+               extension callout will be processed on the subsequent message call, the
+               initial message response signals to the client that the operation may be
+               long running. With synchronous execution the custom extension is executed
+               and returns the response in a single message turn. **Note:**
+               **async_callout** defaults to true for API versions earlier than
+               2023-06-15.
+        :param MessageInputOptionsSpelling spelling: (optional) Spelling correction
+               options for the message. Any options specified on an individual message
+               override the settings configured for the skill.
+        :param bool debug: (optional) Whether to return additional diagnostic
+               information. Set to `true` to return additional information in the
+               `output.debug` property.
+        """
+        self.restart = restart
+        self.alternate_intents = alternate_intents
+        self.async_callout = async_callout
+        self.spelling = spelling
+        self.debug = debug
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'StatelessMessageInputOptions':
+        """Initialize a StatelessMessageInputOptions object from a json dictionary."""
+        args = {}
+        if (restart := _dict.get('restart')) is not None:
+            args['restart'] = restart
+        if (alternate_intents := _dict.get('alternate_intents')) is not None:
+            args['alternate_intents'] = alternate_intents
+        if (async_callout := _dict.get('async_callout')) is not None:
+            args['async_callout'] = async_callout
+        if (spelling := _dict.get('spelling')) is not None:
+            args['spelling'] = MessageInputOptionsSpelling.from_dict(spelling)
+        if (debug := _dict.get('debug')) is not None:
+            args['debug'] = debug
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a StatelessMessageInputOptions object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'restart') and self.restart is not None:
+            _dict['restart'] = self.restart
+        if hasattr(self,
+                   'alternate_intents') and self.alternate_intents is not None:
+            _dict['alternate_intents'] = self.alternate_intents
+        if hasattr(self, 'async_callout') and self.async_callout is not None:
+            _dict['async_callout'] = self.async_callout
+        if hasattr(self, 'spelling') and self.spelling is not None:
+            if isinstance(self.spelling, dict):
+                _dict['spelling'] = self.spelling
+            else:
+                _dict['spelling'] = self.spelling.to_dict()
+        if hasattr(self, 'debug') and self.debug is not None:
+            _dict['debug'] = self.debug
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this StatelessMessageInputOptions object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'StatelessMessageInputOptions') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'StatelessMessageInputOptions') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class StatelessMessageResponse:
+    """
+    A stateless response from the watsonx Assistant service.
+
+    :param MessageOutput output: Assistant output to be rendered or processed by the
+          client.
+    :param StatelessMessageContext context: Context data for the conversation. You
+          can use this property to access context variables. The context is not stored by
+          the assistant; to maintain session state, include the context from the response
+          in the next message.
+    :param MessageOutput masked_output: (optional) Assistant output to be rendered
+          or processed by the client. All private data is masked or removed.
+    :param MessageInput masked_input: (optional) An input object that includes the
+          input text. All private data is masked or removed.
+    :param str user_id: (optional) A string value that identifies the user who is
+          interacting with the assistant. The client must provide a unique identifier for
+          each individual end user who accesses the application. For user-based plans,
+          this user ID is used to identify unique users for billing purposes. This string
+          cannot contain carriage return, newline, or tab characters. If no value is
+          specified in the input, **user_id** is automatically set to the value of
+          **context.global.session_id**.
+          **Note:** This property is the same as the **user_id** property in the global
+          system context.
+    """
+
+    def __init__(
+        self,
+        output: 'MessageOutput',
+        context: 'StatelessMessageContext',
+        *,
+        masked_output: Optional['MessageOutput'] = None,
+        masked_input: Optional['MessageInput'] = None,
+        user_id: Optional[str] = None,
+    ) -> None:
+        """
+        Initialize a StatelessMessageResponse object.
+
+        :param MessageOutput output: Assistant output to be rendered or processed
+               by the client.
+        :param StatelessMessageContext context: Context data for the conversation.
+               You can use this property to access context variables. The context is not
+               stored by the assistant; to maintain session state, include the context
+               from the response in the next message.
+        :param MessageOutput masked_output: (optional) Assistant output to be
+               rendered or processed by the client. All private data is masked or removed.
+        :param MessageInput masked_input: (optional) An input object that includes
+               the input text. All private data is masked or removed.
+        :param str user_id: (optional) A string value that identifies the user who
+               is interacting with the assistant. The client must provide a unique
+               identifier for each individual end user who accesses the application. For
+               user-based plans, this user ID is used to identify unique users for billing
+               purposes. This string cannot contain carriage return, newline, or tab
+               characters. If no value is specified in the input, **user_id** is
+               automatically set to the value of **context.global.session_id**.
+               **Note:** This property is the same as the **user_id** property in the
+               global system context.
+        """
+        self.output = output
+        self.context = context
+        self.masked_output = masked_output
+        self.masked_input = masked_input
+        self.user_id = user_id
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'StatelessMessageResponse':
+        """Initialize a StatelessMessageResponse object from a json dictionary."""
+        args = {}
+        if (output := _dict.get('output')) is not None:
+            args['output'] = MessageOutput.from_dict(output)
+        else:
+            raise ValueError(
+                'Required property \'output\' not present in StatelessMessageResponse JSON'
+            )
+        if (context := _dict.get('context')) is not None:
+            args['context'] = StatelessMessageContext.from_dict(context)
+        else:
+            raise ValueError(
+                'Required property \'context\' not present in StatelessMessageResponse JSON'
+            )
+        if (masked_output := _dict.get('masked_output')) is not None:
+            args['masked_output'] = MessageOutput.from_dict(masked_output)
+        if (masked_input := _dict.get('masked_input')) is not None:
+            args['masked_input'] = MessageInput.from_dict(masked_input)
+        if (user_id := _dict.get('user_id')) is not None:
+            args['user_id'] = user_id
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a StatelessMessageResponse object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'output') and self.output is not None:
+            if isinstance(self.output, dict):
+                _dict['output'] = self.output
+            else:
+                _dict['output'] = self.output.to_dict()
+        if hasattr(self, 'context') and self.context is not None:
+            if isinstance(self.context, dict):
+                _dict['context'] = self.context
+            else:
+                _dict['context'] = self.context.to_dict()
+        if hasattr(self, 'masked_output') and self.masked_output is not None:
+            if isinstance(self.masked_output, dict):
+                _dict['masked_output'] = self.masked_output
+            else:
+                _dict['masked_output'] = self.masked_output.to_dict()
+        if hasattr(self, 'masked_input') and self.masked_input is not None:
+            if isinstance(self.masked_input, dict):
+                _dict['masked_input'] = self.masked_input
+            else:
+                _dict['masked_input'] = self.masked_input.to_dict()
+        if hasattr(self, 'user_id') and self.user_id is not None:
+            _dict['user_id'] = self.user_id
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this StatelessMessageResponse object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'StatelessMessageResponse') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'StatelessMessageResponse') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 

@@ -632,7 +632,7 @@ class TestMessage:
         """
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/sessions/testString/message')
-        mock_response = '{"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}'
+        mock_response = '{"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id", "masked_output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "masked_input": {"message_type": "text", "text": "text", "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "suggestion_id": "suggestion_id", "attachments": [{"url": "url", "media_type": "media_type"}], "analytics": {"browser": "browser", "device": "device", "pageUrl": "page_url"}, "options": {"restart": false, "alternate_intents": false, "async_callout": false, "spelling": {"suggestions": false, "auto_correct": true}, "debug": false, "return_context": false, "export": false}}}'
         responses.add(
             responses.POST,
             url,
@@ -722,6 +722,7 @@ class TestMessage:
         message_input_options_model = {}
         message_input_options_model['restart'] = False
         message_input_options_model['alternate_intents'] = False
+        message_input_options_model['async_callout'] = False
         message_input_options_model['spelling'] = message_input_options_spelling_model
         message_input_options_model['debug'] = False
         message_input_options_model['return_context'] = False
@@ -758,22 +759,22 @@ class TestMessage:
         message_context_skill_system_model['state'] = 'testString'
         message_context_skill_system_model['foo'] = 'testString'
 
-        # Construct a dict representation of a MessageContextSkillDialog model
-        message_context_skill_dialog_model = {}
-        message_context_skill_dialog_model['user_defined'] = {'anyKey': 'anyValue'}
-        message_context_skill_dialog_model['system'] = message_context_skill_system_model
+        # Construct a dict representation of a MessageContextDialogSkill model
+        message_context_dialog_skill_model = {}
+        message_context_dialog_skill_model['user_defined'] = {'anyKey': 'anyValue'}
+        message_context_dialog_skill_model['system'] = message_context_skill_system_model
 
-        # Construct a dict representation of a MessageContextSkillAction model
-        message_context_skill_action_model = {}
-        message_context_skill_action_model['user_defined'] = {'anyKey': 'anyValue'}
-        message_context_skill_action_model['system'] = message_context_skill_system_model
-        message_context_skill_action_model['action_variables'] = {'anyKey': 'anyValue'}
-        message_context_skill_action_model['skill_variables'] = {'anyKey': 'anyValue'}
+        # Construct a dict representation of a MessageContextActionSkill model
+        message_context_action_skill_model = {}
+        message_context_action_skill_model['user_defined'] = {'anyKey': 'anyValue'}
+        message_context_action_skill_model['system'] = message_context_skill_system_model
+        message_context_action_skill_model['action_variables'] = {'anyKey': 'anyValue'}
+        message_context_action_skill_model['skill_variables'] = {'anyKey': 'anyValue'}
 
         # Construct a dict representation of a MessageContextSkills model
         message_context_skills_model = {}
-        message_context_skills_model['main skill'] = message_context_skill_dialog_model
-        message_context_skills_model['actions skill'] = message_context_skill_action_model
+        message_context_skills_model['main skill'] = message_context_dialog_skill_model
+        message_context_skills_model['actions skill'] = message_context_action_skill_model
 
         # Construct a dict representation of a MessageContext model
         message_context_model = {}
@@ -823,7 +824,7 @@ class TestMessage:
         """
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/sessions/testString/message')
-        mock_response = '{"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}'
+        mock_response = '{"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id", "masked_output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "masked_input": {"message_type": "text", "text": "text", "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "suggestion_id": "suggestion_id", "attachments": [{"url": "url", "media_type": "media_type"}], "analytics": {"browser": "browser", "device": "device", "pageUrl": "page_url"}, "options": {"restart": false, "alternate_intents": false, "async_callout": false, "spelling": {"suggestions": false, "auto_correct": true}, "debug": false, "return_context": false, "export": false}}}'
         responses.add(
             responses.POST,
             url,
@@ -863,7 +864,7 @@ class TestMessage:
         """
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/sessions/testString/message')
-        mock_response = '{"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}'
+        mock_response = '{"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id", "masked_output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "masked_input": {"message_type": "text", "text": "text", "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "suggestion_id": "suggestion_id", "attachments": [{"url": "url", "media_type": "media_type"}], "analytics": {"browser": "browser", "device": "device", "pageUrl": "page_url"}, "options": {"restart": false, "alternate_intents": false, "async_callout": false, "spelling": {"suggestions": false, "auto_correct": true}, "debug": false, "return_context": false, "export": false}}}'
         responses.add(
             responses.POST,
             url,
@@ -908,7 +909,7 @@ class TestMessageStateless:
         """
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/message')
-        mock_response = '{"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}'
+        mock_response = '{"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}, "private_action_variables": {"anyKey": "anyValue"}, "private_skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "masked_output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "masked_input": {"message_type": "text", "text": "text", "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "suggestion_id": "suggestion_id", "attachments": [{"url": "url", "media_type": "media_type"}], "analytics": {"browser": "browser", "device": "device", "pageUrl": "page_url"}, "options": {"restart": false, "alternate_intents": false, "async_callout": false, "spelling": {"suggestions": false, "auto_correct": true}, "debug": false, "return_context": false, "export": false}}, "user_id": "user_id"}'
         responses.add(
             responses.POST,
             url,
@@ -994,23 +995,24 @@ class TestMessageStateless:
         message_input_options_spelling_model['suggestions'] = True
         message_input_options_spelling_model['auto_correct'] = True
 
-        # Construct a dict representation of a MessageInputOptionsStateless model
-        message_input_options_stateless_model = {}
-        message_input_options_stateless_model['restart'] = False
-        message_input_options_stateless_model['alternate_intents'] = False
-        message_input_options_stateless_model['spelling'] = message_input_options_spelling_model
-        message_input_options_stateless_model['debug'] = False
+        # Construct a dict representation of a StatelessMessageInputOptions model
+        stateless_message_input_options_model = {}
+        stateless_message_input_options_model['restart'] = False
+        stateless_message_input_options_model['alternate_intents'] = False
+        stateless_message_input_options_model['async_callout'] = False
+        stateless_message_input_options_model['spelling'] = message_input_options_spelling_model
+        stateless_message_input_options_model['debug'] = False
 
-        # Construct a dict representation of a MessageInputStateless model
-        message_input_stateless_model = {}
-        message_input_stateless_model['message_type'] = 'text'
-        message_input_stateless_model['text'] = 'testString'
-        message_input_stateless_model['intents'] = [runtime_intent_model]
-        message_input_stateless_model['entities'] = [runtime_entity_model]
-        message_input_stateless_model['suggestion_id'] = 'testString'
-        message_input_stateless_model['attachments'] = [message_input_attachment_model]
-        message_input_stateless_model['analytics'] = request_analytics_model
-        message_input_stateless_model['options'] = message_input_options_stateless_model
+        # Construct a dict representation of a StatelessMessageInput model
+        stateless_message_input_model = {}
+        stateless_message_input_model['message_type'] = 'text'
+        stateless_message_input_model['text'] = 'testString'
+        stateless_message_input_model['intents'] = [runtime_intent_model]
+        stateless_message_input_model['entities'] = [runtime_entity_model]
+        stateless_message_input_model['suggestion_id'] = 'testString'
+        stateless_message_input_model['attachments'] = [message_input_attachment_model]
+        stateless_message_input_model['analytics'] = request_analytics_model
+        stateless_message_input_model['options'] = stateless_message_input_options_model
 
         # Construct a dict representation of a MessageContextGlobalSystem model
         message_context_global_system_model = {}
@@ -1023,43 +1025,45 @@ class TestMessageStateless:
         message_context_global_system_model['state'] = 'testString'
         message_context_global_system_model['skip_user_input'] = True
 
-        # Construct a dict representation of a MessageContextGlobalStateless model
-        message_context_global_stateless_model = {}
-        message_context_global_stateless_model['system'] = message_context_global_system_model
-        message_context_global_stateless_model['session_id'] = 'testString'
+        # Construct a dict representation of a StatelessMessageContextGlobal model
+        stateless_message_context_global_model = {}
+        stateless_message_context_global_model['system'] = message_context_global_system_model
+        stateless_message_context_global_model['session_id'] = 'testString'
 
         # Construct a dict representation of a MessageContextSkillSystem model
         message_context_skill_system_model = {}
         message_context_skill_system_model['state'] = 'testString'
         message_context_skill_system_model['foo'] = 'testString'
 
-        # Construct a dict representation of a MessageContextSkillDialog model
-        message_context_skill_dialog_model = {}
-        message_context_skill_dialog_model['user_defined'] = {'anyKey': 'anyValue'}
-        message_context_skill_dialog_model['system'] = message_context_skill_system_model
+        # Construct a dict representation of a MessageContextDialogSkill model
+        message_context_dialog_skill_model = {}
+        message_context_dialog_skill_model['user_defined'] = {'anyKey': 'anyValue'}
+        message_context_dialog_skill_model['system'] = message_context_skill_system_model
 
-        # Construct a dict representation of a MessageContextSkillAction model
-        message_context_skill_action_model = {}
-        message_context_skill_action_model['user_defined'] = {'anyKey': 'anyValue'}
-        message_context_skill_action_model['system'] = message_context_skill_system_model
-        message_context_skill_action_model['action_variables'] = {'anyKey': 'anyValue'}
-        message_context_skill_action_model['skill_variables'] = {'anyKey': 'anyValue'}
+        # Construct a dict representation of a StatelessMessageContextSkillsActionsSkill model
+        stateless_message_context_skills_actions_skill_model = {}
+        stateless_message_context_skills_actions_skill_model['user_defined'] = {'anyKey': 'anyValue'}
+        stateless_message_context_skills_actions_skill_model['system'] = message_context_skill_system_model
+        stateless_message_context_skills_actions_skill_model['action_variables'] = {'anyKey': 'anyValue'}
+        stateless_message_context_skills_actions_skill_model['skill_variables'] = {'anyKey': 'anyValue'}
+        stateless_message_context_skills_actions_skill_model['private_action_variables'] = {'anyKey': 'anyValue'}
+        stateless_message_context_skills_actions_skill_model['private_skill_variables'] = {'anyKey': 'anyValue'}
 
-        # Construct a dict representation of a MessageContextSkills model
-        message_context_skills_model = {}
-        message_context_skills_model['main skill'] = message_context_skill_dialog_model
-        message_context_skills_model['actions skill'] = message_context_skill_action_model
+        # Construct a dict representation of a StatelessMessageContextSkills model
+        stateless_message_context_skills_model = {}
+        stateless_message_context_skills_model['main skill'] = message_context_dialog_skill_model
+        stateless_message_context_skills_model['actions skill'] = stateless_message_context_skills_actions_skill_model
 
-        # Construct a dict representation of a MessageContextStateless model
-        message_context_stateless_model = {}
-        message_context_stateless_model['global'] = message_context_global_stateless_model
-        message_context_stateless_model['skills'] = message_context_skills_model
-        message_context_stateless_model['integrations'] = {'anyKey': 'anyValue'}
+        # Construct a dict representation of a StatelessMessageContext model
+        stateless_message_context_model = {}
+        stateless_message_context_model['global'] = stateless_message_context_global_model
+        stateless_message_context_model['skills'] = stateless_message_context_skills_model
+        stateless_message_context_model['integrations'] = {'anyKey': 'anyValue'}
 
         # Set up parameter values
         assistant_id = 'testString'
-        input = message_input_stateless_model
-        context = message_context_stateless_model
+        input = stateless_message_input_model
+        context = stateless_message_context_model
         user_id = 'testString'
 
         # Invoke method
@@ -1076,8 +1080,8 @@ class TestMessageStateless:
         assert response.status_code == 200
         # Validate body params
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
-        assert req_body['input'] == message_input_stateless_model
-        assert req_body['context'] == message_context_stateless_model
+        assert req_body['input'] == stateless_message_input_model
+        assert req_body['context'] == stateless_message_context_model
         assert req_body['user_id'] == 'testString'
 
     def test_message_stateless_all_params_with_retries(self):
@@ -1096,7 +1100,7 @@ class TestMessageStateless:
         """
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/message')
-        mock_response = '{"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}'
+        mock_response = '{"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}, "private_action_variables": {"anyKey": "anyValue"}, "private_skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "masked_output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "masked_input": {"message_type": "text", "text": "text", "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "suggestion_id": "suggestion_id", "attachments": [{"url": "url", "media_type": "media_type"}], "analytics": {"browser": "browser", "device": "device", "pageUrl": "page_url"}, "options": {"restart": false, "alternate_intents": false, "async_callout": false, "spelling": {"suggestions": false, "auto_correct": true}, "debug": false, "return_context": false, "export": false}}, "user_id": "user_id"}'
         responses.add(
             responses.POST,
             url,
@@ -1134,7 +1138,7 @@ class TestMessageStateless:
         """
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/message')
-        mock_response = '{"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}'
+        mock_response = '{"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}, "private_action_variables": {"anyKey": "anyValue"}, "private_skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "masked_output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "masked_input": {"message_type": "text", "text": "text", "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "suggestion_id": "suggestion_id", "attachments": [{"url": "url", "media_type": "media_type"}], "analytics": {"browser": "browser", "device": "device", "pageUrl": "page_url"}, "options": {"restart": false, "alternate_intents": false, "async_callout": false, "spelling": {"suggestions": false, "auto_correct": true}, "debug": false, "return_context": false, "export": false}}, "user_id": "user_id"}'
         responses.add(
             responses.POST,
             url,
@@ -1295,7 +1299,7 @@ class TestListLogs:
         """
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/logs')
-        mock_response = '{"logs": [{"log_id": "log_id", "request": {"input": {"message_type": "text", "text": "text", "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "suggestion_id": "suggestion_id", "attachments": [{"url": "url", "media_type": "media_type"}], "analytics": {"browser": "browser", "device": "device", "pageUrl": "page_url"}, "options": {"restart": false, "alternate_intents": false, "spelling": {"suggestions": false, "auto_correct": true}, "debug": false, "return_context": false, "export": false}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}, "response": {"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}, "assistant_id": "assistant_id", "session_id": "session_id", "skill_id": "skill_id", "snapshot": "snapshot", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "language": "language", "customer_id": "customer_id"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
+        mock_response = '{"logs": [{"log_id": "log_id", "request": {"input": {"message_type": "text", "text": "text", "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "suggestion_id": "suggestion_id", "attachments": [{"url": "url", "media_type": "media_type"}], "analytics": {"browser": "browser", "device": "device", "pageUrl": "page_url"}, "options": {"restart": false, "alternate_intents": false, "async_callout": false, "spelling": {"suggestions": false, "auto_correct": true}, "debug": false, "return_context": false, "export": false}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}, "response": {"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}, "assistant_id": "assistant_id", "session_id": "session_id", "skill_id": "skill_id", "snapshot": "snapshot", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "language": "language", "customer_id": "customer_id"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
         responses.add(
             responses.GET,
             url,
@@ -1348,7 +1352,7 @@ class TestListLogs:
         """
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/logs')
-        mock_response = '{"logs": [{"log_id": "log_id", "request": {"input": {"message_type": "text", "text": "text", "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "suggestion_id": "suggestion_id", "attachments": [{"url": "url", "media_type": "media_type"}], "analytics": {"browser": "browser", "device": "device", "pageUrl": "page_url"}, "options": {"restart": false, "alternate_intents": false, "spelling": {"suggestions": false, "auto_correct": true}, "debug": false, "return_context": false, "export": false}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}, "response": {"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}, "assistant_id": "assistant_id", "session_id": "session_id", "skill_id": "skill_id", "snapshot": "snapshot", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "language": "language", "customer_id": "customer_id"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
+        mock_response = '{"logs": [{"log_id": "log_id", "request": {"input": {"message_type": "text", "text": "text", "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "suggestion_id": "suggestion_id", "attachments": [{"url": "url", "media_type": "media_type"}], "analytics": {"browser": "browser", "device": "device", "pageUrl": "page_url"}, "options": {"restart": false, "alternate_intents": false, "async_callout": false, "spelling": {"suggestions": false, "auto_correct": true}, "debug": false, "return_context": false, "export": false}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}, "response": {"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}, "assistant_id": "assistant_id", "session_id": "session_id", "skill_id": "skill_id", "snapshot": "snapshot", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "language": "language", "customer_id": "customer_id"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
         responses.add(
             responses.GET,
             url,
@@ -1386,7 +1390,7 @@ class TestListLogs:
         """
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/logs')
-        mock_response = '{"logs": [{"log_id": "log_id", "request": {"input": {"message_type": "text", "text": "text", "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "suggestion_id": "suggestion_id", "attachments": [{"url": "url", "media_type": "media_type"}], "analytics": {"browser": "browser", "device": "device", "pageUrl": "page_url"}, "options": {"restart": false, "alternate_intents": false, "spelling": {"suggestions": false, "auto_correct": true}, "debug": false, "return_context": false, "export": false}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}, "response": {"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}, "assistant_id": "assistant_id", "session_id": "session_id", "skill_id": "skill_id", "snapshot": "snapshot", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "language": "language", "customer_id": "customer_id"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
+        mock_response = '{"logs": [{"log_id": "log_id", "request": {"input": {"message_type": "text", "text": "text", "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "suggestion_id": "suggestion_id", "attachments": [{"url": "url", "media_type": "media_type"}], "analytics": {"browser": "browser", "device": "device", "pageUrl": "page_url"}, "options": {"restart": false, "alternate_intents": false, "async_callout": false, "spelling": {"suggestions": false, "auto_correct": true}, "debug": false, "return_context": false, "export": false}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}, "response": {"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}, "assistant_id": "assistant_id", "session_id": "session_id", "skill_id": "skill_id", "snapshot": "snapshot", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "language": "language", "customer_id": "customer_id"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
         responses.add(
             responses.GET,
             url,
@@ -1807,6 +1811,10 @@ class TestUpdateEnvironment:
             status=200,
         )
 
+        # Construct a dict representation of a BaseEnvironmentOrchestration model
+        base_environment_orchestration_model = {}
+        base_environment_orchestration_model['search_skill_fallback'] = True
+
         # Construct a dict representation of a EnvironmentSkill model
         environment_skill_model = {}
         environment_skill_model['skill_id'] = 'testString'
@@ -1820,6 +1828,7 @@ class TestUpdateEnvironment:
         environment_id = 'testString'
         name = 'testString'
         description = 'testString'
+        orchestration = base_environment_orchestration_model
         session_timeout = 10
         skill_references = [environment_skill_model]
 
@@ -1829,6 +1838,7 @@ class TestUpdateEnvironment:
             environment_id,
             name=name,
             description=description,
+            orchestration=orchestration,
             session_timeout=session_timeout,
             skill_references=skill_references,
             headers={},
@@ -1841,6 +1851,7 @@ class TestUpdateEnvironment:
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['name'] == 'testString'
         assert req_body['description'] == 'testString'
+        assert req_body['orchestration'] == base_environment_orchestration_model
         assert req_body['session_timeout'] == 10
         assert req_body['skill_references'] == [environment_skill_model]
 
@@ -4111,6 +4122,7 @@ class TestModel_DialogNodeOutputOptionsElement:
         message_input_options_model = {}  # MessageInputOptions
         message_input_options_model['restart'] = False
         message_input_options_model['alternate_intents'] = False
+        message_input_options_model['async_callout'] = False
         message_input_options_model['spelling'] = message_input_options_spelling_model
         message_input_options_model['debug'] = False
         message_input_options_model['return_context'] = False
@@ -4233,6 +4245,7 @@ class TestModel_DialogNodeOutputOptionsElementValue:
         message_input_options_model = {}  # MessageInputOptions
         message_input_options_model['restart'] = False
         message_input_options_model['alternate_intents'] = False
+        message_input_options_model['async_callout'] = False
         message_input_options_model['spelling'] = message_input_options_spelling_model
         message_input_options_model['debug'] = False
         message_input_options_model['return_context'] = False
@@ -4383,6 +4396,7 @@ class TestModel_DialogSuggestion:
         message_input_options_model = {}  # MessageInputOptions
         message_input_options_model['restart'] = False
         message_input_options_model['alternate_intents'] = False
+        message_input_options_model['async_callout'] = False
         message_input_options_model['spelling'] = message_input_options_spelling_model
         message_input_options_model['debug'] = False
         message_input_options_model['return_context'] = False
@@ -4506,6 +4520,7 @@ class TestModel_DialogSuggestionValue:
         message_input_options_model = {}  # MessageInputOptions
         message_input_options_model['restart'] = False
         message_input_options_model['alternate_intents'] = False
+        message_input_options_model['async_callout'] = False
         message_input_options_model['spelling'] = message_input_options_spelling_model
         message_input_options_model['debug'] = False
         message_input_options_model['return_context'] = False
@@ -4553,6 +4568,9 @@ class TestModel_Environment:
 
         # Construct dict forms of any model objects needed in order to build this model.
 
+        base_environment_orchestration_model = {}  # BaseEnvironmentOrchestration
+        base_environment_orchestration_model['search_skill_fallback'] = True
+
         environment_skill_model = {}  # EnvironmentSkill
         environment_skill_model['skill_id'] = 'testString'
         environment_skill_model['type'] = 'dialog'
@@ -4564,6 +4582,7 @@ class TestModel_Environment:
         environment_model_json = {}
         environment_model_json['name'] = 'testString'
         environment_model_json['description'] = 'testString'
+        environment_model_json['orchestration'] = base_environment_orchestration_model
         environment_model_json['session_timeout'] = 10
         environment_model_json['skill_references'] = [environment_skill_model]
 
@@ -4595,6 +4614,9 @@ class TestModel_EnvironmentCollection:
 
         # Construct dict forms of any model objects needed in order to build this model.
 
+        base_environment_orchestration_model = {}  # BaseEnvironmentOrchestration
+        base_environment_orchestration_model['search_skill_fallback'] = True
+
         environment_skill_model = {}  # EnvironmentSkill
         environment_skill_model['skill_id'] = 'testString'
         environment_skill_model['type'] = 'dialog'
@@ -4605,6 +4627,7 @@ class TestModel_EnvironmentCollection:
         environment_model = {}  # Environment
         environment_model['name'] = 'testString'
         environment_model['description'] = 'testString'
+        environment_model['orchestration'] = base_environment_orchestration_model
         environment_model['session_timeout'] = 10
         environment_model['skill_references'] = [environment_skill_model]
 
@@ -4815,20 +4838,21 @@ class TestModel_Log:
         message_input_options_model = {}  # MessageInputOptions
         message_input_options_model['restart'] = False
         message_input_options_model['alternate_intents'] = False
+        message_input_options_model['async_callout'] = False
         message_input_options_model['spelling'] = message_input_options_spelling_model
         message_input_options_model['debug'] = False
         message_input_options_model['return_context'] = False
         message_input_options_model['export'] = False
 
-        message_input_model = {}  # MessageInput
-        message_input_model['message_type'] = 'text'
-        message_input_model['text'] = 'testString'
-        message_input_model['intents'] = [runtime_intent_model]
-        message_input_model['entities'] = [runtime_entity_model]
-        message_input_model['suggestion_id'] = 'testString'
-        message_input_model['attachments'] = [message_input_attachment_model]
-        message_input_model['analytics'] = request_analytics_model
-        message_input_model['options'] = message_input_options_model
+        log_request_input_model = {}  # LogRequestInput
+        log_request_input_model['message_type'] = 'text'
+        log_request_input_model['text'] = 'testString'
+        log_request_input_model['intents'] = [runtime_intent_model]
+        log_request_input_model['entities'] = [runtime_entity_model]
+        log_request_input_model['suggestion_id'] = 'testString'
+        log_request_input_model['attachments'] = [message_input_attachment_model]
+        log_request_input_model['analytics'] = request_analytics_model
+        log_request_input_model['options'] = message_input_options_model
 
         message_context_global_system_model = {}  # MessageContextGlobalSystem
         message_context_global_system_model['timezone'] = 'testString'
@@ -4847,29 +4871,29 @@ class TestModel_Log:
         message_context_skill_system_model['state'] = 'testString'
         message_context_skill_system_model['foo'] = 'testString'
 
-        message_context_skill_dialog_model = {}  # MessageContextSkillDialog
-        message_context_skill_dialog_model['user_defined'] = {'anyKey': 'anyValue'}
-        message_context_skill_dialog_model['system'] = message_context_skill_system_model
+        message_context_dialog_skill_model = {}  # MessageContextDialogSkill
+        message_context_dialog_skill_model['user_defined'] = {'anyKey': 'anyValue'}
+        message_context_dialog_skill_model['system'] = message_context_skill_system_model
 
-        message_context_skill_action_model = {}  # MessageContextSkillAction
-        message_context_skill_action_model['user_defined'] = {'anyKey': 'anyValue'}
-        message_context_skill_action_model['system'] = message_context_skill_system_model
-        message_context_skill_action_model['action_variables'] = {'anyKey': 'anyValue'}
-        message_context_skill_action_model['skill_variables'] = {'anyKey': 'anyValue'}
+        message_context_action_skill_model = {}  # MessageContextActionSkill
+        message_context_action_skill_model['user_defined'] = {'anyKey': 'anyValue'}
+        message_context_action_skill_model['system'] = message_context_skill_system_model
+        message_context_action_skill_model['action_variables'] = {'anyKey': 'anyValue'}
+        message_context_action_skill_model['skill_variables'] = {'anyKey': 'anyValue'}
 
         message_context_skills_model = {}  # MessageContextSkills
-        message_context_skills_model['main skill'] = message_context_skill_dialog_model
-        message_context_skills_model['actions skill'] = message_context_skill_action_model
+        message_context_skills_model['main skill'] = message_context_dialog_skill_model
+        message_context_skills_model['actions skill'] = message_context_action_skill_model
 
         message_context_model = {}  # MessageContext
         message_context_model['global'] = message_context_global_model
         message_context_model['skills'] = message_context_skills_model
         message_context_model['integrations'] = {'anyKey': 'anyValue'}
 
-        message_request_model = {}  # MessageRequest
-        message_request_model['input'] = message_input_model
-        message_request_model['context'] = message_context_model
-        message_request_model['user_id'] = 'testString'
+        log_request_model = {}  # LogRequest
+        log_request_model['input'] = log_request_input_model
+        log_request_model['context'] = message_context_model
+        log_request_model['user_id'] = 'testString'
 
         response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'testString'
@@ -4927,25 +4951,25 @@ class TestModel_Log:
         message_output_spelling_model['original_text'] = 'testString'
         message_output_spelling_model['suggested_text'] = 'testString'
 
-        message_output_model = {}  # MessageOutput
-        message_output_model['generic'] = [runtime_response_generic_model]
-        message_output_model['intents'] = [runtime_intent_model]
-        message_output_model['entities'] = [runtime_entity_model]
-        message_output_model['actions'] = [dialog_node_action_model]
-        message_output_model['debug'] = message_output_debug_model
-        message_output_model['user_defined'] = {'anyKey': 'anyValue'}
-        message_output_model['spelling'] = message_output_spelling_model
+        log_response_output_model = {}  # LogResponseOutput
+        log_response_output_model['generic'] = [runtime_response_generic_model]
+        log_response_output_model['intents'] = [runtime_intent_model]
+        log_response_output_model['entities'] = [runtime_entity_model]
+        log_response_output_model['actions'] = [dialog_node_action_model]
+        log_response_output_model['debug'] = message_output_debug_model
+        log_response_output_model['user_defined'] = {'anyKey': 'anyValue'}
+        log_response_output_model['spelling'] = message_output_spelling_model
 
-        message_response_model = {}  # MessageResponse
-        message_response_model['output'] = message_output_model
-        message_response_model['context'] = message_context_model
-        message_response_model['user_id'] = 'testString'
+        log_response_model = {}  # LogResponse
+        log_response_model['output'] = log_response_output_model
+        log_response_model['context'] = message_context_model
+        log_response_model['user_id'] = 'testString'
 
         # Construct a json representation of a Log model
         log_model_json = {}
         log_model_json['log_id'] = 'testString'
-        log_model_json['request'] = message_request_model
-        log_model_json['response'] = message_response_model
+        log_model_json['request'] = log_request_model
+        log_model_json['response'] = log_response_model
         log_model_json['assistant_id'] = 'testString'
         log_model_json['session_id'] = 'testString'
         log_model_json['skill_id'] = 'testString'
@@ -5054,20 +5078,21 @@ class TestModel_LogCollection:
         message_input_options_model = {}  # MessageInputOptions
         message_input_options_model['restart'] = False
         message_input_options_model['alternate_intents'] = False
+        message_input_options_model['async_callout'] = False
         message_input_options_model['spelling'] = message_input_options_spelling_model
         message_input_options_model['debug'] = False
         message_input_options_model['return_context'] = False
         message_input_options_model['export'] = False
 
-        message_input_model = {}  # MessageInput
-        message_input_model['message_type'] = 'text'
-        message_input_model['text'] = 'testString'
-        message_input_model['intents'] = [runtime_intent_model]
-        message_input_model['entities'] = [runtime_entity_model]
-        message_input_model['suggestion_id'] = 'testString'
-        message_input_model['attachments'] = [message_input_attachment_model]
-        message_input_model['analytics'] = request_analytics_model
-        message_input_model['options'] = message_input_options_model
+        log_request_input_model = {}  # LogRequestInput
+        log_request_input_model['message_type'] = 'text'
+        log_request_input_model['text'] = 'testString'
+        log_request_input_model['intents'] = [runtime_intent_model]
+        log_request_input_model['entities'] = [runtime_entity_model]
+        log_request_input_model['suggestion_id'] = 'testString'
+        log_request_input_model['attachments'] = [message_input_attachment_model]
+        log_request_input_model['analytics'] = request_analytics_model
+        log_request_input_model['options'] = message_input_options_model
 
         message_context_global_system_model = {}  # MessageContextGlobalSystem
         message_context_global_system_model['timezone'] = 'testString'
@@ -5086,29 +5111,29 @@ class TestModel_LogCollection:
         message_context_skill_system_model['state'] = 'testString'
         message_context_skill_system_model['foo'] = 'testString'
 
-        message_context_skill_dialog_model = {}  # MessageContextSkillDialog
-        message_context_skill_dialog_model['user_defined'] = {'anyKey': 'anyValue'}
-        message_context_skill_dialog_model['system'] = message_context_skill_system_model
+        message_context_dialog_skill_model = {}  # MessageContextDialogSkill
+        message_context_dialog_skill_model['user_defined'] = {'anyKey': 'anyValue'}
+        message_context_dialog_skill_model['system'] = message_context_skill_system_model
 
-        message_context_skill_action_model = {}  # MessageContextSkillAction
-        message_context_skill_action_model['user_defined'] = {'anyKey': 'anyValue'}
-        message_context_skill_action_model['system'] = message_context_skill_system_model
-        message_context_skill_action_model['action_variables'] = {'anyKey': 'anyValue'}
-        message_context_skill_action_model['skill_variables'] = {'anyKey': 'anyValue'}
+        message_context_action_skill_model = {}  # MessageContextActionSkill
+        message_context_action_skill_model['user_defined'] = {'anyKey': 'anyValue'}
+        message_context_action_skill_model['system'] = message_context_skill_system_model
+        message_context_action_skill_model['action_variables'] = {'anyKey': 'anyValue'}
+        message_context_action_skill_model['skill_variables'] = {'anyKey': 'anyValue'}
 
         message_context_skills_model = {}  # MessageContextSkills
-        message_context_skills_model['main skill'] = message_context_skill_dialog_model
-        message_context_skills_model['actions skill'] = message_context_skill_action_model
+        message_context_skills_model['main skill'] = message_context_dialog_skill_model
+        message_context_skills_model['actions skill'] = message_context_action_skill_model
 
         message_context_model = {}  # MessageContext
         message_context_model['global'] = message_context_global_model
         message_context_model['skills'] = message_context_skills_model
         message_context_model['integrations'] = {'anyKey': 'anyValue'}
 
-        message_request_model = {}  # MessageRequest
-        message_request_model['input'] = message_input_model
-        message_request_model['context'] = message_context_model
-        message_request_model['user_id'] = 'testString'
+        log_request_model = {}  # LogRequest
+        log_request_model['input'] = log_request_input_model
+        log_request_model['context'] = message_context_model
+        log_request_model['user_id'] = 'testString'
 
         response_generic_channel_model = {}  # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'testString'
@@ -5166,24 +5191,24 @@ class TestModel_LogCollection:
         message_output_spelling_model['original_text'] = 'testString'
         message_output_spelling_model['suggested_text'] = 'testString'
 
-        message_output_model = {}  # MessageOutput
-        message_output_model['generic'] = [runtime_response_generic_model]
-        message_output_model['intents'] = [runtime_intent_model]
-        message_output_model['entities'] = [runtime_entity_model]
-        message_output_model['actions'] = [dialog_node_action_model]
-        message_output_model['debug'] = message_output_debug_model
-        message_output_model['user_defined'] = {'anyKey': 'anyValue'}
-        message_output_model['spelling'] = message_output_spelling_model
+        log_response_output_model = {}  # LogResponseOutput
+        log_response_output_model['generic'] = [runtime_response_generic_model]
+        log_response_output_model['intents'] = [runtime_intent_model]
+        log_response_output_model['entities'] = [runtime_entity_model]
+        log_response_output_model['actions'] = [dialog_node_action_model]
+        log_response_output_model['debug'] = message_output_debug_model
+        log_response_output_model['user_defined'] = {'anyKey': 'anyValue'}
+        log_response_output_model['spelling'] = message_output_spelling_model
 
-        message_response_model = {}  # MessageResponse
-        message_response_model['output'] = message_output_model
-        message_response_model['context'] = message_context_model
-        message_response_model['user_id'] = 'testString'
+        log_response_model = {}  # LogResponse
+        log_response_model['output'] = log_response_output_model
+        log_response_model['context'] = message_context_model
+        log_response_model['user_id'] = 'testString'
 
         log_model = {}  # Log
         log_model['log_id'] = 'testString'
-        log_model['request'] = message_request_model
-        log_model['response'] = message_response_model
+        log_model['request'] = log_request_model
+        log_model['response'] = log_response_model
         log_model['assistant_id'] = 'testString'
         log_model['session_id'] = 'testString'
         log_model['skill_id'] = 'testString'
@@ -5251,6 +5276,618 @@ class TestModel_LogPagination:
         assert log_pagination_model_json2 == log_pagination_model_json
 
 
+class TestModel_LogRequest:
+    """
+    Test Class for LogRequest
+    """
+
+    def test_log_request_serialization(self):
+        """
+        Test serialization/deserialization for LogRequest
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        runtime_intent_model = {}  # RuntimeIntent
+        runtime_intent_model['intent'] = 'testString'
+        runtime_intent_model['confidence'] = 72.5
+        runtime_intent_model['skill'] = 'testString'
+
+        capture_group_model = {}  # CaptureGroup
+        capture_group_model['group'] = 'testString'
+        capture_group_model['location'] = [38]
+
+        runtime_entity_interpretation_model = {}  # RuntimeEntityInterpretation
+        runtime_entity_interpretation_model['calendar_type'] = 'testString'
+        runtime_entity_interpretation_model['datetime_link'] = 'testString'
+        runtime_entity_interpretation_model['festival'] = 'testString'
+        runtime_entity_interpretation_model['granularity'] = 'day'
+        runtime_entity_interpretation_model['range_link'] = 'testString'
+        runtime_entity_interpretation_model['range_modifier'] = 'testString'
+        runtime_entity_interpretation_model['relative_day'] = 72.5
+        runtime_entity_interpretation_model['relative_month'] = 72.5
+        runtime_entity_interpretation_model['relative_week'] = 72.5
+        runtime_entity_interpretation_model['relative_weekend'] = 72.5
+        runtime_entity_interpretation_model['relative_year'] = 72.5
+        runtime_entity_interpretation_model['specific_day'] = 72.5
+        runtime_entity_interpretation_model['specific_day_of_week'] = 'testString'
+        runtime_entity_interpretation_model['specific_month'] = 72.5
+        runtime_entity_interpretation_model['specific_quarter'] = 72.5
+        runtime_entity_interpretation_model['specific_year'] = 72.5
+        runtime_entity_interpretation_model['numeric_value'] = 72.5
+        runtime_entity_interpretation_model['subtype'] = 'testString'
+        runtime_entity_interpretation_model['part_of_day'] = 'testString'
+        runtime_entity_interpretation_model['relative_hour'] = 72.5
+        runtime_entity_interpretation_model['relative_minute'] = 72.5
+        runtime_entity_interpretation_model['relative_second'] = 72.5
+        runtime_entity_interpretation_model['specific_hour'] = 72.5
+        runtime_entity_interpretation_model['specific_minute'] = 72.5
+        runtime_entity_interpretation_model['specific_second'] = 72.5
+        runtime_entity_interpretation_model['timezone'] = 'testString'
+
+        runtime_entity_alternative_model = {}  # RuntimeEntityAlternative
+        runtime_entity_alternative_model['value'] = 'testString'
+        runtime_entity_alternative_model['confidence'] = 72.5
+
+        runtime_entity_role_model = {}  # RuntimeEntityRole
+        runtime_entity_role_model['type'] = 'date_from'
+
+        runtime_entity_model = {}  # RuntimeEntity
+        runtime_entity_model['entity'] = 'testString'
+        runtime_entity_model['location'] = [38]
+        runtime_entity_model['value'] = 'testString'
+        runtime_entity_model['confidence'] = 72.5
+        runtime_entity_model['groups'] = [capture_group_model]
+        runtime_entity_model['interpretation'] = runtime_entity_interpretation_model
+        runtime_entity_model['alternatives'] = [runtime_entity_alternative_model]
+        runtime_entity_model['role'] = runtime_entity_role_model
+        runtime_entity_model['skill'] = 'testString'
+
+        message_input_attachment_model = {}  # MessageInputAttachment
+        message_input_attachment_model['url'] = 'testString'
+        message_input_attachment_model['media_type'] = 'testString'
+
+        request_analytics_model = {}  # RequestAnalytics
+        request_analytics_model['browser'] = 'testString'
+        request_analytics_model['device'] = 'testString'
+        request_analytics_model['pageUrl'] = 'testString'
+
+        message_input_options_spelling_model = {}  # MessageInputOptionsSpelling
+        message_input_options_spelling_model['suggestions'] = True
+        message_input_options_spelling_model['auto_correct'] = True
+
+        message_input_options_model = {}  # MessageInputOptions
+        message_input_options_model['restart'] = False
+        message_input_options_model['alternate_intents'] = False
+        message_input_options_model['async_callout'] = False
+        message_input_options_model['spelling'] = message_input_options_spelling_model
+        message_input_options_model['debug'] = False
+        message_input_options_model['return_context'] = True
+        message_input_options_model['export'] = True
+
+        log_request_input_model = {}  # LogRequestInput
+        log_request_input_model['message_type'] = 'text'
+        log_request_input_model['text'] = 'Hello'
+        log_request_input_model['intents'] = [runtime_intent_model]
+        log_request_input_model['entities'] = [runtime_entity_model]
+        log_request_input_model['suggestion_id'] = 'testString'
+        log_request_input_model['attachments'] = [message_input_attachment_model]
+        log_request_input_model['analytics'] = request_analytics_model
+        log_request_input_model['options'] = message_input_options_model
+
+        message_context_global_system_model = {}  # MessageContextGlobalSystem
+        message_context_global_system_model['timezone'] = 'testString'
+        message_context_global_system_model['user_id'] = 'my_user_id'
+        message_context_global_system_model['turn_count'] = 38
+        message_context_global_system_model['locale'] = 'en-us'
+        message_context_global_system_model['reference_time'] = 'testString'
+        message_context_global_system_model['session_start_time'] = 'testString'
+        message_context_global_system_model['state'] = 'testString'
+        message_context_global_system_model['skip_user_input'] = True
+
+        message_context_global_model = {}  # MessageContextGlobal
+        message_context_global_model['system'] = message_context_global_system_model
+
+        message_context_skill_system_model = {}  # MessageContextSkillSystem
+        message_context_skill_system_model['state'] = 'testString'
+        message_context_skill_system_model['foo'] = 'testString'
+
+        message_context_dialog_skill_model = {}  # MessageContextDialogSkill
+        message_context_dialog_skill_model['user_defined'] = {'anyKey': 'anyValue'}
+        message_context_dialog_skill_model['system'] = message_context_skill_system_model
+
+        message_context_action_skill_model = {}  # MessageContextActionSkill
+        message_context_action_skill_model['user_defined'] = {'anyKey': 'anyValue'}
+        message_context_action_skill_model['system'] = message_context_skill_system_model
+        message_context_action_skill_model['action_variables'] = {'anyKey': 'anyValue'}
+        message_context_action_skill_model['skill_variables'] = {'anyKey': 'anyValue'}
+
+        message_context_skills_model = {}  # MessageContextSkills
+        message_context_skills_model['main skill'] = message_context_dialog_skill_model
+        message_context_skills_model['actions skill'] = message_context_action_skill_model
+
+        message_context_model = {}  # MessageContext
+        message_context_model['global'] = message_context_global_model
+        message_context_model['skills'] = message_context_skills_model
+        message_context_model['integrations'] = {'anyKey': 'anyValue'}
+
+        # Construct a json representation of a LogRequest model
+        log_request_model_json = {}
+        log_request_model_json['input'] = log_request_input_model
+        log_request_model_json['context'] = message_context_model
+        log_request_model_json['user_id'] = 'testString'
+
+        # Construct a model instance of LogRequest by calling from_dict on the json representation
+        log_request_model = LogRequest.from_dict(log_request_model_json)
+        assert log_request_model != False
+
+        # Construct a model instance of LogRequest by calling from_dict on the json representation
+        log_request_model_dict = LogRequest.from_dict(log_request_model_json).__dict__
+        log_request_model2 = LogRequest(**log_request_model_dict)
+
+        # Verify the model instances are equivalent
+        assert log_request_model == log_request_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        log_request_model_json2 = log_request_model.to_dict()
+        assert log_request_model_json2 == log_request_model_json
+
+
+class TestModel_LogRequestInput:
+    """
+    Test Class for LogRequestInput
+    """
+
+    def test_log_request_input_serialization(self):
+        """
+        Test serialization/deserialization for LogRequestInput
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        runtime_intent_model = {}  # RuntimeIntent
+        runtime_intent_model['intent'] = 'testString'
+        runtime_intent_model['confidence'] = 72.5
+        runtime_intent_model['skill'] = 'testString'
+
+        capture_group_model = {}  # CaptureGroup
+        capture_group_model['group'] = 'testString'
+        capture_group_model['location'] = [38]
+
+        runtime_entity_interpretation_model = {}  # RuntimeEntityInterpretation
+        runtime_entity_interpretation_model['calendar_type'] = 'testString'
+        runtime_entity_interpretation_model['datetime_link'] = 'testString'
+        runtime_entity_interpretation_model['festival'] = 'testString'
+        runtime_entity_interpretation_model['granularity'] = 'day'
+        runtime_entity_interpretation_model['range_link'] = 'testString'
+        runtime_entity_interpretation_model['range_modifier'] = 'testString'
+        runtime_entity_interpretation_model['relative_day'] = 72.5
+        runtime_entity_interpretation_model['relative_month'] = 72.5
+        runtime_entity_interpretation_model['relative_week'] = 72.5
+        runtime_entity_interpretation_model['relative_weekend'] = 72.5
+        runtime_entity_interpretation_model['relative_year'] = 72.5
+        runtime_entity_interpretation_model['specific_day'] = 72.5
+        runtime_entity_interpretation_model['specific_day_of_week'] = 'testString'
+        runtime_entity_interpretation_model['specific_month'] = 72.5
+        runtime_entity_interpretation_model['specific_quarter'] = 72.5
+        runtime_entity_interpretation_model['specific_year'] = 72.5
+        runtime_entity_interpretation_model['numeric_value'] = 72.5
+        runtime_entity_interpretation_model['subtype'] = 'testString'
+        runtime_entity_interpretation_model['part_of_day'] = 'testString'
+        runtime_entity_interpretation_model['relative_hour'] = 72.5
+        runtime_entity_interpretation_model['relative_minute'] = 72.5
+        runtime_entity_interpretation_model['relative_second'] = 72.5
+        runtime_entity_interpretation_model['specific_hour'] = 72.5
+        runtime_entity_interpretation_model['specific_minute'] = 72.5
+        runtime_entity_interpretation_model['specific_second'] = 72.5
+        runtime_entity_interpretation_model['timezone'] = 'testString'
+
+        runtime_entity_alternative_model = {}  # RuntimeEntityAlternative
+        runtime_entity_alternative_model['value'] = 'testString'
+        runtime_entity_alternative_model['confidence'] = 72.5
+
+        runtime_entity_role_model = {}  # RuntimeEntityRole
+        runtime_entity_role_model['type'] = 'date_from'
+
+        runtime_entity_model = {}  # RuntimeEntity
+        runtime_entity_model['entity'] = 'testString'
+        runtime_entity_model['location'] = [38]
+        runtime_entity_model['value'] = 'testString'
+        runtime_entity_model['confidence'] = 72.5
+        runtime_entity_model['groups'] = [capture_group_model]
+        runtime_entity_model['interpretation'] = runtime_entity_interpretation_model
+        runtime_entity_model['alternatives'] = [runtime_entity_alternative_model]
+        runtime_entity_model['role'] = runtime_entity_role_model
+        runtime_entity_model['skill'] = 'testString'
+
+        message_input_attachment_model = {}  # MessageInputAttachment
+        message_input_attachment_model['url'] = 'testString'
+        message_input_attachment_model['media_type'] = 'testString'
+
+        request_analytics_model = {}  # RequestAnalytics
+        request_analytics_model['browser'] = 'testString'
+        request_analytics_model['device'] = 'testString'
+        request_analytics_model['pageUrl'] = 'testString'
+
+        message_input_options_spelling_model = {}  # MessageInputOptionsSpelling
+        message_input_options_spelling_model['suggestions'] = True
+        message_input_options_spelling_model['auto_correct'] = True
+
+        message_input_options_model = {}  # MessageInputOptions
+        message_input_options_model['restart'] = False
+        message_input_options_model['alternate_intents'] = False
+        message_input_options_model['async_callout'] = False
+        message_input_options_model['spelling'] = message_input_options_spelling_model
+        message_input_options_model['debug'] = False
+        message_input_options_model['return_context'] = False
+        message_input_options_model['export'] = False
+
+        # Construct a json representation of a LogRequestInput model
+        log_request_input_model_json = {}
+        log_request_input_model_json['message_type'] = 'text'
+        log_request_input_model_json['text'] = 'testString'
+        log_request_input_model_json['intents'] = [runtime_intent_model]
+        log_request_input_model_json['entities'] = [runtime_entity_model]
+        log_request_input_model_json['suggestion_id'] = 'testString'
+        log_request_input_model_json['attachments'] = [message_input_attachment_model]
+        log_request_input_model_json['analytics'] = request_analytics_model
+        log_request_input_model_json['options'] = message_input_options_model
+
+        # Construct a model instance of LogRequestInput by calling from_dict on the json representation
+        log_request_input_model = LogRequestInput.from_dict(log_request_input_model_json)
+        assert log_request_input_model != False
+
+        # Construct a model instance of LogRequestInput by calling from_dict on the json representation
+        log_request_input_model_dict = LogRequestInput.from_dict(log_request_input_model_json).__dict__
+        log_request_input_model2 = LogRequestInput(**log_request_input_model_dict)
+
+        # Verify the model instances are equivalent
+        assert log_request_input_model == log_request_input_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        log_request_input_model_json2 = log_request_input_model.to_dict()
+        assert log_request_input_model_json2 == log_request_input_model_json
+
+
+class TestModel_LogResponse:
+    """
+    Test Class for LogResponse
+    """
+
+    def test_log_response_serialization(self):
+        """
+        Test serialization/deserialization for LogResponse
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        response_generic_channel_model = {}  # ResponseGenericChannel
+        response_generic_channel_model['channel'] = 'testString'
+
+        runtime_response_generic_model = {}  # RuntimeResponseGenericRuntimeResponseTypeText
+        runtime_response_generic_model['response_type'] = 'text'
+        runtime_response_generic_model['text'] = 'testString'
+        runtime_response_generic_model['channels'] = [response_generic_channel_model]
+
+        runtime_intent_model = {}  # RuntimeIntent
+        runtime_intent_model['intent'] = 'testString'
+        runtime_intent_model['confidence'] = 72.5
+        runtime_intent_model['skill'] = 'testString'
+
+        capture_group_model = {}  # CaptureGroup
+        capture_group_model['group'] = 'testString'
+        capture_group_model['location'] = [38]
+
+        runtime_entity_interpretation_model = {}  # RuntimeEntityInterpretation
+        runtime_entity_interpretation_model['calendar_type'] = 'testString'
+        runtime_entity_interpretation_model['datetime_link'] = 'testString'
+        runtime_entity_interpretation_model['festival'] = 'testString'
+        runtime_entity_interpretation_model['granularity'] = 'day'
+        runtime_entity_interpretation_model['range_link'] = 'testString'
+        runtime_entity_interpretation_model['range_modifier'] = 'testString'
+        runtime_entity_interpretation_model['relative_day'] = 72.5
+        runtime_entity_interpretation_model['relative_month'] = 72.5
+        runtime_entity_interpretation_model['relative_week'] = 72.5
+        runtime_entity_interpretation_model['relative_weekend'] = 72.5
+        runtime_entity_interpretation_model['relative_year'] = 72.5
+        runtime_entity_interpretation_model['specific_day'] = 72.5
+        runtime_entity_interpretation_model['specific_day_of_week'] = 'testString'
+        runtime_entity_interpretation_model['specific_month'] = 72.5
+        runtime_entity_interpretation_model['specific_quarter'] = 72.5
+        runtime_entity_interpretation_model['specific_year'] = 72.5
+        runtime_entity_interpretation_model['numeric_value'] = 72.5
+        runtime_entity_interpretation_model['subtype'] = 'testString'
+        runtime_entity_interpretation_model['part_of_day'] = 'testString'
+        runtime_entity_interpretation_model['relative_hour'] = 72.5
+        runtime_entity_interpretation_model['relative_minute'] = 72.5
+        runtime_entity_interpretation_model['relative_second'] = 72.5
+        runtime_entity_interpretation_model['specific_hour'] = 72.5
+        runtime_entity_interpretation_model['specific_minute'] = 72.5
+        runtime_entity_interpretation_model['specific_second'] = 72.5
+        runtime_entity_interpretation_model['timezone'] = 'testString'
+
+        runtime_entity_alternative_model = {}  # RuntimeEntityAlternative
+        runtime_entity_alternative_model['value'] = 'testString'
+        runtime_entity_alternative_model['confidence'] = 72.5
+
+        runtime_entity_role_model = {}  # RuntimeEntityRole
+        runtime_entity_role_model['type'] = 'date_from'
+
+        runtime_entity_model = {}  # RuntimeEntity
+        runtime_entity_model['entity'] = 'testString'
+        runtime_entity_model['location'] = [38]
+        runtime_entity_model['value'] = 'testString'
+        runtime_entity_model['confidence'] = 72.5
+        runtime_entity_model['groups'] = [capture_group_model]
+        runtime_entity_model['interpretation'] = runtime_entity_interpretation_model
+        runtime_entity_model['alternatives'] = [runtime_entity_alternative_model]
+        runtime_entity_model['role'] = runtime_entity_role_model
+        runtime_entity_model['skill'] = 'testString'
+
+        dialog_node_action_model = {}  # DialogNodeAction
+        dialog_node_action_model['name'] = 'testString'
+        dialog_node_action_model['type'] = 'client'
+        dialog_node_action_model['parameters'] = {'anyKey': 'anyValue'}
+        dialog_node_action_model['result_variable'] = 'testString'
+        dialog_node_action_model['credentials'] = 'testString'
+
+        dialog_node_visited_model = {}  # DialogNodeVisited
+        dialog_node_visited_model['dialog_node'] = 'testString'
+        dialog_node_visited_model['title'] = 'testString'
+        dialog_node_visited_model['conditions'] = 'testString'
+
+        log_message_source_model = {}  # LogMessageSourceDialogNode
+        log_message_source_model['type'] = 'dialog_node'
+        log_message_source_model['dialog_node'] = 'testString'
+
+        dialog_log_message_model = {}  # DialogLogMessage
+        dialog_log_message_model['level'] = 'info'
+        dialog_log_message_model['message'] = 'testString'
+        dialog_log_message_model['code'] = 'testString'
+        dialog_log_message_model['source'] = log_message_source_model
+
+        turn_event_action_source_model = {}  # TurnEventActionSource
+        turn_event_action_source_model['type'] = 'action'
+        turn_event_action_source_model['action'] = 'testString'
+        turn_event_action_source_model['action_title'] = 'testString'
+        turn_event_action_source_model['condition'] = 'testString'
+
+        message_output_debug_turn_event_model = {}  # MessageOutputDebugTurnEventTurnEventActionVisited
+        message_output_debug_turn_event_model['event'] = 'action_visited'
+        message_output_debug_turn_event_model['source'] = turn_event_action_source_model
+        message_output_debug_turn_event_model['action_start_time'] = 'testString'
+        message_output_debug_turn_event_model['condition_type'] = 'user_defined'
+        message_output_debug_turn_event_model['reason'] = 'intent'
+        message_output_debug_turn_event_model['result_variable'] = 'testString'
+
+        message_output_debug_model = {}  # MessageOutputDebug
+        message_output_debug_model['nodes_visited'] = [dialog_node_visited_model]
+        message_output_debug_model['log_messages'] = [dialog_log_message_model]
+        message_output_debug_model['branch_exited'] = True
+        message_output_debug_model['branch_exited_reason'] = 'completed'
+        message_output_debug_model['turn_events'] = [message_output_debug_turn_event_model]
+
+        message_output_spelling_model = {}  # MessageOutputSpelling
+        message_output_spelling_model['text'] = 'testString'
+        message_output_spelling_model['original_text'] = 'testString'
+        message_output_spelling_model['suggested_text'] = 'testString'
+
+        log_response_output_model = {}  # LogResponseOutput
+        log_response_output_model['generic'] = [runtime_response_generic_model]
+        log_response_output_model['intents'] = [runtime_intent_model]
+        log_response_output_model['entities'] = [runtime_entity_model]
+        log_response_output_model['actions'] = [dialog_node_action_model]
+        log_response_output_model['debug'] = message_output_debug_model
+        log_response_output_model['user_defined'] = {'anyKey': 'anyValue'}
+        log_response_output_model['spelling'] = message_output_spelling_model
+
+        message_context_global_system_model = {}  # MessageContextGlobalSystem
+        message_context_global_system_model['timezone'] = 'testString'
+        message_context_global_system_model['user_id'] = 'testString'
+        message_context_global_system_model['turn_count'] = 38
+        message_context_global_system_model['locale'] = 'en-us'
+        message_context_global_system_model['reference_time'] = 'testString'
+        message_context_global_system_model['session_start_time'] = 'testString'
+        message_context_global_system_model['state'] = 'testString'
+        message_context_global_system_model['skip_user_input'] = True
+
+        message_context_global_model = {}  # MessageContextGlobal
+        message_context_global_model['system'] = message_context_global_system_model
+
+        message_context_skill_system_model = {}  # MessageContextSkillSystem
+        message_context_skill_system_model['state'] = 'testString'
+        message_context_skill_system_model['foo'] = 'testString'
+
+        message_context_dialog_skill_model = {}  # MessageContextDialogSkill
+        message_context_dialog_skill_model['user_defined'] = {'anyKey': 'anyValue'}
+        message_context_dialog_skill_model['system'] = message_context_skill_system_model
+
+        message_context_action_skill_model = {}  # MessageContextActionSkill
+        message_context_action_skill_model['user_defined'] = {'anyKey': 'anyValue'}
+        message_context_action_skill_model['system'] = message_context_skill_system_model
+        message_context_action_skill_model['action_variables'] = {'anyKey': 'anyValue'}
+        message_context_action_skill_model['skill_variables'] = {'anyKey': 'anyValue'}
+
+        message_context_skills_model = {}  # MessageContextSkills
+        message_context_skills_model['main skill'] = message_context_dialog_skill_model
+        message_context_skills_model['actions skill'] = message_context_action_skill_model
+
+        message_context_model = {}  # MessageContext
+        message_context_model['global'] = message_context_global_model
+        message_context_model['skills'] = message_context_skills_model
+        message_context_model['integrations'] = {'anyKey': 'anyValue'}
+
+        # Construct a json representation of a LogResponse model
+        log_response_model_json = {}
+        log_response_model_json['output'] = log_response_output_model
+        log_response_model_json['context'] = message_context_model
+        log_response_model_json['user_id'] = 'testString'
+
+        # Construct a model instance of LogResponse by calling from_dict on the json representation
+        log_response_model = LogResponse.from_dict(log_response_model_json)
+        assert log_response_model != False
+
+        # Construct a model instance of LogResponse by calling from_dict on the json representation
+        log_response_model_dict = LogResponse.from_dict(log_response_model_json).__dict__
+        log_response_model2 = LogResponse(**log_response_model_dict)
+
+        # Verify the model instances are equivalent
+        assert log_response_model == log_response_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        log_response_model_json2 = log_response_model.to_dict()
+        assert log_response_model_json2 == log_response_model_json
+
+
+class TestModel_LogResponseOutput:
+    """
+    Test Class for LogResponseOutput
+    """
+
+    def test_log_response_output_serialization(self):
+        """
+        Test serialization/deserialization for LogResponseOutput
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        response_generic_channel_model = {}  # ResponseGenericChannel
+        response_generic_channel_model['channel'] = 'testString'
+
+        runtime_response_generic_model = {}  # RuntimeResponseGenericRuntimeResponseTypeText
+        runtime_response_generic_model['response_type'] = 'text'
+        runtime_response_generic_model['text'] = 'testString'
+        runtime_response_generic_model['channels'] = [response_generic_channel_model]
+
+        runtime_intent_model = {}  # RuntimeIntent
+        runtime_intent_model['intent'] = 'testString'
+        runtime_intent_model['confidence'] = 72.5
+        runtime_intent_model['skill'] = 'testString'
+
+        capture_group_model = {}  # CaptureGroup
+        capture_group_model['group'] = 'testString'
+        capture_group_model['location'] = [38]
+
+        runtime_entity_interpretation_model = {}  # RuntimeEntityInterpretation
+        runtime_entity_interpretation_model['calendar_type'] = 'testString'
+        runtime_entity_interpretation_model['datetime_link'] = 'testString'
+        runtime_entity_interpretation_model['festival'] = 'testString'
+        runtime_entity_interpretation_model['granularity'] = 'day'
+        runtime_entity_interpretation_model['range_link'] = 'testString'
+        runtime_entity_interpretation_model['range_modifier'] = 'testString'
+        runtime_entity_interpretation_model['relative_day'] = 72.5
+        runtime_entity_interpretation_model['relative_month'] = 72.5
+        runtime_entity_interpretation_model['relative_week'] = 72.5
+        runtime_entity_interpretation_model['relative_weekend'] = 72.5
+        runtime_entity_interpretation_model['relative_year'] = 72.5
+        runtime_entity_interpretation_model['specific_day'] = 72.5
+        runtime_entity_interpretation_model['specific_day_of_week'] = 'testString'
+        runtime_entity_interpretation_model['specific_month'] = 72.5
+        runtime_entity_interpretation_model['specific_quarter'] = 72.5
+        runtime_entity_interpretation_model['specific_year'] = 72.5
+        runtime_entity_interpretation_model['numeric_value'] = 72.5
+        runtime_entity_interpretation_model['subtype'] = 'testString'
+        runtime_entity_interpretation_model['part_of_day'] = 'testString'
+        runtime_entity_interpretation_model['relative_hour'] = 72.5
+        runtime_entity_interpretation_model['relative_minute'] = 72.5
+        runtime_entity_interpretation_model['relative_second'] = 72.5
+        runtime_entity_interpretation_model['specific_hour'] = 72.5
+        runtime_entity_interpretation_model['specific_minute'] = 72.5
+        runtime_entity_interpretation_model['specific_second'] = 72.5
+        runtime_entity_interpretation_model['timezone'] = 'testString'
+
+        runtime_entity_alternative_model = {}  # RuntimeEntityAlternative
+        runtime_entity_alternative_model['value'] = 'testString'
+        runtime_entity_alternative_model['confidence'] = 72.5
+
+        runtime_entity_role_model = {}  # RuntimeEntityRole
+        runtime_entity_role_model['type'] = 'date_from'
+
+        runtime_entity_model = {}  # RuntimeEntity
+        runtime_entity_model['entity'] = 'testString'
+        runtime_entity_model['location'] = [38]
+        runtime_entity_model['value'] = 'testString'
+        runtime_entity_model['confidence'] = 72.5
+        runtime_entity_model['groups'] = [capture_group_model]
+        runtime_entity_model['interpretation'] = runtime_entity_interpretation_model
+        runtime_entity_model['alternatives'] = [runtime_entity_alternative_model]
+        runtime_entity_model['role'] = runtime_entity_role_model
+        runtime_entity_model['skill'] = 'testString'
+
+        dialog_node_action_model = {}  # DialogNodeAction
+        dialog_node_action_model['name'] = 'testString'
+        dialog_node_action_model['type'] = 'client'
+        dialog_node_action_model['parameters'] = {'anyKey': 'anyValue'}
+        dialog_node_action_model['result_variable'] = 'testString'
+        dialog_node_action_model['credentials'] = 'testString'
+
+        dialog_node_visited_model = {}  # DialogNodeVisited
+        dialog_node_visited_model['dialog_node'] = 'testString'
+        dialog_node_visited_model['title'] = 'testString'
+        dialog_node_visited_model['conditions'] = 'testString'
+
+        log_message_source_model = {}  # LogMessageSourceDialogNode
+        log_message_source_model['type'] = 'dialog_node'
+        log_message_source_model['dialog_node'] = 'testString'
+
+        dialog_log_message_model = {}  # DialogLogMessage
+        dialog_log_message_model['level'] = 'info'
+        dialog_log_message_model['message'] = 'testString'
+        dialog_log_message_model['code'] = 'testString'
+        dialog_log_message_model['source'] = log_message_source_model
+
+        turn_event_action_source_model = {}  # TurnEventActionSource
+        turn_event_action_source_model['type'] = 'action'
+        turn_event_action_source_model['action'] = 'testString'
+        turn_event_action_source_model['action_title'] = 'testString'
+        turn_event_action_source_model['condition'] = 'testString'
+
+        message_output_debug_turn_event_model = {}  # MessageOutputDebugTurnEventTurnEventActionVisited
+        message_output_debug_turn_event_model['event'] = 'action_visited'
+        message_output_debug_turn_event_model['source'] = turn_event_action_source_model
+        message_output_debug_turn_event_model['action_start_time'] = 'testString'
+        message_output_debug_turn_event_model['condition_type'] = 'user_defined'
+        message_output_debug_turn_event_model['reason'] = 'intent'
+        message_output_debug_turn_event_model['result_variable'] = 'testString'
+
+        message_output_debug_model = {}  # MessageOutputDebug
+        message_output_debug_model['nodes_visited'] = [dialog_node_visited_model]
+        message_output_debug_model['log_messages'] = [dialog_log_message_model]
+        message_output_debug_model['branch_exited'] = True
+        message_output_debug_model['branch_exited_reason'] = 'completed'
+        message_output_debug_model['turn_events'] = [message_output_debug_turn_event_model]
+
+        message_output_spelling_model = {}  # MessageOutputSpelling
+        message_output_spelling_model['text'] = 'testString'
+        message_output_spelling_model['original_text'] = 'testString'
+        message_output_spelling_model['suggested_text'] = 'testString'
+
+        # Construct a json representation of a LogResponseOutput model
+        log_response_output_model_json = {}
+        log_response_output_model_json['generic'] = [runtime_response_generic_model]
+        log_response_output_model_json['intents'] = [runtime_intent_model]
+        log_response_output_model_json['entities'] = [runtime_entity_model]
+        log_response_output_model_json['actions'] = [dialog_node_action_model]
+        log_response_output_model_json['debug'] = message_output_debug_model
+        log_response_output_model_json['user_defined'] = {'anyKey': 'anyValue'}
+        log_response_output_model_json['spelling'] = message_output_spelling_model
+
+        # Construct a model instance of LogResponseOutput by calling from_dict on the json representation
+        log_response_output_model = LogResponseOutput.from_dict(log_response_output_model_json)
+        assert log_response_output_model != False
+
+        # Construct a model instance of LogResponseOutput by calling from_dict on the json representation
+        log_response_output_model_dict = LogResponseOutput.from_dict(log_response_output_model_json).__dict__
+        log_response_output_model2 = LogResponseOutput(**log_response_output_model_dict)
+
+        # Verify the model instances are equivalent
+        assert log_response_output_model == log_response_output_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        log_response_output_model_json2 = log_response_output_model.to_dict()
+        assert log_response_output_model_json2 == log_response_output_model_json
+
+
 class TestModel_MessageContext:
     """
     Test Class for MessageContext
@@ -5280,19 +5917,19 @@ class TestModel_MessageContext:
         message_context_skill_system_model['state'] = 'testString'
         message_context_skill_system_model['foo'] = 'testString'
 
-        message_context_skill_dialog_model = {}  # MessageContextSkillDialog
-        message_context_skill_dialog_model['user_defined'] = {'anyKey': 'anyValue'}
-        message_context_skill_dialog_model['system'] = message_context_skill_system_model
+        message_context_dialog_skill_model = {}  # MessageContextDialogSkill
+        message_context_dialog_skill_model['user_defined'] = {'anyKey': 'anyValue'}
+        message_context_dialog_skill_model['system'] = message_context_skill_system_model
 
-        message_context_skill_action_model = {}  # MessageContextSkillAction
-        message_context_skill_action_model['user_defined'] = {'anyKey': 'anyValue'}
-        message_context_skill_action_model['system'] = message_context_skill_system_model
-        message_context_skill_action_model['action_variables'] = {'anyKey': 'anyValue'}
-        message_context_skill_action_model['skill_variables'] = {'anyKey': 'anyValue'}
+        message_context_action_skill_model = {}  # MessageContextActionSkill
+        message_context_action_skill_model['user_defined'] = {'anyKey': 'anyValue'}
+        message_context_action_skill_model['system'] = message_context_skill_system_model
+        message_context_action_skill_model['action_variables'] = {'anyKey': 'anyValue'}
+        message_context_action_skill_model['skill_variables'] = {'anyKey': 'anyValue'}
 
         message_context_skills_model = {}  # MessageContextSkills
-        message_context_skills_model['main skill'] = message_context_skill_dialog_model
-        message_context_skills_model['actions skill'] = message_context_skill_action_model
+        message_context_skills_model['main skill'] = message_context_dialog_skill_model
+        message_context_skills_model['actions skill'] = message_context_action_skill_model
 
         # Construct a json representation of a MessageContext model
         message_context_model_json = {}
@@ -5314,6 +5951,82 @@ class TestModel_MessageContext:
         # Convert model instance back to dict and verify no loss of data
         message_context_model_json2 = message_context_model.to_dict()
         assert message_context_model_json2 == message_context_model_json
+
+
+class TestModel_MessageContextActionSkill:
+    """
+    Test Class for MessageContextActionSkill
+    """
+
+    def test_message_context_action_skill_serialization(self):
+        """
+        Test serialization/deserialization for MessageContextActionSkill
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        message_context_skill_system_model = {}  # MessageContextSkillSystem
+        message_context_skill_system_model['state'] = 'testString'
+        message_context_skill_system_model['foo'] = 'testString'
+
+        # Construct a json representation of a MessageContextActionSkill model
+        message_context_action_skill_model_json = {}
+        message_context_action_skill_model_json['user_defined'] = {'anyKey': 'anyValue'}
+        message_context_action_skill_model_json['system'] = message_context_skill_system_model
+        message_context_action_skill_model_json['action_variables'] = {'anyKey': 'anyValue'}
+        message_context_action_skill_model_json['skill_variables'] = {'anyKey': 'anyValue'}
+
+        # Construct a model instance of MessageContextActionSkill by calling from_dict on the json representation
+        message_context_action_skill_model = MessageContextActionSkill.from_dict(message_context_action_skill_model_json)
+        assert message_context_action_skill_model != False
+
+        # Construct a model instance of MessageContextActionSkill by calling from_dict on the json representation
+        message_context_action_skill_model_dict = MessageContextActionSkill.from_dict(message_context_action_skill_model_json).__dict__
+        message_context_action_skill_model2 = MessageContextActionSkill(**message_context_action_skill_model_dict)
+
+        # Verify the model instances are equivalent
+        assert message_context_action_skill_model == message_context_action_skill_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        message_context_action_skill_model_json2 = message_context_action_skill_model.to_dict()
+        assert message_context_action_skill_model_json2 == message_context_action_skill_model_json
+
+
+class TestModel_MessageContextDialogSkill:
+    """
+    Test Class for MessageContextDialogSkill
+    """
+
+    def test_message_context_dialog_skill_serialization(self):
+        """
+        Test serialization/deserialization for MessageContextDialogSkill
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        message_context_skill_system_model = {}  # MessageContextSkillSystem
+        message_context_skill_system_model['state'] = 'testString'
+        message_context_skill_system_model['foo'] = 'testString'
+
+        # Construct a json representation of a MessageContextDialogSkill model
+        message_context_dialog_skill_model_json = {}
+        message_context_dialog_skill_model_json['user_defined'] = {'anyKey': 'anyValue'}
+        message_context_dialog_skill_model_json['system'] = message_context_skill_system_model
+
+        # Construct a model instance of MessageContextDialogSkill by calling from_dict on the json representation
+        message_context_dialog_skill_model = MessageContextDialogSkill.from_dict(message_context_dialog_skill_model_json)
+        assert message_context_dialog_skill_model != False
+
+        # Construct a model instance of MessageContextDialogSkill by calling from_dict on the json representation
+        message_context_dialog_skill_model_dict = MessageContextDialogSkill.from_dict(message_context_dialog_skill_model_json).__dict__
+        message_context_dialog_skill_model2 = MessageContextDialogSkill(**message_context_dialog_skill_model_dict)
+
+        # Verify the model instances are equivalent
+        assert message_context_dialog_skill_model == message_context_dialog_skill_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        message_context_dialog_skill_model_json2 = message_context_dialog_skill_model.to_dict()
+        assert message_context_dialog_skill_model_json2 == message_context_dialog_skill_model_json
 
 
 class TestModel_MessageContextGlobal:
@@ -5358,49 +6071,6 @@ class TestModel_MessageContextGlobal:
         assert message_context_global_model_json2 == message_context_global_model_json
 
 
-class TestModel_MessageContextGlobalStateless:
-    """
-    Test Class for MessageContextGlobalStateless
-    """
-
-    def test_message_context_global_stateless_serialization(self):
-        """
-        Test serialization/deserialization for MessageContextGlobalStateless
-        """
-
-        # Construct dict forms of any model objects needed in order to build this model.
-
-        message_context_global_system_model = {}  # MessageContextGlobalSystem
-        message_context_global_system_model['timezone'] = 'testString'
-        message_context_global_system_model['user_id'] = 'testString'
-        message_context_global_system_model['turn_count'] = 38
-        message_context_global_system_model['locale'] = 'en-us'
-        message_context_global_system_model['reference_time'] = 'testString'
-        message_context_global_system_model['session_start_time'] = 'testString'
-        message_context_global_system_model['state'] = 'testString'
-        message_context_global_system_model['skip_user_input'] = True
-
-        # Construct a json representation of a MessageContextGlobalStateless model
-        message_context_global_stateless_model_json = {}
-        message_context_global_stateless_model_json['system'] = message_context_global_system_model
-        message_context_global_stateless_model_json['session_id'] = 'testString'
-
-        # Construct a model instance of MessageContextGlobalStateless by calling from_dict on the json representation
-        message_context_global_stateless_model = MessageContextGlobalStateless.from_dict(message_context_global_stateless_model_json)
-        assert message_context_global_stateless_model != False
-
-        # Construct a model instance of MessageContextGlobalStateless by calling from_dict on the json representation
-        message_context_global_stateless_model_dict = MessageContextGlobalStateless.from_dict(message_context_global_stateless_model_json).__dict__
-        message_context_global_stateless_model2 = MessageContextGlobalStateless(**message_context_global_stateless_model_dict)
-
-        # Verify the model instances are equivalent
-        assert message_context_global_stateless_model == message_context_global_stateless_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        message_context_global_stateless_model_json2 = message_context_global_stateless_model.to_dict()
-        assert message_context_global_stateless_model_json2 == message_context_global_stateless_model_json
-
-
 class TestModel_MessageContextGlobalSystem:
     """
     Test Class for MessageContextGlobalSystem
@@ -5436,82 +6106,6 @@ class TestModel_MessageContextGlobalSystem:
         # Convert model instance back to dict and verify no loss of data
         message_context_global_system_model_json2 = message_context_global_system_model.to_dict()
         assert message_context_global_system_model_json2 == message_context_global_system_model_json
-
-
-class TestModel_MessageContextSkillAction:
-    """
-    Test Class for MessageContextSkillAction
-    """
-
-    def test_message_context_skill_action_serialization(self):
-        """
-        Test serialization/deserialization for MessageContextSkillAction
-        """
-
-        # Construct dict forms of any model objects needed in order to build this model.
-
-        message_context_skill_system_model = {}  # MessageContextSkillSystem
-        message_context_skill_system_model['state'] = 'testString'
-        message_context_skill_system_model['foo'] = 'testString'
-
-        # Construct a json representation of a MessageContextSkillAction model
-        message_context_skill_action_model_json = {}
-        message_context_skill_action_model_json['user_defined'] = {'anyKey': 'anyValue'}
-        message_context_skill_action_model_json['system'] = message_context_skill_system_model
-        message_context_skill_action_model_json['action_variables'] = {'anyKey': 'anyValue'}
-        message_context_skill_action_model_json['skill_variables'] = {'anyKey': 'anyValue'}
-
-        # Construct a model instance of MessageContextSkillAction by calling from_dict on the json representation
-        message_context_skill_action_model = MessageContextSkillAction.from_dict(message_context_skill_action_model_json)
-        assert message_context_skill_action_model != False
-
-        # Construct a model instance of MessageContextSkillAction by calling from_dict on the json representation
-        message_context_skill_action_model_dict = MessageContextSkillAction.from_dict(message_context_skill_action_model_json).__dict__
-        message_context_skill_action_model2 = MessageContextSkillAction(**message_context_skill_action_model_dict)
-
-        # Verify the model instances are equivalent
-        assert message_context_skill_action_model == message_context_skill_action_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        message_context_skill_action_model_json2 = message_context_skill_action_model.to_dict()
-        assert message_context_skill_action_model_json2 == message_context_skill_action_model_json
-
-
-class TestModel_MessageContextSkillDialog:
-    """
-    Test Class for MessageContextSkillDialog
-    """
-
-    def test_message_context_skill_dialog_serialization(self):
-        """
-        Test serialization/deserialization for MessageContextSkillDialog
-        """
-
-        # Construct dict forms of any model objects needed in order to build this model.
-
-        message_context_skill_system_model = {}  # MessageContextSkillSystem
-        message_context_skill_system_model['state'] = 'testString'
-        message_context_skill_system_model['foo'] = 'testString'
-
-        # Construct a json representation of a MessageContextSkillDialog model
-        message_context_skill_dialog_model_json = {}
-        message_context_skill_dialog_model_json['user_defined'] = {'anyKey': 'anyValue'}
-        message_context_skill_dialog_model_json['system'] = message_context_skill_system_model
-
-        # Construct a model instance of MessageContextSkillDialog by calling from_dict on the json representation
-        message_context_skill_dialog_model = MessageContextSkillDialog.from_dict(message_context_skill_dialog_model_json)
-        assert message_context_skill_dialog_model != False
-
-        # Construct a model instance of MessageContextSkillDialog by calling from_dict on the json representation
-        message_context_skill_dialog_model_dict = MessageContextSkillDialog.from_dict(message_context_skill_dialog_model_json).__dict__
-        message_context_skill_dialog_model2 = MessageContextSkillDialog(**message_context_skill_dialog_model_dict)
-
-        # Verify the model instances are equivalent
-        assert message_context_skill_dialog_model == message_context_skill_dialog_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        message_context_skill_dialog_model_json2 = message_context_skill_dialog_model.to_dict()
-        assert message_context_skill_dialog_model_json2 == message_context_skill_dialog_model_json
 
 
 class TestModel_MessageContextSkillSystem:
@@ -5571,20 +6165,20 @@ class TestModel_MessageContextSkills:
         message_context_skill_system_model['state'] = 'testString'
         message_context_skill_system_model['foo'] = 'testString'
 
-        message_context_skill_dialog_model = {}  # MessageContextSkillDialog
-        message_context_skill_dialog_model['user_defined'] = {'anyKey': 'anyValue'}
-        message_context_skill_dialog_model['system'] = message_context_skill_system_model
+        message_context_dialog_skill_model = {}  # MessageContextDialogSkill
+        message_context_dialog_skill_model['user_defined'] = {'anyKey': 'anyValue'}
+        message_context_dialog_skill_model['system'] = message_context_skill_system_model
 
-        message_context_skill_action_model = {}  # MessageContextSkillAction
-        message_context_skill_action_model['user_defined'] = {'anyKey': 'anyValue'}
-        message_context_skill_action_model['system'] = message_context_skill_system_model
-        message_context_skill_action_model['action_variables'] = {'anyKey': 'anyValue'}
-        message_context_skill_action_model['skill_variables'] = {'anyKey': 'anyValue'}
+        message_context_action_skill_model = {}  # MessageContextActionSkill
+        message_context_action_skill_model['user_defined'] = {'anyKey': 'anyValue'}
+        message_context_action_skill_model['system'] = message_context_skill_system_model
+        message_context_action_skill_model['action_variables'] = {'anyKey': 'anyValue'}
+        message_context_action_skill_model['skill_variables'] = {'anyKey': 'anyValue'}
 
         # Construct a json representation of a MessageContextSkills model
         message_context_skills_model_json = {}
-        message_context_skills_model_json['main skill'] = message_context_skill_dialog_model
-        message_context_skills_model_json['actions skill'] = message_context_skill_action_model
+        message_context_skills_model_json['main skill'] = message_context_dialog_skill_model
+        message_context_skills_model_json['actions skill'] = message_context_action_skill_model
 
         # Construct a model instance of MessageContextSkills by calling from_dict on the json representation
         message_context_skills_model = MessageContextSkills.from_dict(message_context_skills_model_json)
@@ -5600,72 +6194,6 @@ class TestModel_MessageContextSkills:
         # Convert model instance back to dict and verify no loss of data
         message_context_skills_model_json2 = message_context_skills_model.to_dict()
         assert message_context_skills_model_json2 == message_context_skills_model_json
-
-
-class TestModel_MessageContextStateless:
-    """
-    Test Class for MessageContextStateless
-    """
-
-    def test_message_context_stateless_serialization(self):
-        """
-        Test serialization/deserialization for MessageContextStateless
-        """
-
-        # Construct dict forms of any model objects needed in order to build this model.
-
-        message_context_global_system_model = {}  # MessageContextGlobalSystem
-        message_context_global_system_model['timezone'] = 'testString'
-        message_context_global_system_model['user_id'] = 'testString'
-        message_context_global_system_model['turn_count'] = 38
-        message_context_global_system_model['locale'] = 'en-us'
-        message_context_global_system_model['reference_time'] = 'testString'
-        message_context_global_system_model['session_start_time'] = 'testString'
-        message_context_global_system_model['state'] = 'testString'
-        message_context_global_system_model['skip_user_input'] = True
-
-        message_context_global_stateless_model = {}  # MessageContextGlobalStateless
-        message_context_global_stateless_model['system'] = message_context_global_system_model
-        message_context_global_stateless_model['session_id'] = 'testString'
-
-        message_context_skill_system_model = {}  # MessageContextSkillSystem
-        message_context_skill_system_model['state'] = 'testString'
-        message_context_skill_system_model['foo'] = 'testString'
-
-        message_context_skill_dialog_model = {}  # MessageContextSkillDialog
-        message_context_skill_dialog_model['user_defined'] = {'anyKey': 'anyValue'}
-        message_context_skill_dialog_model['system'] = message_context_skill_system_model
-
-        message_context_skill_action_model = {}  # MessageContextSkillAction
-        message_context_skill_action_model['user_defined'] = {'anyKey': 'anyValue'}
-        message_context_skill_action_model['system'] = message_context_skill_system_model
-        message_context_skill_action_model['action_variables'] = {'anyKey': 'anyValue'}
-        message_context_skill_action_model['skill_variables'] = {'anyKey': 'anyValue'}
-
-        message_context_skills_model = {}  # MessageContextSkills
-        message_context_skills_model['main skill'] = message_context_skill_dialog_model
-        message_context_skills_model['actions skill'] = message_context_skill_action_model
-
-        # Construct a json representation of a MessageContextStateless model
-        message_context_stateless_model_json = {}
-        message_context_stateless_model_json['global'] = message_context_global_stateless_model
-        message_context_stateless_model_json['skills'] = message_context_skills_model
-        message_context_stateless_model_json['integrations'] = {'anyKey': 'anyValue'}
-
-        # Construct a model instance of MessageContextStateless by calling from_dict on the json representation
-        message_context_stateless_model = MessageContextStateless.from_dict(message_context_stateless_model_json)
-        assert message_context_stateless_model != False
-
-        # Construct a model instance of MessageContextStateless by calling from_dict on the json representation
-        message_context_stateless_model_dict = MessageContextStateless.from_dict(message_context_stateless_model_json).__dict__
-        message_context_stateless_model2 = MessageContextStateless(**message_context_stateless_model_dict)
-
-        # Verify the model instances are equivalent
-        assert message_context_stateless_model == message_context_stateless_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        message_context_stateless_model_json2 = message_context_stateless_model.to_dict()
-        assert message_context_stateless_model_json2 == message_context_stateless_model_json
 
 
 class TestModel_MessageInput:
@@ -5751,6 +6279,7 @@ class TestModel_MessageInput:
         message_input_options_model = {}  # MessageInputOptions
         message_input_options_model['restart'] = False
         message_input_options_model['alternate_intents'] = False
+        message_input_options_model['async_callout'] = False
         message_input_options_model['spelling'] = message_input_options_spelling_model
         message_input_options_model['debug'] = False
         message_input_options_model['return_context'] = False
@@ -5834,6 +6363,7 @@ class TestModel_MessageInputOptions:
         message_input_options_model_json = {}
         message_input_options_model_json['restart'] = False
         message_input_options_model_json['alternate_intents'] = False
+        message_input_options_model_json['async_callout'] = False
         message_input_options_model_json['spelling'] = message_input_options_spelling_model
         message_input_options_model_json['debug'] = False
         message_input_options_model_json['return_context'] = False
@@ -5884,158 +6414,6 @@ class TestModel_MessageInputOptionsSpelling:
         # Convert model instance back to dict and verify no loss of data
         message_input_options_spelling_model_json2 = message_input_options_spelling_model.to_dict()
         assert message_input_options_spelling_model_json2 == message_input_options_spelling_model_json
-
-
-class TestModel_MessageInputOptionsStateless:
-    """
-    Test Class for MessageInputOptionsStateless
-    """
-
-    def test_message_input_options_stateless_serialization(self):
-        """
-        Test serialization/deserialization for MessageInputOptionsStateless
-        """
-
-        # Construct dict forms of any model objects needed in order to build this model.
-
-        message_input_options_spelling_model = {}  # MessageInputOptionsSpelling
-        message_input_options_spelling_model['suggestions'] = True
-        message_input_options_spelling_model['auto_correct'] = True
-
-        # Construct a json representation of a MessageInputOptionsStateless model
-        message_input_options_stateless_model_json = {}
-        message_input_options_stateless_model_json['restart'] = False
-        message_input_options_stateless_model_json['alternate_intents'] = False
-        message_input_options_stateless_model_json['spelling'] = message_input_options_spelling_model
-        message_input_options_stateless_model_json['debug'] = False
-
-        # Construct a model instance of MessageInputOptionsStateless by calling from_dict on the json representation
-        message_input_options_stateless_model = MessageInputOptionsStateless.from_dict(message_input_options_stateless_model_json)
-        assert message_input_options_stateless_model != False
-
-        # Construct a model instance of MessageInputOptionsStateless by calling from_dict on the json representation
-        message_input_options_stateless_model_dict = MessageInputOptionsStateless.from_dict(message_input_options_stateless_model_json).__dict__
-        message_input_options_stateless_model2 = MessageInputOptionsStateless(**message_input_options_stateless_model_dict)
-
-        # Verify the model instances are equivalent
-        assert message_input_options_stateless_model == message_input_options_stateless_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        message_input_options_stateless_model_json2 = message_input_options_stateless_model.to_dict()
-        assert message_input_options_stateless_model_json2 == message_input_options_stateless_model_json
-
-
-class TestModel_MessageInputStateless:
-    """
-    Test Class for MessageInputStateless
-    """
-
-    def test_message_input_stateless_serialization(self):
-        """
-        Test serialization/deserialization for MessageInputStateless
-        """
-
-        # Construct dict forms of any model objects needed in order to build this model.
-
-        runtime_intent_model = {}  # RuntimeIntent
-        runtime_intent_model['intent'] = 'testString'
-        runtime_intent_model['confidence'] = 72.5
-        runtime_intent_model['skill'] = 'testString'
-
-        capture_group_model = {}  # CaptureGroup
-        capture_group_model['group'] = 'testString'
-        capture_group_model['location'] = [38]
-
-        runtime_entity_interpretation_model = {}  # RuntimeEntityInterpretation
-        runtime_entity_interpretation_model['calendar_type'] = 'testString'
-        runtime_entity_interpretation_model['datetime_link'] = 'testString'
-        runtime_entity_interpretation_model['festival'] = 'testString'
-        runtime_entity_interpretation_model['granularity'] = 'day'
-        runtime_entity_interpretation_model['range_link'] = 'testString'
-        runtime_entity_interpretation_model['range_modifier'] = 'testString'
-        runtime_entity_interpretation_model['relative_day'] = 72.5
-        runtime_entity_interpretation_model['relative_month'] = 72.5
-        runtime_entity_interpretation_model['relative_week'] = 72.5
-        runtime_entity_interpretation_model['relative_weekend'] = 72.5
-        runtime_entity_interpretation_model['relative_year'] = 72.5
-        runtime_entity_interpretation_model['specific_day'] = 72.5
-        runtime_entity_interpretation_model['specific_day_of_week'] = 'testString'
-        runtime_entity_interpretation_model['specific_month'] = 72.5
-        runtime_entity_interpretation_model['specific_quarter'] = 72.5
-        runtime_entity_interpretation_model['specific_year'] = 72.5
-        runtime_entity_interpretation_model['numeric_value'] = 72.5
-        runtime_entity_interpretation_model['subtype'] = 'testString'
-        runtime_entity_interpretation_model['part_of_day'] = 'testString'
-        runtime_entity_interpretation_model['relative_hour'] = 72.5
-        runtime_entity_interpretation_model['relative_minute'] = 72.5
-        runtime_entity_interpretation_model['relative_second'] = 72.5
-        runtime_entity_interpretation_model['specific_hour'] = 72.5
-        runtime_entity_interpretation_model['specific_minute'] = 72.5
-        runtime_entity_interpretation_model['specific_second'] = 72.5
-        runtime_entity_interpretation_model['timezone'] = 'testString'
-
-        runtime_entity_alternative_model = {}  # RuntimeEntityAlternative
-        runtime_entity_alternative_model['value'] = 'testString'
-        runtime_entity_alternative_model['confidence'] = 72.5
-
-        runtime_entity_role_model = {}  # RuntimeEntityRole
-        runtime_entity_role_model['type'] = 'date_from'
-
-        runtime_entity_model = {}  # RuntimeEntity
-        runtime_entity_model['entity'] = 'testString'
-        runtime_entity_model['location'] = [38]
-        runtime_entity_model['value'] = 'testString'
-        runtime_entity_model['confidence'] = 72.5
-        runtime_entity_model['groups'] = [capture_group_model]
-        runtime_entity_model['interpretation'] = runtime_entity_interpretation_model
-        runtime_entity_model['alternatives'] = [runtime_entity_alternative_model]
-        runtime_entity_model['role'] = runtime_entity_role_model
-        runtime_entity_model['skill'] = 'testString'
-
-        message_input_attachment_model = {}  # MessageInputAttachment
-        message_input_attachment_model['url'] = 'testString'
-        message_input_attachment_model['media_type'] = 'testString'
-
-        request_analytics_model = {}  # RequestAnalytics
-        request_analytics_model['browser'] = 'testString'
-        request_analytics_model['device'] = 'testString'
-        request_analytics_model['pageUrl'] = 'testString'
-
-        message_input_options_spelling_model = {}  # MessageInputOptionsSpelling
-        message_input_options_spelling_model['suggestions'] = True
-        message_input_options_spelling_model['auto_correct'] = True
-
-        message_input_options_stateless_model = {}  # MessageInputOptionsStateless
-        message_input_options_stateless_model['restart'] = False
-        message_input_options_stateless_model['alternate_intents'] = False
-        message_input_options_stateless_model['spelling'] = message_input_options_spelling_model
-        message_input_options_stateless_model['debug'] = False
-
-        # Construct a json representation of a MessageInputStateless model
-        message_input_stateless_model_json = {}
-        message_input_stateless_model_json['message_type'] = 'text'
-        message_input_stateless_model_json['text'] = 'testString'
-        message_input_stateless_model_json['intents'] = [runtime_intent_model]
-        message_input_stateless_model_json['entities'] = [runtime_entity_model]
-        message_input_stateless_model_json['suggestion_id'] = 'testString'
-        message_input_stateless_model_json['attachments'] = [message_input_attachment_model]
-        message_input_stateless_model_json['analytics'] = request_analytics_model
-        message_input_stateless_model_json['options'] = message_input_options_stateless_model
-
-        # Construct a model instance of MessageInputStateless by calling from_dict on the json representation
-        message_input_stateless_model = MessageInputStateless.from_dict(message_input_stateless_model_json)
-        assert message_input_stateless_model != False
-
-        # Construct a model instance of MessageInputStateless by calling from_dict on the json representation
-        message_input_stateless_model_dict = MessageInputStateless.from_dict(message_input_stateless_model_json).__dict__
-        message_input_stateless_model2 = MessageInputStateless(**message_input_stateless_model_dict)
-
-        # Verify the model instances are equivalent
-        assert message_input_stateless_model == message_input_stateless_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        message_input_stateless_model_json2 = message_input_stateless_model.to_dict()
-        assert message_input_stateless_model_json2 == message_input_stateless_model_json
 
 
 class TestModel_MessageOutput:
@@ -6282,543 +6660,6 @@ class TestModel_MessageOutputSpelling:
         # Convert model instance back to dict and verify no loss of data
         message_output_spelling_model_json2 = message_output_spelling_model.to_dict()
         assert message_output_spelling_model_json2 == message_output_spelling_model_json
-
-
-class TestModel_MessageRequest:
-    """
-    Test Class for MessageRequest
-    """
-
-    def test_message_request_serialization(self):
-        """
-        Test serialization/deserialization for MessageRequest
-        """
-
-        # Construct dict forms of any model objects needed in order to build this model.
-
-        runtime_intent_model = {}  # RuntimeIntent
-        runtime_intent_model['intent'] = 'testString'
-        runtime_intent_model['confidence'] = 72.5
-        runtime_intent_model['skill'] = 'testString'
-
-        capture_group_model = {}  # CaptureGroup
-        capture_group_model['group'] = 'testString'
-        capture_group_model['location'] = [38]
-
-        runtime_entity_interpretation_model = {}  # RuntimeEntityInterpretation
-        runtime_entity_interpretation_model['calendar_type'] = 'testString'
-        runtime_entity_interpretation_model['datetime_link'] = 'testString'
-        runtime_entity_interpretation_model['festival'] = 'testString'
-        runtime_entity_interpretation_model['granularity'] = 'day'
-        runtime_entity_interpretation_model['range_link'] = 'testString'
-        runtime_entity_interpretation_model['range_modifier'] = 'testString'
-        runtime_entity_interpretation_model['relative_day'] = 72.5
-        runtime_entity_interpretation_model['relative_month'] = 72.5
-        runtime_entity_interpretation_model['relative_week'] = 72.5
-        runtime_entity_interpretation_model['relative_weekend'] = 72.5
-        runtime_entity_interpretation_model['relative_year'] = 72.5
-        runtime_entity_interpretation_model['specific_day'] = 72.5
-        runtime_entity_interpretation_model['specific_day_of_week'] = 'testString'
-        runtime_entity_interpretation_model['specific_month'] = 72.5
-        runtime_entity_interpretation_model['specific_quarter'] = 72.5
-        runtime_entity_interpretation_model['specific_year'] = 72.5
-        runtime_entity_interpretation_model['numeric_value'] = 72.5
-        runtime_entity_interpretation_model['subtype'] = 'testString'
-        runtime_entity_interpretation_model['part_of_day'] = 'testString'
-        runtime_entity_interpretation_model['relative_hour'] = 72.5
-        runtime_entity_interpretation_model['relative_minute'] = 72.5
-        runtime_entity_interpretation_model['relative_second'] = 72.5
-        runtime_entity_interpretation_model['specific_hour'] = 72.5
-        runtime_entity_interpretation_model['specific_minute'] = 72.5
-        runtime_entity_interpretation_model['specific_second'] = 72.5
-        runtime_entity_interpretation_model['timezone'] = 'testString'
-
-        runtime_entity_alternative_model = {}  # RuntimeEntityAlternative
-        runtime_entity_alternative_model['value'] = 'testString'
-        runtime_entity_alternative_model['confidence'] = 72.5
-
-        runtime_entity_role_model = {}  # RuntimeEntityRole
-        runtime_entity_role_model['type'] = 'date_from'
-
-        runtime_entity_model = {}  # RuntimeEntity
-        runtime_entity_model['entity'] = 'testString'
-        runtime_entity_model['location'] = [38]
-        runtime_entity_model['value'] = 'testString'
-        runtime_entity_model['confidence'] = 72.5
-        runtime_entity_model['groups'] = [capture_group_model]
-        runtime_entity_model['interpretation'] = runtime_entity_interpretation_model
-        runtime_entity_model['alternatives'] = [runtime_entity_alternative_model]
-        runtime_entity_model['role'] = runtime_entity_role_model
-        runtime_entity_model['skill'] = 'testString'
-
-        message_input_attachment_model = {}  # MessageInputAttachment
-        message_input_attachment_model['url'] = 'testString'
-        message_input_attachment_model['media_type'] = 'testString'
-
-        request_analytics_model = {}  # RequestAnalytics
-        request_analytics_model['browser'] = 'testString'
-        request_analytics_model['device'] = 'testString'
-        request_analytics_model['pageUrl'] = 'testString'
-
-        message_input_options_spelling_model = {}  # MessageInputOptionsSpelling
-        message_input_options_spelling_model['suggestions'] = True
-        message_input_options_spelling_model['auto_correct'] = True
-
-        message_input_options_model = {}  # MessageInputOptions
-        message_input_options_model['restart'] = False
-        message_input_options_model['alternate_intents'] = False
-        message_input_options_model['spelling'] = message_input_options_spelling_model
-        message_input_options_model['debug'] = False
-        message_input_options_model['return_context'] = True
-        message_input_options_model['export'] = True
-
-        message_input_model = {}  # MessageInput
-        message_input_model['message_type'] = 'text'
-        message_input_model['text'] = 'Hello'
-        message_input_model['intents'] = [runtime_intent_model]
-        message_input_model['entities'] = [runtime_entity_model]
-        message_input_model['suggestion_id'] = 'testString'
-        message_input_model['attachments'] = [message_input_attachment_model]
-        message_input_model['analytics'] = request_analytics_model
-        message_input_model['options'] = message_input_options_model
-
-        message_context_global_system_model = {}  # MessageContextGlobalSystem
-        message_context_global_system_model['timezone'] = 'testString'
-        message_context_global_system_model['user_id'] = 'my_user_id'
-        message_context_global_system_model['turn_count'] = 38
-        message_context_global_system_model['locale'] = 'en-us'
-        message_context_global_system_model['reference_time'] = 'testString'
-        message_context_global_system_model['session_start_time'] = 'testString'
-        message_context_global_system_model['state'] = 'testString'
-        message_context_global_system_model['skip_user_input'] = True
-
-        message_context_global_model = {}  # MessageContextGlobal
-        message_context_global_model['system'] = message_context_global_system_model
-
-        message_context_skill_system_model = {}  # MessageContextSkillSystem
-        message_context_skill_system_model['state'] = 'testString'
-        message_context_skill_system_model['foo'] = 'testString'
-
-        message_context_skill_dialog_model = {}  # MessageContextSkillDialog
-        message_context_skill_dialog_model['user_defined'] = {'anyKey': 'anyValue'}
-        message_context_skill_dialog_model['system'] = message_context_skill_system_model
-
-        message_context_skill_action_model = {}  # MessageContextSkillAction
-        message_context_skill_action_model['user_defined'] = {'anyKey': 'anyValue'}
-        message_context_skill_action_model['system'] = message_context_skill_system_model
-        message_context_skill_action_model['action_variables'] = {'anyKey': 'anyValue'}
-        message_context_skill_action_model['skill_variables'] = {'anyKey': 'anyValue'}
-
-        message_context_skills_model = {}  # MessageContextSkills
-        message_context_skills_model['main skill'] = message_context_skill_dialog_model
-        message_context_skills_model['actions skill'] = message_context_skill_action_model
-
-        message_context_model = {}  # MessageContext
-        message_context_model['global'] = message_context_global_model
-        message_context_model['skills'] = message_context_skills_model
-        message_context_model['integrations'] = {'anyKey': 'anyValue'}
-
-        # Construct a json representation of a MessageRequest model
-        message_request_model_json = {}
-        message_request_model_json['input'] = message_input_model
-        message_request_model_json['context'] = message_context_model
-        message_request_model_json['user_id'] = 'testString'
-
-        # Construct a model instance of MessageRequest by calling from_dict on the json representation
-        message_request_model = MessageRequest.from_dict(message_request_model_json)
-        assert message_request_model != False
-
-        # Construct a model instance of MessageRequest by calling from_dict on the json representation
-        message_request_model_dict = MessageRequest.from_dict(message_request_model_json).__dict__
-        message_request_model2 = MessageRequest(**message_request_model_dict)
-
-        # Verify the model instances are equivalent
-        assert message_request_model == message_request_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        message_request_model_json2 = message_request_model.to_dict()
-        assert message_request_model_json2 == message_request_model_json
-
-
-class TestModel_MessageResponse:
-    """
-    Test Class for MessageResponse
-    """
-
-    def test_message_response_serialization(self):
-        """
-        Test serialization/deserialization for MessageResponse
-        """
-
-        # Construct dict forms of any model objects needed in order to build this model.
-
-        response_generic_channel_model = {}  # ResponseGenericChannel
-        response_generic_channel_model['channel'] = 'testString'
-
-        runtime_response_generic_model = {}  # RuntimeResponseGenericRuntimeResponseTypeText
-        runtime_response_generic_model['response_type'] = 'text'
-        runtime_response_generic_model['text'] = 'testString'
-        runtime_response_generic_model['channels'] = [response_generic_channel_model]
-
-        runtime_intent_model = {}  # RuntimeIntent
-        runtime_intent_model['intent'] = 'testString'
-        runtime_intent_model['confidence'] = 72.5
-        runtime_intent_model['skill'] = 'testString'
-
-        capture_group_model = {}  # CaptureGroup
-        capture_group_model['group'] = 'testString'
-        capture_group_model['location'] = [38]
-
-        runtime_entity_interpretation_model = {}  # RuntimeEntityInterpretation
-        runtime_entity_interpretation_model['calendar_type'] = 'testString'
-        runtime_entity_interpretation_model['datetime_link'] = 'testString'
-        runtime_entity_interpretation_model['festival'] = 'testString'
-        runtime_entity_interpretation_model['granularity'] = 'day'
-        runtime_entity_interpretation_model['range_link'] = 'testString'
-        runtime_entity_interpretation_model['range_modifier'] = 'testString'
-        runtime_entity_interpretation_model['relative_day'] = 72.5
-        runtime_entity_interpretation_model['relative_month'] = 72.5
-        runtime_entity_interpretation_model['relative_week'] = 72.5
-        runtime_entity_interpretation_model['relative_weekend'] = 72.5
-        runtime_entity_interpretation_model['relative_year'] = 72.5
-        runtime_entity_interpretation_model['specific_day'] = 72.5
-        runtime_entity_interpretation_model['specific_day_of_week'] = 'testString'
-        runtime_entity_interpretation_model['specific_month'] = 72.5
-        runtime_entity_interpretation_model['specific_quarter'] = 72.5
-        runtime_entity_interpretation_model['specific_year'] = 72.5
-        runtime_entity_interpretation_model['numeric_value'] = 72.5
-        runtime_entity_interpretation_model['subtype'] = 'testString'
-        runtime_entity_interpretation_model['part_of_day'] = 'testString'
-        runtime_entity_interpretation_model['relative_hour'] = 72.5
-        runtime_entity_interpretation_model['relative_minute'] = 72.5
-        runtime_entity_interpretation_model['relative_second'] = 72.5
-        runtime_entity_interpretation_model['specific_hour'] = 72.5
-        runtime_entity_interpretation_model['specific_minute'] = 72.5
-        runtime_entity_interpretation_model['specific_second'] = 72.5
-        runtime_entity_interpretation_model['timezone'] = 'testString'
-
-        runtime_entity_alternative_model = {}  # RuntimeEntityAlternative
-        runtime_entity_alternative_model['value'] = 'testString'
-        runtime_entity_alternative_model['confidence'] = 72.5
-
-        runtime_entity_role_model = {}  # RuntimeEntityRole
-        runtime_entity_role_model['type'] = 'date_from'
-
-        runtime_entity_model = {}  # RuntimeEntity
-        runtime_entity_model['entity'] = 'testString'
-        runtime_entity_model['location'] = [38]
-        runtime_entity_model['value'] = 'testString'
-        runtime_entity_model['confidence'] = 72.5
-        runtime_entity_model['groups'] = [capture_group_model]
-        runtime_entity_model['interpretation'] = runtime_entity_interpretation_model
-        runtime_entity_model['alternatives'] = [runtime_entity_alternative_model]
-        runtime_entity_model['role'] = runtime_entity_role_model
-        runtime_entity_model['skill'] = 'testString'
-
-        dialog_node_action_model = {}  # DialogNodeAction
-        dialog_node_action_model['name'] = 'testString'
-        dialog_node_action_model['type'] = 'client'
-        dialog_node_action_model['parameters'] = {'anyKey': 'anyValue'}
-        dialog_node_action_model['result_variable'] = 'testString'
-        dialog_node_action_model['credentials'] = 'testString'
-
-        dialog_node_visited_model = {}  # DialogNodeVisited
-        dialog_node_visited_model['dialog_node'] = 'testString'
-        dialog_node_visited_model['title'] = 'testString'
-        dialog_node_visited_model['conditions'] = 'testString'
-
-        log_message_source_model = {}  # LogMessageSourceDialogNode
-        log_message_source_model['type'] = 'dialog_node'
-        log_message_source_model['dialog_node'] = 'testString'
-
-        dialog_log_message_model = {}  # DialogLogMessage
-        dialog_log_message_model['level'] = 'info'
-        dialog_log_message_model['message'] = 'testString'
-        dialog_log_message_model['code'] = 'testString'
-        dialog_log_message_model['source'] = log_message_source_model
-
-        turn_event_action_source_model = {}  # TurnEventActionSource
-        turn_event_action_source_model['type'] = 'action'
-        turn_event_action_source_model['action'] = 'testString'
-        turn_event_action_source_model['action_title'] = 'testString'
-        turn_event_action_source_model['condition'] = 'testString'
-
-        message_output_debug_turn_event_model = {}  # MessageOutputDebugTurnEventTurnEventActionVisited
-        message_output_debug_turn_event_model['event'] = 'action_visited'
-        message_output_debug_turn_event_model['source'] = turn_event_action_source_model
-        message_output_debug_turn_event_model['action_start_time'] = 'testString'
-        message_output_debug_turn_event_model['condition_type'] = 'user_defined'
-        message_output_debug_turn_event_model['reason'] = 'intent'
-        message_output_debug_turn_event_model['result_variable'] = 'testString'
-
-        message_output_debug_model = {}  # MessageOutputDebug
-        message_output_debug_model['nodes_visited'] = [dialog_node_visited_model]
-        message_output_debug_model['log_messages'] = [dialog_log_message_model]
-        message_output_debug_model['branch_exited'] = True
-        message_output_debug_model['branch_exited_reason'] = 'completed'
-        message_output_debug_model['turn_events'] = [message_output_debug_turn_event_model]
-
-        message_output_spelling_model = {}  # MessageOutputSpelling
-        message_output_spelling_model['text'] = 'testString'
-        message_output_spelling_model['original_text'] = 'testString'
-        message_output_spelling_model['suggested_text'] = 'testString'
-
-        message_output_model = {}  # MessageOutput
-        message_output_model['generic'] = [runtime_response_generic_model]
-        message_output_model['intents'] = [runtime_intent_model]
-        message_output_model['entities'] = [runtime_entity_model]
-        message_output_model['actions'] = [dialog_node_action_model]
-        message_output_model['debug'] = message_output_debug_model
-        message_output_model['user_defined'] = {'anyKey': 'anyValue'}
-        message_output_model['spelling'] = message_output_spelling_model
-
-        message_context_global_system_model = {}  # MessageContextGlobalSystem
-        message_context_global_system_model['timezone'] = 'testString'
-        message_context_global_system_model['user_id'] = 'testString'
-        message_context_global_system_model['turn_count'] = 38
-        message_context_global_system_model['locale'] = 'en-us'
-        message_context_global_system_model['reference_time'] = 'testString'
-        message_context_global_system_model['session_start_time'] = 'testString'
-        message_context_global_system_model['state'] = 'testString'
-        message_context_global_system_model['skip_user_input'] = True
-
-        message_context_global_model = {}  # MessageContextGlobal
-        message_context_global_model['system'] = message_context_global_system_model
-
-        message_context_skill_system_model = {}  # MessageContextSkillSystem
-        message_context_skill_system_model['state'] = 'testString'
-        message_context_skill_system_model['foo'] = 'testString'
-
-        message_context_skill_dialog_model = {}  # MessageContextSkillDialog
-        message_context_skill_dialog_model['user_defined'] = {'anyKey': 'anyValue'}
-        message_context_skill_dialog_model['system'] = message_context_skill_system_model
-
-        message_context_skill_action_model = {}  # MessageContextSkillAction
-        message_context_skill_action_model['user_defined'] = {'anyKey': 'anyValue'}
-        message_context_skill_action_model['system'] = message_context_skill_system_model
-        message_context_skill_action_model['action_variables'] = {'anyKey': 'anyValue'}
-        message_context_skill_action_model['skill_variables'] = {'anyKey': 'anyValue'}
-
-        message_context_skills_model = {}  # MessageContextSkills
-        message_context_skills_model['main skill'] = message_context_skill_dialog_model
-        message_context_skills_model['actions skill'] = message_context_skill_action_model
-
-        message_context_model = {}  # MessageContext
-        message_context_model['global'] = message_context_global_model
-        message_context_model['skills'] = message_context_skills_model
-        message_context_model['integrations'] = {'anyKey': 'anyValue'}
-
-        # Construct a json representation of a MessageResponse model
-        message_response_model_json = {}
-        message_response_model_json['output'] = message_output_model
-        message_response_model_json['context'] = message_context_model
-        message_response_model_json['user_id'] = 'testString'
-
-        # Construct a model instance of MessageResponse by calling from_dict on the json representation
-        message_response_model = MessageResponse.from_dict(message_response_model_json)
-        assert message_response_model != False
-
-        # Construct a model instance of MessageResponse by calling from_dict on the json representation
-        message_response_model_dict = MessageResponse.from_dict(message_response_model_json).__dict__
-        message_response_model2 = MessageResponse(**message_response_model_dict)
-
-        # Verify the model instances are equivalent
-        assert message_response_model == message_response_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        message_response_model_json2 = message_response_model.to_dict()
-        assert message_response_model_json2 == message_response_model_json
-
-
-class TestModel_MessageResponseStateless:
-    """
-    Test Class for MessageResponseStateless
-    """
-
-    def test_message_response_stateless_serialization(self):
-        """
-        Test serialization/deserialization for MessageResponseStateless
-        """
-
-        # Construct dict forms of any model objects needed in order to build this model.
-
-        response_generic_channel_model = {}  # ResponseGenericChannel
-        response_generic_channel_model['channel'] = 'testString'
-
-        runtime_response_generic_model = {}  # RuntimeResponseGenericRuntimeResponseTypeText
-        runtime_response_generic_model['response_type'] = 'text'
-        runtime_response_generic_model['text'] = 'testString'
-        runtime_response_generic_model['channels'] = [response_generic_channel_model]
-
-        runtime_intent_model = {}  # RuntimeIntent
-        runtime_intent_model['intent'] = 'testString'
-        runtime_intent_model['confidence'] = 72.5
-        runtime_intent_model['skill'] = 'testString'
-
-        capture_group_model = {}  # CaptureGroup
-        capture_group_model['group'] = 'testString'
-        capture_group_model['location'] = [38]
-
-        runtime_entity_interpretation_model = {}  # RuntimeEntityInterpretation
-        runtime_entity_interpretation_model['calendar_type'] = 'testString'
-        runtime_entity_interpretation_model['datetime_link'] = 'testString'
-        runtime_entity_interpretation_model['festival'] = 'testString'
-        runtime_entity_interpretation_model['granularity'] = 'day'
-        runtime_entity_interpretation_model['range_link'] = 'testString'
-        runtime_entity_interpretation_model['range_modifier'] = 'testString'
-        runtime_entity_interpretation_model['relative_day'] = 72.5
-        runtime_entity_interpretation_model['relative_month'] = 72.5
-        runtime_entity_interpretation_model['relative_week'] = 72.5
-        runtime_entity_interpretation_model['relative_weekend'] = 72.5
-        runtime_entity_interpretation_model['relative_year'] = 72.5
-        runtime_entity_interpretation_model['specific_day'] = 72.5
-        runtime_entity_interpretation_model['specific_day_of_week'] = 'testString'
-        runtime_entity_interpretation_model['specific_month'] = 72.5
-        runtime_entity_interpretation_model['specific_quarter'] = 72.5
-        runtime_entity_interpretation_model['specific_year'] = 72.5
-        runtime_entity_interpretation_model['numeric_value'] = 72.5
-        runtime_entity_interpretation_model['subtype'] = 'testString'
-        runtime_entity_interpretation_model['part_of_day'] = 'testString'
-        runtime_entity_interpretation_model['relative_hour'] = 72.5
-        runtime_entity_interpretation_model['relative_minute'] = 72.5
-        runtime_entity_interpretation_model['relative_second'] = 72.5
-        runtime_entity_interpretation_model['specific_hour'] = 72.5
-        runtime_entity_interpretation_model['specific_minute'] = 72.5
-        runtime_entity_interpretation_model['specific_second'] = 72.5
-        runtime_entity_interpretation_model['timezone'] = 'testString'
-
-        runtime_entity_alternative_model = {}  # RuntimeEntityAlternative
-        runtime_entity_alternative_model['value'] = 'testString'
-        runtime_entity_alternative_model['confidence'] = 72.5
-
-        runtime_entity_role_model = {}  # RuntimeEntityRole
-        runtime_entity_role_model['type'] = 'date_from'
-
-        runtime_entity_model = {}  # RuntimeEntity
-        runtime_entity_model['entity'] = 'testString'
-        runtime_entity_model['location'] = [38]
-        runtime_entity_model['value'] = 'testString'
-        runtime_entity_model['confidence'] = 72.5
-        runtime_entity_model['groups'] = [capture_group_model]
-        runtime_entity_model['interpretation'] = runtime_entity_interpretation_model
-        runtime_entity_model['alternatives'] = [runtime_entity_alternative_model]
-        runtime_entity_model['role'] = runtime_entity_role_model
-        runtime_entity_model['skill'] = 'testString'
-
-        dialog_node_action_model = {}  # DialogNodeAction
-        dialog_node_action_model['name'] = 'testString'
-        dialog_node_action_model['type'] = 'client'
-        dialog_node_action_model['parameters'] = {'anyKey': 'anyValue'}
-        dialog_node_action_model['result_variable'] = 'testString'
-        dialog_node_action_model['credentials'] = 'testString'
-
-        dialog_node_visited_model = {}  # DialogNodeVisited
-        dialog_node_visited_model['dialog_node'] = 'testString'
-        dialog_node_visited_model['title'] = 'testString'
-        dialog_node_visited_model['conditions'] = 'testString'
-
-        log_message_source_model = {}  # LogMessageSourceDialogNode
-        log_message_source_model['type'] = 'dialog_node'
-        log_message_source_model['dialog_node'] = 'testString'
-
-        dialog_log_message_model = {}  # DialogLogMessage
-        dialog_log_message_model['level'] = 'info'
-        dialog_log_message_model['message'] = 'testString'
-        dialog_log_message_model['code'] = 'testString'
-        dialog_log_message_model['source'] = log_message_source_model
-
-        turn_event_action_source_model = {}  # TurnEventActionSource
-        turn_event_action_source_model['type'] = 'action'
-        turn_event_action_source_model['action'] = 'testString'
-        turn_event_action_source_model['action_title'] = 'testString'
-        turn_event_action_source_model['condition'] = 'testString'
-
-        message_output_debug_turn_event_model = {}  # MessageOutputDebugTurnEventTurnEventActionVisited
-        message_output_debug_turn_event_model['event'] = 'action_visited'
-        message_output_debug_turn_event_model['source'] = turn_event_action_source_model
-        message_output_debug_turn_event_model['action_start_time'] = 'testString'
-        message_output_debug_turn_event_model['condition_type'] = 'user_defined'
-        message_output_debug_turn_event_model['reason'] = 'intent'
-        message_output_debug_turn_event_model['result_variable'] = 'testString'
-
-        message_output_debug_model = {}  # MessageOutputDebug
-        message_output_debug_model['nodes_visited'] = [dialog_node_visited_model]
-        message_output_debug_model['log_messages'] = [dialog_log_message_model]
-        message_output_debug_model['branch_exited'] = True
-        message_output_debug_model['branch_exited_reason'] = 'completed'
-        message_output_debug_model['turn_events'] = [message_output_debug_turn_event_model]
-
-        message_output_spelling_model = {}  # MessageOutputSpelling
-        message_output_spelling_model['text'] = 'testString'
-        message_output_spelling_model['original_text'] = 'testString'
-        message_output_spelling_model['suggested_text'] = 'testString'
-
-        message_output_model = {}  # MessageOutput
-        message_output_model['generic'] = [runtime_response_generic_model]
-        message_output_model['intents'] = [runtime_intent_model]
-        message_output_model['entities'] = [runtime_entity_model]
-        message_output_model['actions'] = [dialog_node_action_model]
-        message_output_model['debug'] = message_output_debug_model
-        message_output_model['user_defined'] = {'anyKey': 'anyValue'}
-        message_output_model['spelling'] = message_output_spelling_model
-
-        message_context_global_system_model = {}  # MessageContextGlobalSystem
-        message_context_global_system_model['timezone'] = 'testString'
-        message_context_global_system_model['user_id'] = 'testString'
-        message_context_global_system_model['turn_count'] = 38
-        message_context_global_system_model['locale'] = 'en-us'
-        message_context_global_system_model['reference_time'] = 'testString'
-        message_context_global_system_model['session_start_time'] = 'testString'
-        message_context_global_system_model['state'] = 'testString'
-        message_context_global_system_model['skip_user_input'] = True
-
-        message_context_global_stateless_model = {}  # MessageContextGlobalStateless
-        message_context_global_stateless_model['system'] = message_context_global_system_model
-        message_context_global_stateless_model['session_id'] = 'testString'
-
-        message_context_skill_system_model = {}  # MessageContextSkillSystem
-        message_context_skill_system_model['state'] = 'testString'
-        message_context_skill_system_model['foo'] = 'testString'
-
-        message_context_skill_dialog_model = {}  # MessageContextSkillDialog
-        message_context_skill_dialog_model['user_defined'] = {'anyKey': 'anyValue'}
-        message_context_skill_dialog_model['system'] = message_context_skill_system_model
-
-        message_context_skill_action_model = {}  # MessageContextSkillAction
-        message_context_skill_action_model['user_defined'] = {'anyKey': 'anyValue'}
-        message_context_skill_action_model['system'] = message_context_skill_system_model
-        message_context_skill_action_model['action_variables'] = {'anyKey': 'anyValue'}
-        message_context_skill_action_model['skill_variables'] = {'anyKey': 'anyValue'}
-
-        message_context_skills_model = {}  # MessageContextSkills
-        message_context_skills_model['main skill'] = message_context_skill_dialog_model
-        message_context_skills_model['actions skill'] = message_context_skill_action_model
-
-        message_context_stateless_model = {}  # MessageContextStateless
-        message_context_stateless_model['global'] = message_context_global_stateless_model
-        message_context_stateless_model['skills'] = message_context_skills_model
-        message_context_stateless_model['integrations'] = {'anyKey': 'anyValue'}
-
-        # Construct a json representation of a MessageResponseStateless model
-        message_response_stateless_model_json = {}
-        message_response_stateless_model_json['output'] = message_output_model
-        message_response_stateless_model_json['context'] = message_context_stateless_model
-        message_response_stateless_model_json['user_id'] = 'testString'
-
-        # Construct a model instance of MessageResponseStateless by calling from_dict on the json representation
-        message_response_stateless_model = MessageResponseStateless.from_dict(message_response_stateless_model_json)
-        assert message_response_stateless_model != False
-
-        # Construct a model instance of MessageResponseStateless by calling from_dict on the json representation
-        message_response_stateless_model_dict = MessageResponseStateless.from_dict(message_response_stateless_model_json).__dict__
-        message_response_stateless_model2 = MessageResponseStateless(**message_response_stateless_model_dict)
-
-        # Verify the model instances are equivalent
-        assert message_response_stateless_model == message_response_stateless_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        message_response_stateless_model_json2 = message_response_stateless_model.to_dict()
-        assert message_response_stateless_model_json2 == message_response_stateless_model_json
 
 
 class TestModel_Pagination:
@@ -7938,6 +7779,812 @@ class TestModel_SkillsExport:
         assert skills_export_model_json2 == skills_export_model_json
 
 
+class TestModel_StatefulMessageResponse:
+    """
+    Test Class for StatefulMessageResponse
+    """
+
+    def test_stateful_message_response_serialization(self):
+        """
+        Test serialization/deserialization for StatefulMessageResponse
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        response_generic_channel_model = {}  # ResponseGenericChannel
+        response_generic_channel_model['channel'] = 'testString'
+
+        runtime_response_generic_model = {}  # RuntimeResponseGenericRuntimeResponseTypeText
+        runtime_response_generic_model['response_type'] = 'text'
+        runtime_response_generic_model['text'] = 'testString'
+        runtime_response_generic_model['channels'] = [response_generic_channel_model]
+
+        runtime_intent_model = {}  # RuntimeIntent
+        runtime_intent_model['intent'] = 'testString'
+        runtime_intent_model['confidence'] = 72.5
+        runtime_intent_model['skill'] = 'testString'
+
+        capture_group_model = {}  # CaptureGroup
+        capture_group_model['group'] = 'testString'
+        capture_group_model['location'] = [38]
+
+        runtime_entity_interpretation_model = {}  # RuntimeEntityInterpretation
+        runtime_entity_interpretation_model['calendar_type'] = 'testString'
+        runtime_entity_interpretation_model['datetime_link'] = 'testString'
+        runtime_entity_interpretation_model['festival'] = 'testString'
+        runtime_entity_interpretation_model['granularity'] = 'day'
+        runtime_entity_interpretation_model['range_link'] = 'testString'
+        runtime_entity_interpretation_model['range_modifier'] = 'testString'
+        runtime_entity_interpretation_model['relative_day'] = 72.5
+        runtime_entity_interpretation_model['relative_month'] = 72.5
+        runtime_entity_interpretation_model['relative_week'] = 72.5
+        runtime_entity_interpretation_model['relative_weekend'] = 72.5
+        runtime_entity_interpretation_model['relative_year'] = 72.5
+        runtime_entity_interpretation_model['specific_day'] = 72.5
+        runtime_entity_interpretation_model['specific_day_of_week'] = 'testString'
+        runtime_entity_interpretation_model['specific_month'] = 72.5
+        runtime_entity_interpretation_model['specific_quarter'] = 72.5
+        runtime_entity_interpretation_model['specific_year'] = 72.5
+        runtime_entity_interpretation_model['numeric_value'] = 72.5
+        runtime_entity_interpretation_model['subtype'] = 'testString'
+        runtime_entity_interpretation_model['part_of_day'] = 'testString'
+        runtime_entity_interpretation_model['relative_hour'] = 72.5
+        runtime_entity_interpretation_model['relative_minute'] = 72.5
+        runtime_entity_interpretation_model['relative_second'] = 72.5
+        runtime_entity_interpretation_model['specific_hour'] = 72.5
+        runtime_entity_interpretation_model['specific_minute'] = 72.5
+        runtime_entity_interpretation_model['specific_second'] = 72.5
+        runtime_entity_interpretation_model['timezone'] = 'testString'
+
+        runtime_entity_alternative_model = {}  # RuntimeEntityAlternative
+        runtime_entity_alternative_model['value'] = 'testString'
+        runtime_entity_alternative_model['confidence'] = 72.5
+
+        runtime_entity_role_model = {}  # RuntimeEntityRole
+        runtime_entity_role_model['type'] = 'date_from'
+
+        runtime_entity_model = {}  # RuntimeEntity
+        runtime_entity_model['entity'] = 'testString'
+        runtime_entity_model['location'] = [38]
+        runtime_entity_model['value'] = 'testString'
+        runtime_entity_model['confidence'] = 72.5
+        runtime_entity_model['groups'] = [capture_group_model]
+        runtime_entity_model['interpretation'] = runtime_entity_interpretation_model
+        runtime_entity_model['alternatives'] = [runtime_entity_alternative_model]
+        runtime_entity_model['role'] = runtime_entity_role_model
+        runtime_entity_model['skill'] = 'testString'
+
+        dialog_node_action_model = {}  # DialogNodeAction
+        dialog_node_action_model['name'] = 'testString'
+        dialog_node_action_model['type'] = 'client'
+        dialog_node_action_model['parameters'] = {'anyKey': 'anyValue'}
+        dialog_node_action_model['result_variable'] = 'testString'
+        dialog_node_action_model['credentials'] = 'testString'
+
+        dialog_node_visited_model = {}  # DialogNodeVisited
+        dialog_node_visited_model['dialog_node'] = 'testString'
+        dialog_node_visited_model['title'] = 'testString'
+        dialog_node_visited_model['conditions'] = 'testString'
+
+        log_message_source_model = {}  # LogMessageSourceDialogNode
+        log_message_source_model['type'] = 'dialog_node'
+        log_message_source_model['dialog_node'] = 'testString'
+
+        dialog_log_message_model = {}  # DialogLogMessage
+        dialog_log_message_model['level'] = 'info'
+        dialog_log_message_model['message'] = 'testString'
+        dialog_log_message_model['code'] = 'testString'
+        dialog_log_message_model['source'] = log_message_source_model
+
+        turn_event_action_source_model = {}  # TurnEventActionSource
+        turn_event_action_source_model['type'] = 'action'
+        turn_event_action_source_model['action'] = 'testString'
+        turn_event_action_source_model['action_title'] = 'testString'
+        turn_event_action_source_model['condition'] = 'testString'
+
+        message_output_debug_turn_event_model = {}  # MessageOutputDebugTurnEventTurnEventActionVisited
+        message_output_debug_turn_event_model['event'] = 'action_visited'
+        message_output_debug_turn_event_model['source'] = turn_event_action_source_model
+        message_output_debug_turn_event_model['action_start_time'] = 'testString'
+        message_output_debug_turn_event_model['condition_type'] = 'user_defined'
+        message_output_debug_turn_event_model['reason'] = 'intent'
+        message_output_debug_turn_event_model['result_variable'] = 'testString'
+
+        message_output_debug_model = {}  # MessageOutputDebug
+        message_output_debug_model['nodes_visited'] = [dialog_node_visited_model]
+        message_output_debug_model['log_messages'] = [dialog_log_message_model]
+        message_output_debug_model['branch_exited'] = True
+        message_output_debug_model['branch_exited_reason'] = 'completed'
+        message_output_debug_model['turn_events'] = [message_output_debug_turn_event_model]
+
+        message_output_spelling_model = {}  # MessageOutputSpelling
+        message_output_spelling_model['text'] = 'testString'
+        message_output_spelling_model['original_text'] = 'testString'
+        message_output_spelling_model['suggested_text'] = 'testString'
+
+        message_output_model = {}  # MessageOutput
+        message_output_model['generic'] = [runtime_response_generic_model]
+        message_output_model['intents'] = [runtime_intent_model]
+        message_output_model['entities'] = [runtime_entity_model]
+        message_output_model['actions'] = [dialog_node_action_model]
+        message_output_model['debug'] = message_output_debug_model
+        message_output_model['user_defined'] = {'anyKey': 'anyValue'}
+        message_output_model['spelling'] = message_output_spelling_model
+
+        message_context_global_system_model = {}  # MessageContextGlobalSystem
+        message_context_global_system_model['timezone'] = 'testString'
+        message_context_global_system_model['user_id'] = 'testString'
+        message_context_global_system_model['turn_count'] = 38
+        message_context_global_system_model['locale'] = 'en-us'
+        message_context_global_system_model['reference_time'] = 'testString'
+        message_context_global_system_model['session_start_time'] = 'testString'
+        message_context_global_system_model['state'] = 'testString'
+        message_context_global_system_model['skip_user_input'] = True
+
+        message_context_global_model = {}  # MessageContextGlobal
+        message_context_global_model['system'] = message_context_global_system_model
+
+        message_context_skill_system_model = {}  # MessageContextSkillSystem
+        message_context_skill_system_model['state'] = 'testString'
+        message_context_skill_system_model['foo'] = 'testString'
+
+        message_context_dialog_skill_model = {}  # MessageContextDialogSkill
+        message_context_dialog_skill_model['user_defined'] = {'anyKey': 'anyValue'}
+        message_context_dialog_skill_model['system'] = message_context_skill_system_model
+
+        message_context_action_skill_model = {}  # MessageContextActionSkill
+        message_context_action_skill_model['user_defined'] = {'anyKey': 'anyValue'}
+        message_context_action_skill_model['system'] = message_context_skill_system_model
+        message_context_action_skill_model['action_variables'] = {'anyKey': 'anyValue'}
+        message_context_action_skill_model['skill_variables'] = {'anyKey': 'anyValue'}
+
+        message_context_skills_model = {}  # MessageContextSkills
+        message_context_skills_model['main skill'] = message_context_dialog_skill_model
+        message_context_skills_model['actions skill'] = message_context_action_skill_model
+
+        message_context_model = {}  # MessageContext
+        message_context_model['global'] = message_context_global_model
+        message_context_model['skills'] = message_context_skills_model
+        message_context_model['integrations'] = {'anyKey': 'anyValue'}
+
+        message_input_attachment_model = {}  # MessageInputAttachment
+        message_input_attachment_model['url'] = 'testString'
+        message_input_attachment_model['media_type'] = 'testString'
+
+        request_analytics_model = {}  # RequestAnalytics
+        request_analytics_model['browser'] = 'testString'
+        request_analytics_model['device'] = 'testString'
+        request_analytics_model['pageUrl'] = 'testString'
+
+        message_input_options_spelling_model = {}  # MessageInputOptionsSpelling
+        message_input_options_spelling_model['suggestions'] = True
+        message_input_options_spelling_model['auto_correct'] = True
+
+        message_input_options_model = {}  # MessageInputOptions
+        message_input_options_model['restart'] = False
+        message_input_options_model['alternate_intents'] = False
+        message_input_options_model['async_callout'] = False
+        message_input_options_model['spelling'] = message_input_options_spelling_model
+        message_input_options_model['debug'] = False
+        message_input_options_model['return_context'] = False
+        message_input_options_model['export'] = False
+
+        message_input_model = {}  # MessageInput
+        message_input_model['message_type'] = 'text'
+        message_input_model['text'] = 'testString'
+        message_input_model['intents'] = [runtime_intent_model]
+        message_input_model['entities'] = [runtime_entity_model]
+        message_input_model['suggestion_id'] = 'testString'
+        message_input_model['attachments'] = [message_input_attachment_model]
+        message_input_model['analytics'] = request_analytics_model
+        message_input_model['options'] = message_input_options_model
+
+        # Construct a json representation of a StatefulMessageResponse model
+        stateful_message_response_model_json = {}
+        stateful_message_response_model_json['output'] = message_output_model
+        stateful_message_response_model_json['context'] = message_context_model
+        stateful_message_response_model_json['user_id'] = 'testString'
+        stateful_message_response_model_json['masked_output'] = message_output_model
+        stateful_message_response_model_json['masked_input'] = message_input_model
+
+        # Construct a model instance of StatefulMessageResponse by calling from_dict on the json representation
+        stateful_message_response_model = StatefulMessageResponse.from_dict(stateful_message_response_model_json)
+        assert stateful_message_response_model != False
+
+        # Construct a model instance of StatefulMessageResponse by calling from_dict on the json representation
+        stateful_message_response_model_dict = StatefulMessageResponse.from_dict(stateful_message_response_model_json).__dict__
+        stateful_message_response_model2 = StatefulMessageResponse(**stateful_message_response_model_dict)
+
+        # Verify the model instances are equivalent
+        assert stateful_message_response_model == stateful_message_response_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        stateful_message_response_model_json2 = stateful_message_response_model.to_dict()
+        assert stateful_message_response_model_json2 == stateful_message_response_model_json
+
+
+class TestModel_StatelessMessageContext:
+    """
+    Test Class for StatelessMessageContext
+    """
+
+    def test_stateless_message_context_serialization(self):
+        """
+        Test serialization/deserialization for StatelessMessageContext
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        message_context_global_system_model = {}  # MessageContextGlobalSystem
+        message_context_global_system_model['timezone'] = 'testString'
+        message_context_global_system_model['user_id'] = 'testString'
+        message_context_global_system_model['turn_count'] = 38
+        message_context_global_system_model['locale'] = 'en-us'
+        message_context_global_system_model['reference_time'] = 'testString'
+        message_context_global_system_model['session_start_time'] = 'testString'
+        message_context_global_system_model['state'] = 'testString'
+        message_context_global_system_model['skip_user_input'] = True
+
+        stateless_message_context_global_model = {}  # StatelessMessageContextGlobal
+        stateless_message_context_global_model['system'] = message_context_global_system_model
+        stateless_message_context_global_model['session_id'] = 'testString'
+
+        message_context_skill_system_model = {}  # MessageContextSkillSystem
+        message_context_skill_system_model['state'] = 'testString'
+        message_context_skill_system_model['foo'] = 'testString'
+
+        message_context_dialog_skill_model = {}  # MessageContextDialogSkill
+        message_context_dialog_skill_model['user_defined'] = {'anyKey': 'anyValue'}
+        message_context_dialog_skill_model['system'] = message_context_skill_system_model
+
+        stateless_message_context_skills_actions_skill_model = {}  # StatelessMessageContextSkillsActionsSkill
+        stateless_message_context_skills_actions_skill_model['user_defined'] = {'anyKey': 'anyValue'}
+        stateless_message_context_skills_actions_skill_model['system'] = message_context_skill_system_model
+        stateless_message_context_skills_actions_skill_model['action_variables'] = {'anyKey': 'anyValue'}
+        stateless_message_context_skills_actions_skill_model['skill_variables'] = {'anyKey': 'anyValue'}
+        stateless_message_context_skills_actions_skill_model['private_action_variables'] = {'anyKey': 'anyValue'}
+        stateless_message_context_skills_actions_skill_model['private_skill_variables'] = {'anyKey': 'anyValue'}
+
+        stateless_message_context_skills_model = {}  # StatelessMessageContextSkills
+        stateless_message_context_skills_model['main skill'] = message_context_dialog_skill_model
+        stateless_message_context_skills_model['actions skill'] = stateless_message_context_skills_actions_skill_model
+
+        # Construct a json representation of a StatelessMessageContext model
+        stateless_message_context_model_json = {}
+        stateless_message_context_model_json['global'] = stateless_message_context_global_model
+        stateless_message_context_model_json['skills'] = stateless_message_context_skills_model
+        stateless_message_context_model_json['integrations'] = {'anyKey': 'anyValue'}
+
+        # Construct a model instance of StatelessMessageContext by calling from_dict on the json representation
+        stateless_message_context_model = StatelessMessageContext.from_dict(stateless_message_context_model_json)
+        assert stateless_message_context_model != False
+
+        # Construct a model instance of StatelessMessageContext by calling from_dict on the json representation
+        stateless_message_context_model_dict = StatelessMessageContext.from_dict(stateless_message_context_model_json).__dict__
+        stateless_message_context_model2 = StatelessMessageContext(**stateless_message_context_model_dict)
+
+        # Verify the model instances are equivalent
+        assert stateless_message_context_model == stateless_message_context_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        stateless_message_context_model_json2 = stateless_message_context_model.to_dict()
+        assert stateless_message_context_model_json2 == stateless_message_context_model_json
+
+
+class TestModel_StatelessMessageContextGlobal:
+    """
+    Test Class for StatelessMessageContextGlobal
+    """
+
+    def test_stateless_message_context_global_serialization(self):
+        """
+        Test serialization/deserialization for StatelessMessageContextGlobal
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        message_context_global_system_model = {}  # MessageContextGlobalSystem
+        message_context_global_system_model['timezone'] = 'testString'
+        message_context_global_system_model['user_id'] = 'testString'
+        message_context_global_system_model['turn_count'] = 38
+        message_context_global_system_model['locale'] = 'en-us'
+        message_context_global_system_model['reference_time'] = 'testString'
+        message_context_global_system_model['session_start_time'] = 'testString'
+        message_context_global_system_model['state'] = 'testString'
+        message_context_global_system_model['skip_user_input'] = True
+
+        # Construct a json representation of a StatelessMessageContextGlobal model
+        stateless_message_context_global_model_json = {}
+        stateless_message_context_global_model_json['system'] = message_context_global_system_model
+        stateless_message_context_global_model_json['session_id'] = 'testString'
+
+        # Construct a model instance of StatelessMessageContextGlobal by calling from_dict on the json representation
+        stateless_message_context_global_model = StatelessMessageContextGlobal.from_dict(stateless_message_context_global_model_json)
+        assert stateless_message_context_global_model != False
+
+        # Construct a model instance of StatelessMessageContextGlobal by calling from_dict on the json representation
+        stateless_message_context_global_model_dict = StatelessMessageContextGlobal.from_dict(stateless_message_context_global_model_json).__dict__
+        stateless_message_context_global_model2 = StatelessMessageContextGlobal(**stateless_message_context_global_model_dict)
+
+        # Verify the model instances are equivalent
+        assert stateless_message_context_global_model == stateless_message_context_global_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        stateless_message_context_global_model_json2 = stateless_message_context_global_model.to_dict()
+        assert stateless_message_context_global_model_json2 == stateless_message_context_global_model_json
+
+
+class TestModel_StatelessMessageContextSkills:
+    """
+    Test Class for StatelessMessageContextSkills
+    """
+
+    def test_stateless_message_context_skills_serialization(self):
+        """
+        Test serialization/deserialization for StatelessMessageContextSkills
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        message_context_skill_system_model = {}  # MessageContextSkillSystem
+        message_context_skill_system_model['state'] = 'testString'
+        message_context_skill_system_model['foo'] = 'testString'
+
+        message_context_dialog_skill_model = {}  # MessageContextDialogSkill
+        message_context_dialog_skill_model['user_defined'] = {'anyKey': 'anyValue'}
+        message_context_dialog_skill_model['system'] = message_context_skill_system_model
+
+        stateless_message_context_skills_actions_skill_model = {}  # StatelessMessageContextSkillsActionsSkill
+        stateless_message_context_skills_actions_skill_model['user_defined'] = {'anyKey': 'anyValue'}
+        stateless_message_context_skills_actions_skill_model['system'] = message_context_skill_system_model
+        stateless_message_context_skills_actions_skill_model['action_variables'] = {'anyKey': 'anyValue'}
+        stateless_message_context_skills_actions_skill_model['skill_variables'] = {'anyKey': 'anyValue'}
+        stateless_message_context_skills_actions_skill_model['private_action_variables'] = {'anyKey': 'anyValue'}
+        stateless_message_context_skills_actions_skill_model['private_skill_variables'] = {'anyKey': 'anyValue'}
+
+        # Construct a json representation of a StatelessMessageContextSkills model
+        stateless_message_context_skills_model_json = {}
+        stateless_message_context_skills_model_json['main skill'] = message_context_dialog_skill_model
+        stateless_message_context_skills_model_json['actions skill'] = stateless_message_context_skills_actions_skill_model
+
+        # Construct a model instance of StatelessMessageContextSkills by calling from_dict on the json representation
+        stateless_message_context_skills_model = StatelessMessageContextSkills.from_dict(stateless_message_context_skills_model_json)
+        assert stateless_message_context_skills_model != False
+
+        # Construct a model instance of StatelessMessageContextSkills by calling from_dict on the json representation
+        stateless_message_context_skills_model_dict = StatelessMessageContextSkills.from_dict(stateless_message_context_skills_model_json).__dict__
+        stateless_message_context_skills_model2 = StatelessMessageContextSkills(**stateless_message_context_skills_model_dict)
+
+        # Verify the model instances are equivalent
+        assert stateless_message_context_skills_model == stateless_message_context_skills_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        stateless_message_context_skills_model_json2 = stateless_message_context_skills_model.to_dict()
+        assert stateless_message_context_skills_model_json2 == stateless_message_context_skills_model_json
+
+
+class TestModel_StatelessMessageContextSkillsActionsSkill:
+    """
+    Test Class for StatelessMessageContextSkillsActionsSkill
+    """
+
+    def test_stateless_message_context_skills_actions_skill_serialization(self):
+        """
+        Test serialization/deserialization for StatelessMessageContextSkillsActionsSkill
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        message_context_skill_system_model = {}  # MessageContextSkillSystem
+        message_context_skill_system_model['state'] = 'testString'
+        message_context_skill_system_model['foo'] = 'testString'
+
+        # Construct a json representation of a StatelessMessageContextSkillsActionsSkill model
+        stateless_message_context_skills_actions_skill_model_json = {}
+        stateless_message_context_skills_actions_skill_model_json['user_defined'] = {'anyKey': 'anyValue'}
+        stateless_message_context_skills_actions_skill_model_json['system'] = message_context_skill_system_model
+        stateless_message_context_skills_actions_skill_model_json['action_variables'] = {'anyKey': 'anyValue'}
+        stateless_message_context_skills_actions_skill_model_json['skill_variables'] = {'anyKey': 'anyValue'}
+        stateless_message_context_skills_actions_skill_model_json['private_action_variables'] = {'anyKey': 'anyValue'}
+        stateless_message_context_skills_actions_skill_model_json['private_skill_variables'] = {'anyKey': 'anyValue'}
+
+        # Construct a model instance of StatelessMessageContextSkillsActionsSkill by calling from_dict on the json representation
+        stateless_message_context_skills_actions_skill_model = StatelessMessageContextSkillsActionsSkill.from_dict(stateless_message_context_skills_actions_skill_model_json)
+        assert stateless_message_context_skills_actions_skill_model != False
+
+        # Construct a model instance of StatelessMessageContextSkillsActionsSkill by calling from_dict on the json representation
+        stateless_message_context_skills_actions_skill_model_dict = StatelessMessageContextSkillsActionsSkill.from_dict(stateless_message_context_skills_actions_skill_model_json).__dict__
+        stateless_message_context_skills_actions_skill_model2 = StatelessMessageContextSkillsActionsSkill(**stateless_message_context_skills_actions_skill_model_dict)
+
+        # Verify the model instances are equivalent
+        assert stateless_message_context_skills_actions_skill_model == stateless_message_context_skills_actions_skill_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        stateless_message_context_skills_actions_skill_model_json2 = stateless_message_context_skills_actions_skill_model.to_dict()
+        assert stateless_message_context_skills_actions_skill_model_json2 == stateless_message_context_skills_actions_skill_model_json
+
+
+class TestModel_StatelessMessageInput:
+    """
+    Test Class for StatelessMessageInput
+    """
+
+    def test_stateless_message_input_serialization(self):
+        """
+        Test serialization/deserialization for StatelessMessageInput
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        runtime_intent_model = {}  # RuntimeIntent
+        runtime_intent_model['intent'] = 'testString'
+        runtime_intent_model['confidence'] = 72.5
+        runtime_intent_model['skill'] = 'testString'
+
+        capture_group_model = {}  # CaptureGroup
+        capture_group_model['group'] = 'testString'
+        capture_group_model['location'] = [38]
+
+        runtime_entity_interpretation_model = {}  # RuntimeEntityInterpretation
+        runtime_entity_interpretation_model['calendar_type'] = 'testString'
+        runtime_entity_interpretation_model['datetime_link'] = 'testString'
+        runtime_entity_interpretation_model['festival'] = 'testString'
+        runtime_entity_interpretation_model['granularity'] = 'day'
+        runtime_entity_interpretation_model['range_link'] = 'testString'
+        runtime_entity_interpretation_model['range_modifier'] = 'testString'
+        runtime_entity_interpretation_model['relative_day'] = 72.5
+        runtime_entity_interpretation_model['relative_month'] = 72.5
+        runtime_entity_interpretation_model['relative_week'] = 72.5
+        runtime_entity_interpretation_model['relative_weekend'] = 72.5
+        runtime_entity_interpretation_model['relative_year'] = 72.5
+        runtime_entity_interpretation_model['specific_day'] = 72.5
+        runtime_entity_interpretation_model['specific_day_of_week'] = 'testString'
+        runtime_entity_interpretation_model['specific_month'] = 72.5
+        runtime_entity_interpretation_model['specific_quarter'] = 72.5
+        runtime_entity_interpretation_model['specific_year'] = 72.5
+        runtime_entity_interpretation_model['numeric_value'] = 72.5
+        runtime_entity_interpretation_model['subtype'] = 'testString'
+        runtime_entity_interpretation_model['part_of_day'] = 'testString'
+        runtime_entity_interpretation_model['relative_hour'] = 72.5
+        runtime_entity_interpretation_model['relative_minute'] = 72.5
+        runtime_entity_interpretation_model['relative_second'] = 72.5
+        runtime_entity_interpretation_model['specific_hour'] = 72.5
+        runtime_entity_interpretation_model['specific_minute'] = 72.5
+        runtime_entity_interpretation_model['specific_second'] = 72.5
+        runtime_entity_interpretation_model['timezone'] = 'testString'
+
+        runtime_entity_alternative_model = {}  # RuntimeEntityAlternative
+        runtime_entity_alternative_model['value'] = 'testString'
+        runtime_entity_alternative_model['confidence'] = 72.5
+
+        runtime_entity_role_model = {}  # RuntimeEntityRole
+        runtime_entity_role_model['type'] = 'date_from'
+
+        runtime_entity_model = {}  # RuntimeEntity
+        runtime_entity_model['entity'] = 'testString'
+        runtime_entity_model['location'] = [38]
+        runtime_entity_model['value'] = 'testString'
+        runtime_entity_model['confidence'] = 72.5
+        runtime_entity_model['groups'] = [capture_group_model]
+        runtime_entity_model['interpretation'] = runtime_entity_interpretation_model
+        runtime_entity_model['alternatives'] = [runtime_entity_alternative_model]
+        runtime_entity_model['role'] = runtime_entity_role_model
+        runtime_entity_model['skill'] = 'testString'
+
+        message_input_attachment_model = {}  # MessageInputAttachment
+        message_input_attachment_model['url'] = 'testString'
+        message_input_attachment_model['media_type'] = 'testString'
+
+        request_analytics_model = {}  # RequestAnalytics
+        request_analytics_model['browser'] = 'testString'
+        request_analytics_model['device'] = 'testString'
+        request_analytics_model['pageUrl'] = 'testString'
+
+        message_input_options_spelling_model = {}  # MessageInputOptionsSpelling
+        message_input_options_spelling_model['suggestions'] = True
+        message_input_options_spelling_model['auto_correct'] = True
+
+        stateless_message_input_options_model = {}  # StatelessMessageInputOptions
+        stateless_message_input_options_model['restart'] = False
+        stateless_message_input_options_model['alternate_intents'] = False
+        stateless_message_input_options_model['async_callout'] = False
+        stateless_message_input_options_model['spelling'] = message_input_options_spelling_model
+        stateless_message_input_options_model['debug'] = False
+
+        # Construct a json representation of a StatelessMessageInput model
+        stateless_message_input_model_json = {}
+        stateless_message_input_model_json['message_type'] = 'text'
+        stateless_message_input_model_json['text'] = 'testString'
+        stateless_message_input_model_json['intents'] = [runtime_intent_model]
+        stateless_message_input_model_json['entities'] = [runtime_entity_model]
+        stateless_message_input_model_json['suggestion_id'] = 'testString'
+        stateless_message_input_model_json['attachments'] = [message_input_attachment_model]
+        stateless_message_input_model_json['analytics'] = request_analytics_model
+        stateless_message_input_model_json['options'] = stateless_message_input_options_model
+
+        # Construct a model instance of StatelessMessageInput by calling from_dict on the json representation
+        stateless_message_input_model = StatelessMessageInput.from_dict(stateless_message_input_model_json)
+        assert stateless_message_input_model != False
+
+        # Construct a model instance of StatelessMessageInput by calling from_dict on the json representation
+        stateless_message_input_model_dict = StatelessMessageInput.from_dict(stateless_message_input_model_json).__dict__
+        stateless_message_input_model2 = StatelessMessageInput(**stateless_message_input_model_dict)
+
+        # Verify the model instances are equivalent
+        assert stateless_message_input_model == stateless_message_input_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        stateless_message_input_model_json2 = stateless_message_input_model.to_dict()
+        assert stateless_message_input_model_json2 == stateless_message_input_model_json
+
+
+class TestModel_StatelessMessageInputOptions:
+    """
+    Test Class for StatelessMessageInputOptions
+    """
+
+    def test_stateless_message_input_options_serialization(self):
+        """
+        Test serialization/deserialization for StatelessMessageInputOptions
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        message_input_options_spelling_model = {}  # MessageInputOptionsSpelling
+        message_input_options_spelling_model['suggestions'] = True
+        message_input_options_spelling_model['auto_correct'] = True
+
+        # Construct a json representation of a StatelessMessageInputOptions model
+        stateless_message_input_options_model_json = {}
+        stateless_message_input_options_model_json['restart'] = False
+        stateless_message_input_options_model_json['alternate_intents'] = False
+        stateless_message_input_options_model_json['async_callout'] = False
+        stateless_message_input_options_model_json['spelling'] = message_input_options_spelling_model
+        stateless_message_input_options_model_json['debug'] = False
+
+        # Construct a model instance of StatelessMessageInputOptions by calling from_dict on the json representation
+        stateless_message_input_options_model = StatelessMessageInputOptions.from_dict(stateless_message_input_options_model_json)
+        assert stateless_message_input_options_model != False
+
+        # Construct a model instance of StatelessMessageInputOptions by calling from_dict on the json representation
+        stateless_message_input_options_model_dict = StatelessMessageInputOptions.from_dict(stateless_message_input_options_model_json).__dict__
+        stateless_message_input_options_model2 = StatelessMessageInputOptions(**stateless_message_input_options_model_dict)
+
+        # Verify the model instances are equivalent
+        assert stateless_message_input_options_model == stateless_message_input_options_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        stateless_message_input_options_model_json2 = stateless_message_input_options_model.to_dict()
+        assert stateless_message_input_options_model_json2 == stateless_message_input_options_model_json
+
+
+class TestModel_StatelessMessageResponse:
+    """
+    Test Class for StatelessMessageResponse
+    """
+
+    def test_stateless_message_response_serialization(self):
+        """
+        Test serialization/deserialization for StatelessMessageResponse
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        response_generic_channel_model = {}  # ResponseGenericChannel
+        response_generic_channel_model['channel'] = 'testString'
+
+        runtime_response_generic_model = {}  # RuntimeResponseGenericRuntimeResponseTypeText
+        runtime_response_generic_model['response_type'] = 'text'
+        runtime_response_generic_model['text'] = 'testString'
+        runtime_response_generic_model['channels'] = [response_generic_channel_model]
+
+        runtime_intent_model = {}  # RuntimeIntent
+        runtime_intent_model['intent'] = 'testString'
+        runtime_intent_model['confidence'] = 72.5
+        runtime_intent_model['skill'] = 'testString'
+
+        capture_group_model = {}  # CaptureGroup
+        capture_group_model['group'] = 'testString'
+        capture_group_model['location'] = [38]
+
+        runtime_entity_interpretation_model = {}  # RuntimeEntityInterpretation
+        runtime_entity_interpretation_model['calendar_type'] = 'testString'
+        runtime_entity_interpretation_model['datetime_link'] = 'testString'
+        runtime_entity_interpretation_model['festival'] = 'testString'
+        runtime_entity_interpretation_model['granularity'] = 'day'
+        runtime_entity_interpretation_model['range_link'] = 'testString'
+        runtime_entity_interpretation_model['range_modifier'] = 'testString'
+        runtime_entity_interpretation_model['relative_day'] = 72.5
+        runtime_entity_interpretation_model['relative_month'] = 72.5
+        runtime_entity_interpretation_model['relative_week'] = 72.5
+        runtime_entity_interpretation_model['relative_weekend'] = 72.5
+        runtime_entity_interpretation_model['relative_year'] = 72.5
+        runtime_entity_interpretation_model['specific_day'] = 72.5
+        runtime_entity_interpretation_model['specific_day_of_week'] = 'testString'
+        runtime_entity_interpretation_model['specific_month'] = 72.5
+        runtime_entity_interpretation_model['specific_quarter'] = 72.5
+        runtime_entity_interpretation_model['specific_year'] = 72.5
+        runtime_entity_interpretation_model['numeric_value'] = 72.5
+        runtime_entity_interpretation_model['subtype'] = 'testString'
+        runtime_entity_interpretation_model['part_of_day'] = 'testString'
+        runtime_entity_interpretation_model['relative_hour'] = 72.5
+        runtime_entity_interpretation_model['relative_minute'] = 72.5
+        runtime_entity_interpretation_model['relative_second'] = 72.5
+        runtime_entity_interpretation_model['specific_hour'] = 72.5
+        runtime_entity_interpretation_model['specific_minute'] = 72.5
+        runtime_entity_interpretation_model['specific_second'] = 72.5
+        runtime_entity_interpretation_model['timezone'] = 'testString'
+
+        runtime_entity_alternative_model = {}  # RuntimeEntityAlternative
+        runtime_entity_alternative_model['value'] = 'testString'
+        runtime_entity_alternative_model['confidence'] = 72.5
+
+        runtime_entity_role_model = {}  # RuntimeEntityRole
+        runtime_entity_role_model['type'] = 'date_from'
+
+        runtime_entity_model = {}  # RuntimeEntity
+        runtime_entity_model['entity'] = 'testString'
+        runtime_entity_model['location'] = [38]
+        runtime_entity_model['value'] = 'testString'
+        runtime_entity_model['confidence'] = 72.5
+        runtime_entity_model['groups'] = [capture_group_model]
+        runtime_entity_model['interpretation'] = runtime_entity_interpretation_model
+        runtime_entity_model['alternatives'] = [runtime_entity_alternative_model]
+        runtime_entity_model['role'] = runtime_entity_role_model
+        runtime_entity_model['skill'] = 'testString'
+
+        dialog_node_action_model = {}  # DialogNodeAction
+        dialog_node_action_model['name'] = 'testString'
+        dialog_node_action_model['type'] = 'client'
+        dialog_node_action_model['parameters'] = {'anyKey': 'anyValue'}
+        dialog_node_action_model['result_variable'] = 'testString'
+        dialog_node_action_model['credentials'] = 'testString'
+
+        dialog_node_visited_model = {}  # DialogNodeVisited
+        dialog_node_visited_model['dialog_node'] = 'testString'
+        dialog_node_visited_model['title'] = 'testString'
+        dialog_node_visited_model['conditions'] = 'testString'
+
+        log_message_source_model = {}  # LogMessageSourceDialogNode
+        log_message_source_model['type'] = 'dialog_node'
+        log_message_source_model['dialog_node'] = 'testString'
+
+        dialog_log_message_model = {}  # DialogLogMessage
+        dialog_log_message_model['level'] = 'info'
+        dialog_log_message_model['message'] = 'testString'
+        dialog_log_message_model['code'] = 'testString'
+        dialog_log_message_model['source'] = log_message_source_model
+
+        turn_event_action_source_model = {}  # TurnEventActionSource
+        turn_event_action_source_model['type'] = 'action'
+        turn_event_action_source_model['action'] = 'testString'
+        turn_event_action_source_model['action_title'] = 'testString'
+        turn_event_action_source_model['condition'] = 'testString'
+
+        message_output_debug_turn_event_model = {}  # MessageOutputDebugTurnEventTurnEventActionVisited
+        message_output_debug_turn_event_model['event'] = 'action_visited'
+        message_output_debug_turn_event_model['source'] = turn_event_action_source_model
+        message_output_debug_turn_event_model['action_start_time'] = 'testString'
+        message_output_debug_turn_event_model['condition_type'] = 'user_defined'
+        message_output_debug_turn_event_model['reason'] = 'intent'
+        message_output_debug_turn_event_model['result_variable'] = 'testString'
+
+        message_output_debug_model = {}  # MessageOutputDebug
+        message_output_debug_model['nodes_visited'] = [dialog_node_visited_model]
+        message_output_debug_model['log_messages'] = [dialog_log_message_model]
+        message_output_debug_model['branch_exited'] = True
+        message_output_debug_model['branch_exited_reason'] = 'completed'
+        message_output_debug_model['turn_events'] = [message_output_debug_turn_event_model]
+
+        message_output_spelling_model = {}  # MessageOutputSpelling
+        message_output_spelling_model['text'] = 'testString'
+        message_output_spelling_model['original_text'] = 'testString'
+        message_output_spelling_model['suggested_text'] = 'testString'
+
+        message_output_model = {}  # MessageOutput
+        message_output_model['generic'] = [runtime_response_generic_model]
+        message_output_model['intents'] = [runtime_intent_model]
+        message_output_model['entities'] = [runtime_entity_model]
+        message_output_model['actions'] = [dialog_node_action_model]
+        message_output_model['debug'] = message_output_debug_model
+        message_output_model['user_defined'] = {'anyKey': 'anyValue'}
+        message_output_model['spelling'] = message_output_spelling_model
+
+        message_context_global_system_model = {}  # MessageContextGlobalSystem
+        message_context_global_system_model['timezone'] = 'testString'
+        message_context_global_system_model['user_id'] = 'testString'
+        message_context_global_system_model['turn_count'] = 38
+        message_context_global_system_model['locale'] = 'en-us'
+        message_context_global_system_model['reference_time'] = 'testString'
+        message_context_global_system_model['session_start_time'] = 'testString'
+        message_context_global_system_model['state'] = 'testString'
+        message_context_global_system_model['skip_user_input'] = True
+
+        stateless_message_context_global_model = {}  # StatelessMessageContextGlobal
+        stateless_message_context_global_model['system'] = message_context_global_system_model
+        stateless_message_context_global_model['session_id'] = 'testString'
+
+        message_context_skill_system_model = {}  # MessageContextSkillSystem
+        message_context_skill_system_model['state'] = 'testString'
+        message_context_skill_system_model['foo'] = 'testString'
+
+        message_context_dialog_skill_model = {}  # MessageContextDialogSkill
+        message_context_dialog_skill_model['user_defined'] = {'anyKey': 'anyValue'}
+        message_context_dialog_skill_model['system'] = message_context_skill_system_model
+
+        stateless_message_context_skills_actions_skill_model = {}  # StatelessMessageContextSkillsActionsSkill
+        stateless_message_context_skills_actions_skill_model['user_defined'] = {'anyKey': 'anyValue'}
+        stateless_message_context_skills_actions_skill_model['system'] = message_context_skill_system_model
+        stateless_message_context_skills_actions_skill_model['action_variables'] = {'anyKey': 'anyValue'}
+        stateless_message_context_skills_actions_skill_model['skill_variables'] = {'anyKey': 'anyValue'}
+        stateless_message_context_skills_actions_skill_model['private_action_variables'] = {'anyKey': 'anyValue'}
+        stateless_message_context_skills_actions_skill_model['private_skill_variables'] = {'anyKey': 'anyValue'}
+
+        stateless_message_context_skills_model = {}  # StatelessMessageContextSkills
+        stateless_message_context_skills_model['main skill'] = message_context_dialog_skill_model
+        stateless_message_context_skills_model['actions skill'] = stateless_message_context_skills_actions_skill_model
+
+        stateless_message_context_model = {}  # StatelessMessageContext
+        stateless_message_context_model['global'] = stateless_message_context_global_model
+        stateless_message_context_model['skills'] = stateless_message_context_skills_model
+        stateless_message_context_model['integrations'] = {'anyKey': 'anyValue'}
+
+        message_input_attachment_model = {}  # MessageInputAttachment
+        message_input_attachment_model['url'] = 'testString'
+        message_input_attachment_model['media_type'] = 'testString'
+
+        request_analytics_model = {}  # RequestAnalytics
+        request_analytics_model['browser'] = 'testString'
+        request_analytics_model['device'] = 'testString'
+        request_analytics_model['pageUrl'] = 'testString'
+
+        message_input_options_spelling_model = {}  # MessageInputOptionsSpelling
+        message_input_options_spelling_model['suggestions'] = True
+        message_input_options_spelling_model['auto_correct'] = True
+
+        message_input_options_model = {}  # MessageInputOptions
+        message_input_options_model['restart'] = False
+        message_input_options_model['alternate_intents'] = False
+        message_input_options_model['async_callout'] = False
+        message_input_options_model['spelling'] = message_input_options_spelling_model
+        message_input_options_model['debug'] = False
+        message_input_options_model['return_context'] = False
+        message_input_options_model['export'] = False
+
+        message_input_model = {}  # MessageInput
+        message_input_model['message_type'] = 'text'
+        message_input_model['text'] = 'testString'
+        message_input_model['intents'] = [runtime_intent_model]
+        message_input_model['entities'] = [runtime_entity_model]
+        message_input_model['suggestion_id'] = 'testString'
+        message_input_model['attachments'] = [message_input_attachment_model]
+        message_input_model['analytics'] = request_analytics_model
+        message_input_model['options'] = message_input_options_model
+
+        # Construct a json representation of a StatelessMessageResponse model
+        stateless_message_response_model_json = {}
+        stateless_message_response_model_json['output'] = message_output_model
+        stateless_message_response_model_json['context'] = stateless_message_context_model
+        stateless_message_response_model_json['masked_output'] = message_output_model
+        stateless_message_response_model_json['masked_input'] = message_input_model
+        stateless_message_response_model_json['user_id'] = 'testString'
+
+        # Construct a model instance of StatelessMessageResponse by calling from_dict on the json representation
+        stateless_message_response_model = StatelessMessageResponse.from_dict(stateless_message_response_model_json)
+        assert stateless_message_response_model != False
+
+        # Construct a model instance of StatelessMessageResponse by calling from_dict on the json representation
+        stateless_message_response_model_dict = StatelessMessageResponse.from_dict(stateless_message_response_model_json).__dict__
+        stateless_message_response_model2 = StatelessMessageResponse(**stateless_message_response_model_dict)
+
+        # Verify the model instances are equivalent
+        assert stateless_message_response_model == stateless_message_response_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        stateless_message_response_model_json2 = stateless_message_response_model.to_dict()
+        assert stateless_message_response_model_json2 == stateless_message_response_model_json
+
+
 class TestModel_StatusError:
     """
     Test Class for StatusError
@@ -8923,6 +9570,7 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeOption:
         message_input_options_model = {}  # MessageInputOptions
         message_input_options_model['restart'] = False
         message_input_options_model['alternate_intents'] = False
+        message_input_options_model['async_callout'] = False
         message_input_options_model['spelling'] = message_input_options_spelling_model
         message_input_options_model['debug'] = False
         message_input_options_model['return_context'] = False
@@ -9156,6 +9804,7 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeSuggestion:
         message_input_options_model = {}  # MessageInputOptions
         message_input_options_model['restart'] = False
         message_input_options_model['alternate_intents'] = False
+        message_input_options_model['async_callout'] = False
         message_input_options_model['spelling'] = message_input_options_spelling_model
         message_input_options_model['debug'] = False
         message_input_options_model['return_context'] = False
