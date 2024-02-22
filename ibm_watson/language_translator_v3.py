@@ -74,15 +74,13 @@ class LanguageTranslatorV3(BaseService):
         """
         if version is None:
             raise ValueError('version must be provided')
-        
-        print(
-            """
+
+        print("""
             On 10 June 2023, IBM announced the deprecation of the Natural Language Translator service.
             The service will no longer be available from 8 August 2022. As of 10 June 2024, the service will reach its End of Support
             date. As of 10 December 2024, the service will be withdrawn entirely and will no longer be
             available to any customers.
-            """
-        ) 
+            """)
 
         if not authenticator:
             authenticator = get_authenticator_from_environment(service_name)
