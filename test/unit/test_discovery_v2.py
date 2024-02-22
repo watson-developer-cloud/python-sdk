@@ -1861,7 +1861,7 @@ class TestQuery:
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/query')
-        mock_response = '{"matching_results": 16, "results": [{"document_id": "document_id", "metadata": {"anyKey": "anyValue"}, "result_metadata": {"document_retrieval_source": "search", "collection_id": "collection_id", "confidence": 0}, "document_passages": [{"passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field", "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}], "aggregations": [{"type": "term", "field": "field", "count": 5, "name": "name", "results": [{"key": "key", "matching_results": 16, "relevancy": 9, "total_matching_documents": 24, "estimated_matching_results": 26, "aggregations": [{"anyKey": "anyValue"}]}]}], "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query", "suggested_refinements": [{"text": "text"}], "table_results": [{"table_id": "table_id", "source_document_id": "source_document_id", "collection_id": "collection_id", "table_html": "table_html", "table_html_offset": 17, "table": {"location": {"begin": 5, "end": 3}, "text": "text", "section_title": {"text": "text", "location": {"begin": 5, "end": 3}}, "title": {"text": "text", "location": {"begin": 5, "end": 3}}, "table_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "row_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "column_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "key_value_pairs": [{"key": {"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}, "value": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}]}], "body_cells": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16, "row_header_ids": [{"id": "id"}], "row_header_texts": [{"text": "text"}], "row_header_texts_normalized": [{"text_normalized": "text_normalized"}], "column_header_ids": [{"id": "id"}], "column_header_texts": [{"text": "text"}], "column_header_texts_normalized": [{"text_normalized": "text_normalized"}], "attributes": [{"type": "type", "text": "text", "location": {"begin": 5, "end": 3}}]}], "contexts": [{"text": "text", "location": {"begin": 5, "end": 3}}]}}], "passages": [{"passage_text": "passage_text", "passage_score": 13, "document_id": "document_id", "collection_id": "collection_id", "start_offset": 12, "end_offset": 10, "field": "field", "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}'
+        mock_response = '{"matching_results": 16, "results": [{"document_id": "document_id", "metadata": {"anyKey": "anyValue"}, "result_metadata": {"document_retrieval_source": "search", "collection_id": "collection_id", "confidence": 0}, "document_passages": [{"passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field", "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}], "aggregations": [{"type": "term", "field": "field", "count": 5, "name": "name", "results": [{"key": "key", "matching_results": 16, "relevancy": 9, "total_matching_documents": 24, "estimated_matching_results": 26, "aggregations": [{"anyKey": "anyValue"}]}]}], "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query", "suggested_refinements": [{"text": "text"}], "table_results": [{"table_id": "table_id", "source_document_id": "source_document_id", "collection_id": "collection_id", "table_html": "table_html", "table_html_offset": 17, "table": {"location": {"begin": 5, "end": 3}, "text": "text", "section_title": {"text": "text", "location": {"begin": 5, "end": 3}}, "title": {"text": "text", "location": {"begin": 5, "end": 3}}, "table_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "row_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "column_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "key_value_pairs": [{"key": {"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}, "value": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}]}], "body_cells": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16, "row_header_ids": ["row_header_ids"], "row_header_texts": ["row_header_texts"], "row_header_texts_normalized": ["row_header_texts_normalized"], "column_header_ids": ["column_header_ids"], "column_header_texts": ["column_header_texts"], "column_header_texts_normalized": ["column_header_texts_normalized"], "attributes": [{"type": "type", "text": "text", "location": {"begin": 5, "end": 3}}]}], "contexts": [{"text": "text", "location": {"begin": 5, "end": 3}}]}}], "passages": [{"passage_text": "passage_text", "passage_score": 13, "document_id": "document_id", "collection_id": "collection_id", "start_offset": 12, "end_offset": 10, "field": "field", "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}'
         responses.add(
             responses.POST,
             url,
@@ -1973,7 +1973,7 @@ class TestQuery:
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/query')
-        mock_response = '{"matching_results": 16, "results": [{"document_id": "document_id", "metadata": {"anyKey": "anyValue"}, "result_metadata": {"document_retrieval_source": "search", "collection_id": "collection_id", "confidence": 0}, "document_passages": [{"passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field", "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}], "aggregations": [{"type": "term", "field": "field", "count": 5, "name": "name", "results": [{"key": "key", "matching_results": 16, "relevancy": 9, "total_matching_documents": 24, "estimated_matching_results": 26, "aggregations": [{"anyKey": "anyValue"}]}]}], "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query", "suggested_refinements": [{"text": "text"}], "table_results": [{"table_id": "table_id", "source_document_id": "source_document_id", "collection_id": "collection_id", "table_html": "table_html", "table_html_offset": 17, "table": {"location": {"begin": 5, "end": 3}, "text": "text", "section_title": {"text": "text", "location": {"begin": 5, "end": 3}}, "title": {"text": "text", "location": {"begin": 5, "end": 3}}, "table_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "row_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "column_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "key_value_pairs": [{"key": {"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}, "value": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}]}], "body_cells": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16, "row_header_ids": [{"id": "id"}], "row_header_texts": [{"text": "text"}], "row_header_texts_normalized": [{"text_normalized": "text_normalized"}], "column_header_ids": [{"id": "id"}], "column_header_texts": [{"text": "text"}], "column_header_texts_normalized": [{"text_normalized": "text_normalized"}], "attributes": [{"type": "type", "text": "text", "location": {"begin": 5, "end": 3}}]}], "contexts": [{"text": "text", "location": {"begin": 5, "end": 3}}]}}], "passages": [{"passage_text": "passage_text", "passage_score": 13, "document_id": "document_id", "collection_id": "collection_id", "start_offset": 12, "end_offset": 10, "field": "field", "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}'
+        mock_response = '{"matching_results": 16, "results": [{"document_id": "document_id", "metadata": {"anyKey": "anyValue"}, "result_metadata": {"document_retrieval_source": "search", "collection_id": "collection_id", "confidence": 0}, "document_passages": [{"passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field", "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}], "aggregations": [{"type": "term", "field": "field", "count": 5, "name": "name", "results": [{"key": "key", "matching_results": 16, "relevancy": 9, "total_matching_documents": 24, "estimated_matching_results": 26, "aggregations": [{"anyKey": "anyValue"}]}]}], "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query", "suggested_refinements": [{"text": "text"}], "table_results": [{"table_id": "table_id", "source_document_id": "source_document_id", "collection_id": "collection_id", "table_html": "table_html", "table_html_offset": 17, "table": {"location": {"begin": 5, "end": 3}, "text": "text", "section_title": {"text": "text", "location": {"begin": 5, "end": 3}}, "title": {"text": "text", "location": {"begin": 5, "end": 3}}, "table_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "row_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "column_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "key_value_pairs": [{"key": {"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}, "value": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}]}], "body_cells": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16, "row_header_ids": ["row_header_ids"], "row_header_texts": ["row_header_texts"], "row_header_texts_normalized": ["row_header_texts_normalized"], "column_header_ids": ["column_header_ids"], "column_header_texts": ["column_header_texts"], "column_header_texts_normalized": ["column_header_texts_normalized"], "attributes": [{"type": "type", "text": "text", "location": {"begin": 5, "end": 3}}]}], "contexts": [{"text": "text", "location": {"begin": 5, "end": 3}}]}}], "passages": [{"passage_text": "passage_text", "passage_score": 13, "document_id": "document_id", "collection_id": "collection_id", "start_offset": 12, "end_offset": 10, "field": "field", "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}'
         responses.add(
             responses.POST,
             url,
@@ -2011,7 +2011,7 @@ class TestQuery:
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/query')
-        mock_response = '{"matching_results": 16, "results": [{"document_id": "document_id", "metadata": {"anyKey": "anyValue"}, "result_metadata": {"document_retrieval_source": "search", "collection_id": "collection_id", "confidence": 0}, "document_passages": [{"passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field", "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}], "aggregations": [{"type": "term", "field": "field", "count": 5, "name": "name", "results": [{"key": "key", "matching_results": 16, "relevancy": 9, "total_matching_documents": 24, "estimated_matching_results": 26, "aggregations": [{"anyKey": "anyValue"}]}]}], "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query", "suggested_refinements": [{"text": "text"}], "table_results": [{"table_id": "table_id", "source_document_id": "source_document_id", "collection_id": "collection_id", "table_html": "table_html", "table_html_offset": 17, "table": {"location": {"begin": 5, "end": 3}, "text": "text", "section_title": {"text": "text", "location": {"begin": 5, "end": 3}}, "title": {"text": "text", "location": {"begin": 5, "end": 3}}, "table_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "row_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "column_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "key_value_pairs": [{"key": {"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}, "value": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}]}], "body_cells": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16, "row_header_ids": [{"id": "id"}], "row_header_texts": [{"text": "text"}], "row_header_texts_normalized": [{"text_normalized": "text_normalized"}], "column_header_ids": [{"id": "id"}], "column_header_texts": [{"text": "text"}], "column_header_texts_normalized": [{"text_normalized": "text_normalized"}], "attributes": [{"type": "type", "text": "text", "location": {"begin": 5, "end": 3}}]}], "contexts": [{"text": "text", "location": {"begin": 5, "end": 3}}]}}], "passages": [{"passage_text": "passage_text", "passage_score": 13, "document_id": "document_id", "collection_id": "collection_id", "start_offset": 12, "end_offset": 10, "field": "field", "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}'
+        mock_response = '{"matching_results": 16, "results": [{"document_id": "document_id", "metadata": {"anyKey": "anyValue"}, "result_metadata": {"document_retrieval_source": "search", "collection_id": "collection_id", "confidence": 0}, "document_passages": [{"passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field", "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}], "aggregations": [{"type": "term", "field": "field", "count": 5, "name": "name", "results": [{"key": "key", "matching_results": 16, "relevancy": 9, "total_matching_documents": 24, "estimated_matching_results": 26, "aggregations": [{"anyKey": "anyValue"}]}]}], "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query", "suggested_refinements": [{"text": "text"}], "table_results": [{"table_id": "table_id", "source_document_id": "source_document_id", "collection_id": "collection_id", "table_html": "table_html", "table_html_offset": 17, "table": {"location": {"begin": 5, "end": 3}, "text": "text", "section_title": {"text": "text", "location": {"begin": 5, "end": 3}}, "title": {"text": "text", "location": {"begin": 5, "end": 3}}, "table_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "row_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "column_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "key_value_pairs": [{"key": {"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}, "value": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}]}], "body_cells": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16, "row_header_ids": ["row_header_ids"], "row_header_texts": ["row_header_texts"], "row_header_texts_normalized": ["row_header_texts_normalized"], "column_header_ids": ["column_header_ids"], "column_header_texts": ["column_header_texts"], "column_header_texts_normalized": ["column_header_texts_normalized"], "attributes": [{"type": "type", "text": "text", "location": {"begin": 5, "end": 3}}]}], "contexts": [{"text": "text", "location": {"begin": 5, "end": 3}}]}}], "passages": [{"passage_text": "passage_text", "passage_score": 13, "document_id": "document_id", "collection_id": "collection_id", "start_offset": 12, "end_offset": 10, "field": "field", "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}'
         responses.add(
             responses.POST,
             url,
@@ -3703,7 +3703,7 @@ class TestListEnrichments:
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/enrichments')
-        mock_response = '{"enrichments": [{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field", "classifier_id": "classifier_id", "model_id": "model_id", "confidence_threshold": 0, "top_k": 0}}]}'
+        mock_response = '{"enrichments": [{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field", "classifier_id": "classifier_id", "model_id": "model_id", "confidence_threshold": 0, "top_k": 0, "url": "url", "version": "2023-03-31", "secret": "secret", "headers": {"name": "name", "value": "value"}, "location_encoding": "`utf-16`"}}]}'
         responses.add(
             responses.GET,
             url,
@@ -3741,7 +3741,7 @@ class TestListEnrichments:
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/enrichments')
-        mock_response = '{"enrichments": [{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field", "classifier_id": "classifier_id", "model_id": "model_id", "confidence_threshold": 0, "top_k": 0}}]}'
+        mock_response = '{"enrichments": [{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field", "classifier_id": "classifier_id", "model_id": "model_id", "confidence_threshold": 0, "top_k": 0, "url": "url", "version": "2023-03-31", "secret": "secret", "headers": {"name": "name", "value": "value"}, "location_encoding": "`utf-16`"}}]}'
         responses.add(
             responses.GET,
             url,
@@ -3784,7 +3784,7 @@ class TestCreateEnrichment:
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/enrichments')
-        mock_response = '{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field", "classifier_id": "classifier_id", "model_id": "model_id", "confidence_threshold": 0, "top_k": 0}}'
+        mock_response = '{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field", "classifier_id": "classifier_id", "model_id": "model_id", "confidence_threshold": 0, "top_k": 0, "url": "url", "version": "2023-03-31", "secret": "secret", "headers": {"name": "name", "value": "value"}, "location_encoding": "`utf-16`"}}'
         responses.add(
             responses.POST,
             url,
@@ -3792,6 +3792,11 @@ class TestCreateEnrichment:
             content_type='application/json',
             status=201,
         )
+
+        # Construct a dict representation of a WebhookHeader model
+        webhook_header_model = {}
+        webhook_header_model['name'] = 'testString'
+        webhook_header_model['value'] = 'testString'
 
         # Construct a dict representation of a EnrichmentOptions model
         enrichment_options_model = {}
@@ -3803,6 +3808,11 @@ class TestCreateEnrichment:
         enrichment_options_model['model_id'] = 'testString'
         enrichment_options_model['confidence_threshold'] = 0
         enrichment_options_model['top_k'] = 0
+        enrichment_options_model['url'] = 'testString'
+        enrichment_options_model['version'] = '2023-03-31'
+        enrichment_options_model['secret'] = 'testString'
+        enrichment_options_model['headers'] = webhook_header_model
+        enrichment_options_model['location_encoding'] = '`utf-16`'
 
         # Construct a dict representation of a CreateEnrichment model
         create_enrichment_model = {}
@@ -3844,7 +3854,7 @@ class TestCreateEnrichment:
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/enrichments')
-        mock_response = '{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field", "classifier_id": "classifier_id", "model_id": "model_id", "confidence_threshold": 0, "top_k": 0}}'
+        mock_response = '{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field", "classifier_id": "classifier_id", "model_id": "model_id", "confidence_threshold": 0, "top_k": 0, "url": "url", "version": "2023-03-31", "secret": "secret", "headers": {"name": "name", "value": "value"}, "location_encoding": "`utf-16`"}}'
         responses.add(
             responses.POST,
             url,
@@ -3852,6 +3862,11 @@ class TestCreateEnrichment:
             content_type='application/json',
             status=201,
         )
+
+        # Construct a dict representation of a WebhookHeader model
+        webhook_header_model = {}
+        webhook_header_model['name'] = 'testString'
+        webhook_header_model['value'] = 'testString'
 
         # Construct a dict representation of a EnrichmentOptions model
         enrichment_options_model = {}
@@ -3863,6 +3878,11 @@ class TestCreateEnrichment:
         enrichment_options_model['model_id'] = 'testString'
         enrichment_options_model['confidence_threshold'] = 0
         enrichment_options_model['top_k'] = 0
+        enrichment_options_model['url'] = 'testString'
+        enrichment_options_model['version'] = '2023-03-31'
+        enrichment_options_model['secret'] = 'testString'
+        enrichment_options_model['headers'] = webhook_header_model
+        enrichment_options_model['location_encoding'] = '`utf-16`'
 
         # Construct a dict representation of a CreateEnrichment model
         create_enrichment_model = {}
@@ -3902,7 +3922,7 @@ class TestCreateEnrichment:
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/enrichments')
-        mock_response = '{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field", "classifier_id": "classifier_id", "model_id": "model_id", "confidence_threshold": 0, "top_k": 0}}'
+        mock_response = '{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field", "classifier_id": "classifier_id", "model_id": "model_id", "confidence_threshold": 0, "top_k": 0, "url": "url", "version": "2023-03-31", "secret": "secret", "headers": {"name": "name", "value": "value"}, "location_encoding": "`utf-16`"}}'
         responses.add(
             responses.POST,
             url,
@@ -3910,6 +3930,11 @@ class TestCreateEnrichment:
             content_type='application/json',
             status=201,
         )
+
+        # Construct a dict representation of a WebhookHeader model
+        webhook_header_model = {}
+        webhook_header_model['name'] = 'testString'
+        webhook_header_model['value'] = 'testString'
 
         # Construct a dict representation of a EnrichmentOptions model
         enrichment_options_model = {}
@@ -3921,6 +3946,11 @@ class TestCreateEnrichment:
         enrichment_options_model['model_id'] = 'testString'
         enrichment_options_model['confidence_threshold'] = 0
         enrichment_options_model['top_k'] = 0
+        enrichment_options_model['url'] = 'testString'
+        enrichment_options_model['version'] = '2023-03-31'
+        enrichment_options_model['secret'] = 'testString'
+        enrichment_options_model['headers'] = webhook_header_model
+        enrichment_options_model['location_encoding'] = '`utf-16`'
 
         # Construct a dict representation of a CreateEnrichment model
         create_enrichment_model = {}
@@ -3965,7 +3995,7 @@ class TestGetEnrichment:
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/enrichments/testString')
-        mock_response = '{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field", "classifier_id": "classifier_id", "model_id": "model_id", "confidence_threshold": 0, "top_k": 0}}'
+        mock_response = '{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field", "classifier_id": "classifier_id", "model_id": "model_id", "confidence_threshold": 0, "top_k": 0, "url": "url", "version": "2023-03-31", "secret": "secret", "headers": {"name": "name", "value": "value"}, "location_encoding": "`utf-16`"}}'
         responses.add(
             responses.GET,
             url,
@@ -4005,7 +4035,7 @@ class TestGetEnrichment:
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/enrichments/testString')
-        mock_response = '{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field", "classifier_id": "classifier_id", "model_id": "model_id", "confidence_threshold": 0, "top_k": 0}}'
+        mock_response = '{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field", "classifier_id": "classifier_id", "model_id": "model_id", "confidence_threshold": 0, "top_k": 0, "url": "url", "version": "2023-03-31", "secret": "secret", "headers": {"name": "name", "value": "value"}, "location_encoding": "`utf-16`"}}'
         responses.add(
             responses.GET,
             url,
@@ -4050,7 +4080,7 @@ class TestUpdateEnrichment:
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/enrichments/testString')
-        mock_response = '{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field", "classifier_id": "classifier_id", "model_id": "model_id", "confidence_threshold": 0, "top_k": 0}}'
+        mock_response = '{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field", "classifier_id": "classifier_id", "model_id": "model_id", "confidence_threshold": 0, "top_k": 0, "url": "url", "version": "2023-03-31", "secret": "secret", "headers": {"name": "name", "value": "value"}, "location_encoding": "`utf-16`"}}'
         responses.add(
             responses.POST,
             url,
@@ -4098,7 +4128,7 @@ class TestUpdateEnrichment:
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/enrichments/testString')
-        mock_response = '{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field", "classifier_id": "classifier_id", "model_id": "model_id", "confidence_threshold": 0, "top_k": 0}}'
+        mock_response = '{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field", "classifier_id": "classifier_id", "model_id": "model_id", "confidence_threshold": 0, "top_k": 0, "url": "url", "version": "2023-03-31", "secret": "secret", "headers": {"name": "name", "value": "value"}, "location_encoding": "`utf-16`"}}'
         responses.add(
             responses.POST,
             url,
@@ -6099,6 +6129,10 @@ class TestModel_CreateEnrichment:
 
         # Construct dict forms of any model objects needed in order to build this model.
 
+        webhook_header_model = {}  # WebhookHeader
+        webhook_header_model['name'] = 'testString'
+        webhook_header_model['value'] = 'testString'
+
         enrichment_options_model = {}  # EnrichmentOptions
         enrichment_options_model['languages'] = ['testString']
         enrichment_options_model['entity_type'] = 'testString'
@@ -6108,6 +6142,11 @@ class TestModel_CreateEnrichment:
         enrichment_options_model['model_id'] = 'testString'
         enrichment_options_model['confidence_threshold'] = 0
         enrichment_options_model['top_k'] = 0
+        enrichment_options_model['url'] = 'testString'
+        enrichment_options_model['version'] = '2023-03-31'
+        enrichment_options_model['secret'] = 'testString'
+        enrichment_options_model['headers'] = webhook_header_model
+        enrichment_options_model['location_encoding'] = '`utf-16`'
 
         # Construct a json representation of a CreateEnrichment model
         create_enrichment_model_json = {}
@@ -6723,6 +6762,10 @@ class TestModel_Enrichment:
 
         # Construct dict forms of any model objects needed in order to build this model.
 
+        webhook_header_model = {}  # WebhookHeader
+        webhook_header_model['name'] = 'testString'
+        webhook_header_model['value'] = 'testString'
+
         enrichment_options_model = {}  # EnrichmentOptions
         enrichment_options_model['languages'] = ['testString']
         enrichment_options_model['entity_type'] = 'testString'
@@ -6732,6 +6775,11 @@ class TestModel_Enrichment:
         enrichment_options_model['model_id'] = 'testString'
         enrichment_options_model['confidence_threshold'] = 0
         enrichment_options_model['top_k'] = 0
+        enrichment_options_model['url'] = 'testString'
+        enrichment_options_model['version'] = '2023-03-31'
+        enrichment_options_model['secret'] = 'testString'
+        enrichment_options_model['headers'] = webhook_header_model
+        enrichment_options_model['location_encoding'] = '`utf-16`'
 
         # Construct a json representation of a Enrichment model
         enrichment_model_json = {}
@@ -6766,6 +6814,12 @@ class TestModel_EnrichmentOptions:
         Test serialization/deserialization for EnrichmentOptions
         """
 
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        webhook_header_model = {}  # WebhookHeader
+        webhook_header_model['name'] = 'testString'
+        webhook_header_model['value'] = 'testString'
+
         # Construct a json representation of a EnrichmentOptions model
         enrichment_options_model_json = {}
         enrichment_options_model_json['languages'] = ['testString']
@@ -6776,6 +6830,11 @@ class TestModel_EnrichmentOptions:
         enrichment_options_model_json['model_id'] = 'testString'
         enrichment_options_model_json['confidence_threshold'] = 0
         enrichment_options_model_json['top_k'] = 0
+        enrichment_options_model_json['url'] = 'testString'
+        enrichment_options_model_json['version'] = '2023-03-31'
+        enrichment_options_model_json['secret'] = 'testString'
+        enrichment_options_model_json['headers'] = webhook_header_model
+        enrichment_options_model_json['location_encoding'] = '`utf-16`'
 
         # Construct a model instance of EnrichmentOptions by calling from_dict on the json representation
         enrichment_options_model = EnrichmentOptions.from_dict(enrichment_options_model_json)
@@ -6805,6 +6864,10 @@ class TestModel_Enrichments:
 
         # Construct dict forms of any model objects needed in order to build this model.
 
+        webhook_header_model = {}  # WebhookHeader
+        webhook_header_model['name'] = 'testString'
+        webhook_header_model['value'] = 'testString'
+
         enrichment_options_model = {}  # EnrichmentOptions
         enrichment_options_model['languages'] = ['testString']
         enrichment_options_model['entity_type'] = 'testString'
@@ -6814,6 +6877,11 @@ class TestModel_Enrichments:
         enrichment_options_model['model_id'] = 'testString'
         enrichment_options_model['confidence_threshold'] = 0
         enrichment_options_model['top_k'] = 0
+        enrichment_options_model['url'] = 'testString'
+        enrichment_options_model['version'] = '2023-03-31'
+        enrichment_options_model['secret'] = 'testString'
+        enrichment_options_model['headers'] = webhook_header_model
+        enrichment_options_model['location_encoding'] = '`utf-16`'
 
         enrichment_model = {}  # Enrichment
         enrichment_model['name'] = 'testString'
@@ -7678,7 +7746,7 @@ class TestModel_QueryResponse:
 
         table_headers_model = {}  # TableHeaders
         table_headers_model['cell_id'] = 'testString'
-        table_headers_model['location'] = {'anyKey': 'anyValue'}
+        table_headers_model['location'] = table_element_location_model
         table_headers_model['text'] = 'testString'
         table_headers_model['row_index_begin'] = 26
         table_headers_model['row_index_end'] = 26
@@ -7697,7 +7765,7 @@ class TestModel_QueryResponse:
 
         table_column_headers_model = {}  # TableColumnHeaders
         table_column_headers_model['cell_id'] = 'testString'
-        table_column_headers_model['location'] = {'anyKey': 'anyValue'}
+        table_column_headers_model['location'] = table_element_location_model
         table_column_headers_model['text'] = 'testString'
         table_column_headers_model['text_normalized'] = 'testString'
         table_column_headers_model['row_index_begin'] = 26
@@ -7719,24 +7787,6 @@ class TestModel_QueryResponse:
         table_key_value_pairs_model['key'] = table_cell_key_model
         table_key_value_pairs_model['value'] = [table_cell_values_model]
 
-        table_row_header_ids_model = {}  # TableRowHeaderIds
-        table_row_header_ids_model['id'] = 'testString'
-
-        table_row_header_texts_model = {}  # TableRowHeaderTexts
-        table_row_header_texts_model['text'] = 'testString'
-
-        table_row_header_texts_normalized_model = {}  # TableRowHeaderTextsNormalized
-        table_row_header_texts_normalized_model['text_normalized'] = 'testString'
-
-        table_column_header_ids_model = {}  # TableColumnHeaderIds
-        table_column_header_ids_model['id'] = 'testString'
-
-        table_column_header_texts_model = {}  # TableColumnHeaderTexts
-        table_column_header_texts_model['text'] = 'testString'
-
-        table_column_header_texts_normalized_model = {}  # TableColumnHeaderTextsNormalized
-        table_column_header_texts_normalized_model['text_normalized'] = 'testString'
-
         document_attribute_model = {}  # DocumentAttribute
         document_attribute_model['type'] = 'testString'
         document_attribute_model['text'] = 'testString'
@@ -7750,12 +7800,12 @@ class TestModel_QueryResponse:
         table_body_cells_model['row_index_end'] = 26
         table_body_cells_model['column_index_begin'] = 26
         table_body_cells_model['column_index_end'] = 26
-        table_body_cells_model['row_header_ids'] = [table_row_header_ids_model]
-        table_body_cells_model['row_header_texts'] = [table_row_header_texts_model]
-        table_body_cells_model['row_header_texts_normalized'] = [table_row_header_texts_normalized_model]
-        table_body_cells_model['column_header_ids'] = [table_column_header_ids_model]
-        table_body_cells_model['column_header_texts'] = [table_column_header_texts_model]
-        table_body_cells_model['column_header_texts_normalized'] = [table_column_header_texts_normalized_model]
+        table_body_cells_model['row_header_ids'] = ['testString']
+        table_body_cells_model['row_header_texts'] = ['testString']
+        table_body_cells_model['row_header_texts_normalized'] = ['testString']
+        table_body_cells_model['column_header_ids'] = ['testString']
+        table_body_cells_model['column_header_texts'] = ['testString']
+        table_body_cells_model['column_header_texts_normalized'] = ['testString']
         table_body_cells_model['attributes'] = [document_attribute_model]
 
         table_result_table_model = {}  # TableResultTable
@@ -8050,7 +8100,7 @@ class TestModel_QueryTableResult:
 
         table_headers_model = {}  # TableHeaders
         table_headers_model['cell_id'] = 'testString'
-        table_headers_model['location'] = {'anyKey': 'anyValue'}
+        table_headers_model['location'] = table_element_location_model
         table_headers_model['text'] = 'testString'
         table_headers_model['row_index_begin'] = 26
         table_headers_model['row_index_end'] = 26
@@ -8069,7 +8119,7 @@ class TestModel_QueryTableResult:
 
         table_column_headers_model = {}  # TableColumnHeaders
         table_column_headers_model['cell_id'] = 'testString'
-        table_column_headers_model['location'] = {'anyKey': 'anyValue'}
+        table_column_headers_model['location'] = table_element_location_model
         table_column_headers_model['text'] = 'testString'
         table_column_headers_model['text_normalized'] = 'testString'
         table_column_headers_model['row_index_begin'] = 26
@@ -8091,24 +8141,6 @@ class TestModel_QueryTableResult:
         table_key_value_pairs_model['key'] = table_cell_key_model
         table_key_value_pairs_model['value'] = [table_cell_values_model]
 
-        table_row_header_ids_model = {}  # TableRowHeaderIds
-        table_row_header_ids_model['id'] = 'testString'
-
-        table_row_header_texts_model = {}  # TableRowHeaderTexts
-        table_row_header_texts_model['text'] = 'testString'
-
-        table_row_header_texts_normalized_model = {}  # TableRowHeaderTextsNormalized
-        table_row_header_texts_normalized_model['text_normalized'] = 'testString'
-
-        table_column_header_ids_model = {}  # TableColumnHeaderIds
-        table_column_header_ids_model['id'] = 'testString'
-
-        table_column_header_texts_model = {}  # TableColumnHeaderTexts
-        table_column_header_texts_model['text'] = 'testString'
-
-        table_column_header_texts_normalized_model = {}  # TableColumnHeaderTextsNormalized
-        table_column_header_texts_normalized_model['text_normalized'] = 'testString'
-
         document_attribute_model = {}  # DocumentAttribute
         document_attribute_model['type'] = 'testString'
         document_attribute_model['text'] = 'testString'
@@ -8122,12 +8154,12 @@ class TestModel_QueryTableResult:
         table_body_cells_model['row_index_end'] = 26
         table_body_cells_model['column_index_begin'] = 26
         table_body_cells_model['column_index_end'] = 26
-        table_body_cells_model['row_header_ids'] = [table_row_header_ids_model]
-        table_body_cells_model['row_header_texts'] = [table_row_header_texts_model]
-        table_body_cells_model['row_header_texts_normalized'] = [table_row_header_texts_normalized_model]
-        table_body_cells_model['column_header_ids'] = [table_column_header_ids_model]
-        table_body_cells_model['column_header_texts'] = [table_column_header_texts_model]
-        table_body_cells_model['column_header_texts_normalized'] = [table_column_header_texts_normalized_model]
+        table_body_cells_model['row_header_ids'] = ['testString']
+        table_body_cells_model['row_header_texts'] = ['testString']
+        table_body_cells_model['row_header_texts_normalized'] = ['testString']
+        table_body_cells_model['column_header_ids'] = ['testString']
+        table_body_cells_model['column_header_texts'] = ['testString']
+        table_body_cells_model['column_header_texts_normalized'] = ['testString']
         table_body_cells_model['attributes'] = [document_attribute_model]
 
         table_result_table_model = {}  # TableResultTable
@@ -8435,24 +8467,6 @@ class TestModel_TableBodyCells:
         table_element_location_model['begin'] = 26
         table_element_location_model['end'] = 26
 
-        table_row_header_ids_model = {}  # TableRowHeaderIds
-        table_row_header_ids_model['id'] = 'testString'
-
-        table_row_header_texts_model = {}  # TableRowHeaderTexts
-        table_row_header_texts_model['text'] = 'testString'
-
-        table_row_header_texts_normalized_model = {}  # TableRowHeaderTextsNormalized
-        table_row_header_texts_normalized_model['text_normalized'] = 'testString'
-
-        table_column_header_ids_model = {}  # TableColumnHeaderIds
-        table_column_header_ids_model['id'] = 'testString'
-
-        table_column_header_texts_model = {}  # TableColumnHeaderTexts
-        table_column_header_texts_model['text'] = 'testString'
-
-        table_column_header_texts_normalized_model = {}  # TableColumnHeaderTextsNormalized
-        table_column_header_texts_normalized_model['text_normalized'] = 'testString'
-
         document_attribute_model = {}  # DocumentAttribute
         document_attribute_model['type'] = 'testString'
         document_attribute_model['text'] = 'testString'
@@ -8467,12 +8481,12 @@ class TestModel_TableBodyCells:
         table_body_cells_model_json['row_index_end'] = 26
         table_body_cells_model_json['column_index_begin'] = 26
         table_body_cells_model_json['column_index_end'] = 26
-        table_body_cells_model_json['row_header_ids'] = [table_row_header_ids_model]
-        table_body_cells_model_json['row_header_texts'] = [table_row_header_texts_model]
-        table_body_cells_model_json['row_header_texts_normalized'] = [table_row_header_texts_normalized_model]
-        table_body_cells_model_json['column_header_ids'] = [table_column_header_ids_model]
-        table_body_cells_model_json['column_header_texts'] = [table_column_header_texts_model]
-        table_body_cells_model_json['column_header_texts_normalized'] = [table_column_header_texts_normalized_model]
+        table_body_cells_model_json['row_header_ids'] = ['testString']
+        table_body_cells_model_json['row_header_texts'] = ['testString']
+        table_body_cells_model_json['row_header_texts_normalized'] = ['testString']
+        table_body_cells_model_json['column_header_ids'] = ['testString']
+        table_body_cells_model_json['column_header_texts'] = ['testString']
+        table_body_cells_model_json['column_header_texts_normalized'] = ['testString']
         table_body_cells_model_json['attributes'] = [document_attribute_model]
 
         # Construct a model instance of TableBodyCells by calling from_dict on the json representation
@@ -8567,96 +8581,6 @@ class TestModel_TableCellValues:
         assert table_cell_values_model_json2 == table_cell_values_model_json
 
 
-class TestModel_TableColumnHeaderIds:
-    """
-    Test Class for TableColumnHeaderIds
-    """
-
-    def test_table_column_header_ids_serialization(self):
-        """
-        Test serialization/deserialization for TableColumnHeaderIds
-        """
-
-        # Construct a json representation of a TableColumnHeaderIds model
-        table_column_header_ids_model_json = {}
-        table_column_header_ids_model_json['id'] = 'testString'
-
-        # Construct a model instance of TableColumnHeaderIds by calling from_dict on the json representation
-        table_column_header_ids_model = TableColumnHeaderIds.from_dict(table_column_header_ids_model_json)
-        assert table_column_header_ids_model != False
-
-        # Construct a model instance of TableColumnHeaderIds by calling from_dict on the json representation
-        table_column_header_ids_model_dict = TableColumnHeaderIds.from_dict(table_column_header_ids_model_json).__dict__
-        table_column_header_ids_model2 = TableColumnHeaderIds(**table_column_header_ids_model_dict)
-
-        # Verify the model instances are equivalent
-        assert table_column_header_ids_model == table_column_header_ids_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        table_column_header_ids_model_json2 = table_column_header_ids_model.to_dict()
-        assert table_column_header_ids_model_json2 == table_column_header_ids_model_json
-
-
-class TestModel_TableColumnHeaderTexts:
-    """
-    Test Class for TableColumnHeaderTexts
-    """
-
-    def test_table_column_header_texts_serialization(self):
-        """
-        Test serialization/deserialization for TableColumnHeaderTexts
-        """
-
-        # Construct a json representation of a TableColumnHeaderTexts model
-        table_column_header_texts_model_json = {}
-        table_column_header_texts_model_json['text'] = 'testString'
-
-        # Construct a model instance of TableColumnHeaderTexts by calling from_dict on the json representation
-        table_column_header_texts_model = TableColumnHeaderTexts.from_dict(table_column_header_texts_model_json)
-        assert table_column_header_texts_model != False
-
-        # Construct a model instance of TableColumnHeaderTexts by calling from_dict on the json representation
-        table_column_header_texts_model_dict = TableColumnHeaderTexts.from_dict(table_column_header_texts_model_json).__dict__
-        table_column_header_texts_model2 = TableColumnHeaderTexts(**table_column_header_texts_model_dict)
-
-        # Verify the model instances are equivalent
-        assert table_column_header_texts_model == table_column_header_texts_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        table_column_header_texts_model_json2 = table_column_header_texts_model.to_dict()
-        assert table_column_header_texts_model_json2 == table_column_header_texts_model_json
-
-
-class TestModel_TableColumnHeaderTextsNormalized:
-    """
-    Test Class for TableColumnHeaderTextsNormalized
-    """
-
-    def test_table_column_header_texts_normalized_serialization(self):
-        """
-        Test serialization/deserialization for TableColumnHeaderTextsNormalized
-        """
-
-        # Construct a json representation of a TableColumnHeaderTextsNormalized model
-        table_column_header_texts_normalized_model_json = {}
-        table_column_header_texts_normalized_model_json['text_normalized'] = 'testString'
-
-        # Construct a model instance of TableColumnHeaderTextsNormalized by calling from_dict on the json representation
-        table_column_header_texts_normalized_model = TableColumnHeaderTextsNormalized.from_dict(table_column_header_texts_normalized_model_json)
-        assert table_column_header_texts_normalized_model != False
-
-        # Construct a model instance of TableColumnHeaderTextsNormalized by calling from_dict on the json representation
-        table_column_header_texts_normalized_model_dict = TableColumnHeaderTextsNormalized.from_dict(table_column_header_texts_normalized_model_json).__dict__
-        table_column_header_texts_normalized_model2 = TableColumnHeaderTextsNormalized(**table_column_header_texts_normalized_model_dict)
-
-        # Verify the model instances are equivalent
-        assert table_column_header_texts_normalized_model == table_column_header_texts_normalized_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        table_column_header_texts_normalized_model_json2 = table_column_header_texts_normalized_model.to_dict()
-        assert table_column_header_texts_normalized_model_json2 == table_column_header_texts_normalized_model_json
-
-
 class TestModel_TableColumnHeaders:
     """
     Test Class for TableColumnHeaders
@@ -8667,10 +8591,16 @@ class TestModel_TableColumnHeaders:
         Test serialization/deserialization for TableColumnHeaders
         """
 
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        table_element_location_model = {}  # TableElementLocation
+        table_element_location_model['begin'] = 26
+        table_element_location_model['end'] = 26
+
         # Construct a json representation of a TableColumnHeaders model
         table_column_headers_model_json = {}
         table_column_headers_model_json['cell_id'] = 'testString'
-        table_column_headers_model_json['location'] = {'anyKey': 'anyValue'}
+        table_column_headers_model_json['location'] = table_element_location_model
         table_column_headers_model_json['text'] = 'testString'
         table_column_headers_model_json['text_normalized'] = 'testString'
         table_column_headers_model_json['row_index_begin'] = 26
@@ -8735,10 +8665,16 @@ class TestModel_TableHeaders:
         Test serialization/deserialization for TableHeaders
         """
 
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        table_element_location_model = {}  # TableElementLocation
+        table_element_location_model['begin'] = 26
+        table_element_location_model['end'] = 26
+
         # Construct a json representation of a TableHeaders model
         table_headers_model_json = {}
         table_headers_model_json['cell_id'] = 'testString'
-        table_headers_model_json['location'] = {'anyKey': 'anyValue'}
+        table_headers_model_json['location'] = table_element_location_model
         table_headers_model_json['text'] = 'testString'
         table_headers_model_json['row_index_begin'] = 26
         table_headers_model_json['row_index_end'] = 26
@@ -8830,7 +8766,7 @@ class TestModel_TableResultTable:
 
         table_headers_model = {}  # TableHeaders
         table_headers_model['cell_id'] = 'testString'
-        table_headers_model['location'] = {'anyKey': 'anyValue'}
+        table_headers_model['location'] = table_element_location_model
         table_headers_model['text'] = 'testString'
         table_headers_model['row_index_begin'] = 26
         table_headers_model['row_index_end'] = 26
@@ -8849,7 +8785,7 @@ class TestModel_TableResultTable:
 
         table_column_headers_model = {}  # TableColumnHeaders
         table_column_headers_model['cell_id'] = 'testString'
-        table_column_headers_model['location'] = {'anyKey': 'anyValue'}
+        table_column_headers_model['location'] = table_element_location_model
         table_column_headers_model['text'] = 'testString'
         table_column_headers_model['text_normalized'] = 'testString'
         table_column_headers_model['row_index_begin'] = 26
@@ -8871,24 +8807,6 @@ class TestModel_TableResultTable:
         table_key_value_pairs_model['key'] = table_cell_key_model
         table_key_value_pairs_model['value'] = [table_cell_values_model]
 
-        table_row_header_ids_model = {}  # TableRowHeaderIds
-        table_row_header_ids_model['id'] = 'testString'
-
-        table_row_header_texts_model = {}  # TableRowHeaderTexts
-        table_row_header_texts_model['text'] = 'testString'
-
-        table_row_header_texts_normalized_model = {}  # TableRowHeaderTextsNormalized
-        table_row_header_texts_normalized_model['text_normalized'] = 'testString'
-
-        table_column_header_ids_model = {}  # TableColumnHeaderIds
-        table_column_header_ids_model['id'] = 'testString'
-
-        table_column_header_texts_model = {}  # TableColumnHeaderTexts
-        table_column_header_texts_model['text'] = 'testString'
-
-        table_column_header_texts_normalized_model = {}  # TableColumnHeaderTextsNormalized
-        table_column_header_texts_normalized_model['text_normalized'] = 'testString'
-
         document_attribute_model = {}  # DocumentAttribute
         document_attribute_model['type'] = 'testString'
         document_attribute_model['text'] = 'testString'
@@ -8902,12 +8820,12 @@ class TestModel_TableResultTable:
         table_body_cells_model['row_index_end'] = 26
         table_body_cells_model['column_index_begin'] = 26
         table_body_cells_model['column_index_end'] = 26
-        table_body_cells_model['row_header_ids'] = [table_row_header_ids_model]
-        table_body_cells_model['row_header_texts'] = [table_row_header_texts_model]
-        table_body_cells_model['row_header_texts_normalized'] = [table_row_header_texts_normalized_model]
-        table_body_cells_model['column_header_ids'] = [table_column_header_ids_model]
-        table_body_cells_model['column_header_texts'] = [table_column_header_texts_model]
-        table_body_cells_model['column_header_texts_normalized'] = [table_column_header_texts_normalized_model]
+        table_body_cells_model['row_header_ids'] = ['testString']
+        table_body_cells_model['row_header_texts'] = ['testString']
+        table_body_cells_model['row_header_texts_normalized'] = ['testString']
+        table_body_cells_model['column_header_ids'] = ['testString']
+        table_body_cells_model['column_header_texts'] = ['testString']
+        table_body_cells_model['column_header_texts_normalized'] = ['testString']
         table_body_cells_model['attributes'] = [document_attribute_model]
 
         # Construct a json representation of a TableResultTable model
@@ -8937,96 +8855,6 @@ class TestModel_TableResultTable:
         # Convert model instance back to dict and verify no loss of data
         table_result_table_model_json2 = table_result_table_model.to_dict()
         assert table_result_table_model_json2 == table_result_table_model_json
-
-
-class TestModel_TableRowHeaderIds:
-    """
-    Test Class for TableRowHeaderIds
-    """
-
-    def test_table_row_header_ids_serialization(self):
-        """
-        Test serialization/deserialization for TableRowHeaderIds
-        """
-
-        # Construct a json representation of a TableRowHeaderIds model
-        table_row_header_ids_model_json = {}
-        table_row_header_ids_model_json['id'] = 'testString'
-
-        # Construct a model instance of TableRowHeaderIds by calling from_dict on the json representation
-        table_row_header_ids_model = TableRowHeaderIds.from_dict(table_row_header_ids_model_json)
-        assert table_row_header_ids_model != False
-
-        # Construct a model instance of TableRowHeaderIds by calling from_dict on the json representation
-        table_row_header_ids_model_dict = TableRowHeaderIds.from_dict(table_row_header_ids_model_json).__dict__
-        table_row_header_ids_model2 = TableRowHeaderIds(**table_row_header_ids_model_dict)
-
-        # Verify the model instances are equivalent
-        assert table_row_header_ids_model == table_row_header_ids_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        table_row_header_ids_model_json2 = table_row_header_ids_model.to_dict()
-        assert table_row_header_ids_model_json2 == table_row_header_ids_model_json
-
-
-class TestModel_TableRowHeaderTexts:
-    """
-    Test Class for TableRowHeaderTexts
-    """
-
-    def test_table_row_header_texts_serialization(self):
-        """
-        Test serialization/deserialization for TableRowHeaderTexts
-        """
-
-        # Construct a json representation of a TableRowHeaderTexts model
-        table_row_header_texts_model_json = {}
-        table_row_header_texts_model_json['text'] = 'testString'
-
-        # Construct a model instance of TableRowHeaderTexts by calling from_dict on the json representation
-        table_row_header_texts_model = TableRowHeaderTexts.from_dict(table_row_header_texts_model_json)
-        assert table_row_header_texts_model != False
-
-        # Construct a model instance of TableRowHeaderTexts by calling from_dict on the json representation
-        table_row_header_texts_model_dict = TableRowHeaderTexts.from_dict(table_row_header_texts_model_json).__dict__
-        table_row_header_texts_model2 = TableRowHeaderTexts(**table_row_header_texts_model_dict)
-
-        # Verify the model instances are equivalent
-        assert table_row_header_texts_model == table_row_header_texts_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        table_row_header_texts_model_json2 = table_row_header_texts_model.to_dict()
-        assert table_row_header_texts_model_json2 == table_row_header_texts_model_json
-
-
-class TestModel_TableRowHeaderTextsNormalized:
-    """
-    Test Class for TableRowHeaderTextsNormalized
-    """
-
-    def test_table_row_header_texts_normalized_serialization(self):
-        """
-        Test serialization/deserialization for TableRowHeaderTextsNormalized
-        """
-
-        # Construct a json representation of a TableRowHeaderTextsNormalized model
-        table_row_header_texts_normalized_model_json = {}
-        table_row_header_texts_normalized_model_json['text_normalized'] = 'testString'
-
-        # Construct a model instance of TableRowHeaderTextsNormalized by calling from_dict on the json representation
-        table_row_header_texts_normalized_model = TableRowHeaderTextsNormalized.from_dict(table_row_header_texts_normalized_model_json)
-        assert table_row_header_texts_normalized_model != False
-
-        # Construct a model instance of TableRowHeaderTextsNormalized by calling from_dict on the json representation
-        table_row_header_texts_normalized_model_dict = TableRowHeaderTextsNormalized.from_dict(table_row_header_texts_normalized_model_json).__dict__
-        table_row_header_texts_normalized_model2 = TableRowHeaderTextsNormalized(**table_row_header_texts_normalized_model_dict)
-
-        # Verify the model instances are equivalent
-        assert table_row_header_texts_normalized_model == table_row_header_texts_normalized_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        table_row_header_texts_normalized_model_json2 = table_row_header_texts_normalized_model.to_dict()
-        assert table_row_header_texts_normalized_model_json2 == table_row_header_texts_normalized_model_json
 
 
 class TestModel_TableRowHeaders:
@@ -9251,6 +9079,37 @@ class TestModel_UpdateDocumentClassifier:
         # Convert model instance back to dict and verify no loss of data
         update_document_classifier_model_json2 = update_document_classifier_model.to_dict()
         assert update_document_classifier_model_json2 == update_document_classifier_model_json
+
+
+class TestModel_WebhookHeader:
+    """
+    Test Class for WebhookHeader
+    """
+
+    def test_webhook_header_serialization(self):
+        """
+        Test serialization/deserialization for WebhookHeader
+        """
+
+        # Construct a json representation of a WebhookHeader model
+        webhook_header_model_json = {}
+        webhook_header_model_json['name'] = 'testString'
+        webhook_header_model_json['value'] = 'testString'
+
+        # Construct a model instance of WebhookHeader by calling from_dict on the json representation
+        webhook_header_model = WebhookHeader.from_dict(webhook_header_model_json)
+        assert webhook_header_model != False
+
+        # Construct a model instance of WebhookHeader by calling from_dict on the json representation
+        webhook_header_model_dict = WebhookHeader.from_dict(webhook_header_model_json).__dict__
+        webhook_header_model2 = WebhookHeader(**webhook_header_model_dict)
+
+        # Verify the model instances are equivalent
+        assert webhook_header_model == webhook_header_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        webhook_header_model_json2 = webhook_header_model.to_dict()
+        assert webhook_header_model_json2 == webhook_header_model_json
 
 
 class TestModel_QueryAggregationQueryCalculationAggregation:
