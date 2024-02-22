@@ -10976,18 +10976,18 @@ class TableBodyCells:
           `column` location in the current table.
     :param int column_index_end: (optional) The `end` index of this cell's `column`
           location in the current table.
-    :param List[TableRowHeaderIds] row_header_ids: (optional) A list of table row
-          header ids.
-    :param List[TableRowHeaderTexts] row_header_texts: (optional) A list of table
-          row header texts.
-    :param List[TableRowHeaderTextsNormalized] row_header_texts_normalized:
-          (optional) A list of table row header texts normalized.
-    :param List[TableColumnHeaderIds] column_header_ids: (optional) A list of table
-          column header ids.
-    :param List[TableColumnHeaderTexts] column_header_texts: (optional) A list of
-          table column header texts.
-    :param List[TableColumnHeaderTextsNormalized] column_header_texts_normalized:
-          (optional) A list of table column header texts normalized.
+    :param List[str] row_header_ids: (optional) A list of ID values that represent
+          the table row headers that are associated with this body cell.
+    :param List[str] row_header_texts: (optional) A list of row header values that
+          are associated with this body cell.
+    :param List[str] row_header_texts_normalized: (optional) A list of normalized
+          row header values that are associated with this body cell.
+    :param List[str] column_header_ids: (optional) A list of ID values that
+          represent the column headers that are associated with this body cell.
+    :param List[str] column_header_texts: (optional) A list of column header values
+          that are associated with this body cell.
+    :param List[str] column_header_texts_normalized: (optional) A list of normalized
+          column header values that are associated with this body cell.
     :param List[DocumentAttribute] attributes: (optional) A list of document
           attributes.
     """
@@ -11002,14 +11002,12 @@ class TableBodyCells:
         row_index_end: Optional[int] = None,
         column_index_begin: Optional[int] = None,
         column_index_end: Optional[int] = None,
-        row_header_ids: Optional[List['TableRowHeaderIds']] = None,
-        row_header_texts: Optional[List['TableRowHeaderTexts']] = None,
-        row_header_texts_normalized: Optional[
-            List['TableRowHeaderTextsNormalized']] = None,
-        column_header_ids: Optional[List['TableColumnHeaderIds']] = None,
-        column_header_texts: Optional[List['TableColumnHeaderTexts']] = None,
-        column_header_texts_normalized: Optional[
-            List['TableColumnHeaderTextsNormalized']] = None,
+        row_header_ids: Optional[List[str]] = None,
+        row_header_texts: Optional[List[str]] = None,
+        row_header_texts_normalized: Optional[List[str]] = None,
+        column_header_ids: Optional[List[str]] = None,
+        column_header_texts: Optional[List[str]] = None,
+        column_header_texts_normalized: Optional[List[str]] = None,
         attributes: Optional[List['DocumentAttribute']] = None,
     ) -> None:
         """
@@ -11030,19 +11028,18 @@ class TableBodyCells:
                `column` location in the current table.
         :param int column_index_end: (optional) The `end` index of this cell's
                `column` location in the current table.
-        :param List[TableRowHeaderIds] row_header_ids: (optional) A list of table
-               row header ids.
-        :param List[TableRowHeaderTexts] row_header_texts: (optional) A list of
-               table row header texts.
-        :param List[TableRowHeaderTextsNormalized] row_header_texts_normalized:
-               (optional) A list of table row header texts normalized.
-        :param List[TableColumnHeaderIds] column_header_ids: (optional) A list of
-               table column header ids.
-        :param List[TableColumnHeaderTexts] column_header_texts: (optional) A list
-               of table column header texts.
-        :param List[TableColumnHeaderTextsNormalized]
-               column_header_texts_normalized: (optional) A list of table column header
-               texts normalized.
+        :param List[str] row_header_ids: (optional) A list of ID values that
+               represent the table row headers that are associated with this body cell.
+        :param List[str] row_header_texts: (optional) A list of row header values
+               that are associated with this body cell.
+        :param List[str] row_header_texts_normalized: (optional) A list of
+               normalized row header values that are associated with this body cell.
+        :param List[str] column_header_ids: (optional) A list of ID values that
+               represent the column headers that are associated with this body cell.
+        :param List[str] column_header_texts: (optional) A list of column header
+               values that are associated with this body cell.
+        :param List[str] column_header_texts_normalized: (optional) A list of
+               normalized column header values that are associated with this body cell.
         :param List[DocumentAttribute] attributes: (optional) A list of document
                attributes.
         """
@@ -11080,34 +11077,21 @@ class TableBodyCells:
         if (column_index_end := _dict.get('column_index_end')) is not None:
             args['column_index_end'] = column_index_end
         if (row_header_ids := _dict.get('row_header_ids')) is not None:
-            args['row_header_ids'] = [
-                TableRowHeaderIds.from_dict(v) for v in row_header_ids
-            ]
+            args['row_header_ids'] = row_header_ids
         if (row_header_texts := _dict.get('row_header_texts')) is not None:
-            args['row_header_texts'] = [
-                TableRowHeaderTexts.from_dict(v) for v in row_header_texts
-            ]
+            args['row_header_texts'] = row_header_texts
         if (row_header_texts_normalized :=
                 _dict.get('row_header_texts_normalized')) is not None:
-            args['row_header_texts_normalized'] = [
-                TableRowHeaderTextsNormalized.from_dict(v)
-                for v in row_header_texts_normalized
-            ]
+            args['row_header_texts_normalized'] = row_header_texts_normalized
         if (column_header_ids := _dict.get('column_header_ids')) is not None:
-            args['column_header_ids'] = [
-                TableColumnHeaderIds.from_dict(v) for v in column_header_ids
-            ]
+            args['column_header_ids'] = column_header_ids
         if (column_header_texts :=
                 _dict.get('column_header_texts')) is not None:
-            args['column_header_texts'] = [
-                TableColumnHeaderTexts.from_dict(v) for v in column_header_texts
-            ]
+            args['column_header_texts'] = column_header_texts
         if (column_header_texts_normalized :=
                 _dict.get('column_header_texts_normalized')) is not None:
-            args['column_header_texts_normalized'] = [
-                TableColumnHeaderTextsNormalized.from_dict(v)
-                for v in column_header_texts_normalized
-            ]
+            args[
+                'column_header_texts_normalized'] = column_header_texts_normalized
         if (attributes := _dict.get('attributes')) is not None:
             args['attributes'] = [
                 DocumentAttribute.from_dict(v) for v in attributes
@@ -11144,61 +11128,25 @@ class TableBodyCells:
                    'column_index_end') and self.column_index_end is not None:
             _dict['column_index_end'] = self.column_index_end
         if hasattr(self, 'row_header_ids') and self.row_header_ids is not None:
-            row_header_ids_list = []
-            for v in self.row_header_ids:
-                if isinstance(v, dict):
-                    row_header_ids_list.append(v)
-                else:
-                    row_header_ids_list.append(v.to_dict())
-            _dict['row_header_ids'] = row_header_ids_list
+            _dict['row_header_ids'] = self.row_header_ids
         if hasattr(self,
                    'row_header_texts') and self.row_header_texts is not None:
-            row_header_texts_list = []
-            for v in self.row_header_texts:
-                if isinstance(v, dict):
-                    row_header_texts_list.append(v)
-                else:
-                    row_header_texts_list.append(v.to_dict())
-            _dict['row_header_texts'] = row_header_texts_list
+            _dict['row_header_texts'] = self.row_header_texts
         if hasattr(self, 'row_header_texts_normalized'
                   ) and self.row_header_texts_normalized is not None:
-            row_header_texts_normalized_list = []
-            for v in self.row_header_texts_normalized:
-                if isinstance(v, dict):
-                    row_header_texts_normalized_list.append(v)
-                else:
-                    row_header_texts_normalized_list.append(v.to_dict())
             _dict[
-                'row_header_texts_normalized'] = row_header_texts_normalized_list
+                'row_header_texts_normalized'] = self.row_header_texts_normalized
         if hasattr(self,
                    'column_header_ids') and self.column_header_ids is not None:
-            column_header_ids_list = []
-            for v in self.column_header_ids:
-                if isinstance(v, dict):
-                    column_header_ids_list.append(v)
-                else:
-                    column_header_ids_list.append(v.to_dict())
-            _dict['column_header_ids'] = column_header_ids_list
+            _dict['column_header_ids'] = self.column_header_ids
         if hasattr(
                 self,
                 'column_header_texts') and self.column_header_texts is not None:
-            column_header_texts_list = []
-            for v in self.column_header_texts:
-                if isinstance(v, dict):
-                    column_header_texts_list.append(v)
-                else:
-                    column_header_texts_list.append(v.to_dict())
-            _dict['column_header_texts'] = column_header_texts_list
+            _dict['column_header_texts'] = self.column_header_texts
         if hasattr(self, 'column_header_texts_normalized'
                   ) and self.column_header_texts_normalized is not None:
-            column_header_texts_normalized_list = []
-            for v in self.column_header_texts_normalized:
-                if isinstance(v, dict):
-                    column_header_texts_normalized_list.append(v)
-                else:
-                    column_header_texts_normalized_list.append(v.to_dict())
             _dict[
-                'column_header_texts_normalized'] = column_header_texts_normalized_list
+                'column_header_texts_normalized'] = self.column_header_texts_normalized
         if hasattr(self, 'attributes') and self.attributes is not None:
             attributes_list = []
             for v in self.attributes:
@@ -11394,200 +11342,18 @@ class TableCellValues:
         return not self == other
 
 
-class TableColumnHeaderIds:
-    """
-    An array of values, each being the `id` value of a column header that is applicable to
-    the current cell.
-
-    :param str id: (optional) The `id` value of a column header.
-    """
-
-    def __init__(
-        self,
-        *,
-        id: Optional[str] = None,
-    ) -> None:
-        """
-        Initialize a TableColumnHeaderIds object.
-
-        :param str id: (optional) The `id` value of a column header.
-        """
-        self.id = id
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'TableColumnHeaderIds':
-        """Initialize a TableColumnHeaderIds object from a json dictionary."""
-        args = {}
-        if (id := _dict.get('id')) is not None:
-            args['id'] = id
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a TableColumnHeaderIds object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'id') and self.id is not None:
-            _dict['id'] = self.id
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this TableColumnHeaderIds object."""
-        return json.dumps(self.to_dict(), indent=2)
-
-    def __eq__(self, other: 'TableColumnHeaderIds') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'TableColumnHeaderIds') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class TableColumnHeaderTexts:
-    """
-    An array of values, each being the `text` value of a column header that is applicable
-    to the current cell.
-
-    :param str text: (optional) The `text` value of a column header.
-    """
-
-    def __init__(
-        self,
-        *,
-        text: Optional[str] = None,
-    ) -> None:
-        """
-        Initialize a TableColumnHeaderTexts object.
-
-        :param str text: (optional) The `text` value of a column header.
-        """
-        self.text = text
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'TableColumnHeaderTexts':
-        """Initialize a TableColumnHeaderTexts object from a json dictionary."""
-        args = {}
-        if (text := _dict.get('text')) is not None:
-            args['text'] = text
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a TableColumnHeaderTexts object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'text') and self.text is not None:
-            _dict['text'] = self.text
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this TableColumnHeaderTexts object."""
-        return json.dumps(self.to_dict(), indent=2)
-
-    def __eq__(self, other: 'TableColumnHeaderTexts') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'TableColumnHeaderTexts') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class TableColumnHeaderTextsNormalized:
-    """
-    If you provide customization input, the normalized version of the column header texts
-    according to the customization; otherwise, the same value as `column_header_texts`.
-
-    :param str text_normalized: (optional) The normalized version of a column header
-          text.
-    """
-
-    def __init__(
-        self,
-        *,
-        text_normalized: Optional[str] = None,
-    ) -> None:
-        """
-        Initialize a TableColumnHeaderTextsNormalized object.
-
-        :param str text_normalized: (optional) The normalized version of a column
-               header text.
-        """
-        self.text_normalized = text_normalized
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'TableColumnHeaderTextsNormalized':
-        """Initialize a TableColumnHeaderTextsNormalized object from a json dictionary."""
-        args = {}
-        if (text_normalized := _dict.get('text_normalized')) is not None:
-            args['text_normalized'] = text_normalized
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a TableColumnHeaderTextsNormalized object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self,
-                   'text_normalized') and self.text_normalized is not None:
-            _dict['text_normalized'] = self.text_normalized
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this TableColumnHeaderTextsNormalized object."""
-        return json.dumps(self.to_dict(), indent=2)
-
-    def __eq__(self, other: 'TableColumnHeaderTextsNormalized') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'TableColumnHeaderTextsNormalized') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
 class TableColumnHeaders:
     """
     Column-level cells, each applicable as a header to other cells in the same column as
     itself, of the current table.
 
     :param str cell_id: (optional) The unique ID of the cell in the current table.
-    :param dict location: (optional) The location of the column header cell in the
-          current table as defined by its `begin` and `end` offsets, respectfully, in the
-          input document.
+    :param TableElementLocation location: (optional) The numeric location of the
+          identified element in the document, represented with two integers labeled
+          `begin` and `end`.
     :param str text: (optional) The textual contents of this cell from the input
           document without associated markup content.
-    :param str text_normalized: (optional) If you provide customization input, the
-          normalized version of the cell text according to the customization; otherwise,
-          the same value as `text`.
+    :param str text_normalized: (optional) Normalized column header text.
     :param int row_index_begin: (optional) The `begin` index of this cell's `row`
           location in the current table.
     :param int row_index_end: (optional) The `end` index of this cell's `row`
@@ -11602,7 +11368,7 @@ class TableColumnHeaders:
         self,
         *,
         cell_id: Optional[str] = None,
-        location: Optional[dict] = None,
+        location: Optional['TableElementLocation'] = None,
         text: Optional[str] = None,
         text_normalized: Optional[str] = None,
         row_index_begin: Optional[int] = None,
@@ -11615,14 +11381,12 @@ class TableColumnHeaders:
 
         :param str cell_id: (optional) The unique ID of the cell in the current
                table.
-        :param dict location: (optional) The location of the column header cell in
-               the current table as defined by its `begin` and `end` offsets,
-               respectfully, in the input document.
+        :param TableElementLocation location: (optional) The numeric location of
+               the identified element in the document, represented with two integers
+               labeled `begin` and `end`.
         :param str text: (optional) The textual contents of this cell from the
                input document without associated markup content.
-        :param str text_normalized: (optional) If you provide customization input,
-               the normalized version of the cell text according to the customization;
-               otherwise, the same value as `text`.
+        :param str text_normalized: (optional) Normalized column header text.
         :param int row_index_begin: (optional) The `begin` index of this cell's
                `row` location in the current table.
         :param int row_index_end: (optional) The `end` index of this cell's `row`
@@ -11648,7 +11412,7 @@ class TableColumnHeaders:
         if (cell_id := _dict.get('cell_id')) is not None:
             args['cell_id'] = cell_id
         if (location := _dict.get('location')) is not None:
-            args['location'] = location
+            args['location'] = TableElementLocation.from_dict(location)
         if (text := _dict.get('text')) is not None:
             args['text'] = text
         if (text_normalized := _dict.get('text_normalized')) is not None:
@@ -11674,7 +11438,10 @@ class TableColumnHeaders:
         if hasattr(self, 'cell_id') and self.cell_id is not None:
             _dict['cell_id'] = self.cell_id
         if hasattr(self, 'location') and self.location is not None:
-            _dict['location'] = self.location
+            if isinstance(self.location, dict):
+                _dict['location'] = self.location
+            else:
+                _dict['location'] = self.location.to_dict()
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         if hasattr(self,
@@ -11792,9 +11559,9 @@ class TableHeaders:
     The contents of the current table's header.
 
     :param str cell_id: (optional) The unique ID of the cell in the current table.
-    :param dict location: (optional) The location of the table header cell in the
-          current table as defined by its `begin` and `end` offsets, respectfully, in the
-          input document.
+    :param TableElementLocation location: (optional) The numeric location of the
+          identified element in the document, represented with two integers labeled
+          `begin` and `end`.
     :param str text: (optional) The textual contents of the cell from the input
           document without associated markup content.
     :param int row_index_begin: (optional) The `begin` index of this cell's `row`
@@ -11811,7 +11578,7 @@ class TableHeaders:
         self,
         *,
         cell_id: Optional[str] = None,
-        location: Optional[dict] = None,
+        location: Optional['TableElementLocation'] = None,
         text: Optional[str] = None,
         row_index_begin: Optional[int] = None,
         row_index_end: Optional[int] = None,
@@ -11823,9 +11590,9 @@ class TableHeaders:
 
         :param str cell_id: (optional) The unique ID of the cell in the current
                table.
-        :param dict location: (optional) The location of the table header cell in
-               the current table as defined by its `begin` and `end` offsets,
-               respectfully, in the input document.
+        :param TableElementLocation location: (optional) The numeric location of
+               the identified element in the document, represented with two integers
+               labeled `begin` and `end`.
         :param str text: (optional) The textual contents of the cell from the input
                document without associated markup content.
         :param int row_index_begin: (optional) The `begin` index of this cell's
@@ -11852,7 +11619,7 @@ class TableHeaders:
         if (cell_id := _dict.get('cell_id')) is not None:
             args['cell_id'] = cell_id
         if (location := _dict.get('location')) is not None:
-            args['location'] = location
+            args['location'] = TableElementLocation.from_dict(location)
         if (text := _dict.get('text')) is not None:
             args['text'] = text
         if (row_index_begin := _dict.get('row_index_begin')) is not None:
@@ -11876,7 +11643,10 @@ class TableHeaders:
         if hasattr(self, 'cell_id') and self.cell_id is not None:
             _dict['cell_id'] = self.cell_id
         if hasattr(self, 'location') and self.location is not None:
-            _dict['location'] = self.location
+            if isinstance(self.location, dict):
+                _dict['location'] = self.location
+            else:
+                _dict['location'] = self.location.to_dict()
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         if hasattr(self,
@@ -12206,186 +11976,6 @@ class TableResultTable:
         return not self == other
 
 
-class TableRowHeaderIds:
-    """
-    An array of values, each being the `id` value of a row header that is applicable to
-    this body cell.
-
-    :param str id: (optional) The `id` values of a row header.
-    """
-
-    def __init__(
-        self,
-        *,
-        id: Optional[str] = None,
-    ) -> None:
-        """
-        Initialize a TableRowHeaderIds object.
-
-        :param str id: (optional) The `id` values of a row header.
-        """
-        self.id = id
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'TableRowHeaderIds':
-        """Initialize a TableRowHeaderIds object from a json dictionary."""
-        args = {}
-        if (id := _dict.get('id')) is not None:
-            args['id'] = id
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a TableRowHeaderIds object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'id') and self.id is not None:
-            _dict['id'] = self.id
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this TableRowHeaderIds object."""
-        return json.dumps(self.to_dict(), indent=2)
-
-    def __eq__(self, other: 'TableRowHeaderIds') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'TableRowHeaderIds') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class TableRowHeaderTexts:
-    """
-    An array of values, each being the `text` value of a row header that is applicable to
-    this body cell.
-
-    :param str text: (optional) The `text` value of a row header.
-    """
-
-    def __init__(
-        self,
-        *,
-        text: Optional[str] = None,
-    ) -> None:
-        """
-        Initialize a TableRowHeaderTexts object.
-
-        :param str text: (optional) The `text` value of a row header.
-        """
-        self.text = text
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'TableRowHeaderTexts':
-        """Initialize a TableRowHeaderTexts object from a json dictionary."""
-        args = {}
-        if (text := _dict.get('text')) is not None:
-            args['text'] = text
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a TableRowHeaderTexts object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'text') and self.text is not None:
-            _dict['text'] = self.text
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this TableRowHeaderTexts object."""
-        return json.dumps(self.to_dict(), indent=2)
-
-    def __eq__(self, other: 'TableRowHeaderTexts') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'TableRowHeaderTexts') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class TableRowHeaderTextsNormalized:
-    """
-    If you provide customization input, the normalized version of the row header texts
-    according to the customization; otherwise, the same value as `row_header_texts`.
-
-    :param str text_normalized: (optional) The normalized version of a row header
-          text.
-    """
-
-    def __init__(
-        self,
-        *,
-        text_normalized: Optional[str] = None,
-    ) -> None:
-        """
-        Initialize a TableRowHeaderTextsNormalized object.
-
-        :param str text_normalized: (optional) The normalized version of a row
-               header text.
-        """
-        self.text_normalized = text_normalized
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'TableRowHeaderTextsNormalized':
-        """Initialize a TableRowHeaderTextsNormalized object from a json dictionary."""
-        args = {}
-        if (text_normalized := _dict.get('text_normalized')) is not None:
-            args['text_normalized'] = text_normalized
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a TableRowHeaderTextsNormalized object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self,
-                   'text_normalized') and self.text_normalized is not None:
-            _dict['text_normalized'] = self.text_normalized
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this TableRowHeaderTextsNormalized object."""
-        return json.dumps(self.to_dict(), indent=2)
-
-    def __eq__(self, other: 'TableRowHeaderTextsNormalized') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'TableRowHeaderTextsNormalized') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
 class TableRowHeaders:
     """
     Row-level cells, each applicable as a header to other cells in the same row as itself,
@@ -12397,9 +11987,7 @@ class TableRowHeaders:
           `begin` and `end`.
     :param str text: (optional) The textual contents of this cell from the input
           document without associated markup content.
-    :param str text_normalized: (optional) If you provide customization input, the
-          normalized version of the cell text according to the customization; otherwise,
-          the same value as `text`.
+    :param str text_normalized: (optional) Normalized row header text.
     :param int row_index_begin: (optional) The `begin` index of this cell's `row`
           location in the current table.
     :param int row_index_end: (optional) The `end` index of this cell's `row`
@@ -12432,9 +12020,7 @@ class TableRowHeaders:
                labeled `begin` and `end`.
         :param str text: (optional) The textual contents of this cell from the
                input document without associated markup content.
-        :param str text_normalized: (optional) If you provide customization input,
-               the normalized version of the cell text according to the customization;
-               otherwise, the same value as `text`.
+        :param str text_normalized: (optional) Normalized row header text.
         :param int row_index_begin: (optional) The `begin` index of this cell's
                `row` location in the current table.
         :param int row_index_end: (optional) The `end` index of this cell's `row`
@@ -12608,7 +12194,9 @@ class TrainingExample:
     :param str document_id: The document ID associated with this training example.
     :param str collection_id: The collection ID associated with this training
           example.
-    :param int relevance: The relevance of the training example.
+    :param int relevance: The relevance score of the training example. Scores range
+          from `0` to `100`. Zero means not relevant. The higher the number, the more
+          relevant the example.
     :param datetime created: (optional) The date and time the example was created.
     :param datetime updated: (optional) The date and time the example was updated.
     """
@@ -12629,7 +12217,9 @@ class TrainingExample:
                example.
         :param str collection_id: The collection ID associated with this training
                example.
-        :param int relevance: The relevance of the training example.
+        :param int relevance: The relevance score of the training example. Scores
+               range from `0` to `100`. Zero means not relevant. The higher the number,
+               the more relevant the example.
         """
         self.document_id = document_id
         self.collection_id = collection_id
@@ -12712,7 +12302,11 @@ class TrainingQuery:
     :param str natural_language_query: The natural text query that is used as the
           training query.
     :param str filter: (optional) The filter used on the collection before the
-          **natural_language_query** is applied.
+          **natural_language_query** is applied. Only specify a filter if the documents
+          that you consider to be most relevant are not included in the top 100 results
+          when you submit test queries. If you specify a filter during training, apply the
+          same filter to queries that are submitted at runtime for optimal ranking
+          results.
     :param datetime created: (optional) The date and time the query was created.
     :param datetime updated: (optional) The date and time the query was updated.
     :param List[TrainingExample] examples: Array of training examples.
@@ -12735,7 +12329,11 @@ class TrainingQuery:
                the training query.
         :param List[TrainingExample] examples: Array of training examples.
         :param str filter: (optional) The filter used on the collection before the
-               **natural_language_query** is applied.
+               **natural_language_query** is applied. Only specify a filter if the
+               documents that you consider to be most relevant are not included in the top
+               100 results when you submit test queries. If you specify a filter during
+               training, apply the same filter to queries that are submitted at runtime
+               for optimal ranking results.
         """
         self.query_id = query_id
         self.natural_language_query = natural_language_query
