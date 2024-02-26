@@ -176,7 +176,7 @@ discovery = DiscoveryV1(version='2019-04-30',
 discovery.set_service_url('<url_as_per_region>')
 ```
 
-### Username and password
+#### Username and password
 
 ```python
 from ibm_watson import DiscoveryV1
@@ -187,7 +187,7 @@ discovery = DiscoveryV1(version='2019-04-30', authenticator=authenticator)
 discovery.set_service_url('<url_as_per_region>')
 ```
 
-### No Authentication
+#### No Authentication
 
 ```python
 from ibm_watson import DiscoveryV1
@@ -196,6 +196,21 @@ from ibm_cloud_sdk_core.authenticators import NoAuthAuthenticator
 authenticator = NoAuthAuthenticator()
 discovery = DiscoveryV1(version='2019-04-30', authenticator=authenticator)
 discovery.set_service_url('<url_as_per_region>')
+```
+
+### MCSP
+
+To use the SDK through a third party cloud provider (such as AWS), use the `MCSPAuthenticator`. This will require the base endpoint URL for the MCSP token service (e.g. https://iam.platform.saas.ibm.com) and an apikey. 
+
+```python
+from ibm_watson import AssistantV2
+from ibm_cloud_sdk_core.authenticators import MCSPAuthenticator
+
+# In the constructor, letting the SDK manage the token
+authenticator = MCSPAuthenticator('apikey', 'token_service_endpoint')
+assistant = AssistantV2(version='2023-06-15',
+                        authenticator=authenticator)
+assistant.set_service_url('<url_as_per_region>')
 ```
 
 ## Python version
