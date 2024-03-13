@@ -237,7 +237,7 @@ class TestRecognize:
         timestamps = False
         profanity_filter = True
         smart_formatting = False
-        smart_formatting_version = False
+        smart_formatting_version = 0
         speaker_labels = False
         grammar_name = 'testString'
         redaction = False
@@ -299,7 +299,7 @@ class TestRecognize:
         assert 'timestamps={}'.format('true' if timestamps else 'false') in query_string
         assert 'profanity_filter={}'.format('true' if profanity_filter else 'false') in query_string
         assert 'smart_formatting={}'.format('true' if smart_formatting else 'false') in query_string
-        assert 'smart_formatting_version={}'.format('true' if smart_formatting_version else 'false') in query_string
+        assert 'smart_formatting_version={}'.format(smart_formatting_version) in query_string
         assert 'speaker_labels={}'.format('true' if speaker_labels else 'false') in query_string
         assert 'grammar_name={}'.format(grammar_name) in query_string
         assert 'redaction={}'.format('true' if redaction else 'false') in query_string
@@ -657,7 +657,7 @@ class TestCreateJob:
         timestamps = False
         profanity_filter = True
         smart_formatting = False
-        smart_formatting_version = False
+        smart_formatting_version = 0
         speaker_labels = False
         grammar_name = 'testString'
         redaction = False
@@ -731,7 +731,7 @@ class TestCreateJob:
         assert 'timestamps={}'.format('true' if timestamps else 'false') in query_string
         assert 'profanity_filter={}'.format('true' if profanity_filter else 'false') in query_string
         assert 'smart_formatting={}'.format('true' if smart_formatting else 'false') in query_string
-        assert 'smart_formatting_version={}'.format('true' if smart_formatting_version else 'false') in query_string
+        assert 'smart_formatting_version={}'.format(smart_formatting_version) in query_string
         assert 'speaker_labels={}'.format('true' if speaker_labels else 'false') in query_string
         assert 'grammar_name={}'.format(grammar_name) in query_string
         assert 'redaction={}'.format('true' if redaction else 'false') in query_string
