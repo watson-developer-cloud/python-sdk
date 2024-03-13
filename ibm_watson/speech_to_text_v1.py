@@ -209,7 +209,7 @@ class SpeechToTextV1(BaseService):
         timestamps: Optional[bool] = None,
         profanity_filter: Optional[bool] = None,
         smart_formatting: Optional[bool] = None,
-        smart_formatting_version: Optional[bool] = None,
+        smart_formatting_version: Optional[int] = None,
         speaker_labels: Optional[bool] = None,
         grammar_name: Optional[str] = None,
         redaction: Optional[bool] = None,
@@ -447,9 +447,9 @@ class SpeechToTextV1(BaseService):
                (all dialects) transcription only.
                See [Smart
                formatting](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-formatting#smart-formatting).
-        :param bool smart_formatting_version: (optional) Smart formatting version
-               is for next-generation models and that is supported in US English,
-               Brazilian Portuguese, French and German languages.
+        :param int smart_formatting_version: (optional) Smart formatting version is
+               for next-generation models and that is supported in US English, Brazilian
+               Portuguese, French and German languages.
         :param bool speaker_labels: (optional) If `true`, the response includes
                labels that identify which words were spoken by which participants in a
                multi-person exchange. By default, the service returns no speaker labels.
@@ -818,7 +818,7 @@ class SpeechToTextV1(BaseService):
         timestamps: Optional[bool] = None,
         profanity_filter: Optional[bool] = None,
         smart_formatting: Optional[bool] = None,
-        smart_formatting_version: Optional[bool] = None,
+        smart_formatting_version: Optional[int] = None,
         speaker_labels: Optional[bool] = None,
         grammar_name: Optional[str] = None,
         redaction: Optional[bool] = None,
@@ -1106,9 +1106,9 @@ class SpeechToTextV1(BaseService):
                (all dialects) transcription only.
                See [Smart
                formatting](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-formatting#smart-formatting).
-        :param bool smart_formatting_version: (optional) Smart formatting version
-               is for next-generation models and that is supported in US English,
-               Brazilian Portuguese, French and German languages.
+        :param int smart_formatting_version: (optional) Smart formatting version is
+               for next-generation models and that is supported in US English, Brazilian
+               Portuguese, French and German languages.
         :param bool speaker_labels: (optional) If `true`, the response includes
                labels that identify which words were spoken by which participants in a
                multi-person exchange. By default, the service returns no speaker labels.
