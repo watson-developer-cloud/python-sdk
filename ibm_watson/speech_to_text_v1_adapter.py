@@ -42,6 +42,7 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
                                   timestamps=None,
                                   profanity_filter=None,
                                   smart_formatting=None,
+                                  smart_formatting_version=None,
                                   speaker_labels=None,
                                   http_proxy_host=None,
                                   http_proxy_port=None,
@@ -175,6 +176,9 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
                **Note:** Applies to US English, Japanese, and Spanish transcription only.
                See [Smart
                formatting](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-formatting#smart-formatting).
+       :param  int smart_formatting_version: (optional) Smart formatting version is
+               for next-generation models and that is supported in US English, Brazilian
+               Portuguese, French and German languages.
         :param bool speaker_labels: (optional) If `true`, the response includes
                labels that identify which words were spoken by which participants in a
                multi-person exchange. By default, the service returns no speaker labels.
@@ -360,6 +364,7 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
             'timestamps': timestamps,
             'profanity_filter': profanity_filter,
             'smart_formatting': smart_formatting,
+            'smart_formatting_version': smart_formatting_version,
             'speaker_labels': speaker_labels,
             'grammar_name': grammar_name,
             'redaction': redaction,
