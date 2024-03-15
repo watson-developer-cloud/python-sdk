@@ -1,3 +1,20 @@
+# [8.0.0](https://github.com/watson-developer-cloud/python-sdk/compare/v7.0.1...v8.0.0) (2024-02-26)
+
+
+### Features
+
+* **disco-v2:** class changes ([a109e2e](https://github.com/watson-developer-cloud/python-sdk/commit/a109e2e3f43442fdc0d0c7c09bdf3ccd0682628e))
+* **disco-v2:** new params for EnrichmentOptions ([d980178](https://github.com/watson-developer-cloud/python-sdk/commit/d980178de2ffbf9ffd491113a9a5fd1f82ed4557))
+* **nlu:** add support for userMetadata param ([134fa6d](https://github.com/watson-developer-cloud/python-sdk/commit/134fa6d868396875a33806d1e688156ceecd60c5))
+* **stt:** new params smart_formatting_version, force, mapping_only ([0fa495c](https://github.com/watson-developer-cloud/python-sdk/commit/0fa495cf24438d7a937904735f1dd23e33f3cd31))
+* **wa-v2:** new params orchestration and asyncCallout ([69523c5](https://github.com/watson-developer-cloud/python-sdk/commit/69523c5f023717ff911b714e2a58571f19b51b04))
+* **wa-v2:** support for private variables ([6cd5eba](https://github.com/watson-developer-cloud/python-sdk/commit/6cd5ebae52f93ab64f89bb1dea52b3ef4b27f444))
+
+
+### BREAKING CHANGES
+
+* **wa-v2:** Renaming and changing of multiple interfaces
+
 ## [7.0.1](https://github.com/watson-developer-cloud/python-sdk/compare/v7.0.0...v7.0.1) (2022-08-07)
 
 
