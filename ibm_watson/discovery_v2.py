@@ -143,6 +143,8 @@ class DiscoveryV2(BaseService):
                project and the `other` type is a *Custom* project.
                The `content_mining` and `content_intelligence` types are available with
                Premium plan managed deployments and installed deployments only.
+               The Intelligent Document Processing (IDP) project type is available from
+               IBM Cloud-managed instances only.
         :param DefaultQueryParams default_query_parameters: (optional) Default
                query parameters for this project.
         :param dict headers: A `dict` containing the request headers
@@ -204,8 +206,9 @@ class DiscoveryV2(BaseService):
 
         Get details on the specified project.
 
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `ProjectDetails` object
@@ -256,8 +259,9 @@ class DiscoveryV2(BaseService):
 
         Update the specified project's name.
 
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
         :param str name: (optional) The new name to give this project.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -317,8 +321,9 @@ class DiscoveryV2(BaseService):
         **Important:** Deleting a project deletes everything that is part of the specified
         project, including all collections.
 
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -369,8 +374,9 @@ class DiscoveryV2(BaseService):
         Gets a list of the unique fields (and their types) stored in the specified
         collections.
 
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
         :param List[str] collection_ids: (optional) Comma separated list of the
                collection IDs. If this parameter is not specified, all collections in the
                project are used.
@@ -427,8 +433,9 @@ class DiscoveryV2(BaseService):
 
         Lists existing collections for the specified project.
 
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `ListCollectionsResponse` object
@@ -474,6 +481,7 @@ class DiscoveryV2(BaseService):
         *,
         description: Optional[str] = None,
         language: Optional[str] = None,
+        ocr_enabled: Optional[bool] = None,
         enrichments: Optional[List['CollectionEnrichment']] = None,
         **kwargs,
     ) -> DetailedResponse:
@@ -482,13 +490,17 @@ class DiscoveryV2(BaseService):
 
         Create a new collection in the specified project.
 
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
         :param str name: The name of the collection.
         :param str description: (optional) A description of the collection.
         :param str language: (optional) The language of the collection. For a list
                of supported languages, see the [product
                documentation](/docs/discovery-data?topic=discovery-data-language-support).
+        :param bool ocr_enabled: (optional) If set to `true`, optical character
+               recognition (OCR) is enabled. For more information, see [Optical character
+               recognition](/docs/discovery-data?topic=discovery-data-collections#ocr).
         :param List[CollectionEnrichment] enrichments: (optional) An array of
                enrichments that are applied to this collection. To get a list of
                enrichments that are available for a project, use the [List
@@ -524,6 +536,7 @@ class DiscoveryV2(BaseService):
             'name': name,
             'description': description,
             'language': language,
+            'ocr_enabled': ocr_enabled,
             'enrichments': enrichments,
         }
         data = {k: v for (k, v) in data.items() if v is not None}
@@ -561,9 +574,11 @@ class DiscoveryV2(BaseService):
 
         Get details about the specified collection.
 
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
-        :param str collection_id: The ID of the collection.
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
+        :param str collection_id: The Universally Unique Identifier (UUID) of the
+               collection.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `CollectionDetails` object
@@ -612,6 +627,7 @@ class DiscoveryV2(BaseService):
         *,
         name: Optional[str] = None,
         description: Optional[str] = None,
+        ocr_enabled: Optional[bool] = None,
         enrichments: Optional[List['CollectionEnrichment']] = None,
         **kwargs,
     ) -> DetailedResponse:
@@ -632,11 +648,16 @@ class DiscoveryV2(BaseService):
         enrichments are applied, specify an empty `normalizations` object (`[]`) in the
         request.
 
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
-        :param str collection_id: The ID of the collection.
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
+        :param str collection_id: The Universally Unique Identifier (UUID) of the
+               collection.
         :param str name: (optional) The new name of the collection.
         :param str description: (optional) The new description of the collection.
+        :param bool ocr_enabled: (optional) If set to `true`, optical character
+               recognition (OCR) is enabled. For more information, see [Optical character
+               recognition](/docs/discovery-data?topic=discovery-data-collections#ocr).
         :param List[CollectionEnrichment] enrichments: (optional) An array of
                enrichments that are applied to this collection.
         :param dict headers: A `dict` containing the request headers
@@ -665,6 +686,7 @@ class DiscoveryV2(BaseService):
         data = {
             'name': name,
             'description': description,
+            'ocr_enabled': ocr_enabled,
             'enrichments': enrichments,
         }
         data = {k: v for (k, v) in data.items() if v is not None}
@@ -704,9 +726,11 @@ class DiscoveryV2(BaseService):
         Deletes the specified collection from the project. All documents stored in the
         specified collection and not shared is also deleted.
 
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
-        :param str collection_id: The ID of the collection.
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
+        :param str collection_id: The Universally Unique Identifier (UUID) of the
+               collection.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -772,9 +796,11 @@ class DiscoveryV2(BaseService):
         **Note**: This method is available only from Cloud Pak for Data version 4.0.9 and
         later installed instances, and from IBM Cloud-managed instances.
 
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
-        :param str collection_id: The ID of the collection.
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
+        :param str collection_id: The Universally Unique Identifier (UUID) of the
+               collection.
         :param int count: (optional) The maximum number of documents to return. Up
                to 1,000 documents are returned by default. The maximum number allowed is
                10,000.
@@ -893,9 +919,11 @@ class DiscoveryV2(BaseService):
         a file is added to a collection, see the [product
         documentation](/docs/discovery-data?topic=discovery-data-index-overview#field-name-limits).
 
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
-        :param str collection_id: The ID of the collection.
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
+        :param str collection_id: The Universally Unique Identifier (UUID) of the
+               collection.
         :param BinaryIO file: (optional) **Add a document**: The content of the
                document to ingest. For the supported file types and maximum supported file
                size limits when adding a document, see [the
@@ -989,9 +1017,11 @@ class DiscoveryV2(BaseService):
         **Note**: This method is available only from Cloud Pak for Data version 4.0.9 and
         later installed instances, and from IBM Cloud-managed instances.
 
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
-        :param str collection_id: The ID of the collection.
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
+        :param str collection_id: The Universally Unique Identifier (UUID) of the
+               collection.
         :param str document_id: The ID of the document.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -1066,9 +1096,11 @@ class DiscoveryV2(BaseService):
         existing child documents are overwritten, even if the updated version of the
         document has fewer child documents.
 
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
-        :param str collection_id: The ID of the collection.
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
+        :param str collection_id: The Universally Unique Identifier (UUID) of the
+               collection.
         :param str document_id: The ID of the document.
         :param BinaryIO file: (optional) **Add a document**: The content of the
                document to ingest. For the supported file types and maximum supported file
@@ -1175,9 +1207,11 @@ class DiscoveryV2(BaseService):
         document instead. You can get the document ID of the original document from the
         `parent_document_id` of the subdocument result.
 
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
-        :param str collection_id: The ID of the collection.
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
+        :param str collection_id: The Universally Unique Identifier (UUID) of the
+               collection.
         :param str document_id: The ID of the document.
         :param bool x_watson_discovery_force: (optional) When `true`, the uploaded
                document is added to the collection even if the data for that collection is
@@ -1269,8 +1303,9 @@ class DiscoveryV2(BaseService):
         The length of the UTF-8 encoding of the POST body cannot exceed 10,000 bytes,
         which is roughly equivalent to 10,000 characters in English.
 
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
         :param List[str] collection_ids: (optional) A comma-separated list of
                collection IDs to be queried against.
         :param str filter: (optional) Searches for documents that match the
@@ -1419,8 +1454,9 @@ class DiscoveryV2(BaseService):
         based on terms from the project's search history, and the project does not learn
         from previous user choices.
 
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
         :param str prefix: The prefix to use for autocompletion. For example, the
                prefix `Ho` could autocomplete to `hot`, `housing`, or `how`.
         :param List[str] collection_ids: (optional) Comma separated list of the
@@ -1493,9 +1529,11 @@ class DiscoveryV2(BaseService):
         Finds collection-level notices (errors and warnings) that are generated when
         documents are ingested.
 
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
-        :param str collection_id: The ID of the collection.
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
+        :param str collection_id: The Universally Unique Identifier (UUID) of the
+               collection.
         :param str filter: (optional) Searches for documents that match the
                Discovery Query Language criteria that is specified as input. Filter calls
                are cached and are faster than query calls because the results are not
@@ -1584,8 +1622,9 @@ class DiscoveryV2(BaseService):
         Finds project-level notices (errors and warnings). Currently, project-level
         notices are generated by relevancy training.
 
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
         :param str filter: (optional) Searches for documents that match the
                Discovery Query Language criteria that is specified as input. Filter calls
                are cached and are faster than query calls because the results are not
@@ -1671,9 +1710,11 @@ class DiscoveryV2(BaseService):
         about the default stop words lists that are applied to queries, see [the product
         documentation](/docs/discovery-data?topic=discovery-data-stopwords).
 
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
-        :param str collection_id: The ID of the collection.
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
+        :param str collection_id: The Universally Unique Identifier (UUID) of the
+               collection.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `StopWordList` object
@@ -1737,9 +1778,11 @@ class DiscoveryV2(BaseService):
         stop words. For information about the default stop words lists per language, see
         [the product documentation](/docs/discovery-data?topic=discovery-data-stopwords).
 
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
-        :param str collection_id: The ID of the collection.
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
+        :param str collection_id: The Universally Unique Identifier (UUID) of the
+               collection.
         :param List[str] stopwords: (optional) List of stop words.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -1803,9 +1846,11 @@ class DiscoveryV2(BaseService):
         collection. After a custom stop words list is deleted, the default stop words list
         is used.
 
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
-        :param str collection_id: The ID of the collection.
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
+        :param str collection_id: The Universally Unique Identifier (UUID) of the
+               collection.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -1858,9 +1903,11 @@ class DiscoveryV2(BaseService):
         Returns the current expansion list for the specified collection. If an expansion
         list is not specified, an empty expansions array is returned.
 
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
-        :param str collection_id: The ID of the collection.
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
+        :param str collection_id: The Universally Unique Identifier (UUID) of the
+               collection.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `Expansions` object
@@ -1918,9 +1965,11 @@ class DiscoveryV2(BaseService):
         of a query beyond exact matches. The maximum number of expanded terms allowed per
         collection is 5,000.
 
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
-        :param str collection_id: The ID of the collection.
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
+        :param str collection_id: The Universally Unique Identifier (UUID) of the
+               collection.
         :param List[Expansion] expansions: An array of query expansion definitions.
                 Each object in the **expansions** array represents a term or set of terms
                that will be expanded into other terms. Each expansion object can be
@@ -1998,9 +2047,11 @@ class DiscoveryV2(BaseService):
         Removes the expansion information for this collection. To disable query expansion
         for a collection, delete the expansion list.
 
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
-        :param str collection_id: The ID of the collection.
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
+        :param str collection_id: The Universally Unique Identifier (UUID) of the
+               collection.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -2055,8 +2106,9 @@ class DiscoveryV2(BaseService):
 
         Returns default configuration settings for components.
 
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `ComponentSettingsResponse` object
@@ -2110,8 +2162,9 @@ class DiscoveryV2(BaseService):
 
         List the training queries for the specified project.
 
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `TrainingQuerySet` object
@@ -2161,8 +2214,9 @@ class DiscoveryV2(BaseService):
 
         Removes all training queries for the specified project.
 
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -2217,8 +2271,9 @@ class DiscoveryV2(BaseService):
         and natural language query.
         **Note**: You cannot apply relevancy training to a `content_mining` project type.
 
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
         :param str natural_language_query: The natural text query that is used as
                the training query.
         :param List[TrainingExample] examples: Array of training examples.
@@ -2294,8 +2349,9 @@ class DiscoveryV2(BaseService):
         Get details for a specific training data query, including the query string and all
         examples.
 
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
         :param str query_id: The ID of the query used for training.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -2354,8 +2410,9 @@ class DiscoveryV2(BaseService):
         Updates an existing training query and its examples. You must resubmit all of the
         examples with the update request.
 
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
         :param str query_id: The ID of the query used for training.
         :param str natural_language_query: The natural text query that is used as
                the training query.
@@ -2436,8 +2493,9 @@ class DiscoveryV2(BaseService):
         To delete an example, use the *Update a training query* method and omit the
         example that you want to delete from the example set.
 
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
         :param str query_id: The ID of the query used for training.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -2495,8 +2553,9 @@ class DiscoveryV2(BaseService):
         *Sentiment of Phrases* enrichments might be listed, but are reserved for internal
         use only.
 
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `Enrichments` object
@@ -2550,8 +2609,9 @@ class DiscoveryV2(BaseService):
         to a collection in the project, use the [Collections
         API](/apidocs/discovery-data#createcollection).
 
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
         :param CreateEnrichment enrichment: Information about a specific
                enrichment.
         :param BinaryIO file: (optional) The enrichment file to upload. Expected
@@ -2619,9 +2679,11 @@ class DiscoveryV2(BaseService):
 
         Get details about a specific enrichment.
 
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
-        :param str enrichment_id: The ID of the enrichment.
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
+        :param str enrichment_id: The Universally Unique Identifier (UUID) of the
+               enrichment.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `Enrichment` object
@@ -2677,9 +2739,11 @@ class DiscoveryV2(BaseService):
 
         Updates an existing enrichment's name and description.
 
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
-        :param str enrichment_id: The ID of the enrichment.
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
+        :param str enrichment_id: The Universally Unique Identifier (UUID) of the
+               enrichment.
         :param str name: A new name for the enrichment.
         :param str description: (optional) A new description for the enrichment.
         :param dict headers: A `dict` containing the request headers
@@ -2746,9 +2810,11 @@ class DiscoveryV2(BaseService):
         Deletes an existing enrichment from the specified project.
         **Note:** Only enrichments that have been manually created can be deleted.
 
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
-        :param str enrichment_id: The ID of the enrichment.
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
+        :param str enrichment_id: The Universally Unique Identifier (UUID) of the
+               enrichment.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -2804,8 +2870,9 @@ class DiscoveryV2(BaseService):
         Get a list of the document classifiers in a project. Returns only the name and
         classifier ID of each document classifier.
 
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `DocumentClassifiers` object
@@ -2864,8 +2931,9 @@ class DiscoveryV2(BaseService):
         **Note:** This method is supported on installed instances (IBM Cloud Pak for Data)
         or IBM Cloud-managed Premium or Enterprise plan instances.
 
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
         :param BinaryIO training_data: The training data CSV file to upload. The
                CSV file must have headers. The file must include a field that contains the
                text you want to classify and a field that contains the classification
@@ -2942,9 +3010,11 @@ class DiscoveryV2(BaseService):
 
         Get details about a specific document classifier.
 
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
-        :param str classifier_id: The ID of the classifier.
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
+        :param str classifier_id: The Universally Unique Identifier (UUID) of the
+               classifier.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `DocumentClassifier` object
@@ -3002,9 +3072,11 @@ class DiscoveryV2(BaseService):
         Update the document classifier name or description, update the training data, or
         add or update the test data.
 
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
-        :param str classifier_id: The ID of the classifier.
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
+        :param str classifier_id: The Universally Unique Identifier (UUID) of the
+               classifier.
         :param UpdateDocumentClassifier classifier: An object that contains a new
                name or description for a document classifier, updated training data, or
                new or updated test data.
@@ -3083,9 +3155,11 @@ class DiscoveryV2(BaseService):
 
         Deletes an existing document classifier from the specified project.
 
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
-        :param str classifier_id: The ID of the classifier.
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
+        :param str classifier_id: The Universally Unique Identifier (UUID) of the
+               classifier.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -3142,9 +3216,11 @@ class DiscoveryV2(BaseService):
         Get a list of the document classifier models in a project. Returns only the name
         and model ID of each document classifier model.
 
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
-        :param str classifier_id: The ID of the classifier.
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
+        :param str classifier_id: The Universally Unique Identifier (UUID) of the
+               classifier.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `DocumentClassifierModels` object
@@ -3208,9 +3284,11 @@ class DiscoveryV2(BaseService):
         **Note:** This method is supported on installed intances (IBM Cloud Pak for Data)
         or IBM Cloud-managed Premium or Enterprise plan instances.
 
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
-        :param str classifier_id: The ID of the classifier.
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
+        :param str classifier_id: The Universally Unique Identifier (UUID) of the
+               classifier.
         :param str name: The name of the document classifier model.
         :param str description: (optional) A description of the document classifier
                model.
@@ -3304,10 +3382,13 @@ class DiscoveryV2(BaseService):
 
         Get details about a specific document classifier model.
 
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
-        :param str classifier_id: The ID of the classifier.
-        :param str model_id: The ID of the classifier model.
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
+        :param str classifier_id: The Universally Unique Identifier (UUID) of the
+               classifier.
+        :param str model_id: The Universally Unique Identifier (UUID) of the
+               classifier model.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `DocumentClassifierModel` object
@@ -3367,10 +3448,13 @@ class DiscoveryV2(BaseService):
 
         Update the document classifier model name or description.
 
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
-        :param str classifier_id: The ID of the classifier.
-        :param str model_id: The ID of the classifier model.
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
+        :param str classifier_id: The Universally Unique Identifier (UUID) of the
+               classifier.
+        :param str model_id: The Universally Unique Identifier (UUID) of the
+               classifier model.
         :param str name: (optional) A new name for the enrichment.
         :param str description: (optional) A new description for the enrichment.
         :param dict headers: A `dict` containing the request headers
@@ -3438,10 +3522,13 @@ class DiscoveryV2(BaseService):
 
         Deletes an existing document classifier model from the specified project.
 
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
-        :param str classifier_id: The ID of the classifier.
-        :param str model_id: The ID of the classifier model.
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
+        :param str classifier_id: The Universally Unique Identifier (UUID) of the
+               classifier.
+        :param str model_id: The Universally Unique Identifier (UUID) of the
+               classifier model.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -3518,9 +3605,11 @@ class DiscoveryV2(BaseService):
         **Note:** This method is supported with Enterprise plan deployments and installed
         deployments only.
 
-        :param str project_id: The ID of the project. This information can be found
-               from the *Integrate and Deploy* page in Discovery.
-        :param str collection_id: The ID of the collection.
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
+        :param str collection_id: The Universally Unique Identifier (UUID) of the
+               collection.
         :param BinaryIO file: (optional) **Add a document**: The content of the
                document to ingest. For the supported file types and maximum supported file
                size limits when adding a document, see [the
@@ -4069,7 +4158,8 @@ class Collection:
     """
     A collection for storing documents.
 
-    :param str collection_id: (optional) The unique identifier of the collection.
+    :param str collection_id: (optional) The Universally Unique Identifier (UUID) of
+          the collection.
     :param str name: (optional) The name of the collection.
     """
 
@@ -4135,13 +4225,17 @@ class CollectionDetails:
     """
     A collection for storing documents.
 
-    :param str collection_id: (optional) The unique identifier of the collection.
+    :param str collection_id: (optional) The Universally Unique Identifier (UUID) of
+          the collection.
     :param str name: The name of the collection.
     :param str description: (optional) A description of the collection.
     :param datetime created: (optional) The date that the collection was created.
     :param str language: (optional) The language of the collection. For a list of
           supported languages, see the [product
           documentation](/docs/discovery-data?topic=discovery-data-language-support).
+    :param bool ocr_enabled: (optional) If set to `true`, optical character
+          recognition (OCR) is enabled. For more information, see [Optical character
+          recognition](/docs/discovery-data?topic=discovery-data-collections#ocr).
     :param List[CollectionEnrichment] enrichments: (optional) An array of
           enrichments that are applied to this collection. To get a list of enrichments
           that are available for a project, use the [List enrichments](#listenrichments)
@@ -4163,6 +4257,7 @@ class CollectionDetails:
         description: Optional[str] = None,
         created: Optional[datetime] = None,
         language: Optional[str] = None,
+        ocr_enabled: Optional[bool] = None,
         enrichments: Optional[List['CollectionEnrichment']] = None,
         smart_document_understanding: Optional[
             'CollectionDetailsSmartDocumentUnderstanding'] = None,
@@ -4175,6 +4270,9 @@ class CollectionDetails:
         :param str language: (optional) The language of the collection. For a list
                of supported languages, see the [product
                documentation](/docs/discovery-data?topic=discovery-data-language-support).
+        :param bool ocr_enabled: (optional) If set to `true`, optical character
+               recognition (OCR) is enabled. For more information, see [Optical character
+               recognition](/docs/discovery-data?topic=discovery-data-collections#ocr).
         :param List[CollectionEnrichment] enrichments: (optional) An array of
                enrichments that are applied to this collection. To get a list of
                enrichments that are available for a project, use the [List
@@ -4189,6 +4287,7 @@ class CollectionDetails:
         self.description = description
         self.created = created
         self.language = language
+        self.ocr_enabled = ocr_enabled
         self.enrichments = enrichments
         self.smart_document_understanding = smart_document_understanding
 
@@ -4210,6 +4309,8 @@ class CollectionDetails:
             args['created'] = string_to_datetime(created)
         if (language := _dict.get('language')) is not None:
             args['language'] = language
+        if (ocr_enabled := _dict.get('ocr_enabled')) is not None:
+            args['ocr_enabled'] = ocr_enabled
         if (enrichments := _dict.get('enrichments')) is not None:
             args['enrichments'] = [
                 CollectionEnrichment.from_dict(v) for v in enrichments
@@ -4240,6 +4341,8 @@ class CollectionDetails:
             _dict['created'] = datetime_to_string(getattr(self, 'created'))
         if hasattr(self, 'language') and self.language is not None:
             _dict['language'] = self.language
+        if hasattr(self, 'ocr_enabled') and self.ocr_enabled is not None:
+            _dict['ocr_enabled'] = self.ocr_enabled
         if hasattr(self, 'enrichments') and self.enrichments is not None:
             enrichments_list = []
             for v in self.enrichments:
@@ -5949,8 +6052,8 @@ class DocumentClassifier:
     """
     Information about a document classifier.
 
-    :param str classifier_id: (optional) A unique identifier of the document
-          classifier.
+    :param str classifier_id: (optional) The Universally Unique Identifier (UUID) of
+          the document classifier.
     :param str name: A human-readable name of the document classifier.
     :param str description: (optional) A description of the document classifier.
     :param datetime created: (optional) The date that the document classifier was
@@ -6143,7 +6246,8 @@ class DocumentClassifierEnrichment:
     An object that describes enrichments that are applied to the training and test data
     that is used by the document classifier.
 
-    :param str enrichment_id: A unique identifier of the enrichment.
+    :param str enrichment_id: The Universally Unique Identifier (UUID) of the
+          enrichment.
     :param List[str] fields: An array of field names where the enrichment is
           applied.
     """
@@ -6156,7 +6260,8 @@ class DocumentClassifierEnrichment:
         """
         Initialize a DocumentClassifierEnrichment object.
 
-        :param str enrichment_id: A unique identifier of the enrichment.
+        :param str enrichment_id: The Universally Unique Identifier (UUID) of the
+               enrichment.
         :param List[str] fields: An array of field names where the enrichment is
                applied.
         """
@@ -6218,8 +6323,8 @@ class DocumentClassifierModel:
     """
     Information about a document classifier model.
 
-    :param str model_id: (optional) A unique identifier of the document classifier
-          model.
+    :param str model_id: (optional) The Universally Unique Identifier (UUID) of the
+          document classifier model.
     :param str name: A human-readable name of the document classifier model.
     :param str description: (optional) A description of the document classifier
           model.
@@ -6235,8 +6340,8 @@ class DocumentClassifierModel:
     :param str status: (optional) The status of the training run.
     :param ClassifierModelEvaluation evaluation: (optional) An object that contains
           information about a trained document classifier model.
-    :param str enrichment_id: (optional) A unique identifier of the enrichment that
-          is generated by this document classifier model.
+    :param str enrichment_id: (optional) The Universally Unique Identifier (UUID) of
+          the enrichment that is generated by this document classifier model.
     :param datetime deployed_at: (optional) The date that the document classifier
           model was deployed.
     """
@@ -6271,8 +6376,9 @@ class DocumentClassifierModel:
         :param str status: (optional) The status of the training run.
         :param ClassifierModelEvaluation evaluation: (optional) An object that
                contains information about a trained document classifier model.
-        :param str enrichment_id: (optional) A unique identifier of the enrichment
-               that is generated by this document classifier model.
+        :param str enrichment_id: (optional) The Universally Unique Identifier
+               (UUID) of the enrichment that is generated by this document classifier
+               model.
         """
         self.model_id = model_id
         self.name = name
@@ -6775,7 +6881,8 @@ class Enrichment:
     """
     Information about a specific enrichment.
 
-    :param str enrichment_id: (optional) The unique identifier of this enrichment.
+    :param str enrichment_id: (optional) The Universally Unique Identifier (UUID) of
+          this enrichment.
     :param str name: (optional) The human readable name for this enrichment.
     :param str description: (optional) The description of this enrichment.
     :param str type: (optional) The type of this enrichment.
@@ -6906,12 +7013,12 @@ class EnrichmentOptions:
     :param str result_field: (optional) The name of the result document field that
           this enrichment creates. Required when **type** is `rule_based` or `classifier`.
           Not valid when creating any other type of enrichment.
-    :param str classifier_id: (optional) A unique identifier of the document
-          classifier. Required when **type** is `classifier`. Not valid when creating any
-          other type of enrichment.
-    :param str model_id: (optional) A unique identifier of the document classifier
-          model. Required when **type** is `classifier`. Not valid when creating any other
-          type of enrichment.
+    :param str classifier_id: (optional) The Universally Unique Identifier (UUID) of
+          the document classifier. Required when **type** is `classifier`. Not valid when
+          creating any other type of enrichment.
+    :param str model_id: (optional) The Universally Unique Identifier (UUID) of the
+          document classifier model. Required when **type** is `classifier`. Not valid
+          when creating any other type of enrichment.
     :param float confidence_threshold: (optional) Specifies a threshold. Only
           classes with evaluation confidence scores that are higher than the specified
           threshold are included in the output. Optional when **type** is `classifier`.
@@ -6978,12 +7085,12 @@ class EnrichmentOptions:
         :param str result_field: (optional) The name of the result document field
                that this enrichment creates. Required when **type** is `rule_based` or
                `classifier`. Not valid when creating any other type of enrichment.
-        :param str classifier_id: (optional) A unique identifier of the document
-               classifier. Required when **type** is `classifier`. Not valid when creating
-               any other type of enrichment.
-        :param str model_id: (optional) A unique identifier of the document
-               classifier model. Required when **type** is `classifier`. Not valid when
-               creating any other type of enrichment.
+        :param str classifier_id: (optional) The Universally Unique Identifier
+               (UUID) of the document classifier. Required when **type** is `classifier`.
+               Not valid when creating any other type of enrichment.
+        :param str model_id: (optional) The Universally Unique Identifier (UUID) of
+               the document classifier model. Required when **type** is `classifier`. Not
+               valid when creating any other type of enrichment.
         :param float confidence_threshold: (optional) Specifies a threshold. Only
                classes with evaluation confidence scores that are higher than the
                specified threshold are included in the output. Optional when **type** is
@@ -8185,13 +8292,16 @@ class ProjectDetails:
     """
     Detailed information about the specified project.
 
-    :param str project_id: (optional) The unique identifier of this project.
+    :param str project_id: (optional) The Universally Unique Identifier (UUID) of
+          this project.
     :param str name: (optional) The human readable name of this project.
     :param str type: (optional) The type of project.
           The `content_intelligence` type is a *Document Retrieval for Contracts* project
           and the `other` type is a *Custom* project.
           The `content_mining` and `content_intelligence` types are available with Premium
           plan managed deployments and installed deployments only.
+          The Intelligent Document Processing (IDP) project type is available from IBM
+          Cloud-managed instances only.
     :param ProjectListDetailsRelevancyTrainingStatus relevancy_training_status:
           (optional) Relevancy training status information for this project.
     :param int collection_count: (optional) The number of collections configured in
@@ -8220,6 +8330,8 @@ class ProjectDetails:
                project and the `other` type is a *Custom* project.
                The `content_mining` and `content_intelligence` types are available with
                Premium plan managed deployments and installed deployments only.
+               The Intelligent Document Processing (IDP) project type is available from
+               IBM Cloud-managed instances only.
         :param DefaultQueryParams default_query_parameters: (optional) Default
                query parameters for this project.
         """
@@ -8315,8 +8427,11 @@ class ProjectDetails:
         and the `other` type is a *Custom* project.
         The `content_mining` and `content_intelligence` types are available with Premium
         plan managed deployments and installed deployments only.
+        The Intelligent Document Processing (IDP) project type is available from IBM
+        Cloud-managed instances only.
         """
 
+        INTELLIGENT_DOCUMENT_PROCESSING = 'intelligent_document_processing'
         DOCUMENT_RETRIEVAL = 'document_retrieval'
         CONVERSATIONAL_SEARCH = 'conversational_search'
         CONTENT_MINING = 'content_mining'
@@ -8328,13 +8443,16 @@ class ProjectListDetails:
     """
     Details about a specific project.
 
-    :param str project_id: (optional) The unique identifier of this project.
+    :param str project_id: (optional) The Universally Unique Identifier (UUID) of
+          this project.
     :param str name: (optional) The human readable name of this project.
     :param str type: (optional) The type of project.
           The `content_intelligence` type is a *Document Retrieval for Contracts* project
           and the `other` type is a *Custom* project.
           The `content_mining` and `content_intelligence` types are available with Premium
           plan managed deployments and installed deployments only.
+          The Intelligent Document Processing (IDP) project type is available from IBM
+          Cloud-managed instances only.
     :param ProjectListDetailsRelevancyTrainingStatus relevancy_training_status:
           (optional) Relevancy training status information for this project.
     :param int collection_count: (optional) The number of collections configured in
@@ -8360,6 +8478,8 @@ class ProjectListDetails:
                project and the `other` type is a *Custom* project.
                The `content_mining` and `content_intelligence` types are available with
                Premium plan managed deployments and installed deployments only.
+               The Intelligent Document Processing (IDP) project type is available from
+               IBM Cloud-managed instances only.
         """
         self.project_id = project_id
         self.name = name
@@ -8439,8 +8559,11 @@ class ProjectListDetails:
         and the `other` type is a *Custom* project.
         The `content_mining` and `content_intelligence` types are available with Premium
         plan managed deployments and installed deployments only.
+        The Intelligent Document Processing (IDP) project type is available from IBM
+        Cloud-managed instances only.
         """
 
+        INTELLIGENT_DOCUMENT_PROCESSING = 'intelligent_document_processing'
         DOCUMENT_RETRIEVAL = 'document_retrieval'
         CONVERSATIONAL_SEARCH = 'conversational_search'
         CONTENT_MINING = 'content_mining'

@@ -85,7 +85,7 @@ class TestListProjects:
         """
         # Set up mock
         url = preprocess_url('/v2/projects')
-        mock_response = '{"projects": [{"project_id": "project_id", "name": "name", "type": "document_retrieval", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16}]}'
+        mock_response = '{"projects": [{"project_id": "project_id", "name": "name", "type": "intelligent_document_processing", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16}]}'
         responses.add(
             responses.GET,
             url,
@@ -117,7 +117,7 @@ class TestListProjects:
         """
         # Set up mock
         url = preprocess_url('/v2/projects')
-        mock_response = '{"projects": [{"project_id": "project_id", "name": "name", "type": "document_retrieval", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16}]}'
+        mock_response = '{"projects": [{"project_id": "project_id", "name": "name", "type": "intelligent_document_processing", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16}]}'
         responses.add(
             responses.GET,
             url,
@@ -156,7 +156,7 @@ class TestCreateProject:
         """
         # Set up mock
         url = preprocess_url('/v2/projects')
-        mock_response = '{"project_id": "project_id", "name": "name", "type": "document_retrieval", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16, "default_query_parameters": {"collection_ids": ["collection_ids"], "passages": {"enabled": false, "count": 5, "fields": ["fields"], "characters": 10, "per_document": true, "max_per_document": 16}, "table_results": {"enabled": false, "count": 5, "per_document": 0}, "aggregation": "aggregation", "suggested_refinements": {"enabled": false, "count": 5}, "spelling_suggestions": true, "highlight": false, "count": 5, "sort": "sort", "return": ["return_"]}}'
+        mock_response = '{"project_id": "project_id", "name": "name", "type": "intelligent_document_processing", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16, "default_query_parameters": {"collection_ids": ["collection_ids"], "passages": {"enabled": false, "count": 5, "fields": ["fields"], "characters": 10, "per_document": true, "max_per_document": 16}, "table_results": {"enabled": false, "count": 5, "per_document": 0}, "aggregation": "aggregation", "suggested_refinements": {"enabled": false, "count": 5}, "spelling_suggestions": true, "highlight": false, "count": 5, "sort": "sort", "return": ["return_"]}}'
         responses.add(
             responses.POST,
             url,
@@ -200,7 +200,7 @@ class TestCreateProject:
 
         # Set up parameter values
         name = 'testString'
-        type = 'document_retrieval'
+        type = 'intelligent_document_processing'
         default_query_parameters = default_query_params_model
 
         # Invoke method
@@ -217,7 +217,7 @@ class TestCreateProject:
         # Validate body params
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['name'] == 'testString'
-        assert req_body['type'] == 'document_retrieval'
+        assert req_body['type'] == 'intelligent_document_processing'
         assert req_body['default_query_parameters'] == default_query_params_model
 
     def test_create_project_all_params_with_retries(self):
@@ -236,7 +236,7 @@ class TestCreateProject:
         """
         # Set up mock
         url = preprocess_url('/v2/projects')
-        mock_response = '{"project_id": "project_id", "name": "name", "type": "document_retrieval", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16, "default_query_parameters": {"collection_ids": ["collection_ids"], "passages": {"enabled": false, "count": 5, "fields": ["fields"], "characters": 10, "per_document": true, "max_per_document": 16}, "table_results": {"enabled": false, "count": 5, "per_document": 0}, "aggregation": "aggregation", "suggested_refinements": {"enabled": false, "count": 5}, "spelling_suggestions": true, "highlight": false, "count": 5, "sort": "sort", "return": ["return_"]}}'
+        mock_response = '{"project_id": "project_id", "name": "name", "type": "intelligent_document_processing", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16, "default_query_parameters": {"collection_ids": ["collection_ids"], "passages": {"enabled": false, "count": 5, "fields": ["fields"], "characters": 10, "per_document": true, "max_per_document": 16}, "table_results": {"enabled": false, "count": 5, "per_document": 0}, "aggregation": "aggregation", "suggested_refinements": {"enabled": false, "count": 5}, "spelling_suggestions": true, "highlight": false, "count": 5, "sort": "sort", "return": ["return_"]}}'
         responses.add(
             responses.POST,
             url,
@@ -280,7 +280,7 @@ class TestCreateProject:
 
         # Set up parameter values
         name = 'testString'
-        type = 'document_retrieval'
+        type = 'intelligent_document_processing'
         default_query_parameters = default_query_params_model
 
         # Pass in all but one required param and check for a ValueError
@@ -315,7 +315,7 @@ class TestGetProject:
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString')
-        mock_response = '{"project_id": "project_id", "name": "name", "type": "document_retrieval", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16, "default_query_parameters": {"collection_ids": ["collection_ids"], "passages": {"enabled": false, "count": 5, "fields": ["fields"], "characters": 10, "per_document": true, "max_per_document": 16}, "table_results": {"enabled": false, "count": 5, "per_document": 0}, "aggregation": "aggregation", "suggested_refinements": {"enabled": false, "count": 5}, "spelling_suggestions": true, "highlight": false, "count": 5, "sort": "sort", "return": ["return_"]}}'
+        mock_response = '{"project_id": "project_id", "name": "name", "type": "intelligent_document_processing", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16, "default_query_parameters": {"collection_ids": ["collection_ids"], "passages": {"enabled": false, "count": 5, "fields": ["fields"], "characters": 10, "per_document": true, "max_per_document": 16}, "table_results": {"enabled": false, "count": 5, "per_document": 0}, "aggregation": "aggregation", "suggested_refinements": {"enabled": false, "count": 5}, "spelling_suggestions": true, "highlight": false, "count": 5, "sort": "sort", "return": ["return_"]}}'
         responses.add(
             responses.GET,
             url,
@@ -353,7 +353,7 @@ class TestGetProject:
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString')
-        mock_response = '{"project_id": "project_id", "name": "name", "type": "document_retrieval", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16, "default_query_parameters": {"collection_ids": ["collection_ids"], "passages": {"enabled": false, "count": 5, "fields": ["fields"], "characters": 10, "per_document": true, "max_per_document": 16}, "table_results": {"enabled": false, "count": 5, "per_document": 0}, "aggregation": "aggregation", "suggested_refinements": {"enabled": false, "count": 5}, "spelling_suggestions": true, "highlight": false, "count": 5, "sort": "sort", "return": ["return_"]}}'
+        mock_response = '{"project_id": "project_id", "name": "name", "type": "intelligent_document_processing", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16, "default_query_parameters": {"collection_ids": ["collection_ids"], "passages": {"enabled": false, "count": 5, "fields": ["fields"], "characters": 10, "per_document": true, "max_per_document": 16}, "table_results": {"enabled": false, "count": 5, "per_document": 0}, "aggregation": "aggregation", "suggested_refinements": {"enabled": false, "count": 5}, "spelling_suggestions": true, "highlight": false, "count": 5, "sort": "sort", "return": ["return_"]}}'
         responses.add(
             responses.GET,
             url,
@@ -396,7 +396,7 @@ class TestUpdateProject:
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString')
-        mock_response = '{"project_id": "project_id", "name": "name", "type": "document_retrieval", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16, "default_query_parameters": {"collection_ids": ["collection_ids"], "passages": {"enabled": false, "count": 5, "fields": ["fields"], "characters": 10, "per_document": true, "max_per_document": 16}, "table_results": {"enabled": false, "count": 5, "per_document": 0}, "aggregation": "aggregation", "suggested_refinements": {"enabled": false, "count": 5}, "spelling_suggestions": true, "highlight": false, "count": 5, "sort": "sort", "return": ["return_"]}}'
+        mock_response = '{"project_id": "project_id", "name": "name", "type": "intelligent_document_processing", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16, "default_query_parameters": {"collection_ids": ["collection_ids"], "passages": {"enabled": false, "count": 5, "fields": ["fields"], "characters": 10, "per_document": true, "max_per_document": 16}, "table_results": {"enabled": false, "count": 5, "per_document": 0}, "aggregation": "aggregation", "suggested_refinements": {"enabled": false, "count": 5}, "spelling_suggestions": true, "highlight": false, "count": 5, "sort": "sort", "return": ["return_"]}}'
         responses.add(
             responses.POST,
             url,
@@ -439,7 +439,7 @@ class TestUpdateProject:
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString')
-        mock_response = '{"project_id": "project_id", "name": "name", "type": "document_retrieval", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16, "default_query_parameters": {"collection_ids": ["collection_ids"], "passages": {"enabled": false, "count": 5, "fields": ["fields"], "characters": 10, "per_document": true, "max_per_document": 16}, "table_results": {"enabled": false, "count": 5, "per_document": 0}, "aggregation": "aggregation", "suggested_refinements": {"enabled": false, "count": 5}, "spelling_suggestions": true, "highlight": false, "count": 5, "sort": "sort", "return": ["return_"]}}'
+        mock_response = '{"project_id": "project_id", "name": "name", "type": "intelligent_document_processing", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16, "default_query_parameters": {"collection_ids": ["collection_ids"], "passages": {"enabled": false, "count": 5, "fields": ["fields"], "characters": 10, "per_document": true, "max_per_document": 16}, "table_results": {"enabled": false, "count": 5, "per_document": 0}, "aggregation": "aggregation", "suggested_refinements": {"enabled": false, "count": 5}, "spelling_suggestions": true, "highlight": false, "count": 5, "sort": "sort", "return": ["return_"]}}'
         responses.add(
             responses.POST,
             url,
@@ -477,7 +477,7 @@ class TestUpdateProject:
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString')
-        mock_response = '{"project_id": "project_id", "name": "name", "type": "document_retrieval", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16, "default_query_parameters": {"collection_ids": ["collection_ids"], "passages": {"enabled": false, "count": 5, "fields": ["fields"], "characters": 10, "per_document": true, "max_per_document": 16}, "table_results": {"enabled": false, "count": 5, "per_document": 0}, "aggregation": "aggregation", "suggested_refinements": {"enabled": false, "count": 5}, "spelling_suggestions": true, "highlight": false, "count": 5, "sort": "sort", "return": ["return_"]}}'
+        mock_response = '{"project_id": "project_id", "name": "name", "type": "intelligent_document_processing", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16, "default_query_parameters": {"collection_ids": ["collection_ids"], "passages": {"enabled": false, "count": 5, "fields": ["fields"], "characters": 10, "per_document": true, "max_per_document": 16}, "table_results": {"enabled": false, "count": 5, "per_document": 0}, "aggregation": "aggregation", "suggested_refinements": {"enabled": false, "count": 5}, "spelling_suggestions": true, "highlight": false, "count": 5, "sort": "sort", "return": ["return_"]}}'
         responses.add(
             responses.POST,
             url,
@@ -812,7 +812,7 @@ class TestCreateCollection:
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections')
-        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}], "smart_document_understanding": {"enabled": false, "model": "custom"}}'
+        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "ocr_enabled": false, "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}], "smart_document_understanding": {"enabled": false, "model": "custom"}}'
         responses.add(
             responses.POST,
             url,
@@ -831,6 +831,7 @@ class TestCreateCollection:
         name = 'testString'
         description = 'testString'
         language = 'en'
+        ocr_enabled = False
         enrichments = [collection_enrichment_model]
 
         # Invoke method
@@ -839,6 +840,7 @@ class TestCreateCollection:
             name,
             description=description,
             language=language,
+            ocr_enabled=ocr_enabled,
             enrichments=enrichments,
             headers={},
         )
@@ -851,6 +853,7 @@ class TestCreateCollection:
         assert req_body['name'] == 'testString'
         assert req_body['description'] == 'testString'
         assert req_body['language'] == 'en'
+        assert req_body['ocr_enabled'] == False
         assert req_body['enrichments'] == [collection_enrichment_model]
 
     def test_create_collection_all_params_with_retries(self):
@@ -869,7 +872,7 @@ class TestCreateCollection:
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections')
-        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}], "smart_document_understanding": {"enabled": false, "model": "custom"}}'
+        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "ocr_enabled": false, "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}], "smart_document_understanding": {"enabled": false, "model": "custom"}}'
         responses.add(
             responses.POST,
             url,
@@ -888,6 +891,7 @@ class TestCreateCollection:
         name = 'testString'
         description = 'testString'
         language = 'en'
+        ocr_enabled = False
         enrichments = [collection_enrichment_model]
 
         # Pass in all but one required param and check for a ValueError
@@ -922,7 +926,7 @@ class TestGetCollection:
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections/testString')
-        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}], "smart_document_understanding": {"enabled": false, "model": "custom"}}'
+        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "ocr_enabled": false, "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}], "smart_document_understanding": {"enabled": false, "model": "custom"}}'
         responses.add(
             responses.GET,
             url,
@@ -962,7 +966,7 @@ class TestGetCollection:
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections/testString')
-        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}], "smart_document_understanding": {"enabled": false, "model": "custom"}}'
+        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "ocr_enabled": false, "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}], "smart_document_understanding": {"enabled": false, "model": "custom"}}'
         responses.add(
             responses.GET,
             url,
@@ -1007,7 +1011,7 @@ class TestUpdateCollection:
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections/testString')
-        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}], "smart_document_understanding": {"enabled": false, "model": "custom"}}'
+        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "ocr_enabled": false, "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}], "smart_document_understanding": {"enabled": false, "model": "custom"}}'
         responses.add(
             responses.POST,
             url,
@@ -1026,6 +1030,7 @@ class TestUpdateCollection:
         collection_id = 'testString'
         name = 'testString'
         description = 'testString'
+        ocr_enabled = False
         enrichments = [collection_enrichment_model]
 
         # Invoke method
@@ -1034,6 +1039,7 @@ class TestUpdateCollection:
             collection_id,
             name=name,
             description=description,
+            ocr_enabled=ocr_enabled,
             enrichments=enrichments,
             headers={},
         )
@@ -1045,6 +1051,7 @@ class TestUpdateCollection:
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['name'] == 'testString'
         assert req_body['description'] == 'testString'
+        assert req_body['ocr_enabled'] == False
         assert req_body['enrichments'] == [collection_enrichment_model]
 
     def test_update_collection_all_params_with_retries(self):
@@ -1063,7 +1070,7 @@ class TestUpdateCollection:
         """
         # Set up mock
         url = preprocess_url('/v2/projects/testString/collections/testString')
-        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}], "smart_document_understanding": {"enabled": false, "model": "custom"}}'
+        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "ocr_enabled": false, "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}], "smart_document_understanding": {"enabled": false, "model": "custom"}}'
         responses.add(
             responses.POST,
             url,
@@ -1082,6 +1089,7 @@ class TestUpdateCollection:
         collection_id = 'testString'
         name = 'testString'
         description = 'testString'
+        ocr_enabled = False
         enrichments = [collection_enrichment_model]
 
         # Pass in all but one required param and check for a ValueError
@@ -5776,6 +5784,7 @@ class TestModel_CollectionDetails:
         collection_details_model_json['name'] = 'testString'
         collection_details_model_json['description'] = 'testString'
         collection_details_model_json['language'] = 'en'
+        collection_details_model_json['ocr_enabled'] = False
         collection_details_model_json['enrichments'] = [collection_enrichment_model]
 
         # Construct a model instance of CollectionDetails by calling from_dict on the json representation
@@ -7135,7 +7144,7 @@ class TestModel_ListProjectsResponse:
 
         project_list_details_model = {}  # ProjectListDetails
         project_list_details_model['name'] = 'testString'
-        project_list_details_model['type'] = 'document_retrieval'
+        project_list_details_model['type'] = 'intelligent_document_processing'
 
         # Construct a json representation of a ListProjectsResponse model
         list_projects_response_model_json = {}
@@ -7327,7 +7336,7 @@ class TestModel_ProjectDetails:
         # Construct a json representation of a ProjectDetails model
         project_details_model_json = {}
         project_details_model_json['name'] = 'testString'
-        project_details_model_json['type'] = 'document_retrieval'
+        project_details_model_json['type'] = 'intelligent_document_processing'
         project_details_model_json['default_query_parameters'] = default_query_params_model
 
         # Construct a model instance of ProjectDetails by calling from_dict on the json representation
@@ -7359,7 +7368,7 @@ class TestModel_ProjectListDetails:
         # Construct a json representation of a ProjectListDetails model
         project_list_details_model_json = {}
         project_list_details_model_json['name'] = 'testString'
-        project_list_details_model_json['type'] = 'document_retrieval'
+        project_list_details_model_json['type'] = 'intelligent_document_processing'
 
         # Construct a model instance of ProjectListDetails by calling from_dict on the json representation
         project_list_details_model = ProjectListDetails.from_dict(project_list_details_model_json)
