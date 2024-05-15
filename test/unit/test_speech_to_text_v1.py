@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2015, 2024.
+# (C) Copyright IBM Corp. 2024.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -224,6 +224,7 @@ class TestRecognize:
         audio = io.BytesIO(b'This is a mock file.').getvalue()
         content_type = 'application/octet-stream'
         model = 'en-US_BroadbandModel'
+        speech_begin_event = False
         language_customization_id = 'testString'
         acoustic_customization_id = 'testString'
         base_model_version = 'testString'
@@ -254,6 +255,7 @@ class TestRecognize:
             audio,
             content_type=content_type,
             model=model,
+            speech_begin_event=speech_begin_event,
             language_customization_id=language_customization_id,
             acoustic_customization_id=acoustic_customization_id,
             base_model_version=base_model_version,
@@ -288,6 +290,7 @@ class TestRecognize:
         query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'model={}'.format(model) in query_string
+        assert 'speech_begin_event={}'.format('true' if speech_begin_event else 'false') in query_string
         assert 'language_customization_id={}'.format(language_customization_id) in query_string
         assert 'acoustic_customization_id={}'.format(acoustic_customization_id) in query_string
         assert 'base_model_version={}'.format(base_model_version) in query_string
