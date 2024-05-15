@@ -72,8 +72,7 @@ def recognize_using_weboscket(*args):
     mycallback = MyRecognizeCallback()
     speech_to_text.recognize_using_websocket(audio=audio_source,
                                              content_type='audio/l16; rate=44100',
-                                             recognize_callback=mycallback,
-                                             interim_results=True)
+                                             recognize_callback=mycallback)
 
 ###############################################
 #### Prepare the for recording using Pyaudio ##
