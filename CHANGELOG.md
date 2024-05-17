@@ -1,3 +1,12 @@
+# [8.1.0](https://github.com/watson-developer-cloud/python-sdk/compare/v8.0.0...v8.1.0) (2024-05-17)
+
+
+### Features
+
+* **stt:** remove interim_results and low_latency wss params ([035b29d](https://github.com/watson-developer-cloud/python-sdk/commit/035b29d82c35789f782359a9842e50956665b96c))
+* **stt:** add speech_begin_event param to recognize func ([d026ab2](https://github.com/watson-developer-cloud/python-sdk/commit/d026ab2a7ffa950a7ba6b655357f2523cda337ef))
+* **disco-v2:** add ocr_enabled parameter ([460593f](https://github.com/watson-developer-cloud/python-sdk/commit/460593f48fe7e32ea3fc205da05d1dad7318255b))
+
 # [8.0.0](https://github.com/watson-developer-cloud/python-sdk/compare/v7.0.1...v8.0.0) (2024-02-26)
 
 
