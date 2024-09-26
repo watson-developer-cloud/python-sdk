@@ -1,3 +1,6 @@
+### (Note: This a forked version. My own implementation of IBM Watson at /examples/NLP_analyse_T2S.py can be used to analyse an URL and return keywords in it.)
+### (TODO: write a Flask API for it.)
+
 # Watson Developer Cloud Python SDK
 
 [![Build and Test](https://github.com/watson-developer-cloud/python-sdk/workflows/Build%20and%20Test/badge.svg?branch=master)](https://github.com/watson-developer-cloud/python-sdk/actions?query=workflow%3A"Build+and+Test")
