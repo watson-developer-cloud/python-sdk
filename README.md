@@ -2,7 +2,7 @@
 
 - My own implementation of IBM Watson at /examples/URL_nlu_t2s.py can be used to analyse an URL and return keywords in it.
 - It is in the form of a Flask API 
-- An easy unit test at /examples/test_URL_nlu_t2s.py
+- An easy unit test at /examples/test/test_URL_nlu_t2s.py
 - All dependencies at /requirements_URL_nlu_t2s.txt
 
 ### An Usage of Flask API: 
