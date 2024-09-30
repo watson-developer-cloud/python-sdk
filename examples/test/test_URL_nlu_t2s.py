@@ -1,5 +1,5 @@
 import unittest, json
-from URL_nlu_t2s import app
+from examples.URL_nlu_t2s import app
 
 
 class TestApp(unittest.TestCase):
