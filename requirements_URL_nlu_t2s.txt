@@ -1,0 +1,6 @@
+Flask
+ibm-cloud-sdk-core
+ibm-watson
+PyAudio
+pytest
+python-dotenv

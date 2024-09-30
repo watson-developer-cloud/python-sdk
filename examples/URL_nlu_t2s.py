@@ -4,11 +4,11 @@ from ibm_watson.natural_language_understanding_v1 import Features, KeywordsOptio
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 from ibm_watson.websocket import SynthesizeCallback
 from dotenv import load_dotenv
+from flask import Flask, request, jsonify
 
-# Analyse URL and return 3 Keyswords
-analyse_url = "https://github.com/jkd2021/audience-segment-match-api"
-keywords_num = 5
+app = Flask(__name__)
 
+# Load authentication credentials
 load_dotenv("../ibm-credentials.env")
 NLU_API_KEY = os.getenv("NATURAL_LANGUAGE_UNDERSTANDING_APIKEY")
 NLU_URL = os.getenv("NATURAL_LANGUAGE_UNDERSTANDING_URL")
@@ -20,16 +20,10 @@ authenticator = IAMAuthenticator(NLU_API_KEY)
 natural_language_understanding = NaturalLanguageUnderstandingV1(version='2022-04-07', authenticator=authenticator)
 natural_language_understanding.set_service_url(NLU_URL)
 
-# NLU result
-response = natural_language_understanding.analyze(
-    url=analyse_url,
-    features=Features(keywords=KeywordsOptions(sentiment=True, emotion=True, limit=keywords_num))).get_result()
-print("NLU result: {}".format(json.dumps(response, indent=2)))
-
 # Authentication T2S
 authenticator = IAMAuthenticator(T2S_API_KEY)
-service = TextToSpeechV1(authenticator=authenticator)
-service.set_service_url(T2S_URL)
+text_to_speech = TextToSpeechV1(authenticator=authenticator)
+text_to_speech.set_service_url(T2S_URL)
 
 
 class Play(object):
@@ -95,23 +89,41 @@ class MySynthesizeCallback(SynthesizeCallback):
         self.play.complete_playing()
 
 
-test_callback = MySynthesizeCallback()
+@app.route("/", methods=["POST"])
+def analyze_url_to_speech():
+    """
+    Analyse URL and return keywords
+    """
+    # set URL to be analysed and number of output keywords
+    data = request.json
+    analyse_url = data.get("url")
+    keywords_num = data.get("keywords_num")
 
-# SSML text
-response_txt_list = [response['keywords'][i]['text'] for i in range(len(response['keywords']))]
-response_txt = ', '.join(response_txt_list)
-SSML_text = """
-   <speak>
-        I have been assigned to analyse the URL you gave me and return keywords of it.
-      <express-as type=\"GoodNews\">
-        {} keywords in the given URL are {}
-      </express-as>
-   </speak>""".format(keywords_num, response_txt)
+    # get NLU result
+    response = natural_language_understanding.analyze(
+        url=analyse_url,
+        features=Features(keywords=KeywordsOptions(sentiment=True, emotion=True, limit=keywords_num))).get_result()
+    print("NLU result: {}".format(json.dumps(response, indent=2)))
 
+    # generate keywords and convert to SSML
+    response_txt_list = [response['keywords'][i]['text'] for i in range(len(response['keywords']))]
+    response_txt = ', '.join(response_txt_list)
+    SSML_text = """
+       <speak>
+            I have been assigned to analyse the URL you gave me and return keywords of it.
+          <express-as type=\"GoodNews\">
+            {} keywords in the given URL are {}
+          </express-as>
+       </speak>""".format(keywords_num, response_txt)
+
+    # run text-to-speech
+    test_callback = MySynthesizeCallback()
+    text_to_speech.synthesize_using_websocket(SSML_text,
+                                              test_callback,
+                                              accept='audio/wav',
+                                              voice="en-US_AllisonVoice")
+
+    return jsonify({"keywords": response_txt_list})
 
 if __name__ == "__main__":
-    service.synthesize_using_websocket(SSML_text,
-                                       test_callback,
-                                       accept='audio/wav',
-                                       voice="en-US_AllisonVoice"
-                                      )
+    app.run(host="0.0.0.0", port=5000, debug=True)

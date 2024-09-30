@@ -1,5 +1,13 @@
-### (Note: This a forked version. My own implementation of IBM Watson at /examples/NLP_analyse_T2S.py can be used to analyse an URL and return keywords in it.)
-### (TODO: write a Flask API for it.)
+### (Note: This a forked version.)
+
+- My own implementation of IBM Watson at /examples/URL_nlu_t2s.py can be used to analyse an URL and return keywords in it.
+- It is in the form of a Flask API 
+- An easy unit test at /examples/test_URL_nlu_t2s.py
+- All dependencies at /requirements_URL_nlu_t2s.txt
+
+### An Usage of Flask API: 
+> curl -X POST http://127.0.0.1:5000 -H "Content-Type: application/json" -d "{\\"url\\":\\"https://github.com/jkd2021/audience-segment-match-api\", \\"keywords_num\\":5}"
+
 
 # Watson Developer Cloud Python SDK
 
