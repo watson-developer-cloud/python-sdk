@@ -95,7 +95,7 @@ The file downloaded will be called `ibm-credentials.env`. This is the name the S
 As long as you set that up correctly, you don't have to worry about setting any authentication options in your code. So, for example, if you created and downloaded the credential file for your Discovery instance, you just need to do the following:
 
 ```python
-discovery = DiscoveryV1(version='2019-04-30')
+assistant = AssistantV2(version='2024-08-25')
 ```
 
 And that's it!
@@ -122,7 +122,7 @@ export ASSISTANT_AUTH_TYPE="iam"
 The credentials will be loaded from the environment automatically
 
 ```python
-assistant = AssistantV1(version='2018-08-01')
+assistant = AssistantV2(version='2024-08-25')
 ```
 
 #### Manually
@@ -142,15 +142,15 @@ You supply either an IAM service **API key** or a **bearer token**:
 #### Supplying the API key
 
 ```python
-from ibm_watson import DiscoveryV1
+from ibm_watson import AssistantV2
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
 # In the constructor, letting the SDK manage the token
 authenticator = IAMAuthenticator('apikey',
                                  url='<iam_url>') # optional - the default value is https://iam.cloud.ibm.com/identity/token
-discovery = DiscoveryV1(version='2019-04-30',
+assistant = AssistantV2(version='2024-08-25',
                         authenticator=authenticator)
-discovery.set_service_url('<url_as_per_region>')
+assistant.set_service_url('<url_as_per_region>')
 ```
 
 #### Generating bearer tokens using API key
@@ -166,36 +166,36 @@ token = iam_token_manager.get_token()
 ##### Supplying the bearer token
 
 ```python
-from ibm_watson import DiscoveryV1
+from ibm_watson import AssistantV2
 from ibm_cloud_sdk_core.authenticators import BearerTokenAuthenticator
 
 # in the constructor, assuming control of managing the token
 authenticator = BearerTokenAuthenticator('your bearer token')
-discovery = DiscoveryV1(version='2019-04-30',
+assistant = AssistantV2(version='2024-08-25',
                         authenticator=authenticator)
-discovery.set_service_url('<url_as_per_region>')
+assistant.set_service_url('<url_as_per_region>')
 ```
 
 #### Username and password
 
 ```python
-from ibm_watson import DiscoveryV1
+from ibm_watson import AssistantV2
 from ibm_cloud_sdk_core.authenticators import BasicAuthenticator
 
 authenticator = BasicAuthenticator('username', 'password')
-discovery = DiscoveryV1(version='2019-04-30', authenticator=authenticator)
-discovery.set_service_url('<url_as_per_region>')
+assistant = AssistantV2(version='2024-08-25', authenticator=authenticator)
+assistant.set_service_url('<url_as_per_region>')
 ```
 
 #### No Authentication
 
 ```python
-from ibm_watson import DiscoveryV1
+from ibm_watson import AssistantV2
 from ibm_cloud_sdk_core.authenticators import NoAuthAuthenticator
 
 authenticator = NoAuthAuthenticator()
-discovery = DiscoveryV1(version='2019-04-30', authenticator=authenticator)
-discovery.set_service_url('<url_as_per_region>')
+assistant = AssistantV2(version='2024-08-25', authenticator=authenticator)
+assistant.set_service_url('<url_as_per_region>')
 ```
 
 ### MCSP
@@ -221,17 +221,17 @@ Tested on Python 3.9, 3.10, and 3.11.
 
 If you have issues with the APIs or have a question about the Watson services, see [Stack Overflow](https://stackoverflow.com/questions/tagged/ibm-watson+python).
 
-## Configuring the http client (Supported from v1.1.0)
+## Configuring the http client
 
 To set client configs like timeout use the `set_http_config()` function and pass it a dictionary of configs. See this [documentation](https://requests.readthedocs.io/en/latest/api/) for more information about the options. All options shown except `method`, `url`, `headers`, `params`, `data`, and `auth` are configurable via `set_http_config()`. For example for a Assistant service instance
 
 ```python
-from ibm_watson import AssistantV1
+from ibm_watson import AssistantV2
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
 authenticator = IAMAuthenticator('your apikey')
-assistant = AssistantV1(
-    version='2021-11-27',
+assistant = AssistantV2(
+    version='2024-08-25',
     authenticator=authenticator)
 assistant.set_service_url('https://api.us-south.assistant.watson.cloud.ibm.com')
 
@@ -248,12 +248,12 @@ To use the SDK with any proxies you may have they can be set as shown below. For
 See this example configuration:
 
 ```python
-from ibm_watson import AssistantV1
+from ibm_watson import AssistantV2
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
 authenticator = IAMAuthenticator('your apikey')
-assistant = AssistantV1(
-    version='2021-11-27',
+assistant = AssistantV2(
+    version='2024-08-25',
     authenticator=authenticator)
 assistant.set_service_url('https://api.us-south.assistant.watson.cloud.ibm.com')
 
@@ -268,12 +268,12 @@ assistant.set_http_config({'proxies': {
 To send custom certificates as a security measure in your request, use the cert property of the HTTPS Agent.
 
 ```python
-from ibm_watson import AssistantV1
+from ibm_watson import AssistantV2
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
 authenticator = IAMAuthenticator('your apikey')
-assistant = AssistantV1(
-    version='2021-11-27',
+assistant = AssistantV2(
+    version='2024-08-25',
     authenticator=authenticator)
 assistant.set_service_url('https://api.us-south.assistant.watson.cloud.ibm.com')
 
@@ -322,14 +322,14 @@ For example, to send a header called `Custom-Header` to a call in Watson Assista
 the headers parameter as:
 
 ```python
-from ibm_watson import AssistantV1
+from ibm_watson import AssistantV2
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
 authenticator = IAMAuthenticator('your apikey')
-assistant = AssistantV1(
-    version='2018-07-10',
+assistant = AssistantV2(
+    version='2024-08-25',
     authenticator=authenticator)
-assistant.set_service_url('https://gateway.watsonplatform.net/assistant/api')
+assistant.set_service_url('https://api.us-south.assistant.watson.cloud.ibm.com')
 
 response = assistant.list_workspaces(headers={'Custom-Header': 'custom_value'}).get_result()
 ```
@@ -339,14 +339,14 @@ response = assistant.list_workspaces(headers={'Custom-Header': 'custom_value'}).
 If you would like access to some HTTP response information along with the response model, you can set the `set_detailed_response()` to `True`. Since Python SDK `v2.0`, it is set to `True`
 
 ```python
-from ibm_watson import AssistantV1
+from ibm_watson import AssistantV2
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
 authenticator = IAMAuthenticator('your apikey')
-assistant = AssistantV1(
-    version='2018-07-10',
+assistant = AssistantV2(
+    version='2024-08-25',
     authenticator=authenticator)
-assistant.set_service_url('https://gateway.watsonplatform.net/assistant/api')
+assistant.set_service_url('https://api.us-south.assistant.watson.cloud.ibm.com')
 
 assistant.set_detailed_response(True)
 response = assistant.list_workspaces(headers={'Custom-Header': 'custom_value'}).get_result()
@@ -372,9 +372,9 @@ Every SDK call returns a response with a transaction ID in the `X-Global-Transac
 ### Suceess
 
 ```python
-from ibm_watson import AssistantV1
+from ibm_watson import AssistantV2
 
-service = AssistantV1(authenticator={my_authenticator})
+service = AssistantV2(authenticator={my_authenticator})
 response_headers = service.my_service_call().get_headers()
 print(response_headers.get('X-Global-Transaction-Id'))
 ```
@@ -382,10 +382,10 @@ print(response_headers.get('X-Global-Transaction-Id'))
 ### Failure
 
 ```python
-from ibm_watson import AssistantV1, ApiException
+from ibm_watson import AssistantV2, ApiException
 
 try:
-    service = AssistantV1(authenticator={my_authenticator})
+    service = AssistantV2(authenticator={my_authenticator})
     service.my_service_call()
 except ApiException as e:
     print(e.global_transaction_id)
@@ -396,9 +396,9 @@ except ApiException as e:
 However, the transaction ID isn't available when the API doesn't return a response for some reason. In that case, you can set your own transaction ID in the request. For example, replace `<my-unique-transaction-id>` in the following example with a unique transaction ID.
 
 ```python
-from ibm_watson import AssistantV1
+from ibm_watson import AssistantV2
 
-service = AssistantV1(authenticator={my_authenticator})
+service = AssistantV2(authenticator={my_authenticator})
 service.my_service_call(headers={'X-Global-Transaction-Id': '<my-unique-transaction-id>'})
 ```
 
@@ -436,7 +436,7 @@ If your service instance is of CP4D, below are two ways of initializing the assi
 The SDK will manage the token for the user
 
 ```python
-from ibm_watson import AssistantV1
+from ibm_watson import AssistantV2
 from ibm_cloud_sdk_core.authenticators import CloudPakForDataAuthenticator
 
 authenticator = CloudPakForDataAuthenticator(
@@ -445,7 +445,7 @@ authenticator = CloudPakForDataAuthenticator(
     '<authentication url>', # should be of the form https://{icp_cluster_host}{instance-id}/api
     disable_ssl_verification=True) # Disable ssl verification for authenticator
 
-assistant = AssistantV1(
+assistant = AssistantV2(
     version='<version>',
     authenticator=authenticator)
 assistant.set_service_url('<service url>') # should be of the form https://{icp_cluster_host}/{deployment}/assistant/{instance-id}/api
@@ -455,11 +455,11 @@ assistant.set_disable_ssl_verification(True) # MAKE SURE SSL VERIFICATION IS DIS
 ### 2) Supplying the access token
 
 ```python
-from ibm_watson import AssistantV1
+from ibm_watson import AssistantV2
 from ibm_cloud_sdk_core.authenticators import BearerTokenAuthenticator
 
 authenticator = BearerTokenAuthenticator('your managed access token')
-assistant = AssistantV1(version='<version>',
+assistant = AssistantV2(version='<version>',
                         authenticator=authenticator)
 assistant.set_service_url('<service url>') # should be of the form https://{icp_cluster_host}/{deployment}/assistant/{instance-id}/api
 assistant.set_disable_ssl_verification(True) # MAKE SURE SSL VERIFICATION IS DISABLED
