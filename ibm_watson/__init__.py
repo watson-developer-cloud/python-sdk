@@ -17,7 +17,6 @@ from ibm_cloud_sdk_core import IAMTokenManager, DetailedResponse, BaseService, A
 
 from .assistant_v1 import AssistantV1
 from .assistant_v2 import AssistantV2
-from .language_translator_v3 import LanguageTranslatorV3
 from .natural_language_understanding_v1 import NaturalLanguageUnderstandingV1
 from .text_to_speech_v1 import TextToSpeechV1
 from .discovery_v2 import DiscoveryV2

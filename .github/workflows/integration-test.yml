@@ -35,8 +35,6 @@ jobs:
       - name: Execute Python integration tests
         # continue-on-error: true
         env:
-          LANGUAGE_TRANSLATOR_APIKEY: ${{ secrets.LT_APIKEY }}
-          LANGUAGE_TRANSLATOR_URL: "https://api.us-south.language-translator.watson.cloud.ibm.com"
           NATURAL_LANGUAGE_UNDERSTANDING_APIKEY: ${{ secrets.NLU_APIKEY }}
           NATURAL_LANGUAGE_UNDERSTANDING_URL: "https://api.us-south.natural-language-understanding.watson.cloud.ibm.com"
           SPEECH_TO_TEXT_APIKEY: ${{ secrets.STT_APIKEY }}
@@ -54,7 +52,6 @@ jobs:
         run: |
           pip3 install -U python-dotenv
           pytest test/integration/test_discovery_v2.py -rap
-          pytest test/integration/test_language_translator_v3.py -rap
           pytest test/integration/test_natural_language_understanding_v1.py -rap
           pytest test/integration/test_speech_to_text_v1.py -rap
           pytest test/integration/test_text_to_speech_v1.py -rap

@@ -36,13 +36,13 @@ setup(name='ibm-watson',
       long_description_content_type='text/markdown',
       url='https://github.com/watson-developer-cloud/python-sdk',
       include_package_data=True,
-      keywords='language, vision, question and answer' +
-      ' tone_analyzer, natural language classifier,' +
-      ' text to speech, language translation, ' +
+      keywords='language, question and answer,' +
+      ' tone_analyzer,' +
+      ' text to speech,' +
       'language identification, concept expansion, machine translation, ' +
-      'personality insights, message resonance, watson developer cloud, ' +
+      'message resonance, watson developer cloud, ' +
       ' wdc, watson, ibm, dialog, user modeling,' +
-      'tone analyzer, speech to text, visual recognition',
+      'speech to text',
       classifiers=[
           'Programming Language :: Python',
           'Programming Language :: Python :: 2',
