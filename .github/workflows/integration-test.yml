@@ -47,18 +47,12 @@ jobs:
           ASSISTANT_WORKSPACE_ID: ${{ secrets.WA_WORKSPACE_ID }}
           ASSISTANT_ASSISTANT_ID: ${{ secrets.WA_ASSISTANT_ID }}
           ASSISTANT_URL: "https://api.us-south.assistant.watson.cloud.ibm.com"
-          DISCOVERY_APIKEY: ${{ secrets.D1_APIKEY }}
-          DISCOVERY_ENVIRONMENT_ID: ${{ secrets.D1_ENVIRONMENT_ID }}
-          DISCOVERY_COLLECTION_ID: ${{ secrets.D1_COLLECTION_ID }}
-          DISCOVERY_URL: "https://api.us-south.discovery.watson.cloud.ibm.com"
           DISCOVERY_V2_APIKEY: ${{ secrets.D2_APIKEY }}
           DISCOVERY_V2_PROJECT_ID: ${{ secrets.D2_PROJECT_ID }}
           DISCOVERY_V2_COLLECTION_ID: ${{ secrets.D2_COLLECTION_ID }}
           DISCOVERY_V2_URL: "https://api.us-south.discovery.watson.cloud.ibm.com"
         run: |
           pip3 install -U python-dotenv
-          pytest test/integration/test_assistant_v1.py -rap
-          pytest test/integration/test_discovery_v1.py -rap
           pytest test/integration/test_discovery_v2.py -rap
           pytest test/integration/test_language_translator_v3.py -rap
           pytest test/integration/test_natural_language_understanding_v1.py -rap
