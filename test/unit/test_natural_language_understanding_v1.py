@@ -136,10 +136,6 @@ class TestAnalyze:
         sentiment_options_model['document'] = True
         sentiment_options_model['targets'] = ['testString']
 
-        # Construct a dict representation of a SummarizationOptions model
-        summarization_options_model = {}
-        summarization_options_model['limit'] = 3
-
         # Construct a dict representation of a CategoriesOptions model
         categories_options_model = {}
         categories_options_model['explanation'] = False
@@ -167,7 +163,6 @@ class TestAnalyze:
         features_model['relations'] = relations_options_model
         features_model['semantic_roles'] = semantic_roles_options_model
         features_model['sentiment'] = sentiment_options_model
-        features_model['summarization'] = summarization_options_model
         features_model['categories'] = categories_options_model
         features_model['syntax'] = syntax_options_model
 
@@ -281,10 +276,6 @@ class TestAnalyze:
         sentiment_options_model['document'] = True
         sentiment_options_model['targets'] = ['testString']
 
-        # Construct a dict representation of a SummarizationOptions model
-        summarization_options_model = {}
-        summarization_options_model['limit'] = 3
-
         # Construct a dict representation of a CategoriesOptions model
         categories_options_model = {}
         categories_options_model['explanation'] = False
@@ -312,7 +303,6 @@ class TestAnalyze:
         features_model['relations'] = relations_options_model
         features_model['semantic_roles'] = semantic_roles_options_model
         features_model['sentiment'] = sentiment_options_model
-        features_model['summarization'] = summarization_options_model
         features_model['categories'] = categories_options_model
         features_model['syntax'] = syntax_options_model
 
@@ -2787,9 +2777,6 @@ class TestModel_Features:
         sentiment_options_model['document'] = True
         sentiment_options_model['targets'] = ['testString']
 
-        summarization_options_model = {}  # SummarizationOptions
-        summarization_options_model['limit'] = 3
-
         categories_options_model = {}  # CategoriesOptions
         categories_options_model['explanation'] = False
         categories_options_model['limit'] = 3
@@ -2814,7 +2801,6 @@ class TestModel_Features:
         features_model_json['relations'] = relations_options_model
         features_model_json['semantic_roles'] = semantic_roles_options_model
         features_model_json['sentiment'] = sentiment_options_model
-        features_model_json['summarization'] = summarization_options_model
         features_model_json['categories'] = categories_options_model
         features_model_json['syntax'] = syntax_options_model
 
@@ -3637,36 +3623,6 @@ class TestModel_SentimentResult:
         # Convert model instance back to dict and verify no loss of data
         sentiment_result_model_json2 = sentiment_result_model.to_dict()
         assert sentiment_result_model_json2 == sentiment_result_model_json
-
-
-class TestModel_SummarizationOptions:
-    """
-    Test Class for SummarizationOptions
-    """
-
-    def test_summarization_options_serialization(self):
-        """
-        Test serialization/deserialization for SummarizationOptions
-        """
-
-        # Construct a json representation of a SummarizationOptions model
-        summarization_options_model_json = {}
-        summarization_options_model_json['limit'] = 3
-
-        # Construct a model instance of SummarizationOptions by calling from_dict on the json representation
-        summarization_options_model = SummarizationOptions.from_dict(summarization_options_model_json)
-        assert summarization_options_model != False
-
-        # Construct a model instance of SummarizationOptions by calling from_dict on the json representation
-        summarization_options_model_dict = SummarizationOptions.from_dict(summarization_options_model_json).__dict__
-        summarization_options_model2 = SummarizationOptions(**summarization_options_model_dict)
-
-        # Verify the model instances are equivalent
-        assert summarization_options_model == summarization_options_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        summarization_options_model_json2 = summarization_options_model.to_dict()
-        assert summarization_options_model_json2 == summarization_options_model_json
 
 
 class TestModel_SyntaxOptions:
