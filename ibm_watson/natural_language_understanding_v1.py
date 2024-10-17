@@ -24,15 +24,6 @@ You can create [custom
 models](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-customizing)
 with Watson Knowledge Studio to detect custom entities and relations in Natural Language
 Understanding.
-IBM is sunsetting Watson Natural Language Understanding Custom Sentiment (BETA). From
-**June 3, 2023** onward, you will no longer be able to use the Custom Sentiment
-feature.<br /><br />To ensure we continue providing our clients with robust and powerful
-text classification capabilities, IBM recently announced the general availability of a new
-[single-label text classification
-capability](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-classifications).
-This new feature includes extended language support and training data customizations
-suited for building a custom sentiment classifier.<br /><br />If you would like more
-information or further guidance, please contact IBM Cloud Support.{: deprecated}
 
 API Version: 1.0
 See: https://cloud.ibm.com/docs/natural-language-understanding
@@ -122,7 +113,6 @@ class NaturalLanguageUnderstandingV1(BaseService):
         - Semantic roles
         - Sentiment
         - Syntax
-        - Summarization (Experimental)
         If a language for the input text is not specified with the `language` parameter,
         the service [automatically detects the
         language](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-detectable-languages).
@@ -312,7 +302,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
         language: str,
         training_data: BinaryIO,
         *,
-        training_data_content_type: Optional[str] = 'application/json',
+        training_data_content_type: Optional[str] = None,
         name: Optional[str] = None,
         user_metadata: Optional[dict] = None,
         description: Optional[str] = None,
@@ -499,7 +489,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
         language: str,
         training_data: BinaryIO,
         *,
-        training_data_content_type: Optional[str] = 'application/json',
+        training_data_content_type: Optional[str] = None,
         name: Optional[str] = None,
         user_metadata: Optional[dict] = None,
         description: Optional[str] = None,
@@ -653,7 +643,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
         language: str,
         training_data: BinaryIO,
         *,
-        training_data_content_type: Optional[str] = 'application/json',
+        training_data_content_type: Optional[str] = None,
         name: Optional[str] = None,
         user_metadata: Optional[dict] = None,
         description: Optional[str] = None,
@@ -849,7 +839,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
         language: str,
         training_data: BinaryIO,
         *,
-        training_data_content_type: Optional[str] = 'application/json',
+        training_data_content_type: Optional[str] = None,
         name: Optional[str] = None,
         user_metadata: Optional[dict] = None,
         description: Optional[str] = None,
@@ -3632,10 +3622,6 @@ class Features:
           `keywords.sentiment`.
            Supported languages: Arabic, English, French, German, Italian, Japanese,
           Korean, Portuguese, Russian, Spanish.
-    :param SummarizationOptions summarization: (optional) (Experimental) Returns a
-          summary of content.
-          Supported languages: English only.
-          Supported regions: Dallas region only.
     :param CategoriesOptions categories: (optional) Returns a hierarchical taxonomy
           of the content. The top three categories are returned by default.
           Supported languages: Arabic, English, French, German, Italian, Japanese, Korean,
@@ -3656,7 +3642,6 @@ class Features:
         relations: Optional['RelationsOptions'] = None,
         semantic_roles: Optional['SemanticRolesOptions'] = None,
         sentiment: Optional['SentimentOptions'] = None,
-        summarization: Optional['SummarizationOptions'] = None,
         categories: Optional['CategoriesOptions'] = None,
         syntax: Optional['SyntaxOptions'] = None,
     ) -> None:
@@ -3707,10 +3692,6 @@ class Features:
                and for keywords with `keywords.sentiment`.
                 Supported languages: Arabic, English, French, German, Italian, Japanese,
                Korean, Portuguese, Russian, Spanish.
-        :param SummarizationOptions summarization: (optional) (Experimental)
-               Returns a summary of content.
-               Supported languages: English only.
-               Supported regions: Dallas region only.
         :param CategoriesOptions categories: (optional) Returns a hierarchical
                taxonomy of the content. The top three categories are returned by default.
                Supported languages: Arabic, English, French, German, Italian, Japanese,
@@ -3727,7 +3708,6 @@ class Features:
         self.relations = relations
         self.semantic_roles = semantic_roles
         self.sentiment = sentiment
-        self.summarization = summarization
         self.categories = categories
         self.syntax = syntax
 
@@ -3755,9 +3735,6 @@ class Features:
                 semantic_roles)
         if (sentiment := _dict.get('sentiment')) is not None:
             args['sentiment'] = SentimentOptions.from_dict(sentiment)
-        if (summarization := _dict.get('summarization')) is not None:
-            args['summarization'] = SummarizationOptions.from_dict(
-                summarization)
         if (categories := _dict.get('categories')) is not None:
             args['categories'] = CategoriesOptions.from_dict(categories)
         if (syntax := _dict.get('syntax')) is not None:
@@ -3815,11 +3792,6 @@ class Features:
                 _dict['sentiment'] = self.sentiment
             else:
                 _dict['sentiment'] = self.sentiment.to_dict()
-        if hasattr(self, 'summarization') and self.summarization is not None:
-            if isinstance(self.summarization, dict):
-                _dict['summarization'] = self.summarization
-            else:
-                _dict['summarization'] = self.summarization.to_dict()
         if hasattr(self, 'categories') and self.categories is not None:
             if isinstance(self.categories, dict):
                 _dict['categories'] = self.categories
@@ -5615,66 +5587,6 @@ class SentimentResult:
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'SentimentResult') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class SummarizationOptions:
-    """
-    (Experimental) Returns a summary of content.
-    Supported languages: English only.
-    Supported regions: Dallas region only.
-
-    :param int limit: (optional) Maximum number of summary sentences to return.
-    """
-
-    def __init__(
-        self,
-        *,
-        limit: Optional[int] = None,
-    ) -> None:
-        """
-        Initialize a SummarizationOptions object.
-
-        :param int limit: (optional) Maximum number of summary sentences to return.
-        """
-        self.limit = limit
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'SummarizationOptions':
-        """Initialize a SummarizationOptions object from a json dictionary."""
-        args = {}
-        if (limit := _dict.get('limit')) is not None:
-            args['limit'] = limit
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a SummarizationOptions object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'limit') and self.limit is not None:
-            _dict['limit'] = self.limit
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this SummarizationOptions object."""
-        return json.dumps(self.to_dict(), indent=2)
-
-    def __eq__(self, other: 'SummarizationOptions') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'SummarizationOptions') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
