@@ -33,6 +33,7 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
                                   customization_weight=None,
                                   base_model_version=None,
                                   inactivity_timeout=None,
+                                  interim_results=None,
                                   keywords=None,
                                   keywords_threshold=None,
                                   max_alternatives=None,
@@ -54,6 +55,7 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
                                   split_transcript_at_phrase_end=None,
                                   speech_detector_sensitivity=None,
                                   background_audio_suppression=None,
+                                  low_latency=None,
                                   character_insertion_bias=None,
                                   **kwargs):
         """
@@ -269,6 +271,22 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
                * 1.0 suppresses all audio (no audio is transcribed).
                The values increase on a monotonic curve. See [Background audio
                suppression](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-detection#detection-parameters-suppression).
+        :param bool low_latency: (optional) If `true` for next-generation
+               `Multimedia` and `Telephony` models that support low latency, directs the
+               service to produce results even more quickly than it usually does.
+               Next-generation models produce transcription results faster than
+               previous-generation models. The `low_latency` parameter causes the models
+               to produce results even more quickly, though the results might be less
+               accurate when the parameter is used.
+               **Note:** The parameter is beta functionality. It is not available for
+               previous-generation `Broadband` and `Narrowband` models. It is available
+               only for some next-generation models.
+               * For a list of next-generation models that support low latency, see
+               [Supported language
+               models](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-models-ng#models-ng-supported)
+               for next-generation models.
+               * For more information about the `low_latency` parameter, see [Low
+               latency](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-interim#low-latency).
         :param float character_insertion_bias: (optional) For next-generation
                `Multimedia` and `Telephony` models, an indication of whether the service
                is biased to recognize shorter or longer strings of characters when
@@ -337,6 +355,7 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
             'customization_weight': customization_weight,
             'content_type': content_type,
             'inactivity_timeout': inactivity_timeout,
+            'interim_results': interim_results,
             'keywords': keywords,
             'keywords_threshold': keywords_threshold,
             'max_alternatives': max_alternatives,
@@ -356,7 +375,8 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
             'split_transcript_at_phrase_end': split_transcript_at_phrase_end,
             'speech_detector_sensitivity': speech_detector_sensitivity,
             'background_audio_suppression': background_audio_suppression,
-            'character_insertion_bias': character_insertion_bias
+            'character_insertion_bias': character_insertion_bias,
+            'low_latency': low_latency,
         }
         options = {k: v for k, v in options.items() if v is not None}
         request['options'] = options

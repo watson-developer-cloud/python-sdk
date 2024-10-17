@@ -118,6 +118,66 @@ class TestSpeechToTextV1(TestCase):
         assert test_callback.data['results'][0]['alternatives'][0]
         ['transcript'] == 'thunderstorms could produce large hail isolated tornadoes and heavy rain '
 
+    def test_on_transcription_interim_results_false(self):
+        class MyRecognizeCallback(RecognizeCallback):
+            def __init__(self):
+                RecognizeCallback.__init__(self)
+                self.error = None
+                self.transcript = None
+            def on_error(self, error):
+                self.error = error
+            def on_transcription(self, transcript):
+                self.transcript = transcript
+        test_callback = MyRecognizeCallback()
+        with open(os.path.join(os.path.dirname(__file__), '../../resources/speech_with_pause.wav'), 'rb') as audio_file:
+            audio_source = AudioSource(audio_file, False)
+            self.speech_to_text.recognize_using_websocket(audio_source, "audio/wav", test_callback, model="en-US_Telephony",
+             interim_results=False, low_latency=False)
+            assert test_callback.error is None
+            assert test_callback.transcript is not None
+            assert test_callback.transcript[0][0]['transcript'] in ['isolated tornadoes ', 'isolated tornados ']
+            assert test_callback.transcript[1][0]['transcript'] == 'and heavy rain '
+    def test_on_transcription_interim_results_true(self):
+        class MyRecognizeCallback(RecognizeCallback):
+            def __init__(self):
+                RecognizeCallback.__init__(self)
+                self.error = None
+                self.transcript = None
+            def on_error(self, error):
+                self.error = error
+            def on_transcription(self, transcript):
+                self.transcript = transcript
+                assert transcript[0]['confidence'] is not None
+                assert transcript[0]['transcript'] is not None
+        test_callback = MyRecognizeCallback()
+        with open(os.path.join(os.path.dirname(__file__), '../../resources/speech_with_pause.wav'), 'rb') as audio_file:
+            audio_source = AudioSource(audio_file, False)
+            self.speech_to_text.recognize_using_websocket(audio_source, "audio/wav", test_callback, model="en-US_Telephony",
+             interim_results=True, low_latency=True)
+            assert test_callback.error is None
+            assert test_callback.transcript is not None
+            assert test_callback.transcript[0]['transcript'] == 'and heavy rain '
+    def test_on_transcription_interim_results_true_low_latency_false(self):
+        class MyRecognizeCallback(RecognizeCallback):
+            def __init__(self):
+                RecognizeCallback.__init__(self)
+                self.error = None
+                self.transcript = None
+            def on_error(self, error):
+                self.error = error
+            def on_transcription(self, transcript):
+                self.transcript = transcript
+                assert transcript[0]['confidence'] is not None
+                assert transcript[0]['transcript'] is not None
+        test_callback = MyRecognizeCallback()
+        with open(os.path.join(os.path.dirname(__file__), '../../resources/speech_with_pause.wav'), 'rb') as audio_file:
+            audio_source = AudioSource(audio_file, False)
+            self.speech_to_text.recognize_using_websocket(audio_source, "audio/wav", test_callback, model="en-US_Telephony",
+             interim_results=True, low_latency=False)
+            assert test_callback.error is None
+            assert test_callback.transcript is not None
+            assert test_callback.transcript[0]['transcript'] == 'and heavy rain '
+            
     def test_custom_grammars(self):
         customization_id = None
         for custom_model in self.custom_models.get('customizations'):
