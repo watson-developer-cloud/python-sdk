@@ -1338,8 +1338,12 @@ class DiscoveryV2(BaseService):
                (`extracted_metadata.filename`) fields. If this parameter is an empty list,
                then all fields are returned.
         :param int offset: (optional) The number of query results to skip at the
-               beginning. For example, if the total number of results that are returned is
-               10 and the offset is 8, it returns the last two results.
+               beginning. Consider that the `count` is set to 10 (the default value) and
+               the total number of results that are returned is 100. In this case, the
+               following examples show the returned results for different `offset` values:
+                * If `offset` is set to 95, it returns the last 5 results.
+                * If `offset` is set to 10, it returns the second batch of 10 results.
+                * If `offset` is set to 100 or more, it returns empty results.
         :param str sort: (optional) A comma-separated list of fields in the
                document to sort on. You can optionally specify a sort direction by
                prefixing the field with `-` for descending or `+` for ascending. Ascending
@@ -2856,6 +2860,231 @@ class DiscoveryV2(BaseService):
         return response
 
     #########################
+    # Batches
+    #########################
+
+    def list_batches(
+        self,
+        project_id: str,
+        collection_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
+        """
+        List batches.
+
+        A batch is a set of documents that are ready for enrichment by an external
+        application. After you apply a webhook enrichment to a collection, and then
+        process or upload documents to the collection, Discovery creates a batch with a
+        unique **batch_id**.
+         To start, you must register your external application as a **webhook** type by
+        using the [Create enrichment API](/apidocs/discovery-data#createenrichment)
+        method.
+        Use the List batches API to get the following:
+         * Notified batches that are not yet pulled by the external enrichment
+        application.
+         * Batches that are pulled, but not yet pushed to Discovery by the external
+        enrichment application.
+
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
+        :param str collection_id: The Universally Unique Identifier (UUID) of the
+               collection.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `ListBatchesResponse` object
+        """
+
+        if not project_id:
+            raise ValueError('project_id must be provided')
+        if not collection_id:
+            raise ValueError('collection_id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V2',
+            operation_id='list_batches',
+        )
+        headers.update(sdk_headers)
+
+        params = {
+            'version': self.version,
+        }
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['project_id', 'collection_id']
+        path_param_values = self.encode_path_vars(project_id, collection_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/projects/{project_id}/collections/{collection_id}/batches'.format(
+            **path_param_dict)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
+
+        response = self.send(request, **kwargs)
+        return response
+
+    def pull_batches(
+        self,
+        project_id: str,
+        collection_id: str,
+        batch_id: str,
+        **kwargs,
+    ) -> DetailedResponse:
+        """
+        Pull batches.
+
+        Pull a batch of documents from Discovery for enrichment by an external
+        application. Ensure to include the `Accept-Encoding: gzip` header in this method
+        to get the file. You can also implement retry logic when calling this method to
+        avoid any network errors.
+
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
+        :param str collection_id: The Universally Unique Identifier (UUID) of the
+               collection.
+        :param str batch_id: The Universally Unique Identifier (UUID) of the
+               document batch that is being requested from Discovery.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `PullBatchesResponse` object
+        """
+
+        if not project_id:
+            raise ValueError('project_id must be provided')
+        if not collection_id:
+            raise ValueError('collection_id must be provided')
+        if not batch_id:
+            raise ValueError('batch_id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V2',
+            operation_id='pull_batches',
+        )
+        headers.update(sdk_headers)
+
+        params = {
+            'version': self.version,
+        }
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['project_id', 'collection_id', 'batch_id']
+        path_param_values = self.encode_path_vars(project_id, collection_id,
+                                                  batch_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/projects/{project_id}/collections/{collection_id}/batches/{batch_id}'.format(
+            **path_param_dict)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
+
+        response = self.send(request, **kwargs)
+        return response
+
+    def push_batches(
+        self,
+        project_id: str,
+        collection_id: str,
+        batch_id: str,
+        *,
+        file: Optional[BinaryIO] = None,
+        filename: Optional[str] = None,
+        **kwargs,
+    ) -> DetailedResponse:
+        """
+        Push batches.
+
+        Push a batch of documents to Discovery after annotation by an external
+        application. You can implement retry logic when calling this method to avoid any
+        network errors.
+
+        :param str project_id: The Universally Unique Identifier (UUID) of the
+               project. This information can be found from the *Integrate and Deploy* page
+               in Discovery.
+        :param str collection_id: The Universally Unique Identifier (UUID) of the
+               collection.
+        :param str batch_id: The Universally Unique Identifier (UUID) of the
+               document batch that is being requested from Discovery.
+        :param BinaryIO file: (optional) A compressed newline-delimited JSON
+               (NDJSON), which is a JSON file with one row of data per line. For example,
+               `{batch_id}.ndjson.gz`. For more information, see [Binary attachment in the
+               push batches
+               method](/docs/discovery-data?topic=discovery-data-external-enrichment#binary-attachment-push-batches).
+               There is no limitation on the name of the file because Discovery does not
+               use the name for processing. The list of features in the document is
+               specified in the `features` object.
+        :param str filename: (optional) The filename for file.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `bool` result
+        """
+
+        if not project_id:
+            raise ValueError('project_id must be provided')
+        if not collection_id:
+            raise ValueError('collection_id must be provided')
+        if not batch_id:
+            raise ValueError('batch_id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V2',
+            operation_id='push_batches',
+        )
+        headers.update(sdk_headers)
+
+        params = {
+            'version': self.version,
+        }
+
+        form_data = []
+        if file:
+            if not filename and hasattr(file, 'name'):
+                filename = basename(file.name)
+            if not filename:
+                raise ValueError('filename must be provided')
+            form_data.append(
+                ('file', (filename, file, 'application/octet-stream')))
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['project_id', 'collection_id', 'batch_id']
+        path_param_values = self.encode_path_vars(project_id, collection_id,
+                                                  batch_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/projects/{project_id}/collections/{collection_id}/batches/{batch_id}'.format(
+            **path_param_dict)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            files=form_data,
+        )
+
+        response = self.send(request, **kwargs)
+        return response
+
+    #########################
     # Document classifiers
     #########################
 
@@ -3970,6 +4199,85 @@ class AnalyzedResult:
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'AnalyzedResult') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class BatchDetails:
+    """
+    A batch is a set of documents that are ready for enrichment by an external
+    application. After you apply a webhook enrichment to a collection, and then process or
+    upload documents to the collection, Discovery creates a batch with a unique
+    **batch_id**.
+
+    :param str batch_id: (optional) The Universally Unique Identifier (UUID) for a
+          batch of documents.
+    :param datetime created: (optional) The date and time (RFC3339) that the batch
+          was created.
+    :param str enrichment_id: (optional) The Universally Unique Identifier (UUID)
+          for the external enrichment.
+    """
+
+    def __init__(
+        self,
+        *,
+        batch_id: Optional[str] = None,
+        created: Optional[datetime] = None,
+        enrichment_id: Optional[str] = None,
+    ) -> None:
+        """
+        Initialize a BatchDetails object.
+
+        :param str enrichment_id: (optional) The Universally Unique Identifier
+               (UUID) for the external enrichment.
+        """
+        self.batch_id = batch_id
+        self.created = created
+        self.enrichment_id = enrichment_id
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'BatchDetails':
+        """Initialize a BatchDetails object from a json dictionary."""
+        args = {}
+        if (batch_id := _dict.get('batch_id')) is not None:
+            args['batch_id'] = batch_id
+        if (created := _dict.get('created')) is not None:
+            args['created'] = string_to_datetime(created)
+        if (enrichment_id := _dict.get('enrichment_id')) is not None:
+            args['enrichment_id'] = enrichment_id
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a BatchDetails object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'batch_id') and getattr(self, 'batch_id') is not None:
+            _dict['batch_id'] = getattr(self, 'batch_id')
+        if hasattr(self, 'created') and getattr(self, 'created') is not None:
+            _dict['created'] = datetime_to_string(getattr(self, 'created'))
+        if hasattr(self, 'enrichment_id') and self.enrichment_id is not None:
+            _dict['enrichment_id'] = self.enrichment_id
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this BatchDetails object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'BatchDetails') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'BatchDetails') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -5217,9 +5525,6 @@ class CreateEnrichment:
           * `watson_knowledge_studio_model`: Creates an enrichment from a Watson Knowledge
           Studio machine learning model that is defined in a ZIP file.
           * `webhook`: Connects to an external enrichment application by using a webhook.
-          The feature is available from IBM Cloud-managed instances only. The external
-          enrichment feature is beta functionality. Beta features are not supported by the
-          SDKs.
           * `sentence_classifier`: Use sentence classifier to classify sentences in your
           documents. This feature is available in IBM Cloud-managed instances only. The
           sentence classifier feature is beta functionality. Beta features are not
@@ -5262,9 +5567,7 @@ class CreateEnrichment:
                * `watson_knowledge_studio_model`: Creates an enrichment from a Watson
                Knowledge Studio machine learning model that is defined in a ZIP file.
                * `webhook`: Connects to an external enrichment application by using a
-               webhook. The feature is available from IBM Cloud-managed instances only.
-               The external enrichment feature is beta functionality. Beta features are
-               not supported by the SDKs.
+               webhook.
                * `sentence_classifier`: Use sentence classifier to classify sentences in
                your documents. This feature is available in IBM Cloud-managed instances
                only. The sentence classifier feature is beta functionality. Beta features
@@ -5353,9 +5656,6 @@ class CreateEnrichment:
         * `watson_knowledge_studio_model`: Creates an enrichment from a Watson Knowledge
         Studio machine learning model that is defined in a ZIP file.
         * `webhook`: Connects to an external enrichment application by using a webhook.
-        The feature is available from IBM Cloud-managed instances only. The external
-        enrichment feature is beta functionality. Beta features are not supported by the
-        SDKs.
         * `sentence_classifier`: Use sentence classifier to classify sentences in your
         documents. This feature is available in IBM Cloud-managed instances only. The
         sentence classifier feature is beta functionality. Beta features are not supported
@@ -7558,6 +7858,73 @@ class Field:
         FLOAT = 'float'
         BOOLEAN = 'boolean'
         BINARY = 'binary'
+
+
+class ListBatchesResponse:
+    """
+    An object that contains a list of batches that are ready for enrichment by the
+    external application.
+
+    :param List[BatchDetails] batches: (optional) An array that lists the batches in
+          a collection.
+    """
+
+    def __init__(
+        self,
+        *,
+        batches: Optional[List['BatchDetails']] = None,
+    ) -> None:
+        """
+        Initialize a ListBatchesResponse object.
+
+        :param List[BatchDetails] batches: (optional) An array that lists the
+               batches in a collection.
+        """
+        self.batches = batches
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ListBatchesResponse':
+        """Initialize a ListBatchesResponse object from a json dictionary."""
+        args = {}
+        if (batches := _dict.get('batches')) is not None:
+            args['batches'] = [BatchDetails.from_dict(v) for v in batches]
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ListBatchesResponse object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'batches') and self.batches is not None:
+            batches_list = []
+            for v in self.batches:
+                if isinstance(v, dict):
+                    batches_list.append(v)
+                else:
+                    batches_list.append(v.to_dict())
+            _dict['batches'] = batches_list
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ListBatchesResponse object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ListBatchesResponse') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ListBatchesResponse') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
 
 
 class ListCollectionsResponse:
@@ -12743,6 +13110,69 @@ class WebhookHeader:
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'WebhookHeader') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class PullBatchesResponse:
+    """
+    A compressed newline delimited JSON (NDJSON) file containing the document. The NDJSON
+    format is used to describe structured data. The file name format is
+    `{batch_id}.ndjson.gz`. For more information, see [Binary attachment from the pull
+    batches
+    method](/docs/discovery-data?topic=discovery-data-external-enrichment#binary-attachment-pull-batches).
+
+    :param str file: (optional) A compressed NDJSON file containing the document.
+    """
+
+    def __init__(
+        self,
+        *,
+        file: Optional[str] = None,
+    ) -> None:
+        """
+        Initialize a PullBatchesResponse object.
+
+        :param str file: (optional) A compressed NDJSON file containing the
+               document.
+        """
+        self.file = file
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'PullBatchesResponse':
+        """Initialize a PullBatchesResponse object from a json dictionary."""
+        args = {}
+        if (file := _dict.get('file')) is not None:
+            args['file'] = file
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a PullBatchesResponse object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'file') and self.file is not None:
+            _dict['file'] = self.file
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this PullBatchesResponse object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'PullBatchesResponse') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'PullBatchesResponse') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
