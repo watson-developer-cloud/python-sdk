@@ -4257,6 +4257,326 @@ class TestDeleteEnrichment:
 ##############################################################################
 
 ##############################################################################
+# Start of Service: Batches
+##############################################################################
+# region
+
+
+class TestListBatches:
+    """
+    Test Class for list_batches
+    """
+
+    @responses.activate
+    def test_list_batches_all_params(self):
+        """
+        list_batches()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections/testString/batches')
+        mock_response = '{"batches": [{"batch_id": "batch_id", "created": "2019-01-01T12:00:00.000Z", "enrichment_id": "enrichment_id"}]}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_id = 'testString'
+
+        # Invoke method
+        response = _service.list_batches(
+            project_id,
+            collection_id,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_list_batches_all_params_with_retries(self):
+        # Enable retries and run test_list_batches_all_params.
+        _service.enable_retries()
+        self.test_list_batches_all_params()
+
+        # Disable retries and run test_list_batches_all_params.
+        _service.disable_retries()
+        self.test_list_batches_all_params()
+
+    @responses.activate
+    def test_list_batches_value_error(self):
+        """
+        test_list_batches_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections/testString/batches')
+        mock_response = '{"batches": [{"batch_id": "batch_id", "created": "2019-01-01T12:00:00.000Z", "enrichment_id": "enrichment_id"}]}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "project_id": project_id,
+            "collection_id": collection_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.list_batches(**req_copy)
+
+    def test_list_batches_value_error_with_retries(self):
+        # Enable retries and run test_list_batches_value_error.
+        _service.enable_retries()
+        self.test_list_batches_value_error()
+
+        # Disable retries and run test_list_batches_value_error.
+        _service.disable_retries()
+        self.test_list_batches_value_error()
+
+
+class TestPullBatches:
+    """
+    Test Class for pull_batches
+    """
+
+    @responses.activate
+    def test_pull_batches_all_params(self):
+        """
+        pull_batches()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections/testString/batches/testString')
+        mock_response = '{"file": "file"}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_id = 'testString'
+        batch_id = 'testString'
+
+        # Invoke method
+        response = _service.pull_batches(
+            project_id,
+            collection_id,
+            batch_id,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_pull_batches_all_params_with_retries(self):
+        # Enable retries and run test_pull_batches_all_params.
+        _service.enable_retries()
+        self.test_pull_batches_all_params()
+
+        # Disable retries and run test_pull_batches_all_params.
+        _service.disable_retries()
+        self.test_pull_batches_all_params()
+
+    @responses.activate
+    def test_pull_batches_value_error(self):
+        """
+        test_pull_batches_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections/testString/batches/testString')
+        mock_response = '{"file": "file"}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_id = 'testString'
+        batch_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "project_id": project_id,
+            "collection_id": collection_id,
+            "batch_id": batch_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.pull_batches(**req_copy)
+
+    def test_pull_batches_value_error_with_retries(self):
+        # Enable retries and run test_pull_batches_value_error.
+        _service.enable_retries()
+        self.test_pull_batches_value_error()
+
+        # Disable retries and run test_pull_batches_value_error.
+        _service.disable_retries()
+        self.test_pull_batches_value_error()
+
+
+class TestPushBatches:
+    """
+    Test Class for push_batches
+    """
+
+    @responses.activate
+    def test_push_batches_all_params(self):
+        """
+        push_batches()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections/testString/batches/testString')
+        mock_response = 'false'
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=202,
+        )
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_id = 'testString'
+        batch_id = 'testString'
+        file = io.BytesIO(b'This is a mock file.').getvalue()
+        filename = 'testString'
+
+        # Invoke method
+        response = _service.push_batches(
+            project_id,
+            collection_id,
+            batch_id,
+            file=file,
+            filename=filename,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 202
+
+    def test_push_batches_all_params_with_retries(self):
+        # Enable retries and run test_push_batches_all_params.
+        _service.enable_retries()
+        self.test_push_batches_all_params()
+
+        # Disable retries and run test_push_batches_all_params.
+        _service.disable_retries()
+        self.test_push_batches_all_params()
+
+    @responses.activate
+    def test_push_batches_required_params(self):
+        """
+        test_push_batches_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections/testString/batches/testString')
+        mock_response = 'false'
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=202,
+        )
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_id = 'testString'
+        batch_id = 'testString'
+
+        # Invoke method
+        response = _service.push_batches(
+            project_id,
+            collection_id,
+            batch_id,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 202
+
+    def test_push_batches_required_params_with_retries(self):
+        # Enable retries and run test_push_batches_required_params.
+        _service.enable_retries()
+        self.test_push_batches_required_params()
+
+        # Disable retries and run test_push_batches_required_params.
+        _service.disable_retries()
+        self.test_push_batches_required_params()
+
+    @responses.activate
+    def test_push_batches_value_error(self):
+        """
+        test_push_batches_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/projects/testString/collections/testString/batches/testString')
+        mock_response = 'false'
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=202,
+        )
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_id = 'testString'
+        batch_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "project_id": project_id,
+            "collection_id": collection_id,
+            "batch_id": batch_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.push_batches(**req_copy)
+
+    def test_push_batches_value_error_with_retries(self):
+        # Enable retries and run test_push_batches_value_error.
+        _service.enable_retries()
+        self.test_push_batches_value_error()
+
+        # Disable retries and run test_push_batches_value_error.
+        _service.disable_retries()
+        self.test_push_batches_value_error()
+
+
+# endregion
+##############################################################################
+# End of Service: Batches
+##############################################################################
+
+##############################################################################
 # Start of Service: DocumentClassifiers
 ##############################################################################
 # region
@@ -5653,6 +5973,36 @@ class TestModel_AnalyzedResult:
         assert actual_dict == expected_dict
 
 
+class TestModel_BatchDetails:
+    """
+    Test Class for BatchDetails
+    """
+
+    def test_batch_details_serialization(self):
+        """
+        Test serialization/deserialization for BatchDetails
+        """
+
+        # Construct a json representation of a BatchDetails model
+        batch_details_model_json = {}
+        batch_details_model_json['enrichment_id'] = 'testString'
+
+        # Construct a model instance of BatchDetails by calling from_dict on the json representation
+        batch_details_model = BatchDetails.from_dict(batch_details_model_json)
+        assert batch_details_model != False
+
+        # Construct a model instance of BatchDetails by calling from_dict on the json representation
+        batch_details_model_dict = BatchDetails.from_dict(batch_details_model_json).__dict__
+        batch_details_model2 = BatchDetails(**batch_details_model_dict)
+
+        # Verify the model instances are equivalent
+        assert batch_details_model == batch_details_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        batch_details_model_json2 = batch_details_model.to_dict()
+        assert batch_details_model_json2 == batch_details_model_json
+
+
 class TestModel_ClassifierFederatedModel:
     """
     Test Class for ClassifierFederatedModel
@@ -7012,6 +7362,41 @@ class TestModel_Field:
         # Convert model instance back to dict and verify no loss of data
         field_model_json2 = field_model.to_dict()
         assert field_model_json2 == field_model_json
+
+
+class TestModel_ListBatchesResponse:
+    """
+    Test Class for ListBatchesResponse
+    """
+
+    def test_list_batches_response_serialization(self):
+        """
+        Test serialization/deserialization for ListBatchesResponse
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        batch_details_model = {}  # BatchDetails
+        batch_details_model['enrichment_id'] = 'fd290d8b-53e2-dba1-0000-018a8d150b85'
+
+        # Construct a json representation of a ListBatchesResponse model
+        list_batches_response_model_json = {}
+        list_batches_response_model_json['batches'] = [batch_details_model]
+
+        # Construct a model instance of ListBatchesResponse by calling from_dict on the json representation
+        list_batches_response_model = ListBatchesResponse.from_dict(list_batches_response_model_json)
+        assert list_batches_response_model != False
+
+        # Construct a model instance of ListBatchesResponse by calling from_dict on the json representation
+        list_batches_response_model_dict = ListBatchesResponse.from_dict(list_batches_response_model_json).__dict__
+        list_batches_response_model2 = ListBatchesResponse(**list_batches_response_model_dict)
+
+        # Verify the model instances are equivalent
+        assert list_batches_response_model == list_batches_response_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        list_batches_response_model_json2 = list_batches_response_model.to_dict()
+        assert list_batches_response_model_json2 == list_batches_response_model_json
 
 
 class TestModel_ListCollectionsResponse:
@@ -9119,6 +9504,36 @@ class TestModel_WebhookHeader:
         # Convert model instance back to dict and verify no loss of data
         webhook_header_model_json2 = webhook_header_model.to_dict()
         assert webhook_header_model_json2 == webhook_header_model_json
+
+
+class TestModel_PullBatchesResponse:
+    """
+    Test Class for PullBatchesResponse
+    """
+
+    def test_pull_batches_response_serialization(self):
+        """
+        Test serialization/deserialization for PullBatchesResponse
+        """
+
+        # Construct a json representation of a PullBatchesResponse model
+        pull_batches_response_model_json = {}
+        pull_batches_response_model_json['file'] = 'testString'
+
+        # Construct a model instance of PullBatchesResponse by calling from_dict on the json representation
+        pull_batches_response_model = PullBatchesResponse.from_dict(pull_batches_response_model_json)
+        assert pull_batches_response_model != False
+
+        # Construct a model instance of PullBatchesResponse by calling from_dict on the json representation
+        pull_batches_response_model_dict = PullBatchesResponse.from_dict(pull_batches_response_model_json).__dict__
+        pull_batches_response_model2 = PullBatchesResponse(**pull_batches_response_model_dict)
+
+        # Verify the model instances are equivalent
+        assert pull_batches_response_model == pull_batches_response_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        pull_batches_response_model_json2 = pull_batches_response_model.to_dict()
+        assert pull_batches_response_model_json2 == pull_batches_response_model_json
 
 
 class TestModel_QueryAggregationQueryCalculationAggregation:
