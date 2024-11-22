@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 3.85.0-75c38f8f-20240206-210220
+# IBM OpenAPI SDK Code Generator Version: 3.97.0-0e90eab1-20241120-170029
 """
 The IBM Watson&trade; Assistant service combines machine learning, natural language
 understanding, and an integrated dialog editor to create conversation flows between your
@@ -4820,6 +4820,8 @@ class Context:
     :param dict system: (optional) For internal use only.
     :param MessageContextMetadata metadata: (optional) Metadata related to the
           message.
+
+    This type supports additional properties of type object. Any context variable.
     """
 
     # The set of defined properties for the class
@@ -4831,7 +4833,7 @@ class Context:
         conversation_id: Optional[str] = None,
         system: Optional[dict] = None,
         metadata: Optional['MessageContextMetadata'] = None,
-        **kwargs,
+        **kwargs: Optional[object],
     ) -> None:
         """
         Initialize a Context object.
@@ -4843,13 +4845,22 @@ class Context:
         :param dict system: (optional) For internal use only.
         :param MessageContextMetadata metadata: (optional) Metadata related to the
                message.
-        :param **kwargs: (optional) Any additional properties.
+        :param object **kwargs: (optional) Any context variable.
         """
         self.conversation_id = conversation_id
         self.system = system
         self.metadata = metadata
-        for _key, _value in kwargs.items():
-            setattr(self, _key, _value)
+        for k, v in kwargs.items():
+            if k not in Context._properties:
+                if not isinstance(v, object):
+                    raise ValueError(
+                        'Value for additional property {} must be of type object'
+                        .format(k))
+                setattr(self, k, v)
+            else:
+                raise ValueError(
+                    'Property {} cannot be specified as an additional property'.
+                    format(k))
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'Context':
@@ -4861,8 +4872,13 @@ class Context:
             args['system'] = system
         if (metadata := _dict.get('metadata')) is not None:
             args['metadata'] = MessageContextMetadata.from_dict(metadata)
-        args.update(
-            {k: v for (k, v) in _dict.items() if k not in cls._properties})
+        for k, v in _dict.items():
+            if k not in cls._properties:
+                if not isinstance(v, object):
+                    raise ValueError(
+                        'Value for additional property {} must be of type object'
+                        .format(k))
+                args[k] = v
         return cls(**args)
 
     @classmethod
@@ -4883,10 +4899,10 @@ class Context:
                 _dict['metadata'] = self.metadata
             else:
                 _dict['metadata'] = self.metadata.to_dict()
-        for _key in [
-                k for k in vars(self).keys() if k not in Context._properties
+        for k in [
+                _k for _k in vars(self).keys() if _k not in Context._properties
         ]:
-            _dict[_key] = getattr(self, _key)
+            _dict[k] = getattr(self, k)
         return _dict
 
     def _to_dict(self):
@@ -4894,25 +4910,31 @@ class Context:
         return self.to_dict()
 
     def get_properties(self) -> Dict:
-        """Return a dictionary of arbitrary properties from this instance of Context"""
+        """Return the additional properties from this instance of Context in the form of a dict."""
         _dict = {}
-
-        for _key in [
-                k for k in vars(self).keys() if k not in Context._properties
+        for k in [
+                _k for _k in vars(self).keys() if _k not in Context._properties
         ]:
-            _dict[_key] = getattr(self, _key)
+            _dict[k] = getattr(self, k)
         return _dict
 
     def set_properties(self, _dict: dict):
-        """Set a dictionary of arbitrary properties to this instance of Context"""
-        for _key in [
-                k for k in vars(self).keys() if k not in Context._properties
+        """Set a dictionary of additional properties in this instance of Context"""
+        for k in [
+                _k for _k in vars(self).keys() if _k not in Context._properties
         ]:
-            delattr(self, _key)
-
-        for _key, _value in _dict.items():
-            if _key not in Context._properties:
-                setattr(self, _key, _value)
+            delattr(self, k)
+        for k, v in _dict.items():
+            if k not in Context._properties:
+                if not isinstance(v, object):
+                    raise ValueError(
+                        'Value for additional property {} must be of type object'
+                        .format(k))
+                setattr(self, k, v)
+            else:
+                raise ValueError(
+                    'Property {} cannot be specified as an additional property'.
+                    format(k))
 
     def __str__(self) -> str:
         """Return a `str` version of this Context object."""
@@ -6050,6 +6072,8 @@ class DialogNodeContext:
 
     :param dict integrations: (optional) Context data intended for specific
           integrations.
+
+    This type supports additional properties of type object. Any context variable.
     """
 
     # The set of defined properties for the class
@@ -6059,18 +6083,27 @@ class DialogNodeContext:
         self,
         *,
         integrations: Optional[dict] = None,
-        **kwargs,
+        **kwargs: Optional[object],
     ) -> None:
         """
         Initialize a DialogNodeContext object.
 
         :param dict integrations: (optional) Context data intended for specific
                integrations.
-        :param **kwargs: (optional) Any additional properties.
+        :param object **kwargs: (optional) Any context variable.
         """
         self.integrations = integrations
-        for _key, _value in kwargs.items():
-            setattr(self, _key, _value)
+        for k, v in kwargs.items():
+            if k not in DialogNodeContext._properties:
+                if not isinstance(v, object):
+                    raise ValueError(
+                        'Value for additional property {} must be of type object'
+                        .format(k))
+                setattr(self, k, v)
+            else:
+                raise ValueError(
+                    'Property {} cannot be specified as an additional property'.
+                    format(k))
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'DialogNodeContext':
@@ -6078,8 +6111,13 @@ class DialogNodeContext:
         args = {}
         if (integrations := _dict.get('integrations')) is not None:
             args['integrations'] = integrations
-        args.update(
-            {k: v for (k, v) in _dict.items() if k not in cls._properties})
+        for k, v in _dict.items():
+            if k not in cls._properties:
+                if not isinstance(v, object):
+                    raise ValueError(
+                        'Value for additional property {} must be of type object'
+                        .format(k))
+                args[k] = v
         return cls(**args)
 
     @classmethod
@@ -6092,11 +6130,11 @@ class DialogNodeContext:
         _dict = {}
         if hasattr(self, 'integrations') and self.integrations is not None:
             _dict['integrations'] = self.integrations
-        for _key in [
-                k for k in vars(self).keys()
-                if k not in DialogNodeContext._properties
+        for k in [
+                _k for _k in vars(self).keys()
+                if _k not in DialogNodeContext._properties
         ]:
-            _dict[_key] = getattr(self, _key)
+            _dict[k] = getattr(self, k)
         return _dict
 
     def _to_dict(self):
@@ -6104,27 +6142,33 @@ class DialogNodeContext:
         return self.to_dict()
 
     def get_properties(self) -> Dict:
-        """Return a dictionary of arbitrary properties from this instance of DialogNodeContext"""
+        """Return the additional properties from this instance of DialogNodeContext in the form of a dict."""
         _dict = {}
-
-        for _key in [
-                k for k in vars(self).keys()
-                if k not in DialogNodeContext._properties
+        for k in [
+                _k for _k in vars(self).keys()
+                if _k not in DialogNodeContext._properties
         ]:
-            _dict[_key] = getattr(self, _key)
+            _dict[k] = getattr(self, k)
         return _dict
 
     def set_properties(self, _dict: dict):
-        """Set a dictionary of arbitrary properties to this instance of DialogNodeContext"""
-        for _key in [
-                k for k in vars(self).keys()
-                if k not in DialogNodeContext._properties
+        """Set a dictionary of additional properties in this instance of DialogNodeContext"""
+        for k in [
+                _k for _k in vars(self).keys()
+                if _k not in DialogNodeContext._properties
         ]:
-            delattr(self, _key)
-
-        for _key, _value in _dict.items():
-            if _key not in DialogNodeContext._properties:
-                setattr(self, _key, _value)
+            delattr(self, k)
+        for k, v in _dict.items():
+            if k not in DialogNodeContext._properties:
+                if not isinstance(v, object):
+                    raise ValueError(
+                        'Value for additional property {} must be of type object'
+                        .format(k))
+                setattr(self, k, v)
+            else:
+                raise ValueError(
+                    'Property {} cannot be specified as an additional property'.
+                    format(k))
 
     def __str__(self) -> str:
         """Return a `str` version of this DialogNodeContext object."""
@@ -6317,6 +6361,9 @@ class DialogNodeOutput:
           [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-dialog-responses-json).
     :param DialogNodeOutputModifiers modifiers: (optional) Options that modify how
           specified output is handled.
+
+    This type supports additional properties of type object. Any additional data included
+    in the dialog node output.
     """
 
     # The set of defined properties for the class
@@ -6328,7 +6375,7 @@ class DialogNodeOutput:
         generic: Optional[List['DialogNodeOutputGeneric']] = None,
         integrations: Optional[dict] = None,
         modifiers: Optional['DialogNodeOutputModifiers'] = None,
-        **kwargs,
+        **kwargs: Optional[object],
     ) -> None:
         """
         Initialize a DialogNodeOutput object.
@@ -6340,13 +6387,23 @@ class DialogNodeOutput:
                [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-dialog-responses-json).
         :param DialogNodeOutputModifiers modifiers: (optional) Options that modify
                how specified output is handled.
-        :param **kwargs: (optional) Any additional properties.
+        :param object **kwargs: (optional) Any additional data included in the
+               dialog node output.
         """
         self.generic = generic
         self.integrations = integrations
         self.modifiers = modifiers
-        for _key, _value in kwargs.items():
-            setattr(self, _key, _value)
+        for k, v in kwargs.items():
+            if k not in DialogNodeOutput._properties:
+                if not isinstance(v, object):
+                    raise ValueError(
+                        'Value for additional property {} must be of type object'
+                        .format(k))
+                setattr(self, k, v)
+            else:
+                raise ValueError(
+                    'Property {} cannot be specified as an additional property'.
+                    format(k))
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'DialogNodeOutput':
@@ -6360,8 +6417,13 @@ class DialogNodeOutput:
             args['integrations'] = integrations
         if (modifiers := _dict.get('modifiers')) is not None:
             args['modifiers'] = DialogNodeOutputModifiers.from_dict(modifiers)
-        args.update(
-            {k: v for (k, v) in _dict.items() if k not in cls._properties})
+        for k, v in _dict.items():
+            if k not in cls._properties:
+                if not isinstance(v, object):
+                    raise ValueError(
+                        'Value for additional property {} must be of type object'
+                        .format(k))
+                args[k] = v
         return cls(**args)
 
     @classmethod
@@ -6387,11 +6449,11 @@ class DialogNodeOutput:
                 _dict['modifiers'] = self.modifiers
             else:
                 _dict['modifiers'] = self.modifiers.to_dict()
-        for _key in [
-                k for k in vars(self).keys()
-                if k not in DialogNodeOutput._properties
+        for k in [
+                _k for _k in vars(self).keys()
+                if _k not in DialogNodeOutput._properties
         ]:
-            _dict[_key] = getattr(self, _key)
+            _dict[k] = getattr(self, k)
         return _dict
 
     def _to_dict(self):
@@ -6399,27 +6461,33 @@ class DialogNodeOutput:
         return self.to_dict()
 
     def get_properties(self) -> Dict:
-        """Return a dictionary of arbitrary properties from this instance of DialogNodeOutput"""
+        """Return the additional properties from this instance of DialogNodeOutput in the form of a dict."""
         _dict = {}
-
-        for _key in [
-                k for k in vars(self).keys()
-                if k not in DialogNodeOutput._properties
+        for k in [
+                _k for _k in vars(self).keys()
+                if _k not in DialogNodeOutput._properties
         ]:
-            _dict[_key] = getattr(self, _key)
+            _dict[k] = getattr(self, k)
         return _dict
 
     def set_properties(self, _dict: dict):
-        """Set a dictionary of arbitrary properties to this instance of DialogNodeOutput"""
-        for _key in [
-                k for k in vars(self).keys()
-                if k not in DialogNodeOutput._properties
+        """Set a dictionary of additional properties in this instance of DialogNodeOutput"""
+        for k in [
+                _k for _k in vars(self).keys()
+                if _k not in DialogNodeOutput._properties
         ]:
-            delattr(self, _key)
-
-        for _key, _value in _dict.items():
-            if _key not in DialogNodeOutput._properties:
-                setattr(self, _key, _value)
+            delattr(self, k)
+        for k, v in _dict.items():
+            if k not in DialogNodeOutput._properties:
+                if not isinstance(v, object):
+                    raise ValueError(
+                        'Value for additional property {} must be of type object'
+                        .format(k))
+                setattr(self, k, v)
+            else:
+                raise ValueError(
+                    'Property {} cannot be specified as an additional property'.
+                    format(k))
 
     def __str__(self) -> str:
         """Return a `str` version of this DialogNodeOutput object."""
@@ -8635,6 +8703,9 @@ class MessageInput:
           autocorrection is disabled.
     :param str original_text: (optional) The original user input text. This property
           is returned only if autocorrection is enabled and the user input was corrected.
+
+    This type supports additional properties of type object. Any additional data included
+    with the message input.
     """
 
     # The set of defined properties for the class
@@ -8651,7 +8722,7 @@ class MessageInput:
         spelling_auto_correct: Optional[bool] = None,
         suggested_text: Optional[str] = None,
         original_text: Optional[str] = None,
-        **kwargs,
+        **kwargs: Optional[object],
     ) -> None:
         """
         Initialize a MessageInput object.
@@ -8669,15 +8740,25 @@ class MessageInput:
                the original text is returned in the **original_text** property of the
                message response. This property overrides the value of the
                **spelling_auto_correct** property in the workspace settings.
-        :param **kwargs: (optional) Any additional properties.
+        :param object **kwargs: (optional) Any additional data included with the
+               message input.
         """
         self.text = text
         self.spelling_suggestions = spelling_suggestions
         self.spelling_auto_correct = spelling_auto_correct
         self.suggested_text = suggested_text
         self.original_text = original_text
-        for _key, _value in kwargs.items():
-            setattr(self, _key, _value)
+        for k, v in kwargs.items():
+            if k not in MessageInput._properties:
+                if not isinstance(v, object):
+                    raise ValueError(
+                        'Value for additional property {} must be of type object'
+                        .format(k))
+                setattr(self, k, v)
+            else:
+                raise ValueError(
+                    'Property {} cannot be specified as an additional property'.
+                    format(k))
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'MessageInput':
@@ -8695,8 +8776,13 @@ class MessageInput:
             args['suggested_text'] = suggested_text
         if (original_text := _dict.get('original_text')) is not None:
             args['original_text'] = original_text
-        args.update(
-            {k: v for (k, v) in _dict.items() if k not in cls._properties})
+        for k, v in _dict.items():
+            if k not in cls._properties:
+                if not isinstance(v, object):
+                    raise ValueError(
+                        'Value for additional property {} must be of type object'
+                        .format(k))
+                args[k] = v
         return cls(**args)
 
     @classmethod
@@ -8721,11 +8807,11 @@ class MessageInput:
         if hasattr(self, 'original_text') and getattr(
                 self, 'original_text') is not None:
             _dict['original_text'] = getattr(self, 'original_text')
-        for _key in [
-                k for k in vars(self).keys()
-                if k not in MessageInput._properties
+        for k in [
+                _k for _k in vars(self).keys()
+                if _k not in MessageInput._properties
         ]:
-            _dict[_key] = getattr(self, _key)
+            _dict[k] = getattr(self, k)
         return _dict
 
     def _to_dict(self):
@@ -8733,27 +8819,33 @@ class MessageInput:
         return self.to_dict()
 
     def get_properties(self) -> Dict:
-        """Return a dictionary of arbitrary properties from this instance of MessageInput"""
+        """Return the additional properties from this instance of MessageInput in the form of a dict."""
         _dict = {}
-
-        for _key in [
-                k for k in vars(self).keys()
-                if k not in MessageInput._properties
+        for k in [
+                _k for _k in vars(self).keys()
+                if _k not in MessageInput._properties
         ]:
-            _dict[_key] = getattr(self, _key)
+            _dict[k] = getattr(self, k)
         return _dict
 
     def set_properties(self, _dict: dict):
-        """Set a dictionary of arbitrary properties to this instance of MessageInput"""
-        for _key in [
-                k for k in vars(self).keys()
-                if k not in MessageInput._properties
+        """Set a dictionary of additional properties in this instance of MessageInput"""
+        for k in [
+                _k for _k in vars(self).keys()
+                if _k not in MessageInput._properties
         ]:
-            delattr(self, _key)
-
-        for _key, _value in _dict.items():
-            if _key not in MessageInput._properties:
-                setattr(self, _key, _value)
+            delattr(self, k)
+        for k, v in _dict.items():
+            if k not in MessageInput._properties:
+                if not isinstance(v, object):
+                    raise ValueError(
+                        'Value for additional property {} must be of type object'
+                        .format(k))
+                setattr(self, k, v)
+            else:
+                raise ValueError(
+                    'Property {} cannot be specified as an additional property'.
+                    format(k))
 
     def __str__(self) -> str:
         """Return a `str` version of this MessageInput object."""
@@ -9162,6 +9254,9 @@ class OutputData:
     :param List[RuntimeResponseGeneric] generic: (optional) Output intended for any
           channel. It is the responsibility of the client application to implement the
           supported response types.
+
+    This type supports additional properties of type object. Any additional data included
+    with the output.
     """
 
     # The set of defined properties for the class
@@ -9176,7 +9271,7 @@ class OutputData:
         nodes_visited_details: Optional[
             List['DialogNodeVisitedDetails']] = None,
         generic: Optional[List['RuntimeResponseGeneric']] = None,
-        **kwargs,
+        **kwargs: Optional[object],
     ) -> None:
         """
         Initialize a OutputData object.
@@ -9194,14 +9289,24 @@ class OutputData:
         :param List[RuntimeResponseGeneric] generic: (optional) Output intended for
                any channel. It is the responsibility of the client application to
                implement the supported response types.
-        :param **kwargs: (optional) Any additional properties.
+        :param object **kwargs: (optional) Any additional data included with the
+               output.
         """
         self.nodes_visited = nodes_visited
         self.nodes_visited_details = nodes_visited_details
         self.log_messages = log_messages
         self.generic = generic
-        for _key, _value in kwargs.items():
-            setattr(self, _key, _value)
+        for k, v in kwargs.items():
+            if k not in OutputData._properties:
+                if not isinstance(v, object):
+                    raise ValueError(
+                        'Value for additional property {} must be of type object'
+                        .format(k))
+                setattr(self, k, v)
+            else:
+                raise ValueError(
+                    'Property {} cannot be specified as an additional property'.
+                    format(k))
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'OutputData':
@@ -9227,8 +9332,13 @@ class OutputData:
             args['generic'] = [
                 RuntimeResponseGeneric.from_dict(v) for v in generic
             ]
-        args.update(
-            {k: v for (k, v) in _dict.items() if k not in cls._properties})
+        for k, v in _dict.items():
+            if k not in cls._properties:
+                if not isinstance(v, object):
+                    raise ValueError(
+                        'Value for additional property {} must be of type object'
+                        .format(k))
+                args[k] = v
         return cls(**args)
 
     @classmethod
@@ -9266,10 +9376,11 @@ class OutputData:
                 else:
                     generic_list.append(v.to_dict())
             _dict['generic'] = generic_list
-        for _key in [
-                k for k in vars(self).keys() if k not in OutputData._properties
+        for k in [
+                _k for _k in vars(self).keys()
+                if _k not in OutputData._properties
         ]:
-            _dict[_key] = getattr(self, _key)
+            _dict[k] = getattr(self, k)
         return _dict
 
     def _to_dict(self):
@@ -9277,25 +9388,33 @@ class OutputData:
         return self.to_dict()
 
     def get_properties(self) -> Dict:
-        """Return a dictionary of arbitrary properties from this instance of OutputData"""
+        """Return the additional properties from this instance of OutputData in the form of a dict."""
         _dict = {}
-
-        for _key in [
-                k for k in vars(self).keys() if k not in OutputData._properties
+        for k in [
+                _k for _k in vars(self).keys()
+                if _k not in OutputData._properties
         ]:
-            _dict[_key] = getattr(self, _key)
+            _dict[k] = getattr(self, k)
         return _dict
 
     def set_properties(self, _dict: dict):
-        """Set a dictionary of arbitrary properties to this instance of OutputData"""
-        for _key in [
-                k for k in vars(self).keys() if k not in OutputData._properties
+        """Set a dictionary of additional properties in this instance of OutputData"""
+        for k in [
+                _k for _k in vars(self).keys()
+                if _k not in OutputData._properties
         ]:
-            delattr(self, _key)
-
-        for _key, _value in _dict.items():
-            if _key not in OutputData._properties:
-                setattr(self, _key, _value)
+            delattr(self, k)
+        for k, v in _dict.items():
+            if k not in OutputData._properties:
+                if not isinstance(v, object):
+                    raise ValueError(
+                        'Value for additional property {} must be of type object'
+                        .format(k))
+                setattr(self, k, v)
+            else:
+                raise ValueError(
+                    'Property {} cannot be specified as an additional property'.
+                    format(k))
 
     def __str__(self) -> str:
         """Return a `str` version of this OutputData object."""
@@ -11446,6 +11565,8 @@ class WorkspaceSystemSettings:
           related to detection of irrelevant input.
     :param WorkspaceSystemSettingsNlp nlp: (optional) Workspace settings related to
           the version of the training algorithms currently used by the skill.
+
+    This type supports additional properties of type object. For internal use only.
     """
 
     # The set of defined properties for the class
@@ -11468,7 +11589,7 @@ class WorkspaceSystemSettings:
             'WorkspaceSystemSettingsSystemEntities'] = None,
         off_topic: Optional['WorkspaceSystemSettingsOffTopic'] = None,
         nlp: Optional['WorkspaceSystemSettingsNlp'] = None,
-        **kwargs,
+        **kwargs: Optional[object],
     ) -> None:
         """
         Initialize a WorkspaceSystemSettings object.
@@ -11494,7 +11615,7 @@ class WorkspaceSystemSettings:
         :param WorkspaceSystemSettingsNlp nlp: (optional) Workspace settings
                related to the version of the training algorithms currently used by the
                skill.
-        :param **kwargs: (optional) Any additional properties.
+        :param object **kwargs: (optional) For internal use only.
         """
         self.tooling = tooling
         self.disambiguation = disambiguation
@@ -11504,8 +11625,17 @@ class WorkspaceSystemSettings:
         self.system_entities = system_entities
         self.off_topic = off_topic
         self.nlp = nlp
-        for _key, _value in kwargs.items():
-            setattr(self, _key, _value)
+        for k, v in kwargs.items():
+            if k not in WorkspaceSystemSettings._properties:
+                if not isinstance(v, object):
+                    raise ValueError(
+                        'Value for additional property {} must be of type object'
+                        .format(k))
+                setattr(self, k, v)
+            else:
+                raise ValueError(
+                    'Property {} cannot be specified as an additional property'.
+                    format(k))
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'WorkspaceSystemSettings':
@@ -11534,8 +11664,13 @@ class WorkspaceSystemSettings:
                 off_topic)
         if (nlp := _dict.get('nlp')) is not None:
             args['nlp'] = WorkspaceSystemSettingsNlp.from_dict(nlp)
-        args.update(
-            {k: v for (k, v) in _dict.items() if k not in cls._properties})
+        for k, v in _dict.items():
+            if k not in cls._properties:
+                if not isinstance(v, object):
+                    raise ValueError(
+                        'Value for additional property {} must be of type object'
+                        .format(k))
+                args[k] = v
         return cls(**args)
 
     @classmethod
@@ -11582,11 +11717,11 @@ class WorkspaceSystemSettings:
                 _dict['nlp'] = self.nlp
             else:
                 _dict['nlp'] = self.nlp.to_dict()
-        for _key in [
-                k for k in vars(self).keys()
-                if k not in WorkspaceSystemSettings._properties
+        for k in [
+                _k for _k in vars(self).keys()
+                if _k not in WorkspaceSystemSettings._properties
         ]:
-            _dict[_key] = getattr(self, _key)
+            _dict[k] = getattr(self, k)
         return _dict
 
     def _to_dict(self):
@@ -11594,27 +11729,33 @@ class WorkspaceSystemSettings:
         return self.to_dict()
 
     def get_properties(self) -> Dict:
-        """Return a dictionary of arbitrary properties from this instance of WorkspaceSystemSettings"""
+        """Return the additional properties from this instance of WorkspaceSystemSettings in the form of a dict."""
         _dict = {}
-
-        for _key in [
-                k for k in vars(self).keys()
-                if k not in WorkspaceSystemSettings._properties
+        for k in [
+                _k for _k in vars(self).keys()
+                if _k not in WorkspaceSystemSettings._properties
         ]:
-            _dict[_key] = getattr(self, _key)
+            _dict[k] = getattr(self, k)
         return _dict
 
     def set_properties(self, _dict: dict):
-        """Set a dictionary of arbitrary properties to this instance of WorkspaceSystemSettings"""
-        for _key in [
-                k for k in vars(self).keys()
-                if k not in WorkspaceSystemSettings._properties
+        """Set a dictionary of additional properties in this instance of WorkspaceSystemSettings"""
+        for k in [
+                _k for _k in vars(self).keys()
+                if _k not in WorkspaceSystemSettings._properties
         ]:
-            delattr(self, _key)
-
-        for _key, _value in _dict.items():
-            if _key not in WorkspaceSystemSettings._properties:
-                setattr(self, _key, _value)
+            delattr(self, k)
+        for k, v in _dict.items():
+            if k not in WorkspaceSystemSettings._properties:
+                if not isinstance(v, object):
+                    raise ValueError(
+                        'Value for additional property {} must be of type object'
+                        .format(k))
+                setattr(self, k, v)
+            else:
+                raise ValueError(
+                    'Property {} cannot be specified as an additional property'.
+                    format(k))
 
     def __str__(self) -> str:
         """Return a `str` version of this WorkspaceSystemSettings object."""

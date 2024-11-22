@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 3.85.0-75c38f8f-20240206-210220
+# IBM OpenAPI SDK Code Generator Version: 3.97.0-0e90eab1-20241120-170029
 """
 IBM Watson&reg; Discovery is a cognitive search and content analytics engine that you can
 add to applications to identify patterns, trends and actionable insights to drive better
@@ -4112,6 +4112,9 @@ class AnalyzedResult:
     Result of the document analysis.
 
     :param dict metadata: (optional) Metadata that was specified with the request.
+
+    This type supports additional properties of type object. The remaining key-value
+    pairs.
     """
 
     # The set of defined properties for the class
@@ -4121,18 +4124,27 @@ class AnalyzedResult:
         self,
         *,
         metadata: Optional[dict] = None,
-        **kwargs,
+        **kwargs: Optional[object],
     ) -> None:
         """
         Initialize a AnalyzedResult object.
 
         :param dict metadata: (optional) Metadata that was specified with the
                request.
-        :param **kwargs: (optional) Any additional properties.
+        :param object **kwargs: (optional) The remaining key-value pairs.
         """
         self.metadata = metadata
-        for _key, _value in kwargs.items():
-            setattr(self, _key, _value)
+        for k, v in kwargs.items():
+            if k not in AnalyzedResult._properties:
+                if not isinstance(v, object):
+                    raise ValueError(
+                        'Value for additional property {} must be of type object'
+                        .format(k))
+                setattr(self, k, v)
+            else:
+                raise ValueError(
+                    'Property {} cannot be specified as an additional property'.
+                    format(k))
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'AnalyzedResult':
@@ -4140,8 +4152,13 @@ class AnalyzedResult:
         args = {}
         if (metadata := _dict.get('metadata')) is not None:
             args['metadata'] = metadata
-        args.update(
-            {k: v for (k, v) in _dict.items() if k not in cls._properties})
+        for k, v in _dict.items():
+            if k not in cls._properties:
+                if not isinstance(v, object):
+                    raise ValueError(
+                        'Value for additional property {} must be of type object'
+                        .format(k))
+                args[k] = v
         return cls(**args)
 
     @classmethod
@@ -4154,11 +4171,11 @@ class AnalyzedResult:
         _dict = {}
         if hasattr(self, 'metadata') and self.metadata is not None:
             _dict['metadata'] = self.metadata
-        for _key in [
-                k for k in vars(self).keys()
-                if k not in AnalyzedResult._properties
+        for k in [
+                _k for _k in vars(self).keys()
+                if _k not in AnalyzedResult._properties
         ]:
-            _dict[_key] = getattr(self, _key)
+            _dict[k] = getattr(self, k)
         return _dict
 
     def _to_dict(self):
@@ -4166,27 +4183,33 @@ class AnalyzedResult:
         return self.to_dict()
 
     def get_properties(self) -> Dict:
-        """Return a dictionary of arbitrary properties from this instance of AnalyzedResult"""
+        """Return the additional properties from this instance of AnalyzedResult in the form of a dict."""
         _dict = {}
-
-        for _key in [
-                k for k in vars(self).keys()
-                if k not in AnalyzedResult._properties
+        for k in [
+                _k for _k in vars(self).keys()
+                if _k not in AnalyzedResult._properties
         ]:
-            _dict[_key] = getattr(self, _key)
+            _dict[k] = getattr(self, k)
         return _dict
 
     def set_properties(self, _dict: dict):
-        """Set a dictionary of arbitrary properties to this instance of AnalyzedResult"""
-        for _key in [
-                k for k in vars(self).keys()
-                if k not in AnalyzedResult._properties
+        """Set a dictionary of additional properties in this instance of AnalyzedResult"""
+        for k in [
+                _k for _k in vars(self).keys()
+                if _k not in AnalyzedResult._properties
         ]:
-            delattr(self, _key)
-
-        for _key, _value in _dict.items():
-            if _key not in AnalyzedResult._properties:
-                setattr(self, _key, _value)
+            delattr(self, k)
+        for k, v in _dict.items():
+            if k not in AnalyzedResult._properties:
+                if not isinstance(v, object):
+                    raise ValueError(
+                        'Value for additional property {} must be of type object'
+                        .format(k))
+                setattr(self, k, v)
+            else:
+                raise ValueError(
+                    'Property {} cannot be specified as an additional property'.
+                    format(k))
 
     def __str__(self) -> str:
         """Return a `str` version of this AnalyzedResult object."""
@@ -10266,6 +10289,9 @@ class QueryResult:
     :param List[QueryResultPassage] document_passages: (optional) Passages from the
           document that best matches the query. Returned if **passages.per_document** is
           `true`.
+
+    This type supports additional properties of type object. The remaining key-value
+    pairs.
     """
 
     # The set of defined properties for the class
@@ -10279,7 +10305,7 @@ class QueryResult:
         *,
         metadata: Optional[dict] = None,
         document_passages: Optional[List['QueryResultPassage']] = None,
-        **kwargs,
+        **kwargs: Optional[object],
     ) -> None:
         """
         Initialize a QueryResult object.
@@ -10290,14 +10316,23 @@ class QueryResult:
         :param List[QueryResultPassage] document_passages: (optional) Passages from
                the document that best matches the query. Returned if
                **passages.per_document** is `true`.
-        :param **kwargs: (optional) Any additional properties.
+        :param object **kwargs: (optional) The remaining key-value pairs.
         """
         self.document_id = document_id
         self.metadata = metadata
         self.result_metadata = result_metadata
         self.document_passages = document_passages
-        for _key, _value in kwargs.items():
-            setattr(self, _key, _value)
+        for k, v in kwargs.items():
+            if k not in QueryResult._properties:
+                if not isinstance(v, object):
+                    raise ValueError(
+                        'Value for additional property {} must be of type object'
+                        .format(k))
+                setattr(self, k, v)
+            else:
+                raise ValueError(
+                    'Property {} cannot be specified as an additional property'.
+                    format(k))
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'QueryResult':
@@ -10322,8 +10357,13 @@ class QueryResult:
             args['document_passages'] = [
                 QueryResultPassage.from_dict(v) for v in document_passages
             ]
-        args.update(
-            {k: v for (k, v) in _dict.items() if k not in cls._properties})
+        for k, v in _dict.items():
+            if k not in cls._properties:
+                if not isinstance(v, object):
+                    raise ValueError(
+                        'Value for additional property {} must be of type object'
+                        .format(k))
+                args[k] = v
         return cls(**args)
 
     @classmethod
@@ -10353,10 +10393,11 @@ class QueryResult:
                 else:
                     document_passages_list.append(v.to_dict())
             _dict['document_passages'] = document_passages_list
-        for _key in [
-                k for k in vars(self).keys() if k not in QueryResult._properties
+        for k in [
+                _k for _k in vars(self).keys()
+                if _k not in QueryResult._properties
         ]:
-            _dict[_key] = getattr(self, _key)
+            _dict[k] = getattr(self, k)
         return _dict
 
     def _to_dict(self):
@@ -10364,25 +10405,33 @@ class QueryResult:
         return self.to_dict()
 
     def get_properties(self) -> Dict:
-        """Return a dictionary of arbitrary properties from this instance of QueryResult"""
+        """Return the additional properties from this instance of QueryResult in the form of a dict."""
         _dict = {}
-
-        for _key in [
-                k for k in vars(self).keys() if k not in QueryResult._properties
+        for k in [
+                _k for _k in vars(self).keys()
+                if _k not in QueryResult._properties
         ]:
-            _dict[_key] = getattr(self, _key)
+            _dict[k] = getattr(self, k)
         return _dict
 
     def set_properties(self, _dict: dict):
-        """Set a dictionary of arbitrary properties to this instance of QueryResult"""
-        for _key in [
-                k for k in vars(self).keys() if k not in QueryResult._properties
+        """Set a dictionary of additional properties in this instance of QueryResult"""
+        for k in [
+                _k for _k in vars(self).keys()
+                if _k not in QueryResult._properties
         ]:
-            delattr(self, _key)
-
-        for _key, _value in _dict.items():
-            if _key not in QueryResult._properties:
-                setattr(self, _key, _value)
+            delattr(self, k)
+        for k, v in _dict.items():
+            if k not in QueryResult._properties:
+                if not isinstance(v, object):
+                    raise ValueError(
+                        'Value for additional property {} must be of type object'
+                        .format(k))
+                setattr(self, k, v)
+            else:
+                raise ValueError(
+                    'Property {} cannot be specified as an additional property'.
+                    format(k))
 
     def __str__(self) -> str:
         """Return a `str` version of this QueryResult object."""

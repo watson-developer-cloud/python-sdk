@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 3.85.0-75c38f8f-20240206-210220
+# IBM OpenAPI SDK Code Generator Version: 3.97.0-0e90eab1-20241120-170029
 """
 Analyze various features of text content at scale. Provide text, raw HTML, or a public URL
 and IBM Watson Natural Language Understanding will give you results for the features you
