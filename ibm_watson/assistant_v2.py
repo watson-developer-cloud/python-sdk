@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 3.85.0-75c38f8f-20240206-210220
+# IBM OpenAPI SDK Code Generator Version: 3.97.0-0e90eab1-20241120-170029
 """
 The IBM&reg; watsonx&trade; Assistant service combines machine learning, natural language
 understanding, and an integrated dialog editor to create conversation flows between your
@@ -29,7 +29,7 @@ See: https://cloud.ibm.com/docs/assistant
 
 from datetime import datetime
 from enum import Enum
-from typing import Dict, List, Optional
+from typing import BinaryIO, Dict, List, Optional
 import json
 import sys
 
@@ -77,6 +77,214 @@ class AssistantV2(BaseService):
                              authenticator=authenticator)
         self.version = version
         self.configure_service(service_name)
+
+    #########################
+    # Conversational skill providers
+    #########################
+
+    def create_provider(
+        self,
+        provider_id: str,
+        specification: 'ProviderSpecification',
+        private: 'ProviderPrivate',
+        **kwargs,
+    ) -> DetailedResponse:
+        """
+        Create a conversational skill provider.
+
+        Create a new conversational skill provider.
+
+        :param str provider_id: The unique identifier of the provider.
+        :param ProviderSpecification specification: The specification of the
+               provider.
+        :param ProviderPrivate private: Private information of the provider.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `ProviderResponse` object
+        """
+
+        if provider_id is None:
+            raise ValueError('provider_id must be provided')
+        if specification is None:
+            raise ValueError('specification must be provided')
+        if private is None:
+            raise ValueError('private must be provided')
+        specification = convert_model(specification)
+        private = convert_model(private)
+        headers = {}
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V2',
+            operation_id='create_provider',
+        )
+        headers.update(sdk_headers)
+
+        params = {
+            'version': self.version,
+        }
+
+        data = {
+            'provider_id': provider_id,
+            'specification': specification,
+            'private': private,
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        url = '/v2/providers'
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+        )
+
+        response = self.send(request, **kwargs)
+        return response
+
+    def list_providers(
+        self,
+        *,
+        page_limit: Optional[int] = None,
+        include_count: Optional[bool] = None,
+        sort: Optional[str] = None,
+        cursor: Optional[str] = None,
+        include_audit: Optional[bool] = None,
+        **kwargs,
+    ) -> DetailedResponse:
+        """
+        List conversational skill providers.
+
+        List the conversational skill providers associated with a Watson Assistant service
+        instance.
+
+        :param int page_limit: (optional) The number of records to return in each
+               page of results.
+        :param bool include_count: (optional) Whether to include information about
+               the number of records that satisfy the request, regardless of the page
+               limit. If this parameter is `true`, the `pagination` object in the response
+               includes the `total` property.
+        :param str sort: (optional) The attribute by which returned conversational
+               skill providers will be sorted. To reverse the sort order, prefix the value
+               with a minus sign (`-`).
+        :param str cursor: (optional) A token identifying the page of results to
+               retrieve.
+        :param bool include_audit: (optional) Whether to include the audit
+               properties (`created` and `updated` timestamps) in the response.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `ProviderCollection` object
+        """
+
+        headers = {}
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V2',
+            operation_id='list_providers',
+        )
+        headers.update(sdk_headers)
+
+        params = {
+            'version': self.version,
+            'page_limit': page_limit,
+            'include_count': include_count,
+            'sort': sort,
+            'cursor': cursor,
+            'include_audit': include_audit,
+        }
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        url = '/v2/providers'
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
+
+        response = self.send(request, **kwargs)
+        return response
+
+    def update_provider(
+        self,
+        provider_id: str,
+        specification: 'ProviderSpecification',
+        private: 'ProviderPrivate',
+        **kwargs,
+    ) -> DetailedResponse:
+        """
+        Update a conversational skill provider.
+
+        Update a new conversational skill provider.
+
+        :param str provider_id: Unique identifier of the conversational skill
+               provider.
+        :param ProviderSpecification specification: The specification of the
+               provider.
+        :param ProviderPrivate private: Private information of the provider.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `ProviderResponse` object
+        """
+
+        if not provider_id:
+            raise ValueError('provider_id must be provided')
+        if specification is None:
+            raise ValueError('specification must be provided')
+        if private is None:
+            raise ValueError('private must be provided')
+        specification = convert_model(specification)
+        private = convert_model(private)
+        headers = {}
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V2',
+            operation_id='update_provider',
+        )
+        headers.update(sdk_headers)
+
+        params = {
+            'version': self.version,
+        }
+
+        data = {
+            'specification': specification,
+            'private': private,
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['provider_id']
+        path_param_values = self.encode_path_vars(provider_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/providers/{provider_id}'.format(**path_param_dict)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+        )
+
+        response = self.send(request, **kwargs)
+        return response
 
     #########################
     # Assistants
@@ -426,6 +634,7 @@ class AssistantV2(BaseService):
     def message(
         self,
         assistant_id: str,
+        environment_id: str,
         session_id: str,
         *,
         input: Optional['MessageInput'] = None,
@@ -452,6 +661,10 @@ class AssistantV2(BaseService):
                **Note:** If you are using the classic Watson Assistant experience, always
                use the assistant ID. To find the assistant ID in the user interface, open
                the assistant settings and click API Details.
+        :param str environment_id: Unique identifier of the environment. To find
+               the environment ID in the watsonx Assistant user interface, open the
+               environment settings and click **API Details**. **Note:** Currently, the
+               API does not support creating environments.
         :param str session_id: Unique identifier of the session.
         :param MessageInput input: (optional) An input object that includes the
                input text.
@@ -478,6 +691,8 @@ class AssistantV2(BaseService):
 
         if not assistant_id:
             raise ValueError('assistant_id must be provided')
+        if not environment_id:
+            raise ValueError('environment_id must be provided')
         if not session_id:
             raise ValueError('session_id must be provided')
         if input is not None:
@@ -510,8 +725,9 @@ class AssistantV2(BaseService):
             del kwargs['headers']
         headers['Accept'] = 'application/json'
 
-        path_param_keys = ['assistant_id', 'session_id']
-        path_param_values = self.encode_path_vars(assistant_id, session_id)
+        path_param_keys = ['assistant_id', 'environment_id', 'session_id']
+        path_param_values = self.encode_path_vars(assistant_id, environment_id,
+                                                  session_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v2/assistants/{assistant_id}/sessions/{session_id}/message'.format(
             **path_param_dict)
@@ -529,6 +745,7 @@ class AssistantV2(BaseService):
     def message_stateless(
         self,
         assistant_id: str,
+        environment_id: str,
         *,
         input: Optional['StatelessMessageInput'] = None,
         context: Optional['StatelessMessageContext'] = None,
@@ -553,6 +770,10 @@ class AssistantV2(BaseService):
                **Note:** If you are using the classic Watson Assistant experience, always
                use the assistant ID. To find the assistant ID in the user interface, open
                the assistant settings and click API Details.
+        :param str environment_id: Unique identifier of the environment. To find
+               the environment ID in the watsonx Assistant user interface, open the
+               environment settings and click **API Details**. **Note:** Currently, the
+               API does not support creating environments.
         :param StatelessMessageInput input: (optional) An input object that
                includes the input text.
         :param StatelessMessageContext context: (optional) Context data for the
@@ -579,6 +800,8 @@ class AssistantV2(BaseService):
 
         if not assistant_id:
             raise ValueError('assistant_id must be provided')
+        if not environment_id:
+            raise ValueError('environment_id must be provided')
         if input is not None:
             input = convert_model(input)
         if context is not None:
@@ -609,10 +832,230 @@ class AssistantV2(BaseService):
             del kwargs['headers']
         headers['Accept'] = 'application/json'
 
-        path_param_keys = ['assistant_id']
-        path_param_values = self.encode_path_vars(assistant_id)
+        path_param_keys = ['assistant_id', 'environment_id']
+        path_param_values = self.encode_path_vars(assistant_id, environment_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v2/assistants/{assistant_id}/message'.format(**path_param_dict)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+        )
+
+        response = self.send(request, **kwargs)
+        return response
+
+    #########################
+    # Message Stream
+    #########################
+
+    def message_stream(
+        self,
+        assistant_id: str,
+        environment_id: str,
+        session_id: str,
+        *,
+        input: Optional['MessageInput'] = None,
+        context: Optional['MessageContext'] = None,
+        user_id: Optional[str] = None,
+        **kwargs,
+    ) -> DetailedResponse:
+        """
+        Send user input to assistant (stateful).
+
+        Send user input to an assistant and receive a streamed response, with conversation
+        state (including context data) stored by watsonx Assistant for the duration of the
+        session.
+
+        :param str assistant_id: The assistant ID or the environment ID of the
+               environment where the assistant is deployed, depending on the type of
+               request:
+                - For message, session, and log requests, specify the environment ID of
+               the environment where the assistant is deployed.
+                - For all other requests, specify the assistant ID of the assistant.
+                To find the environment ID or assistant ID in the watsonx Assistant user
+               interface, open the assistant settings and scroll to the **Environments**
+               section.
+               **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID. To find the assistant ID in the user interface, open
+               the assistant settings and click API Details.
+        :param str environment_id: Unique identifier of the environment. To find
+               the environment ID in the watsonx Assistant user interface, open the
+               environment settings and click **API Details**. **Note:** Currently, the
+               API does not support creating environments.
+        :param str session_id: Unique identifier of the session.
+        :param MessageInput input: (optional) An input object that includes the
+               input text.
+        :param MessageContext context: (optional) Context data for the
+               conversation. You can use this property to set or modify context variables,
+               which can also be accessed by dialog nodes. The context is stored by the
+               assistant on a per-session basis.
+               **Note:** The total size of the context data stored for a stateful session
+               cannot exceed 100KB.
+        :param str user_id: (optional) A string value that identifies the user who
+               is interacting with the assistant. The client must provide a unique
+               identifier for each individual end user who accesses the application. For
+               user-based plans, this user ID is used to identify unique users for billing
+               purposes. This string cannot contain carriage return, newline, or tab
+               characters. If no value is specified in the input, **user_id** is
+               automatically set to the value of **context.global.session_id**.
+               **Note:** This property is the same as the **user_id** property in the
+               global system context. If **user_id** is specified in both locations, the
+               value specified at the root is used.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `BinaryIO` result
+        """
+
+        if not assistant_id:
+            raise ValueError('assistant_id must be provided')
+        if not environment_id:
+            raise ValueError('environment_id must be provided')
+        if not session_id:
+            raise ValueError('session_id must be provided')
+        if input is not None:
+            input = convert_model(input)
+        if context is not None:
+            context = convert_model(context)
+        headers = {}
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V2',
+            operation_id='message_stream',
+        )
+        headers.update(sdk_headers)
+
+        params = {
+            'version': self.version,
+        }
+
+        data = {
+            'input': input,
+            'context': context,
+            'user_id': user_id,
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'text/event-stream'
+
+        path_param_keys = ['assistant_id', 'environment_id', 'session_id']
+        path_param_values = self.encode_path_vars(assistant_id, environment_id,
+                                                  session_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/assistants/{assistant_id}/environments/{environment_id}/sessions/{session_id}/message_stream'.format(
+            **path_param_dict)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+        )
+
+        response = self.send(request, **kwargs)
+        return response
+
+    def message_stream_stateless(
+        self,
+        assistant_id: str,
+        environment_id: str,
+        *,
+        input: Optional['MessageInput'] = None,
+        context: Optional['MessageContext'] = None,
+        user_id: Optional[str] = None,
+        **kwargs,
+    ) -> DetailedResponse:
+        """
+        Send user input to assistant (stateless).
+
+        Send user input to an assistant and receive a response, with conversation state
+        (including context data) managed by your application.
+
+        :param str assistant_id: The assistant ID or the environment ID of the
+               environment where the assistant is deployed, depending on the type of
+               request:
+                - For message, session, and log requests, specify the environment ID of
+               the environment where the assistant is deployed.
+                - For all other requests, specify the assistant ID of the assistant.
+                To find the environment ID or assistant ID in the watsonx Assistant user
+               interface, open the assistant settings and scroll to the **Environments**
+               section.
+               **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID. To find the assistant ID in the user interface, open
+               the assistant settings and click API Details.
+        :param str environment_id: Unique identifier of the environment. To find
+               the environment ID in the watsonx Assistant user interface, open the
+               environment settings and click **API Details**. **Note:** Currently, the
+               API does not support creating environments.
+        :param MessageInput input: (optional) An input object that includes the
+               input text.
+        :param MessageContext context: (optional) Context data for the
+               conversation. You can use this property to set or modify context variables,
+               which can also be accessed by dialog nodes. The context is stored by the
+               assistant on a per-session basis.
+               **Note:** The total size of the context data stored for a stateful session
+               cannot exceed 100KB.
+        :param str user_id: (optional) A string value that identifies the user who
+               is interacting with the assistant. The client must provide a unique
+               identifier for each individual end user who accesses the application. For
+               user-based plans, this user ID is used to identify unique users for billing
+               purposes. This string cannot contain carriage return, newline, or tab
+               characters. If no value is specified in the input, **user_id** is
+               automatically set to the value of **context.global.session_id**.
+               **Note:** This property is the same as the **user_id** property in the
+               global system context. If **user_id** is specified in both locations, the
+               value specified at the root is used.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `BinaryIO` result
+        """
+
+        if not assistant_id:
+            raise ValueError('assistant_id must be provided')
+        if not environment_id:
+            raise ValueError('environment_id must be provided')
+        if input is not None:
+            input = convert_model(input)
+        if context is not None:
+            context = convert_model(context)
+        headers = {}
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V2',
+            operation_id='message_stream_stateless',
+        )
+        headers.update(sdk_headers)
+
+        params = {
+            'version': self.version,
+        }
+
+        data = {
+            'input': input,
+            'context': context,
+            'user_id': user_id,
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'text/event-stream'
+
+        path_param_keys = ['assistant_id', 'environment_id']
+        path_param_values = self.encode_path_vars(assistant_id, environment_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/assistants/{assistant_id}/environments/{environment_id}/message_stream'.format(
+            **path_param_dict)
         request = self.prepare_request(
             method='POST',
             url=url,
@@ -1020,7 +1463,7 @@ class AssistantV2(BaseService):
         *,
         name: Optional[str] = None,
         description: Optional[str] = None,
-        orchestration: Optional['BaseEnvironmentOrchestration'] = None,
+        orchestration: Optional['UpdateEnvironmentOrchestration'] = None,
         session_timeout: Optional[int] = None,
         skill_references: Optional[List['EnvironmentSkill']] = None,
         **kwargs,
@@ -1050,7 +1493,7 @@ class AssistantV2(BaseService):
                API does not support creating environments.
         :param str name: (optional) The name of the environment.
         :param str description: (optional) The description of the environment.
-        :param BaseEnvironmentOrchestration orchestration: (optional) The search
+        :param UpdateEnvironmentOrchestration orchestration: (optional) The search
                skill orchestration settings for the environment.
         :param int session_timeout: (optional) The session inactivity timeout
                setting for the environment (in seconds).
@@ -1500,6 +1943,327 @@ class AssistantV2(BaseService):
         response = self.send(request, **kwargs)
         return response
 
+    def create_release_export(
+        self,
+        assistant_id: str,
+        release: str,
+        *,
+        include_audit: Optional[bool] = None,
+        **kwargs,
+    ) -> DetailedResponse:
+        """
+        Create release export.
+
+        Initiate an asynchronous process which will create a downloadable Zip file
+        artifact (/package) for an assistant release. This artifact will contain Action
+        and/or Dialog skills that are part of the release. The Dialog skill will only be
+        included in the event that coexistence is enabled on the assistant. The expected
+        workflow with the use of Release Export endpoint is to first initiate the creation
+        of the artifact with the POST endpoint and then poll the GET endpoint to retrieve
+        the artifact. Once the artifact has been created, it will last for the duration
+        (/scope) of the release.
+
+        :param str assistant_id: The assistant ID or the environment ID of the
+               environment where the assistant is deployed, depending on the type of
+               request:
+                - For message, session, and log requests, specify the environment ID of
+               the environment where the assistant is deployed.
+                - For all other requests, specify the assistant ID of the assistant.
+                To find the environment ID or assistant ID in the watsonx Assistant user
+               interface, open the assistant settings and scroll to the **Environments**
+               section.
+               **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID. To find the assistant ID in the user interface, open
+               the assistant settings and click API Details.
+        :param str release: Unique identifier of the release.
+        :param bool include_audit: (optional) Whether to include the audit
+               properties (`created` and `updated` timestamps) in the response.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `CreateReleaseExportWithStatusErrors` object
+        """
+
+        if not assistant_id:
+            raise ValueError('assistant_id must be provided')
+        if not release:
+            raise ValueError('release must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V2',
+            operation_id='create_release_export',
+        )
+        headers.update(sdk_headers)
+
+        params = {
+            'version': self.version,
+            'include_audit': include_audit,
+        }
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['assistant_id', 'release']
+        path_param_values = self.encode_path_vars(assistant_id, release)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/assistants/{assistant_id}/releases/{release}/export'.format(
+            **path_param_dict)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+        )
+
+        response = self.send(request, **kwargs)
+        return response
+
+    def download_release_export(
+        self,
+        assistant_id: str,
+        release: str,
+        *,
+        accept: Optional[str] = None,
+        include_audit: Optional[bool] = None,
+        **kwargs,
+    ) -> DetailedResponse:
+        """
+        Get release export.
+
+        A dual function endpoint to either retrieve the Zip file artifact that is
+        associated with an assistant release or, retrieve the status of the artifact's
+        creation. It is assumed that the artifact creation was already initiated prior to
+        calling this endpoint. In the event that the artifact is not yet created and ready
+        for download, this endpoint can be used to poll the system until the creation is
+        completed or has failed. On the other hand, if the artifact is created, this
+        endpoint will return the Zip file artifact as an octet stream. Once the artifact
+        has been created, it will last for the duration (/scope) of the release. <br /><br
+        /> When you will have downloaded the Zip file artifact, you have one of three ways
+        to import it into an assistant's draft environment. These are as follows. <br
+        /><ol><li>Import the zip package in Tooling via <var>"Assistant Settings" ->
+        "Download/Upload files" -> "Upload" -> "Assistant only"</var>.</li><li>Import the
+        zip package via "Create release import" endpoint using the APIs.</li><li>Extract
+        the contents of the Zip file artifact and individually import the skill JSONs via
+        skill update endpoints.</li></ol>.
+
+        :param str assistant_id: The assistant ID or the environment ID of the
+               environment where the assistant is deployed, depending on the type of
+               request:
+                - For message, session, and log requests, specify the environment ID of
+               the environment where the assistant is deployed.
+                - For all other requests, specify the assistant ID of the assistant.
+                To find the environment ID or assistant ID in the watsonx Assistant user
+               interface, open the assistant settings and scroll to the **Environments**
+               section.
+               **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID. To find the assistant ID in the user interface, open
+               the assistant settings and click API Details.
+        :param str release: Unique identifier of the release.
+        :param str accept: (optional) The type of the response: application/json or
+               application/octet-stream.
+        :param bool include_audit: (optional) Whether to include the audit
+               properties (`created` and `updated` timestamps) in the response.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `CreateReleaseExportWithStatusErrors` object
+        """
+
+        if not assistant_id:
+            raise ValueError('assistant_id must be provided')
+        if not release:
+            raise ValueError('release must be provided')
+        headers = {
+            'Accept': accept,
+        }
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V2',
+            operation_id='download_release_export',
+        )
+        headers.update(sdk_headers)
+
+        params = {
+            'version': self.version,
+            'include_audit': include_audit,
+        }
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+
+        path_param_keys = ['assistant_id', 'release']
+        path_param_values = self.encode_path_vars(assistant_id, release)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/assistants/{assistant_id}/releases/{release}/export'.format(
+            **path_param_dict)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
+
+        response = self.send(request, **kwargs)
+        return response
+
+    def create_release_import(
+        self,
+        assistant_id: str,
+        body: BinaryIO,
+        *,
+        include_audit: Optional[bool] = None,
+        **kwargs,
+    ) -> DetailedResponse:
+        """
+        Create release import.
+
+        Import a previously exported assistant release Zip file artifact (/package) into
+        an assistant. This endpoint creates (/initiates) an asynchronous task (/job) in
+        the background which will import the artifact contents into the draft environment
+        of the assistant on which this endpoint is called. Specifically, the asynchronous
+        operation will override the action and/or dialog skills in the assistant. It will
+        be worth noting that when the artifact that is provided to this endpoint is from
+        an assistant release which has coexistence enabled (i.e., it has both action and
+        dialog skills), the import process will automatically enable coexistence, if not
+        already enabled, on the assistant into which said artifact is being uploaded to.
+        On the other hand, if the artifact package being imported only has action skill in
+        it, the import asynchronous process will only override the draft environment's
+        action skill, regardless of whether coexistence is enabled on the assistant into
+        which the package is being imported. Lastly, the system will only run one
+        asynchronous import at a time on an assistant. As such, consecutive imports will
+        override previous import's updates to the skills in the draft environment. Once
+        created, you may poll the completion of the import via the "Get release import
+        Status" endpoint.
+
+        :param str assistant_id: The assistant ID or the environment ID of the
+               environment where the assistant is deployed, depending on the type of
+               request:
+                - For message, session, and log requests, specify the environment ID of
+               the environment where the assistant is deployed.
+                - For all other requests, specify the assistant ID of the assistant.
+                To find the environment ID or assistant ID in the watsonx Assistant user
+               interface, open the assistant settings and scroll to the **Environments**
+               section.
+               **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID. To find the assistant ID in the user interface, open
+               the assistant settings and click API Details.
+        :param BinaryIO body: Request body is an Octet-stream of the artifact Zip
+               file that is being imported.
+        :param bool include_audit: (optional) Whether to include the audit
+               properties (`created` and `updated` timestamps) in the response.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `CreateAssistantReleaseImportResponse` object
+        """
+
+        if not assistant_id:
+            raise ValueError('assistant_id must be provided')
+        if body is None:
+            raise ValueError('body must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V2',
+            operation_id='create_release_import',
+        )
+        headers.update(sdk_headers)
+
+        params = {
+            'version': self.version,
+            'include_audit': include_audit,
+        }
+
+        data = body
+        headers['content-type'] = 'application/octet-stream'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['assistant_id']
+        path_param_values = self.encode_path_vars(assistant_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/assistants/{assistant_id}/import'.format(**path_param_dict)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+        )
+
+        response = self.send(request, **kwargs)
+        return response
+
+    def get_release_import_status(
+        self,
+        assistant_id: str,
+        *,
+        include_audit: Optional[bool] = None,
+        **kwargs,
+    ) -> DetailedResponse:
+        """
+        Get release import Status.
+
+        Monitor the status of an assistant release import. You may poll this endpoint
+        until the status of the import has either succeeded or failed.
+
+        :param str assistant_id: The assistant ID or the environment ID of the
+               environment where the assistant is deployed, depending on the type of
+               request:
+                - For message, session, and log requests, specify the environment ID of
+               the environment where the assistant is deployed.
+                - For all other requests, specify the assistant ID of the assistant.
+                To find the environment ID or assistant ID in the watsonx Assistant user
+               interface, open the assistant settings and scroll to the **Environments**
+               section.
+               **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID. To find the assistant ID in the user interface, open
+               the assistant settings and click API Details.
+        :param bool include_audit: (optional) Whether to include the audit
+               properties (`created` and `updated` timestamps) in the response.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `MonitorAssistantReleaseImportArtifactResponse` object
+        """
+
+        if not assistant_id:
+            raise ValueError('assistant_id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V2',
+            operation_id='get_release_import_status',
+        )
+        headers.update(sdk_headers)
+
+        params = {
+            'version': self.version,
+            'include_audit': include_audit,
+        }
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['assistant_id']
+        path_param_values = self.encode_path_vars(assistant_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/assistants/{assistant_id}/import'.format(**path_param_dict)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
+
+        response = self.send(request, **kwargs)
+        return response
+
     #########################
     # Skills
     #########################
@@ -1909,6 +2673,21 @@ class AssistantV2(BaseService):
         return response
 
 
+class ListProvidersEnums:
+    """
+    Enums for list_providers parameters.
+    """
+
+    class Sort(str, Enum):
+        """
+        The attribute by which returned conversational skill providers will be sorted. To
+        reverse the sort order, prefix the value with a minus sign (`-`).
+        """
+
+        NAME = 'name'
+        UPDATED = 'updated'
+
+
 class ListAssistantsEnums:
     """
     Enums for list_assistants parameters.
@@ -1952,6 +2731,20 @@ class ListReleasesEnums:
 
         NAME = 'name'
         UPDATED = 'updated'
+
+
+class DownloadReleaseExportEnums:
+    """
+    Enums for download_release_export parameters.
+    """
+
+    class Accept(str, Enum):
+        """
+        The type of the response: application/json or application/octet-stream.
+        """
+
+        APPLICATION_JSON = 'application/json'
+        APPLICATION_OCTET_STREAM = 'application/octet-stream'
 
 
 ##############################################################################
@@ -2999,6 +3792,275 @@ class ChannelTransferTargetChat:
     def __ne__(self, other: 'ChannelTransferTargetChat') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
+
+
+class CreateAssistantReleaseImportResponse:
+    """
+    CreateAssistantReleaseImportResponse.
+
+    :param str status: (optional) The current status of the artifact import process:
+           - **Failed**: The asynchronous artifact import process has failed.
+           - **Processing**: An asynchronous operation to import artifact is underway and
+          not yet completed.
+    :param str task_id: (optional) A unique identifier for a background asynchronous
+          task that is executing or has executed the operation.
+    :param str assistant_id: (optional) The ID of the assistant to which the release
+          belongs.
+    :param List[str] skill_impact_in_draft: (optional) An array of skill types in
+          the draft environment which will be overridden with skills from the artifact
+          being imported.
+    :param datetime created: (optional) The timestamp for creation of the object.
+    :param datetime updated: (optional) The timestamp for the most recent update to
+          the object.
+    """
+
+    def __init__(
+        self,
+        *,
+        status: Optional[str] = None,
+        task_id: Optional[str] = None,
+        assistant_id: Optional[str] = None,
+        skill_impact_in_draft: Optional[List[str]] = None,
+        created: Optional[datetime] = None,
+        updated: Optional[datetime] = None,
+    ) -> None:
+        """
+        Initialize a CreateAssistantReleaseImportResponse object.
+
+        :param List[str] skill_impact_in_draft: (optional) An array of skill types
+               in the draft environment which will be overridden with skills from the
+               artifact being imported.
+        """
+        self.status = status
+        self.task_id = task_id
+        self.assistant_id = assistant_id
+        self.skill_impact_in_draft = skill_impact_in_draft
+        self.created = created
+        self.updated = updated
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'CreateAssistantReleaseImportResponse':
+        """Initialize a CreateAssistantReleaseImportResponse object from a json dictionary."""
+        args = {}
+        if (status := _dict.get('status')) is not None:
+            args['status'] = status
+        if (task_id := _dict.get('task_id')) is not None:
+            args['task_id'] = task_id
+        if (assistant_id := _dict.get('assistant_id')) is not None:
+            args['assistant_id'] = assistant_id
+        if (skill_impact_in_draft :=
+                _dict.get('skill_impact_in_draft')) is not None:
+            args['skill_impact_in_draft'] = skill_impact_in_draft
+        if (created := _dict.get('created')) is not None:
+            args['created'] = string_to_datetime(created)
+        if (updated := _dict.get('updated')) is not None:
+            args['updated'] = string_to_datetime(updated)
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a CreateAssistantReleaseImportResponse object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'status') and getattr(self, 'status') is not None:
+            _dict['status'] = getattr(self, 'status')
+        if hasattr(self, 'task_id') and getattr(self, 'task_id') is not None:
+            _dict['task_id'] = getattr(self, 'task_id')
+        if hasattr(self, 'assistant_id') and getattr(
+                self, 'assistant_id') is not None:
+            _dict['assistant_id'] = getattr(self, 'assistant_id')
+        if hasattr(self, 'skill_impact_in_draft'
+                  ) and self.skill_impact_in_draft is not None:
+            _dict['skill_impact_in_draft'] = self.skill_impact_in_draft
+        if hasattr(self, 'created') and getattr(self, 'created') is not None:
+            _dict['created'] = datetime_to_string(getattr(self, 'created'))
+        if hasattr(self, 'updated') and getattr(self, 'updated') is not None:
+            _dict['updated'] = datetime_to_string(getattr(self, 'updated'))
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this CreateAssistantReleaseImportResponse object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'CreateAssistantReleaseImportResponse') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'CreateAssistantReleaseImportResponse') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class StatusEnum(str, Enum):
+        """
+        The current status of the artifact import process:
+         - **Failed**: The asynchronous artifact import process has failed.
+         - **Processing**: An asynchronous operation to import artifact is underway and
+        not yet completed.
+        """
+
+        FAILED = 'Failed'
+        PROCESSING = 'Processing'
+
+    class SkillImpactInDraftEnum(str, Enum):
+        """
+        The type of the skill in the draft environment.
+        """
+
+        ACTION = 'action'
+        DIALOG = 'dialog'
+
+
+class CreateReleaseExportWithStatusErrors:
+    """
+    CreateReleaseExportWithStatusErrors.
+
+    :param str status: (optional) The current status of the release export creation
+          process:
+           - **Available**: The release export package is available for download.
+           - **Failed**: The asynchronous release export package creation process has
+          failed.
+           - **Processing**: An asynchronous operation to create the release export
+          package is underway and not yet completed.
+    :param str task_id: (optional) A unique identifier for a background asynchronous
+          task that is executing or has executed the operation.
+    :param str assistant_id: (optional) The ID of the assistant to which the release
+          belongs.
+    :param str release: (optional) The name of the release. The name is the version
+          number (an integer), returned as a string.
+    :param datetime created: (optional) The timestamp for creation of the object.
+    :param datetime updated: (optional) The timestamp for the most recent update to
+          the object.
+    :param List[StatusError] status_errors: (optional) An array of messages about
+          errors that caused an asynchronous operation to fail. Included only if
+          **status**=`Failed`.
+    :param str status_description: (optional) The description of the failed
+          asynchronous operation. Included only if **status**=`Failed`.
+    """
+
+    def __init__(
+        self,
+        *,
+        status: Optional[str] = None,
+        task_id: Optional[str] = None,
+        assistant_id: Optional[str] = None,
+        release: Optional[str] = None,
+        created: Optional[datetime] = None,
+        updated: Optional[datetime] = None,
+        status_errors: Optional[List['StatusError']] = None,
+        status_description: Optional[str] = None,
+    ) -> None:
+        """
+        Initialize a CreateReleaseExportWithStatusErrors object.
+
+        """
+        self.status = status
+        self.task_id = task_id
+        self.assistant_id = assistant_id
+        self.release = release
+        self.created = created
+        self.updated = updated
+        self.status_errors = status_errors
+        self.status_description = status_description
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'CreateReleaseExportWithStatusErrors':
+        """Initialize a CreateReleaseExportWithStatusErrors object from a json dictionary."""
+        args = {}
+        if (status := _dict.get('status')) is not None:
+            args['status'] = status
+        if (task_id := _dict.get('task_id')) is not None:
+            args['task_id'] = task_id
+        if (assistant_id := _dict.get('assistant_id')) is not None:
+            args['assistant_id'] = assistant_id
+        if (release := _dict.get('release')) is not None:
+            args['release'] = release
+        if (created := _dict.get('created')) is not None:
+            args['created'] = string_to_datetime(created)
+        if (updated := _dict.get('updated')) is not None:
+            args['updated'] = string_to_datetime(updated)
+        if (status_errors := _dict.get('status_errors')) is not None:
+            args['status_errors'] = [
+                StatusError.from_dict(v) for v in status_errors
+            ]
+        if (status_description := _dict.get('status_description')) is not None:
+            args['status_description'] = status_description
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a CreateReleaseExportWithStatusErrors object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'status') and getattr(self, 'status') is not None:
+            _dict['status'] = getattr(self, 'status')
+        if hasattr(self, 'task_id') and getattr(self, 'task_id') is not None:
+            _dict['task_id'] = getattr(self, 'task_id')
+        if hasattr(self, 'assistant_id') and getattr(
+                self, 'assistant_id') is not None:
+            _dict['assistant_id'] = getattr(self, 'assistant_id')
+        if hasattr(self, 'release') and getattr(self, 'release') is not None:
+            _dict['release'] = getattr(self, 'release')
+        if hasattr(self, 'created') and getattr(self, 'created') is not None:
+            _dict['created'] = datetime_to_string(getattr(self, 'created'))
+        if hasattr(self, 'updated') and getattr(self, 'updated') is not None:
+            _dict['updated'] = datetime_to_string(getattr(self, 'updated'))
+        if hasattr(self, 'status_errors') and getattr(
+                self, 'status_errors') is not None:
+            status_errors_list = []
+            for v in getattr(self, 'status_errors'):
+                if isinstance(v, dict):
+                    status_errors_list.append(v)
+                else:
+                    status_errors_list.append(v.to_dict())
+            _dict['status_errors'] = status_errors_list
+        if hasattr(self, 'status_description') and getattr(
+                self, 'status_description') is not None:
+            _dict['status_description'] = getattr(self, 'status_description')
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this CreateReleaseExportWithStatusErrors object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'CreateReleaseExportWithStatusErrors') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'CreateReleaseExportWithStatusErrors') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class StatusEnum(str, Enum):
+        """
+        The current status of the release export creation process:
+         - **Available**: The release export package is available for download.
+         - **Failed**: The asynchronous release export package creation process has
+        failed.
+         - **Processing**: An asynchronous operation to create the release export package
+        is underway and not yet completed.
+        """
+
+        AVAILABLE = 'Available'
+        FAILED = 'Failed'
+        PROCESSING = 'Processing'
 
 
 class DialogLogMessage:
@@ -5776,6 +6838,8 @@ class MessageContextSkillSystem:
           subsequent message request, you can return to an earlier point in the
           conversation. If you are using stateful sessions, you can also use a stored
           state value to restore a paused conversation whose session is expired.
+
+    This type supports additional properties of type object. For internal use only.
     """
 
     # The set of defined properties for the class
@@ -5785,7 +6849,7 @@ class MessageContextSkillSystem:
         self,
         *,
         state: Optional[str] = None,
-        **kwargs,
+        **kwargs: Optional[object],
     ) -> None:
         """
         Initialize a MessageContextSkillSystem object.
@@ -5795,11 +6859,20 @@ class MessageContextSkillSystem:
                of a subsequent message request, you can return to an earlier point in the
                conversation. If you are using stateful sessions, you can also use a stored
                state value to restore a paused conversation whose session is expired.
-        :param **kwargs: (optional) Any additional properties.
+        :param object **kwargs: (optional) For internal use only.
         """
         self.state = state
-        for _key, _value in kwargs.items():
-            setattr(self, _key, _value)
+        for k, v in kwargs.items():
+            if k not in MessageContextSkillSystem._properties:
+                if not isinstance(v, object):
+                    raise ValueError(
+                        'Value for additional property {} must be of type object'
+                        .format(k))
+                setattr(self, k, v)
+            else:
+                raise ValueError(
+                    'Property {} cannot be specified as an additional property'.
+                    format(k))
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'MessageContextSkillSystem':
@@ -5807,8 +6880,13 @@ class MessageContextSkillSystem:
         args = {}
         if (state := _dict.get('state')) is not None:
             args['state'] = state
-        args.update(
-            {k: v for (k, v) in _dict.items() if k not in cls._properties})
+        for k, v in _dict.items():
+            if k not in cls._properties:
+                if not isinstance(v, object):
+                    raise ValueError(
+                        'Value for additional property {} must be of type object'
+                        .format(k))
+                args[k] = v
         return cls(**args)
 
     @classmethod
@@ -5821,11 +6899,11 @@ class MessageContextSkillSystem:
         _dict = {}
         if hasattr(self, 'state') and self.state is not None:
             _dict['state'] = self.state
-        for _key in [
-                k for k in vars(self).keys()
-                if k not in MessageContextSkillSystem._properties
+        for k in [
+                _k for _k in vars(self).keys()
+                if _k not in MessageContextSkillSystem._properties
         ]:
-            _dict[_key] = getattr(self, _key)
+            _dict[k] = getattr(self, k)
         return _dict
 
     def _to_dict(self):
@@ -5833,27 +6911,33 @@ class MessageContextSkillSystem:
         return self.to_dict()
 
     def get_properties(self) -> Dict:
-        """Return a dictionary of arbitrary properties from this instance of MessageContextSkillSystem"""
+        """Return the additional properties from this instance of MessageContextSkillSystem in the form of a dict."""
         _dict = {}
-
-        for _key in [
-                k for k in vars(self).keys()
-                if k not in MessageContextSkillSystem._properties
+        for k in [
+                _k for _k in vars(self).keys()
+                if _k not in MessageContextSkillSystem._properties
         ]:
-            _dict[_key] = getattr(self, _key)
+            _dict[k] = getattr(self, k)
         return _dict
 
     def set_properties(self, _dict: dict):
-        """Set a dictionary of arbitrary properties to this instance of MessageContextSkillSystem"""
-        for _key in [
-                k for k in vars(self).keys()
-                if k not in MessageContextSkillSystem._properties
+        """Set a dictionary of additional properties in this instance of MessageContextSkillSystem"""
+        for k in [
+                _k for _k in vars(self).keys()
+                if _k not in MessageContextSkillSystem._properties
         ]:
-            delattr(self, _key)
-
-        for _key, _value in _dict.items():
-            if _key not in MessageContextSkillSystem._properties:
-                setattr(self, _key, _value)
+            delattr(self, k)
+        for k, v in _dict.items():
+            if k not in MessageContextSkillSystem._properties:
+                if not isinstance(v, object):
+                    raise ValueError(
+                        'Value for additional property {} must be of type object'
+                        .format(k))
+                setattr(self, k, v)
+            else:
+                raise ValueError(
+                    'Property {} cannot be specified as an additional property'.
+                    format(k))
 
     def __str__(self) -> str:
         """Return a `str` version of this MessageContextSkillSystem object."""
@@ -6918,6 +8002,225 @@ class MessageOutputSpelling:
         return not self == other
 
 
+class Metadata:
+    """
+    Contains meta-information about the item(s) being streamed.
+
+    :param int id: (optional) Identifies the index and sequence of the current
+          streamed response item.
+    """
+
+    def __init__(
+        self,
+        *,
+        id: Optional[int] = None,
+    ) -> None:
+        """
+        Initialize a Metadata object.
+
+        :param int id: (optional) Identifies the index and sequence of the current
+               streamed response item.
+        """
+        self.id = id
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'Metadata':
+        """Initialize a Metadata object from a json dictionary."""
+        args = {}
+        if (id := _dict.get('id')) is not None:
+            args['id'] = id
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Metadata object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'id') and self.id is not None:
+            _dict['id'] = self.id
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this Metadata object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'Metadata') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'Metadata') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class MonitorAssistantReleaseImportArtifactResponse:
+    """
+    MonitorAssistantReleaseImportArtifactResponse.
+
+    :param str status: (optional) The current status of the release import process:
+           - **Completed**: The artifact import has completed.
+           - **Failed**: The asynchronous artifact import process has failed.
+           - **Processing**: An asynchronous operation to import the artifact is underway
+          and not yet completed.
+    :param str task_id: (optional) A unique identifier for a background asynchronous
+          task that is executing or has executed the operation.
+    :param str assistant_id: (optional) The ID of the assistant to which the release
+          belongs.
+    :param List[StatusError] status_errors: (optional) An array of messages about
+          errors that caused an asynchronous operation to fail. Included only if
+          **status**=`Failed`.
+    :param str status_description: (optional) The description of the failed
+          asynchronous operation. Included only if **status**=`Failed`.
+    :param List[str] skill_impact_in_draft: (optional) An array of skill types in
+          the draft environment which will be overridden with skills from the artifact
+          being imported.
+    :param datetime created: (optional) The timestamp for creation of the object.
+    :param datetime updated: (optional) The timestamp for the most recent update to
+          the object.
+    """
+
+    def __init__(
+        self,
+        *,
+        status: Optional[str] = None,
+        task_id: Optional[str] = None,
+        assistant_id: Optional[str] = None,
+        status_errors: Optional[List['StatusError']] = None,
+        status_description: Optional[str] = None,
+        skill_impact_in_draft: Optional[List[str]] = None,
+        created: Optional[datetime] = None,
+        updated: Optional[datetime] = None,
+    ) -> None:
+        """
+        Initialize a MonitorAssistantReleaseImportArtifactResponse object.
+
+        :param List[str] skill_impact_in_draft: (optional) An array of skill types
+               in the draft environment which will be overridden with skills from the
+               artifact being imported.
+        """
+        self.status = status
+        self.task_id = task_id
+        self.assistant_id = assistant_id
+        self.status_errors = status_errors
+        self.status_description = status_description
+        self.skill_impact_in_draft = skill_impact_in_draft
+        self.created = created
+        self.updated = updated
+
+    @classmethod
+    def from_dict(
+            cls,
+            _dict: Dict) -> 'MonitorAssistantReleaseImportArtifactResponse':
+        """Initialize a MonitorAssistantReleaseImportArtifactResponse object from a json dictionary."""
+        args = {}
+        if (status := _dict.get('status')) is not None:
+            args['status'] = status
+        if (task_id := _dict.get('task_id')) is not None:
+            args['task_id'] = task_id
+        if (assistant_id := _dict.get('assistant_id')) is not None:
+            args['assistant_id'] = assistant_id
+        if (status_errors := _dict.get('status_errors')) is not None:
+            args['status_errors'] = [
+                StatusError.from_dict(v) for v in status_errors
+            ]
+        if (status_description := _dict.get('status_description')) is not None:
+            args['status_description'] = status_description
+        if (skill_impact_in_draft :=
+                _dict.get('skill_impact_in_draft')) is not None:
+            args['skill_impact_in_draft'] = skill_impact_in_draft
+        if (created := _dict.get('created')) is not None:
+            args['created'] = string_to_datetime(created)
+        if (updated := _dict.get('updated')) is not None:
+            args['updated'] = string_to_datetime(updated)
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a MonitorAssistantReleaseImportArtifactResponse object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'status') and getattr(self, 'status') is not None:
+            _dict['status'] = getattr(self, 'status')
+        if hasattr(self, 'task_id') and getattr(self, 'task_id') is not None:
+            _dict['task_id'] = getattr(self, 'task_id')
+        if hasattr(self, 'assistant_id') and getattr(
+                self, 'assistant_id') is not None:
+            _dict['assistant_id'] = getattr(self, 'assistant_id')
+        if hasattr(self, 'status_errors') and getattr(
+                self, 'status_errors') is not None:
+            status_errors_list = []
+            for v in getattr(self, 'status_errors'):
+                if isinstance(v, dict):
+                    status_errors_list.append(v)
+                else:
+                    status_errors_list.append(v.to_dict())
+            _dict['status_errors'] = status_errors_list
+        if hasattr(self, 'status_description') and getattr(
+                self, 'status_description') is not None:
+            _dict['status_description'] = getattr(self, 'status_description')
+        if hasattr(self, 'skill_impact_in_draft'
+                  ) and self.skill_impact_in_draft is not None:
+            _dict['skill_impact_in_draft'] = self.skill_impact_in_draft
+        if hasattr(self, 'created') and getattr(self, 'created') is not None:
+            _dict['created'] = datetime_to_string(getattr(self, 'created'))
+        if hasattr(self, 'updated') and getattr(self, 'updated') is not None:
+            _dict['updated'] = datetime_to_string(getattr(self, 'updated'))
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this MonitorAssistantReleaseImportArtifactResponse object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self,
+               other: 'MonitorAssistantReleaseImportArtifactResponse') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self,
+               other: 'MonitorAssistantReleaseImportArtifactResponse') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class StatusEnum(str, Enum):
+        """
+        The current status of the release import process:
+         - **Completed**: The artifact import has completed.
+         - **Failed**: The asynchronous artifact import process has failed.
+         - **Processing**: An asynchronous operation to import the artifact is underway
+        and not yet completed.
+        """
+
+        COMPLETED = 'Completed'
+        FAILED = 'Failed'
+        PROCESSING = 'Processing'
+
+    class SkillImpactInDraftEnum(str, Enum):
+        """
+        The type of the skill in the draft environment.
+        """
+
+        ACTION = 'action'
+        DIALOG = 'dialog'
+
+
 class Pagination:
     """
     The pagination data for the returned objects. For more information about using
@@ -7026,6 +8329,1401 @@ class Pagination:
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'Pagination') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ProviderAuthenticationOAuth2:
+    """
+    Non-private settings for oauth2 authentication.
+
+    :param str preferred_flow: (optional) The preferred "flow" or "grant type" for
+          the API client to fetch an access token from the authorization server.
+    :param ProviderAuthenticationOAuth2Flows flows: (optional) Scenarios performed
+          by the API client to fetch an access token from the authorization server.
+    """
+
+    def __init__(
+        self,
+        *,
+        preferred_flow: Optional[str] = None,
+        flows: Optional['ProviderAuthenticationOAuth2Flows'] = None,
+    ) -> None:
+        """
+        Initialize a ProviderAuthenticationOAuth2 object.
+
+        :param str preferred_flow: (optional) The preferred "flow" or "grant type"
+               for the API client to fetch an access token from the authorization server.
+        :param ProviderAuthenticationOAuth2Flows flows: (optional) Scenarios
+               performed by the API client to fetch an access token from the authorization
+               server.
+        """
+        self.preferred_flow = preferred_flow
+        self.flows = flows
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ProviderAuthenticationOAuth2':
+        """Initialize a ProviderAuthenticationOAuth2 object from a json dictionary."""
+        args = {}
+        if (preferred_flow := _dict.get('preferred_flow')) is not None:
+            args['preferred_flow'] = preferred_flow
+        if (flows := _dict.get('flows')) is not None:
+            args['flows'] = flows
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ProviderAuthenticationOAuth2 object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'preferred_flow') and self.preferred_flow is not None:
+            _dict['preferred_flow'] = self.preferred_flow
+        if hasattr(self, 'flows') and self.flows is not None:
+            if isinstance(self.flows, dict):
+                _dict['flows'] = self.flows
+            else:
+                _dict['flows'] = self.flows.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ProviderAuthenticationOAuth2 object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ProviderAuthenticationOAuth2') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ProviderAuthenticationOAuth2') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class PreferredFlowEnum(str, Enum):
+        """
+        The preferred "flow" or "grant type" for the API client to fetch an access token
+        from the authorization server.
+        """
+
+        PASSWORD = 'password'
+        CLIENT_CREDENTIALS = 'client_credentials'
+        AUTHORIZATION_CODE = 'authorization_code'
+        CUSTOM_FLOW_NAME = '<$custom_flow_name>'
+
+
+class ProviderAuthenticationOAuth2Flows:
+    """
+    Scenarios performed by the API client to fetch an access token from the authorization
+    server.
+
+    """
+
+    def __init__(self,) -> None:
+        """
+        Initialize a ProviderAuthenticationOAuth2Flows object.
+
+        """
+        msg = "Cannot instantiate base class. Instead, instantiate one of the defined subclasses: {0}".format(
+            ", ".join([
+                'ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2Password',
+                'ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2ClientCredentials',
+                'ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2AuthorizationCode'
+            ]))
+        raise Exception(msg)
+
+
+class ProviderAuthenticationOAuth2PasswordUsername:
+    """
+    The username for oauth2 authentication when the preferred flow is "password".
+
+    :param str type: (optional) The type of property observed in "value".
+    :param str value: (optional) The stored information of the value.
+    """
+
+    def __init__(
+        self,
+        *,
+        type: Optional[str] = None,
+        value: Optional[str] = None,
+    ) -> None:
+        """
+        Initialize a ProviderAuthenticationOAuth2PasswordUsername object.
+
+        :param str type: (optional) The type of property observed in "value".
+        :param str value: (optional) The stored information of the value.
+        """
+        self.type = type
+        self.value = value
+
+    @classmethod
+    def from_dict(
+            cls, _dict: Dict) -> 'ProviderAuthenticationOAuth2PasswordUsername':
+        """Initialize a ProviderAuthenticationOAuth2PasswordUsername object from a json dictionary."""
+        args = {}
+        if (type := _dict.get('type')) is not None:
+            args['type'] = type
+        if (value := _dict.get('value')) is not None:
+            args['value'] = value
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ProviderAuthenticationOAuth2PasswordUsername object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'type') and self.type is not None:
+            _dict['type'] = self.type
+        if hasattr(self, 'value') and self.value is not None:
+            _dict['value'] = self.value
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ProviderAuthenticationOAuth2PasswordUsername object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self,
+               other: 'ProviderAuthenticationOAuth2PasswordUsername') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self,
+               other: 'ProviderAuthenticationOAuth2PasswordUsername') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class TypeEnum(str, Enum):
+        """
+        The type of property observed in "value".
+        """
+
+        VALUE = 'value'
+
+
+class ProviderAuthenticationTypeAndValue:
+    """
+    ProviderAuthenticationTypeAndValue.
+
+    :param str type: (optional) The type of property observed in "value".
+    :param str value: (optional) The stored information of the value.
+    """
+
+    def __init__(
+        self,
+        *,
+        type: Optional[str] = None,
+        value: Optional[str] = None,
+    ) -> None:
+        """
+        Initialize a ProviderAuthenticationTypeAndValue object.
+
+        :param str type: (optional) The type of property observed in "value".
+        :param str value: (optional) The stored information of the value.
+        """
+        self.type = type
+        self.value = value
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ProviderAuthenticationTypeAndValue':
+        """Initialize a ProviderAuthenticationTypeAndValue object from a json dictionary."""
+        args = {}
+        if (type := _dict.get('type')) is not None:
+            args['type'] = type
+        if (value := _dict.get('value')) is not None:
+            args['value'] = value
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ProviderAuthenticationTypeAndValue object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'type') and self.type is not None:
+            _dict['type'] = self.type
+        if hasattr(self, 'value') and self.value is not None:
+            _dict['value'] = self.value
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ProviderAuthenticationTypeAndValue object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ProviderAuthenticationTypeAndValue') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ProviderAuthenticationTypeAndValue') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class TypeEnum(str, Enum):
+        """
+        The type of property observed in "value".
+        """
+
+        VALUE = 'value'
+
+
+class ProviderCollection:
+    """
+    ProviderCollection.
+
+    :param List[ProviderResponse] conversational_skill_providers: An array of
+          objects describing the conversational skill providers associated with the
+          instance.
+    :param Pagination pagination: The pagination data for the returned objects. For
+          more information about using pagination, see [Pagination](#pagination).
+    """
+
+    def __init__(
+        self,
+        conversational_skill_providers: List['ProviderResponse'],
+        pagination: 'Pagination',
+    ) -> None:
+        """
+        Initialize a ProviderCollection object.
+
+        :param List[ProviderResponse] conversational_skill_providers: An array of
+               objects describing the conversational skill providers associated with the
+               instance.
+        :param Pagination pagination: The pagination data for the returned objects.
+               For more information about using pagination, see [Pagination](#pagination).
+        """
+        self.conversational_skill_providers = conversational_skill_providers
+        self.pagination = pagination
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ProviderCollection':
+        """Initialize a ProviderCollection object from a json dictionary."""
+        args = {}
+        if (conversational_skill_providers :=
+                _dict.get('conversational_skill_providers')) is not None:
+            args['conversational_skill_providers'] = [
+                ProviderResponse.from_dict(v)
+                for v in conversational_skill_providers
+            ]
+        else:
+            raise ValueError(
+                'Required property \'conversational_skill_providers\' not present in ProviderCollection JSON'
+            )
+        if (pagination := _dict.get('pagination')) is not None:
+            args['pagination'] = Pagination.from_dict(pagination)
+        else:
+            raise ValueError(
+                'Required property \'pagination\' not present in ProviderCollection JSON'
+            )
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ProviderCollection object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'conversational_skill_providers'
+                  ) and self.conversational_skill_providers is not None:
+            conversational_skill_providers_list = []
+            for v in self.conversational_skill_providers:
+                if isinstance(v, dict):
+                    conversational_skill_providers_list.append(v)
+                else:
+                    conversational_skill_providers_list.append(v.to_dict())
+            _dict[
+                'conversational_skill_providers'] = conversational_skill_providers_list
+        if hasattr(self, 'pagination') and self.pagination is not None:
+            if isinstance(self.pagination, dict):
+                _dict['pagination'] = self.pagination
+            else:
+                _dict['pagination'] = self.pagination.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ProviderCollection object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ProviderCollection') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ProviderCollection') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ProviderPrivate:
+    """
+    Private information of the provider.
+
+    :param ProviderPrivateAuthentication authentication: Private authentication
+          information of the provider.
+    """
+
+    def __init__(
+        self,
+        authentication: 'ProviderPrivateAuthentication',
+    ) -> None:
+        """
+        Initialize a ProviderPrivate object.
+
+        :param ProviderPrivateAuthentication authentication: Private authentication
+               information of the provider.
+        """
+        self.authentication = authentication
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ProviderPrivate':
+        """Initialize a ProviderPrivate object from a json dictionary."""
+        args = {}
+        if (authentication := _dict.get('authentication')) is not None:
+            args['authentication'] = authentication
+        else:
+            raise ValueError(
+                'Required property \'authentication\' not present in ProviderPrivate JSON'
+            )
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ProviderPrivate object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'authentication') and self.authentication is not None:
+            if isinstance(self.authentication, dict):
+                _dict['authentication'] = self.authentication
+            else:
+                _dict['authentication'] = self.authentication.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ProviderPrivate object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ProviderPrivate') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ProviderPrivate') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ProviderPrivateAuthentication:
+    """
+    Private authentication information of the provider.
+
+    """
+
+    def __init__(self,) -> None:
+        """
+        Initialize a ProviderPrivateAuthentication object.
+
+        """
+        msg = "Cannot instantiate base class. Instead, instantiate one of the defined subclasses: {0}".format(
+            ", ".join([
+                'ProviderPrivateAuthenticationBearerFlow',
+                'ProviderPrivateAuthenticationBasicFlow',
+                'ProviderPrivateAuthenticationOAuth2Flow'
+            ]))
+        raise Exception(msg)
+
+
+class ProviderPrivateAuthenticationOAuth2FlowFlows:
+    """
+    Scenarios performed by the API client to fetch an access token from the authorization
+    server.
+
+    """
+
+    def __init__(self,) -> None:
+        """
+        Initialize a ProviderPrivateAuthenticationOAuth2FlowFlows object.
+
+        """
+        msg = "Cannot instantiate base class. Instead, instantiate one of the defined subclasses: {0}".format(
+            ", ".join([
+                'ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2Password',
+                'ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2ClientCredentials',
+                'ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2AuthorizationCode'
+            ]))
+        raise Exception(msg)
+
+
+class ProviderPrivateAuthenticationOAuth2PasswordPassword:
+    """
+    The password for oauth2 authentication when the preferred flow is "password".
+
+    :param str type: (optional) The type of property observed in "value".
+    :param str value: (optional) The stored information of the value.
+    """
+
+    def __init__(
+        self,
+        *,
+        type: Optional[str] = None,
+        value: Optional[str] = None,
+    ) -> None:
+        """
+        Initialize a ProviderPrivateAuthenticationOAuth2PasswordPassword object.
+
+        :param str type: (optional) The type of property observed in "value".
+        :param str value: (optional) The stored information of the value.
+        """
+        self.type = type
+        self.value = value
+
+    @classmethod
+    def from_dict(
+            cls, _dict: Dict
+    ) -> 'ProviderPrivateAuthenticationOAuth2PasswordPassword':
+        """Initialize a ProviderPrivateAuthenticationOAuth2PasswordPassword object from a json dictionary."""
+        args = {}
+        if (type := _dict.get('type')) is not None:
+            args['type'] = type
+        if (value := _dict.get('value')) is not None:
+            args['value'] = value
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ProviderPrivateAuthenticationOAuth2PasswordPassword object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'type') and self.type is not None:
+            _dict['type'] = self.type
+        if hasattr(self, 'value') and self.value is not None:
+            _dict['value'] = self.value
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ProviderPrivateAuthenticationOAuth2PasswordPassword object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(
+            self, other: 'ProviderPrivateAuthenticationOAuth2PasswordPassword'
+    ) -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(
+            self, other: 'ProviderPrivateAuthenticationOAuth2PasswordPassword'
+    ) -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class TypeEnum(str, Enum):
+        """
+        The type of property observed in "value".
+        """
+
+        VALUE = 'value'
+
+
+class ProviderResponse:
+    """
+    ProviderResponse.
+
+    :param str provider_id: (optional) The unique identifier of the provider.
+    :param ProviderResponseSpecification specification: (optional) The specification
+          of the provider.
+    """
+
+    def __init__(
+        self,
+        *,
+        provider_id: Optional[str] = None,
+        specification: Optional['ProviderResponseSpecification'] = None,
+    ) -> None:
+        """
+        Initialize a ProviderResponse object.
+
+        :param str provider_id: (optional) The unique identifier of the provider.
+        :param ProviderResponseSpecification specification: (optional) The
+               specification of the provider.
+        """
+        self.provider_id = provider_id
+        self.specification = specification
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ProviderResponse':
+        """Initialize a ProviderResponse object from a json dictionary."""
+        args = {}
+        if (provider_id := _dict.get('provider_id')) is not None:
+            args['provider_id'] = provider_id
+        if (specification := _dict.get('specification')) is not None:
+            args['specification'] = ProviderResponseSpecification.from_dict(
+                specification)
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ProviderResponse object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'provider_id') and self.provider_id is not None:
+            _dict['provider_id'] = self.provider_id
+        if hasattr(self, 'specification') and self.specification is not None:
+            if isinstance(self.specification, dict):
+                _dict['specification'] = self.specification
+            else:
+                _dict['specification'] = self.specification.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ProviderResponse object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ProviderResponse') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ProviderResponse') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ProviderResponseSpecification:
+    """
+    The specification of the provider.
+
+    :param List[ProviderResponseSpecificationServersItem] servers: (optional) An
+          array of objects defining all endpoints of the provider.
+           **Note:** Multiple array items are reserved for future use.
+    :param ProviderResponseSpecificationComponents components: (optional) An object
+          defining various reusable definitions of the provider.
+    """
+
+    def __init__(
+        self,
+        *,
+        servers: Optional[
+            List['ProviderResponseSpecificationServersItem']] = None,
+        components: Optional['ProviderResponseSpecificationComponents'] = None,
+    ) -> None:
+        """
+        Initialize a ProviderResponseSpecification object.
+
+        :param List[ProviderResponseSpecificationServersItem] servers: (optional)
+               An array of objects defining all endpoints of the provider.
+                **Note:** Multiple array items are reserved for future use.
+        :param ProviderResponseSpecificationComponents components: (optional) An
+               object defining various reusable definitions of the provider.
+        """
+        self.servers = servers
+        self.components = components
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ProviderResponseSpecification':
+        """Initialize a ProviderResponseSpecification object from a json dictionary."""
+        args = {}
+        if (servers := _dict.get('servers')) is not None:
+            args['servers'] = [
+                ProviderResponseSpecificationServersItem.from_dict(v)
+                for v in servers
+            ]
+        if (components := _dict.get('components')) is not None:
+            args[
+                'components'] = ProviderResponseSpecificationComponents.from_dict(
+                    components)
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ProviderResponseSpecification object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'servers') and self.servers is not None:
+            servers_list = []
+            for v in self.servers:
+                if isinstance(v, dict):
+                    servers_list.append(v)
+                else:
+                    servers_list.append(v.to_dict())
+            _dict['servers'] = servers_list
+        if hasattr(self, 'components') and self.components is not None:
+            if isinstance(self.components, dict):
+                _dict['components'] = self.components
+            else:
+                _dict['components'] = self.components.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ProviderResponseSpecification object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ProviderResponseSpecification') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ProviderResponseSpecification') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ProviderResponseSpecificationComponents:
+    """
+    An object defining various reusable definitions of the provider.
+
+    :param ProviderResponseSpecificationComponentsSecuritySchemes security_schemes:
+          (optional) The definition of the security scheme for the provider.
+    """
+
+    def __init__(
+        self,
+        *,
+        security_schemes: Optional[
+            'ProviderResponseSpecificationComponentsSecuritySchemes'] = None,
+    ) -> None:
+        """
+        Initialize a ProviderResponseSpecificationComponents object.
+
+        :param ProviderResponseSpecificationComponentsSecuritySchemes
+               security_schemes: (optional) The definition of the security scheme for the
+               provider.
+        """
+        self.security_schemes = security_schemes
+
+    @classmethod
+    def from_dict(cls,
+                  _dict: Dict) -> 'ProviderResponseSpecificationComponents':
+        """Initialize a ProviderResponseSpecificationComponents object from a json dictionary."""
+        args = {}
+        if (security_schemes := _dict.get('securitySchemes')) is not None:
+            args[
+                'security_schemes'] = ProviderResponseSpecificationComponentsSecuritySchemes.from_dict(
+                    security_schemes)
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ProviderResponseSpecificationComponents object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self,
+                   'security_schemes') and self.security_schemes is not None:
+            if isinstance(self.security_schemes, dict):
+                _dict['securitySchemes'] = self.security_schemes
+            else:
+                _dict['securitySchemes'] = self.security_schemes.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ProviderResponseSpecificationComponents object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ProviderResponseSpecificationComponents') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ProviderResponseSpecificationComponents') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ProviderResponseSpecificationComponentsSecuritySchemes:
+    """
+    The definition of the security scheme for the provider.
+
+    :param str authentication_method: (optional) The authentication method required
+          for requests made from watsonx Assistant to the conversational skill provider.
+    :param ProviderResponseSpecificationComponentsSecuritySchemesBasic basic:
+          (optional) Non-private settings for basic access authentication.
+    :param ProviderAuthenticationOAuth2 oauth2: (optional) Non-private settings for
+          oauth2 authentication.
+    """
+
+    def __init__(
+        self,
+        *,
+        authentication_method: Optional[str] = None,
+        basic: Optional[
+            'ProviderResponseSpecificationComponentsSecuritySchemesBasic'] = None,
+        oauth2: Optional['ProviderAuthenticationOAuth2'] = None,
+    ) -> None:
+        """
+        Initialize a ProviderResponseSpecificationComponentsSecuritySchemes object.
+
+        :param str authentication_method: (optional) The authentication method
+               required for requests made from watsonx Assistant to the conversational
+               skill provider.
+        :param ProviderResponseSpecificationComponentsSecuritySchemesBasic basic:
+               (optional) Non-private settings for basic access authentication.
+        :param ProviderAuthenticationOAuth2 oauth2: (optional) Non-private settings
+               for oauth2 authentication.
+        """
+        self.authentication_method = authentication_method
+        self.basic = basic
+        self.oauth2 = oauth2
+
+    @classmethod
+    def from_dict(
+        cls, _dict: Dict
+    ) -> 'ProviderResponseSpecificationComponentsSecuritySchemes':
+        """Initialize a ProviderResponseSpecificationComponentsSecuritySchemes object from a json dictionary."""
+        args = {}
+        if (authentication_method :=
+                _dict.get('authentication_method')) is not None:
+            args['authentication_method'] = authentication_method
+        if (basic := _dict.get('basic')) is not None:
+            args[
+                'basic'] = ProviderResponseSpecificationComponentsSecuritySchemesBasic.from_dict(
+                    basic)
+        if (oauth2 := _dict.get('oauth2')) is not None:
+            args['oauth2'] = ProviderAuthenticationOAuth2.from_dict(oauth2)
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ProviderResponseSpecificationComponentsSecuritySchemes object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'authentication_method'
+                  ) and self.authentication_method is not None:
+            _dict['authentication_method'] = self.authentication_method
+        if hasattr(self, 'basic') and self.basic is not None:
+            if isinstance(self.basic, dict):
+                _dict['basic'] = self.basic
+            else:
+                _dict['basic'] = self.basic.to_dict()
+        if hasattr(self, 'oauth2') and self.oauth2 is not None:
+            if isinstance(self.oauth2, dict):
+                _dict['oauth2'] = self.oauth2
+            else:
+                _dict['oauth2'] = self.oauth2.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ProviderResponseSpecificationComponentsSecuritySchemes object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(
+        self, other: 'ProviderResponseSpecificationComponentsSecuritySchemes'
+    ) -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(
+        self, other: 'ProviderResponseSpecificationComponentsSecuritySchemes'
+    ) -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class AuthenticationMethodEnum(str, Enum):
+        """
+        The authentication method required for requests made from watsonx Assistant to the
+        conversational skill provider.
+        """
+
+        BASIC = 'basic'
+        BEARER = 'bearer'
+        API_KEY = 'api_key'
+        OAUTH2 = 'oauth2'
+        NONE = 'none'
+
+
+class ProviderResponseSpecificationComponentsSecuritySchemesBasic:
+    """
+    Non-private settings for basic access authentication.
+
+    :param ProviderAuthenticationTypeAndValue username: (optional) The username for
+          basic access authentication.
+    """
+
+    def __init__(
+        self,
+        *,
+        username: Optional['ProviderAuthenticationTypeAndValue'] = None,
+    ) -> None:
+        """
+        Initialize a ProviderResponseSpecificationComponentsSecuritySchemesBasic object.
+
+        :param ProviderAuthenticationTypeAndValue username: (optional) The username
+               for basic access authentication.
+        """
+        self.username = username
+
+    @classmethod
+    def from_dict(
+        cls, _dict: Dict
+    ) -> 'ProviderResponseSpecificationComponentsSecuritySchemesBasic':
+        """Initialize a ProviderResponseSpecificationComponentsSecuritySchemesBasic object from a json dictionary."""
+        args = {}
+        if (username := _dict.get('username')) is not None:
+            args['username'] = ProviderAuthenticationTypeAndValue.from_dict(
+                username)
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ProviderResponseSpecificationComponentsSecuritySchemesBasic object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'username') and self.username is not None:
+            if isinstance(self.username, dict):
+                _dict['username'] = self.username
+            else:
+                _dict['username'] = self.username.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ProviderResponseSpecificationComponentsSecuritySchemesBasic object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(
+        self,
+        other: 'ProviderResponseSpecificationComponentsSecuritySchemesBasic'
+    ) -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(
+        self,
+        other: 'ProviderResponseSpecificationComponentsSecuritySchemesBasic'
+    ) -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ProviderResponseSpecificationServersItem:
+    """
+    ProviderResponseSpecificationServersItem.
+
+    :param str url: (optional) The URL of the conversational skill provider.
+    """
+
+    def __init__(
+        self,
+        *,
+        url: Optional[str] = None,
+    ) -> None:
+        """
+        Initialize a ProviderResponseSpecificationServersItem object.
+
+        :param str url: (optional) The URL of the conversational skill provider.
+        """
+        self.url = url
+
+    @classmethod
+    def from_dict(cls,
+                  _dict: Dict) -> 'ProviderResponseSpecificationServersItem':
+        """Initialize a ProviderResponseSpecificationServersItem object from a json dictionary."""
+        args = {}
+        if (url := _dict.get('url')) is not None:
+            args['url'] = url
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ProviderResponseSpecificationServersItem object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'url') and self.url is not None:
+            _dict['url'] = self.url
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ProviderResponseSpecificationServersItem object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ProviderResponseSpecificationServersItem') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ProviderResponseSpecificationServersItem') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ProviderSpecification:
+    """
+    The specification of the provider.
+
+    :param List[ProviderSpecificationServersItem] servers: An array of objects
+          defining all endpoints of the provider.
+           **Note:** Multiple array items are reserved for future use.
+    :param ProviderSpecificationComponents components: (optional) An object defining
+          various reusable definitions of the provider.
+    """
+
+    def __init__(
+        self,
+        servers: List['ProviderSpecificationServersItem'],
+        *,
+        components: Optional['ProviderSpecificationComponents'] = None,
+    ) -> None:
+        """
+        Initialize a ProviderSpecification object.
+
+        :param List[ProviderSpecificationServersItem] servers: An array of objects
+               defining all endpoints of the provider.
+                **Note:** Multiple array items are reserved for future use.
+        :param ProviderSpecificationComponents components: (optional) An object
+               defining various reusable definitions of the provider.
+        """
+        self.servers = servers
+        self.components = components
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ProviderSpecification':
+        """Initialize a ProviderSpecification object from a json dictionary."""
+        args = {}
+        if (servers := _dict.get('servers')) is not None:
+            args['servers'] = [
+                ProviderSpecificationServersItem.from_dict(v) for v in servers
+            ]
+        else:
+            raise ValueError(
+                'Required property \'servers\' not present in ProviderSpecification JSON'
+            )
+        if (components := _dict.get('components')) is not None:
+            args['components'] = ProviderSpecificationComponents.from_dict(
+                components)
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ProviderSpecification object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'servers') and self.servers is not None:
+            servers_list = []
+            for v in self.servers:
+                if isinstance(v, dict):
+                    servers_list.append(v)
+                else:
+                    servers_list.append(v.to_dict())
+            _dict['servers'] = servers_list
+        if hasattr(self, 'components') and self.components is not None:
+            if isinstance(self.components, dict):
+                _dict['components'] = self.components
+            else:
+                _dict['components'] = self.components.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ProviderSpecification object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ProviderSpecification') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ProviderSpecification') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ProviderSpecificationComponents:
+    """
+    An object defining various reusable definitions of the provider.
+
+    :param ProviderSpecificationComponentsSecuritySchemes security_schemes:
+          (optional) The definition of the security scheme for the provider.
+    """
+
+    def __init__(
+        self,
+        *,
+        security_schemes: Optional[
+            'ProviderSpecificationComponentsSecuritySchemes'] = None,
+    ) -> None:
+        """
+        Initialize a ProviderSpecificationComponents object.
+
+        :param ProviderSpecificationComponentsSecuritySchemes security_schemes:
+               (optional) The definition of the security scheme for the provider.
+        """
+        self.security_schemes = security_schemes
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ProviderSpecificationComponents':
+        """Initialize a ProviderSpecificationComponents object from a json dictionary."""
+        args = {}
+        if (security_schemes := _dict.get('securitySchemes')) is not None:
+            args[
+                'security_schemes'] = ProviderSpecificationComponentsSecuritySchemes.from_dict(
+                    security_schemes)
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ProviderSpecificationComponents object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self,
+                   'security_schemes') and self.security_schemes is not None:
+            if isinstance(self.security_schemes, dict):
+                _dict['securitySchemes'] = self.security_schemes
+            else:
+                _dict['securitySchemes'] = self.security_schemes.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ProviderSpecificationComponents object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ProviderSpecificationComponents') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ProviderSpecificationComponents') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ProviderSpecificationComponentsSecuritySchemes:
+    """
+    The definition of the security scheme for the provider.
+
+    :param str authentication_method: (optional) The authentication method required
+          for requests made from watsonx Assistant to the conversational skill provider.
+    :param ProviderSpecificationComponentsSecuritySchemesBasic basic: (optional)
+          Non-private settings for basic access authentication.
+    :param ProviderAuthenticationOAuth2 oauth2: (optional) Non-private settings for
+          oauth2 authentication.
+    """
+
+    def __init__(
+        self,
+        *,
+        authentication_method: Optional[str] = None,
+        basic: Optional[
+            'ProviderSpecificationComponentsSecuritySchemesBasic'] = None,
+        oauth2: Optional['ProviderAuthenticationOAuth2'] = None,
+    ) -> None:
+        """
+        Initialize a ProviderSpecificationComponentsSecuritySchemes object.
+
+        :param str authentication_method: (optional) The authentication method
+               required for requests made from watsonx Assistant to the conversational
+               skill provider.
+        :param ProviderSpecificationComponentsSecuritySchemesBasic basic:
+               (optional) Non-private settings for basic access authentication.
+        :param ProviderAuthenticationOAuth2 oauth2: (optional) Non-private settings
+               for oauth2 authentication.
+        """
+        self.authentication_method = authentication_method
+        self.basic = basic
+        self.oauth2 = oauth2
+
+    @classmethod
+    def from_dict(
+            cls,
+            _dict: Dict) -> 'ProviderSpecificationComponentsSecuritySchemes':
+        """Initialize a ProviderSpecificationComponentsSecuritySchemes object from a json dictionary."""
+        args = {}
+        if (authentication_method :=
+                _dict.get('authentication_method')) is not None:
+            args['authentication_method'] = authentication_method
+        if (basic := _dict.get('basic')) is not None:
+            args[
+                'basic'] = ProviderSpecificationComponentsSecuritySchemesBasic.from_dict(
+                    basic)
+        if (oauth2 := _dict.get('oauth2')) is not None:
+            args['oauth2'] = ProviderAuthenticationOAuth2.from_dict(oauth2)
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ProviderSpecificationComponentsSecuritySchemes object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'authentication_method'
+                  ) and self.authentication_method is not None:
+            _dict['authentication_method'] = self.authentication_method
+        if hasattr(self, 'basic') and self.basic is not None:
+            if isinstance(self.basic, dict):
+                _dict['basic'] = self.basic
+            else:
+                _dict['basic'] = self.basic.to_dict()
+        if hasattr(self, 'oauth2') and self.oauth2 is not None:
+            if isinstance(self.oauth2, dict):
+                _dict['oauth2'] = self.oauth2
+            else:
+                _dict['oauth2'] = self.oauth2.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ProviderSpecificationComponentsSecuritySchemes object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self,
+               other: 'ProviderSpecificationComponentsSecuritySchemes') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self,
+               other: 'ProviderSpecificationComponentsSecuritySchemes') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class AuthenticationMethodEnum(str, Enum):
+        """
+        The authentication method required for requests made from watsonx Assistant to the
+        conversational skill provider.
+        """
+
+        BASIC = 'basic'
+        BEARER = 'bearer'
+        API_KEY = 'api_key'
+        OAUTH2 = 'oauth2'
+        NONE = 'none'
+
+
+class ProviderSpecificationComponentsSecuritySchemesBasic:
+    """
+    Non-private settings for basic access authentication.
+
+    :param ProviderAuthenticationTypeAndValue username: (optional) The username for
+          basic access authentication.
+    """
+
+    def __init__(
+        self,
+        *,
+        username: Optional['ProviderAuthenticationTypeAndValue'] = None,
+    ) -> None:
+        """
+        Initialize a ProviderSpecificationComponentsSecuritySchemesBasic object.
+
+        :param ProviderAuthenticationTypeAndValue username: (optional) The username
+               for basic access authentication.
+        """
+        self.username = username
+
+    @classmethod
+    def from_dict(
+            cls, _dict: Dict
+    ) -> 'ProviderSpecificationComponentsSecuritySchemesBasic':
+        """Initialize a ProviderSpecificationComponentsSecuritySchemesBasic object from a json dictionary."""
+        args = {}
+        if (username := _dict.get('username')) is not None:
+            args['username'] = ProviderAuthenticationTypeAndValue.from_dict(
+                username)
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ProviderSpecificationComponentsSecuritySchemesBasic object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'username') and self.username is not None:
+            if isinstance(self.username, dict):
+                _dict['username'] = self.username
+            else:
+                _dict['username'] = self.username.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ProviderSpecificationComponentsSecuritySchemesBasic object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(
+            self, other: 'ProviderSpecificationComponentsSecuritySchemesBasic'
+    ) -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(
+            self, other: 'ProviderSpecificationComponentsSecuritySchemesBasic'
+    ) -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ProviderSpecificationServersItem:
+    """
+    ProviderSpecificationServersItem.
+
+    :param str url: (optional) The URL of the conversational skill provider.
+    """
+
+    def __init__(
+        self,
+        *,
+        url: Optional[str] = None,
+    ) -> None:
+        """
+        Initialize a ProviderSpecificationServersItem object.
+
+        :param str url: (optional) The URL of the conversational skill provider.
+        """
+        self.url = url
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ProviderSpecificationServersItem':
+        """Initialize a ProviderSpecificationServersItem object from a json dictionary."""
+        args = {}
+        if (url := _dict.get('url')) is not None:
+            args['url'] = url
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ProviderSpecificationServersItem object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'url') and self.url is not None:
+            _dict['url'] = self.url
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ProviderSpecificationServersItem object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ProviderSpecificationServersItem') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ProviderSpecificationServersItem') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -8688,6 +11386,11 @@ class SearchResultHighlight:
           highlighted.
     :param List[str] url: (optional) An array of strings containing segments taken
           from URLs in the search results, with query-matching substrings highlighted.
+
+    This type supports additional properties of type List[str]. An array of strings
+    containing segments taken from a field in the search results that is not mapped to the
+    `body`, `title`, or `url` property, with query-matching substrings highlighted. The
+    property name is the name of the field in the Discovery collection.
     """
 
     # The set of defined properties for the class
@@ -8699,7 +11402,7 @@ class SearchResultHighlight:
         body: Optional[List[str]] = None,
         title: Optional[List[str]] = None,
         url: Optional[List[str]] = None,
-        **kwargs,
+        **kwargs: Optional[List[str]],
     ) -> None:
         """
         Initialize a SearchResultHighlight object.
@@ -8713,13 +11416,33 @@ class SearchResultHighlight:
         :param List[str] url: (optional) An array of strings containing segments
                taken from URLs in the search results, with query-matching substrings
                highlighted.
-        :param **kwargs: (optional) Any additional properties.
+        :param List[str] **kwargs: (optional) An array of strings containing
+               segments taken from a field in the search results that is not mapped to the
+               `body`, `title`, or `url` property, with query-matching substrings
+               highlighted. The property name is the name of the field in the Discovery
+               collection.
         """
         self.body = body
         self.title = title
         self.url = url
-        for _key, _value in kwargs.items():
-            setattr(self, _key, _value)
+        for k, v in kwargs.items():
+            if k not in SearchResultHighlight._properties:
+                if not isinstance(v, List):
+                    raise ValueError(
+                        'Value for additional property {} must be of type List[Foo]'
+                        .format(k))
+                _v = []
+                for elem in v:
+                    if not isinstance(elem, str):
+                        raise ValueError(
+                            'Value for additional property {} must be of type List[str]'
+                            .format(k))
+                    _v.append(elem)
+                setattr(self, k, _v)
+            else:
+                raise ValueError(
+                    'Property {} cannot be specified as an additional property'.
+                    format(k))
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'SearchResultHighlight':
@@ -8731,8 +11454,20 @@ class SearchResultHighlight:
             args['title'] = title
         if (url := _dict.get('url')) is not None:
             args['url'] = url
-        args.update(
-            {k: v for (k, v) in _dict.items() if k not in cls._properties})
+        for k, v in _dict.items():
+            if k not in cls._properties:
+                if not isinstance(v, List):
+                    raise ValueError(
+                        'Value for additional property {} must be of type List[str]'
+                        .format(k))
+                _v = []
+                for elem in v:
+                    if not isinstance(elem, str):
+                        raise ValueError(
+                            'Value for additional property {} must be of type List[str]'
+                            .format(k))
+                    _v.append(elem)
+                args[k] = _v
         return cls(**args)
 
     @classmethod
@@ -8749,11 +11484,11 @@ class SearchResultHighlight:
             _dict['title'] = self.title
         if hasattr(self, 'url') and self.url is not None:
             _dict['url'] = self.url
-        for _key in [
-                k for k in vars(self).keys()
-                if k not in SearchResultHighlight._properties
+        for k in [
+                _k for _k in vars(self).keys()
+                if _k not in SearchResultHighlight._properties
         ]:
-            _dict[_key] = getattr(self, _key)
+            _dict[k] = getattr(self, k)
         return _dict
 
     def _to_dict(self):
@@ -8761,27 +11496,40 @@ class SearchResultHighlight:
         return self.to_dict()
 
     def get_properties(self) -> Dict:
-        """Return a dictionary of arbitrary properties from this instance of SearchResultHighlight"""
+        """Return the additional properties from this instance of SearchResultHighlight in the form of a dict."""
         _dict = {}
-
-        for _key in [
-                k for k in vars(self).keys()
-                if k not in SearchResultHighlight._properties
+        for k in [
+                _k for _k in vars(self).keys()
+                if _k not in SearchResultHighlight._properties
         ]:
-            _dict[_key] = getattr(self, _key)
+            _dict[k] = getattr(self, k)
         return _dict
 
     def set_properties(self, _dict: dict):
-        """Set a dictionary of arbitrary properties to this instance of SearchResultHighlight"""
-        for _key in [
-                k for k in vars(self).keys()
-                if k not in SearchResultHighlight._properties
+        """Set a dictionary of additional properties in this instance of SearchResultHighlight"""
+        for k in [
+                _k for _k in vars(self).keys()
+                if _k not in SearchResultHighlight._properties
         ]:
-            delattr(self, _key)
-
-        for _key, _value in _dict.items():
-            if _key not in SearchResultHighlight._properties:
-                setattr(self, _key, _value)
+            delattr(self, k)
+        for k, v in _dict.items():
+            if k not in SearchResultHighlight._properties:
+                if not isinstance(v, List):
+                    raise ValueError(
+                        'Value for additional property {} must be of type List[str]'
+                        .format(k))
+                _v = []
+                for elem in v:
+                    if not isinstance(elem, str):
+                        raise ValueError(
+                            'Value for additional property {} must be of type List[str]'
+                            .format(k))
+                    _v.append(elem)
+                setattr(self, k, _v)
+            else:
+                raise ValueError(
+                    'Property {} cannot be specified as an additional property'.
+                    format(k))
 
     def __str__(self) -> str:
         """Return a `str` version of this SearchResultHighlight object."""
@@ -8882,6 +11630,17 @@ class SearchSettings:
           from the search integration.
     :param SearchSettingsSchemaMapping schema_mapping: The mapping between fields in
           the Watson Discovery collection and properties in the search response.
+    :param SearchSettingsElasticSearch elastic_search: (optional) Configuration
+          settings for the Elasticsearch service used by the search integration. You can
+          provide either basic auth or apiKey auth.
+    :param SearchSettingsConversationalSearch conversational_search: (optional)
+          Configuration settings for conversational search.
+    :param SearchSettingsServerSideSearch server_side_search: (optional)
+          Configuration settings for the server-side search service used by the search
+          integration. You can provide either basic auth, apiKey auth or none.
+    :param SearchSettingsClientSideSearch client_side_search: (optional)
+          Configuration settings for the client-side search service or server-side search
+          service used by the search integration.
     """
 
     def __init__(
@@ -8889,6 +11648,12 @@ class SearchSettings:
         discovery: 'SearchSettingsDiscovery',
         messages: 'SearchSettingsMessages',
         schema_mapping: 'SearchSettingsSchemaMapping',
+        *,
+        elastic_search: Optional['SearchSettingsElasticSearch'] = None,
+        conversational_search: Optional[
+            'SearchSettingsConversationalSearch'] = None,
+        server_side_search: Optional['SearchSettingsServerSideSearch'] = None,
+        client_side_search: Optional['SearchSettingsClientSideSearch'] = None,
     ) -> None:
         """
         Initialize a SearchSettings object.
@@ -8900,10 +11665,25 @@ class SearchSettings:
         :param SearchSettingsSchemaMapping schema_mapping: The mapping between
                fields in the Watson Discovery collection and properties in the search
                response.
+        :param SearchSettingsElasticSearch elastic_search: (optional) Configuration
+               settings for the Elasticsearch service used by the search integration. You
+               can provide either basic auth or apiKey auth.
+        :param SearchSettingsConversationalSearch conversational_search: (optional)
+               Configuration settings for conversational search.
+        :param SearchSettingsServerSideSearch server_side_search: (optional)
+               Configuration settings for the server-side search service used by the
+               search integration. You can provide either basic auth, apiKey auth or none.
+        :param SearchSettingsClientSideSearch client_side_search: (optional)
+               Configuration settings for the client-side search service or server-side
+               search service used by the search integration.
         """
         self.discovery = discovery
         self.messages = messages
         self.schema_mapping = schema_mapping
+        self.elastic_search = elastic_search
+        self.conversational_search = conversational_search
+        self.server_side_search = server_side_search
+        self.client_side_search = client_side_search
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'SearchSettings':
@@ -8928,6 +11708,22 @@ class SearchSettings:
             raise ValueError(
                 'Required property \'schema_mapping\' not present in SearchSettings JSON'
             )
+        if (elastic_search := _dict.get('elastic_search')) is not None:
+            args['elastic_search'] = SearchSettingsElasticSearch.from_dict(
+                elastic_search)
+        if (conversational_search :=
+                _dict.get('conversational_search')) is not None:
+            args[
+                'conversational_search'] = SearchSettingsConversationalSearch.from_dict(
+                    conversational_search)
+        if (server_side_search := _dict.get('server_side_search')) is not None:
+            args[
+                'server_side_search'] = SearchSettingsServerSideSearch.from_dict(
+                    server_side_search)
+        if (client_side_search := _dict.get('client_side_search')) is not None:
+            args[
+                'client_side_search'] = SearchSettingsClientSideSearch.from_dict(
+                    client_side_search)
         return cls(**args)
 
     @classmethod
@@ -8953,6 +11749,33 @@ class SearchSettings:
                 _dict['schema_mapping'] = self.schema_mapping
             else:
                 _dict['schema_mapping'] = self.schema_mapping.to_dict()
+        if hasattr(self, 'elastic_search') and self.elastic_search is not None:
+            if isinstance(self.elastic_search, dict):
+                _dict['elastic_search'] = self.elastic_search
+            else:
+                _dict['elastic_search'] = self.elastic_search.to_dict()
+        if hasattr(self, 'conversational_search'
+                  ) and self.conversational_search is not None:
+            if isinstance(self.conversational_search, dict):
+                _dict['conversational_search'] = self.conversational_search
+            else:
+                _dict[
+                    'conversational_search'] = self.conversational_search.to_dict(
+                    )
+        if hasattr(
+                self,
+                'server_side_search') and self.server_side_search is not None:
+            if isinstance(self.server_side_search, dict):
+                _dict['server_side_search'] = self.server_side_search
+            else:
+                _dict['server_side_search'] = self.server_side_search.to_dict()
+        if hasattr(
+                self,
+                'client_side_search') and self.client_side_search is not None:
+            if isinstance(self.client_side_search, dict):
+                _dict['client_side_search'] = self.client_side_search
+            else:
+                _dict['client_side_search'] = self.client_side_search.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -8972,6 +11795,326 @@ class SearchSettings:
     def __ne__(self, other: 'SearchSettings') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
+
+
+class SearchSettingsClientSideSearch:
+    """
+    Configuration settings for the client-side search service or server-side search
+    service used by the search integration.
+
+    :param str filter: (optional) The filter string that is applied to the search
+          results.
+    :param dict metadata: (optional) The metadata object.
+    """
+
+    def __init__(
+        self,
+        *,
+        filter: Optional[str] = None,
+        metadata: Optional[dict] = None,
+    ) -> None:
+        """
+        Initialize a SearchSettingsClientSideSearch object.
+
+        :param str filter: (optional) The filter string that is applied to the
+               search results.
+        :param dict metadata: (optional) The metadata object.
+        """
+        self.filter = filter
+        self.metadata = metadata
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'SearchSettingsClientSideSearch':
+        """Initialize a SearchSettingsClientSideSearch object from a json dictionary."""
+        args = {}
+        if (filter := _dict.get('filter')) is not None:
+            args['filter'] = filter
+        if (metadata := _dict.get('metadata')) is not None:
+            args['metadata'] = metadata
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SearchSettingsClientSideSearch object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'filter') and self.filter is not None:
+            _dict['filter'] = self.filter
+        if hasattr(self, 'metadata') and self.metadata is not None:
+            _dict['metadata'] = self.metadata
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this SearchSettingsClientSideSearch object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'SearchSettingsClientSideSearch') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'SearchSettingsClientSideSearch') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class SearchSettingsConversationalSearch:
+    """
+    Configuration settings for conversational search.
+
+    :param bool enabled: Whether to enable conversational search.
+    :param SearchSettingsConversationalSearchResponseLength response_length:
+          (optional)
+    :param SearchSettingsConversationalSearchSearchConfidence search_confidence:
+          (optional)
+    """
+
+    def __init__(
+        self,
+        enabled: bool,
+        *,
+        response_length: Optional[
+            'SearchSettingsConversationalSearchResponseLength'] = None,
+        search_confidence: Optional[
+            'SearchSettingsConversationalSearchSearchConfidence'] = None,
+    ) -> None:
+        """
+        Initialize a SearchSettingsConversationalSearch object.
+
+        :param bool enabled: Whether to enable conversational search.
+        :param SearchSettingsConversationalSearchResponseLength response_length:
+               (optional)
+        :param SearchSettingsConversationalSearchSearchConfidence
+               search_confidence: (optional)
+        """
+        self.enabled = enabled
+        self.response_length = response_length
+        self.search_confidence = search_confidence
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'SearchSettingsConversationalSearch':
+        """Initialize a SearchSettingsConversationalSearch object from a json dictionary."""
+        args = {}
+        if (enabled := _dict.get('enabled')) is not None:
+            args['enabled'] = enabled
+        else:
+            raise ValueError(
+                'Required property \'enabled\' not present in SearchSettingsConversationalSearch JSON'
+            )
+        if (response_length := _dict.get('response_length')) is not None:
+            args[
+                'response_length'] = SearchSettingsConversationalSearchResponseLength.from_dict(
+                    response_length)
+        if (search_confidence := _dict.get('search_confidence')) is not None:
+            args[
+                'search_confidence'] = SearchSettingsConversationalSearchSearchConfidence.from_dict(
+                    search_confidence)
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SearchSettingsConversationalSearch object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'enabled') and self.enabled is not None:
+            _dict['enabled'] = self.enabled
+        if hasattr(self,
+                   'response_length') and self.response_length is not None:
+            if isinstance(self.response_length, dict):
+                _dict['response_length'] = self.response_length
+            else:
+                _dict['response_length'] = self.response_length.to_dict()
+        if hasattr(self,
+                   'search_confidence') and self.search_confidence is not None:
+            if isinstance(self.search_confidence, dict):
+                _dict['search_confidence'] = self.search_confidence
+            else:
+                _dict['search_confidence'] = self.search_confidence.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this SearchSettingsConversationalSearch object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'SearchSettingsConversationalSearch') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'SearchSettingsConversationalSearch') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class SearchSettingsConversationalSearchResponseLength:
+    """
+    SearchSettingsConversationalSearchResponseLength.
+
+    :param str option: (optional) The response length option. It controls the length
+          of the generated response.
+    """
+
+    def __init__(
+        self,
+        *,
+        option: Optional[str] = None,
+    ) -> None:
+        """
+        Initialize a SearchSettingsConversationalSearchResponseLength object.
+
+        :param str option: (optional) The response length option. It controls the
+               length of the generated response.
+        """
+        self.option = option
+
+    @classmethod
+    def from_dict(
+            cls,
+            _dict: Dict) -> 'SearchSettingsConversationalSearchResponseLength':
+        """Initialize a SearchSettingsConversationalSearchResponseLength object from a json dictionary."""
+        args = {}
+        if (option := _dict.get('option')) is not None:
+            args['option'] = option
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SearchSettingsConversationalSearchResponseLength object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'option') and self.option is not None:
+            _dict['option'] = self.option
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this SearchSettingsConversationalSearchResponseLength object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(
+            self,
+            other: 'SearchSettingsConversationalSearchResponseLength') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(
+            self,
+            other: 'SearchSettingsConversationalSearchResponseLength') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class OptionEnum(str, Enum):
+        """
+        The response length option. It controls the length of the generated response.
+        """
+
+        CONCISE = 'concise'
+        MODERATE = 'moderate'
+        VERBOSE = 'verbose'
+
+
+class SearchSettingsConversationalSearchSearchConfidence:
+    """
+    SearchSettingsConversationalSearchSearchConfidence.
+
+    :param str threshold: (optional) The search confidence threshold.
+           It controls the tendency for conversational search to produce “I don't know”
+          answers.
+    """
+
+    def __init__(
+        self,
+        *,
+        threshold: Optional[str] = None,
+    ) -> None:
+        """
+        Initialize a SearchSettingsConversationalSearchSearchConfidence object.
+
+        :param str threshold: (optional) The search confidence threshold.
+                It controls the tendency for conversational search to produce “I don't
+               know” answers.
+        """
+        self.threshold = threshold
+
+    @classmethod
+    def from_dict(
+            cls, _dict: Dict
+    ) -> 'SearchSettingsConversationalSearchSearchConfidence':
+        """Initialize a SearchSettingsConversationalSearchSearchConfidence object from a json dictionary."""
+        args = {}
+        if (threshold := _dict.get('threshold')) is not None:
+            args['threshold'] = threshold
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SearchSettingsConversationalSearchSearchConfidence object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'threshold') and self.threshold is not None:
+            _dict['threshold'] = self.threshold
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this SearchSettingsConversationalSearchSearchConfidence object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(
+            self, other: 'SearchSettingsConversationalSearchSearchConfidence'
+    ) -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(
+            self, other: 'SearchSettingsConversationalSearchSearchConfidence'
+    ) -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class ThresholdEnum(str, Enum):
+        """
+        The search confidence threshold.
+         It controls the tendency for conversational search to produce “I don't know”
+        answers.
+        """
+
+        RARELY = 'rarely'
+        LESS_OFTEN = 'less_often'
+        MORE_OFTEN = 'more_often'
+        MOST_OFTEN = 'most_often'
 
 
 class SearchSettingsDiscovery:
@@ -9229,6 +12372,165 @@ class SearchSettingsDiscoveryAuthentication:
         return not self == other
 
 
+class SearchSettingsElasticSearch:
+    """
+    Configuration settings for the Elasticsearch service used by the search integration.
+    You can provide either basic auth or apiKey auth.
+
+    :param str url: The URL for the Elasticsearch service.
+    :param str port: The port number for the Elasticsearch service URL.
+           **Note:** It can be omitted if a port number is appended to the URL.
+    :param str username: (optional) The username of the basic authentication method.
+    :param str password: (optional) The password of the basic authentication method.
+          The credentials are not returned due to security reasons.
+    :param str index: The Elasticsearch index to use for the search integration.
+    :param List[object] filter: (optional) An array of filters that can be applied
+          to the search results via the `$FILTER` variable in the `query_body`.For more
+          information, see [Elasticsearch filter
+          documentation](https://www.elastic.co/guide/en/elasticsearch/reference/current/filter-search-results.html).
+    :param dict query_body: (optional) The Elasticsearch query object. For more
+          information, see [Elasticsearch search API
+          documentation](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-search.html).
+    :param str managed_index: (optional) The Elasticsearch index for uploading
+          documents. It is created automatically when the upload document option is
+          selected from the user interface.
+    :param str apikey: (optional) The API key of the apiKey authentication method.
+          Use either basic auth or apiKey auth. The credentials are not returned due to
+          security reasons.
+    """
+
+    def __init__(
+        self,
+        url: str,
+        port: str,
+        index: str,
+        *,
+        username: Optional[str] = None,
+        password: Optional[str] = None,
+        filter: Optional[List[object]] = None,
+        query_body: Optional[dict] = None,
+        managed_index: Optional[str] = None,
+        apikey: Optional[str] = None,
+    ) -> None:
+        """
+        Initialize a SearchSettingsElasticSearch object.
+
+        :param str url: The URL for the Elasticsearch service.
+        :param str port: The port number for the Elasticsearch service URL.
+                **Note:** It can be omitted if a port number is appended to the URL.
+        :param str index: The Elasticsearch index to use for the search
+               integration.
+        :param str username: (optional) The username of the basic authentication
+               method.
+        :param str password: (optional) The password of the basic authentication
+               method. The credentials are not returned due to security reasons.
+        :param List[object] filter: (optional) An array of filters that can be
+               applied to the search results via the `$FILTER` variable in the
+               `query_body`.For more information, see [Elasticsearch filter
+               documentation](https://www.elastic.co/guide/en/elasticsearch/reference/current/filter-search-results.html).
+        :param dict query_body: (optional) The Elasticsearch query object. For more
+               information, see [Elasticsearch search API
+               documentation](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-search.html).
+        :param str managed_index: (optional) The Elasticsearch index for uploading
+               documents. It is created automatically when the upload document option is
+               selected from the user interface.
+        :param str apikey: (optional) The API key of the apiKey authentication
+               method. Use either basic auth or apiKey auth. The credentials are not
+               returned due to security reasons.
+        """
+        self.url = url
+        self.port = port
+        self.username = username
+        self.password = password
+        self.index = index
+        self.filter = filter
+        self.query_body = query_body
+        self.managed_index = managed_index
+        self.apikey = apikey
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'SearchSettingsElasticSearch':
+        """Initialize a SearchSettingsElasticSearch object from a json dictionary."""
+        args = {}
+        if (url := _dict.get('url')) is not None:
+            args['url'] = url
+        else:
+            raise ValueError(
+                'Required property \'url\' not present in SearchSettingsElasticSearch JSON'
+            )
+        if (port := _dict.get('port')) is not None:
+            args['port'] = port
+        else:
+            raise ValueError(
+                'Required property \'port\' not present in SearchSettingsElasticSearch JSON'
+            )
+        if (username := _dict.get('username')) is not None:
+            args['username'] = username
+        if (password := _dict.get('password')) is not None:
+            args['password'] = password
+        if (index := _dict.get('index')) is not None:
+            args['index'] = index
+        else:
+            raise ValueError(
+                'Required property \'index\' not present in SearchSettingsElasticSearch JSON'
+            )
+        if (filter := _dict.get('filter')) is not None:
+            args['filter'] = filter
+        if (query_body := _dict.get('query_body')) is not None:
+            args['query_body'] = query_body
+        if (managed_index := _dict.get('managed_index')) is not None:
+            args['managed_index'] = managed_index
+        if (apikey := _dict.get('apikey')) is not None:
+            args['apikey'] = apikey
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SearchSettingsElasticSearch object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'url') and self.url is not None:
+            _dict['url'] = self.url
+        if hasattr(self, 'port') and self.port is not None:
+            _dict['port'] = self.port
+        if hasattr(self, 'username') and self.username is not None:
+            _dict['username'] = self.username
+        if hasattr(self, 'password') and self.password is not None:
+            _dict['password'] = self.password
+        if hasattr(self, 'index') and self.index is not None:
+            _dict['index'] = self.index
+        if hasattr(self, 'filter') and self.filter is not None:
+            _dict['filter'] = self.filter
+        if hasattr(self, 'query_body') and self.query_body is not None:
+            _dict['query_body'] = self.query_body
+        if hasattr(self, 'managed_index') and self.managed_index is not None:
+            _dict['managed_index'] = self.managed_index
+        if hasattr(self, 'apikey') and self.apikey is not None:
+            _dict['apikey'] = self.apikey
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this SearchSettingsElasticSearch object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'SearchSettingsElasticSearch') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'SearchSettingsElasticSearch') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class SearchSettingsMessages:
     """
     The messages included with responses from the search integration.
@@ -9410,6 +12712,152 @@ class SearchSettingsSchemaMapping:
     def __ne__(self, other: 'SearchSettingsSchemaMapping') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
+
+
+class SearchSettingsServerSideSearch:
+    """
+    Configuration settings for the server-side search service used by the search
+    integration. You can provide either basic auth, apiKey auth or none.
+
+    :param str url: The URL of the server-side search service.
+    :param str port: (optional) The port number of the server-side search service.
+    :param str username: (optional) The username of the basic authentication method.
+    :param str password: (optional) The password of the basic authentication method.
+          The credentials are not returned due to security reasons.
+    :param str filter: (optional) The filter string that is applied to the search
+          results.
+    :param dict metadata: (optional) The metadata object.
+    :param str apikey: (optional) The API key of the apiKey authentication method.
+          The credentails are not returned due to security reasons.
+    :param bool no_auth: (optional) To clear previous auth, specify `no_auth =
+          true`.
+    :param str auth_type: (optional) The authorization type that is used.
+    """
+
+    def __init__(
+        self,
+        url: str,
+        *,
+        port: Optional[str] = None,
+        username: Optional[str] = None,
+        password: Optional[str] = None,
+        filter: Optional[str] = None,
+        metadata: Optional[dict] = None,
+        apikey: Optional[str] = None,
+        no_auth: Optional[bool] = None,
+        auth_type: Optional[str] = None,
+    ) -> None:
+        """
+        Initialize a SearchSettingsServerSideSearch object.
+
+        :param str url: The URL of the server-side search service.
+        :param str port: (optional) The port number of the server-side search
+               service.
+        :param str username: (optional) The username of the basic authentication
+               method.
+        :param str password: (optional) The password of the basic authentication
+               method. The credentials are not returned due to security reasons.
+        :param str filter: (optional) The filter string that is applied to the
+               search results.
+        :param dict metadata: (optional) The metadata object.
+        :param str apikey: (optional) The API key of the apiKey authentication
+               method. The credentails are not returned due to security reasons.
+        :param bool no_auth: (optional) To clear previous auth, specify `no_auth =
+               true`.
+        :param str auth_type: (optional) The authorization type that is used.
+        """
+        self.url = url
+        self.port = port
+        self.username = username
+        self.password = password
+        self.filter = filter
+        self.metadata = metadata
+        self.apikey = apikey
+        self.no_auth = no_auth
+        self.auth_type = auth_type
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'SearchSettingsServerSideSearch':
+        """Initialize a SearchSettingsServerSideSearch object from a json dictionary."""
+        args = {}
+        if (url := _dict.get('url')) is not None:
+            args['url'] = url
+        else:
+            raise ValueError(
+                'Required property \'url\' not present in SearchSettingsServerSideSearch JSON'
+            )
+        if (port := _dict.get('port')) is not None:
+            args['port'] = port
+        if (username := _dict.get('username')) is not None:
+            args['username'] = username
+        if (password := _dict.get('password')) is not None:
+            args['password'] = password
+        if (filter := _dict.get('filter')) is not None:
+            args['filter'] = filter
+        if (metadata := _dict.get('metadata')) is not None:
+            args['metadata'] = metadata
+        if (apikey := _dict.get('apikey')) is not None:
+            args['apikey'] = apikey
+        if (no_auth := _dict.get('no_auth')) is not None:
+            args['no_auth'] = no_auth
+        if (auth_type := _dict.get('auth_type')) is not None:
+            args['auth_type'] = auth_type
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SearchSettingsServerSideSearch object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'url') and self.url is not None:
+            _dict['url'] = self.url
+        if hasattr(self, 'port') and self.port is not None:
+            _dict['port'] = self.port
+        if hasattr(self, 'username') and self.username is not None:
+            _dict['username'] = self.username
+        if hasattr(self, 'password') and self.password is not None:
+            _dict['password'] = self.password
+        if hasattr(self, 'filter') and self.filter is not None:
+            _dict['filter'] = self.filter
+        if hasattr(self, 'metadata') and self.metadata is not None:
+            _dict['metadata'] = self.metadata
+        if hasattr(self, 'apikey') and self.apikey is not None:
+            _dict['apikey'] = self.apikey
+        if hasattr(self, 'no_auth') and self.no_auth is not None:
+            _dict['no_auth'] = self.no_auth
+        if hasattr(self, 'auth_type') and self.auth_type is not None:
+            _dict['auth_type'] = self.auth_type
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this SearchSettingsServerSideSearch object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'SearchSettingsServerSideSearch') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'SearchSettingsServerSideSearch') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class AuthTypeEnum(str, Enum):
+        """
+        The authorization type that is used.
+        """
+
+        BASIC = 'basic'
+        APIKEY = 'apikey'
+        NONE = 'none'
 
 
 class SearchSkillWarning:
@@ -11411,6 +14859,10 @@ class TurnEventCalloutCallout:
     :param dict internal: (optional) For internal use only.
     :param str result_variable: (optional) The name of the variable where the
           callout result is stored.
+    :param TurnEventCalloutCalloutRequest request: (optional) The request object
+          executed to the external server specified by the extension.
+    :param TurnEventCalloutCalloutResponse response: (optional) The response object
+          received by the external server made by the extension.
     """
 
     def __init__(
@@ -11419,6 +14871,8 @@ class TurnEventCalloutCallout:
         type: Optional[str] = None,
         internal: Optional[dict] = None,
         result_variable: Optional[str] = None,
+        request: Optional['TurnEventCalloutCalloutRequest'] = None,
+        response: Optional['TurnEventCalloutCalloutResponse'] = None,
     ) -> None:
         """
         Initialize a TurnEventCalloutCallout object.
@@ -11428,10 +14882,16 @@ class TurnEventCalloutCallout:
         :param dict internal: (optional) For internal use only.
         :param str result_variable: (optional) The name of the variable where the
                callout result is stored.
+        :param TurnEventCalloutCalloutRequest request: (optional) The request
+               object executed to the external server specified by the extension.
+        :param TurnEventCalloutCalloutResponse response: (optional) The response
+               object received by the external server made by the extension.
         """
         self.type = type
         self.internal = internal
         self.result_variable = result_variable
+        self.request = request
+        self.response = response
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'TurnEventCalloutCallout':
@@ -11443,6 +14903,11 @@ class TurnEventCalloutCallout:
             args['internal'] = internal
         if (result_variable := _dict.get('result_variable')) is not None:
             args['result_variable'] = result_variable
+        if (request := _dict.get('request')) is not None:
+            args['request'] = TurnEventCalloutCalloutRequest.from_dict(request)
+        if (response := _dict.get('response')) is not None:
+            args['response'] = TurnEventCalloutCalloutResponse.from_dict(
+                response)
         return cls(**args)
 
     @classmethod
@@ -11460,6 +14925,16 @@ class TurnEventCalloutCallout:
         if hasattr(self,
                    'result_variable') and self.result_variable is not None:
             _dict['result_variable'] = self.result_variable
+        if hasattr(self, 'request') and self.request is not None:
+            if isinstance(self.request, dict):
+                _dict['request'] = self.request
+            else:
+                _dict['request'] = self.request.to_dict()
+        if hasattr(self, 'response') and self.response is not None:
+            if isinstance(self.response, dict):
+                _dict['response'] = self.response
+            else:
+                _dict['response'] = self.response.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -11487,6 +14962,200 @@ class TurnEventCalloutCallout:
         """
 
         INTEGRATION_INTERACTION = 'integration_interaction'
+
+
+class TurnEventCalloutCalloutRequest:
+    """
+    TurnEventCalloutCalloutRequest.
+
+    :param str method: (optional) The REST method of the request.
+    :param str url: (optional) The host URL of the request call.
+    :param str path: (optional) The URL path of the request call.
+    :param str query_parameters: (optional) Any query parameters appended to the URL
+          of the request call.
+    :param dict headers_: (optional) Any headers included in the request call.
+    :param dict body: (optional) Contains the response of the external server or an
+          object. In cases like timeouts or connections errors, it will contain details of
+          why the callout to the external server failed.
+    """
+
+    def __init__(
+        self,
+        *,
+        method: Optional[str] = None,
+        url: Optional[str] = None,
+        path: Optional[str] = None,
+        query_parameters: Optional[str] = None,
+        headers_: Optional[dict] = None,
+        body: Optional[dict] = None,
+    ) -> None:
+        """
+        Initialize a TurnEventCalloutCalloutRequest object.
+
+        :param str method: (optional) The REST method of the request.
+        :param str url: (optional) The host URL of the request call.
+        :param str path: (optional) The URL path of the request call.
+        :param str query_parameters: (optional) Any query parameters appended to
+               the URL of the request call.
+        :param dict headers_: (optional) Any headers included in the request call.
+        :param dict body: (optional) Contains the response of the external server
+               or an object. In cases like timeouts or connections errors, it will contain
+               details of why the callout to the external server failed.
+        """
+        self.method = method
+        self.url = url
+        self.path = path
+        self.query_parameters = query_parameters
+        self.headers_ = headers_
+        self.body = body
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'TurnEventCalloutCalloutRequest':
+        """Initialize a TurnEventCalloutCalloutRequest object from a json dictionary."""
+        args = {}
+        if (method := _dict.get('method')) is not None:
+            args['method'] = method
+        if (url := _dict.get('url')) is not None:
+            args['url'] = url
+        if (path := _dict.get('path')) is not None:
+            args['path'] = path
+        if (query_parameters := _dict.get('query_parameters')) is not None:
+            args['query_parameters'] = query_parameters
+        if (headers_ := _dict.get('headers')) is not None:
+            args['headers_'] = headers_
+        if (body := _dict.get('body')) is not None:
+            args['body'] = body
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TurnEventCalloutCalloutRequest object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'method') and self.method is not None:
+            _dict['method'] = self.method
+        if hasattr(self, 'url') and self.url is not None:
+            _dict['url'] = self.url
+        if hasattr(self, 'path') and self.path is not None:
+            _dict['path'] = self.path
+        if hasattr(self,
+                   'query_parameters') and self.query_parameters is not None:
+            _dict['query_parameters'] = self.query_parameters
+        if hasattr(self, 'headers_') and self.headers_ is not None:
+            _dict['headers'] = self.headers_
+        if hasattr(self, 'body') and self.body is not None:
+            _dict['body'] = self.body
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this TurnEventCalloutCalloutRequest object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'TurnEventCalloutCalloutRequest') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'TurnEventCalloutCalloutRequest') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class MethodEnum(str, Enum):
+        """
+        The REST method of the request.
+        """
+
+        GET = 'get'
+        POST = 'post'
+        PUT = 'put'
+        DELETE = 'delete'
+        PATCH = 'patch'
+
+
+class TurnEventCalloutCalloutResponse:
+    """
+    TurnEventCalloutCalloutResponse.
+
+    :param str body: (optional) The final response string. This response is a
+          composition of every partial chunk received from the stream.
+    :param int status_code: (optional) The final status code of the response.
+    :param dict last_event: (optional) The response from the last chunk received
+          from the response stream.
+    """
+
+    def __init__(
+        self,
+        *,
+        body: Optional[str] = None,
+        status_code: Optional[int] = None,
+        last_event: Optional[dict] = None,
+    ) -> None:
+        """
+        Initialize a TurnEventCalloutCalloutResponse object.
+
+        :param str body: (optional) The final response string. This response is a
+               composition of every partial chunk received from the stream.
+        :param int status_code: (optional) The final status code of the response.
+        :param dict last_event: (optional) The response from the last chunk
+               received from the response stream.
+        """
+        self.body = body
+        self.status_code = status_code
+        self.last_event = last_event
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'TurnEventCalloutCalloutResponse':
+        """Initialize a TurnEventCalloutCalloutResponse object from a json dictionary."""
+        args = {}
+        if (body := _dict.get('body')) is not None:
+            args['body'] = body
+        if (status_code := _dict.get('status_code')) is not None:
+            args['status_code'] = status_code
+        if (last_event := _dict.get('last_event')) is not None:
+            args['last_event'] = last_event
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TurnEventCalloutCalloutResponse object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'body') and self.body is not None:
+            _dict['body'] = self.body
+        if hasattr(self, 'status_code') and self.status_code is not None:
+            _dict['status_code'] = self.status_code
+        if hasattr(self, 'last_event') and self.last_event is not None:
+            _dict['last_event'] = self.last_event
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this TurnEventCalloutCalloutResponse object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'TurnEventCalloutCalloutResponse') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'TurnEventCalloutCalloutResponse') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
 
 
 class TurnEventCalloutError:
@@ -11697,6 +15366,197 @@ class TurnEventSearchError:
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'TurnEventSearchError') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class UpdateEnvironmentOrchestration:
+    """
+    The search skill orchestration settings for the environment.
+
+    :param bool search_skill_fallback: (optional) Whether to fall back to a search
+          skill when responding to messages that do not match any intent or action defined
+          in dialog or action skills. (If no search skill is configured for the
+          environment, this property is ignored.).
+    """
+
+    def __init__(
+        self,
+        *,
+        search_skill_fallback: Optional[bool] = None,
+    ) -> None:
+        """
+        Initialize a UpdateEnvironmentOrchestration object.
+
+        :param bool search_skill_fallback: (optional) Whether to fall back to a
+               search skill when responding to messages that do not match any intent or
+               action defined in dialog or action skills. (If no search skill is
+               configured for the environment, this property is ignored.).
+        """
+        self.search_skill_fallback = search_skill_fallback
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'UpdateEnvironmentOrchestration':
+        """Initialize a UpdateEnvironmentOrchestration object from a json dictionary."""
+        args = {}
+        if (search_skill_fallback :=
+                _dict.get('search_skill_fallback')) is not None:
+            args['search_skill_fallback'] = search_skill_fallback
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a UpdateEnvironmentOrchestration object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'search_skill_fallback'
+                  ) and self.search_skill_fallback is not None:
+            _dict['search_skill_fallback'] = self.search_skill_fallback
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this UpdateEnvironmentOrchestration object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'UpdateEnvironmentOrchestration') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'UpdateEnvironmentOrchestration') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class UpdateEnvironmentReleaseReference:
+    """
+    An object describing the release that is currently deployed in the environment.
+
+    :param str release: (optional) The name of the deployed release.
+    """
+
+    def __init__(
+        self,
+        *,
+        release: Optional[str] = None,
+    ) -> None:
+        """
+        Initialize a UpdateEnvironmentReleaseReference object.
+
+        :param str release: (optional) The name of the deployed release.
+        """
+        self.release = release
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'UpdateEnvironmentReleaseReference':
+        """Initialize a UpdateEnvironmentReleaseReference object from a json dictionary."""
+        args = {}
+        if (release := _dict.get('release')) is not None:
+            args['release'] = release
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a UpdateEnvironmentReleaseReference object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'release') and self.release is not None:
+            _dict['release'] = self.release
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this UpdateEnvironmentReleaseReference object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'UpdateEnvironmentReleaseReference') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'UpdateEnvironmentReleaseReference') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class CompleteItem(RuntimeResponseGeneric):
+    """
+    CompleteItem.
+
+    :param Metadata streaming_metadata:
+    """
+
+    def __init__(
+        self,
+        streaming_metadata: 'Metadata',
+    ) -> None:
+        """
+        Initialize a CompleteItem object.
+
+        :param Metadata streaming_metadata:
+        """
+        # pylint: disable=super-init-not-called
+        self.streaming_metadata = streaming_metadata
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'CompleteItem':
+        """Initialize a CompleteItem object from a json dictionary."""
+        args = {}
+        if (streaming_metadata := _dict.get('streaming_metadata')) is not None:
+            args['streaming_metadata'] = Metadata.from_dict(streaming_metadata)
+        else:
+            raise ValueError(
+                'Required property \'streaming_metadata\' not present in CompleteItem JSON'
+            )
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a CompleteItem object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(
+                self,
+                'streaming_metadata') and self.streaming_metadata is not None:
+            if isinstance(self.streaming_metadata, dict):
+                _dict['streaming_metadata'] = self.streaming_metadata
+            else:
+                _dict['streaming_metadata'] = self.streaming_metadata.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this CompleteItem object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'CompleteItem') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'CompleteItem') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -12930,6 +16790,867 @@ class MessageOutputDebugTurnEventTurnEventStepVisited(
         USER_DEFINED = 'user_defined'
         WELCOME = 'welcome'
         ANYTHING_ELSE = 'anything_else'
+
+
+class ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2AuthorizationCode(
+        ProviderAuthenticationOAuth2Flows):
+    """
+    Non-private authentication settings for authorization-code flow.
+
+    :param str token_url: (optional) The token URL.
+    :param str refresh_url: (optional) The refresh token URL.
+    :param str client_auth_type: (optional) The client authorization type.
+    :param str content_type: (optional) The content type.
+    :param str header_prefix: (optional) The prefix fo the header.
+    :param str authorization_url: (optional) The authorization URL.
+    :param str redirect_uri: (optional) The redirect URI.
+    """
+
+    def __init__(
+        self,
+        *,
+        token_url: Optional[str] = None,
+        refresh_url: Optional[str] = None,
+        client_auth_type: Optional[str] = None,
+        content_type: Optional[str] = None,
+        header_prefix: Optional[str] = None,
+        authorization_url: Optional[str] = None,
+        redirect_uri: Optional[str] = None,
+    ) -> None:
+        """
+        Initialize a ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2AuthorizationCode object.
+
+        :param str token_url: (optional) The token URL.
+        :param str refresh_url: (optional) The refresh token URL.
+        :param str client_auth_type: (optional) The client authorization type.
+        :param str content_type: (optional) The content type.
+        :param str header_prefix: (optional) The prefix fo the header.
+        :param str authorization_url: (optional) The authorization URL.
+        :param str redirect_uri: (optional) The redirect URI.
+        """
+        # pylint: disable=super-init-not-called
+        self.token_url = token_url
+        self.refresh_url = refresh_url
+        self.client_auth_type = client_auth_type
+        self.content_type = content_type
+        self.header_prefix = header_prefix
+        self.authorization_url = authorization_url
+        self.redirect_uri = redirect_uri
+
+    @classmethod
+    def from_dict(
+        cls, _dict: Dict
+    ) -> 'ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2AuthorizationCode':
+        """Initialize a ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2AuthorizationCode object from a json dictionary."""
+        args = {}
+        if (token_url := _dict.get('token_url')) is not None:
+            args['token_url'] = token_url
+        if (refresh_url := _dict.get('refresh_url')) is not None:
+            args['refresh_url'] = refresh_url
+        if (client_auth_type := _dict.get('client_auth_type')) is not None:
+            args['client_auth_type'] = client_auth_type
+        if (content_type := _dict.get('content_type')) is not None:
+            args['content_type'] = content_type
+        if (header_prefix := _dict.get('header_prefix')) is not None:
+            args['header_prefix'] = header_prefix
+        if (authorization_url := _dict.get('authorization_url')) is not None:
+            args['authorization_url'] = authorization_url
+        if (redirect_uri := _dict.get('redirect_uri')) is not None:
+            args['redirect_uri'] = redirect_uri
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2AuthorizationCode object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'token_url') and self.token_url is not None:
+            _dict['token_url'] = self.token_url
+        if hasattr(self, 'refresh_url') and self.refresh_url is not None:
+            _dict['refresh_url'] = self.refresh_url
+        if hasattr(self,
+                   'client_auth_type') and self.client_auth_type is not None:
+            _dict['client_auth_type'] = self.client_auth_type
+        if hasattr(self, 'content_type') and self.content_type is not None:
+            _dict['content_type'] = self.content_type
+        if hasattr(self, 'header_prefix') and self.header_prefix is not None:
+            _dict['header_prefix'] = self.header_prefix
+        if hasattr(self,
+                   'authorization_url') and self.authorization_url is not None:
+            _dict['authorization_url'] = self.authorization_url
+        if hasattr(self, 'redirect_uri') and self.redirect_uri is not None:
+            _dict['redirect_uri'] = self.redirect_uri
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2AuthorizationCode object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(
+        self, other:
+        'ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2AuthorizationCode'
+    ) -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(
+        self, other:
+        'ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2AuthorizationCode'
+    ) -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class ClientAuthTypeEnum(str, Enum):
+        """
+        The client authorization type.
+        """
+
+        BODY = 'Body'
+        BASICAUTHHEADER = 'BasicAuthHeader'
+
+
+class ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2ClientCredentials(
+        ProviderAuthenticationOAuth2Flows):
+    """
+    ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2ClientCredentials.
+
+    :param str token_url: (optional) The token URL.
+    :param str refresh_url: (optional) The refresh token URL.
+    :param str client_auth_type: (optional) The client authorization type.
+    :param str content_type: (optional) The content type.
+    :param str header_prefix: (optional) The prefix fo the header.
+    """
+
+    def __init__(
+        self,
+        *,
+        token_url: Optional[str] = None,
+        refresh_url: Optional[str] = None,
+        client_auth_type: Optional[str] = None,
+        content_type: Optional[str] = None,
+        header_prefix: Optional[str] = None,
+    ) -> None:
+        """
+        Initialize a ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2ClientCredentials object.
+
+        :param str token_url: (optional) The token URL.
+        :param str refresh_url: (optional) The refresh token URL.
+        :param str client_auth_type: (optional) The client authorization type.
+        :param str content_type: (optional) The content type.
+        :param str header_prefix: (optional) The prefix fo the header.
+        """
+        # pylint: disable=super-init-not-called
+        self.token_url = token_url
+        self.refresh_url = refresh_url
+        self.client_auth_type = client_auth_type
+        self.content_type = content_type
+        self.header_prefix = header_prefix
+
+    @classmethod
+    def from_dict(
+        cls, _dict: Dict
+    ) -> 'ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2ClientCredentials':
+        """Initialize a ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2ClientCredentials object from a json dictionary."""
+        args = {}
+        if (token_url := _dict.get('token_url')) is not None:
+            args['token_url'] = token_url
+        if (refresh_url := _dict.get('refresh_url')) is not None:
+            args['refresh_url'] = refresh_url
+        if (client_auth_type := _dict.get('client_auth_type')) is not None:
+            args['client_auth_type'] = client_auth_type
+        if (content_type := _dict.get('content_type')) is not None:
+            args['content_type'] = content_type
+        if (header_prefix := _dict.get('header_prefix')) is not None:
+            args['header_prefix'] = header_prefix
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2ClientCredentials object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'token_url') and self.token_url is not None:
+            _dict['token_url'] = self.token_url
+        if hasattr(self, 'refresh_url') and self.refresh_url is not None:
+            _dict['refresh_url'] = self.refresh_url
+        if hasattr(self,
+                   'client_auth_type') and self.client_auth_type is not None:
+            _dict['client_auth_type'] = self.client_auth_type
+        if hasattr(self, 'content_type') and self.content_type is not None:
+            _dict['content_type'] = self.content_type
+        if hasattr(self, 'header_prefix') and self.header_prefix is not None:
+            _dict['header_prefix'] = self.header_prefix
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2ClientCredentials object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(
+        self, other:
+        'ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2ClientCredentials'
+    ) -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(
+        self, other:
+        'ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2ClientCredentials'
+    ) -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class ClientAuthTypeEnum(str, Enum):
+        """
+        The client authorization type.
+        """
+
+        BODY = 'Body'
+        BASICAUTHHEADER = 'BasicAuthHeader'
+
+
+class ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2Password(
+        ProviderAuthenticationOAuth2Flows):
+    """
+    Non-private authentication settings for resource owner password flow.
+
+    :param str token_url: (optional) The token URL.
+    :param str refresh_url: (optional) The refresh token URL.
+    :param str client_auth_type: (optional) The client authorization type.
+    :param str content_type: (optional) The content type.
+    :param str header_prefix: (optional) The prefix fo the header.
+    :param ProviderAuthenticationOAuth2PasswordUsername username: (optional) The
+          username for oauth2 authentication when the preferred flow is "password".
+    """
+
+    def __init__(
+        self,
+        *,
+        token_url: Optional[str] = None,
+        refresh_url: Optional[str] = None,
+        client_auth_type: Optional[str] = None,
+        content_type: Optional[str] = None,
+        header_prefix: Optional[str] = None,
+        username: Optional[
+            'ProviderAuthenticationOAuth2PasswordUsername'] = None,
+    ) -> None:
+        """
+        Initialize a ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2Password object.
+
+        :param str token_url: (optional) The token URL.
+        :param str refresh_url: (optional) The refresh token URL.
+        :param str client_auth_type: (optional) The client authorization type.
+        :param str content_type: (optional) The content type.
+        :param str header_prefix: (optional) The prefix fo the header.
+        :param ProviderAuthenticationOAuth2PasswordUsername username: (optional)
+               The username for oauth2 authentication when the preferred flow is
+               "password".
+        """
+        # pylint: disable=super-init-not-called
+        self.token_url = token_url
+        self.refresh_url = refresh_url
+        self.client_auth_type = client_auth_type
+        self.content_type = content_type
+        self.header_prefix = header_prefix
+        self.username = username
+
+    @classmethod
+    def from_dict(
+        cls, _dict: Dict
+    ) -> 'ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2Password':
+        """Initialize a ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2Password object from a json dictionary."""
+        args = {}
+        if (token_url := _dict.get('token_url')) is not None:
+            args['token_url'] = token_url
+        if (refresh_url := _dict.get('refresh_url')) is not None:
+            args['refresh_url'] = refresh_url
+        if (client_auth_type := _dict.get('client_auth_type')) is not None:
+            args['client_auth_type'] = client_auth_type
+        if (content_type := _dict.get('content_type')) is not None:
+            args['content_type'] = content_type
+        if (header_prefix := _dict.get('header_prefix')) is not None:
+            args['header_prefix'] = header_prefix
+        if (username := _dict.get('username')) is not None:
+            args[
+                'username'] = ProviderAuthenticationOAuth2PasswordUsername.from_dict(
+                    username)
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2Password object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'token_url') and self.token_url is not None:
+            _dict['token_url'] = self.token_url
+        if hasattr(self, 'refresh_url') and self.refresh_url is not None:
+            _dict['refresh_url'] = self.refresh_url
+        if hasattr(self,
+                   'client_auth_type') and self.client_auth_type is not None:
+            _dict['client_auth_type'] = self.client_auth_type
+        if hasattr(self, 'content_type') and self.content_type is not None:
+            _dict['content_type'] = self.content_type
+        if hasattr(self, 'header_prefix') and self.header_prefix is not None:
+            _dict['header_prefix'] = self.header_prefix
+        if hasattr(self, 'username') and self.username is not None:
+            if isinstance(self.username, dict):
+                _dict['username'] = self.username
+            else:
+                _dict['username'] = self.username.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2Password object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(
+        self, other:
+        'ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2Password'
+    ) -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(
+        self, other:
+        'ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2Password'
+    ) -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class ClientAuthTypeEnum(str, Enum):
+        """
+        The client authorization type.
+        """
+
+        BODY = 'Body'
+        BASICAUTHHEADER = 'BasicAuthHeader'
+
+
+class ProviderPrivateAuthenticationBasicFlow(ProviderPrivateAuthentication):
+    """
+    The private data for basic authentication.
+
+    :param ProviderAuthenticationTypeAndValue password: (optional) The password for
+          bearer authentication.
+    """
+
+    def __init__(
+        self,
+        *,
+        password: Optional['ProviderAuthenticationTypeAndValue'] = None,
+    ) -> None:
+        """
+        Initialize a ProviderPrivateAuthenticationBasicFlow object.
+
+        :param ProviderAuthenticationTypeAndValue password: (optional) The password
+               for bearer authentication.
+        """
+        # pylint: disable=super-init-not-called
+        self.password = password
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ProviderPrivateAuthenticationBasicFlow':
+        """Initialize a ProviderPrivateAuthenticationBasicFlow object from a json dictionary."""
+        args = {}
+        if (password := _dict.get('password')) is not None:
+            args['password'] = ProviderAuthenticationTypeAndValue.from_dict(
+                password)
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ProviderPrivateAuthenticationBasicFlow object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'password') and self.password is not None:
+            if isinstance(self.password, dict):
+                _dict['password'] = self.password
+            else:
+                _dict['password'] = self.password.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ProviderPrivateAuthenticationBasicFlow object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ProviderPrivateAuthenticationBasicFlow') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ProviderPrivateAuthenticationBasicFlow') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ProviderPrivateAuthenticationBearerFlow(ProviderPrivateAuthentication):
+    """
+    The private data for bearer authentication.
+
+    :param ProviderAuthenticationTypeAndValue token: (optional) The token for bearer
+          authentication.
+    """
+
+    def __init__(
+        self,
+        *,
+        token: Optional['ProviderAuthenticationTypeAndValue'] = None,
+    ) -> None:
+        """
+        Initialize a ProviderPrivateAuthenticationBearerFlow object.
+
+        :param ProviderAuthenticationTypeAndValue token: (optional) The token for
+               bearer authentication.
+        """
+        # pylint: disable=super-init-not-called
+        self.token = token
+
+    @classmethod
+    def from_dict(cls,
+                  _dict: Dict) -> 'ProviderPrivateAuthenticationBearerFlow':
+        """Initialize a ProviderPrivateAuthenticationBearerFlow object from a json dictionary."""
+        args = {}
+        if (token := _dict.get('token')) is not None:
+            args['token'] = ProviderAuthenticationTypeAndValue.from_dict(token)
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ProviderPrivateAuthenticationBearerFlow object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'token') and self.token is not None:
+            if isinstance(self.token, dict):
+                _dict['token'] = self.token
+            else:
+                _dict['token'] = self.token.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ProviderPrivateAuthenticationBearerFlow object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ProviderPrivateAuthenticationBearerFlow') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ProviderPrivateAuthenticationBearerFlow') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ProviderPrivateAuthenticationOAuth2Flow(ProviderPrivateAuthentication):
+    """
+    The private data for oauth2 authentication.
+
+    :param ProviderPrivateAuthenticationOAuth2FlowFlows flows: (optional) Scenarios
+          performed by the API client to fetch an access token from the authorization
+          server.
+    """
+
+    def __init__(
+        self,
+        *,
+        flows: Optional['ProviderPrivateAuthenticationOAuth2FlowFlows'] = None,
+    ) -> None:
+        """
+        Initialize a ProviderPrivateAuthenticationOAuth2Flow object.
+
+        :param ProviderPrivateAuthenticationOAuth2FlowFlows flows: (optional)
+               Scenarios performed by the API client to fetch an access token from the
+               authorization server.
+        """
+        # pylint: disable=super-init-not-called
+        self.flows = flows
+
+    @classmethod
+    def from_dict(cls,
+                  _dict: Dict) -> 'ProviderPrivateAuthenticationOAuth2Flow':
+        """Initialize a ProviderPrivateAuthenticationOAuth2Flow object from a json dictionary."""
+        args = {}
+        if (flows := _dict.get('flows')) is not None:
+            args['flows'] = flows
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ProviderPrivateAuthenticationOAuth2Flow object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'flows') and self.flows is not None:
+            if isinstance(self.flows, dict):
+                _dict['flows'] = self.flows
+            else:
+                _dict['flows'] = self.flows.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ProviderPrivateAuthenticationOAuth2Flow object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ProviderPrivateAuthenticationOAuth2Flow') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ProviderPrivateAuthenticationOAuth2Flow') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2AuthorizationCode(
+        ProviderPrivateAuthenticationOAuth2FlowFlows):
+    """
+    Private authentication settings for client credentials flow.
+
+    :param str client_id: (optional) The client ID.
+    :param str client_secret: (optional) The client secret.
+    :param str access_token: (optional) The access token.
+    :param str refresh_token: (optional) The refresh token.
+    :param str authorization_code: (optional) The authorization code.
+    """
+
+    def __init__(
+        self,
+        *,
+        client_id: Optional[str] = None,
+        client_secret: Optional[str] = None,
+        access_token: Optional[str] = None,
+        refresh_token: Optional[str] = None,
+        authorization_code: Optional[str] = None,
+    ) -> None:
+        """
+        Initialize a ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2AuthorizationCode object.
+
+        :param str client_id: (optional) The client ID.
+        :param str client_secret: (optional) The client secret.
+        :param str access_token: (optional) The access token.
+        :param str refresh_token: (optional) The refresh token.
+        :param str authorization_code: (optional) The authorization code.
+        """
+        # pylint: disable=super-init-not-called
+        self.client_id = client_id
+        self.client_secret = client_secret
+        self.access_token = access_token
+        self.refresh_token = refresh_token
+        self.authorization_code = authorization_code
+
+    @classmethod
+    def from_dict(
+        cls, _dict: Dict
+    ) -> 'ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2AuthorizationCode':
+        """Initialize a ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2AuthorizationCode object from a json dictionary."""
+        args = {}
+        if (client_id := _dict.get('client_id')) is not None:
+            args['client_id'] = client_id
+        if (client_secret := _dict.get('client_secret')) is not None:
+            args['client_secret'] = client_secret
+        if (access_token := _dict.get('access_token')) is not None:
+            args['access_token'] = access_token
+        if (refresh_token := _dict.get('refresh_token')) is not None:
+            args['refresh_token'] = refresh_token
+        if (authorization_code := _dict.get('authorization_code')) is not None:
+            args['authorization_code'] = authorization_code
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2AuthorizationCode object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'client_id') and self.client_id is not None:
+            _dict['client_id'] = self.client_id
+        if hasattr(self, 'client_secret') and self.client_secret is not None:
+            _dict['client_secret'] = self.client_secret
+        if hasattr(self, 'access_token') and self.access_token is not None:
+            _dict['access_token'] = self.access_token
+        if hasattr(self, 'refresh_token') and self.refresh_token is not None:
+            _dict['refresh_token'] = self.refresh_token
+        if hasattr(
+                self,
+                'authorization_code') and self.authorization_code is not None:
+            _dict['authorization_code'] = self.authorization_code
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2AuthorizationCode object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(
+        self, other:
+        'ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2AuthorizationCode'
+    ) -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(
+        self, other:
+        'ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2AuthorizationCode'
+    ) -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2ClientCredentials(
+        ProviderPrivateAuthenticationOAuth2FlowFlows):
+    """
+    ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2ClientCredentials.
+
+    :param str client_id: (optional) The client ID.
+    :param str client_secret: (optional) The client secret.
+    :param str access_token: (optional) The access token.
+    :param str refresh_token: (optional) The refresh token.
+    """
+
+    def __init__(
+        self,
+        *,
+        client_id: Optional[str] = None,
+        client_secret: Optional[str] = None,
+        access_token: Optional[str] = None,
+        refresh_token: Optional[str] = None,
+    ) -> None:
+        """
+        Initialize a ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2ClientCredentials object.
+
+        :param str client_id: (optional) The client ID.
+        :param str client_secret: (optional) The client secret.
+        :param str access_token: (optional) The access token.
+        :param str refresh_token: (optional) The refresh token.
+        """
+        # pylint: disable=super-init-not-called
+        self.client_id = client_id
+        self.client_secret = client_secret
+        self.access_token = access_token
+        self.refresh_token = refresh_token
+
+    @classmethod
+    def from_dict(
+        cls, _dict: Dict
+    ) -> 'ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2ClientCredentials':
+        """Initialize a ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2ClientCredentials object from a json dictionary."""
+        args = {}
+        if (client_id := _dict.get('client_id')) is not None:
+            args['client_id'] = client_id
+        if (client_secret := _dict.get('client_secret')) is not None:
+            args['client_secret'] = client_secret
+        if (access_token := _dict.get('access_token')) is not None:
+            args['access_token'] = access_token
+        if (refresh_token := _dict.get('refresh_token')) is not None:
+            args['refresh_token'] = refresh_token
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2ClientCredentials object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'client_id') and self.client_id is not None:
+            _dict['client_id'] = self.client_id
+        if hasattr(self, 'client_secret') and self.client_secret is not None:
+            _dict['client_secret'] = self.client_secret
+        if hasattr(self, 'access_token') and self.access_token is not None:
+            _dict['access_token'] = self.access_token
+        if hasattr(self, 'refresh_token') and self.refresh_token is not None:
+            _dict['refresh_token'] = self.refresh_token
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2ClientCredentials object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(
+        self, other:
+        'ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2ClientCredentials'
+    ) -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(
+        self, other:
+        'ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2ClientCredentials'
+    ) -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2Password(
+        ProviderPrivateAuthenticationOAuth2FlowFlows):
+    """
+    Private authentication settings for resource owner password flow.
+
+    :param str client_id: (optional) The client ID.
+    :param str client_secret: (optional) The client secret.
+    :param str access_token: (optional) The access token.
+    :param str refresh_token: (optional) The refresh token.
+    :param ProviderPrivateAuthenticationOAuth2PasswordPassword password: (optional)
+          The password for oauth2 authentication when the preferred flow is "password".
+    """
+
+    def __init__(
+        self,
+        *,
+        client_id: Optional[str] = None,
+        client_secret: Optional[str] = None,
+        access_token: Optional[str] = None,
+        refresh_token: Optional[str] = None,
+        password: Optional[
+            'ProviderPrivateAuthenticationOAuth2PasswordPassword'] = None,
+    ) -> None:
+        """
+        Initialize a ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2Password object.
+
+        :param str client_id: (optional) The client ID.
+        :param str client_secret: (optional) The client secret.
+        :param str access_token: (optional) The access token.
+        :param str refresh_token: (optional) The refresh token.
+        :param ProviderPrivateAuthenticationOAuth2PasswordPassword password:
+               (optional) The password for oauth2 authentication when the preferred flow
+               is "password".
+        """
+        # pylint: disable=super-init-not-called
+        self.client_id = client_id
+        self.client_secret = client_secret
+        self.access_token = access_token
+        self.refresh_token = refresh_token
+        self.password = password
+
+    @classmethod
+    def from_dict(
+        cls, _dict: Dict
+    ) -> 'ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2Password':
+        """Initialize a ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2Password object from a json dictionary."""
+        args = {}
+        if (client_id := _dict.get('client_id')) is not None:
+            args['client_id'] = client_id
+        if (client_secret := _dict.get('client_secret')) is not None:
+            args['client_secret'] = client_secret
+        if (access_token := _dict.get('access_token')) is not None:
+            args['access_token'] = access_token
+        if (refresh_token := _dict.get('refresh_token')) is not None:
+            args['refresh_token'] = refresh_token
+        if (password := _dict.get('password')) is not None:
+            args[
+                'password'] = ProviderPrivateAuthenticationOAuth2PasswordPassword.from_dict(
+                    password)
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2Password object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'client_id') and self.client_id is not None:
+            _dict['client_id'] = self.client_id
+        if hasattr(self, 'client_secret') and self.client_secret is not None:
+            _dict['client_secret'] = self.client_secret
+        if hasattr(self, 'access_token') and self.access_token is not None:
+            _dict['access_token'] = self.access_token
+        if hasattr(self, 'refresh_token') and self.refresh_token is not None:
+            _dict['refresh_token'] = self.refresh_token
+        if hasattr(self, 'password') and self.password is not None:
+            if isinstance(self.password, dict):
+                _dict['password'] = self.password
+            else:
+                _dict['password'] = self.password.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2Password object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(
+        self, other:
+        'ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2Password'
+    ) -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(
+        self, other:
+        'ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2Password'
+    ) -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
 
 
 class RuntimeResponseGenericRuntimeResponseTypeAudio(RuntimeResponseGeneric):

@@ -21,11 +21,13 @@ from datetime import datetime, timezone
 from ibm_cloud_sdk_core.authenticators.no_auth_authenticator import NoAuthAuthenticator
 from ibm_cloud_sdk_core.utils import datetime_to_string, string_to_datetime
 import inspect
+import io
 import json
 import pytest
 import re
 import requests
 import responses
+import tempfile
 import urllib
 from ibm_watson.assistant_v2 import *
 
@@ -47,23 +49,559 @@ def preprocess_url(operation_path: str):
     The returned request URL is used to register the mock response so it needs
     to match the request URL that is formed by the requests library.
     """
-    # First, unquote the path since it might have some quoted/escaped characters in it
-    # due to how the generator inserts the operation paths into the unit test code.
-    operation_path = urllib.parse.unquote(operation_path)
 
-    # Next, quote the path using urllib so that we approximate what will
-    # happen during request processing.
-    operation_path = urllib.parse.quote(operation_path, safe='/')
-
-    # Finally, form the request URL from the base URL and operation path.
+    # Form the request URL from the base URL and operation path.
     request_url = _base_url + operation_path
 
     # If the request url does NOT end with a /, then just return it as-is.
     # Otherwise, return a regular expression that matches one or more trailing /.
-    if re.fullmatch('.*/+', request_url) is None:
+    if not request_url.endswith('/'):
         return request_url
     return re.compile(request_url.rstrip('/') + '/+')
 
+
+##############################################################################
+# Start of Service: ConversationalSkillProviders
+##############################################################################
+# region
+
+
+class TestCreateProvider:
+    """
+    Test Class for create_provider
+    """
+
+    @responses.activate
+    def test_create_provider_all_params(self):
+        """
+        create_provider()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/providers')
+        mock_response = '{"provider_id": "provider_id", "specification": {"servers": [{"url": "url"}], "components": {"securitySchemes": {"authentication_method": "basic", "basic": {"username": {"type": "value", "value": "value"}}, "oauth2": {"preferred_flow": "password", "flows": {"token_url": "token_url", "refresh_url": "refresh_url", "client_auth_type": "Body", "content_type": "content_type", "header_prefix": "header_prefix", "username": {"type": "value", "value": "value"}}}}}}}'
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Construct a dict representation of a ProviderSpecificationServersItem model
+        provider_specification_servers_item_model = {}
+        provider_specification_servers_item_model['url'] = 'testString'
+
+        # Construct a dict representation of a ProviderAuthenticationTypeAndValue model
+        provider_authentication_type_and_value_model = {}
+        provider_authentication_type_and_value_model['type'] = 'value'
+        provider_authentication_type_and_value_model['value'] = 'testString'
+
+        # Construct a dict representation of a ProviderSpecificationComponentsSecuritySchemesBasic model
+        provider_specification_components_security_schemes_basic_model = {}
+        provider_specification_components_security_schemes_basic_model['username'] = provider_authentication_type_and_value_model
+
+        # Construct a dict representation of a ProviderAuthenticationOAuth2PasswordUsername model
+        provider_authentication_o_auth2_password_username_model = {}
+        provider_authentication_o_auth2_password_username_model['type'] = 'value'
+        provider_authentication_o_auth2_password_username_model['value'] = 'testString'
+
+        # Construct a dict representation of a ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2Password model
+        provider_authentication_o_auth2_flows_model = {}
+        provider_authentication_o_auth2_flows_model['token_url'] = 'testString'
+        provider_authentication_o_auth2_flows_model['refresh_url'] = 'testString'
+        provider_authentication_o_auth2_flows_model['client_auth_type'] = 'Body'
+        provider_authentication_o_auth2_flows_model['content_type'] = 'testString'
+        provider_authentication_o_auth2_flows_model['header_prefix'] = 'testString'
+        provider_authentication_o_auth2_flows_model['username'] = provider_authentication_o_auth2_password_username_model
+
+        # Construct a dict representation of a ProviderAuthenticationOAuth2 model
+        provider_authentication_o_auth2_model = {}
+        provider_authentication_o_auth2_model['preferred_flow'] = 'password'
+        provider_authentication_o_auth2_model['flows'] = provider_authentication_o_auth2_flows_model
+
+        # Construct a dict representation of a ProviderSpecificationComponentsSecuritySchemes model
+        provider_specification_components_security_schemes_model = {}
+        provider_specification_components_security_schemes_model['authentication_method'] = 'basic'
+        provider_specification_components_security_schemes_model['basic'] = provider_specification_components_security_schemes_basic_model
+        provider_specification_components_security_schemes_model['oauth2'] = provider_authentication_o_auth2_model
+
+        # Construct a dict representation of a ProviderSpecificationComponents model
+        provider_specification_components_model = {}
+        provider_specification_components_model['securitySchemes'] = provider_specification_components_security_schemes_model
+
+        # Construct a dict representation of a ProviderSpecification model
+        provider_specification_model = {}
+        provider_specification_model['servers'] = [provider_specification_servers_item_model]
+        provider_specification_model['components'] = provider_specification_components_model
+
+        # Construct a dict representation of a ProviderPrivateAuthenticationBearerFlow model
+        provider_private_authentication_model = {}
+        provider_private_authentication_model['token'] = provider_authentication_type_and_value_model
+
+        # Construct a dict representation of a ProviderPrivate model
+        provider_private_model = {}
+        provider_private_model['authentication'] = provider_private_authentication_model
+
+        # Set up parameter values
+        provider_id = 'testString'
+        specification = provider_specification_model
+        private = provider_private_model
+
+        # Invoke method
+        response = _service.create_provider(
+            provider_id,
+            specification,
+            private,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['provider_id'] == 'testString'
+        assert req_body['specification'] == provider_specification_model
+        assert req_body['private'] == provider_private_model
+
+    def test_create_provider_all_params_with_retries(self):
+        # Enable retries and run test_create_provider_all_params.
+        _service.enable_retries()
+        self.test_create_provider_all_params()
+
+        # Disable retries and run test_create_provider_all_params.
+        _service.disable_retries()
+        self.test_create_provider_all_params()
+
+    @responses.activate
+    def test_create_provider_value_error(self):
+        """
+        test_create_provider_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/providers')
+        mock_response = '{"provider_id": "provider_id", "specification": {"servers": [{"url": "url"}], "components": {"securitySchemes": {"authentication_method": "basic", "basic": {"username": {"type": "value", "value": "value"}}, "oauth2": {"preferred_flow": "password", "flows": {"token_url": "token_url", "refresh_url": "refresh_url", "client_auth_type": "Body", "content_type": "content_type", "header_prefix": "header_prefix", "username": {"type": "value", "value": "value"}}}}}}}'
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Construct a dict representation of a ProviderSpecificationServersItem model
+        provider_specification_servers_item_model = {}
+        provider_specification_servers_item_model['url'] = 'testString'
+
+        # Construct a dict representation of a ProviderAuthenticationTypeAndValue model
+        provider_authentication_type_and_value_model = {}
+        provider_authentication_type_and_value_model['type'] = 'value'
+        provider_authentication_type_and_value_model['value'] = 'testString'
+
+        # Construct a dict representation of a ProviderSpecificationComponentsSecuritySchemesBasic model
+        provider_specification_components_security_schemes_basic_model = {}
+        provider_specification_components_security_schemes_basic_model['username'] = provider_authentication_type_and_value_model
+
+        # Construct a dict representation of a ProviderAuthenticationOAuth2PasswordUsername model
+        provider_authentication_o_auth2_password_username_model = {}
+        provider_authentication_o_auth2_password_username_model['type'] = 'value'
+        provider_authentication_o_auth2_password_username_model['value'] = 'testString'
+
+        # Construct a dict representation of a ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2Password model
+        provider_authentication_o_auth2_flows_model = {}
+        provider_authentication_o_auth2_flows_model['token_url'] = 'testString'
+        provider_authentication_o_auth2_flows_model['refresh_url'] = 'testString'
+        provider_authentication_o_auth2_flows_model['client_auth_type'] = 'Body'
+        provider_authentication_o_auth2_flows_model['content_type'] = 'testString'
+        provider_authentication_o_auth2_flows_model['header_prefix'] = 'testString'
+        provider_authentication_o_auth2_flows_model['username'] = provider_authentication_o_auth2_password_username_model
+
+        # Construct a dict representation of a ProviderAuthenticationOAuth2 model
+        provider_authentication_o_auth2_model = {}
+        provider_authentication_o_auth2_model['preferred_flow'] = 'password'
+        provider_authentication_o_auth2_model['flows'] = provider_authentication_o_auth2_flows_model
+
+        # Construct a dict representation of a ProviderSpecificationComponentsSecuritySchemes model
+        provider_specification_components_security_schemes_model = {}
+        provider_specification_components_security_schemes_model['authentication_method'] = 'basic'
+        provider_specification_components_security_schemes_model['basic'] = provider_specification_components_security_schemes_basic_model
+        provider_specification_components_security_schemes_model['oauth2'] = provider_authentication_o_auth2_model
+
+        # Construct a dict representation of a ProviderSpecificationComponents model
+        provider_specification_components_model = {}
+        provider_specification_components_model['securitySchemes'] = provider_specification_components_security_schemes_model
+
+        # Construct a dict representation of a ProviderSpecification model
+        provider_specification_model = {}
+        provider_specification_model['servers'] = [provider_specification_servers_item_model]
+        provider_specification_model['components'] = provider_specification_components_model
+
+        # Construct a dict representation of a ProviderPrivateAuthenticationBearerFlow model
+        provider_private_authentication_model = {}
+        provider_private_authentication_model['token'] = provider_authentication_type_and_value_model
+
+        # Construct a dict representation of a ProviderPrivate model
+        provider_private_model = {}
+        provider_private_model['authentication'] = provider_private_authentication_model
+
+        # Set up parameter values
+        provider_id = 'testString'
+        specification = provider_specification_model
+        private = provider_private_model
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "provider_id": provider_id,
+            "specification": specification,
+            "private": private,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.create_provider(**req_copy)
+
+    def test_create_provider_value_error_with_retries(self):
+        # Enable retries and run test_create_provider_value_error.
+        _service.enable_retries()
+        self.test_create_provider_value_error()
+
+        # Disable retries and run test_create_provider_value_error.
+        _service.disable_retries()
+        self.test_create_provider_value_error()
+
+
+class TestListProviders:
+    """
+    Test Class for list_providers
+    """
+
+    @responses.activate
+    def test_list_providers_all_params(self):
+        """
+        list_providers()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/providers')
+        mock_response = '{"conversational_skill_providers": [{"provider_id": "provider_id", "specification": {"servers": [{"url": "url"}], "components": {"securitySchemes": {"authentication_method": "basic", "basic": {"username": {"type": "value", "value": "value"}}, "oauth2": {"preferred_flow": "password", "flows": {"token_url": "token_url", "refresh_url": "refresh_url", "client_auth_type": "Body", "content_type": "content_type", "header_prefix": "header_prefix", "username": {"type": "value", "value": "value"}}}}}}}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Set up parameter values
+        page_limit = 100
+        include_count = False
+        sort = 'name'
+        cursor = 'testString'
+        include_audit = False
+
+        # Invoke method
+        response = _service.list_providers(
+            page_limit=page_limit,
+            include_count=include_count,
+            sort=sort,
+            cursor=cursor,
+            include_audit=include_audit,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate query params
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
+        query_string = urllib.parse.unquote_plus(query_string)
+        assert 'page_limit={}'.format(page_limit) in query_string
+        assert 'include_count={}'.format('true' if include_count else 'false') in query_string
+        assert 'sort={}'.format(sort) in query_string
+        assert 'cursor={}'.format(cursor) in query_string
+        assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
+
+    def test_list_providers_all_params_with_retries(self):
+        # Enable retries and run test_list_providers_all_params.
+        _service.enable_retries()
+        self.test_list_providers_all_params()
+
+        # Disable retries and run test_list_providers_all_params.
+        _service.disable_retries()
+        self.test_list_providers_all_params()
+
+    @responses.activate
+    def test_list_providers_required_params(self):
+        """
+        test_list_providers_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/providers')
+        mock_response = '{"conversational_skill_providers": [{"provider_id": "provider_id", "specification": {"servers": [{"url": "url"}], "components": {"securitySchemes": {"authentication_method": "basic", "basic": {"username": {"type": "value", "value": "value"}}, "oauth2": {"preferred_flow": "password", "flows": {"token_url": "token_url", "refresh_url": "refresh_url", "client_auth_type": "Body", "content_type": "content_type", "header_prefix": "header_prefix", "username": {"type": "value", "value": "value"}}}}}}}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Invoke method
+        response = _service.list_providers()
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_list_providers_required_params_with_retries(self):
+        # Enable retries and run test_list_providers_required_params.
+        _service.enable_retries()
+        self.test_list_providers_required_params()
+
+        # Disable retries and run test_list_providers_required_params.
+        _service.disable_retries()
+        self.test_list_providers_required_params()
+
+    @responses.activate
+    def test_list_providers_value_error(self):
+        """
+        test_list_providers_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/providers')
+        mock_response = '{"conversational_skill_providers": [{"provider_id": "provider_id", "specification": {"servers": [{"url": "url"}], "components": {"securitySchemes": {"authentication_method": "basic", "basic": {"username": {"type": "value", "value": "value"}}, "oauth2": {"preferred_flow": "password", "flows": {"token_url": "token_url", "refresh_url": "refresh_url", "client_auth_type": "Body", "content_type": "content_type", "header_prefix": "header_prefix", "username": {"type": "value", "value": "value"}}}}}}}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.list_providers(**req_copy)
+
+    def test_list_providers_value_error_with_retries(self):
+        # Enable retries and run test_list_providers_value_error.
+        _service.enable_retries()
+        self.test_list_providers_value_error()
+
+        # Disable retries and run test_list_providers_value_error.
+        _service.disable_retries()
+        self.test_list_providers_value_error()
+
+
+class TestUpdateProvider:
+    """
+    Test Class for update_provider
+    """
+
+    @responses.activate
+    def test_update_provider_all_params(self):
+        """
+        update_provider()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/providers/testString')
+        mock_response = '{"provider_id": "provider_id", "specification": {"servers": [{"url": "url"}], "components": {"securitySchemes": {"authentication_method": "basic", "basic": {"username": {"type": "value", "value": "value"}}, "oauth2": {"preferred_flow": "password", "flows": {"token_url": "token_url", "refresh_url": "refresh_url", "client_auth_type": "Body", "content_type": "content_type", "header_prefix": "header_prefix", "username": {"type": "value", "value": "value"}}}}}}}'
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Construct a dict representation of a ProviderSpecificationServersItem model
+        provider_specification_servers_item_model = {}
+        provider_specification_servers_item_model['url'] = 'testString'
+
+        # Construct a dict representation of a ProviderAuthenticationTypeAndValue model
+        provider_authentication_type_and_value_model = {}
+        provider_authentication_type_and_value_model['type'] = 'value'
+        provider_authentication_type_and_value_model['value'] = 'testString'
+
+        # Construct a dict representation of a ProviderSpecificationComponentsSecuritySchemesBasic model
+        provider_specification_components_security_schemes_basic_model = {}
+        provider_specification_components_security_schemes_basic_model['username'] = provider_authentication_type_and_value_model
+
+        # Construct a dict representation of a ProviderAuthenticationOAuth2PasswordUsername model
+        provider_authentication_o_auth2_password_username_model = {}
+        provider_authentication_o_auth2_password_username_model['type'] = 'value'
+        provider_authentication_o_auth2_password_username_model['value'] = 'testString'
+
+        # Construct a dict representation of a ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2Password model
+        provider_authentication_o_auth2_flows_model = {}
+        provider_authentication_o_auth2_flows_model['token_url'] = 'testString'
+        provider_authentication_o_auth2_flows_model['refresh_url'] = 'testString'
+        provider_authentication_o_auth2_flows_model['client_auth_type'] = 'Body'
+        provider_authentication_o_auth2_flows_model['content_type'] = 'testString'
+        provider_authentication_o_auth2_flows_model['header_prefix'] = 'testString'
+        provider_authentication_o_auth2_flows_model['username'] = provider_authentication_o_auth2_password_username_model
+
+        # Construct a dict representation of a ProviderAuthenticationOAuth2 model
+        provider_authentication_o_auth2_model = {}
+        provider_authentication_o_auth2_model['preferred_flow'] = 'password'
+        provider_authentication_o_auth2_model['flows'] = provider_authentication_o_auth2_flows_model
+
+        # Construct a dict representation of a ProviderSpecificationComponentsSecuritySchemes model
+        provider_specification_components_security_schemes_model = {}
+        provider_specification_components_security_schemes_model['authentication_method'] = 'basic'
+        provider_specification_components_security_schemes_model['basic'] = provider_specification_components_security_schemes_basic_model
+        provider_specification_components_security_schemes_model['oauth2'] = provider_authentication_o_auth2_model
+
+        # Construct a dict representation of a ProviderSpecificationComponents model
+        provider_specification_components_model = {}
+        provider_specification_components_model['securitySchemes'] = provider_specification_components_security_schemes_model
+
+        # Construct a dict representation of a ProviderSpecification model
+        provider_specification_model = {}
+        provider_specification_model['servers'] = [provider_specification_servers_item_model]
+        provider_specification_model['components'] = provider_specification_components_model
+
+        # Construct a dict representation of a ProviderPrivateAuthenticationBearerFlow model
+        provider_private_authentication_model = {}
+        provider_private_authentication_model['token'] = provider_authentication_type_and_value_model
+
+        # Construct a dict representation of a ProviderPrivate model
+        provider_private_model = {}
+        provider_private_model['authentication'] = provider_private_authentication_model
+
+        # Set up parameter values
+        provider_id = 'testString'
+        specification = provider_specification_model
+        private = provider_private_model
+
+        # Invoke method
+        response = _service.update_provider(
+            provider_id,
+            specification,
+            private,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['specification'] == provider_specification_model
+        assert req_body['private'] == provider_private_model
+
+    def test_update_provider_all_params_with_retries(self):
+        # Enable retries and run test_update_provider_all_params.
+        _service.enable_retries()
+        self.test_update_provider_all_params()
+
+        # Disable retries and run test_update_provider_all_params.
+        _service.disable_retries()
+        self.test_update_provider_all_params()
+
+    @responses.activate
+    def test_update_provider_value_error(self):
+        """
+        test_update_provider_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/providers/testString')
+        mock_response = '{"provider_id": "provider_id", "specification": {"servers": [{"url": "url"}], "components": {"securitySchemes": {"authentication_method": "basic", "basic": {"username": {"type": "value", "value": "value"}}, "oauth2": {"preferred_flow": "password", "flows": {"token_url": "token_url", "refresh_url": "refresh_url", "client_auth_type": "Body", "content_type": "content_type", "header_prefix": "header_prefix", "username": {"type": "value", "value": "value"}}}}}}}'
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Construct a dict representation of a ProviderSpecificationServersItem model
+        provider_specification_servers_item_model = {}
+        provider_specification_servers_item_model['url'] = 'testString'
+
+        # Construct a dict representation of a ProviderAuthenticationTypeAndValue model
+        provider_authentication_type_and_value_model = {}
+        provider_authentication_type_and_value_model['type'] = 'value'
+        provider_authentication_type_and_value_model['value'] = 'testString'
+
+        # Construct a dict representation of a ProviderSpecificationComponentsSecuritySchemesBasic model
+        provider_specification_components_security_schemes_basic_model = {}
+        provider_specification_components_security_schemes_basic_model['username'] = provider_authentication_type_and_value_model
+
+        # Construct a dict representation of a ProviderAuthenticationOAuth2PasswordUsername model
+        provider_authentication_o_auth2_password_username_model = {}
+        provider_authentication_o_auth2_password_username_model['type'] = 'value'
+        provider_authentication_o_auth2_password_username_model['value'] = 'testString'
+
+        # Construct a dict representation of a ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2Password model
+        provider_authentication_o_auth2_flows_model = {}
+        provider_authentication_o_auth2_flows_model['token_url'] = 'testString'
+        provider_authentication_o_auth2_flows_model['refresh_url'] = 'testString'
+        provider_authentication_o_auth2_flows_model['client_auth_type'] = 'Body'
+        provider_authentication_o_auth2_flows_model['content_type'] = 'testString'
+        provider_authentication_o_auth2_flows_model['header_prefix'] = 'testString'
+        provider_authentication_o_auth2_flows_model['username'] = provider_authentication_o_auth2_password_username_model
+
+        # Construct a dict representation of a ProviderAuthenticationOAuth2 model
+        provider_authentication_o_auth2_model = {}
+        provider_authentication_o_auth2_model['preferred_flow'] = 'password'
+        provider_authentication_o_auth2_model['flows'] = provider_authentication_o_auth2_flows_model
+
+        # Construct a dict representation of a ProviderSpecificationComponentsSecuritySchemes model
+        provider_specification_components_security_schemes_model = {}
+        provider_specification_components_security_schemes_model['authentication_method'] = 'basic'
+        provider_specification_components_security_schemes_model['basic'] = provider_specification_components_security_schemes_basic_model
+        provider_specification_components_security_schemes_model['oauth2'] = provider_authentication_o_auth2_model
+
+        # Construct a dict representation of a ProviderSpecificationComponents model
+        provider_specification_components_model = {}
+        provider_specification_components_model['securitySchemes'] = provider_specification_components_security_schemes_model
+
+        # Construct a dict representation of a ProviderSpecification model
+        provider_specification_model = {}
+        provider_specification_model['servers'] = [provider_specification_servers_item_model]
+        provider_specification_model['components'] = provider_specification_components_model
+
+        # Construct a dict representation of a ProviderPrivateAuthenticationBearerFlow model
+        provider_private_authentication_model = {}
+        provider_private_authentication_model['token'] = provider_authentication_type_and_value_model
+
+        # Construct a dict representation of a ProviderPrivate model
+        provider_private_model = {}
+        provider_private_model['authentication'] = provider_private_authentication_model
+
+        # Set up parameter values
+        provider_id = 'testString'
+        specification = provider_specification_model
+        private = provider_private_model
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "provider_id": provider_id,
+            "specification": specification,
+            "private": private,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.update_provider(**req_copy)
+
+    def test_update_provider_value_error_with_retries(self):
+        # Enable retries and run test_update_provider_value_error.
+        _service.enable_retries()
+        self.test_update_provider_value_error()
+
+        # Disable retries and run test_update_provider_value_error.
+        _service.disable_retries()
+        self.test_update_provider_value_error()
+
+
+# endregion
+##############################################################################
+# End of Service: ConversationalSkillProviders
+##############################################################################
 
 ##############################################################################
 # Start of Service: Assistants
@@ -784,6 +1322,7 @@ class TestMessage:
 
         # Set up parameter values
         assistant_id = 'testString'
+        environment_id = 'testString'
         session_id = 'testString'
         input = message_input_model
         context = message_context_model
@@ -792,6 +1331,7 @@ class TestMessage:
         # Invoke method
         response = _service.message(
             assistant_id,
+            environment_id,
             session_id,
             input=input,
             context=context,
@@ -835,11 +1375,13 @@ class TestMessage:
 
         # Set up parameter values
         assistant_id = 'testString'
+        environment_id = 'testString'
         session_id = 'testString'
 
         # Invoke method
         response = _service.message(
             assistant_id,
+            environment_id,
             session_id,
             headers={},
         )
@@ -875,11 +1417,13 @@ class TestMessage:
 
         # Set up parameter values
         assistant_id = 'testString'
+        environment_id = 'testString'
         session_id = 'testString'
 
         # Pass in all but one required param and check for a ValueError
         req_param_dict = {
             "assistant_id": assistant_id,
+            "environment_id": environment_id,
             "session_id": session_id,
         }
         for param in req_param_dict.keys():
@@ -1062,6 +1606,7 @@ class TestMessageStateless:
 
         # Set up parameter values
         assistant_id = 'testString'
+        environment_id = 'testString'
         input = stateless_message_input_model
         context = stateless_message_context_model
         user_id = 'testString'
@@ -1069,6 +1614,7 @@ class TestMessageStateless:
         # Invoke method
         response = _service.message_stateless(
             assistant_id,
+            environment_id,
             input=input,
             context=context,
             user_id=user_id,
@@ -1111,10 +1657,12 @@ class TestMessageStateless:
 
         # Set up parameter values
         assistant_id = 'testString'
+        environment_id = 'testString'
 
         # Invoke method
         response = _service.message_stateless(
             assistant_id,
+            environment_id,
             headers={},
         )
 
@@ -1149,10 +1697,12 @@ class TestMessageStateless:
 
         # Set up parameter values
         assistant_id = 'testString'
+        environment_id = 'testString'
 
         # Pass in all but one required param and check for a ValueError
         req_param_dict = {
             "assistant_id": assistant_id,
+            "environment_id": environment_id,
         }
         for param in req_param_dict.keys():
             req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
@@ -1172,6 +1722,577 @@ class TestMessageStateless:
 # endregion
 ##############################################################################
 # End of Service: Message
+##############################################################################
+
+##############################################################################
+# Start of Service: MessageStream
+##############################################################################
+# region
+
+
+class TestMessageStream:
+    """
+    Test Class for message_stream
+    """
+
+    @responses.activate
+    def test_message_stream_all_params(self):
+        """
+        message_stream()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/assistants/testString/environments/testString/sessions/testString/message_stream')
+        mock_response = 'This is a mock binary response.'
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='text/event-stream',
+            status=200,
+        )
+
+        # Construct a dict representation of a RuntimeIntent model
+        runtime_intent_model = {}
+        runtime_intent_model['intent'] = 'testString'
+        runtime_intent_model['confidence'] = 72.5
+        runtime_intent_model['skill'] = 'testString'
+
+        # Construct a dict representation of a CaptureGroup model
+        capture_group_model = {}
+        capture_group_model['group'] = 'testString'
+        capture_group_model['location'] = [38]
+
+        # Construct a dict representation of a RuntimeEntityInterpretation model
+        runtime_entity_interpretation_model = {}
+        runtime_entity_interpretation_model['calendar_type'] = 'testString'
+        runtime_entity_interpretation_model['datetime_link'] = 'testString'
+        runtime_entity_interpretation_model['festival'] = 'testString'
+        runtime_entity_interpretation_model['granularity'] = 'day'
+        runtime_entity_interpretation_model['range_link'] = 'testString'
+        runtime_entity_interpretation_model['range_modifier'] = 'testString'
+        runtime_entity_interpretation_model['relative_day'] = 72.5
+        runtime_entity_interpretation_model['relative_month'] = 72.5
+        runtime_entity_interpretation_model['relative_week'] = 72.5
+        runtime_entity_interpretation_model['relative_weekend'] = 72.5
+        runtime_entity_interpretation_model['relative_year'] = 72.5
+        runtime_entity_interpretation_model['specific_day'] = 72.5
+        runtime_entity_interpretation_model['specific_day_of_week'] = 'testString'
+        runtime_entity_interpretation_model['specific_month'] = 72.5
+        runtime_entity_interpretation_model['specific_quarter'] = 72.5
+        runtime_entity_interpretation_model['specific_year'] = 72.5
+        runtime_entity_interpretation_model['numeric_value'] = 72.5
+        runtime_entity_interpretation_model['subtype'] = 'testString'
+        runtime_entity_interpretation_model['part_of_day'] = 'testString'
+        runtime_entity_interpretation_model['relative_hour'] = 72.5
+        runtime_entity_interpretation_model['relative_minute'] = 72.5
+        runtime_entity_interpretation_model['relative_second'] = 72.5
+        runtime_entity_interpretation_model['specific_hour'] = 72.5
+        runtime_entity_interpretation_model['specific_minute'] = 72.5
+        runtime_entity_interpretation_model['specific_second'] = 72.5
+        runtime_entity_interpretation_model['timezone'] = 'testString'
+
+        # Construct a dict representation of a RuntimeEntityAlternative model
+        runtime_entity_alternative_model = {}
+        runtime_entity_alternative_model['value'] = 'testString'
+        runtime_entity_alternative_model['confidence'] = 72.5
+
+        # Construct a dict representation of a RuntimeEntityRole model
+        runtime_entity_role_model = {}
+        runtime_entity_role_model['type'] = 'date_from'
+
+        # Construct a dict representation of a RuntimeEntity model
+        runtime_entity_model = {}
+        runtime_entity_model['entity'] = 'testString'
+        runtime_entity_model['location'] = [38]
+        runtime_entity_model['value'] = 'testString'
+        runtime_entity_model['confidence'] = 72.5
+        runtime_entity_model['groups'] = [capture_group_model]
+        runtime_entity_model['interpretation'] = runtime_entity_interpretation_model
+        runtime_entity_model['alternatives'] = [runtime_entity_alternative_model]
+        runtime_entity_model['role'] = runtime_entity_role_model
+        runtime_entity_model['skill'] = 'testString'
+
+        # Construct a dict representation of a MessageInputAttachment model
+        message_input_attachment_model = {}
+        message_input_attachment_model['url'] = 'testString'
+        message_input_attachment_model['media_type'] = 'testString'
+
+        # Construct a dict representation of a RequestAnalytics model
+        request_analytics_model = {}
+        request_analytics_model['browser'] = 'testString'
+        request_analytics_model['device'] = 'testString'
+        request_analytics_model['pageUrl'] = 'testString'
+
+        # Construct a dict representation of a MessageInputOptionsSpelling model
+        message_input_options_spelling_model = {}
+        message_input_options_spelling_model['suggestions'] = True
+        message_input_options_spelling_model['auto_correct'] = True
+
+        # Construct a dict representation of a MessageInputOptions model
+        message_input_options_model = {}
+        message_input_options_model['restart'] = False
+        message_input_options_model['alternate_intents'] = False
+        message_input_options_model['async_callout'] = False
+        message_input_options_model['spelling'] = message_input_options_spelling_model
+        message_input_options_model['debug'] = False
+        message_input_options_model['return_context'] = False
+        message_input_options_model['export'] = False
+
+        # Construct a dict representation of a MessageInput model
+        message_input_model = {}
+        message_input_model['message_type'] = 'text'
+        message_input_model['text'] = 'testString'
+        message_input_model['intents'] = [runtime_intent_model]
+        message_input_model['entities'] = [runtime_entity_model]
+        message_input_model['suggestion_id'] = 'testString'
+        message_input_model['attachments'] = [message_input_attachment_model]
+        message_input_model['analytics'] = request_analytics_model
+        message_input_model['options'] = message_input_options_model
+
+        # Construct a dict representation of a MessageContextGlobalSystem model
+        message_context_global_system_model = {}
+        message_context_global_system_model['timezone'] = 'testString'
+        message_context_global_system_model['user_id'] = 'testString'
+        message_context_global_system_model['turn_count'] = 38
+        message_context_global_system_model['locale'] = 'en-us'
+        message_context_global_system_model['reference_time'] = 'testString'
+        message_context_global_system_model['session_start_time'] = 'testString'
+        message_context_global_system_model['state'] = 'testString'
+        message_context_global_system_model['skip_user_input'] = True
+
+        # Construct a dict representation of a MessageContextGlobal model
+        message_context_global_model = {}
+        message_context_global_model['system'] = message_context_global_system_model
+
+        # Construct a dict representation of a MessageContextSkillSystem model
+        message_context_skill_system_model = {}
+        message_context_skill_system_model['state'] = 'testString'
+        message_context_skill_system_model['foo'] = 'testString'
+
+        # Construct a dict representation of a MessageContextDialogSkill model
+        message_context_dialog_skill_model = {}
+        message_context_dialog_skill_model['user_defined'] = {'anyKey': 'anyValue'}
+        message_context_dialog_skill_model['system'] = message_context_skill_system_model
+
+        # Construct a dict representation of a MessageContextActionSkill model
+        message_context_action_skill_model = {}
+        message_context_action_skill_model['user_defined'] = {'anyKey': 'anyValue'}
+        message_context_action_skill_model['system'] = message_context_skill_system_model
+        message_context_action_skill_model['action_variables'] = {'anyKey': 'anyValue'}
+        message_context_action_skill_model['skill_variables'] = {'anyKey': 'anyValue'}
+
+        # Construct a dict representation of a MessageContextSkills model
+        message_context_skills_model = {}
+        message_context_skills_model['main skill'] = message_context_dialog_skill_model
+        message_context_skills_model['actions skill'] = message_context_action_skill_model
+
+        # Construct a dict representation of a MessageContext model
+        message_context_model = {}
+        message_context_model['global'] = message_context_global_model
+        message_context_model['skills'] = message_context_skills_model
+        message_context_model['integrations'] = {'anyKey': 'anyValue'}
+
+        # Set up parameter values
+        assistant_id = 'testString'
+        environment_id = 'testString'
+        session_id = 'testString'
+        input = message_input_model
+        context = message_context_model
+        user_id = 'testString'
+
+        # Invoke method
+        response = _service.message_stream(
+            assistant_id,
+            environment_id,
+            session_id,
+            input=input,
+            context=context,
+            user_id=user_id,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['input'] == message_input_model
+        assert req_body['context'] == message_context_model
+        assert req_body['user_id'] == 'testString'
+
+    def test_message_stream_all_params_with_retries(self):
+        # Enable retries and run test_message_stream_all_params.
+        _service.enable_retries()
+        self.test_message_stream_all_params()
+
+        # Disable retries and run test_message_stream_all_params.
+        _service.disable_retries()
+        self.test_message_stream_all_params()
+
+    @responses.activate
+    def test_message_stream_required_params(self):
+        """
+        test_message_stream_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/assistants/testString/environments/testString/sessions/testString/message_stream')
+        mock_response = 'This is a mock binary response.'
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='text/event-stream',
+            status=200,
+        )
+
+        # Set up parameter values
+        assistant_id = 'testString'
+        environment_id = 'testString'
+        session_id = 'testString'
+
+        # Invoke method
+        response = _service.message_stream(
+            assistant_id,
+            environment_id,
+            session_id,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_message_stream_required_params_with_retries(self):
+        # Enable retries and run test_message_stream_required_params.
+        _service.enable_retries()
+        self.test_message_stream_required_params()
+
+        # Disable retries and run test_message_stream_required_params.
+        _service.disable_retries()
+        self.test_message_stream_required_params()
+
+    @responses.activate
+    def test_message_stream_value_error(self):
+        """
+        test_message_stream_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/assistants/testString/environments/testString/sessions/testString/message_stream')
+        mock_response = 'This is a mock binary response.'
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='text/event-stream',
+            status=200,
+        )
+
+        # Set up parameter values
+        assistant_id = 'testString'
+        environment_id = 'testString'
+        session_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "assistant_id": assistant_id,
+            "environment_id": environment_id,
+            "session_id": session_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.message_stream(**req_copy)
+
+    def test_message_stream_value_error_with_retries(self):
+        # Enable retries and run test_message_stream_value_error.
+        _service.enable_retries()
+        self.test_message_stream_value_error()
+
+        # Disable retries and run test_message_stream_value_error.
+        _service.disable_retries()
+        self.test_message_stream_value_error()
+
+
+class TestMessageStreamStateless:
+    """
+    Test Class for message_stream_stateless
+    """
+
+    @responses.activate
+    def test_message_stream_stateless_all_params(self):
+        """
+        message_stream_stateless()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/assistants/testString/environments/testString/message_stream')
+        mock_response = 'This is a mock binary response.'
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='text/event-stream',
+            status=200,
+        )
+
+        # Construct a dict representation of a RuntimeIntent model
+        runtime_intent_model = {}
+        runtime_intent_model['intent'] = 'testString'
+        runtime_intent_model['confidence'] = 72.5
+        runtime_intent_model['skill'] = 'testString'
+
+        # Construct a dict representation of a CaptureGroup model
+        capture_group_model = {}
+        capture_group_model['group'] = 'testString'
+        capture_group_model['location'] = [38]
+
+        # Construct a dict representation of a RuntimeEntityInterpretation model
+        runtime_entity_interpretation_model = {}
+        runtime_entity_interpretation_model['calendar_type'] = 'testString'
+        runtime_entity_interpretation_model['datetime_link'] = 'testString'
+        runtime_entity_interpretation_model['festival'] = 'testString'
+        runtime_entity_interpretation_model['granularity'] = 'day'
+        runtime_entity_interpretation_model['range_link'] = 'testString'
+        runtime_entity_interpretation_model['range_modifier'] = 'testString'
+        runtime_entity_interpretation_model['relative_day'] = 72.5
+        runtime_entity_interpretation_model['relative_month'] = 72.5
+        runtime_entity_interpretation_model['relative_week'] = 72.5
+        runtime_entity_interpretation_model['relative_weekend'] = 72.5
+        runtime_entity_interpretation_model['relative_year'] = 72.5
+        runtime_entity_interpretation_model['specific_day'] = 72.5
+        runtime_entity_interpretation_model['specific_day_of_week'] = 'testString'
+        runtime_entity_interpretation_model['specific_month'] = 72.5
+        runtime_entity_interpretation_model['specific_quarter'] = 72.5
+        runtime_entity_interpretation_model['specific_year'] = 72.5
+        runtime_entity_interpretation_model['numeric_value'] = 72.5
+        runtime_entity_interpretation_model['subtype'] = 'testString'
+        runtime_entity_interpretation_model['part_of_day'] = 'testString'
+        runtime_entity_interpretation_model['relative_hour'] = 72.5
+        runtime_entity_interpretation_model['relative_minute'] = 72.5
+        runtime_entity_interpretation_model['relative_second'] = 72.5
+        runtime_entity_interpretation_model['specific_hour'] = 72.5
+        runtime_entity_interpretation_model['specific_minute'] = 72.5
+        runtime_entity_interpretation_model['specific_second'] = 72.5
+        runtime_entity_interpretation_model['timezone'] = 'testString'
+
+        # Construct a dict representation of a RuntimeEntityAlternative model
+        runtime_entity_alternative_model = {}
+        runtime_entity_alternative_model['value'] = 'testString'
+        runtime_entity_alternative_model['confidence'] = 72.5
+
+        # Construct a dict representation of a RuntimeEntityRole model
+        runtime_entity_role_model = {}
+        runtime_entity_role_model['type'] = 'date_from'
+
+        # Construct a dict representation of a RuntimeEntity model
+        runtime_entity_model = {}
+        runtime_entity_model['entity'] = 'testString'
+        runtime_entity_model['location'] = [38]
+        runtime_entity_model['value'] = 'testString'
+        runtime_entity_model['confidence'] = 72.5
+        runtime_entity_model['groups'] = [capture_group_model]
+        runtime_entity_model['interpretation'] = runtime_entity_interpretation_model
+        runtime_entity_model['alternatives'] = [runtime_entity_alternative_model]
+        runtime_entity_model['role'] = runtime_entity_role_model
+        runtime_entity_model['skill'] = 'testString'
+
+        # Construct a dict representation of a MessageInputAttachment model
+        message_input_attachment_model = {}
+        message_input_attachment_model['url'] = 'testString'
+        message_input_attachment_model['media_type'] = 'testString'
+
+        # Construct a dict representation of a RequestAnalytics model
+        request_analytics_model = {}
+        request_analytics_model['browser'] = 'testString'
+        request_analytics_model['device'] = 'testString'
+        request_analytics_model['pageUrl'] = 'testString'
+
+        # Construct a dict representation of a MessageInputOptionsSpelling model
+        message_input_options_spelling_model = {}
+        message_input_options_spelling_model['suggestions'] = True
+        message_input_options_spelling_model['auto_correct'] = True
+
+        # Construct a dict representation of a MessageInputOptions model
+        message_input_options_model = {}
+        message_input_options_model['restart'] = False
+        message_input_options_model['alternate_intents'] = False
+        message_input_options_model['async_callout'] = False
+        message_input_options_model['spelling'] = message_input_options_spelling_model
+        message_input_options_model['debug'] = False
+        message_input_options_model['return_context'] = False
+        message_input_options_model['export'] = False
+
+        # Construct a dict representation of a MessageInput model
+        message_input_model = {}
+        message_input_model['message_type'] = 'text'
+        message_input_model['text'] = 'testString'
+        message_input_model['intents'] = [runtime_intent_model]
+        message_input_model['entities'] = [runtime_entity_model]
+        message_input_model['suggestion_id'] = 'testString'
+        message_input_model['attachments'] = [message_input_attachment_model]
+        message_input_model['analytics'] = request_analytics_model
+        message_input_model['options'] = message_input_options_model
+
+        # Construct a dict representation of a MessageContextGlobalSystem model
+        message_context_global_system_model = {}
+        message_context_global_system_model['timezone'] = 'testString'
+        message_context_global_system_model['user_id'] = 'testString'
+        message_context_global_system_model['turn_count'] = 38
+        message_context_global_system_model['locale'] = 'en-us'
+        message_context_global_system_model['reference_time'] = 'testString'
+        message_context_global_system_model['session_start_time'] = 'testString'
+        message_context_global_system_model['state'] = 'testString'
+        message_context_global_system_model['skip_user_input'] = True
+
+        # Construct a dict representation of a MessageContextGlobal model
+        message_context_global_model = {}
+        message_context_global_model['system'] = message_context_global_system_model
+
+        # Construct a dict representation of a MessageContextSkillSystem model
+        message_context_skill_system_model = {}
+        message_context_skill_system_model['state'] = 'testString'
+        message_context_skill_system_model['foo'] = 'testString'
+
+        # Construct a dict representation of a MessageContextDialogSkill model
+        message_context_dialog_skill_model = {}
+        message_context_dialog_skill_model['user_defined'] = {'anyKey': 'anyValue'}
+        message_context_dialog_skill_model['system'] = message_context_skill_system_model
+
+        # Construct a dict representation of a MessageContextActionSkill model
+        message_context_action_skill_model = {}
+        message_context_action_skill_model['user_defined'] = {'anyKey': 'anyValue'}
+        message_context_action_skill_model['system'] = message_context_skill_system_model
+        message_context_action_skill_model['action_variables'] = {'anyKey': 'anyValue'}
+        message_context_action_skill_model['skill_variables'] = {'anyKey': 'anyValue'}
+
+        # Construct a dict representation of a MessageContextSkills model
+        message_context_skills_model = {}
+        message_context_skills_model['main skill'] = message_context_dialog_skill_model
+        message_context_skills_model['actions skill'] = message_context_action_skill_model
+
+        # Construct a dict representation of a MessageContext model
+        message_context_model = {}
+        message_context_model['global'] = message_context_global_model
+        message_context_model['skills'] = message_context_skills_model
+        message_context_model['integrations'] = {'anyKey': 'anyValue'}
+
+        # Set up parameter values
+        assistant_id = 'testString'
+        environment_id = 'testString'
+        input = message_input_model
+        context = message_context_model
+        user_id = 'testString'
+
+        # Invoke method
+        response = _service.message_stream_stateless(
+            assistant_id,
+            environment_id,
+            input=input,
+            context=context,
+            user_id=user_id,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['input'] == message_input_model
+        assert req_body['context'] == message_context_model
+        assert req_body['user_id'] == 'testString'
+
+    def test_message_stream_stateless_all_params_with_retries(self):
+        # Enable retries and run test_message_stream_stateless_all_params.
+        _service.enable_retries()
+        self.test_message_stream_stateless_all_params()
+
+        # Disable retries and run test_message_stream_stateless_all_params.
+        _service.disable_retries()
+        self.test_message_stream_stateless_all_params()
+
+    @responses.activate
+    def test_message_stream_stateless_required_params(self):
+        """
+        test_message_stream_stateless_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/assistants/testString/environments/testString/message_stream')
+        mock_response = 'This is a mock binary response.'
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='text/event-stream',
+            status=200,
+        )
+
+        # Set up parameter values
+        assistant_id = 'testString'
+        environment_id = 'testString'
+
+        # Invoke method
+        response = _service.message_stream_stateless(
+            assistant_id,
+            environment_id,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_message_stream_stateless_required_params_with_retries(self):
+        # Enable retries and run test_message_stream_stateless_required_params.
+        _service.enable_retries()
+        self.test_message_stream_stateless_required_params()
+
+        # Disable retries and run test_message_stream_stateless_required_params.
+        _service.disable_retries()
+        self.test_message_stream_stateless_required_params()
+
+    @responses.activate
+    def test_message_stream_stateless_value_error(self):
+        """
+        test_message_stream_stateless_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/assistants/testString/environments/testString/message_stream')
+        mock_response = 'This is a mock binary response.'
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='text/event-stream',
+            status=200,
+        )
+
+        # Set up parameter values
+        assistant_id = 'testString'
+        environment_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "assistant_id": assistant_id,
+            "environment_id": environment_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.message_stream_stateless(**req_copy)
+
+    def test_message_stream_stateless_value_error_with_retries(self):
+        # Enable retries and run test_message_stream_stateless_value_error.
+        _service.enable_retries()
+        self.test_message_stream_stateless_value_error()
+
+        # Disable retries and run test_message_stream_stateless_value_error.
+        _service.disable_retries()
+        self.test_message_stream_stateless_value_error()
+
+
+# endregion
+##############################################################################
+# End of Service: MessageStream
 ##############################################################################
 
 ##############################################################################
@@ -1811,9 +2932,9 @@ class TestUpdateEnvironment:
             status=200,
         )
 
-        # Construct a dict representation of a BaseEnvironmentOrchestration model
-        base_environment_orchestration_model = {}
-        base_environment_orchestration_model['search_skill_fallback'] = True
+        # Construct a dict representation of a UpdateEnvironmentOrchestration model
+        update_environment_orchestration_model = {}
+        update_environment_orchestration_model['search_skill_fallback'] = True
 
         # Construct a dict representation of a EnvironmentSkill model
         environment_skill_model = {}
@@ -1828,7 +2949,7 @@ class TestUpdateEnvironment:
         environment_id = 'testString'
         name = 'testString'
         description = 'testString'
-        orchestration = base_environment_orchestration_model
+        orchestration = update_environment_orchestration_model
         session_timeout = 10
         skill_references = [environment_skill_model]
 
@@ -1851,7 +2972,7 @@ class TestUpdateEnvironment:
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['name'] == 'testString'
         assert req_body['description'] == 'testString'
-        assert req_body['orchestration'] == base_environment_orchestration_model
+        assert req_body['orchestration'] == update_environment_orchestration_model
         assert req_body['session_timeout'] == 10
         assert req_body['skill_references'] == [environment_skill_model]
 
@@ -2569,6 +3690,530 @@ class TestDeployRelease:
         self.test_deploy_release_value_error()
 
 
+class TestCreateReleaseExport:
+    """
+    Test Class for create_release_export
+    """
+
+    @responses.activate
+    def test_create_release_export_all_params(self):
+        """
+        create_release_export()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/assistants/testString/releases/testString/export')
+        mock_response = '{"status": "Available", "task_id": "task_id", "assistant_id": "assistant_id", "release": "release", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status_errors": [{"message": "message"}], "status_description": "status_description"}'
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Set up parameter values
+        assistant_id = 'testString'
+        release = 'testString'
+        include_audit = False
+
+        # Invoke method
+        response = _service.create_release_export(
+            assistant_id,
+            release,
+            include_audit=include_audit,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate query params
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
+        query_string = urllib.parse.unquote_plus(query_string)
+        assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
+
+    def test_create_release_export_all_params_with_retries(self):
+        # Enable retries and run test_create_release_export_all_params.
+        _service.enable_retries()
+        self.test_create_release_export_all_params()
+
+        # Disable retries and run test_create_release_export_all_params.
+        _service.disable_retries()
+        self.test_create_release_export_all_params()
+
+    @responses.activate
+    def test_create_release_export_required_params(self):
+        """
+        test_create_release_export_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/assistants/testString/releases/testString/export')
+        mock_response = '{"status": "Available", "task_id": "task_id", "assistant_id": "assistant_id", "release": "release", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status_errors": [{"message": "message"}], "status_description": "status_description"}'
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Set up parameter values
+        assistant_id = 'testString'
+        release = 'testString'
+
+        # Invoke method
+        response = _service.create_release_export(
+            assistant_id,
+            release,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_create_release_export_required_params_with_retries(self):
+        # Enable retries and run test_create_release_export_required_params.
+        _service.enable_retries()
+        self.test_create_release_export_required_params()
+
+        # Disable retries and run test_create_release_export_required_params.
+        _service.disable_retries()
+        self.test_create_release_export_required_params()
+
+    @responses.activate
+    def test_create_release_export_value_error(self):
+        """
+        test_create_release_export_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/assistants/testString/releases/testString/export')
+        mock_response = '{"status": "Available", "task_id": "task_id", "assistant_id": "assistant_id", "release": "release", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status_errors": [{"message": "message"}], "status_description": "status_description"}'
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Set up parameter values
+        assistant_id = 'testString'
+        release = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "assistant_id": assistant_id,
+            "release": release,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.create_release_export(**req_copy)
+
+    def test_create_release_export_value_error_with_retries(self):
+        # Enable retries and run test_create_release_export_value_error.
+        _service.enable_retries()
+        self.test_create_release_export_value_error()
+
+        # Disable retries and run test_create_release_export_value_error.
+        _service.disable_retries()
+        self.test_create_release_export_value_error()
+
+
+class TestDownloadReleaseExport:
+    """
+    Test Class for download_release_export
+    """
+
+    @responses.activate
+    def test_download_release_export_all_params(self):
+        """
+        download_release_export()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/assistants/testString/releases/testString/export')
+        mock_response = '{"status": "Available", "task_id": "task_id", "assistant_id": "assistant_id", "release": "release", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status_errors": [{"message": "message"}], "status_description": "status_description"}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Set up parameter values
+        assistant_id = 'testString'
+        release = 'testString'
+        accept = 'application/json'
+        include_audit = False
+
+        # Invoke method
+        response = _service.download_release_export(
+            assistant_id,
+            release,
+            accept=accept,
+            include_audit=include_audit,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate query params
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
+        query_string = urllib.parse.unquote_plus(query_string)
+        assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
+
+    def test_download_release_export_all_params_with_retries(self):
+        # Enable retries and run test_download_release_export_all_params.
+        _service.enable_retries()
+        self.test_download_release_export_all_params()
+
+        # Disable retries and run test_download_release_export_all_params.
+        _service.disable_retries()
+        self.test_download_release_export_all_params()
+
+    @responses.activate
+    def test_download_release_export_required_params(self):
+        """
+        test_download_release_export_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/assistants/testString/releases/testString/export')
+        mock_response = '{"status": "Available", "task_id": "task_id", "assistant_id": "assistant_id", "release": "release", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status_errors": [{"message": "message"}], "status_description": "status_description"}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Set up parameter values
+        assistant_id = 'testString'
+        release = 'testString'
+
+        # Invoke method
+        response = _service.download_release_export(
+            assistant_id,
+            release,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_download_release_export_required_params_with_retries(self):
+        # Enable retries and run test_download_release_export_required_params.
+        _service.enable_retries()
+        self.test_download_release_export_required_params()
+
+        # Disable retries and run test_download_release_export_required_params.
+        _service.disable_retries()
+        self.test_download_release_export_required_params()
+
+    @responses.activate
+    def test_download_release_export_value_error(self):
+        """
+        test_download_release_export_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/assistants/testString/releases/testString/export')
+        mock_response = '{"status": "Available", "task_id": "task_id", "assistant_id": "assistant_id", "release": "release", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status_errors": [{"message": "message"}], "status_description": "status_description"}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Set up parameter values
+        assistant_id = 'testString'
+        release = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "assistant_id": assistant_id,
+            "release": release,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.download_release_export(**req_copy)
+
+    def test_download_release_export_value_error_with_retries(self):
+        # Enable retries and run test_download_release_export_value_error.
+        _service.enable_retries()
+        self.test_download_release_export_value_error()
+
+        # Disable retries and run test_download_release_export_value_error.
+        _service.disable_retries()
+        self.test_download_release_export_value_error()
+
+
+class TestCreateReleaseImport:
+    """
+    Test Class for create_release_import
+    """
+
+    @responses.activate
+    def test_create_release_import_all_params(self):
+        """
+        create_release_import()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/assistants/testString/import')
+        mock_response = '{"status": "Failed", "task_id": "task_id", "assistant_id": "assistant_id", "skill_impact_in_draft": ["action"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=202,
+        )
+
+        # Set up parameter values
+        assistant_id = 'testString'
+        body = io.BytesIO(b'This is a mock file.').getvalue()
+        include_audit = False
+
+        # Invoke method
+        response = _service.create_release_import(
+            assistant_id,
+            body,
+            include_audit=include_audit,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 202
+        # Validate query params
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
+        query_string = urllib.parse.unquote_plus(query_string)
+        assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
+        # Validate body params
+        assert responses.calls[0].request.body == body
+
+    def test_create_release_import_all_params_with_retries(self):
+        # Enable retries and run test_create_release_import_all_params.
+        _service.enable_retries()
+        self.test_create_release_import_all_params()
+
+        # Disable retries and run test_create_release_import_all_params.
+        _service.disable_retries()
+        self.test_create_release_import_all_params()
+
+    @responses.activate
+    def test_create_release_import_required_params(self):
+        """
+        test_create_release_import_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/assistants/testString/import')
+        mock_response = '{"status": "Failed", "task_id": "task_id", "assistant_id": "assistant_id", "skill_impact_in_draft": ["action"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=202,
+        )
+
+        # Set up parameter values
+        assistant_id = 'testString'
+        body = io.BytesIO(b'This is a mock file.').getvalue()
+
+        # Invoke method
+        response = _service.create_release_import(
+            assistant_id,
+            body,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 202
+        # Validate body params
+        assert responses.calls[0].request.body == body
+
+    def test_create_release_import_required_params_with_retries(self):
+        # Enable retries and run test_create_release_import_required_params.
+        _service.enable_retries()
+        self.test_create_release_import_required_params()
+
+        # Disable retries and run test_create_release_import_required_params.
+        _service.disable_retries()
+        self.test_create_release_import_required_params()
+
+    @responses.activate
+    def test_create_release_import_value_error(self):
+        """
+        test_create_release_import_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/assistants/testString/import')
+        mock_response = '{"status": "Failed", "task_id": "task_id", "assistant_id": "assistant_id", "skill_impact_in_draft": ["action"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=202,
+        )
+
+        # Set up parameter values
+        assistant_id = 'testString'
+        body = io.BytesIO(b'This is a mock file.').getvalue()
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "assistant_id": assistant_id,
+            "body": body,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.create_release_import(**req_copy)
+
+    def test_create_release_import_value_error_with_retries(self):
+        # Enable retries and run test_create_release_import_value_error.
+        _service.enable_retries()
+        self.test_create_release_import_value_error()
+
+        # Disable retries and run test_create_release_import_value_error.
+        _service.disable_retries()
+        self.test_create_release_import_value_error()
+
+
+class TestGetReleaseImportStatus:
+    """
+    Test Class for get_release_import_status
+    """
+
+    @responses.activate
+    def test_get_release_import_status_all_params(self):
+        """
+        get_release_import_status()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/assistants/testString/import')
+        mock_response = '{"status": "Completed", "task_id": "task_id", "assistant_id": "assistant_id", "status_errors": [{"message": "message"}], "status_description": "status_description", "skill_impact_in_draft": ["action"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Set up parameter values
+        assistant_id = 'testString'
+        include_audit = False
+
+        # Invoke method
+        response = _service.get_release_import_status(
+            assistant_id,
+            include_audit=include_audit,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate query params
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
+        query_string = urllib.parse.unquote_plus(query_string)
+        assert 'include_audit={}'.format('true' if include_audit else 'false') in query_string
+
+    def test_get_release_import_status_all_params_with_retries(self):
+        # Enable retries and run test_get_release_import_status_all_params.
+        _service.enable_retries()
+        self.test_get_release_import_status_all_params()
+
+        # Disable retries and run test_get_release_import_status_all_params.
+        _service.disable_retries()
+        self.test_get_release_import_status_all_params()
+
+    @responses.activate
+    def test_get_release_import_status_required_params(self):
+        """
+        test_get_release_import_status_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/assistants/testString/import')
+        mock_response = '{"status": "Completed", "task_id": "task_id", "assistant_id": "assistant_id", "status_errors": [{"message": "message"}], "status_description": "status_description", "skill_impact_in_draft": ["action"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Set up parameter values
+        assistant_id = 'testString'
+
+        # Invoke method
+        response = _service.get_release_import_status(
+            assistant_id,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_get_release_import_status_required_params_with_retries(self):
+        # Enable retries and run test_get_release_import_status_required_params.
+        _service.enable_retries()
+        self.test_get_release_import_status_required_params()
+
+        # Disable retries and run test_get_release_import_status_required_params.
+        _service.disable_retries()
+        self.test_get_release_import_status_required_params()
+
+    @responses.activate
+    def test_get_release_import_status_value_error(self):
+        """
+        test_get_release_import_status_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v2/assistants/testString/import')
+        mock_response = '{"status": "Completed", "task_id": "task_id", "assistant_id": "assistant_id", "status_errors": [{"message": "message"}], "status_description": "status_description", "skill_impact_in_draft": ["action"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Set up parameter values
+        assistant_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "assistant_id": assistant_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.get_release_import_status(**req_copy)
+
+    def test_get_release_import_status_value_error_with_retries(self):
+        # Enable retries and run test_get_release_import_status_value_error.
+        _service.enable_retries()
+        self.test_get_release_import_status_value_error()
+
+        # Disable retries and run test_get_release_import_status_value_error.
+        _service.disable_retries()
+        self.test_get_release_import_status_value_error()
+
+
 # endregion
 ##############################################################################
 # End of Service: Releases
@@ -2592,7 +4237,7 @@ class TestGetSkill:
         """
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/skills/testString')
-        mock_response = '{"name": "name", "description": "description", "workspace": {"anyKey": "anyValue"}, "skill_id": "skill_id", "status": "Available", "status_errors": [{"message": "message"}], "status_description": "status_description", "dialog_settings": {"anyKey": "anyValue"}, "assistant_id": "assistant_id", "workspace_id": "workspace_id", "environment_id": "environment_id", "valid": false, "next_snapshot_version": "next_snapshot_version", "search_settings": {"discovery": {"instance_id": "instance_id", "project_id": "project_id", "url": "url", "max_primary_results": 10000, "max_total_results": 10000, "confidence_threshold": 0.0, "highlight": false, "find_answers": true, "authentication": {"basic": "basic", "bearer": "bearer"}}, "messages": {"success": "success", "error": "error", "no_result": "no_result"}, "schema_mapping": {"url": "url", "body": "body", "title": "title"}}, "warnings": [{"code": "code", "path": "path", "message": "message"}], "language": "language", "type": "action"}'
+        mock_response = '{"name": "name", "description": "description", "workspace": {"anyKey": "anyValue"}, "skill_id": "skill_id", "status": "Available", "status_errors": [{"message": "message"}], "status_description": "status_description", "dialog_settings": {"anyKey": "anyValue"}, "assistant_id": "assistant_id", "workspace_id": "workspace_id", "environment_id": "environment_id", "valid": false, "next_snapshot_version": "next_snapshot_version", "search_settings": {"discovery": {"instance_id": "instance_id", "project_id": "project_id", "url": "url", "max_primary_results": 10000, "max_total_results": 10000, "confidence_threshold": 0.0, "highlight": false, "find_answers": true, "authentication": {"basic": "basic", "bearer": "bearer"}}, "messages": {"success": "success", "error": "error", "no_result": "no_result"}, "schema_mapping": {"url": "url", "body": "body", "title": "title"}, "elastic_search": {"url": "url", "port": "port", "username": "username", "password": "password", "index": "index", "filter": ["anyValue"], "query_body": {"anyKey": "anyValue"}, "managed_index": "managed_index", "apikey": "apikey"}, "conversational_search": {"enabled": true, "response_length": {"option": "moderate"}, "search_confidence": {"threshold": "less_often"}}, "server_side_search": {"url": "url", "port": "port", "username": "username", "password": "password", "filter": "filter", "metadata": {"anyKey": "anyValue"}, "apikey": "apikey", "no_auth": false, "auth_type": "basic"}, "client_side_search": {"filter": "filter", "metadata": {"anyKey": "anyValue"}}}, "warnings": [{"code": "code", "path": "path", "message": "message"}], "language": "language", "type": "action"}'
         responses.add(
             responses.GET,
             url,
@@ -2632,7 +4277,7 @@ class TestGetSkill:
         """
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/skills/testString')
-        mock_response = '{"name": "name", "description": "description", "workspace": {"anyKey": "anyValue"}, "skill_id": "skill_id", "status": "Available", "status_errors": [{"message": "message"}], "status_description": "status_description", "dialog_settings": {"anyKey": "anyValue"}, "assistant_id": "assistant_id", "workspace_id": "workspace_id", "environment_id": "environment_id", "valid": false, "next_snapshot_version": "next_snapshot_version", "search_settings": {"discovery": {"instance_id": "instance_id", "project_id": "project_id", "url": "url", "max_primary_results": 10000, "max_total_results": 10000, "confidence_threshold": 0.0, "highlight": false, "find_answers": true, "authentication": {"basic": "basic", "bearer": "bearer"}}, "messages": {"success": "success", "error": "error", "no_result": "no_result"}, "schema_mapping": {"url": "url", "body": "body", "title": "title"}}, "warnings": [{"code": "code", "path": "path", "message": "message"}], "language": "language", "type": "action"}'
+        mock_response = '{"name": "name", "description": "description", "workspace": {"anyKey": "anyValue"}, "skill_id": "skill_id", "status": "Available", "status_errors": [{"message": "message"}], "status_description": "status_description", "dialog_settings": {"anyKey": "anyValue"}, "assistant_id": "assistant_id", "workspace_id": "workspace_id", "environment_id": "environment_id", "valid": false, "next_snapshot_version": "next_snapshot_version", "search_settings": {"discovery": {"instance_id": "instance_id", "project_id": "project_id", "url": "url", "max_primary_results": 10000, "max_total_results": 10000, "confidence_threshold": 0.0, "highlight": false, "find_answers": true, "authentication": {"basic": "basic", "bearer": "bearer"}}, "messages": {"success": "success", "error": "error", "no_result": "no_result"}, "schema_mapping": {"url": "url", "body": "body", "title": "title"}, "elastic_search": {"url": "url", "port": "port", "username": "username", "password": "password", "index": "index", "filter": ["anyValue"], "query_body": {"anyKey": "anyValue"}, "managed_index": "managed_index", "apikey": "apikey"}, "conversational_search": {"enabled": true, "response_length": {"option": "moderate"}, "search_confidence": {"threshold": "less_often"}}, "server_side_search": {"url": "url", "port": "port", "username": "username", "password": "password", "filter": "filter", "metadata": {"anyKey": "anyValue"}, "apikey": "apikey", "no_auth": false, "auth_type": "basic"}, "client_side_search": {"filter": "filter", "metadata": {"anyKey": "anyValue"}}}, "warnings": [{"code": "code", "path": "path", "message": "message"}], "language": "language", "type": "action"}'
         responses.add(
             responses.GET,
             url,
@@ -2677,7 +4322,7 @@ class TestUpdateSkill:
         """
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/skills/testString')
-        mock_response = '{"name": "name", "description": "description", "workspace": {"anyKey": "anyValue"}, "skill_id": "skill_id", "status": "Available", "status_errors": [{"message": "message"}], "status_description": "status_description", "dialog_settings": {"anyKey": "anyValue"}, "assistant_id": "assistant_id", "workspace_id": "workspace_id", "environment_id": "environment_id", "valid": false, "next_snapshot_version": "next_snapshot_version", "search_settings": {"discovery": {"instance_id": "instance_id", "project_id": "project_id", "url": "url", "max_primary_results": 10000, "max_total_results": 10000, "confidence_threshold": 0.0, "highlight": false, "find_answers": true, "authentication": {"basic": "basic", "bearer": "bearer"}}, "messages": {"success": "success", "error": "error", "no_result": "no_result"}, "schema_mapping": {"url": "url", "body": "body", "title": "title"}}, "warnings": [{"code": "code", "path": "path", "message": "message"}], "language": "language", "type": "action"}'
+        mock_response = '{"name": "name", "description": "description", "workspace": {"anyKey": "anyValue"}, "skill_id": "skill_id", "status": "Available", "status_errors": [{"message": "message"}], "status_description": "status_description", "dialog_settings": {"anyKey": "anyValue"}, "assistant_id": "assistant_id", "workspace_id": "workspace_id", "environment_id": "environment_id", "valid": false, "next_snapshot_version": "next_snapshot_version", "search_settings": {"discovery": {"instance_id": "instance_id", "project_id": "project_id", "url": "url", "max_primary_results": 10000, "max_total_results": 10000, "confidence_threshold": 0.0, "highlight": false, "find_answers": true, "authentication": {"basic": "basic", "bearer": "bearer"}}, "messages": {"success": "success", "error": "error", "no_result": "no_result"}, "schema_mapping": {"url": "url", "body": "body", "title": "title"}, "elastic_search": {"url": "url", "port": "port", "username": "username", "password": "password", "index": "index", "filter": ["anyValue"], "query_body": {"anyKey": "anyValue"}, "managed_index": "managed_index", "apikey": "apikey"}, "conversational_search": {"enabled": true, "response_length": {"option": "moderate"}, "search_confidence": {"threshold": "less_often"}}, "server_side_search": {"url": "url", "port": "port", "username": "username", "password": "password", "filter": "filter", "metadata": {"anyKey": "anyValue"}, "apikey": "apikey", "no_auth": false, "auth_type": "basic"}, "client_side_search": {"filter": "filter", "metadata": {"anyKey": "anyValue"}}}, "warnings": [{"code": "code", "path": "path", "message": "message"}], "language": "language", "type": "action"}'
         responses.add(
             responses.POST,
             url,
@@ -2715,11 +4360,58 @@ class TestUpdateSkill:
         search_settings_schema_mapping_model['body'] = 'testString'
         search_settings_schema_mapping_model['title'] = 'testString'
 
+        # Construct a dict representation of a SearchSettingsElasticSearch model
+        search_settings_elastic_search_model = {}
+        search_settings_elastic_search_model['url'] = 'testString'
+        search_settings_elastic_search_model['port'] = 'testString'
+        search_settings_elastic_search_model['username'] = 'testString'
+        search_settings_elastic_search_model['password'] = 'testString'
+        search_settings_elastic_search_model['index'] = 'testString'
+        search_settings_elastic_search_model['filter'] = ['testString']
+        search_settings_elastic_search_model['query_body'] = {'anyKey': 'anyValue'}
+        search_settings_elastic_search_model['managed_index'] = 'testString'
+        search_settings_elastic_search_model['apikey'] = 'testString'
+
+        # Construct a dict representation of a SearchSettingsConversationalSearchResponseLength model
+        search_settings_conversational_search_response_length_model = {}
+        search_settings_conversational_search_response_length_model['option'] = 'moderate'
+
+        # Construct a dict representation of a SearchSettingsConversationalSearchSearchConfidence model
+        search_settings_conversational_search_search_confidence_model = {}
+        search_settings_conversational_search_search_confidence_model['threshold'] = 'less_often'
+
+        # Construct a dict representation of a SearchSettingsConversationalSearch model
+        search_settings_conversational_search_model = {}
+        search_settings_conversational_search_model['enabled'] = True
+        search_settings_conversational_search_model['response_length'] = search_settings_conversational_search_response_length_model
+        search_settings_conversational_search_model['search_confidence'] = search_settings_conversational_search_search_confidence_model
+
+        # Construct a dict representation of a SearchSettingsServerSideSearch model
+        search_settings_server_side_search_model = {}
+        search_settings_server_side_search_model['url'] = 'testString'
+        search_settings_server_side_search_model['port'] = 'testString'
+        search_settings_server_side_search_model['username'] = 'testString'
+        search_settings_server_side_search_model['password'] = 'testString'
+        search_settings_server_side_search_model['filter'] = 'testString'
+        search_settings_server_side_search_model['metadata'] = {'anyKey': 'anyValue'}
+        search_settings_server_side_search_model['apikey'] = 'testString'
+        search_settings_server_side_search_model['no_auth'] = True
+        search_settings_server_side_search_model['auth_type'] = 'basic'
+
+        # Construct a dict representation of a SearchSettingsClientSideSearch model
+        search_settings_client_side_search_model = {}
+        search_settings_client_side_search_model['filter'] = 'testString'
+        search_settings_client_side_search_model['metadata'] = {'anyKey': 'anyValue'}
+
         # Construct a dict representation of a SearchSettings model
         search_settings_model = {}
         search_settings_model['discovery'] = search_settings_discovery_model
         search_settings_model['messages'] = search_settings_messages_model
         search_settings_model['schema_mapping'] = search_settings_schema_mapping_model
+        search_settings_model['elastic_search'] = search_settings_elastic_search_model
+        search_settings_model['conversational_search'] = search_settings_conversational_search_model
+        search_settings_model['server_side_search'] = search_settings_server_side_search_model
+        search_settings_model['client_side_search'] = search_settings_client_side_search_model
 
         # Set up parameter values
         assistant_id = 'testString'
@@ -2769,7 +4461,7 @@ class TestUpdateSkill:
         """
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/skills/testString')
-        mock_response = '{"name": "name", "description": "description", "workspace": {"anyKey": "anyValue"}, "skill_id": "skill_id", "status": "Available", "status_errors": [{"message": "message"}], "status_description": "status_description", "dialog_settings": {"anyKey": "anyValue"}, "assistant_id": "assistant_id", "workspace_id": "workspace_id", "environment_id": "environment_id", "valid": false, "next_snapshot_version": "next_snapshot_version", "search_settings": {"discovery": {"instance_id": "instance_id", "project_id": "project_id", "url": "url", "max_primary_results": 10000, "max_total_results": 10000, "confidence_threshold": 0.0, "highlight": false, "find_answers": true, "authentication": {"basic": "basic", "bearer": "bearer"}}, "messages": {"success": "success", "error": "error", "no_result": "no_result"}, "schema_mapping": {"url": "url", "body": "body", "title": "title"}}, "warnings": [{"code": "code", "path": "path", "message": "message"}], "language": "language", "type": "action"}'
+        mock_response = '{"name": "name", "description": "description", "workspace": {"anyKey": "anyValue"}, "skill_id": "skill_id", "status": "Available", "status_errors": [{"message": "message"}], "status_description": "status_description", "dialog_settings": {"anyKey": "anyValue"}, "assistant_id": "assistant_id", "workspace_id": "workspace_id", "environment_id": "environment_id", "valid": false, "next_snapshot_version": "next_snapshot_version", "search_settings": {"discovery": {"instance_id": "instance_id", "project_id": "project_id", "url": "url", "max_primary_results": 10000, "max_total_results": 10000, "confidence_threshold": 0.0, "highlight": false, "find_answers": true, "authentication": {"basic": "basic", "bearer": "bearer"}}, "messages": {"success": "success", "error": "error", "no_result": "no_result"}, "schema_mapping": {"url": "url", "body": "body", "title": "title"}, "elastic_search": {"url": "url", "port": "port", "username": "username", "password": "password", "index": "index", "filter": ["anyValue"], "query_body": {"anyKey": "anyValue"}, "managed_index": "managed_index", "apikey": "apikey"}, "conversational_search": {"enabled": true, "response_length": {"option": "moderate"}, "search_confidence": {"threshold": "less_often"}}, "server_side_search": {"url": "url", "port": "port", "username": "username", "password": "password", "filter": "filter", "metadata": {"anyKey": "anyValue"}, "apikey": "apikey", "no_auth": false, "auth_type": "basic"}, "client_side_search": {"filter": "filter", "metadata": {"anyKey": "anyValue"}}}, "warnings": [{"code": "code", "path": "path", "message": "message"}], "language": "language", "type": "action"}'
         responses.add(
             responses.POST,
             url,
@@ -2807,11 +4499,58 @@ class TestUpdateSkill:
         search_settings_schema_mapping_model['body'] = 'testString'
         search_settings_schema_mapping_model['title'] = 'testString'
 
+        # Construct a dict representation of a SearchSettingsElasticSearch model
+        search_settings_elastic_search_model = {}
+        search_settings_elastic_search_model['url'] = 'testString'
+        search_settings_elastic_search_model['port'] = 'testString'
+        search_settings_elastic_search_model['username'] = 'testString'
+        search_settings_elastic_search_model['password'] = 'testString'
+        search_settings_elastic_search_model['index'] = 'testString'
+        search_settings_elastic_search_model['filter'] = ['testString']
+        search_settings_elastic_search_model['query_body'] = {'anyKey': 'anyValue'}
+        search_settings_elastic_search_model['managed_index'] = 'testString'
+        search_settings_elastic_search_model['apikey'] = 'testString'
+
+        # Construct a dict representation of a SearchSettingsConversationalSearchResponseLength model
+        search_settings_conversational_search_response_length_model = {}
+        search_settings_conversational_search_response_length_model['option'] = 'moderate'
+
+        # Construct a dict representation of a SearchSettingsConversationalSearchSearchConfidence model
+        search_settings_conversational_search_search_confidence_model = {}
+        search_settings_conversational_search_search_confidence_model['threshold'] = 'less_often'
+
+        # Construct a dict representation of a SearchSettingsConversationalSearch model
+        search_settings_conversational_search_model = {}
+        search_settings_conversational_search_model['enabled'] = True
+        search_settings_conversational_search_model['response_length'] = search_settings_conversational_search_response_length_model
+        search_settings_conversational_search_model['search_confidence'] = search_settings_conversational_search_search_confidence_model
+
+        # Construct a dict representation of a SearchSettingsServerSideSearch model
+        search_settings_server_side_search_model = {}
+        search_settings_server_side_search_model['url'] = 'testString'
+        search_settings_server_side_search_model['port'] = 'testString'
+        search_settings_server_side_search_model['username'] = 'testString'
+        search_settings_server_side_search_model['password'] = 'testString'
+        search_settings_server_side_search_model['filter'] = 'testString'
+        search_settings_server_side_search_model['metadata'] = {'anyKey': 'anyValue'}
+        search_settings_server_side_search_model['apikey'] = 'testString'
+        search_settings_server_side_search_model['no_auth'] = True
+        search_settings_server_side_search_model['auth_type'] = 'basic'
+
+        # Construct a dict representation of a SearchSettingsClientSideSearch model
+        search_settings_client_side_search_model = {}
+        search_settings_client_side_search_model['filter'] = 'testString'
+        search_settings_client_side_search_model['metadata'] = {'anyKey': 'anyValue'}
+
         # Construct a dict representation of a SearchSettings model
         search_settings_model = {}
         search_settings_model['discovery'] = search_settings_discovery_model
         search_settings_model['messages'] = search_settings_messages_model
         search_settings_model['schema_mapping'] = search_settings_schema_mapping_model
+        search_settings_model['elastic_search'] = search_settings_elastic_search_model
+        search_settings_model['conversational_search'] = search_settings_conversational_search_model
+        search_settings_model['server_side_search'] = search_settings_server_side_search_model
+        search_settings_model['client_side_search'] = search_settings_client_side_search_model
 
         # Set up parameter values
         assistant_id = 'testString'
@@ -2854,7 +4593,7 @@ class TestExportSkills:
         """
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/skills_export')
-        mock_response = '{"assistant_skills": [{"name": "name", "description": "description", "workspace": {"anyKey": "anyValue"}, "skill_id": "skill_id", "status": "Available", "status_errors": [{"message": "message"}], "status_description": "status_description", "dialog_settings": {"anyKey": "anyValue"}, "assistant_id": "assistant_id", "workspace_id": "workspace_id", "environment_id": "environment_id", "valid": false, "next_snapshot_version": "next_snapshot_version", "search_settings": {"discovery": {"instance_id": "instance_id", "project_id": "project_id", "url": "url", "max_primary_results": 10000, "max_total_results": 10000, "confidence_threshold": 0.0, "highlight": false, "find_answers": true, "authentication": {"basic": "basic", "bearer": "bearer"}}, "messages": {"success": "success", "error": "error", "no_result": "no_result"}, "schema_mapping": {"url": "url", "body": "body", "title": "title"}}, "warnings": [{"code": "code", "path": "path", "message": "message"}], "language": "language", "type": "action"}], "assistant_state": {"action_disabled": false, "dialog_disabled": false}}'
+        mock_response = '{"assistant_skills": [{"name": "name", "description": "description", "workspace": {"anyKey": "anyValue"}, "skill_id": "skill_id", "status": "Available", "status_errors": [{"message": "message"}], "status_description": "status_description", "dialog_settings": {"anyKey": "anyValue"}, "assistant_id": "assistant_id", "workspace_id": "workspace_id", "environment_id": "environment_id", "valid": false, "next_snapshot_version": "next_snapshot_version", "search_settings": {"discovery": {"instance_id": "instance_id", "project_id": "project_id", "url": "url", "max_primary_results": 10000, "max_total_results": 10000, "confidence_threshold": 0.0, "highlight": false, "find_answers": true, "authentication": {"basic": "basic", "bearer": "bearer"}}, "messages": {"success": "success", "error": "error", "no_result": "no_result"}, "schema_mapping": {"url": "url", "body": "body", "title": "title"}, "elastic_search": {"url": "url", "port": "port", "username": "username", "password": "password", "index": "index", "filter": ["anyValue"], "query_body": {"anyKey": "anyValue"}, "managed_index": "managed_index", "apikey": "apikey"}, "conversational_search": {"enabled": true, "response_length": {"option": "moderate"}, "search_confidence": {"threshold": "less_often"}}, "server_side_search": {"url": "url", "port": "port", "username": "username", "password": "password", "filter": "filter", "metadata": {"anyKey": "anyValue"}, "apikey": "apikey", "no_auth": false, "auth_type": "basic"}, "client_side_search": {"filter": "filter", "metadata": {"anyKey": "anyValue"}}}, "warnings": [{"code": "code", "path": "path", "message": "message"}], "language": "language", "type": "action"}], "assistant_state": {"action_disabled": false, "dialog_disabled": false}}'
         responses.add(
             responses.GET,
             url,
@@ -2898,7 +4637,7 @@ class TestExportSkills:
         """
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/skills_export')
-        mock_response = '{"assistant_skills": [{"name": "name", "description": "description", "workspace": {"anyKey": "anyValue"}, "skill_id": "skill_id", "status": "Available", "status_errors": [{"message": "message"}], "status_description": "status_description", "dialog_settings": {"anyKey": "anyValue"}, "assistant_id": "assistant_id", "workspace_id": "workspace_id", "environment_id": "environment_id", "valid": false, "next_snapshot_version": "next_snapshot_version", "search_settings": {"discovery": {"instance_id": "instance_id", "project_id": "project_id", "url": "url", "max_primary_results": 10000, "max_total_results": 10000, "confidence_threshold": 0.0, "highlight": false, "find_answers": true, "authentication": {"basic": "basic", "bearer": "bearer"}}, "messages": {"success": "success", "error": "error", "no_result": "no_result"}, "schema_mapping": {"url": "url", "body": "body", "title": "title"}}, "warnings": [{"code": "code", "path": "path", "message": "message"}], "language": "language", "type": "action"}], "assistant_state": {"action_disabled": false, "dialog_disabled": false}}'
+        mock_response = '{"assistant_skills": [{"name": "name", "description": "description", "workspace": {"anyKey": "anyValue"}, "skill_id": "skill_id", "status": "Available", "status_errors": [{"message": "message"}], "status_description": "status_description", "dialog_settings": {"anyKey": "anyValue"}, "assistant_id": "assistant_id", "workspace_id": "workspace_id", "environment_id": "environment_id", "valid": false, "next_snapshot_version": "next_snapshot_version", "search_settings": {"discovery": {"instance_id": "instance_id", "project_id": "project_id", "url": "url", "max_primary_results": 10000, "max_total_results": 10000, "confidence_threshold": 0.0, "highlight": false, "find_answers": true, "authentication": {"basic": "basic", "bearer": "bearer"}}, "messages": {"success": "success", "error": "error", "no_result": "no_result"}, "schema_mapping": {"url": "url", "body": "body", "title": "title"}, "elastic_search": {"url": "url", "port": "port", "username": "username", "password": "password", "index": "index", "filter": ["anyValue"], "query_body": {"anyKey": "anyValue"}, "managed_index": "managed_index", "apikey": "apikey"}, "conversational_search": {"enabled": true, "response_length": {"option": "moderate"}, "search_confidence": {"threshold": "less_often"}}, "server_side_search": {"url": "url", "port": "port", "username": "username", "password": "password", "filter": "filter", "metadata": {"anyKey": "anyValue"}, "apikey": "apikey", "no_auth": false, "auth_type": "basic"}, "client_side_search": {"filter": "filter", "metadata": {"anyKey": "anyValue"}}}, "warnings": [{"code": "code", "path": "path", "message": "message"}], "language": "language", "type": "action"}], "assistant_state": {"action_disabled": false, "dialog_disabled": false}}'
         responses.add(
             responses.GET,
             url,
@@ -2936,7 +4675,7 @@ class TestExportSkills:
         """
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/skills_export')
-        mock_response = '{"assistant_skills": [{"name": "name", "description": "description", "workspace": {"anyKey": "anyValue"}, "skill_id": "skill_id", "status": "Available", "status_errors": [{"message": "message"}], "status_description": "status_description", "dialog_settings": {"anyKey": "anyValue"}, "assistant_id": "assistant_id", "workspace_id": "workspace_id", "environment_id": "environment_id", "valid": false, "next_snapshot_version": "next_snapshot_version", "search_settings": {"discovery": {"instance_id": "instance_id", "project_id": "project_id", "url": "url", "max_primary_results": 10000, "max_total_results": 10000, "confidence_threshold": 0.0, "highlight": false, "find_answers": true, "authentication": {"basic": "basic", "bearer": "bearer"}}, "messages": {"success": "success", "error": "error", "no_result": "no_result"}, "schema_mapping": {"url": "url", "body": "body", "title": "title"}}, "warnings": [{"code": "code", "path": "path", "message": "message"}], "language": "language", "type": "action"}], "assistant_state": {"action_disabled": false, "dialog_disabled": false}}'
+        mock_response = '{"assistant_skills": [{"name": "name", "description": "description", "workspace": {"anyKey": "anyValue"}, "skill_id": "skill_id", "status": "Available", "status_errors": [{"message": "message"}], "status_description": "status_description", "dialog_settings": {"anyKey": "anyValue"}, "assistant_id": "assistant_id", "workspace_id": "workspace_id", "environment_id": "environment_id", "valid": false, "next_snapshot_version": "next_snapshot_version", "search_settings": {"discovery": {"instance_id": "instance_id", "project_id": "project_id", "url": "url", "max_primary_results": 10000, "max_total_results": 10000, "confidence_threshold": 0.0, "highlight": false, "find_answers": true, "authentication": {"basic": "basic", "bearer": "bearer"}}, "messages": {"success": "success", "error": "error", "no_result": "no_result"}, "schema_mapping": {"url": "url", "body": "body", "title": "title"}, "elastic_search": {"url": "url", "port": "port", "username": "username", "password": "password", "index": "index", "filter": ["anyValue"], "query_body": {"anyKey": "anyValue"}, "managed_index": "managed_index", "apikey": "apikey"}, "conversational_search": {"enabled": true, "response_length": {"option": "moderate"}, "search_confidence": {"threshold": "less_often"}}, "server_side_search": {"url": "url", "port": "port", "username": "username", "password": "password", "filter": "filter", "metadata": {"anyKey": "anyValue"}, "apikey": "apikey", "no_auth": false, "auth_type": "basic"}, "client_side_search": {"filter": "filter", "metadata": {"anyKey": "anyValue"}}}, "warnings": [{"code": "code", "path": "path", "message": "message"}], "language": "language", "type": "action"}], "assistant_state": {"action_disabled": false, "dialog_disabled": false}}'
         responses.add(
             responses.GET,
             url,
@@ -3017,11 +4756,58 @@ class TestImportSkills:
         search_settings_schema_mapping_model['body'] = 'testString'
         search_settings_schema_mapping_model['title'] = 'testString'
 
+        # Construct a dict representation of a SearchSettingsElasticSearch model
+        search_settings_elastic_search_model = {}
+        search_settings_elastic_search_model['url'] = 'testString'
+        search_settings_elastic_search_model['port'] = 'testString'
+        search_settings_elastic_search_model['username'] = 'testString'
+        search_settings_elastic_search_model['password'] = 'testString'
+        search_settings_elastic_search_model['index'] = 'testString'
+        search_settings_elastic_search_model['filter'] = ['testString']
+        search_settings_elastic_search_model['query_body'] = {'anyKey': 'anyValue'}
+        search_settings_elastic_search_model['managed_index'] = 'testString'
+        search_settings_elastic_search_model['apikey'] = 'testString'
+
+        # Construct a dict representation of a SearchSettingsConversationalSearchResponseLength model
+        search_settings_conversational_search_response_length_model = {}
+        search_settings_conversational_search_response_length_model['option'] = 'moderate'
+
+        # Construct a dict representation of a SearchSettingsConversationalSearchSearchConfidence model
+        search_settings_conversational_search_search_confidence_model = {}
+        search_settings_conversational_search_search_confidence_model['threshold'] = 'less_often'
+
+        # Construct a dict representation of a SearchSettingsConversationalSearch model
+        search_settings_conversational_search_model = {}
+        search_settings_conversational_search_model['enabled'] = True
+        search_settings_conversational_search_model['response_length'] = search_settings_conversational_search_response_length_model
+        search_settings_conversational_search_model['search_confidence'] = search_settings_conversational_search_search_confidence_model
+
+        # Construct a dict representation of a SearchSettingsServerSideSearch model
+        search_settings_server_side_search_model = {}
+        search_settings_server_side_search_model['url'] = 'testString'
+        search_settings_server_side_search_model['port'] = 'testString'
+        search_settings_server_side_search_model['username'] = 'testString'
+        search_settings_server_side_search_model['password'] = 'testString'
+        search_settings_server_side_search_model['filter'] = 'testString'
+        search_settings_server_side_search_model['metadata'] = {'anyKey': 'anyValue'}
+        search_settings_server_side_search_model['apikey'] = 'testString'
+        search_settings_server_side_search_model['no_auth'] = True
+        search_settings_server_side_search_model['auth_type'] = 'basic'
+
+        # Construct a dict representation of a SearchSettingsClientSideSearch model
+        search_settings_client_side_search_model = {}
+        search_settings_client_side_search_model['filter'] = 'testString'
+        search_settings_client_side_search_model['metadata'] = {'anyKey': 'anyValue'}
+
         # Construct a dict representation of a SearchSettings model
         search_settings_model = {}
         search_settings_model['discovery'] = search_settings_discovery_model
         search_settings_model['messages'] = search_settings_messages_model
         search_settings_model['schema_mapping'] = search_settings_schema_mapping_model
+        search_settings_model['elastic_search'] = search_settings_elastic_search_model
+        search_settings_model['conversational_search'] = search_settings_conversational_search_model
+        search_settings_model['server_side_search'] = search_settings_server_side_search_model
+        search_settings_model['client_side_search'] = search_settings_client_side_search_model
 
         # Construct a dict representation of a SkillImport model
         skill_import_model = {}
@@ -3119,11 +4905,58 @@ class TestImportSkills:
         search_settings_schema_mapping_model['body'] = 'testString'
         search_settings_schema_mapping_model['title'] = 'testString'
 
+        # Construct a dict representation of a SearchSettingsElasticSearch model
+        search_settings_elastic_search_model = {}
+        search_settings_elastic_search_model['url'] = 'testString'
+        search_settings_elastic_search_model['port'] = 'testString'
+        search_settings_elastic_search_model['username'] = 'testString'
+        search_settings_elastic_search_model['password'] = 'testString'
+        search_settings_elastic_search_model['index'] = 'testString'
+        search_settings_elastic_search_model['filter'] = ['testString']
+        search_settings_elastic_search_model['query_body'] = {'anyKey': 'anyValue'}
+        search_settings_elastic_search_model['managed_index'] = 'testString'
+        search_settings_elastic_search_model['apikey'] = 'testString'
+
+        # Construct a dict representation of a SearchSettingsConversationalSearchResponseLength model
+        search_settings_conversational_search_response_length_model = {}
+        search_settings_conversational_search_response_length_model['option'] = 'moderate'
+
+        # Construct a dict representation of a SearchSettingsConversationalSearchSearchConfidence model
+        search_settings_conversational_search_search_confidence_model = {}
+        search_settings_conversational_search_search_confidence_model['threshold'] = 'less_often'
+
+        # Construct a dict representation of a SearchSettingsConversationalSearch model
+        search_settings_conversational_search_model = {}
+        search_settings_conversational_search_model['enabled'] = True
+        search_settings_conversational_search_model['response_length'] = search_settings_conversational_search_response_length_model
+        search_settings_conversational_search_model['search_confidence'] = search_settings_conversational_search_search_confidence_model
+
+        # Construct a dict representation of a SearchSettingsServerSideSearch model
+        search_settings_server_side_search_model = {}
+        search_settings_server_side_search_model['url'] = 'testString'
+        search_settings_server_side_search_model['port'] = 'testString'
+        search_settings_server_side_search_model['username'] = 'testString'
+        search_settings_server_side_search_model['password'] = 'testString'
+        search_settings_server_side_search_model['filter'] = 'testString'
+        search_settings_server_side_search_model['metadata'] = {'anyKey': 'anyValue'}
+        search_settings_server_side_search_model['apikey'] = 'testString'
+        search_settings_server_side_search_model['no_auth'] = True
+        search_settings_server_side_search_model['auth_type'] = 'basic'
+
+        # Construct a dict representation of a SearchSettingsClientSideSearch model
+        search_settings_client_side_search_model = {}
+        search_settings_client_side_search_model['filter'] = 'testString'
+        search_settings_client_side_search_model['metadata'] = {'anyKey': 'anyValue'}
+
         # Construct a dict representation of a SearchSettings model
         search_settings_model = {}
         search_settings_model['discovery'] = search_settings_discovery_model
         search_settings_model['messages'] = search_settings_messages_model
         search_settings_model['schema_mapping'] = search_settings_schema_mapping_model
+        search_settings_model['elastic_search'] = search_settings_elastic_search_model
+        search_settings_model['conversational_search'] = search_settings_conversational_search_model
+        search_settings_model['server_side_search'] = search_settings_server_side_search_model
+        search_settings_model['client_side_search'] = search_settings_client_side_search_model
 
         # Construct a dict representation of a SkillImport model
         skill_import_model = {}
@@ -3215,11 +5048,58 @@ class TestImportSkills:
         search_settings_schema_mapping_model['body'] = 'testString'
         search_settings_schema_mapping_model['title'] = 'testString'
 
+        # Construct a dict representation of a SearchSettingsElasticSearch model
+        search_settings_elastic_search_model = {}
+        search_settings_elastic_search_model['url'] = 'testString'
+        search_settings_elastic_search_model['port'] = 'testString'
+        search_settings_elastic_search_model['username'] = 'testString'
+        search_settings_elastic_search_model['password'] = 'testString'
+        search_settings_elastic_search_model['index'] = 'testString'
+        search_settings_elastic_search_model['filter'] = ['testString']
+        search_settings_elastic_search_model['query_body'] = {'anyKey': 'anyValue'}
+        search_settings_elastic_search_model['managed_index'] = 'testString'
+        search_settings_elastic_search_model['apikey'] = 'testString'
+
+        # Construct a dict representation of a SearchSettingsConversationalSearchResponseLength model
+        search_settings_conversational_search_response_length_model = {}
+        search_settings_conversational_search_response_length_model['option'] = 'moderate'
+
+        # Construct a dict representation of a SearchSettingsConversationalSearchSearchConfidence model
+        search_settings_conversational_search_search_confidence_model = {}
+        search_settings_conversational_search_search_confidence_model['threshold'] = 'less_often'
+
+        # Construct a dict representation of a SearchSettingsConversationalSearch model
+        search_settings_conversational_search_model = {}
+        search_settings_conversational_search_model['enabled'] = True
+        search_settings_conversational_search_model['response_length'] = search_settings_conversational_search_response_length_model
+        search_settings_conversational_search_model['search_confidence'] = search_settings_conversational_search_search_confidence_model
+
+        # Construct a dict representation of a SearchSettingsServerSideSearch model
+        search_settings_server_side_search_model = {}
+        search_settings_server_side_search_model['url'] = 'testString'
+        search_settings_server_side_search_model['port'] = 'testString'
+        search_settings_server_side_search_model['username'] = 'testString'
+        search_settings_server_side_search_model['password'] = 'testString'
+        search_settings_server_side_search_model['filter'] = 'testString'
+        search_settings_server_side_search_model['metadata'] = {'anyKey': 'anyValue'}
+        search_settings_server_side_search_model['apikey'] = 'testString'
+        search_settings_server_side_search_model['no_auth'] = True
+        search_settings_server_side_search_model['auth_type'] = 'basic'
+
+        # Construct a dict representation of a SearchSettingsClientSideSearch model
+        search_settings_client_side_search_model = {}
+        search_settings_client_side_search_model['filter'] = 'testString'
+        search_settings_client_side_search_model['metadata'] = {'anyKey': 'anyValue'}
+
         # Construct a dict representation of a SearchSettings model
         search_settings_model = {}
         search_settings_model['discovery'] = search_settings_discovery_model
         search_settings_model['messages'] = search_settings_messages_model
         search_settings_model['schema_mapping'] = search_settings_schema_mapping_model
+        search_settings_model['elastic_search'] = search_settings_elastic_search_model
+        search_settings_model['conversational_search'] = search_settings_conversational_search_model
+        search_settings_model['server_side_search'] = search_settings_server_side_search_model
+        search_settings_model['client_side_search'] = search_settings_client_side_search_model
 
         # Construct a dict representation of a SkillImport model
         skill_import_model = {}
@@ -3934,6 +5814,65 @@ class TestModel_ChannelTransferTargetChat:
         # Convert model instance back to dict and verify no loss of data
         channel_transfer_target_chat_model_json2 = channel_transfer_target_chat_model.to_dict()
         assert channel_transfer_target_chat_model_json2 == channel_transfer_target_chat_model_json
+
+
+class TestModel_CreateAssistantReleaseImportResponse:
+    """
+    Test Class for CreateAssistantReleaseImportResponse
+    """
+
+    def test_create_assistant_release_import_response_serialization(self):
+        """
+        Test serialization/deserialization for CreateAssistantReleaseImportResponse
+        """
+
+        # Construct a json representation of a CreateAssistantReleaseImportResponse model
+        create_assistant_release_import_response_model_json = {}
+        create_assistant_release_import_response_model_json['skill_impact_in_draft'] = ['action']
+
+        # Construct a model instance of CreateAssistantReleaseImportResponse by calling from_dict on the json representation
+        create_assistant_release_import_response_model = CreateAssistantReleaseImportResponse.from_dict(create_assistant_release_import_response_model_json)
+        assert create_assistant_release_import_response_model != False
+
+        # Construct a model instance of CreateAssistantReleaseImportResponse by calling from_dict on the json representation
+        create_assistant_release_import_response_model_dict = CreateAssistantReleaseImportResponse.from_dict(create_assistant_release_import_response_model_json).__dict__
+        create_assistant_release_import_response_model2 = CreateAssistantReleaseImportResponse(**create_assistant_release_import_response_model_dict)
+
+        # Verify the model instances are equivalent
+        assert create_assistant_release_import_response_model == create_assistant_release_import_response_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        create_assistant_release_import_response_model_json2 = create_assistant_release_import_response_model.to_dict()
+        assert create_assistant_release_import_response_model_json2 == create_assistant_release_import_response_model_json
+
+
+class TestModel_CreateReleaseExportWithStatusErrors:
+    """
+    Test Class for CreateReleaseExportWithStatusErrors
+    """
+
+    def test_create_release_export_with_status_errors_serialization(self):
+        """
+        Test serialization/deserialization for CreateReleaseExportWithStatusErrors
+        """
+
+        # Construct a json representation of a CreateReleaseExportWithStatusErrors model
+        create_release_export_with_status_errors_model_json = {}
+
+        # Construct a model instance of CreateReleaseExportWithStatusErrors by calling from_dict on the json representation
+        create_release_export_with_status_errors_model = CreateReleaseExportWithStatusErrors.from_dict(create_release_export_with_status_errors_model_json)
+        assert create_release_export_with_status_errors_model != False
+
+        # Construct a model instance of CreateReleaseExportWithStatusErrors by calling from_dict on the json representation
+        create_release_export_with_status_errors_model_dict = CreateReleaseExportWithStatusErrors.from_dict(create_release_export_with_status_errors_model_json).__dict__
+        create_release_export_with_status_errors_model2 = CreateReleaseExportWithStatusErrors(**create_release_export_with_status_errors_model_dict)
+
+        # Verify the model instances are equivalent
+        assert create_release_export_with_status_errors_model == create_release_export_with_status_errors_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        create_release_export_with_status_errors_model_json2 = create_release_export_with_status_errors_model.to_dict()
+        assert create_release_export_with_status_errors_model_json2 == create_release_export_with_status_errors_model_json
 
 
 class TestModel_DialogLogMessage:
@@ -6146,7 +8085,7 @@ class TestModel_MessageContextSkillSystem:
         expected_dict = {'foo': 'testString'}
         message_context_skill_system_model.set_properties(expected_dict)
         actual_dict = message_context_skill_system_model.get_properties()
-        assert actual_dict == expected_dict
+        assert actual_dict.keys() == expected_dict.keys()
 
 
 class TestModel_MessageContextSkills:
@@ -6662,6 +8601,66 @@ class TestModel_MessageOutputSpelling:
         assert message_output_spelling_model_json2 == message_output_spelling_model_json
 
 
+class TestModel_Metadata:
+    """
+    Test Class for Metadata
+    """
+
+    def test_metadata_serialization(self):
+        """
+        Test serialization/deserialization for Metadata
+        """
+
+        # Construct a json representation of a Metadata model
+        metadata_model_json = {}
+        metadata_model_json['id'] = 38
+
+        # Construct a model instance of Metadata by calling from_dict on the json representation
+        metadata_model = Metadata.from_dict(metadata_model_json)
+        assert metadata_model != False
+
+        # Construct a model instance of Metadata by calling from_dict on the json representation
+        metadata_model_dict = Metadata.from_dict(metadata_model_json).__dict__
+        metadata_model2 = Metadata(**metadata_model_dict)
+
+        # Verify the model instances are equivalent
+        assert metadata_model == metadata_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        metadata_model_json2 = metadata_model.to_dict()
+        assert metadata_model_json2 == metadata_model_json
+
+
+class TestModel_MonitorAssistantReleaseImportArtifactResponse:
+    """
+    Test Class for MonitorAssistantReleaseImportArtifactResponse
+    """
+
+    def test_monitor_assistant_release_import_artifact_response_serialization(self):
+        """
+        Test serialization/deserialization for MonitorAssistantReleaseImportArtifactResponse
+        """
+
+        # Construct a json representation of a MonitorAssistantReleaseImportArtifactResponse model
+        monitor_assistant_release_import_artifact_response_model_json = {}
+        monitor_assistant_release_import_artifact_response_model_json['skill_impact_in_draft'] = ['action']
+
+        # Construct a model instance of MonitorAssistantReleaseImportArtifactResponse by calling from_dict on the json representation
+        monitor_assistant_release_import_artifact_response_model = MonitorAssistantReleaseImportArtifactResponse.from_dict(monitor_assistant_release_import_artifact_response_model_json)
+        assert monitor_assistant_release_import_artifact_response_model != False
+
+        # Construct a model instance of MonitorAssistantReleaseImportArtifactResponse by calling from_dict on the json representation
+        monitor_assistant_release_import_artifact_response_model_dict = MonitorAssistantReleaseImportArtifactResponse.from_dict(monitor_assistant_release_import_artifact_response_model_json).__dict__
+        monitor_assistant_release_import_artifact_response_model2 = MonitorAssistantReleaseImportArtifactResponse(**monitor_assistant_release_import_artifact_response_model_dict)
+
+        # Verify the model instances are equivalent
+        assert monitor_assistant_release_import_artifact_response_model == monitor_assistant_release_import_artifact_response_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        monitor_assistant_release_import_artifact_response_model_json2 = monitor_assistant_release_import_artifact_response_model.to_dict()
+        assert monitor_assistant_release_import_artifact_response_model_json2 == monitor_assistant_release_import_artifact_response_model_json
+
+
 class TestModel_Pagination:
     """
     Test Class for Pagination
@@ -6695,6 +8694,837 @@ class TestModel_Pagination:
         # Convert model instance back to dict and verify no loss of data
         pagination_model_json2 = pagination_model.to_dict()
         assert pagination_model_json2 == pagination_model_json
+
+
+class TestModel_ProviderAuthenticationOAuth2:
+    """
+    Test Class for ProviderAuthenticationOAuth2
+    """
+
+    def test_provider_authentication_o_auth2_serialization(self):
+        """
+        Test serialization/deserialization for ProviderAuthenticationOAuth2
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        provider_authentication_o_auth2_password_username_model = {}  # ProviderAuthenticationOAuth2PasswordUsername
+        provider_authentication_o_auth2_password_username_model['type'] = 'value'
+        provider_authentication_o_auth2_password_username_model['value'] = 'testString'
+
+        provider_authentication_o_auth2_flows_model = {}  # ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2Password
+        provider_authentication_o_auth2_flows_model['token_url'] = 'testString'
+        provider_authentication_o_auth2_flows_model['refresh_url'] = 'testString'
+        provider_authentication_o_auth2_flows_model['client_auth_type'] = 'Body'
+        provider_authentication_o_auth2_flows_model['content_type'] = 'testString'
+        provider_authentication_o_auth2_flows_model['header_prefix'] = 'testString'
+        provider_authentication_o_auth2_flows_model['username'] = provider_authentication_o_auth2_password_username_model
+
+        # Construct a json representation of a ProviderAuthenticationOAuth2 model
+        provider_authentication_o_auth2_model_json = {}
+        provider_authentication_o_auth2_model_json['preferred_flow'] = 'password'
+        provider_authentication_o_auth2_model_json['flows'] = provider_authentication_o_auth2_flows_model
+
+        # Construct a model instance of ProviderAuthenticationOAuth2 by calling from_dict on the json representation
+        provider_authentication_o_auth2_model = ProviderAuthenticationOAuth2.from_dict(provider_authentication_o_auth2_model_json)
+        assert provider_authentication_o_auth2_model != False
+
+        # Construct a model instance of ProviderAuthenticationOAuth2 by calling from_dict on the json representation
+        provider_authentication_o_auth2_model_dict = ProviderAuthenticationOAuth2.from_dict(provider_authentication_o_auth2_model_json).__dict__
+        provider_authentication_o_auth2_model2 = ProviderAuthenticationOAuth2(**provider_authentication_o_auth2_model_dict)
+
+        # Verify the model instances are equivalent
+        assert provider_authentication_o_auth2_model == provider_authentication_o_auth2_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        provider_authentication_o_auth2_model_json2 = provider_authentication_o_auth2_model.to_dict()
+        assert provider_authentication_o_auth2_model_json2 == provider_authentication_o_auth2_model_json
+
+
+class TestModel_ProviderAuthenticationOAuth2PasswordUsername:
+    """
+    Test Class for ProviderAuthenticationOAuth2PasswordUsername
+    """
+
+    def test_provider_authentication_o_auth2_password_username_serialization(self):
+        """
+        Test serialization/deserialization for ProviderAuthenticationOAuth2PasswordUsername
+        """
+
+        # Construct a json representation of a ProviderAuthenticationOAuth2PasswordUsername model
+        provider_authentication_o_auth2_password_username_model_json = {}
+        provider_authentication_o_auth2_password_username_model_json['type'] = 'value'
+        provider_authentication_o_auth2_password_username_model_json['value'] = 'testString'
+
+        # Construct a model instance of ProviderAuthenticationOAuth2PasswordUsername by calling from_dict on the json representation
+        provider_authentication_o_auth2_password_username_model = ProviderAuthenticationOAuth2PasswordUsername.from_dict(provider_authentication_o_auth2_password_username_model_json)
+        assert provider_authentication_o_auth2_password_username_model != False
+
+        # Construct a model instance of ProviderAuthenticationOAuth2PasswordUsername by calling from_dict on the json representation
+        provider_authentication_o_auth2_password_username_model_dict = ProviderAuthenticationOAuth2PasswordUsername.from_dict(provider_authentication_o_auth2_password_username_model_json).__dict__
+        provider_authentication_o_auth2_password_username_model2 = ProviderAuthenticationOAuth2PasswordUsername(**provider_authentication_o_auth2_password_username_model_dict)
+
+        # Verify the model instances are equivalent
+        assert provider_authentication_o_auth2_password_username_model == provider_authentication_o_auth2_password_username_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        provider_authentication_o_auth2_password_username_model_json2 = provider_authentication_o_auth2_password_username_model.to_dict()
+        assert provider_authentication_o_auth2_password_username_model_json2 == provider_authentication_o_auth2_password_username_model_json
+
+
+class TestModel_ProviderAuthenticationTypeAndValue:
+    """
+    Test Class for ProviderAuthenticationTypeAndValue
+    """
+
+    def test_provider_authentication_type_and_value_serialization(self):
+        """
+        Test serialization/deserialization for ProviderAuthenticationTypeAndValue
+        """
+
+        # Construct a json representation of a ProviderAuthenticationTypeAndValue model
+        provider_authentication_type_and_value_model_json = {}
+        provider_authentication_type_and_value_model_json['type'] = 'value'
+        provider_authentication_type_and_value_model_json['value'] = 'testString'
+
+        # Construct a model instance of ProviderAuthenticationTypeAndValue by calling from_dict on the json representation
+        provider_authentication_type_and_value_model = ProviderAuthenticationTypeAndValue.from_dict(provider_authentication_type_and_value_model_json)
+        assert provider_authentication_type_and_value_model != False
+
+        # Construct a model instance of ProviderAuthenticationTypeAndValue by calling from_dict on the json representation
+        provider_authentication_type_and_value_model_dict = ProviderAuthenticationTypeAndValue.from_dict(provider_authentication_type_and_value_model_json).__dict__
+        provider_authentication_type_and_value_model2 = ProviderAuthenticationTypeAndValue(**provider_authentication_type_and_value_model_dict)
+
+        # Verify the model instances are equivalent
+        assert provider_authentication_type_and_value_model == provider_authentication_type_and_value_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        provider_authentication_type_and_value_model_json2 = provider_authentication_type_and_value_model.to_dict()
+        assert provider_authentication_type_and_value_model_json2 == provider_authentication_type_and_value_model_json
+
+
+class TestModel_ProviderCollection:
+    """
+    Test Class for ProviderCollection
+    """
+
+    def test_provider_collection_serialization(self):
+        """
+        Test serialization/deserialization for ProviderCollection
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        provider_response_specification_servers_item_model = {}  # ProviderResponseSpecificationServersItem
+        provider_response_specification_servers_item_model['url'] = 'testString'
+
+        provider_authentication_type_and_value_model = {}  # ProviderAuthenticationTypeAndValue
+        provider_authentication_type_and_value_model['type'] = 'value'
+        provider_authentication_type_and_value_model['value'] = 'testString'
+
+        provider_response_specification_components_security_schemes_basic_model = {}  # ProviderResponseSpecificationComponentsSecuritySchemesBasic
+        provider_response_specification_components_security_schemes_basic_model['username'] = provider_authentication_type_and_value_model
+
+        provider_authentication_o_auth2_password_username_model = {}  # ProviderAuthenticationOAuth2PasswordUsername
+        provider_authentication_o_auth2_password_username_model['type'] = 'value'
+        provider_authentication_o_auth2_password_username_model['value'] = 'testString'
+
+        provider_authentication_o_auth2_flows_model = {}  # ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2Password
+        provider_authentication_o_auth2_flows_model['token_url'] = 'testString'
+        provider_authentication_o_auth2_flows_model['refresh_url'] = 'testString'
+        provider_authentication_o_auth2_flows_model['client_auth_type'] = 'Body'
+        provider_authentication_o_auth2_flows_model['content_type'] = 'testString'
+        provider_authentication_o_auth2_flows_model['header_prefix'] = 'testString'
+        provider_authentication_o_auth2_flows_model['username'] = provider_authentication_o_auth2_password_username_model
+
+        provider_authentication_o_auth2_model = {}  # ProviderAuthenticationOAuth2
+        provider_authentication_o_auth2_model['preferred_flow'] = 'password'
+        provider_authentication_o_auth2_model['flows'] = provider_authentication_o_auth2_flows_model
+
+        provider_response_specification_components_security_schemes_model = {}  # ProviderResponseSpecificationComponentsSecuritySchemes
+        provider_response_specification_components_security_schemes_model['authentication_method'] = 'basic'
+        provider_response_specification_components_security_schemes_model['basic'] = provider_response_specification_components_security_schemes_basic_model
+        provider_response_specification_components_security_schemes_model['oauth2'] = provider_authentication_o_auth2_model
+
+        provider_response_specification_components_model = {}  # ProviderResponseSpecificationComponents
+        provider_response_specification_components_model['securitySchemes'] = provider_response_specification_components_security_schemes_model
+
+        provider_response_specification_model = {}  # ProviderResponseSpecification
+        provider_response_specification_model['servers'] = [provider_response_specification_servers_item_model]
+        provider_response_specification_model['components'] = provider_response_specification_components_model
+
+        provider_response_model = {}  # ProviderResponse
+        provider_response_model['provider_id'] = 'testString'
+        provider_response_model['specification'] = provider_response_specification_model
+
+        pagination_model = {}  # Pagination
+        pagination_model['refresh_url'] = 'testString'
+        pagination_model['next_url'] = 'testString'
+        pagination_model['total'] = 38
+        pagination_model['matched'] = 38
+        pagination_model['refresh_cursor'] = 'testString'
+        pagination_model['next_cursor'] = 'testString'
+
+        # Construct a json representation of a ProviderCollection model
+        provider_collection_model_json = {}
+        provider_collection_model_json['conversational_skill_providers'] = [provider_response_model]
+        provider_collection_model_json['pagination'] = pagination_model
+
+        # Construct a model instance of ProviderCollection by calling from_dict on the json representation
+        provider_collection_model = ProviderCollection.from_dict(provider_collection_model_json)
+        assert provider_collection_model != False
+
+        # Construct a model instance of ProviderCollection by calling from_dict on the json representation
+        provider_collection_model_dict = ProviderCollection.from_dict(provider_collection_model_json).__dict__
+        provider_collection_model2 = ProviderCollection(**provider_collection_model_dict)
+
+        # Verify the model instances are equivalent
+        assert provider_collection_model == provider_collection_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        provider_collection_model_json2 = provider_collection_model.to_dict()
+        assert provider_collection_model_json2 == provider_collection_model_json
+
+
+class TestModel_ProviderPrivate:
+    """
+    Test Class for ProviderPrivate
+    """
+
+    def test_provider_private_serialization(self):
+        """
+        Test serialization/deserialization for ProviderPrivate
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        provider_authentication_type_and_value_model = {}  # ProviderAuthenticationTypeAndValue
+        provider_authentication_type_and_value_model['type'] = 'value'
+        provider_authentication_type_and_value_model['value'] = 'testString'
+
+        provider_private_authentication_model = {}  # ProviderPrivateAuthenticationBearerFlow
+        provider_private_authentication_model['token'] = provider_authentication_type_and_value_model
+
+        # Construct a json representation of a ProviderPrivate model
+        provider_private_model_json = {}
+        provider_private_model_json['authentication'] = provider_private_authentication_model
+
+        # Construct a model instance of ProviderPrivate by calling from_dict on the json representation
+        provider_private_model = ProviderPrivate.from_dict(provider_private_model_json)
+        assert provider_private_model != False
+
+        # Construct a model instance of ProviderPrivate by calling from_dict on the json representation
+        provider_private_model_dict = ProviderPrivate.from_dict(provider_private_model_json).__dict__
+        provider_private_model2 = ProviderPrivate(**provider_private_model_dict)
+
+        # Verify the model instances are equivalent
+        assert provider_private_model == provider_private_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        provider_private_model_json2 = provider_private_model.to_dict()
+        assert provider_private_model_json2 == provider_private_model_json
+
+
+class TestModel_ProviderPrivateAuthenticationOAuth2PasswordPassword:
+    """
+    Test Class for ProviderPrivateAuthenticationOAuth2PasswordPassword
+    """
+
+    def test_provider_private_authentication_o_auth2_password_password_serialization(self):
+        """
+        Test serialization/deserialization for ProviderPrivateAuthenticationOAuth2PasswordPassword
+        """
+
+        # Construct a json representation of a ProviderPrivateAuthenticationOAuth2PasswordPassword model
+        provider_private_authentication_o_auth2_password_password_model_json = {}
+        provider_private_authentication_o_auth2_password_password_model_json['type'] = 'value'
+        provider_private_authentication_o_auth2_password_password_model_json['value'] = 'testString'
+
+        # Construct a model instance of ProviderPrivateAuthenticationOAuth2PasswordPassword by calling from_dict on the json representation
+        provider_private_authentication_o_auth2_password_password_model = ProviderPrivateAuthenticationOAuth2PasswordPassword.from_dict(provider_private_authentication_o_auth2_password_password_model_json)
+        assert provider_private_authentication_o_auth2_password_password_model != False
+
+        # Construct a model instance of ProviderPrivateAuthenticationOAuth2PasswordPassword by calling from_dict on the json representation
+        provider_private_authentication_o_auth2_password_password_model_dict = ProviderPrivateAuthenticationOAuth2PasswordPassword.from_dict(provider_private_authentication_o_auth2_password_password_model_json).__dict__
+        provider_private_authentication_o_auth2_password_password_model2 = ProviderPrivateAuthenticationOAuth2PasswordPassword(**provider_private_authentication_o_auth2_password_password_model_dict)
+
+        # Verify the model instances are equivalent
+        assert provider_private_authentication_o_auth2_password_password_model == provider_private_authentication_o_auth2_password_password_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        provider_private_authentication_o_auth2_password_password_model_json2 = provider_private_authentication_o_auth2_password_password_model.to_dict()
+        assert provider_private_authentication_o_auth2_password_password_model_json2 == provider_private_authentication_o_auth2_password_password_model_json
+
+
+class TestModel_ProviderResponse:
+    """
+    Test Class for ProviderResponse
+    """
+
+    def test_provider_response_serialization(self):
+        """
+        Test serialization/deserialization for ProviderResponse
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        provider_response_specification_servers_item_model = {}  # ProviderResponseSpecificationServersItem
+        provider_response_specification_servers_item_model['url'] = 'testString'
+
+        provider_authentication_type_and_value_model = {}  # ProviderAuthenticationTypeAndValue
+        provider_authentication_type_and_value_model['type'] = 'value'
+        provider_authentication_type_and_value_model['value'] = 'testString'
+
+        provider_response_specification_components_security_schemes_basic_model = {}  # ProviderResponseSpecificationComponentsSecuritySchemesBasic
+        provider_response_specification_components_security_schemes_basic_model['username'] = provider_authentication_type_and_value_model
+
+        provider_authentication_o_auth2_password_username_model = {}  # ProviderAuthenticationOAuth2PasswordUsername
+        provider_authentication_o_auth2_password_username_model['type'] = 'value'
+        provider_authentication_o_auth2_password_username_model['value'] = 'testString'
+
+        provider_authentication_o_auth2_flows_model = {}  # ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2Password
+        provider_authentication_o_auth2_flows_model['token_url'] = 'testString'
+        provider_authentication_o_auth2_flows_model['refresh_url'] = 'testString'
+        provider_authentication_o_auth2_flows_model['client_auth_type'] = 'Body'
+        provider_authentication_o_auth2_flows_model['content_type'] = 'testString'
+        provider_authentication_o_auth2_flows_model['header_prefix'] = 'testString'
+        provider_authentication_o_auth2_flows_model['username'] = provider_authentication_o_auth2_password_username_model
+
+        provider_authentication_o_auth2_model = {}  # ProviderAuthenticationOAuth2
+        provider_authentication_o_auth2_model['preferred_flow'] = 'password'
+        provider_authentication_o_auth2_model['flows'] = provider_authentication_o_auth2_flows_model
+
+        provider_response_specification_components_security_schemes_model = {}  # ProviderResponseSpecificationComponentsSecuritySchemes
+        provider_response_specification_components_security_schemes_model['authentication_method'] = 'basic'
+        provider_response_specification_components_security_schemes_model['basic'] = provider_response_specification_components_security_schemes_basic_model
+        provider_response_specification_components_security_schemes_model['oauth2'] = provider_authentication_o_auth2_model
+
+        provider_response_specification_components_model = {}  # ProviderResponseSpecificationComponents
+        provider_response_specification_components_model['securitySchemes'] = provider_response_specification_components_security_schemes_model
+
+        provider_response_specification_model = {}  # ProviderResponseSpecification
+        provider_response_specification_model['servers'] = [provider_response_specification_servers_item_model]
+        provider_response_specification_model['components'] = provider_response_specification_components_model
+
+        # Construct a json representation of a ProviderResponse model
+        provider_response_model_json = {}
+        provider_response_model_json['provider_id'] = 'testString'
+        provider_response_model_json['specification'] = provider_response_specification_model
+
+        # Construct a model instance of ProviderResponse by calling from_dict on the json representation
+        provider_response_model = ProviderResponse.from_dict(provider_response_model_json)
+        assert provider_response_model != False
+
+        # Construct a model instance of ProviderResponse by calling from_dict on the json representation
+        provider_response_model_dict = ProviderResponse.from_dict(provider_response_model_json).__dict__
+        provider_response_model2 = ProviderResponse(**provider_response_model_dict)
+
+        # Verify the model instances are equivalent
+        assert provider_response_model == provider_response_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        provider_response_model_json2 = provider_response_model.to_dict()
+        assert provider_response_model_json2 == provider_response_model_json
+
+
+class TestModel_ProviderResponseSpecification:
+    """
+    Test Class for ProviderResponseSpecification
+    """
+
+    def test_provider_response_specification_serialization(self):
+        """
+        Test serialization/deserialization for ProviderResponseSpecification
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        provider_response_specification_servers_item_model = {}  # ProviderResponseSpecificationServersItem
+        provider_response_specification_servers_item_model['url'] = 'testString'
+
+        provider_authentication_type_and_value_model = {}  # ProviderAuthenticationTypeAndValue
+        provider_authentication_type_and_value_model['type'] = 'value'
+        provider_authentication_type_and_value_model['value'] = 'testString'
+
+        provider_response_specification_components_security_schemes_basic_model = {}  # ProviderResponseSpecificationComponentsSecuritySchemesBasic
+        provider_response_specification_components_security_schemes_basic_model['username'] = provider_authentication_type_and_value_model
+
+        provider_authentication_o_auth2_password_username_model = {}  # ProviderAuthenticationOAuth2PasswordUsername
+        provider_authentication_o_auth2_password_username_model['type'] = 'value'
+        provider_authentication_o_auth2_password_username_model['value'] = 'testString'
+
+        provider_authentication_o_auth2_flows_model = {}  # ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2Password
+        provider_authentication_o_auth2_flows_model['token_url'] = 'testString'
+        provider_authentication_o_auth2_flows_model['refresh_url'] = 'testString'
+        provider_authentication_o_auth2_flows_model['client_auth_type'] = 'Body'
+        provider_authentication_o_auth2_flows_model['content_type'] = 'testString'
+        provider_authentication_o_auth2_flows_model['header_prefix'] = 'testString'
+        provider_authentication_o_auth2_flows_model['username'] = provider_authentication_o_auth2_password_username_model
+
+        provider_authentication_o_auth2_model = {}  # ProviderAuthenticationOAuth2
+        provider_authentication_o_auth2_model['preferred_flow'] = 'password'
+        provider_authentication_o_auth2_model['flows'] = provider_authentication_o_auth2_flows_model
+
+        provider_response_specification_components_security_schemes_model = {}  # ProviderResponseSpecificationComponentsSecuritySchemes
+        provider_response_specification_components_security_schemes_model['authentication_method'] = 'basic'
+        provider_response_specification_components_security_schemes_model['basic'] = provider_response_specification_components_security_schemes_basic_model
+        provider_response_specification_components_security_schemes_model['oauth2'] = provider_authentication_o_auth2_model
+
+        provider_response_specification_components_model = {}  # ProviderResponseSpecificationComponents
+        provider_response_specification_components_model['securitySchemes'] = provider_response_specification_components_security_schemes_model
+
+        # Construct a json representation of a ProviderResponseSpecification model
+        provider_response_specification_model_json = {}
+        provider_response_specification_model_json['servers'] = [provider_response_specification_servers_item_model]
+        provider_response_specification_model_json['components'] = provider_response_specification_components_model
+
+        # Construct a model instance of ProviderResponseSpecification by calling from_dict on the json representation
+        provider_response_specification_model = ProviderResponseSpecification.from_dict(provider_response_specification_model_json)
+        assert provider_response_specification_model != False
+
+        # Construct a model instance of ProviderResponseSpecification by calling from_dict on the json representation
+        provider_response_specification_model_dict = ProviderResponseSpecification.from_dict(provider_response_specification_model_json).__dict__
+        provider_response_specification_model2 = ProviderResponseSpecification(**provider_response_specification_model_dict)
+
+        # Verify the model instances are equivalent
+        assert provider_response_specification_model == provider_response_specification_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        provider_response_specification_model_json2 = provider_response_specification_model.to_dict()
+        assert provider_response_specification_model_json2 == provider_response_specification_model_json
+
+
+class TestModel_ProviderResponseSpecificationComponents:
+    """
+    Test Class for ProviderResponseSpecificationComponents
+    """
+
+    def test_provider_response_specification_components_serialization(self):
+        """
+        Test serialization/deserialization for ProviderResponseSpecificationComponents
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        provider_authentication_type_and_value_model = {}  # ProviderAuthenticationTypeAndValue
+        provider_authentication_type_and_value_model['type'] = 'value'
+        provider_authentication_type_and_value_model['value'] = 'testString'
+
+        provider_response_specification_components_security_schemes_basic_model = {}  # ProviderResponseSpecificationComponentsSecuritySchemesBasic
+        provider_response_specification_components_security_schemes_basic_model['username'] = provider_authentication_type_and_value_model
+
+        provider_authentication_o_auth2_password_username_model = {}  # ProviderAuthenticationOAuth2PasswordUsername
+        provider_authentication_o_auth2_password_username_model['type'] = 'value'
+        provider_authentication_o_auth2_password_username_model['value'] = 'testString'
+
+        provider_authentication_o_auth2_flows_model = {}  # ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2Password
+        provider_authentication_o_auth2_flows_model['token_url'] = 'testString'
+        provider_authentication_o_auth2_flows_model['refresh_url'] = 'testString'
+        provider_authentication_o_auth2_flows_model['client_auth_type'] = 'Body'
+        provider_authentication_o_auth2_flows_model['content_type'] = 'testString'
+        provider_authentication_o_auth2_flows_model['header_prefix'] = 'testString'
+        provider_authentication_o_auth2_flows_model['username'] = provider_authentication_o_auth2_password_username_model
+
+        provider_authentication_o_auth2_model = {}  # ProviderAuthenticationOAuth2
+        provider_authentication_o_auth2_model['preferred_flow'] = 'password'
+        provider_authentication_o_auth2_model['flows'] = provider_authentication_o_auth2_flows_model
+
+        provider_response_specification_components_security_schemes_model = {}  # ProviderResponseSpecificationComponentsSecuritySchemes
+        provider_response_specification_components_security_schemes_model['authentication_method'] = 'basic'
+        provider_response_specification_components_security_schemes_model['basic'] = provider_response_specification_components_security_schemes_basic_model
+        provider_response_specification_components_security_schemes_model['oauth2'] = provider_authentication_o_auth2_model
+
+        # Construct a json representation of a ProviderResponseSpecificationComponents model
+        provider_response_specification_components_model_json = {}
+        provider_response_specification_components_model_json['securitySchemes'] = provider_response_specification_components_security_schemes_model
+
+        # Construct a model instance of ProviderResponseSpecificationComponents by calling from_dict on the json representation
+        provider_response_specification_components_model = ProviderResponseSpecificationComponents.from_dict(provider_response_specification_components_model_json)
+        assert provider_response_specification_components_model != False
+
+        # Construct a model instance of ProviderResponseSpecificationComponents by calling from_dict on the json representation
+        provider_response_specification_components_model_dict = ProviderResponseSpecificationComponents.from_dict(provider_response_specification_components_model_json).__dict__
+        provider_response_specification_components_model2 = ProviderResponseSpecificationComponents(**provider_response_specification_components_model_dict)
+
+        # Verify the model instances are equivalent
+        assert provider_response_specification_components_model == provider_response_specification_components_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        provider_response_specification_components_model_json2 = provider_response_specification_components_model.to_dict()
+        assert provider_response_specification_components_model_json2 == provider_response_specification_components_model_json
+
+
+class TestModel_ProviderResponseSpecificationComponentsSecuritySchemes:
+    """
+    Test Class for ProviderResponseSpecificationComponentsSecuritySchemes
+    """
+
+    def test_provider_response_specification_components_security_schemes_serialization(self):
+        """
+        Test serialization/deserialization for ProviderResponseSpecificationComponentsSecuritySchemes
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        provider_authentication_type_and_value_model = {}  # ProviderAuthenticationTypeAndValue
+        provider_authentication_type_and_value_model['type'] = 'value'
+        provider_authentication_type_and_value_model['value'] = 'testString'
+
+        provider_response_specification_components_security_schemes_basic_model = {}  # ProviderResponseSpecificationComponentsSecuritySchemesBasic
+        provider_response_specification_components_security_schemes_basic_model['username'] = provider_authentication_type_and_value_model
+
+        provider_authentication_o_auth2_password_username_model = {}  # ProviderAuthenticationOAuth2PasswordUsername
+        provider_authentication_o_auth2_password_username_model['type'] = 'value'
+        provider_authentication_o_auth2_password_username_model['value'] = 'testString'
+
+        provider_authentication_o_auth2_flows_model = {}  # ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2Password
+        provider_authentication_o_auth2_flows_model['token_url'] = 'testString'
+        provider_authentication_o_auth2_flows_model['refresh_url'] = 'testString'
+        provider_authentication_o_auth2_flows_model['client_auth_type'] = 'Body'
+        provider_authentication_o_auth2_flows_model['content_type'] = 'testString'
+        provider_authentication_o_auth2_flows_model['header_prefix'] = 'testString'
+        provider_authentication_o_auth2_flows_model['username'] = provider_authentication_o_auth2_password_username_model
+
+        provider_authentication_o_auth2_model = {}  # ProviderAuthenticationOAuth2
+        provider_authentication_o_auth2_model['preferred_flow'] = 'password'
+        provider_authentication_o_auth2_model['flows'] = provider_authentication_o_auth2_flows_model
+
+        # Construct a json representation of a ProviderResponseSpecificationComponentsSecuritySchemes model
+        provider_response_specification_components_security_schemes_model_json = {}
+        provider_response_specification_components_security_schemes_model_json['authentication_method'] = 'basic'
+        provider_response_specification_components_security_schemes_model_json['basic'] = provider_response_specification_components_security_schemes_basic_model
+        provider_response_specification_components_security_schemes_model_json['oauth2'] = provider_authentication_o_auth2_model
+
+        # Construct a model instance of ProviderResponseSpecificationComponentsSecuritySchemes by calling from_dict on the json representation
+        provider_response_specification_components_security_schemes_model = ProviderResponseSpecificationComponentsSecuritySchemes.from_dict(provider_response_specification_components_security_schemes_model_json)
+        assert provider_response_specification_components_security_schemes_model != False
+
+        # Construct a model instance of ProviderResponseSpecificationComponentsSecuritySchemes by calling from_dict on the json representation
+        provider_response_specification_components_security_schemes_model_dict = ProviderResponseSpecificationComponentsSecuritySchemes.from_dict(provider_response_specification_components_security_schemes_model_json).__dict__
+        provider_response_specification_components_security_schemes_model2 = ProviderResponseSpecificationComponentsSecuritySchemes(**provider_response_specification_components_security_schemes_model_dict)
+
+        # Verify the model instances are equivalent
+        assert provider_response_specification_components_security_schemes_model == provider_response_specification_components_security_schemes_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        provider_response_specification_components_security_schemes_model_json2 = provider_response_specification_components_security_schemes_model.to_dict()
+        assert provider_response_specification_components_security_schemes_model_json2 == provider_response_specification_components_security_schemes_model_json
+
+
+class TestModel_ProviderResponseSpecificationComponentsSecuritySchemesBasic:
+    """
+    Test Class for ProviderResponseSpecificationComponentsSecuritySchemesBasic
+    """
+
+    def test_provider_response_specification_components_security_schemes_basic_serialization(self):
+        """
+        Test serialization/deserialization for ProviderResponseSpecificationComponentsSecuritySchemesBasic
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        provider_authentication_type_and_value_model = {}  # ProviderAuthenticationTypeAndValue
+        provider_authentication_type_and_value_model['type'] = 'value'
+        provider_authentication_type_and_value_model['value'] = 'testString'
+
+        # Construct a json representation of a ProviderResponseSpecificationComponentsSecuritySchemesBasic model
+        provider_response_specification_components_security_schemes_basic_model_json = {}
+        provider_response_specification_components_security_schemes_basic_model_json['username'] = provider_authentication_type_and_value_model
+
+        # Construct a model instance of ProviderResponseSpecificationComponentsSecuritySchemesBasic by calling from_dict on the json representation
+        provider_response_specification_components_security_schemes_basic_model = ProviderResponseSpecificationComponentsSecuritySchemesBasic.from_dict(provider_response_specification_components_security_schemes_basic_model_json)
+        assert provider_response_specification_components_security_schemes_basic_model != False
+
+        # Construct a model instance of ProviderResponseSpecificationComponentsSecuritySchemesBasic by calling from_dict on the json representation
+        provider_response_specification_components_security_schemes_basic_model_dict = ProviderResponseSpecificationComponentsSecuritySchemesBasic.from_dict(provider_response_specification_components_security_schemes_basic_model_json).__dict__
+        provider_response_specification_components_security_schemes_basic_model2 = ProviderResponseSpecificationComponentsSecuritySchemesBasic(**provider_response_specification_components_security_schemes_basic_model_dict)
+
+        # Verify the model instances are equivalent
+        assert provider_response_specification_components_security_schemes_basic_model == provider_response_specification_components_security_schemes_basic_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        provider_response_specification_components_security_schemes_basic_model_json2 = provider_response_specification_components_security_schemes_basic_model.to_dict()
+        assert provider_response_specification_components_security_schemes_basic_model_json2 == provider_response_specification_components_security_schemes_basic_model_json
+
+
+class TestModel_ProviderResponseSpecificationServersItem:
+    """
+    Test Class for ProviderResponseSpecificationServersItem
+    """
+
+    def test_provider_response_specification_servers_item_serialization(self):
+        """
+        Test serialization/deserialization for ProviderResponseSpecificationServersItem
+        """
+
+        # Construct a json representation of a ProviderResponseSpecificationServersItem model
+        provider_response_specification_servers_item_model_json = {}
+        provider_response_specification_servers_item_model_json['url'] = 'testString'
+
+        # Construct a model instance of ProviderResponseSpecificationServersItem by calling from_dict on the json representation
+        provider_response_specification_servers_item_model = ProviderResponseSpecificationServersItem.from_dict(provider_response_specification_servers_item_model_json)
+        assert provider_response_specification_servers_item_model != False
+
+        # Construct a model instance of ProviderResponseSpecificationServersItem by calling from_dict on the json representation
+        provider_response_specification_servers_item_model_dict = ProviderResponseSpecificationServersItem.from_dict(provider_response_specification_servers_item_model_json).__dict__
+        provider_response_specification_servers_item_model2 = ProviderResponseSpecificationServersItem(**provider_response_specification_servers_item_model_dict)
+
+        # Verify the model instances are equivalent
+        assert provider_response_specification_servers_item_model == provider_response_specification_servers_item_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        provider_response_specification_servers_item_model_json2 = provider_response_specification_servers_item_model.to_dict()
+        assert provider_response_specification_servers_item_model_json2 == provider_response_specification_servers_item_model_json
+
+
+class TestModel_ProviderSpecification:
+    """
+    Test Class for ProviderSpecification
+    """
+
+    def test_provider_specification_serialization(self):
+        """
+        Test serialization/deserialization for ProviderSpecification
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        provider_specification_servers_item_model = {}  # ProviderSpecificationServersItem
+        provider_specification_servers_item_model['url'] = 'testString'
+
+        provider_authentication_type_and_value_model = {}  # ProviderAuthenticationTypeAndValue
+        provider_authentication_type_and_value_model['type'] = 'value'
+        provider_authentication_type_and_value_model['value'] = 'testString'
+
+        provider_specification_components_security_schemes_basic_model = {}  # ProviderSpecificationComponentsSecuritySchemesBasic
+        provider_specification_components_security_schemes_basic_model['username'] = provider_authentication_type_and_value_model
+
+        provider_authentication_o_auth2_password_username_model = {}  # ProviderAuthenticationOAuth2PasswordUsername
+        provider_authentication_o_auth2_password_username_model['type'] = 'value'
+        provider_authentication_o_auth2_password_username_model['value'] = 'testString'
+
+        provider_authentication_o_auth2_flows_model = {}  # ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2Password
+        provider_authentication_o_auth2_flows_model['token_url'] = 'testString'
+        provider_authentication_o_auth2_flows_model['refresh_url'] = 'testString'
+        provider_authentication_o_auth2_flows_model['client_auth_type'] = 'Body'
+        provider_authentication_o_auth2_flows_model['content_type'] = 'testString'
+        provider_authentication_o_auth2_flows_model['header_prefix'] = 'testString'
+        provider_authentication_o_auth2_flows_model['username'] = provider_authentication_o_auth2_password_username_model
+
+        provider_authentication_o_auth2_model = {}  # ProviderAuthenticationOAuth2
+        provider_authentication_o_auth2_model['preferred_flow'] = 'password'
+        provider_authentication_o_auth2_model['flows'] = provider_authentication_o_auth2_flows_model
+
+        provider_specification_components_security_schemes_model = {}  # ProviderSpecificationComponentsSecuritySchemes
+        provider_specification_components_security_schemes_model['authentication_method'] = 'basic'
+        provider_specification_components_security_schemes_model['basic'] = provider_specification_components_security_schemes_basic_model
+        provider_specification_components_security_schemes_model['oauth2'] = provider_authentication_o_auth2_model
+
+        provider_specification_components_model = {}  # ProviderSpecificationComponents
+        provider_specification_components_model['securitySchemes'] = provider_specification_components_security_schemes_model
+
+        # Construct a json representation of a ProviderSpecification model
+        provider_specification_model_json = {}
+        provider_specification_model_json['servers'] = [provider_specification_servers_item_model]
+        provider_specification_model_json['components'] = provider_specification_components_model
+
+        # Construct a model instance of ProviderSpecification by calling from_dict on the json representation
+        provider_specification_model = ProviderSpecification.from_dict(provider_specification_model_json)
+        assert provider_specification_model != False
+
+        # Construct a model instance of ProviderSpecification by calling from_dict on the json representation
+        provider_specification_model_dict = ProviderSpecification.from_dict(provider_specification_model_json).__dict__
+        provider_specification_model2 = ProviderSpecification(**provider_specification_model_dict)
+
+        # Verify the model instances are equivalent
+        assert provider_specification_model == provider_specification_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        provider_specification_model_json2 = provider_specification_model.to_dict()
+        assert provider_specification_model_json2 == provider_specification_model_json
+
+
+class TestModel_ProviderSpecificationComponents:
+    """
+    Test Class for ProviderSpecificationComponents
+    """
+
+    def test_provider_specification_components_serialization(self):
+        """
+        Test serialization/deserialization for ProviderSpecificationComponents
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        provider_authentication_type_and_value_model = {}  # ProviderAuthenticationTypeAndValue
+        provider_authentication_type_and_value_model['type'] = 'value'
+        provider_authentication_type_and_value_model['value'] = 'testString'
+
+        provider_specification_components_security_schemes_basic_model = {}  # ProviderSpecificationComponentsSecuritySchemesBasic
+        provider_specification_components_security_schemes_basic_model['username'] = provider_authentication_type_and_value_model
+
+        provider_authentication_o_auth2_password_username_model = {}  # ProviderAuthenticationOAuth2PasswordUsername
+        provider_authentication_o_auth2_password_username_model['type'] = 'value'
+        provider_authentication_o_auth2_password_username_model['value'] = 'testString'
+
+        provider_authentication_o_auth2_flows_model = {}  # ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2Password
+        provider_authentication_o_auth2_flows_model['token_url'] = 'testString'
+        provider_authentication_o_auth2_flows_model['refresh_url'] = 'testString'
+        provider_authentication_o_auth2_flows_model['client_auth_type'] = 'Body'
+        provider_authentication_o_auth2_flows_model['content_type'] = 'testString'
+        provider_authentication_o_auth2_flows_model['header_prefix'] = 'testString'
+        provider_authentication_o_auth2_flows_model['username'] = provider_authentication_o_auth2_password_username_model
+
+        provider_authentication_o_auth2_model = {}  # ProviderAuthenticationOAuth2
+        provider_authentication_o_auth2_model['preferred_flow'] = 'password'
+        provider_authentication_o_auth2_model['flows'] = provider_authentication_o_auth2_flows_model
+
+        provider_specification_components_security_schemes_model = {}  # ProviderSpecificationComponentsSecuritySchemes
+        provider_specification_components_security_schemes_model['authentication_method'] = 'basic'
+        provider_specification_components_security_schemes_model['basic'] = provider_specification_components_security_schemes_basic_model
+        provider_specification_components_security_schemes_model['oauth2'] = provider_authentication_o_auth2_model
+
+        # Construct a json representation of a ProviderSpecificationComponents model
+        provider_specification_components_model_json = {}
+        provider_specification_components_model_json['securitySchemes'] = provider_specification_components_security_schemes_model
+
+        # Construct a model instance of ProviderSpecificationComponents by calling from_dict on the json representation
+        provider_specification_components_model = ProviderSpecificationComponents.from_dict(provider_specification_components_model_json)
+        assert provider_specification_components_model != False
+
+        # Construct a model instance of ProviderSpecificationComponents by calling from_dict on the json representation
+        provider_specification_components_model_dict = ProviderSpecificationComponents.from_dict(provider_specification_components_model_json).__dict__
+        provider_specification_components_model2 = ProviderSpecificationComponents(**provider_specification_components_model_dict)
+
+        # Verify the model instances are equivalent
+        assert provider_specification_components_model == provider_specification_components_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        provider_specification_components_model_json2 = provider_specification_components_model.to_dict()
+        assert provider_specification_components_model_json2 == provider_specification_components_model_json
+
+
+class TestModel_ProviderSpecificationComponentsSecuritySchemes:
+    """
+    Test Class for ProviderSpecificationComponentsSecuritySchemes
+    """
+
+    def test_provider_specification_components_security_schemes_serialization(self):
+        """
+        Test serialization/deserialization for ProviderSpecificationComponentsSecuritySchemes
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        provider_authentication_type_and_value_model = {}  # ProviderAuthenticationTypeAndValue
+        provider_authentication_type_and_value_model['type'] = 'value'
+        provider_authentication_type_and_value_model['value'] = 'testString'
+
+        provider_specification_components_security_schemes_basic_model = {}  # ProviderSpecificationComponentsSecuritySchemesBasic
+        provider_specification_components_security_schemes_basic_model['username'] = provider_authentication_type_and_value_model
+
+        provider_authentication_o_auth2_password_username_model = {}  # ProviderAuthenticationOAuth2PasswordUsername
+        provider_authentication_o_auth2_password_username_model['type'] = 'value'
+        provider_authentication_o_auth2_password_username_model['value'] = 'testString'
+
+        provider_authentication_o_auth2_flows_model = {}  # ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2Password
+        provider_authentication_o_auth2_flows_model['token_url'] = 'testString'
+        provider_authentication_o_auth2_flows_model['refresh_url'] = 'testString'
+        provider_authentication_o_auth2_flows_model['client_auth_type'] = 'Body'
+        provider_authentication_o_auth2_flows_model['content_type'] = 'testString'
+        provider_authentication_o_auth2_flows_model['header_prefix'] = 'testString'
+        provider_authentication_o_auth2_flows_model['username'] = provider_authentication_o_auth2_password_username_model
+
+        provider_authentication_o_auth2_model = {}  # ProviderAuthenticationOAuth2
+        provider_authentication_o_auth2_model['preferred_flow'] = 'password'
+        provider_authentication_o_auth2_model['flows'] = provider_authentication_o_auth2_flows_model
+
+        # Construct a json representation of a ProviderSpecificationComponentsSecuritySchemes model
+        provider_specification_components_security_schemes_model_json = {}
+        provider_specification_components_security_schemes_model_json['authentication_method'] = 'basic'
+        provider_specification_components_security_schemes_model_json['basic'] = provider_specification_components_security_schemes_basic_model
+        provider_specification_components_security_schemes_model_json['oauth2'] = provider_authentication_o_auth2_model
+
+        # Construct a model instance of ProviderSpecificationComponentsSecuritySchemes by calling from_dict on the json representation
+        provider_specification_components_security_schemes_model = ProviderSpecificationComponentsSecuritySchemes.from_dict(provider_specification_components_security_schemes_model_json)
+        assert provider_specification_components_security_schemes_model != False
+
+        # Construct a model instance of ProviderSpecificationComponentsSecuritySchemes by calling from_dict on the json representation
+        provider_specification_components_security_schemes_model_dict = ProviderSpecificationComponentsSecuritySchemes.from_dict(provider_specification_components_security_schemes_model_json).__dict__
+        provider_specification_components_security_schemes_model2 = ProviderSpecificationComponentsSecuritySchemes(**provider_specification_components_security_schemes_model_dict)
+
+        # Verify the model instances are equivalent
+        assert provider_specification_components_security_schemes_model == provider_specification_components_security_schemes_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        provider_specification_components_security_schemes_model_json2 = provider_specification_components_security_schemes_model.to_dict()
+        assert provider_specification_components_security_schemes_model_json2 == provider_specification_components_security_schemes_model_json
+
+
+class TestModel_ProviderSpecificationComponentsSecuritySchemesBasic:
+    """
+    Test Class for ProviderSpecificationComponentsSecuritySchemesBasic
+    """
+
+    def test_provider_specification_components_security_schemes_basic_serialization(self):
+        """
+        Test serialization/deserialization for ProviderSpecificationComponentsSecuritySchemesBasic
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        provider_authentication_type_and_value_model = {}  # ProviderAuthenticationTypeAndValue
+        provider_authentication_type_and_value_model['type'] = 'value'
+        provider_authentication_type_and_value_model['value'] = 'testString'
+
+        # Construct a json representation of a ProviderSpecificationComponentsSecuritySchemesBasic model
+        provider_specification_components_security_schemes_basic_model_json = {}
+        provider_specification_components_security_schemes_basic_model_json['username'] = provider_authentication_type_and_value_model
+
+        # Construct a model instance of ProviderSpecificationComponentsSecuritySchemesBasic by calling from_dict on the json representation
+        provider_specification_components_security_schemes_basic_model = ProviderSpecificationComponentsSecuritySchemesBasic.from_dict(provider_specification_components_security_schemes_basic_model_json)
+        assert provider_specification_components_security_schemes_basic_model != False
+
+        # Construct a model instance of ProviderSpecificationComponentsSecuritySchemesBasic by calling from_dict on the json representation
+        provider_specification_components_security_schemes_basic_model_dict = ProviderSpecificationComponentsSecuritySchemesBasic.from_dict(provider_specification_components_security_schemes_basic_model_json).__dict__
+        provider_specification_components_security_schemes_basic_model2 = ProviderSpecificationComponentsSecuritySchemesBasic(**provider_specification_components_security_schemes_basic_model_dict)
+
+        # Verify the model instances are equivalent
+        assert provider_specification_components_security_schemes_basic_model == provider_specification_components_security_schemes_basic_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        provider_specification_components_security_schemes_basic_model_json2 = provider_specification_components_security_schemes_basic_model.to_dict()
+        assert provider_specification_components_security_schemes_basic_model_json2 == provider_specification_components_security_schemes_basic_model_json
+
+
+class TestModel_ProviderSpecificationServersItem:
+    """
+    Test Class for ProviderSpecificationServersItem
+    """
+
+    def test_provider_specification_servers_item_serialization(self):
+        """
+        Test serialization/deserialization for ProviderSpecificationServersItem
+        """
+
+        # Construct a json representation of a ProviderSpecificationServersItem model
+        provider_specification_servers_item_model_json = {}
+        provider_specification_servers_item_model_json['url'] = 'testString'
+
+        # Construct a model instance of ProviderSpecificationServersItem by calling from_dict on the json representation
+        provider_specification_servers_item_model = ProviderSpecificationServersItem.from_dict(provider_specification_servers_item_model_json)
+        assert provider_specification_servers_item_model != False
+
+        # Construct a model instance of ProviderSpecificationServersItem by calling from_dict on the json representation
+        provider_specification_servers_item_model_dict = ProviderSpecificationServersItem.from_dict(provider_specification_servers_item_model_json).__dict__
+        provider_specification_servers_item_model2 = ProviderSpecificationServersItem(**provider_specification_servers_item_model_dict)
+
+        # Verify the model instances are equivalent
+        assert provider_specification_servers_item_model == provider_specification_servers_item_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        provider_specification_servers_item_model_json2 = provider_specification_servers_item_model.to_dict()
+        assert provider_specification_servers_item_model_json2 == provider_specification_servers_item_model_json
 
 
 class TestModel_Release:
@@ -7244,7 +10074,7 @@ class TestModel_SearchResultHighlight:
         expected_dict = {'foo': ['testString']}
         search_result_highlight_model.set_properties(expected_dict)
         actual_dict = search_result_highlight_model.get_properties()
-        assert actual_dict == expected_dict
+        assert actual_dict.keys() == expected_dict.keys()
 
 
 class TestModel_SearchResultMetadata:
@@ -7315,11 +10145,52 @@ class TestModel_SearchSettings:
         search_settings_schema_mapping_model['body'] = 'testString'
         search_settings_schema_mapping_model['title'] = 'testString'
 
+        search_settings_elastic_search_model = {}  # SearchSettingsElasticSearch
+        search_settings_elastic_search_model['url'] = 'testString'
+        search_settings_elastic_search_model['port'] = 'testString'
+        search_settings_elastic_search_model['username'] = 'testString'
+        search_settings_elastic_search_model['password'] = 'testString'
+        search_settings_elastic_search_model['index'] = 'testString'
+        search_settings_elastic_search_model['filter'] = ['testString']
+        search_settings_elastic_search_model['query_body'] = {'anyKey': 'anyValue'}
+        search_settings_elastic_search_model['managed_index'] = 'testString'
+        search_settings_elastic_search_model['apikey'] = 'testString'
+
+        search_settings_conversational_search_response_length_model = {}  # SearchSettingsConversationalSearchResponseLength
+        search_settings_conversational_search_response_length_model['option'] = 'moderate'
+
+        search_settings_conversational_search_search_confidence_model = {}  # SearchSettingsConversationalSearchSearchConfidence
+        search_settings_conversational_search_search_confidence_model['threshold'] = 'less_often'
+
+        search_settings_conversational_search_model = {}  # SearchSettingsConversationalSearch
+        search_settings_conversational_search_model['enabled'] = True
+        search_settings_conversational_search_model['response_length'] = search_settings_conversational_search_response_length_model
+        search_settings_conversational_search_model['search_confidence'] = search_settings_conversational_search_search_confidence_model
+
+        search_settings_server_side_search_model = {}  # SearchSettingsServerSideSearch
+        search_settings_server_side_search_model['url'] = 'testString'
+        search_settings_server_side_search_model['port'] = 'testString'
+        search_settings_server_side_search_model['username'] = 'testString'
+        search_settings_server_side_search_model['password'] = 'testString'
+        search_settings_server_side_search_model['filter'] = 'testString'
+        search_settings_server_side_search_model['metadata'] = {'anyKey': 'anyValue'}
+        search_settings_server_side_search_model['apikey'] = 'testString'
+        search_settings_server_side_search_model['no_auth'] = True
+        search_settings_server_side_search_model['auth_type'] = 'basic'
+
+        search_settings_client_side_search_model = {}  # SearchSettingsClientSideSearch
+        search_settings_client_side_search_model['filter'] = 'testString'
+        search_settings_client_side_search_model['metadata'] = {'anyKey': 'anyValue'}
+
         # Construct a json representation of a SearchSettings model
         search_settings_model_json = {}
         search_settings_model_json['discovery'] = search_settings_discovery_model
         search_settings_model_json['messages'] = search_settings_messages_model
         search_settings_model_json['schema_mapping'] = search_settings_schema_mapping_model
+        search_settings_model_json['elastic_search'] = search_settings_elastic_search_model
+        search_settings_model_json['conversational_search'] = search_settings_conversational_search_model
+        search_settings_model_json['server_side_search'] = search_settings_server_side_search_model
+        search_settings_model_json['client_side_search'] = search_settings_client_side_search_model
 
         # Construct a model instance of SearchSettings by calling from_dict on the json representation
         search_settings_model = SearchSettings.from_dict(search_settings_model_json)
@@ -7335,6 +10206,137 @@ class TestModel_SearchSettings:
         # Convert model instance back to dict and verify no loss of data
         search_settings_model_json2 = search_settings_model.to_dict()
         assert search_settings_model_json2 == search_settings_model_json
+
+
+class TestModel_SearchSettingsClientSideSearch:
+    """
+    Test Class for SearchSettingsClientSideSearch
+    """
+
+    def test_search_settings_client_side_search_serialization(self):
+        """
+        Test serialization/deserialization for SearchSettingsClientSideSearch
+        """
+
+        # Construct a json representation of a SearchSettingsClientSideSearch model
+        search_settings_client_side_search_model_json = {}
+        search_settings_client_side_search_model_json['filter'] = 'testString'
+        search_settings_client_side_search_model_json['metadata'] = {'anyKey': 'anyValue'}
+
+        # Construct a model instance of SearchSettingsClientSideSearch by calling from_dict on the json representation
+        search_settings_client_side_search_model = SearchSettingsClientSideSearch.from_dict(search_settings_client_side_search_model_json)
+        assert search_settings_client_side_search_model != False
+
+        # Construct a model instance of SearchSettingsClientSideSearch by calling from_dict on the json representation
+        search_settings_client_side_search_model_dict = SearchSettingsClientSideSearch.from_dict(search_settings_client_side_search_model_json).__dict__
+        search_settings_client_side_search_model2 = SearchSettingsClientSideSearch(**search_settings_client_side_search_model_dict)
+
+        # Verify the model instances are equivalent
+        assert search_settings_client_side_search_model == search_settings_client_side_search_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        search_settings_client_side_search_model_json2 = search_settings_client_side_search_model.to_dict()
+        assert search_settings_client_side_search_model_json2 == search_settings_client_side_search_model_json
+
+
+class TestModel_SearchSettingsConversationalSearch:
+    """
+    Test Class for SearchSettingsConversationalSearch
+    """
+
+    def test_search_settings_conversational_search_serialization(self):
+        """
+        Test serialization/deserialization for SearchSettingsConversationalSearch
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        search_settings_conversational_search_response_length_model = {}  # SearchSettingsConversationalSearchResponseLength
+        search_settings_conversational_search_response_length_model['option'] = 'moderate'
+
+        search_settings_conversational_search_search_confidence_model = {}  # SearchSettingsConversationalSearchSearchConfidence
+        search_settings_conversational_search_search_confidence_model['threshold'] = 'less_often'
+
+        # Construct a json representation of a SearchSettingsConversationalSearch model
+        search_settings_conversational_search_model_json = {}
+        search_settings_conversational_search_model_json['enabled'] = True
+        search_settings_conversational_search_model_json['response_length'] = search_settings_conversational_search_response_length_model
+        search_settings_conversational_search_model_json['search_confidence'] = search_settings_conversational_search_search_confidence_model
+
+        # Construct a model instance of SearchSettingsConversationalSearch by calling from_dict on the json representation
+        search_settings_conversational_search_model = SearchSettingsConversationalSearch.from_dict(search_settings_conversational_search_model_json)
+        assert search_settings_conversational_search_model != False
+
+        # Construct a model instance of SearchSettingsConversationalSearch by calling from_dict on the json representation
+        search_settings_conversational_search_model_dict = SearchSettingsConversationalSearch.from_dict(search_settings_conversational_search_model_json).__dict__
+        search_settings_conversational_search_model2 = SearchSettingsConversationalSearch(**search_settings_conversational_search_model_dict)
+
+        # Verify the model instances are equivalent
+        assert search_settings_conversational_search_model == search_settings_conversational_search_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        search_settings_conversational_search_model_json2 = search_settings_conversational_search_model.to_dict()
+        assert search_settings_conversational_search_model_json2 == search_settings_conversational_search_model_json
+
+
+class TestModel_SearchSettingsConversationalSearchResponseLength:
+    """
+    Test Class for SearchSettingsConversationalSearchResponseLength
+    """
+
+    def test_search_settings_conversational_search_response_length_serialization(self):
+        """
+        Test serialization/deserialization for SearchSettingsConversationalSearchResponseLength
+        """
+
+        # Construct a json representation of a SearchSettingsConversationalSearchResponseLength model
+        search_settings_conversational_search_response_length_model_json = {}
+        search_settings_conversational_search_response_length_model_json['option'] = 'moderate'
+
+        # Construct a model instance of SearchSettingsConversationalSearchResponseLength by calling from_dict on the json representation
+        search_settings_conversational_search_response_length_model = SearchSettingsConversationalSearchResponseLength.from_dict(search_settings_conversational_search_response_length_model_json)
+        assert search_settings_conversational_search_response_length_model != False
+
+        # Construct a model instance of SearchSettingsConversationalSearchResponseLength by calling from_dict on the json representation
+        search_settings_conversational_search_response_length_model_dict = SearchSettingsConversationalSearchResponseLength.from_dict(search_settings_conversational_search_response_length_model_json).__dict__
+        search_settings_conversational_search_response_length_model2 = SearchSettingsConversationalSearchResponseLength(**search_settings_conversational_search_response_length_model_dict)
+
+        # Verify the model instances are equivalent
+        assert search_settings_conversational_search_response_length_model == search_settings_conversational_search_response_length_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        search_settings_conversational_search_response_length_model_json2 = search_settings_conversational_search_response_length_model.to_dict()
+        assert search_settings_conversational_search_response_length_model_json2 == search_settings_conversational_search_response_length_model_json
+
+
+class TestModel_SearchSettingsConversationalSearchSearchConfidence:
+    """
+    Test Class for SearchSettingsConversationalSearchSearchConfidence
+    """
+
+    def test_search_settings_conversational_search_search_confidence_serialization(self):
+        """
+        Test serialization/deserialization for SearchSettingsConversationalSearchSearchConfidence
+        """
+
+        # Construct a json representation of a SearchSettingsConversationalSearchSearchConfidence model
+        search_settings_conversational_search_search_confidence_model_json = {}
+        search_settings_conversational_search_search_confidence_model_json['threshold'] = 'less_often'
+
+        # Construct a model instance of SearchSettingsConversationalSearchSearchConfidence by calling from_dict on the json representation
+        search_settings_conversational_search_search_confidence_model = SearchSettingsConversationalSearchSearchConfidence.from_dict(search_settings_conversational_search_search_confidence_model_json)
+        assert search_settings_conversational_search_search_confidence_model != False
+
+        # Construct a model instance of SearchSettingsConversationalSearchSearchConfidence by calling from_dict on the json representation
+        search_settings_conversational_search_search_confidence_model_dict = SearchSettingsConversationalSearchSearchConfidence.from_dict(search_settings_conversational_search_search_confidence_model_json).__dict__
+        search_settings_conversational_search_search_confidence_model2 = SearchSettingsConversationalSearchSearchConfidence(**search_settings_conversational_search_search_confidence_model_dict)
+
+        # Verify the model instances are equivalent
+        assert search_settings_conversational_search_search_confidence_model == search_settings_conversational_search_search_confidence_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        search_settings_conversational_search_search_confidence_model_json2 = search_settings_conversational_search_search_confidence_model.to_dict()
+        assert search_settings_conversational_search_search_confidence_model_json2 == search_settings_conversational_search_search_confidence_model_json
 
 
 class TestModel_SearchSettingsDiscovery:
@@ -7412,6 +10414,44 @@ class TestModel_SearchSettingsDiscoveryAuthentication:
         assert search_settings_discovery_authentication_model_json2 == search_settings_discovery_authentication_model_json
 
 
+class TestModel_SearchSettingsElasticSearch:
+    """
+    Test Class for SearchSettingsElasticSearch
+    """
+
+    def test_search_settings_elastic_search_serialization(self):
+        """
+        Test serialization/deserialization for SearchSettingsElasticSearch
+        """
+
+        # Construct a json representation of a SearchSettingsElasticSearch model
+        search_settings_elastic_search_model_json = {}
+        search_settings_elastic_search_model_json['url'] = 'testString'
+        search_settings_elastic_search_model_json['port'] = 'testString'
+        search_settings_elastic_search_model_json['username'] = 'testString'
+        search_settings_elastic_search_model_json['password'] = 'testString'
+        search_settings_elastic_search_model_json['index'] = 'testString'
+        search_settings_elastic_search_model_json['filter'] = ['testString']
+        search_settings_elastic_search_model_json['query_body'] = {'anyKey': 'anyValue'}
+        search_settings_elastic_search_model_json['managed_index'] = 'testString'
+        search_settings_elastic_search_model_json['apikey'] = 'testString'
+
+        # Construct a model instance of SearchSettingsElasticSearch by calling from_dict on the json representation
+        search_settings_elastic_search_model = SearchSettingsElasticSearch.from_dict(search_settings_elastic_search_model_json)
+        assert search_settings_elastic_search_model != False
+
+        # Construct a model instance of SearchSettingsElasticSearch by calling from_dict on the json representation
+        search_settings_elastic_search_model_dict = SearchSettingsElasticSearch.from_dict(search_settings_elastic_search_model_json).__dict__
+        search_settings_elastic_search_model2 = SearchSettingsElasticSearch(**search_settings_elastic_search_model_dict)
+
+        # Verify the model instances are equivalent
+        assert search_settings_elastic_search_model == search_settings_elastic_search_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        search_settings_elastic_search_model_json2 = search_settings_elastic_search_model.to_dict()
+        assert search_settings_elastic_search_model_json2 == search_settings_elastic_search_model_json
+
+
 class TestModel_SearchSettingsMessages:
     """
     Test Class for SearchSettingsMessages
@@ -7474,6 +10514,44 @@ class TestModel_SearchSettingsSchemaMapping:
         # Convert model instance back to dict and verify no loss of data
         search_settings_schema_mapping_model_json2 = search_settings_schema_mapping_model.to_dict()
         assert search_settings_schema_mapping_model_json2 == search_settings_schema_mapping_model_json
+
+
+class TestModel_SearchSettingsServerSideSearch:
+    """
+    Test Class for SearchSettingsServerSideSearch
+    """
+
+    def test_search_settings_server_side_search_serialization(self):
+        """
+        Test serialization/deserialization for SearchSettingsServerSideSearch
+        """
+
+        # Construct a json representation of a SearchSettingsServerSideSearch model
+        search_settings_server_side_search_model_json = {}
+        search_settings_server_side_search_model_json['url'] = 'testString'
+        search_settings_server_side_search_model_json['port'] = 'testString'
+        search_settings_server_side_search_model_json['username'] = 'testString'
+        search_settings_server_side_search_model_json['password'] = 'testString'
+        search_settings_server_side_search_model_json['filter'] = 'testString'
+        search_settings_server_side_search_model_json['metadata'] = {'anyKey': 'anyValue'}
+        search_settings_server_side_search_model_json['apikey'] = 'testString'
+        search_settings_server_side_search_model_json['no_auth'] = True
+        search_settings_server_side_search_model_json['auth_type'] = 'basic'
+
+        # Construct a model instance of SearchSettingsServerSideSearch by calling from_dict on the json representation
+        search_settings_server_side_search_model = SearchSettingsServerSideSearch.from_dict(search_settings_server_side_search_model_json)
+        assert search_settings_server_side_search_model != False
+
+        # Construct a model instance of SearchSettingsServerSideSearch by calling from_dict on the json representation
+        search_settings_server_side_search_model_dict = SearchSettingsServerSideSearch.from_dict(search_settings_server_side_search_model_json).__dict__
+        search_settings_server_side_search_model2 = SearchSettingsServerSideSearch(**search_settings_server_side_search_model_dict)
+
+        # Verify the model instances are equivalent
+        assert search_settings_server_side_search_model == search_settings_server_side_search_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        search_settings_server_side_search_model_json2 = search_settings_server_side_search_model.to_dict()
+        assert search_settings_server_side_search_model_json2 == search_settings_server_side_search_model_json
 
 
 class TestModel_SearchSkillWarning:
@@ -7575,10 +10653,51 @@ class TestModel_Skill:
         search_settings_schema_mapping_model['body'] = 'testString'
         search_settings_schema_mapping_model['title'] = 'testString'
 
+        search_settings_elastic_search_model = {}  # SearchSettingsElasticSearch
+        search_settings_elastic_search_model['url'] = 'testString'
+        search_settings_elastic_search_model['port'] = 'testString'
+        search_settings_elastic_search_model['username'] = 'testString'
+        search_settings_elastic_search_model['password'] = 'testString'
+        search_settings_elastic_search_model['index'] = 'testString'
+        search_settings_elastic_search_model['filter'] = ['testString']
+        search_settings_elastic_search_model['query_body'] = {'anyKey': 'anyValue'}
+        search_settings_elastic_search_model['managed_index'] = 'testString'
+        search_settings_elastic_search_model['apikey'] = 'testString'
+
+        search_settings_conversational_search_response_length_model = {}  # SearchSettingsConversationalSearchResponseLength
+        search_settings_conversational_search_response_length_model['option'] = 'moderate'
+
+        search_settings_conversational_search_search_confidence_model = {}  # SearchSettingsConversationalSearchSearchConfidence
+        search_settings_conversational_search_search_confidence_model['threshold'] = 'less_often'
+
+        search_settings_conversational_search_model = {}  # SearchSettingsConversationalSearch
+        search_settings_conversational_search_model['enabled'] = True
+        search_settings_conversational_search_model['response_length'] = search_settings_conversational_search_response_length_model
+        search_settings_conversational_search_model['search_confidence'] = search_settings_conversational_search_search_confidence_model
+
+        search_settings_server_side_search_model = {}  # SearchSettingsServerSideSearch
+        search_settings_server_side_search_model['url'] = 'testString'
+        search_settings_server_side_search_model['port'] = 'testString'
+        search_settings_server_side_search_model['username'] = 'testString'
+        search_settings_server_side_search_model['password'] = 'testString'
+        search_settings_server_side_search_model['filter'] = 'testString'
+        search_settings_server_side_search_model['metadata'] = {'anyKey': 'anyValue'}
+        search_settings_server_side_search_model['apikey'] = 'testString'
+        search_settings_server_side_search_model['no_auth'] = True
+        search_settings_server_side_search_model['auth_type'] = 'basic'
+
+        search_settings_client_side_search_model = {}  # SearchSettingsClientSideSearch
+        search_settings_client_side_search_model['filter'] = 'testString'
+        search_settings_client_side_search_model['metadata'] = {'anyKey': 'anyValue'}
+
         search_settings_model = {}  # SearchSettings
         search_settings_model['discovery'] = search_settings_discovery_model
         search_settings_model['messages'] = search_settings_messages_model
         search_settings_model['schema_mapping'] = search_settings_schema_mapping_model
+        search_settings_model['elastic_search'] = search_settings_elastic_search_model
+        search_settings_model['conversational_search'] = search_settings_conversational_search_model
+        search_settings_model['server_side_search'] = search_settings_server_side_search_model
+        search_settings_model['client_side_search'] = search_settings_client_side_search_model
 
         # Construct a json representation of a Skill model
         skill_model_json = {}
@@ -7643,10 +10762,51 @@ class TestModel_SkillImport:
         search_settings_schema_mapping_model['body'] = 'testString'
         search_settings_schema_mapping_model['title'] = 'testString'
 
+        search_settings_elastic_search_model = {}  # SearchSettingsElasticSearch
+        search_settings_elastic_search_model['url'] = 'testString'
+        search_settings_elastic_search_model['port'] = 'testString'
+        search_settings_elastic_search_model['username'] = 'testString'
+        search_settings_elastic_search_model['password'] = 'testString'
+        search_settings_elastic_search_model['index'] = 'testString'
+        search_settings_elastic_search_model['filter'] = ['testString']
+        search_settings_elastic_search_model['query_body'] = {'anyKey': 'anyValue'}
+        search_settings_elastic_search_model['managed_index'] = 'testString'
+        search_settings_elastic_search_model['apikey'] = 'testString'
+
+        search_settings_conversational_search_response_length_model = {}  # SearchSettingsConversationalSearchResponseLength
+        search_settings_conversational_search_response_length_model['option'] = 'moderate'
+
+        search_settings_conversational_search_search_confidence_model = {}  # SearchSettingsConversationalSearchSearchConfidence
+        search_settings_conversational_search_search_confidence_model['threshold'] = 'less_often'
+
+        search_settings_conversational_search_model = {}  # SearchSettingsConversationalSearch
+        search_settings_conversational_search_model['enabled'] = True
+        search_settings_conversational_search_model['response_length'] = search_settings_conversational_search_response_length_model
+        search_settings_conversational_search_model['search_confidence'] = search_settings_conversational_search_search_confidence_model
+
+        search_settings_server_side_search_model = {}  # SearchSettingsServerSideSearch
+        search_settings_server_side_search_model['url'] = 'testString'
+        search_settings_server_side_search_model['port'] = 'testString'
+        search_settings_server_side_search_model['username'] = 'testString'
+        search_settings_server_side_search_model['password'] = 'testString'
+        search_settings_server_side_search_model['filter'] = 'testString'
+        search_settings_server_side_search_model['metadata'] = {'anyKey': 'anyValue'}
+        search_settings_server_side_search_model['apikey'] = 'testString'
+        search_settings_server_side_search_model['no_auth'] = True
+        search_settings_server_side_search_model['auth_type'] = 'basic'
+
+        search_settings_client_side_search_model = {}  # SearchSettingsClientSideSearch
+        search_settings_client_side_search_model['filter'] = 'testString'
+        search_settings_client_side_search_model['metadata'] = {'anyKey': 'anyValue'}
+
         search_settings_model = {}  # SearchSettings
         search_settings_model['discovery'] = search_settings_discovery_model
         search_settings_model['messages'] = search_settings_messages_model
         search_settings_model['schema_mapping'] = search_settings_schema_mapping_model
+        search_settings_model['elastic_search'] = search_settings_elastic_search_model
+        search_settings_model['conversational_search'] = search_settings_conversational_search_model
+        search_settings_model['server_side_search'] = search_settings_server_side_search_model
+        search_settings_model['client_side_search'] = search_settings_client_side_search_model
 
         # Construct a json representation of a SkillImport model
         skill_import_model_json = {}
@@ -7740,10 +10900,51 @@ class TestModel_SkillsExport:
         search_settings_schema_mapping_model['body'] = 'testString'
         search_settings_schema_mapping_model['title'] = 'testString'
 
+        search_settings_elastic_search_model = {}  # SearchSettingsElasticSearch
+        search_settings_elastic_search_model['url'] = 'testString'
+        search_settings_elastic_search_model['port'] = 'testString'
+        search_settings_elastic_search_model['username'] = 'testString'
+        search_settings_elastic_search_model['password'] = 'testString'
+        search_settings_elastic_search_model['index'] = 'testString'
+        search_settings_elastic_search_model['filter'] = ['testString']
+        search_settings_elastic_search_model['query_body'] = {'anyKey': 'anyValue'}
+        search_settings_elastic_search_model['managed_index'] = 'testString'
+        search_settings_elastic_search_model['apikey'] = 'testString'
+
+        search_settings_conversational_search_response_length_model = {}  # SearchSettingsConversationalSearchResponseLength
+        search_settings_conversational_search_response_length_model['option'] = 'moderate'
+
+        search_settings_conversational_search_search_confidence_model = {}  # SearchSettingsConversationalSearchSearchConfidence
+        search_settings_conversational_search_search_confidence_model['threshold'] = 'less_often'
+
+        search_settings_conversational_search_model = {}  # SearchSettingsConversationalSearch
+        search_settings_conversational_search_model['enabled'] = True
+        search_settings_conversational_search_model['response_length'] = search_settings_conversational_search_response_length_model
+        search_settings_conversational_search_model['search_confidence'] = search_settings_conversational_search_search_confidence_model
+
+        search_settings_server_side_search_model = {}  # SearchSettingsServerSideSearch
+        search_settings_server_side_search_model['url'] = 'testString'
+        search_settings_server_side_search_model['port'] = 'testString'
+        search_settings_server_side_search_model['username'] = 'testString'
+        search_settings_server_side_search_model['password'] = 'testString'
+        search_settings_server_side_search_model['filter'] = 'testString'
+        search_settings_server_side_search_model['metadata'] = {'anyKey': 'anyValue'}
+        search_settings_server_side_search_model['apikey'] = 'testString'
+        search_settings_server_side_search_model['no_auth'] = True
+        search_settings_server_side_search_model['auth_type'] = 'basic'
+
+        search_settings_client_side_search_model = {}  # SearchSettingsClientSideSearch
+        search_settings_client_side_search_model['filter'] = 'testString'
+        search_settings_client_side_search_model['metadata'] = {'anyKey': 'anyValue'}
+
         search_settings_model = {}  # SearchSettings
         search_settings_model['discovery'] = search_settings_discovery_model
         search_settings_model['messages'] = search_settings_messages_model
         search_settings_model['schema_mapping'] = search_settings_schema_mapping_model
+        search_settings_model['elastic_search'] = search_settings_elastic_search_model
+        search_settings_model['conversational_search'] = search_settings_conversational_search_model
+        search_settings_model['server_side_search'] = search_settings_server_side_search_model
+        search_settings_model['client_side_search'] = search_settings_client_side_search_model
 
         skill_model = {}  # Skill
         skill_model['name'] = 'testString'
@@ -8658,11 +11859,28 @@ class TestModel_TurnEventCalloutCallout:
         Test serialization/deserialization for TurnEventCalloutCallout
         """
 
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        turn_event_callout_callout_request_model = {}  # TurnEventCalloutCalloutRequest
+        turn_event_callout_callout_request_model['method'] = 'get'
+        turn_event_callout_callout_request_model['url'] = 'testString'
+        turn_event_callout_callout_request_model['path'] = 'testString'
+        turn_event_callout_callout_request_model['query_parameters'] = 'testString'
+        turn_event_callout_callout_request_model['headers'] = {'anyKey': 'anyValue'}
+        turn_event_callout_callout_request_model['body'] = {'anyKey': 'anyValue'}
+
+        turn_event_callout_callout_response_model = {}  # TurnEventCalloutCalloutResponse
+        turn_event_callout_callout_response_model['body'] = 'testString'
+        turn_event_callout_callout_response_model['status_code'] = 38
+        turn_event_callout_callout_response_model['last_event'] = {'anyKey': 'anyValue'}
+
         # Construct a json representation of a TurnEventCalloutCallout model
         turn_event_callout_callout_model_json = {}
         turn_event_callout_callout_model_json['type'] = 'integration_interaction'
         turn_event_callout_callout_model_json['internal'] = {'anyKey': 'anyValue'}
         turn_event_callout_callout_model_json['result_variable'] = 'testString'
+        turn_event_callout_callout_model_json['request'] = turn_event_callout_callout_request_model
+        turn_event_callout_callout_model_json['response'] = turn_event_callout_callout_response_model
 
         # Construct a model instance of TurnEventCalloutCallout by calling from_dict on the json representation
         turn_event_callout_callout_model = TurnEventCalloutCallout.from_dict(turn_event_callout_callout_model_json)
@@ -8678,6 +11896,73 @@ class TestModel_TurnEventCalloutCallout:
         # Convert model instance back to dict and verify no loss of data
         turn_event_callout_callout_model_json2 = turn_event_callout_callout_model.to_dict()
         assert turn_event_callout_callout_model_json2 == turn_event_callout_callout_model_json
+
+
+class TestModel_TurnEventCalloutCalloutRequest:
+    """
+    Test Class for TurnEventCalloutCalloutRequest
+    """
+
+    def test_turn_event_callout_callout_request_serialization(self):
+        """
+        Test serialization/deserialization for TurnEventCalloutCalloutRequest
+        """
+
+        # Construct a json representation of a TurnEventCalloutCalloutRequest model
+        turn_event_callout_callout_request_model_json = {}
+        turn_event_callout_callout_request_model_json['method'] = 'get'
+        turn_event_callout_callout_request_model_json['url'] = 'testString'
+        turn_event_callout_callout_request_model_json['path'] = 'testString'
+        turn_event_callout_callout_request_model_json['query_parameters'] = 'testString'
+        turn_event_callout_callout_request_model_json['headers'] = {'anyKey': 'anyValue'}
+        turn_event_callout_callout_request_model_json['body'] = {'anyKey': 'anyValue'}
+
+        # Construct a model instance of TurnEventCalloutCalloutRequest by calling from_dict on the json representation
+        turn_event_callout_callout_request_model = TurnEventCalloutCalloutRequest.from_dict(turn_event_callout_callout_request_model_json)
+        assert turn_event_callout_callout_request_model != False
+
+        # Construct a model instance of TurnEventCalloutCalloutRequest by calling from_dict on the json representation
+        turn_event_callout_callout_request_model_dict = TurnEventCalloutCalloutRequest.from_dict(turn_event_callout_callout_request_model_json).__dict__
+        turn_event_callout_callout_request_model2 = TurnEventCalloutCalloutRequest(**turn_event_callout_callout_request_model_dict)
+
+        # Verify the model instances are equivalent
+        assert turn_event_callout_callout_request_model == turn_event_callout_callout_request_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        turn_event_callout_callout_request_model_json2 = turn_event_callout_callout_request_model.to_dict()
+        assert turn_event_callout_callout_request_model_json2 == turn_event_callout_callout_request_model_json
+
+
+class TestModel_TurnEventCalloutCalloutResponse:
+    """
+    Test Class for TurnEventCalloutCalloutResponse
+    """
+
+    def test_turn_event_callout_callout_response_serialization(self):
+        """
+        Test serialization/deserialization for TurnEventCalloutCalloutResponse
+        """
+
+        # Construct a json representation of a TurnEventCalloutCalloutResponse model
+        turn_event_callout_callout_response_model_json = {}
+        turn_event_callout_callout_response_model_json['body'] = 'testString'
+        turn_event_callout_callout_response_model_json['status_code'] = 38
+        turn_event_callout_callout_response_model_json['last_event'] = {'anyKey': 'anyValue'}
+
+        # Construct a model instance of TurnEventCalloutCalloutResponse by calling from_dict on the json representation
+        turn_event_callout_callout_response_model = TurnEventCalloutCalloutResponse.from_dict(turn_event_callout_callout_response_model_json)
+        assert turn_event_callout_callout_response_model != False
+
+        # Construct a model instance of TurnEventCalloutCalloutResponse by calling from_dict on the json representation
+        turn_event_callout_callout_response_model_dict = TurnEventCalloutCalloutResponse.from_dict(turn_event_callout_callout_response_model_json).__dict__
+        turn_event_callout_callout_response_model2 = TurnEventCalloutCalloutResponse(**turn_event_callout_callout_response_model_dict)
+
+        # Verify the model instances are equivalent
+        assert turn_event_callout_callout_response_model == turn_event_callout_callout_response_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        turn_event_callout_callout_response_model_json2 = turn_event_callout_callout_response_model.to_dict()
+        assert turn_event_callout_callout_response_model_json2 == turn_event_callout_callout_response_model_json
 
 
 class TestModel_TurnEventCalloutError:
@@ -8771,6 +12056,101 @@ class TestModel_TurnEventSearchError:
         # Convert model instance back to dict and verify no loss of data
         turn_event_search_error_model_json2 = turn_event_search_error_model.to_dict()
         assert turn_event_search_error_model_json2 == turn_event_search_error_model_json
+
+
+class TestModel_UpdateEnvironmentOrchestration:
+    """
+    Test Class for UpdateEnvironmentOrchestration
+    """
+
+    def test_update_environment_orchestration_serialization(self):
+        """
+        Test serialization/deserialization for UpdateEnvironmentOrchestration
+        """
+
+        # Construct a json representation of a UpdateEnvironmentOrchestration model
+        update_environment_orchestration_model_json = {}
+        update_environment_orchestration_model_json['search_skill_fallback'] = True
+
+        # Construct a model instance of UpdateEnvironmentOrchestration by calling from_dict on the json representation
+        update_environment_orchestration_model = UpdateEnvironmentOrchestration.from_dict(update_environment_orchestration_model_json)
+        assert update_environment_orchestration_model != False
+
+        # Construct a model instance of UpdateEnvironmentOrchestration by calling from_dict on the json representation
+        update_environment_orchestration_model_dict = UpdateEnvironmentOrchestration.from_dict(update_environment_orchestration_model_json).__dict__
+        update_environment_orchestration_model2 = UpdateEnvironmentOrchestration(**update_environment_orchestration_model_dict)
+
+        # Verify the model instances are equivalent
+        assert update_environment_orchestration_model == update_environment_orchestration_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        update_environment_orchestration_model_json2 = update_environment_orchestration_model.to_dict()
+        assert update_environment_orchestration_model_json2 == update_environment_orchestration_model_json
+
+
+class TestModel_UpdateEnvironmentReleaseReference:
+    """
+    Test Class for UpdateEnvironmentReleaseReference
+    """
+
+    def test_update_environment_release_reference_serialization(self):
+        """
+        Test serialization/deserialization for UpdateEnvironmentReleaseReference
+        """
+
+        # Construct a json representation of a UpdateEnvironmentReleaseReference model
+        update_environment_release_reference_model_json = {}
+        update_environment_release_reference_model_json['release'] = 'testString'
+
+        # Construct a model instance of UpdateEnvironmentReleaseReference by calling from_dict on the json representation
+        update_environment_release_reference_model = UpdateEnvironmentReleaseReference.from_dict(update_environment_release_reference_model_json)
+        assert update_environment_release_reference_model != False
+
+        # Construct a model instance of UpdateEnvironmentReleaseReference by calling from_dict on the json representation
+        update_environment_release_reference_model_dict = UpdateEnvironmentReleaseReference.from_dict(update_environment_release_reference_model_json).__dict__
+        update_environment_release_reference_model2 = UpdateEnvironmentReleaseReference(**update_environment_release_reference_model_dict)
+
+        # Verify the model instances are equivalent
+        assert update_environment_release_reference_model == update_environment_release_reference_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        update_environment_release_reference_model_json2 = update_environment_release_reference_model.to_dict()
+        assert update_environment_release_reference_model_json2 == update_environment_release_reference_model_json
+
+
+class TestModel_CompleteItem:
+    """
+    Test Class for CompleteItem
+    """
+
+    def test_complete_item_serialization(self):
+        """
+        Test serialization/deserialization for CompleteItem
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        metadata_model = {}  # Metadata
+        metadata_model['id'] = 38
+
+        # Construct a json representation of a CompleteItem model
+        complete_item_model_json = {}
+        complete_item_model_json['streaming_metadata'] = metadata_model
+
+        # Construct a model instance of CompleteItem by calling from_dict on the json representation
+        complete_item_model = CompleteItem.from_dict(complete_item_model_json)
+        assert complete_item_model != False
+
+        # Construct a model instance of CompleteItem by calling from_dict on the json representation
+        complete_item_model_dict = CompleteItem.from_dict(complete_item_model_json).__dict__
+        complete_item_model2 = CompleteItem(**complete_item_model_dict)
+
+        # Verify the model instances are equivalent
+        assert complete_item_model == complete_item_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        complete_item_model_json2 = complete_item_model.to_dict()
+        assert complete_item_model_json2 == complete_item_model_json
 
 
 class TestModel_LogMessageSourceAction:
@@ -9004,10 +12384,25 @@ class TestModel_MessageOutputDebugTurnEventTurnEventCallout:
         turn_event_action_source_model['action_title'] = 'testString'
         turn_event_action_source_model['condition'] = 'testString'
 
+        turn_event_callout_callout_request_model = {}  # TurnEventCalloutCalloutRequest
+        turn_event_callout_callout_request_model['method'] = 'get'
+        turn_event_callout_callout_request_model['url'] = 'testString'
+        turn_event_callout_callout_request_model['path'] = 'testString'
+        turn_event_callout_callout_request_model['query_parameters'] = 'testString'
+        turn_event_callout_callout_request_model['headers'] = {'anyKey': 'anyValue'}
+        turn_event_callout_callout_request_model['body'] = {'anyKey': 'anyValue'}
+
+        turn_event_callout_callout_response_model = {}  # TurnEventCalloutCalloutResponse
+        turn_event_callout_callout_response_model['body'] = 'testString'
+        turn_event_callout_callout_response_model['status_code'] = 38
+        turn_event_callout_callout_response_model['last_event'] = {'anyKey': 'anyValue'}
+
         turn_event_callout_callout_model = {}  # TurnEventCalloutCallout
         turn_event_callout_callout_model['type'] = 'integration_interaction'
         turn_event_callout_callout_model['internal'] = {'anyKey': 'anyValue'}
         turn_event_callout_callout_model['result_variable'] = 'testString'
+        turn_event_callout_callout_model['request'] = turn_event_callout_callout_request_model
+        turn_event_callout_callout_model['response'] = turn_event_callout_callout_response_model
 
         turn_event_callout_error_model = {}  # TurnEventCalloutError
         turn_event_callout_error_model['message'] = 'testString'
@@ -9240,6 +12635,339 @@ class TestModel_MessageOutputDebugTurnEventTurnEventStepVisited:
         # Convert model instance back to dict and verify no loss of data
         message_output_debug_turn_event_turn_event_step_visited_model_json2 = message_output_debug_turn_event_turn_event_step_visited_model.to_dict()
         assert message_output_debug_turn_event_turn_event_step_visited_model_json2 == message_output_debug_turn_event_turn_event_step_visited_model_json
+
+
+class TestModel_ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2AuthorizationCode:
+    """
+    Test Class for ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2AuthorizationCode
+    """
+
+    def test_provider_authentication_o_auth2_flows_provider_authentication_o_auth2_authorization_code_serialization(self):
+        """
+        Test serialization/deserialization for ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2AuthorizationCode
+        """
+
+        # Construct a json representation of a ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2AuthorizationCode model
+        provider_authentication_o_auth2_flows_provider_authentication_o_auth2_authorization_code_model_json = {}
+        provider_authentication_o_auth2_flows_provider_authentication_o_auth2_authorization_code_model_json['token_url'] = 'testString'
+        provider_authentication_o_auth2_flows_provider_authentication_o_auth2_authorization_code_model_json['refresh_url'] = 'testString'
+        provider_authentication_o_auth2_flows_provider_authentication_o_auth2_authorization_code_model_json['client_auth_type'] = 'Body'
+        provider_authentication_o_auth2_flows_provider_authentication_o_auth2_authorization_code_model_json['content_type'] = 'testString'
+        provider_authentication_o_auth2_flows_provider_authentication_o_auth2_authorization_code_model_json['header_prefix'] = 'testString'
+        provider_authentication_o_auth2_flows_provider_authentication_o_auth2_authorization_code_model_json['authorization_url'] = 'testString'
+        provider_authentication_o_auth2_flows_provider_authentication_o_auth2_authorization_code_model_json['redirect_uri'] = 'testString'
+
+        # Construct a model instance of ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2AuthorizationCode by calling from_dict on the json representation
+        provider_authentication_o_auth2_flows_provider_authentication_o_auth2_authorization_code_model = ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2AuthorizationCode.from_dict(provider_authentication_o_auth2_flows_provider_authentication_o_auth2_authorization_code_model_json)
+        assert provider_authentication_o_auth2_flows_provider_authentication_o_auth2_authorization_code_model != False
+
+        # Construct a model instance of ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2AuthorizationCode by calling from_dict on the json representation
+        provider_authentication_o_auth2_flows_provider_authentication_o_auth2_authorization_code_model_dict = ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2AuthorizationCode.from_dict(provider_authentication_o_auth2_flows_provider_authentication_o_auth2_authorization_code_model_json).__dict__
+        provider_authentication_o_auth2_flows_provider_authentication_o_auth2_authorization_code_model2 = ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2AuthorizationCode(**provider_authentication_o_auth2_flows_provider_authentication_o_auth2_authorization_code_model_dict)
+
+        # Verify the model instances are equivalent
+        assert provider_authentication_o_auth2_flows_provider_authentication_o_auth2_authorization_code_model == provider_authentication_o_auth2_flows_provider_authentication_o_auth2_authorization_code_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        provider_authentication_o_auth2_flows_provider_authentication_o_auth2_authorization_code_model_json2 = provider_authentication_o_auth2_flows_provider_authentication_o_auth2_authorization_code_model.to_dict()
+        assert provider_authentication_o_auth2_flows_provider_authentication_o_auth2_authorization_code_model_json2 == provider_authentication_o_auth2_flows_provider_authentication_o_auth2_authorization_code_model_json
+
+
+class TestModel_ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2ClientCredentials:
+    """
+    Test Class for ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2ClientCredentials
+    """
+
+    def test_provider_authentication_o_auth2_flows_provider_authentication_o_auth2_client_credentials_serialization(self):
+        """
+        Test serialization/deserialization for ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2ClientCredentials
+        """
+
+        # Construct a json representation of a ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2ClientCredentials model
+        provider_authentication_o_auth2_flows_provider_authentication_o_auth2_client_credentials_model_json = {}
+        provider_authentication_o_auth2_flows_provider_authentication_o_auth2_client_credentials_model_json['token_url'] = 'testString'
+        provider_authentication_o_auth2_flows_provider_authentication_o_auth2_client_credentials_model_json['refresh_url'] = 'testString'
+        provider_authentication_o_auth2_flows_provider_authentication_o_auth2_client_credentials_model_json['client_auth_type'] = 'Body'
+        provider_authentication_o_auth2_flows_provider_authentication_o_auth2_client_credentials_model_json['content_type'] = 'testString'
+        provider_authentication_o_auth2_flows_provider_authentication_o_auth2_client_credentials_model_json['header_prefix'] = 'testString'
+
+        # Construct a model instance of ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2ClientCredentials by calling from_dict on the json representation
+        provider_authentication_o_auth2_flows_provider_authentication_o_auth2_client_credentials_model = ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2ClientCredentials.from_dict(provider_authentication_o_auth2_flows_provider_authentication_o_auth2_client_credentials_model_json)
+        assert provider_authentication_o_auth2_flows_provider_authentication_o_auth2_client_credentials_model != False
+
+        # Construct a model instance of ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2ClientCredentials by calling from_dict on the json representation
+        provider_authentication_o_auth2_flows_provider_authentication_o_auth2_client_credentials_model_dict = ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2ClientCredentials.from_dict(provider_authentication_o_auth2_flows_provider_authentication_o_auth2_client_credentials_model_json).__dict__
+        provider_authentication_o_auth2_flows_provider_authentication_o_auth2_client_credentials_model2 = ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2ClientCredentials(**provider_authentication_o_auth2_flows_provider_authentication_o_auth2_client_credentials_model_dict)
+
+        # Verify the model instances are equivalent
+        assert provider_authentication_o_auth2_flows_provider_authentication_o_auth2_client_credentials_model == provider_authentication_o_auth2_flows_provider_authentication_o_auth2_client_credentials_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        provider_authentication_o_auth2_flows_provider_authentication_o_auth2_client_credentials_model_json2 = provider_authentication_o_auth2_flows_provider_authentication_o_auth2_client_credentials_model.to_dict()
+        assert provider_authentication_o_auth2_flows_provider_authentication_o_auth2_client_credentials_model_json2 == provider_authentication_o_auth2_flows_provider_authentication_o_auth2_client_credentials_model_json
+
+
+class TestModel_ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2Password:
+    """
+    Test Class for ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2Password
+    """
+
+    def test_provider_authentication_o_auth2_flows_provider_authentication_o_auth2_password_serialization(self):
+        """
+        Test serialization/deserialization for ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2Password
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        provider_authentication_o_auth2_password_username_model = {}  # ProviderAuthenticationOAuth2PasswordUsername
+        provider_authentication_o_auth2_password_username_model['type'] = 'value'
+        provider_authentication_o_auth2_password_username_model['value'] = 'testString'
+
+        # Construct a json representation of a ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2Password model
+        provider_authentication_o_auth2_flows_provider_authentication_o_auth2_password_model_json = {}
+        provider_authentication_o_auth2_flows_provider_authentication_o_auth2_password_model_json['token_url'] = 'testString'
+        provider_authentication_o_auth2_flows_provider_authentication_o_auth2_password_model_json['refresh_url'] = 'testString'
+        provider_authentication_o_auth2_flows_provider_authentication_o_auth2_password_model_json['client_auth_type'] = 'Body'
+        provider_authentication_o_auth2_flows_provider_authentication_o_auth2_password_model_json['content_type'] = 'testString'
+        provider_authentication_o_auth2_flows_provider_authentication_o_auth2_password_model_json['header_prefix'] = 'testString'
+        provider_authentication_o_auth2_flows_provider_authentication_o_auth2_password_model_json['username'] = provider_authentication_o_auth2_password_username_model
+
+        # Construct a model instance of ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2Password by calling from_dict on the json representation
+        provider_authentication_o_auth2_flows_provider_authentication_o_auth2_password_model = ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2Password.from_dict(provider_authentication_o_auth2_flows_provider_authentication_o_auth2_password_model_json)
+        assert provider_authentication_o_auth2_flows_provider_authentication_o_auth2_password_model != False
+
+        # Construct a model instance of ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2Password by calling from_dict on the json representation
+        provider_authentication_o_auth2_flows_provider_authentication_o_auth2_password_model_dict = ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2Password.from_dict(provider_authentication_o_auth2_flows_provider_authentication_o_auth2_password_model_json).__dict__
+        provider_authentication_o_auth2_flows_provider_authentication_o_auth2_password_model2 = ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2Password(**provider_authentication_o_auth2_flows_provider_authentication_o_auth2_password_model_dict)
+
+        # Verify the model instances are equivalent
+        assert provider_authentication_o_auth2_flows_provider_authentication_o_auth2_password_model == provider_authentication_o_auth2_flows_provider_authentication_o_auth2_password_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        provider_authentication_o_auth2_flows_provider_authentication_o_auth2_password_model_json2 = provider_authentication_o_auth2_flows_provider_authentication_o_auth2_password_model.to_dict()
+        assert provider_authentication_o_auth2_flows_provider_authentication_o_auth2_password_model_json2 == provider_authentication_o_auth2_flows_provider_authentication_o_auth2_password_model_json
+
+
+class TestModel_ProviderPrivateAuthenticationBasicFlow:
+    """
+    Test Class for ProviderPrivateAuthenticationBasicFlow
+    """
+
+    def test_provider_private_authentication_basic_flow_serialization(self):
+        """
+        Test serialization/deserialization for ProviderPrivateAuthenticationBasicFlow
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        provider_authentication_type_and_value_model = {}  # ProviderAuthenticationTypeAndValue
+        provider_authentication_type_and_value_model['type'] = 'value'
+        provider_authentication_type_and_value_model['value'] = 'testString'
+
+        # Construct a json representation of a ProviderPrivateAuthenticationBasicFlow model
+        provider_private_authentication_basic_flow_model_json = {}
+        provider_private_authentication_basic_flow_model_json['password'] = provider_authentication_type_and_value_model
+
+        # Construct a model instance of ProviderPrivateAuthenticationBasicFlow by calling from_dict on the json representation
+        provider_private_authentication_basic_flow_model = ProviderPrivateAuthenticationBasicFlow.from_dict(provider_private_authentication_basic_flow_model_json)
+        assert provider_private_authentication_basic_flow_model != False
+
+        # Construct a model instance of ProviderPrivateAuthenticationBasicFlow by calling from_dict on the json representation
+        provider_private_authentication_basic_flow_model_dict = ProviderPrivateAuthenticationBasicFlow.from_dict(provider_private_authentication_basic_flow_model_json).__dict__
+        provider_private_authentication_basic_flow_model2 = ProviderPrivateAuthenticationBasicFlow(**provider_private_authentication_basic_flow_model_dict)
+
+        # Verify the model instances are equivalent
+        assert provider_private_authentication_basic_flow_model == provider_private_authentication_basic_flow_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        provider_private_authentication_basic_flow_model_json2 = provider_private_authentication_basic_flow_model.to_dict()
+        assert provider_private_authentication_basic_flow_model_json2 == provider_private_authentication_basic_flow_model_json
+
+
+class TestModel_ProviderPrivateAuthenticationBearerFlow:
+    """
+    Test Class for ProviderPrivateAuthenticationBearerFlow
+    """
+
+    def test_provider_private_authentication_bearer_flow_serialization(self):
+        """
+        Test serialization/deserialization for ProviderPrivateAuthenticationBearerFlow
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        provider_authentication_type_and_value_model = {}  # ProviderAuthenticationTypeAndValue
+        provider_authentication_type_and_value_model['type'] = 'value'
+        provider_authentication_type_and_value_model['value'] = 'testString'
+
+        # Construct a json representation of a ProviderPrivateAuthenticationBearerFlow model
+        provider_private_authentication_bearer_flow_model_json = {}
+        provider_private_authentication_bearer_flow_model_json['token'] = provider_authentication_type_and_value_model
+
+        # Construct a model instance of ProviderPrivateAuthenticationBearerFlow by calling from_dict on the json representation
+        provider_private_authentication_bearer_flow_model = ProviderPrivateAuthenticationBearerFlow.from_dict(provider_private_authentication_bearer_flow_model_json)
+        assert provider_private_authentication_bearer_flow_model != False
+
+        # Construct a model instance of ProviderPrivateAuthenticationBearerFlow by calling from_dict on the json representation
+        provider_private_authentication_bearer_flow_model_dict = ProviderPrivateAuthenticationBearerFlow.from_dict(provider_private_authentication_bearer_flow_model_json).__dict__
+        provider_private_authentication_bearer_flow_model2 = ProviderPrivateAuthenticationBearerFlow(**provider_private_authentication_bearer_flow_model_dict)
+
+        # Verify the model instances are equivalent
+        assert provider_private_authentication_bearer_flow_model == provider_private_authentication_bearer_flow_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        provider_private_authentication_bearer_flow_model_json2 = provider_private_authentication_bearer_flow_model.to_dict()
+        assert provider_private_authentication_bearer_flow_model_json2 == provider_private_authentication_bearer_flow_model_json
+
+
+class TestModel_ProviderPrivateAuthenticationOAuth2Flow:
+    """
+    Test Class for ProviderPrivateAuthenticationOAuth2Flow
+    """
+
+    def test_provider_private_authentication_o_auth2_flow_serialization(self):
+        """
+        Test serialization/deserialization for ProviderPrivateAuthenticationOAuth2Flow
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        provider_private_authentication_o_auth2_password_password_model = {}  # ProviderPrivateAuthenticationOAuth2PasswordPassword
+        provider_private_authentication_o_auth2_password_password_model['type'] = 'value'
+        provider_private_authentication_o_auth2_password_password_model['value'] = 'testString'
+
+        provider_private_authentication_o_auth2_flow_flows_model = {}  # ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2Password
+        provider_private_authentication_o_auth2_flow_flows_model['client_id'] = 'testString'
+        provider_private_authentication_o_auth2_flow_flows_model['client_secret'] = 'testString'
+        provider_private_authentication_o_auth2_flow_flows_model['access_token'] = 'testString'
+        provider_private_authentication_o_auth2_flow_flows_model['refresh_token'] = 'testString'
+        provider_private_authentication_o_auth2_flow_flows_model['password'] = provider_private_authentication_o_auth2_password_password_model
+
+        # Construct a json representation of a ProviderPrivateAuthenticationOAuth2Flow model
+        provider_private_authentication_o_auth2_flow_model_json = {}
+        provider_private_authentication_o_auth2_flow_model_json['flows'] = provider_private_authentication_o_auth2_flow_flows_model
+
+        # Construct a model instance of ProviderPrivateAuthenticationOAuth2Flow by calling from_dict on the json representation
+        provider_private_authentication_o_auth2_flow_model = ProviderPrivateAuthenticationOAuth2Flow.from_dict(provider_private_authentication_o_auth2_flow_model_json)
+        assert provider_private_authentication_o_auth2_flow_model != False
+
+        # Construct a model instance of ProviderPrivateAuthenticationOAuth2Flow by calling from_dict on the json representation
+        provider_private_authentication_o_auth2_flow_model_dict = ProviderPrivateAuthenticationOAuth2Flow.from_dict(provider_private_authentication_o_auth2_flow_model_json).__dict__
+        provider_private_authentication_o_auth2_flow_model2 = ProviderPrivateAuthenticationOAuth2Flow(**provider_private_authentication_o_auth2_flow_model_dict)
+
+        # Verify the model instances are equivalent
+        assert provider_private_authentication_o_auth2_flow_model == provider_private_authentication_o_auth2_flow_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        provider_private_authentication_o_auth2_flow_model_json2 = provider_private_authentication_o_auth2_flow_model.to_dict()
+        assert provider_private_authentication_o_auth2_flow_model_json2 == provider_private_authentication_o_auth2_flow_model_json
+
+
+class TestModel_ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2AuthorizationCode:
+    """
+    Test Class for ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2AuthorizationCode
+    """
+
+    def test_provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_authorization_code_serialization(self):
+        """
+        Test serialization/deserialization for ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2AuthorizationCode
+        """
+
+        # Construct a json representation of a ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2AuthorizationCode model
+        provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_authorization_code_model_json = {}
+        provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_authorization_code_model_json['client_id'] = 'testString'
+        provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_authorization_code_model_json['client_secret'] = 'testString'
+        provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_authorization_code_model_json['access_token'] = 'testString'
+        provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_authorization_code_model_json['refresh_token'] = 'testString'
+        provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_authorization_code_model_json['authorization_code'] = 'testString'
+
+        # Construct a model instance of ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2AuthorizationCode by calling from_dict on the json representation
+        provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_authorization_code_model = ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2AuthorizationCode.from_dict(provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_authorization_code_model_json)
+        assert provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_authorization_code_model != False
+
+        # Construct a model instance of ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2AuthorizationCode by calling from_dict on the json representation
+        provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_authorization_code_model_dict = ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2AuthorizationCode.from_dict(provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_authorization_code_model_json).__dict__
+        provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_authorization_code_model2 = ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2AuthorizationCode(**provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_authorization_code_model_dict)
+
+        # Verify the model instances are equivalent
+        assert provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_authorization_code_model == provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_authorization_code_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_authorization_code_model_json2 = provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_authorization_code_model.to_dict()
+        assert provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_authorization_code_model_json2 == provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_authorization_code_model_json
+
+
+class TestModel_ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2ClientCredentials:
+    """
+    Test Class for ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2ClientCredentials
+    """
+
+    def test_provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_client_credentials_serialization(self):
+        """
+        Test serialization/deserialization for ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2ClientCredentials
+        """
+
+        # Construct a json representation of a ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2ClientCredentials model
+        provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_client_credentials_model_json = {}
+        provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_client_credentials_model_json['client_id'] = 'testString'
+        provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_client_credentials_model_json['client_secret'] = 'testString'
+        provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_client_credentials_model_json['access_token'] = 'testString'
+        provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_client_credentials_model_json['refresh_token'] = 'testString'
+
+        # Construct a model instance of ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2ClientCredentials by calling from_dict on the json representation
+        provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_client_credentials_model = ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2ClientCredentials.from_dict(provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_client_credentials_model_json)
+        assert provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_client_credentials_model != False
+
+        # Construct a model instance of ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2ClientCredentials by calling from_dict on the json representation
+        provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_client_credentials_model_dict = ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2ClientCredentials.from_dict(provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_client_credentials_model_json).__dict__
+        provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_client_credentials_model2 = ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2ClientCredentials(**provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_client_credentials_model_dict)
+
+        # Verify the model instances are equivalent
+        assert provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_client_credentials_model == provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_client_credentials_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_client_credentials_model_json2 = provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_client_credentials_model.to_dict()
+        assert provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_client_credentials_model_json2 == provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_client_credentials_model_json
+
+
+class TestModel_ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2Password:
+    """
+    Test Class for ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2Password
+    """
+
+    def test_provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_password_serialization(self):
+        """
+        Test serialization/deserialization for ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2Password
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        provider_private_authentication_o_auth2_password_password_model = {}  # ProviderPrivateAuthenticationOAuth2PasswordPassword
+        provider_private_authentication_o_auth2_password_password_model['type'] = 'value'
+        provider_private_authentication_o_auth2_password_password_model['value'] = 'testString'
+
+        # Construct a json representation of a ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2Password model
+        provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_password_model_json = {}
+        provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_password_model_json['client_id'] = 'testString'
+        provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_password_model_json['client_secret'] = 'testString'
+        provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_password_model_json['access_token'] = 'testString'
+        provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_password_model_json['refresh_token'] = 'testString'
+        provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_password_model_json['password'] = provider_private_authentication_o_auth2_password_password_model
+
+        # Construct a model instance of ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2Password by calling from_dict on the json representation
+        provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_password_model = ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2Password.from_dict(provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_password_model_json)
+        assert provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_password_model != False
+
+        # Construct a model instance of ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2Password by calling from_dict on the json representation
+        provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_password_model_dict = ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2Password.from_dict(provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_password_model_json).__dict__
+        provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_password_model2 = ProviderPrivateAuthenticationOAuth2FlowFlowsProviderPrivateAuthenticationOAuth2Password(**provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_password_model_dict)
+
+        # Verify the model instances are equivalent
+        assert provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_password_model == provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_password_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_password_model_json2 = provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_password_model.to_dict()
+        assert provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_password_model_json2 == provider_private_authentication_o_auth2_flow_flows_provider_private_authentication_o_auth2_password_model_json
 
 
 class TestModel_RuntimeResponseGenericRuntimeResponseTypeAudio:
