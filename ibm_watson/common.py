@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# Copyright 2019 IBM All Rights Reserved.
+# Copyright 2019, 2024 IBM All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,7 +15,9 @@
 # limitations under the License.
 
 import platform
+import json
 from .version import __version__
+from typing import Iterator
 
 SDK_ANALYTICS_HEADER = 'X-IBMCloud-SDK-Analytics'
 USER_AGENT_HEADER = 'User-Agent'
@@ -48,3 +50,22 @@ def get_sdk_headers(service_name, service_version, operation_id):
                                                       operation_id)
     headers[USER_AGENT_HEADER] = get_user_agent()
     return headers
+
+
+def parse_sse_stream_data(response) -> Iterator[dict]:
+    event_message = None  # Can be used in the future to return the event message to the user
+    data_json = None
+
+    for chunk in response.iter_lines():
+        decoded_chunk = chunk.decode("utf-8")
+
+        if decoded_chunk.find("event", 0, len("event")) == 0:
+            event_message = decoded_chunk[len("event") + 2:]
+        elif decoded_chunk.find("data", 0, len("data")) == 0:
+            data_json_str = decoded_chunk[len("data") + 2:]
+            data_json = json.loads(data_json_str)
+
+        if event_message and data_json is not None:
+            yield data_json
+            event_message = None
+            data_json = None
