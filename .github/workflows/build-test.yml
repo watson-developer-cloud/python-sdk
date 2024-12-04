@@ -21,11 +21,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        python-version: ['3.9', '3.10', '3.11']
-        os: [ubuntu-latest, windows-latest]
-        exclude:
-          - os: windows-latest
-            python-version: '3.9'
+        python-version: ['3.11', '3.12', '3.13']
+        os: [ubuntu-latest]
 
     steps:
     - uses: actions/checkout@v2
@@ -39,39 +36,23 @@ jobs:
         pip3 install -r requirements.txt
         pip3 install -r requirements-dev.txt
         pip3 install --editable .
-    - name: Install dependencies (windows)
-      if: matrix.os == 'windows-latest'
-      run: |
-        pip3 install -r requirements.txt --use-deprecated=legacy-resolver
-        pip3 install -r requirements-dev.txt --use-deprecated=legacy-resolver
-        pip3 install --editable . --use-deprecated=legacy-resolver
-    - name: Execute Python 3.9 unit tests
-      if: matrix.python-version == '3.9'
+    - name: Execute Python 3.11 unit tests
+      if: matrix.python-version == '3.11'
       run: |
         pip3 install -U python-dotenv
         py.test test/unit
-    - name: Execute Python 3.10 unit tests (windows)
-      if: matrix.python-version == '3.10' && matrix.os == 'windows-latest'
-      run: |
-        pip3 install -U python-dotenv
-        py.test test/unit --reruns 3
-    - name: Execute Python 3.10 unit tests (ubuntu)
-      if: matrix.python-version == '3.10' && matrix.os == 'ubuntu-latest'
+    - name: Execute Python 3.12 unit tests (ubuntu)
+      if: matrix.python-version == '3.12' && matrix.os == 'ubuntu-latest'
       run: |
         pip3 install -U python-dotenv
         py.test test/unit --reruns 3 --cov=ibm_watson
-    - name: Execute Python 3.11 unit tests (windows)
-      if: matrix.python-version == '3.11' && matrix.os == 'windows-latest'
-      run: |
-        pip3 install -U python-dotenv
-        py.test test/unit --reruns 3
-    - name: Execute Python 3.11 unit tests (ubuntu)
-      if: matrix.python-version == '3.11' && matrix.os == 'ubuntu-latest'
+    - name: Execute Python 3.13 unit tests (ubuntu)
+      if: matrix.python-version == '3.13' && matrix.os == 'ubuntu-latest'
       run: |
         pip3 install -U python-dotenv
         py.test test/unit --reruns 3
     - name: Upload coverage to Codecov
-      if: matrix.python-version == '3.10' && matrix.os == 'ubuntu-latest'
+      if: matrix.python-version == '3.12' && matrix.os == 'ubuntu-latest'
       uses: codecov/codecov-action@v1
       with:
         name: py${{ matrix.python-version }}-${{ matrix.os }}
