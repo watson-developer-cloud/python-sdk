@@ -1,3 +1,23 @@
+# [9.0.0](https://github.com/watson-developer-cloud/python-sdk/compare/v8.1.0...v9.0.0) (2024-12-04)
+
+
+### Features
+
+* **discov2:** add functions for new batches api ([043eed4](https://github.com/watson-developer-cloud/python-sdk/commit/043eed48f1808ad3c0c325be18e2bd7ecc339c14))
+* **stt:** add new speech models ([4948b8f](https://github.com/watson-developer-cloud/python-sdk/commit/4948b8f210e5b9cd2d856aa90f2262a8bdf64444))
+* **stt:** readd interimResults and lowLatency wss params ([ffc67b8](https://github.com/watson-developer-cloud/python-sdk/commit/ffc67b8a0b213530cda23157848d79b5fea4b146))
+* **WxA:** add new functions and update required params ([3fe6243](https://github.com/watson-developer-cloud/python-sdk/commit/3fe62430c57e660b0903b0988fa3c53c489012d3))
+* Add support for message streaming and new APIs
+
+New functions: create_providers, list_providers, update_providers, create_release_export, download_release_export, create_release_import, get_release_import_status, message_stream, message_stream_stateless, parse_sse_stream_data, list_batches, pull_batches, push_batches
+
+### BREAKING CHANGES
+
+* **WxA:** `environmentId` now required for `message` and `messageStateless` functions
+* **lt:** LanguageTranslator functionality has been removed
+* **discov1:** DiscoveryV1 functionality has been removed
+* **nlu:** training_data_content_type default changed to None
+
 # [8.1.0](https://github.com/watson-developer-cloud/python-sdk/compare/v8.0.0...v8.1.0) (2024-05-17)
 
 
