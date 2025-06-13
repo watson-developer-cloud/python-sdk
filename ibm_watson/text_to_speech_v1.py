@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2015, 2024.
+# (C) Copyright IBM Corp. 2015, 2025.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 3.97.0-0e90eab1-20241120-170029
+# IBM OpenAPI SDK Code Generator Version: 3.105.0-3c13b041-20250605-193116
 """
 The IBM Watson&trade; Text to Speech service provides APIs that use IBM's speech-synthesis
 capabilities to synthesize text into natural-sounding speech in a variety of languages,
@@ -232,31 +232,32 @@ class TextToSpeechV1(BaseService):
         * `audio/alaw` - You must specify the `rate` of the audio.
         * `audio/basic` - The service returns audio with a sampling rate of 8000 Hz.
         * `audio/flac` - You can optionally specify the `rate` of the audio. The default
-        sampling rate is 22,050 Hz.
+        sampling rate is 24,000 Hz for Natural voices and 22,050 Hz for all other voices.
         * `audio/l16` - You must specify the `rate` of the audio. You can optionally
         specify the `endianness` of the audio. The default endianness is `little-endian`.
         * `audio/mp3` - You can optionally specify the `rate` of the audio. The default
-        sampling rate is 22,050 Hz.
+        sampling rate is 24,000 Hz for Natural voices and 22,050 Hz for for all other
+        voices.
         * `audio/mpeg` - You can optionally specify the `rate` of the audio. The default
-        sampling rate is 22,050 Hz.
+        sampling rate is 24,000 Hz for Natural voices and 22,050 Hz for all other voices.
         * `audio/mulaw` - You must specify the `rate` of the audio.
         * `audio/ogg` - The service returns the audio in the `vorbis` codec. You can
-        optionally specify the `rate` of the audio. The default sampling rate is 22,050
+        optionally specify the `rate` of the audio. The default sampling rate is 48,000
         Hz.
         * `audio/ogg;codecs=opus` - You can optionally specify the `rate` of the audio.
         Only the following values are valid sampling rates: `48000`, `24000`, `16000`,
         `12000`, or `8000`. If you specify a value other than one of these, the service
         returns an error. The default sampling rate is 48,000 Hz.
         * `audio/ogg;codecs=vorbis` - You can optionally specify the `rate` of the audio.
-        The default sampling rate is 22,050 Hz.
+        The default sampling rate is 48,000 Hz.
         * `audio/wav` - You can optionally specify the `rate` of the audio. The default
-        sampling rate is 22,050 Hz.
+        sampling rate is 24,000 Hz for Natural voices and 22,050 Hz for all other voices.
         * `audio/webm` - The service returns the audio in the `opus` codec. The service
         returns audio with a sampling rate of 48,000 Hz.
         * `audio/webm;codecs=opus` - The service returns audio with a sampling rate of
         48,000 Hz.
         * `audio/webm;codecs=vorbis` - You can optionally specify the `rate` of the audio.
-        The default sampling rate is 22,050 Hz.
+        The default sampling rate is 48,000 Hz.
         For more information about specifying an audio format, including additional
         details about some of the formats, see [Using audio
         formats](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-audio-formats).
@@ -1808,10 +1809,12 @@ class GetVoiceEnums:
         EN_AU_HEIDIEXPRESSIVE = 'en-AU_HeidiExpressive'
         EN_AU_JACKEXPRESSIVE = 'en-AU_JackExpressive'
         EN_GB_CHARLOTTEV3VOICE = 'en-GB_CharlotteV3Voice'
+        EN_GB_GEORGEEXPRESSIVE = 'en-GB_GeorgeExpressive'
         EN_GB_JAMESV3VOICE = 'en-GB_JamesV3Voice'
         EN_GB_KATEV3VOICE = 'en-GB_KateV3Voice'
         EN_US_ALLISONEXPRESSIVE = 'en-US_AllisonExpressive'
         EN_US_ALLISONV3VOICE = 'en-US_AllisonV3Voice'
+        EN_US_ELLIENATURAL = 'en-US_EllieNatural'
         EN_US_EMILYV3VOICE = 'en-US_EmilyV3Voice'
         EN_US_EMMAEXPRESSIVE = 'en-US_EmmaExpressive'
         EN_US_HENRYV3VOICE = 'en-US_HenryV3Voice'
@@ -1823,6 +1826,7 @@ class GetVoiceEnums:
         EN_US_OLIVIAV3VOICE = 'en-US_OliviaV3Voice'
         ES_ES_ENRIQUEV3VOICE = 'es-ES_EnriqueV3Voice'
         ES_ES_LAURAV3VOICE = 'es-ES_LauraV3Voice'
+        ES_LA_DANIELAEXPRESSIVE = 'es-LA_DanielaExpressive'
         ES_LA_SOFIAV3VOICE = 'es-LA_SofiaV3Voice'
         ES_US_SOFIAV3VOICE = 'es-US_SofiaV3Voice'
         FR_CA_LOUISEV3VOICE = 'fr-CA_LouiseV3Voice'
@@ -1833,6 +1837,7 @@ class GetVoiceEnums:
         KO_KR_JINV3VOICE = 'ko-KR_JinV3Voice'
         NL_NL_MERELV3VOICE = 'nl-NL_MerelV3Voice'
         PT_BR_ISABELAV3VOICE = 'pt-BR_IsabelaV3Voice'
+        PT_BR_LUCASEXPRESSIVE = 'pt-BR_LucasExpressive'
 
 
 class SynthesizeEnums:
@@ -1883,10 +1888,12 @@ class SynthesizeEnums:
         EN_AU_HEIDIEXPRESSIVE = 'en-AU_HeidiExpressive'
         EN_AU_JACKEXPRESSIVE = 'en-AU_JackExpressive'
         EN_GB_CHARLOTTEV3VOICE = 'en-GB_CharlotteV3Voice'
+        EN_GB_GEORGEEXPRESSIVE = 'en-GB_GeorgeExpressive'
         EN_GB_JAMESV3VOICE = 'en-GB_JamesV3Voice'
         EN_GB_KATEV3VOICE = 'en-GB_KateV3Voice'
         EN_US_ALLISONEXPRESSIVE = 'en-US_AllisonExpressive'
         EN_US_ALLISONV3VOICE = 'en-US_AllisonV3Voice'
+        EN_US_ELLIENATURAL = 'en-US_EllieNatural'
         EN_US_EMILYV3VOICE = 'en-US_EmilyV3Voice'
         EN_US_EMMAEXPRESSIVE = 'en-US_EmmaExpressive'
         EN_US_HENRYV3VOICE = 'en-US_HenryV3Voice'
@@ -1898,6 +1905,7 @@ class SynthesizeEnums:
         EN_US_OLIVIAV3VOICE = 'en-US_OliviaV3Voice'
         ES_ES_ENRIQUEV3VOICE = 'es-ES_EnriqueV3Voice'
         ES_ES_LAURAV3VOICE = 'es-ES_LauraV3Voice'
+        ES_LA_DANIELAEXPRESSIVE = 'es-LA_DanielaExpressive'
         ES_LA_SOFIAV3VOICE = 'es-LA_SofiaV3Voice'
         ES_US_SOFIAV3VOICE = 'es-US_SofiaV3Voice'
         FR_CA_LOUISEV3VOICE = 'fr-CA_LouiseV3Voice'
@@ -1908,6 +1916,7 @@ class SynthesizeEnums:
         KO_KR_JINV3VOICE = 'ko-KR_JinV3Voice'
         NL_NL_MERELV3VOICE = 'nl-NL_MerelV3Voice'
         PT_BR_ISABELAV3VOICE = 'pt-BR_IsabelaV3Voice'
+        PT_BR_LUCASEXPRESSIVE = 'pt-BR_LucasExpressive'
 
     class SpellOutMode(str, Enum):
         """
@@ -1957,10 +1966,12 @@ class GetPronunciationEnums:
         EN_AU_HEIDIEXPRESSIVE = 'en-AU_HeidiExpressive'
         EN_AU_JACKEXPRESSIVE = 'en-AU_JackExpressive'
         EN_GB_CHARLOTTEV3VOICE = 'en-GB_CharlotteV3Voice'
+        EN_GB_GEORGEEXPRESSIVE = 'en-GB_GeorgeExpressive'
         EN_GB_JAMESV3VOICE = 'en-GB_JamesV3Voice'
         EN_GB_KATEV3VOICE = 'en-GB_KateV3Voice'
         EN_US_ALLISONEXPRESSIVE = 'en-US_AllisonExpressive'
         EN_US_ALLISONV3VOICE = 'en-US_AllisonV3Voice'
+        EN_US_ELLIENATURAL = 'en-US_EllieNatural'
         EN_US_EMILYV3VOICE = 'en-US_EmilyV3Voice'
         EN_US_EMMAEXPRESSIVE = 'en-US_EmmaExpressive'
         EN_US_HENRYV3VOICE = 'en-US_HenryV3Voice'
@@ -1972,6 +1983,7 @@ class GetPronunciationEnums:
         EN_US_OLIVIAV3VOICE = 'en-US_OliviaV3Voice'
         ES_ES_ENRIQUEV3VOICE = 'es-ES_EnriqueV3Voice'
         ES_ES_LAURAV3VOICE = 'es-ES_LauraV3Voice'
+        ES_LA_DANIELAEXPRESSIVE = 'es-LA_DanielaExpressive'
         ES_LA_SOFIAV3VOICE = 'es-LA_SofiaV3Voice'
         ES_US_SOFIAV3VOICE = 'es-US_SofiaV3Voice'
         FR_CA_LOUISEV3VOICE = 'fr-CA_LouiseV3Voice'
@@ -1982,6 +1994,7 @@ class GetPronunciationEnums:
         KO_KR_JINV3VOICE = 'ko-KR_JinV3Voice'
         NL_NL_MERELV3VOICE = 'nl-NL_MerelV3Voice'
         PT_BR_ISABELAV3VOICE = 'pt-BR_IsabelaV3Voice'
+        PT_BR_LUCASEXPRESSIVE = 'pt-BR_LucasExpressive'
 
     class Format(str, Enum):
         """
