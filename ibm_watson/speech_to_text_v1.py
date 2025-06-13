@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2015, 2024.
+# (C) Copyright IBM Corp. 2015, 2025.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 3.97.0-0e90eab1-20241120-170029
+# IBM OpenAPI SDK Code Generator Version: 3.105.0-3c13b041-20250605-193116
 """
 The IBM Watson&trade; Speech to Text service provides APIs that use IBM's
 speech-recognition capabilities to produce transcripts of spoken audio. The service can
@@ -4309,6 +4309,7 @@ class GetModelEnums:
         AR_MS_BROADBANDMODEL = 'ar-MS_BroadbandModel'
         AR_MS_TELEPHONY = 'ar-MS_Telephony'
         CS_CZ_TELEPHONY = 'cs-CZ_Telephony'
+        DE_DE = 'de-DE'
         DE_DE_BROADBANDMODEL = 'de-DE_BroadbandModel'
         DE_DE_MULTIMEDIA = 'de-DE_Multimedia'
         DE_DE_NARROWBANDMODEL = 'de-DE_NarrowbandModel'
@@ -4438,6 +4439,7 @@ class RecognizeEnums:
         AR_MS_BROADBANDMODEL = 'ar-MS_BroadbandModel'
         AR_MS_TELEPHONY = 'ar-MS_Telephony'
         CS_CZ_TELEPHONY = 'cs-CZ_Telephony'
+        DE_DE = 'de-DE'
         DE_DE_BROADBANDMODEL = 'de-DE_BroadbandModel'
         DE_DE_MULTIMEDIA = 'de-DE_Multimedia'
         DE_DE_NARROWBANDMODEL = 'de-DE_NarrowbandModel'
@@ -4567,6 +4569,7 @@ class CreateJobEnums:
         AR_MS_BROADBANDMODEL = 'ar-MS_BroadbandModel'
         AR_MS_TELEPHONY = 'ar-MS_Telephony'
         CS_CZ_TELEPHONY = 'cs-CZ_Telephony'
+        DE_DE = 'de-DE'
         DE_DE_BROADBANDMODEL = 'de-DE_BroadbandModel'
         DE_DE_MULTIMEDIA = 'de-DE_Multimedia'
         DE_DE_NARROWBANDMODEL = 'de-DE_NarrowbandModel'
