@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2019, 2024.
+# (C) Copyright IBM Corp. 2019, 2025.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 3.97.0-0e90eab1-20241120-170029
+# IBM OpenAPI SDK Code Generator Version: 3.105.0-3c13b041-20250605-193116
 """
 The IBM&reg; watsonx&trade; Assistant service combines machine learning, natural language
 understanding, and an integrated dialog editor to create conversation flows between your
@@ -49,7 +49,7 @@ class AssistantV2(BaseService):
     """The Assistant V2 service."""
 
     DEFAULT_SERVICE_URL = 'https://api.us-south.assistant.watson.cloud.ibm.com'
-    DEFAULT_SERVICE_NAME = 'assistant'
+    DEFAULT_SERVICE_NAME = 'conversation'
 
     def __init__(
         self,
@@ -61,7 +61,7 @@ class AssistantV2(BaseService):
         Construct a new client for the Assistant service.
 
         :param str version: Release date of the API version you want to use.
-               Specify dates in YYYY-MM-DD format. The current version is `2023-06-15`.
+               Specify dates in YYYY-MM-DD format. The current version is `2024-08-25`.
 
         :param Authenticator authenticator: The authenticator specifies the authentication mechanism.
                Get up to date information from https://github.com/IBM/python-sdk-core/blob/main/README.md
@@ -428,17 +428,18 @@ class AssistantV2(BaseService):
         Delete an assistant.
 
         :param str assistant_id: The assistant ID or the environment ID of the
-               environment where the assistant is deployed, depending on the type of
-               request:
-                - For message, session, and log requests, specify the environment ID of
+               environment where the assistant is deployed.
+                Set the value for this ID depending on the type of request:
+                - For message, session, and log requests, specify the environment ID of
                the environment where the assistant is deployed.
-                - For all other requests, specify the assistant ID of the assistant.
-                To find the environment ID or assistant ID in the watsonx Assistant user
-               interface, open the assistant settings and scroll to the **Environments**
-               section.
-               **Note:** If you are using the classic Watson Assistant experience, always
-               use the assistant ID. To find the assistant ID in the user interface, open
-               the assistant settings and click API Details.
+                 - For all other requests, specify the assistant ID of the assistant.
+                To get the **assistant ID** and **environment ID** in the watsonx
+               Assistant interface, open the **Assistant settings** page, and scroll to
+               the **Assistant IDs and API details** section and click **View Details**.
+                **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID.
+                To find the **assistant ID** in the user interface, open the **Assistant
+               settings** and click **API Details**.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -498,17 +499,18 @@ class AssistantV2(BaseService):
         [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-assistant-settings).).
 
         :param str assistant_id: The assistant ID or the environment ID of the
-               environment where the assistant is deployed, depending on the type of
-               request:
-                - For message, session, and log requests, specify the environment ID of
+               environment where the assistant is deployed.
+                Set the value for this ID depending on the type of request:
+                - For message, session, and log requests, specify the environment ID of
                the environment where the assistant is deployed.
-                - For all other requests, specify the assistant ID of the assistant.
-                To find the environment ID or assistant ID in the watsonx Assistant user
-               interface, open the assistant settings and scroll to the **Environments**
-               section.
-               **Note:** If you are using the classic Watson Assistant experience, always
-               use the assistant ID. To find the assistant ID in the user interface, open
-               the assistant settings and click API Details.
+                 - For all other requests, specify the assistant ID of the assistant.
+                To get the **assistant ID** and **environment ID** in the watsonx
+               Assistant interface, open the **Assistant settings** page, and scroll to
+               the **Assistant IDs and API details** section and click **View Details**.
+                **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID.
+                To find the **assistant ID** in the user interface, open the **Assistant
+               settings** and click **API Details**.
         :param RequestAnalytics analytics: (optional) An optional object containing
                analytics data. Currently, this data is used only for events sent to the
                Segment extension.
@@ -574,17 +576,18 @@ class AssistantV2(BaseService):
         [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-assistant-settings)).
 
         :param str assistant_id: The assistant ID or the environment ID of the
-               environment where the assistant is deployed, depending on the type of
-               request:
-                - For message, session, and log requests, specify the environment ID of
+               environment where the assistant is deployed.
+                Set the value for this ID depending on the type of request:
+                - For message, session, and log requests, specify the environment ID of
                the environment where the assistant is deployed.
-                - For all other requests, specify the assistant ID of the assistant.
-                To find the environment ID or assistant ID in the watsonx Assistant user
-               interface, open the assistant settings and scroll to the **Environments**
-               section.
-               **Note:** If you are using the classic Watson Assistant experience, always
-               use the assistant ID. To find the assistant ID in the user interface, open
-               the assistant settings and click API Details.
+                 - For all other requests, specify the assistant ID of the assistant.
+                To get the **assistant ID** and **environment ID** in the watsonx
+               Assistant interface, open the **Assistant settings** page, and scroll to
+               the **Assistant IDs and API details** section and click **View Details**.
+                **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID.
+                To find the **assistant ID** in the user interface, open the **Assistant
+               settings** and click **API Details**.
         :param str session_id: Unique identifier of the session.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -650,17 +653,18 @@ class AssistantV2(BaseService):
         session.
 
         :param str assistant_id: The assistant ID or the environment ID of the
-               environment where the assistant is deployed, depending on the type of
-               request:
-                - For message, session, and log requests, specify the environment ID of
+               environment where the assistant is deployed.
+                Set the value for this ID depending on the type of request:
+                - For message, session, and log requests, specify the environment ID of
                the environment where the assistant is deployed.
-                - For all other requests, specify the assistant ID of the assistant.
-                To find the environment ID or assistant ID in the watsonx Assistant user
-               interface, open the assistant settings and scroll to the **Environments**
-               section.
-               **Note:** If you are using the classic Watson Assistant experience, always
-               use the assistant ID. To find the assistant ID in the user interface, open
-               the assistant settings and click API Details.
+                 - For all other requests, specify the assistant ID of the assistant.
+                To get the **assistant ID** and **environment ID** in the watsonx
+               Assistant interface, open the **Assistant settings** page, and scroll to
+               the **Assistant IDs and API details** section and click **View Details**.
+                **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID.
+                To find the **assistant ID** in the user interface, open the **Assistant
+               settings** and click **API Details**.
         :param str environment_id: Unique identifier of the environment. To find
                the environment ID in the watsonx Assistant user interface, open the
                environment settings and click **API Details**. **Note:** Currently, the
@@ -759,17 +763,18 @@ class AssistantV2(BaseService):
         (including context data) managed by your application.
 
         :param str assistant_id: The assistant ID or the environment ID of the
-               environment where the assistant is deployed, depending on the type of
-               request:
-                - For message, session, and log requests, specify the environment ID of
+               environment where the assistant is deployed.
+                Set the value for this ID depending on the type of request:
+                - For message, session, and log requests, specify the environment ID of
                the environment where the assistant is deployed.
-                - For all other requests, specify the assistant ID of the assistant.
-                To find the environment ID or assistant ID in the watsonx Assistant user
-               interface, open the assistant settings and scroll to the **Environments**
-               section.
-               **Note:** If you are using the classic Watson Assistant experience, always
-               use the assistant ID. To find the assistant ID in the user interface, open
-               the assistant settings and click API Details.
+                 - For all other requests, specify the assistant ID of the assistant.
+                To get the **assistant ID** and **environment ID** in the watsonx
+               Assistant interface, open the **Assistant settings** page, and scroll to
+               the **Assistant IDs and API details** section and click **View Details**.
+                **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID.
+                To find the **assistant ID** in the user interface, open the **Assistant
+               settings** and click **API Details**.
         :param str environment_id: Unique identifier of the environment. To find
                the environment ID in the watsonx Assistant user interface, open the
                environment settings and click **API Details**. **Note:** Currently, the
@@ -870,17 +875,18 @@ class AssistantV2(BaseService):
         session.
 
         :param str assistant_id: The assistant ID or the environment ID of the
-               environment where the assistant is deployed, depending on the type of
-               request:
-                - For message, session, and log requests, specify the environment ID of
+               environment where the assistant is deployed.
+                Set the value for this ID depending on the type of request:
+                - For message, session, and log requests, specify the environment ID of
                the environment where the assistant is deployed.
-                - For all other requests, specify the assistant ID of the assistant.
-                To find the environment ID or assistant ID in the watsonx Assistant user
-               interface, open the assistant settings and scroll to the **Environments**
-               section.
-               **Note:** If you are using the classic Watson Assistant experience, always
-               use the assistant ID. To find the assistant ID in the user interface, open
-               the assistant settings and click API Details.
+                 - For all other requests, specify the assistant ID of the assistant.
+                To get the **assistant ID** and **environment ID** in the watsonx
+               Assistant interface, open the **Assistant settings** page, and scroll to
+               the **Assistant IDs and API details** section and click **View Details**.
+                **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID.
+                To find the **assistant ID** in the user interface, open the **Assistant
+               settings** and click **API Details**.
         :param str environment_id: Unique identifier of the environment. To find
                the environment ID in the watsonx Assistant user interface, open the
                environment settings and click **API Details**. **Note:** Currently, the
@@ -979,17 +985,18 @@ class AssistantV2(BaseService):
         (including context data) managed by your application.
 
         :param str assistant_id: The assistant ID or the environment ID of the
-               environment where the assistant is deployed, depending on the type of
-               request:
-                - For message, session, and log requests, specify the environment ID of
+               environment where the assistant is deployed.
+                Set the value for this ID depending on the type of request:
+                - For message, session, and log requests, specify the environment ID of
                the environment where the assistant is deployed.
-                - For all other requests, specify the assistant ID of the assistant.
-                To find the environment ID or assistant ID in the watsonx Assistant user
-               interface, open the assistant settings and scroll to the **Environments**
-               section.
-               **Note:** If you are using the classic Watson Assistant experience, always
-               use the assistant ID. To find the assistant ID in the user interface, open
-               the assistant settings and click API Details.
+                 - For all other requests, specify the assistant ID of the assistant.
+                To get the **assistant ID** and **environment ID** in the watsonx
+               Assistant interface, open the **Assistant settings** page, and scroll to
+               the **Assistant IDs and API details** section and click **View Details**.
+                **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID.
+                To find the **assistant ID** in the user interface, open the **Assistant
+               settings** and click **API Details**.
         :param str environment_id: Unique identifier of the environment. To find
                the environment ID in the watsonx Assistant user interface, open the
                environment settings and click **API Details**. **Note:** Currently, the
@@ -1086,9 +1093,11 @@ class AssistantV2(BaseService):
         versions.
         This method is available only with Enterprise with Data Isolation plans.
 
-        :param str skill_id: Unique identifier of the skill. To find the skill ID
-               in the watsonx Assistant user interface, open the skill settings and click
-               **API Details**.
+        :param str skill_id: Unique identifier of the skill. To find the action or
+               dialog skill ID in the watsonx Assistant user interface, open the skill
+               settings and click **API Details**. To find the search skill ID, use the
+               Get environment API to retrieve the skill references for an environment and
+               it will include the search skill info, if available.
         :param List[BulkClassifyUtterance] input: An array of input utterances to
                classify.
         :param dict headers: A `dict` containing the request headers
@@ -1166,17 +1175,18 @@ class AssistantV2(BaseService):
         about using pagination, see [Pagination](#pagination).
 
         :param str assistant_id: The assistant ID or the environment ID of the
-               environment where the assistant is deployed, depending on the type of
-               request:
-                - For message, session, and log requests, specify the environment ID of
+               environment where the assistant is deployed.
+                Set the value for this ID depending on the type of request:
+                - For message, session, and log requests, specify the environment ID of
                the environment where the assistant is deployed.
-                - For all other requests, specify the assistant ID of the assistant.
-                To find the environment ID or assistant ID in the watsonx Assistant user
-               interface, open the assistant settings and scroll to the **Environments**
-               section.
-               **Note:** If you are using the classic Watson Assistant experience, always
-               use the assistant ID. To find the assistant ID in the user interface, open
-               the assistant settings and click API Details.
+                 - For all other requests, specify the assistant ID of the assistant.
+                To get the **assistant ID** and **environment ID** in the watsonx
+               Assistant interface, open the **Assistant settings** page, and scroll to
+               the **Assistant IDs and API details** section and click **View Details**.
+                **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID.
+                To find the **assistant ID** in the user interface, open the **Assistant
+               settings** and click **API Details**.
         :param str sort: (optional) How to sort the returned log events. You can
                sort by **request_timestamp**. To reverse the sort order, prefix the
                parameter value with a minus sign (`-`).
@@ -1314,17 +1324,18 @@ class AssistantV2(BaseService):
         List the environments associated with an assistant.
 
         :param str assistant_id: The assistant ID or the environment ID of the
-               environment where the assistant is deployed, depending on the type of
-               request:
-                - For message, session, and log requests, specify the environment ID of
+               environment where the assistant is deployed.
+                Set the value for this ID depending on the type of request:
+                - For message, session, and log requests, specify the environment ID of
                the environment where the assistant is deployed.
-                - For all other requests, specify the assistant ID of the assistant.
-                To find the environment ID or assistant ID in the watsonx Assistant user
-               interface, open the assistant settings and scroll to the **Environments**
-               section.
-               **Note:** If you are using the classic Watson Assistant experience, always
-               use the assistant ID. To find the assistant ID in the user interface, open
-               the assistant settings and click API Details.
+                 - For all other requests, specify the assistant ID of the assistant.
+                To get the **assistant ID** and **environment ID** in the watsonx
+               Assistant interface, open the **Assistant settings** page, and scroll to
+               the **Assistant IDs and API details** section and click **View Details**.
+                **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID.
+                To find the **assistant ID** in the user interface, open the **Assistant
+               settings** and click **API Details**.
         :param int page_limit: (optional) The number of records to return in each
                page of results.
         :param bool include_count: (optional) Whether to include information about
@@ -1397,17 +1408,18 @@ class AssistantV2(BaseService):
         [Environments](https://cloud.ibm.com/docs/watson-assistant?topic=watson-assistant-publish-overview#environments).
 
         :param str assistant_id: The assistant ID or the environment ID of the
-               environment where the assistant is deployed, depending on the type of
-               request:
-                - For message, session, and log requests, specify the environment ID of
+               environment where the assistant is deployed.
+                Set the value for this ID depending on the type of request:
+                - For message, session, and log requests, specify the environment ID of
                the environment where the assistant is deployed.
-                - For all other requests, specify the assistant ID of the assistant.
-                To find the environment ID or assistant ID in the watsonx Assistant user
-               interface, open the assistant settings and scroll to the **Environments**
-               section.
-               **Note:** If you are using the classic Watson Assistant experience, always
-               use the assistant ID. To find the assistant ID in the user interface, open
-               the assistant settings and click API Details.
+                 - For all other requests, specify the assistant ID of the assistant.
+                To get the **assistant ID** and **environment ID** in the watsonx
+               Assistant interface, open the **Assistant settings** page, and scroll to
+               the **Assistant IDs and API details** section and click **View Details**.
+                **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID.
+                To find the **assistant ID** in the user interface, open the **Assistant
+               settings** and click **API Details**.
         :param str environment_id: Unique identifier of the environment. To find
                the environment ID in the watsonx Assistant user interface, open the
                environment settings and click **API Details**. **Note:** Currently, the
@@ -1476,17 +1488,18 @@ class AssistantV2(BaseService):
         [Environments](https://cloud.ibm.com/docs/watson-assistant?topic=watson-assistant-publish-overview#environments).
 
         :param str assistant_id: The assistant ID or the environment ID of the
-               environment where the assistant is deployed, depending on the type of
-               request:
-                - For message, session, and log requests, specify the environment ID of
+               environment where the assistant is deployed.
+                Set the value for this ID depending on the type of request:
+                - For message, session, and log requests, specify the environment ID of
                the environment where the assistant is deployed.
-                - For all other requests, specify the assistant ID of the assistant.
-                To find the environment ID or assistant ID in the watsonx Assistant user
-               interface, open the assistant settings and scroll to the **Environments**
-               section.
-               **Note:** If you are using the classic Watson Assistant experience, always
-               use the assistant ID. To find the assistant ID in the user interface, open
-               the assistant settings and click API Details.
+                 - For all other requests, specify the assistant ID of the assistant.
+                To get the **assistant ID** and **environment ID** in the watsonx
+               Assistant interface, open the **Assistant settings** page, and scroll to
+               the **Assistant IDs and API details** section and click **View Details**.
+                **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID.
+                To find the **assistant ID** in the user interface, open the **Assistant
+               settings** and click **API Details**.
         :param str environment_id: Unique identifier of the environment. To find
                the environment ID in the watsonx Assistant user interface, open the
                environment settings and click **API Details**. **Note:** Currently, the
@@ -1576,17 +1589,18 @@ class AssistantV2(BaseService):
         called a *version*.).
 
         :param str assistant_id: The assistant ID or the environment ID of the
-               environment where the assistant is deployed, depending on the type of
-               request:
-                - For message, session, and log requests, specify the environment ID of
+               environment where the assistant is deployed.
+                Set the value for this ID depending on the type of request:
+                - For message, session, and log requests, specify the environment ID of
                the environment where the assistant is deployed.
-                - For all other requests, specify the assistant ID of the assistant.
-                To find the environment ID or assistant ID in the watsonx Assistant user
-               interface, open the assistant settings and scroll to the **Environments**
-               section.
-               **Note:** If you are using the classic Watson Assistant experience, always
-               use the assistant ID. To find the assistant ID in the user interface, open
-               the assistant settings and click API Details.
+                 - For all other requests, specify the assistant ID of the assistant.
+                To get the **assistant ID** and **environment ID** in the watsonx
+               Assistant interface, open the **Assistant settings** page, and scroll to
+               the **Assistant IDs and API details** section and click **View Details**.
+                **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID.
+                To find the **assistant ID** in the user interface, open the **Assistant
+               settings** and click **API Details**.
         :param str description: (optional) The description of the release.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -1652,17 +1666,18 @@ class AssistantV2(BaseService):
         interface, a release is called a *version*.).
 
         :param str assistant_id: The assistant ID or the environment ID of the
-               environment where the assistant is deployed, depending on the type of
-               request:
-                - For message, session, and log requests, specify the environment ID of
+               environment where the assistant is deployed.
+                Set the value for this ID depending on the type of request:
+                - For message, session, and log requests, specify the environment ID of
                the environment where the assistant is deployed.
-                - For all other requests, specify the assistant ID of the assistant.
-                To find the environment ID or assistant ID in the watsonx Assistant user
-               interface, open the assistant settings and scroll to the **Environments**
-               section.
-               **Note:** If you are using the classic Watson Assistant experience, always
-               use the assistant ID. To find the assistant ID in the user interface, open
-               the assistant settings and click API Details.
+                 - For all other requests, specify the assistant ID of the assistant.
+                To get the **assistant ID** and **environment ID** in the watsonx
+               Assistant interface, open the **Assistant settings** page, and scroll to
+               the **Assistant IDs and API details** section and click **View Details**.
+                **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID.
+                To find the **assistant ID** in the user interface, open the **Assistant
+               settings** and click **API Details**.
         :param int page_limit: (optional) The number of records to return in each
                page of results.
         :param bool include_count: (optional) Whether to include information about
@@ -1737,17 +1752,18 @@ class AssistantV2(BaseService):
         has completed, the request returns the release data.
 
         :param str assistant_id: The assistant ID or the environment ID of the
-               environment where the assistant is deployed, depending on the type of
-               request:
-                - For message, session, and log requests, specify the environment ID of
+               environment where the assistant is deployed.
+                Set the value for this ID depending on the type of request:
+                - For message, session, and log requests, specify the environment ID of
                the environment where the assistant is deployed.
-                - For all other requests, specify the assistant ID of the assistant.
-                To find the environment ID or assistant ID in the watsonx Assistant user
-               interface, open the assistant settings and scroll to the **Environments**
-               section.
-               **Note:** If you are using the classic Watson Assistant experience, always
-               use the assistant ID. To find the assistant ID in the user interface, open
-               the assistant settings and click API Details.
+                 - For all other requests, specify the assistant ID of the assistant.
+                To get the **assistant ID** and **environment ID** in the watsonx
+               Assistant interface, open the **Assistant settings** page, and scroll to
+               the **Assistant IDs and API details** section and click **View Details**.
+                **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID.
+                To find the **assistant ID** in the user interface, open the **Assistant
+               settings** and click **API Details**.
         :param str release: Unique identifier of the release.
         :param bool include_audit: (optional) Whether to include the audit
                properties (`created` and `updated` timestamps) in the response.
@@ -1806,17 +1822,18 @@ class AssistantV2(BaseService):
         *version*.).
 
         :param str assistant_id: The assistant ID or the environment ID of the
-               environment where the assistant is deployed, depending on the type of
-               request:
-                - For message, session, and log requests, specify the environment ID of
+               environment where the assistant is deployed.
+                Set the value for this ID depending on the type of request:
+                - For message, session, and log requests, specify the environment ID of
                the environment where the assistant is deployed.
-                - For all other requests, specify the assistant ID of the assistant.
-                To find the environment ID or assistant ID in the watsonx Assistant user
-               interface, open the assistant settings and scroll to the **Environments**
-               section.
-               **Note:** If you are using the classic Watson Assistant experience, always
-               use the assistant ID. To find the assistant ID in the user interface, open
-               the assistant settings and click API Details.
+                 - For all other requests, specify the assistant ID of the assistant.
+                To get the **assistant ID** and **environment ID** in the watsonx
+               Assistant interface, open the **Assistant settings** page, and scroll to
+               the **Assistant IDs and API details** section and click **View Details**.
+                **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID.
+                To find the **assistant ID** in the user interface, open the **Assistant
+               settings** and click **API Details**.
         :param str release: Unique identifier of the release.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -1875,17 +1892,18 @@ class AssistantV2(BaseService):
         part of the release become active in the environment.
 
         :param str assistant_id: The assistant ID or the environment ID of the
-               environment where the assistant is deployed, depending on the type of
-               request:
-                - For message, session, and log requests, specify the environment ID of
+               environment where the assistant is deployed.
+                Set the value for this ID depending on the type of request:
+                - For message, session, and log requests, specify the environment ID of
                the environment where the assistant is deployed.
-                - For all other requests, specify the assistant ID of the assistant.
-                To find the environment ID or assistant ID in the watsonx Assistant user
-               interface, open the assistant settings and scroll to the **Environments**
-               section.
-               **Note:** If you are using the classic Watson Assistant experience, always
-               use the assistant ID. To find the assistant ID in the user interface, open
-               the assistant settings and click API Details.
+                 - For all other requests, specify the assistant ID of the assistant.
+                To get the **assistant ID** and **environment ID** in the watsonx
+               Assistant interface, open the **Assistant settings** page, and scroll to
+               the **Assistant IDs and API details** section and click **View Details**.
+                **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID.
+                To find the **assistant ID** in the user interface, open the **Assistant
+               settings** and click **API Details**.
         :param str release: Unique identifier of the release.
         :param str environment_id: The environment ID of the environment where the
                release is to be deployed.
@@ -1964,17 +1982,18 @@ class AssistantV2(BaseService):
         (/scope) of the release.
 
         :param str assistant_id: The assistant ID or the environment ID of the
-               environment where the assistant is deployed, depending on the type of
-               request:
-                - For message, session, and log requests, specify the environment ID of
+               environment where the assistant is deployed.
+                Set the value for this ID depending on the type of request:
+                - For message, session, and log requests, specify the environment ID of
                the environment where the assistant is deployed.
-                - For all other requests, specify the assistant ID of the assistant.
-                To find the environment ID or assistant ID in the watsonx Assistant user
-               interface, open the assistant settings and scroll to the **Environments**
-               section.
-               **Note:** If you are using the classic Watson Assistant experience, always
-               use the assistant ID. To find the assistant ID in the user interface, open
-               the assistant settings and click API Details.
+                 - For all other requests, specify the assistant ID of the assistant.
+                To get the **assistant ID** and **environment ID** in the watsonx
+               Assistant interface, open the **Assistant settings** page, and scroll to
+               the **Assistant IDs and API details** section and click **View Details**.
+                **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID.
+                To find the **assistant ID** in the user interface, open the **Assistant
+               settings** and click **API Details**.
         :param str release: Unique identifier of the release.
         :param bool include_audit: (optional) Whether to include the audit
                properties (`created` and `updated` timestamps) in the response.
@@ -2049,17 +2068,18 @@ class AssistantV2(BaseService):
         skill update endpoints.</li></ol>.
 
         :param str assistant_id: The assistant ID or the environment ID of the
-               environment where the assistant is deployed, depending on the type of
-               request:
-                - For message, session, and log requests, specify the environment ID of
+               environment where the assistant is deployed.
+                Set the value for this ID depending on the type of request:
+                - For message, session, and log requests, specify the environment ID of
                the environment where the assistant is deployed.
-                - For all other requests, specify the assistant ID of the assistant.
-                To find the environment ID or assistant ID in the watsonx Assistant user
-               interface, open the assistant settings and scroll to the **Environments**
-               section.
-               **Note:** If you are using the classic Watson Assistant experience, always
-               use the assistant ID. To find the assistant ID in the user interface, open
-               the assistant settings and click API Details.
+                 - For all other requests, specify the assistant ID of the assistant.
+                To get the **assistant ID** and **environment ID** in the watsonx
+               Assistant interface, open the **Assistant settings** page, and scroll to
+               the **Assistant IDs and API details** section and click **View Details**.
+                **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID.
+                To find the **assistant ID** in the user interface, open the **Assistant
+               settings** and click **API Details**.
         :param str release: Unique identifier of the release.
         :param str accept: (optional) The type of the response: application/json or
                application/octet-stream.
@@ -2138,17 +2158,18 @@ class AssistantV2(BaseService):
         Status" endpoint.
 
         :param str assistant_id: The assistant ID or the environment ID of the
-               environment where the assistant is deployed, depending on the type of
-               request:
-                - For message, session, and log requests, specify the environment ID of
+               environment where the assistant is deployed.
+                Set the value for this ID depending on the type of request:
+                - For message, session, and log requests, specify the environment ID of
                the environment where the assistant is deployed.
-                - For all other requests, specify the assistant ID of the assistant.
-                To find the environment ID or assistant ID in the watsonx Assistant user
-               interface, open the assistant settings and scroll to the **Environments**
-               section.
-               **Note:** If you are using the classic Watson Assistant experience, always
-               use the assistant ID. To find the assistant ID in the user interface, open
-               the assistant settings and click API Details.
+                 - For all other requests, specify the assistant ID of the assistant.
+                To get the **assistant ID** and **environment ID** in the watsonx
+               Assistant interface, open the **Assistant settings** page, and scroll to
+               the **Assistant IDs and API details** section and click **View Details**.
+                **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID.
+                To find the **assistant ID** in the user interface, open the **Assistant
+               settings** and click **API Details**.
         :param BinaryIO body: Request body is an Octet-stream of the artifact Zip
                file that is being imported.
         :param bool include_audit: (optional) Whether to include the audit
@@ -2212,17 +2233,18 @@ class AssistantV2(BaseService):
         until the status of the import has either succeeded or failed.
 
         :param str assistant_id: The assistant ID or the environment ID of the
-               environment where the assistant is deployed, depending on the type of
-               request:
-                - For message, session, and log requests, specify the environment ID of
+               environment where the assistant is deployed.
+                Set the value for this ID depending on the type of request:
+                - For message, session, and log requests, specify the environment ID of
                the environment where the assistant is deployed.
-                - For all other requests, specify the assistant ID of the assistant.
-                To find the environment ID or assistant ID in the watsonx Assistant user
-               interface, open the assistant settings and scroll to the **Environments**
-               section.
-               **Note:** If you are using the classic Watson Assistant experience, always
-               use the assistant ID. To find the assistant ID in the user interface, open
-               the assistant settings and click API Details.
+                 - For all other requests, specify the assistant ID of the assistant.
+                To get the **assistant ID** and **environment ID** in the watsonx
+               Assistant interface, open the **Assistant settings** page, and scroll to
+               the **Assistant IDs and API details** section and click **View Details**.
+                **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID.
+                To find the **assistant ID** in the user interface, open the **Assistant
+               settings** and click **API Details**.
         :param bool include_audit: (optional) Whether to include the audit
                properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
@@ -2280,20 +2302,23 @@ class AssistantV2(BaseService):
         Get information about a skill.
 
         :param str assistant_id: The assistant ID or the environment ID of the
-               environment where the assistant is deployed, depending on the type of
-               request:
-                - For message, session, and log requests, specify the environment ID of
+               environment where the assistant is deployed.
+                Set the value for this ID depending on the type of request:
+                - For message, session, and log requests, specify the environment ID of
                the environment where the assistant is deployed.
-                - For all other requests, specify the assistant ID of the assistant.
-                To find the environment ID or assistant ID in the watsonx Assistant user
-               interface, open the assistant settings and scroll to the **Environments**
-               section.
-               **Note:** If you are using the classic Watson Assistant experience, always
-               use the assistant ID. To find the assistant ID in the user interface, open
-               the assistant settings and click API Details.
-        :param str skill_id: Unique identifier of the skill. To find the skill ID
-               in the watsonx Assistant user interface, open the skill settings and click
-               **API Details**.
+                 - For all other requests, specify the assistant ID of the assistant.
+                To get the **assistant ID** and **environment ID** in the watsonx
+               Assistant interface, open the **Assistant settings** page, and scroll to
+               the **Assistant IDs and API details** section and click **View Details**.
+                **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID.
+                To find the **assistant ID** in the user interface, open the **Assistant
+               settings** and click **API Details**.
+        :param str skill_id: Unique identifier of the skill. To find the action or
+               dialog skill ID in the watsonx Assistant user interface, open the skill
+               settings and click **API Details**. To find the search skill ID, use the
+               Get environment API to retrieve the skill references for an environment and
+               it will include the search skill info, if available.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `Skill` object
@@ -2356,20 +2381,23 @@ class AssistantV2(BaseService):
         **status** property.
 
         :param str assistant_id: The assistant ID or the environment ID of the
-               environment where the assistant is deployed, depending on the type of
-               request:
-                - For message, session, and log requests, specify the environment ID of
+               environment where the assistant is deployed.
+                Set the value for this ID depending on the type of request:
+                - For message, session, and log requests, specify the environment ID of
                the environment where the assistant is deployed.
-                - For all other requests, specify the assistant ID of the assistant.
-                To find the environment ID or assistant ID in the watsonx Assistant user
-               interface, open the assistant settings and scroll to the **Environments**
-               section.
-               **Note:** If you are using the classic Watson Assistant experience, always
-               use the assistant ID. To find the assistant ID in the user interface, open
-               the assistant settings and click API Details.
-        :param str skill_id: Unique identifier of the skill. To find the skill ID
-               in the watsonx Assistant user interface, open the skill settings and click
-               **API Details**.
+                 - For all other requests, specify the assistant ID of the assistant.
+                To get the **assistant ID** and **environment ID** in the watsonx
+               Assistant interface, open the **Assistant settings** page, and scroll to
+               the **Assistant IDs and API details** section and click **View Details**.
+                **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID.
+                To find the **assistant ID** in the user interface, open the **Assistant
+               settings** and click **API Details**.
+        :param str skill_id: Unique identifier of the skill. To find the action or
+               dialog skill ID in the watsonx Assistant user interface, open the skill
+               settings and click **API Details**. To find the search skill ID, use the
+               Get environment API to retrieve the skill references for an environment and
+               it will include the search skill info, if available.
         :param str name: (optional) The name of the skill. This string cannot
                contain carriage return, newline, or tab characters.
         :param str description: (optional) The description of the skill. This
@@ -2447,8 +2475,9 @@ class AssistantV2(BaseService):
         Export skills.
 
         Asynchronously export the action skill and dialog skill (if enabled) for the
-        assistant. Use this method to save all skill data so that you can import it to a
-        different assistant using the **Import skills** method.
+        assistant. Use this method to save all skill data from the draft environment so
+        that you can import it to a different assistant using the **Import skills**
+        method. Use `assistant_id` instead of `environment_id` to call this endpoint.
          A successful call to this method only initiates an asynchronous export. The
         exported JSON data is not available until processing completes.
          After the initial request is submitted, you can poll the status of the operation
@@ -2461,17 +2490,18 @@ class AssistantV2(BaseService):
         Remember that the usual rate limits apply.
 
         :param str assistant_id: The assistant ID or the environment ID of the
-               environment where the assistant is deployed, depending on the type of
-               request:
-                - For message, session, and log requests, specify the environment ID of
+               environment where the assistant is deployed.
+                Set the value for this ID depending on the type of request:
+                - For message, session, and log requests, specify the environment ID of
                the environment where the assistant is deployed.
-                - For all other requests, specify the assistant ID of the assistant.
-                To find the environment ID or assistant ID in the watsonx Assistant user
-               interface, open the assistant settings and scroll to the **Environments**
-               section.
-               **Note:** If you are using the classic Watson Assistant experience, always
-               use the assistant ID. To find the assistant ID in the user interface, open
-               the assistant settings and click API Details.
+                 - For all other requests, specify the assistant ID of the assistant.
+                To get the **assistant ID** and **environment ID** in the watsonx
+               Assistant interface, open the **Assistant settings** page, and scroll to
+               the **Assistant IDs and API details** section and click **View Details**.
+                **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID.
+                To find the **assistant ID** in the user interface, open the **Assistant
+               settings** and click **API Details**.
         :param bool include_audit: (optional) Whether to include the audit
                properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
@@ -2527,7 +2557,8 @@ class AssistantV2(BaseService):
         Import skills.
 
         Asynchronously import skills into an existing assistant from a previously exported
-        file.
+        file. This method only imports assistants into a draft environment. Use
+        `assistant_id` instead of `environment_id` to call this endpoint.
          The request body for this method should contain the response data that was
         received from a previous call to the **Export skills** method, without
         modification.
@@ -2537,17 +2568,18 @@ class AssistantV2(BaseService):
         skills import** method.
 
         :param str assistant_id: The assistant ID or the environment ID of the
-               environment where the assistant is deployed, depending on the type of
-               request:
-                - For message, session, and log requests, specify the environment ID of
+               environment where the assistant is deployed.
+                Set the value for this ID depending on the type of request:
+                - For message, session, and log requests, specify the environment ID of
                the environment where the assistant is deployed.
-                - For all other requests, specify the assistant ID of the assistant.
-                To find the environment ID or assistant ID in the watsonx Assistant user
-               interface, open the assistant settings and scroll to the **Environments**
-               section.
-               **Note:** If you are using the classic Watson Assistant experience, always
-               use the assistant ID. To find the assistant ID in the user interface, open
-               the assistant settings and click API Details.
+                 - For all other requests, specify the assistant ID of the assistant.
+                To get the **assistant ID** and **environment ID** in the watsonx
+               Assistant interface, open the **Assistant settings** page, and scroll to
+               the **Assistant IDs and API details** section and click **View Details**.
+                **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID.
+                To find the **assistant ID** in the user interface, open the **Assistant
+               settings** and click **API Details**.
         :param List[SkillImport] assistant_skills: An array of objects describing
                the skills for the assistant. Included in responses only if
                **status**=`Available`.
@@ -2622,17 +2654,18 @@ class AssistantV2(BaseService):
         using the **Import skills** method.
 
         :param str assistant_id: The assistant ID or the environment ID of the
-               environment where the assistant is deployed, depending on the type of
-               request:
-                - For message, session, and log requests, specify the environment ID of
+               environment where the assistant is deployed.
+                Set the value for this ID depending on the type of request:
+                - For message, session, and log requests, specify the environment ID of
                the environment where the assistant is deployed.
-                - For all other requests, specify the assistant ID of the assistant.
-                To find the environment ID or assistant ID in the watsonx Assistant user
-               interface, open the assistant settings and scroll to the **Environments**
-               section.
-               **Note:** If you are using the classic Watson Assistant experience, always
-               use the assistant ID. To find the assistant ID in the user interface, open
-               the assistant settings and click API Details.
+                 - For all other requests, specify the assistant ID of the assistant.
+                To get the **assistant ID** and **environment ID** in the watsonx
+               Assistant interface, open the **Assistant settings** page, and scroll to
+               the **Assistant IDs and API details** section and click **View Details**.
+                **Note:** If you are using the classic Watson Assistant experience, always
+               use the assistant ID.
+                To find the **assistant ID** in the user interface, open the **Assistant
+               settings** and click **API Details**.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `SkillsAsyncRequestStatus` object
@@ -3792,6 +3825,111 @@ class ChannelTransferTargetChat:
     def __ne__(self, other: 'ChannelTransferTargetChat') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
+
+
+class ClientAction:
+    """
+    ClientAction.
+
+    :param str name: (optional) The name of the client action.
+    :param str result_variable: (optional) The name of the variable that the results
+          are stored in.
+    :param str type: (optional) The type of turn event.
+    :param str skill: (optional) The skill that is requesting the action. Included
+          only if **type**=`client`.
+    :param dict parameters: (optional) An object containing arbitrary variables that
+          are included in the turn event.
+    """
+
+    def __init__(
+        self,
+        *,
+        name: Optional[str] = None,
+        result_variable: Optional[str] = None,
+        type: Optional[str] = None,
+        skill: Optional[str] = None,
+        parameters: Optional[dict] = None,
+    ) -> None:
+        """
+        Initialize a ClientAction object.
+
+        :param str name: (optional) The name of the client action.
+        :param str result_variable: (optional) The name of the variable that the
+               results are stored in.
+        :param str type: (optional) The type of turn event.
+        :param str skill: (optional) The skill that is requesting the action.
+               Included only if **type**=`client`.
+        :param dict parameters: (optional) An object containing arbitrary variables
+               that are included in the turn event.
+        """
+        self.name = name
+        self.result_variable = result_variable
+        self.type = type
+        self.skill = skill
+        self.parameters = parameters
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ClientAction':
+        """Initialize a ClientAction object from a json dictionary."""
+        args = {}
+        if (name := _dict.get('name')) is not None:
+            args['name'] = name
+        if (result_variable := _dict.get('result_variable')) is not None:
+            args['result_variable'] = result_variable
+        if (type := _dict.get('type')) is not None:
+            args['type'] = type
+        if (skill := _dict.get('skill')) is not None:
+            args['skill'] = skill
+        if (parameters := _dict.get('parameters')) is not None:
+            args['parameters'] = parameters
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ClientAction object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
+        if hasattr(self,
+                   'result_variable') and self.result_variable is not None:
+            _dict['result_variable'] = self.result_variable
+        if hasattr(self, 'type') and self.type is not None:
+            _dict['type'] = self.type
+        if hasattr(self, 'skill') and self.skill is not None:
+            _dict['skill'] = self.skill
+        if hasattr(self, 'parameters') and self.parameters is not None:
+            _dict['parameters'] = self.parameters
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ClientAction object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ClientAction') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ClientAction') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class SkillEnum(str, Enum):
+        """
+        The skill that is requesting the action. Included only if **type**=`client`.
+        """
+
+        MAIN_SKILL = 'main skill'
+        ACTIONS_SKILL = 'actions skill'
 
 
 class CreateAssistantReleaseImportResponse:
@@ -5223,6 +5361,497 @@ class EnvironmentSkill:
         SEARCH = 'search'
 
 
+class FinalResponse:
+    """
+    Message final response content.
+
+    :param FinalResponseOutput output: (optional) Assistant output to be rendered or
+          processed by the client.
+    :param MessageContext context: (optional) Context data for the conversation. You
+          can use this property to access context variables. The context is stored by the
+          assistant on a per-session basis.
+          **Note:** The context is included in message responses only if
+          **return_context**=`true` in the message request. Full context is always
+          included in logs.
+    :param str user_id: (optional) A string value that identifies the user who is
+          interacting with the assistant. The client must provide a unique identifier for
+          each individual end user who accesses the application. For user-based plans,
+          this user ID is used to identify unique users for billing purposes. This string
+          cannot contain carriage return, newline, or tab characters. If no value is
+          specified in the input, **user_id** is automatically set to the value of
+          **context.global.session_id**.
+          **Note:** This property is the same as the **user_id** property in the global
+          system context.
+    :param MessageOutput masked_output: (optional) Assistant output to be rendered
+          or processed by the client. All private data is masked or removed.
+    :param MessageInput masked_input: (optional) An input object that includes the
+          input text. All private data is masked or removed.
+    """
+
+    def __init__(
+        self,
+        *,
+        output: Optional['FinalResponseOutput'] = None,
+        context: Optional['MessageContext'] = None,
+        user_id: Optional[str] = None,
+        masked_output: Optional['MessageOutput'] = None,
+        masked_input: Optional['MessageInput'] = None,
+    ) -> None:
+        """
+        Initialize a FinalResponse object.
+
+        :param FinalResponseOutput output: (optional) Assistant output to be
+               rendered or processed by the client.
+        :param MessageContext context: (optional) Context data for the
+               conversation. You can use this property to access context variables. The
+               context is stored by the assistant on a per-session basis.
+               **Note:** The context is included in message responses only if
+               **return_context**=`true` in the message request. Full context is always
+               included in logs.
+        :param str user_id: (optional) A string value that identifies the user who
+               is interacting with the assistant. The client must provide a unique
+               identifier for each individual end user who accesses the application. For
+               user-based plans, this user ID is used to identify unique users for billing
+               purposes. This string cannot contain carriage return, newline, or tab
+               characters. If no value is specified in the input, **user_id** is
+               automatically set to the value of **context.global.session_id**.
+               **Note:** This property is the same as the **user_id** property in the
+               global system context.
+        :param MessageOutput masked_output: (optional) Assistant output to be
+               rendered or processed by the client. All private data is masked or removed.
+        :param MessageInput masked_input: (optional) An input object that includes
+               the input text. All private data is masked or removed.
+        """
+        self.output = output
+        self.context = context
+        self.user_id = user_id
+        self.masked_output = masked_output
+        self.masked_input = masked_input
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'FinalResponse':
+        """Initialize a FinalResponse object from a json dictionary."""
+        args = {}
+        if (output := _dict.get('output')) is not None:
+            args['output'] = FinalResponseOutput.from_dict(output)
+        if (context := _dict.get('context')) is not None:
+            args['context'] = MessageContext.from_dict(context)
+        if (user_id := _dict.get('user_id')) is not None:
+            args['user_id'] = user_id
+        if (masked_output := _dict.get('masked_output')) is not None:
+            args['masked_output'] = MessageOutput.from_dict(masked_output)
+        if (masked_input := _dict.get('masked_input')) is not None:
+            args['masked_input'] = MessageInput.from_dict(masked_input)
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a FinalResponse object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'output') and self.output is not None:
+            if isinstance(self.output, dict):
+                _dict['output'] = self.output
+            else:
+                _dict['output'] = self.output.to_dict()
+        if hasattr(self, 'context') and self.context is not None:
+            if isinstance(self.context, dict):
+                _dict['context'] = self.context
+            else:
+                _dict['context'] = self.context.to_dict()
+        if hasattr(self, 'user_id') and self.user_id is not None:
+            _dict['user_id'] = self.user_id
+        if hasattr(self, 'masked_output') and self.masked_output is not None:
+            if isinstance(self.masked_output, dict):
+                _dict['masked_output'] = self.masked_output
+            else:
+                _dict['masked_output'] = self.masked_output.to_dict()
+        if hasattr(self, 'masked_input') and self.masked_input is not None:
+            if isinstance(self.masked_input, dict):
+                _dict['masked_input'] = self.masked_input
+            else:
+                _dict['masked_input'] = self.masked_input.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this FinalResponse object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'FinalResponse') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'FinalResponse') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class FinalResponseOutput:
+    """
+    Assistant output to be rendered or processed by the client.
+
+    :param List[RuntimeResponseGeneric] generic: (optional) Output intended for any
+          channel. It is the responsibility of the client application to implement the
+          supported response types.
+    :param List[RuntimeIntent] intents: (optional) An array of intents recognized in
+          the user input, sorted in descending order of confidence.
+    :param List[RuntimeEntity] entities: (optional) An array of entities identified
+          in the user input.
+    :param List[DialogNodeAction] actions: (optional) An array of objects describing
+          any actions requested by the dialog node.
+    :param MessageOutputDebug debug: (optional) Additional detailed information
+          about a message response and how it was generated.
+    :param dict user_defined: (optional) An object containing any custom properties
+          included in the response. This object includes any arbitrary properties defined
+          in the dialog JSON editor as part of the dialog node output.
+    :param MessageOutputSpelling spelling: (optional) Properties describing any
+          spelling corrections in the user input that was received.
+    :param List[MessageOutputLLMMetadata] llm_metadata: (optional) An array of
+          objects that provide information about calls to large language models that
+          occured as part of handling this message.
+    :param MessageStreamMetadata streaming_metadata: Contains meta-information about
+          the item(s) being streamed.
+    """
+
+    def __init__(
+        self,
+        streaming_metadata: 'MessageStreamMetadata',
+        *,
+        generic: Optional[List['RuntimeResponseGeneric']] = None,
+        intents: Optional[List['RuntimeIntent']] = None,
+        entities: Optional[List['RuntimeEntity']] = None,
+        actions: Optional[List['DialogNodeAction']] = None,
+        debug: Optional['MessageOutputDebug'] = None,
+        user_defined: Optional[dict] = None,
+        spelling: Optional['MessageOutputSpelling'] = None,
+        llm_metadata: Optional[List['MessageOutputLLMMetadata']] = None,
+    ) -> None:
+        """
+        Initialize a FinalResponseOutput object.
+
+        :param MessageStreamMetadata streaming_metadata: Contains meta-information
+               about the item(s) being streamed.
+        :param List[RuntimeResponseGeneric] generic: (optional) Output intended for
+               any channel. It is the responsibility of the client application to
+               implement the supported response types.
+        :param List[RuntimeIntent] intents: (optional) An array of intents
+               recognized in the user input, sorted in descending order of confidence.
+        :param List[RuntimeEntity] entities: (optional) An array of entities
+               identified in the user input.
+        :param List[DialogNodeAction] actions: (optional) An array of objects
+               describing any actions requested by the dialog node.
+        :param MessageOutputDebug debug: (optional) Additional detailed information
+               about a message response and how it was generated.
+        :param dict user_defined: (optional) An object containing any custom
+               properties included in the response. This object includes any arbitrary
+               properties defined in the dialog JSON editor as part of the dialog node
+               output.
+        :param MessageOutputSpelling spelling: (optional) Properties describing any
+               spelling corrections in the user input that was received.
+        :param List[MessageOutputLLMMetadata] llm_metadata: (optional) An array of
+               objects that provide information about calls to large language models that
+               occured as part of handling this message.
+        """
+        self.generic = generic
+        self.intents = intents
+        self.entities = entities
+        self.actions = actions
+        self.debug = debug
+        self.user_defined = user_defined
+        self.spelling = spelling
+        self.llm_metadata = llm_metadata
+        self.streaming_metadata = streaming_metadata
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'FinalResponseOutput':
+        """Initialize a FinalResponseOutput object from a json dictionary."""
+        args = {}
+        if (generic := _dict.get('generic')) is not None:
+            args['generic'] = [
+                RuntimeResponseGeneric.from_dict(v) for v in generic
+            ]
+        if (intents := _dict.get('intents')) is not None:
+            args['intents'] = [RuntimeIntent.from_dict(v) for v in intents]
+        if (entities := _dict.get('entities')) is not None:
+            args['entities'] = [RuntimeEntity.from_dict(v) for v in entities]
+        if (actions := _dict.get('actions')) is not None:
+            args['actions'] = [DialogNodeAction.from_dict(v) for v in actions]
+        if (debug := _dict.get('debug')) is not None:
+            args['debug'] = MessageOutputDebug.from_dict(debug)
+        if (user_defined := _dict.get('user_defined')) is not None:
+            args['user_defined'] = user_defined
+        if (spelling := _dict.get('spelling')) is not None:
+            args['spelling'] = MessageOutputSpelling.from_dict(spelling)
+        if (llm_metadata := _dict.get('llm_metadata')) is not None:
+            args['llm_metadata'] = [
+                MessageOutputLLMMetadata.from_dict(v) for v in llm_metadata
+            ]
+        if (streaming_metadata := _dict.get('streaming_metadata')) is not None:
+            args['streaming_metadata'] = MessageStreamMetadata.from_dict(
+                streaming_metadata)
+        else:
+            raise ValueError(
+                'Required property \'streaming_metadata\' not present in FinalResponseOutput JSON'
+            )
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a FinalResponseOutput object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'generic') and self.generic is not None:
+            generic_list = []
+            for v in self.generic:
+                if isinstance(v, dict):
+                    generic_list.append(v)
+                else:
+                    generic_list.append(v.to_dict())
+            _dict['generic'] = generic_list
+        if hasattr(self, 'intents') and self.intents is not None:
+            intents_list = []
+            for v in self.intents:
+                if isinstance(v, dict):
+                    intents_list.append(v)
+                else:
+                    intents_list.append(v.to_dict())
+            _dict['intents'] = intents_list
+        if hasattr(self, 'entities') and self.entities is not None:
+            entities_list = []
+            for v in self.entities:
+                if isinstance(v, dict):
+                    entities_list.append(v)
+                else:
+                    entities_list.append(v.to_dict())
+            _dict['entities'] = entities_list
+        if hasattr(self, 'actions') and self.actions is not None:
+            actions_list = []
+            for v in self.actions:
+                if isinstance(v, dict):
+                    actions_list.append(v)
+                else:
+                    actions_list.append(v.to_dict())
+            _dict['actions'] = actions_list
+        if hasattr(self, 'debug') and self.debug is not None:
+            if isinstance(self.debug, dict):
+                _dict['debug'] = self.debug
+            else:
+                _dict['debug'] = self.debug.to_dict()
+        if hasattr(self, 'user_defined') and self.user_defined is not None:
+            _dict['user_defined'] = self.user_defined
+        if hasattr(self, 'spelling') and self.spelling is not None:
+            if isinstance(self.spelling, dict):
+                _dict['spelling'] = self.spelling
+            else:
+                _dict['spelling'] = self.spelling.to_dict()
+        if hasattr(self, 'llm_metadata') and self.llm_metadata is not None:
+            llm_metadata_list = []
+            for v in self.llm_metadata:
+                if isinstance(v, dict):
+                    llm_metadata_list.append(v)
+                else:
+                    llm_metadata_list.append(v.to_dict())
+            _dict['llm_metadata'] = llm_metadata_list
+        if hasattr(
+                self,
+                'streaming_metadata') and self.streaming_metadata is not None:
+            if isinstance(self.streaming_metadata, dict):
+                _dict['streaming_metadata'] = self.streaming_metadata
+            else:
+                _dict['streaming_metadata'] = self.streaming_metadata.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this FinalResponseOutput object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'FinalResponseOutput') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'FinalResponseOutput') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class GenerativeAITask:
+    """
+    GenerativeAITask.
+
+    """
+
+    def __init__(self,) -> None:
+        """
+        Initialize a GenerativeAITask object.
+
+        """
+        msg = "Cannot instantiate base class. Instead, instantiate one of the defined subclasses: {0}".format(
+            ", ".join([
+                'GenerativeAITaskContentGroundedAnswering',
+                'GenerativeAITaskGeneralPurposeAnswering'
+            ]))
+        raise Exception(msg)
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'GenerativeAITask':
+        """Initialize a GenerativeAITask object from a json dictionary."""
+        disc_class = cls._get_class_by_discriminator(_dict)
+        if disc_class != cls:
+            return disc_class.from_dict(_dict)
+        msg = "Cannot convert dictionary into an instance of base class 'GenerativeAITask'. The discriminator value should map to a valid subclass: {1}".format(
+            ", ".join([
+                'GenerativeAITaskContentGroundedAnswering',
+                'GenerativeAITaskGeneralPurposeAnswering'
+            ]))
+        raise Exception(msg)
+
+    @classmethod
+    def _from_dict(cls, _dict: Dict):
+        """Initialize a GenerativeAITask object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    @classmethod
+    def _get_class_by_discriminator(cls, _dict: Dict) -> object:
+        mapping = {}
+        mapping[
+            'content_grounded_answering'] = 'GenerativeAITaskContentGroundedAnswering'
+        mapping[
+            'general_purpose_answering'] = 'GenerativeAITaskGeneralPurposeAnswering'
+        disc_value = _dict.get('task')
+        if disc_value is None:
+            raise ValueError(
+                'Discriminator property \'task\' not found in GenerativeAITask JSON'
+            )
+        class_name = mapping.get(disc_value, disc_value)
+        try:
+            disc_class = getattr(sys.modules[__name__], class_name)
+        except AttributeError:
+            disc_class = cls
+        if isinstance(disc_class, object):
+            return disc_class
+        raise TypeError('%s is not a discriminator class' % class_name)
+
+
+class GenerativeAITaskConfidenceScores:
+    """
+    The confidence scores for determining whether to show the generated response or an “I
+    don't know” response.
+
+    :param float pre_gen: (optional) The confidence score based on user query and
+          search results.
+    :param float pre_gen_threshold: (optional) The pre_gen confidence score
+          threshold. If the pre_gen score is below this threshold, it shows an “I don't
+          know” response instead of the generated response. Shown in the conversational
+          search skill UI as the “Retrieval Confidence threshold”.
+    :param float post_gen: (optional) The confidence score based on user query,
+          search results, and the generated response.
+    :param float post_gen_threshold: (optional) The post_gen confidence score
+          threshold. If the post_gen score is below this threshold, it shows an “I don't
+          know” response instead of the generated response. Shown in the conversational
+          search skill UI as the “Response Confidence threshold”.
+    """
+
+    def __init__(
+        self,
+        *,
+        pre_gen: Optional[float] = None,
+        pre_gen_threshold: Optional[float] = None,
+        post_gen: Optional[float] = None,
+        post_gen_threshold: Optional[float] = None,
+    ) -> None:
+        """
+        Initialize a GenerativeAITaskConfidenceScores object.
+
+        :param float pre_gen: (optional) The confidence score based on user query
+               and search results.
+        :param float pre_gen_threshold: (optional) The pre_gen confidence score
+               threshold. If the pre_gen score is below this threshold, it shows an “I
+               don't know” response instead of the generated response. Shown in the
+               conversational search skill UI as the “Retrieval Confidence threshold”.
+        :param float post_gen: (optional) The confidence score based on user query,
+               search results, and the generated response.
+        :param float post_gen_threshold: (optional) The post_gen confidence score
+               threshold. If the post_gen score is below this threshold, it shows an “I
+               don't know” response instead of the generated response. Shown in the
+               conversational search skill UI as the “Response Confidence threshold”.
+        """
+        self.pre_gen = pre_gen
+        self.pre_gen_threshold = pre_gen_threshold
+        self.post_gen = post_gen
+        self.post_gen_threshold = post_gen_threshold
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'GenerativeAITaskConfidenceScores':
+        """Initialize a GenerativeAITaskConfidenceScores object from a json dictionary."""
+        args = {}
+        if (pre_gen := _dict.get('pre_gen')) is not None:
+            args['pre_gen'] = pre_gen
+        if (pre_gen_threshold := _dict.get('pre_gen_threshold')) is not None:
+            args['pre_gen_threshold'] = pre_gen_threshold
+        if (post_gen := _dict.get('post_gen')) is not None:
+            args['post_gen'] = post_gen
+        if (post_gen_threshold := _dict.get('post_gen_threshold')) is not None:
+            args['post_gen_threshold'] = post_gen_threshold
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a GenerativeAITaskConfidenceScores object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'pre_gen') and self.pre_gen is not None:
+            _dict['pre_gen'] = self.pre_gen
+        if hasattr(self,
+                   'pre_gen_threshold') and self.pre_gen_threshold is not None:
+            _dict['pre_gen_threshold'] = self.pre_gen_threshold
+        if hasattr(self, 'post_gen') and self.post_gen is not None:
+            _dict['post_gen'] = self.post_gen
+        if hasattr(
+                self,
+                'post_gen_threshold') and self.post_gen_threshold is not None:
+            _dict['post_gen_threshold'] = self.post_gen_threshold
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this GenerativeAITaskConfidenceScores object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'GenerativeAITaskConfidenceScores') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'GenerativeAITaskConfidenceScores') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class IntegrationReference:
     """
     IntegrationReference.
@@ -6135,6 +6764,9 @@ class LogResponseOutput:
           in the dialog JSON editor as part of the dialog node output.
     :param MessageOutputSpelling spelling: (optional) Properties describing any
           spelling corrections in the user input that was received.
+    :param List[MessageOutputLLMMetadata] llm_metadata: (optional) An array of
+          objects that provide information about calls to large language models that
+          occured as part of handling this message.
     """
 
     def __init__(
@@ -6147,6 +6779,7 @@ class LogResponseOutput:
         debug: Optional['MessageOutputDebug'] = None,
         user_defined: Optional[dict] = None,
         spelling: Optional['MessageOutputSpelling'] = None,
+        llm_metadata: Optional[List['MessageOutputLLMMetadata']] = None,
     ) -> None:
         """
         Initialize a LogResponseOutput object.
@@ -6168,6 +6801,9 @@ class LogResponseOutput:
                output.
         :param MessageOutputSpelling spelling: (optional) Properties describing any
                spelling corrections in the user input that was received.
+        :param List[MessageOutputLLMMetadata] llm_metadata: (optional) An array of
+               objects that provide information about calls to large language models that
+               occured as part of handling this message.
         """
         self.generic = generic
         self.intents = intents
@@ -6176,6 +6812,7 @@ class LogResponseOutput:
         self.debug = debug
         self.user_defined = user_defined
         self.spelling = spelling
+        self.llm_metadata = llm_metadata
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'LogResponseOutput':
@@ -6197,6 +6834,10 @@ class LogResponseOutput:
             args['user_defined'] = user_defined
         if (spelling := _dict.get('spelling')) is not None:
             args['spelling'] = MessageOutputSpelling.from_dict(spelling)
+        if (llm_metadata := _dict.get('llm_metadata')) is not None:
+            args['llm_metadata'] = [
+                MessageOutputLLMMetadata.from_dict(v) for v in llm_metadata
+            ]
         return cls(**args)
 
     @classmethod
@@ -6251,6 +6892,14 @@ class LogResponseOutput:
                 _dict['spelling'] = self.spelling
             else:
                 _dict['spelling'] = self.spelling.to_dict()
+        if hasattr(self, 'llm_metadata') and self.llm_metadata is not None:
+            llm_metadata_list = []
+            for v in self.llm_metadata:
+                if isinstance(v, dict):
+                    llm_metadata_list.append(v)
+                else:
+                    llm_metadata_list.append(v.to_dict())
+            _dict['llm_metadata'] = llm_metadata_list
         return _dict
 
     def _to_dict(self):
@@ -7557,6 +8206,9 @@ class MessageOutput:
           in the dialog JSON editor as part of the dialog node output.
     :param MessageOutputSpelling spelling: (optional) Properties describing any
           spelling corrections in the user input that was received.
+    :param List[MessageOutputLLMMetadata] llm_metadata: (optional) An array of
+          objects that provide information about calls to large language models that
+          occured as part of handling this message.
     """
 
     def __init__(
@@ -7569,6 +8221,7 @@ class MessageOutput:
         debug: Optional['MessageOutputDebug'] = None,
         user_defined: Optional[dict] = None,
         spelling: Optional['MessageOutputSpelling'] = None,
+        llm_metadata: Optional[List['MessageOutputLLMMetadata']] = None,
     ) -> None:
         """
         Initialize a MessageOutput object.
@@ -7590,6 +8243,9 @@ class MessageOutput:
                output.
         :param MessageOutputSpelling spelling: (optional) Properties describing any
                spelling corrections in the user input that was received.
+        :param List[MessageOutputLLMMetadata] llm_metadata: (optional) An array of
+               objects that provide information about calls to large language models that
+               occured as part of handling this message.
         """
         self.generic = generic
         self.intents = intents
@@ -7598,6 +8254,7 @@ class MessageOutput:
         self.debug = debug
         self.user_defined = user_defined
         self.spelling = spelling
+        self.llm_metadata = llm_metadata
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'MessageOutput':
@@ -7619,6 +8276,10 @@ class MessageOutput:
             args['user_defined'] = user_defined
         if (spelling := _dict.get('spelling')) is not None:
             args['spelling'] = MessageOutputSpelling.from_dict(spelling)
+        if (llm_metadata := _dict.get('llm_metadata')) is not None:
+            args['llm_metadata'] = [
+                MessageOutputLLMMetadata.from_dict(v) for v in llm_metadata
+            ]
         return cls(**args)
 
     @classmethod
@@ -7673,6 +8334,14 @@ class MessageOutput:
                 _dict['spelling'] = self.spelling
             else:
                 _dict['spelling'] = self.spelling.to_dict()
+        if hasattr(self, 'llm_metadata') and self.llm_metadata is not None:
+            llm_metadata_list = []
+            for v in self.llm_metadata:
+                if isinstance(v, dict):
+                    llm_metadata_list.append(v)
+                else:
+                    llm_metadata_list.append(v.to_dict())
+            _dict['llm_metadata'] = llm_metadata_list
         return _dict
 
     def _to_dict(self):
@@ -7857,7 +8526,14 @@ class MessageOutputDebugTurnEvent:
                 'MessageOutputDebugTurnEventTurnEventHandlerVisited',
                 'MessageOutputDebugTurnEventTurnEventCallout',
                 'MessageOutputDebugTurnEventTurnEventSearch',
-                'MessageOutputDebugTurnEventTurnEventNodeVisited'
+                'MessageOutputDebugTurnEventTurnEventNodeVisited',
+                'MessageOutputDebugTurnEventTurnEventConversationalSearchEnd',
+                'MessageOutputDebugTurnEventTurnEventManualRoute',
+                'MessageOutputDebugTurnEventTurnEventTopicSwitchDenied',
+                'MessageOutputDebugTurnEventTurnEventActionRoutingDenied',
+                'MessageOutputDebugTurnEventTurnEventSuggestionIntentsDenied',
+                'MessageOutputDebugTurnEventTurnEventGenerativeAICalled',
+                'MessageOutputDebugTurnEventTurnEventClientActions'
             ]))
         raise Exception(msg)
 
@@ -7876,7 +8552,14 @@ class MessageOutputDebugTurnEvent:
                 'MessageOutputDebugTurnEventTurnEventHandlerVisited',
                 'MessageOutputDebugTurnEventTurnEventCallout',
                 'MessageOutputDebugTurnEventTurnEventSearch',
-                'MessageOutputDebugTurnEventTurnEventNodeVisited'
+                'MessageOutputDebugTurnEventTurnEventNodeVisited',
+                'MessageOutputDebugTurnEventTurnEventConversationalSearchEnd',
+                'MessageOutputDebugTurnEventTurnEventManualRoute',
+                'MessageOutputDebugTurnEventTurnEventTopicSwitchDenied',
+                'MessageOutputDebugTurnEventTurnEventActionRoutingDenied',
+                'MessageOutputDebugTurnEventTurnEventSuggestionIntentsDenied',
+                'MessageOutputDebugTurnEventTurnEventGenerativeAICalled',
+                'MessageOutputDebugTurnEventTurnEventClientActions'
             ]))
         raise Exception(msg)
 
@@ -7902,6 +8585,20 @@ class MessageOutputDebugTurnEvent:
         mapping['search'] = 'MessageOutputDebugTurnEventTurnEventSearch'
         mapping[
             'node_visited'] = 'MessageOutputDebugTurnEventTurnEventNodeVisited'
+        mapping[
+            'conversational_search_end'] = 'MessageOutputDebugTurnEventTurnEventConversationalSearchEnd'
+        mapping[
+            'manual_route'] = 'MessageOutputDebugTurnEventTurnEventManualRoute'
+        mapping[
+            'topic_switch_denied'] = 'MessageOutputDebugTurnEventTurnEventTopicSwitchDenied'
+        mapping[
+            'action_routing_denied'] = 'MessageOutputDebugTurnEventTurnEventActionRoutingDenied'
+        mapping[
+            'suggestion_intents_denied'] = 'MessageOutputDebugTurnEventTurnEventSuggestionIntentsDenied'
+        mapping[
+            'generative_ai_called'] = 'MessageOutputDebugTurnEventTurnEventGenerativeAICalled'
+        mapping[
+            'client_actions'] = 'MessageOutputDebugTurnEventTurnEventClientActions'
         disc_value = _dict.get('event')
         if disc_value is None:
             raise ValueError(
@@ -7915,6 +8612,74 @@ class MessageOutputDebugTurnEvent:
         if isinstance(disc_class, object):
             return disc_class
         raise TypeError('%s is not a discriminator class' % class_name)
+
+
+class MessageOutputLLMMetadata:
+    """
+    MessageOutputLLMMetadata.
+
+    :param str task: (optional) The task that used a large language model.
+    :param str model_id: (optional) The id for the large language model used for the
+          task.
+    """
+
+    def __init__(
+        self,
+        *,
+        task: Optional[str] = None,
+        model_id: Optional[str] = None,
+    ) -> None:
+        """
+        Initialize a MessageOutputLLMMetadata object.
+
+        :param str task: (optional) The task that used a large language model.
+        :param str model_id: (optional) The id for the large language model used
+               for the task.
+        """
+        self.task = task
+        self.model_id = model_id
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'MessageOutputLLMMetadata':
+        """Initialize a MessageOutputLLMMetadata object from a json dictionary."""
+        args = {}
+        if (task := _dict.get('task')) is not None:
+            args['task'] = task
+        if (model_id := _dict.get('model_id')) is not None:
+            args['model_id'] = model_id
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a MessageOutputLLMMetadata object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'task') and self.task is not None:
+            _dict['task'] = self.task
+        if hasattr(self, 'model_id') and self.model_id is not None:
+            _dict['model_id'] = self.model_id
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this MessageOutputLLMMetadata object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'MessageOutputLLMMetadata') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'MessageOutputLLMMetadata') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
 
 
 class MessageOutputSpelling:
@@ -8000,6 +8765,94 @@ class MessageOutputSpelling:
     def __ne__(self, other: 'MessageOutputSpelling') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
+
+
+class MessageStreamMetadata:
+    """
+    Contains meta-information about the item(s) being streamed.
+
+    :param Metadata streaming_metadata: Contains meta-information about the item(s)
+          being streamed.
+    """
+
+    def __init__(
+        self,
+        streaming_metadata: 'Metadata',
+    ) -> None:
+        """
+        Initialize a MessageStreamMetadata object.
+
+        :param Metadata streaming_metadata: Contains meta-information about the
+               item(s) being streamed.
+        """
+        self.streaming_metadata = streaming_metadata
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'MessageStreamMetadata':
+        """Initialize a MessageStreamMetadata object from a json dictionary."""
+        args = {}
+        if (streaming_metadata := _dict.get('streaming_metadata')) is not None:
+            args['streaming_metadata'] = Metadata.from_dict(streaming_metadata)
+        else:
+            raise ValueError(
+                'Required property \'streaming_metadata\' not present in MessageStreamMetadata JSON'
+            )
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a MessageStreamMetadata object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(
+                self,
+                'streaming_metadata') and self.streaming_metadata is not None:
+            if isinstance(self.streaming_metadata, dict):
+                _dict['streaming_metadata'] = self.streaming_metadata
+            else:
+                _dict['streaming_metadata'] = self.streaming_metadata.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this MessageStreamMetadata object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'MessageStreamMetadata') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'MessageStreamMetadata') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class MessageStreamResponse:
+    """
+    A streamed response from the watsonx Assistant service.
+
+    """
+
+    def __init__(self,) -> None:
+        """
+        Initialize a MessageStreamResponse object.
+
+        """
+        msg = "Cannot instantiate base class. Instead, instantiate one of the defined subclasses: {0}".format(
+            ", ".join([
+                'MessageStreamResponseMessageStreamPartialItem',
+                'MessageStreamResponseMessageStreamCompleteItem',
+                'MessageStreamResponseStatefulMessageStreamFinalResponse'
+            ]))
+        raise Exception(msg)
 
 
 class Metadata:
@@ -8329,6 +9182,100 @@ class Pagination:
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'Pagination') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class PartialItem:
+    """
+    Message response partial item content.
+
+    :param str response_type: (optional) The type of response returned by the dialog
+          node. The specified response type must be supported by the client application or
+          channel.
+    :param str text: The text within the partial chunk of the message stream
+          response.
+    :param Metadata streaming_metadata: Contains meta-information about the item(s)
+          being streamed.
+    """
+
+    def __init__(
+        self,
+        text: str,
+        streaming_metadata: 'Metadata',
+        *,
+        response_type: Optional[str] = None,
+    ) -> None:
+        """
+        Initialize a PartialItem object.
+
+        :param str text: The text within the partial chunk of the message stream
+               response.
+        :param Metadata streaming_metadata: Contains meta-information about the
+               item(s) being streamed.
+        :param str response_type: (optional) The type of response returned by the
+               dialog node. The specified response type must be supported by the client
+               application or channel.
+        """
+        self.response_type = response_type
+        self.text = text
+        self.streaming_metadata = streaming_metadata
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'PartialItem':
+        """Initialize a PartialItem object from a json dictionary."""
+        args = {}
+        if (response_type := _dict.get('response_type')) is not None:
+            args['response_type'] = response_type
+        if (text := _dict.get('text')) is not None:
+            args['text'] = text
+        else:
+            raise ValueError(
+                'Required property \'text\' not present in PartialItem JSON')
+        if (streaming_metadata := _dict.get('streaming_metadata')) is not None:
+            args['streaming_metadata'] = Metadata.from_dict(streaming_metadata)
+        else:
+            raise ValueError(
+                'Required property \'streaming_metadata\' not present in PartialItem JSON'
+            )
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a PartialItem object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'response_type') and self.response_type is not None:
+            _dict['response_type'] = self.response_type
+        if hasattr(self, 'text') and self.text is not None:
+            _dict['text'] = self.text
+        if hasattr(
+                self,
+                'streaming_metadata') and self.streaming_metadata is not None:
+            if isinstance(self.streaming_metadata, dict):
+                _dict['streaming_metadata'] = self.streaming_metadata
+            else:
+                _dict['streaming_metadata'] = self.streaming_metadata.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this PartialItem object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'PartialItem') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'PartialItem') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -10241,6 +11188,298 @@ class ResponseGenericChannel:
         return not self == other
 
 
+class ResponseGenericCitation:
+    """
+    ResponseGenericCitation.
+
+    :param str title: The title of the citation text.
+    :param str text: The text of the citation.
+    :param str body: The body content of the citation.
+    :param int search_result_index: (optional) The index of the search_result where
+          the citation is generated.
+    :param List[ResponseGenericCitationRangesItem] ranges: The offsets of the start
+          and end of the citation in the generated response. For example, `ranges:[ {
+          start:0, end:5 }, ...]`.
+    """
+
+    def __init__(
+        self,
+        title: str,
+        text: str,
+        body: str,
+        ranges: List['ResponseGenericCitationRangesItem'],
+        *,
+        search_result_index: Optional[int] = None,
+    ) -> None:
+        """
+        Initialize a ResponseGenericCitation object.
+
+        :param str title: The title of the citation text.
+        :param str text: The text of the citation.
+        :param str body: The body content of the citation.
+        :param List[ResponseGenericCitationRangesItem] ranges: The offsets of the
+               start and end of the citation in the generated response. For example,
+               `ranges:[ { start:0, end:5 }, ...]`.
+        :param int search_result_index: (optional) The index of the search_result
+               where the citation is generated.
+        """
+        self.title = title
+        self.text = text
+        self.body = body
+        self.search_result_index = search_result_index
+        self.ranges = ranges
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ResponseGenericCitation':
+        """Initialize a ResponseGenericCitation object from a json dictionary."""
+        args = {}
+        if (title := _dict.get('title')) is not None:
+            args['title'] = title
+        else:
+            raise ValueError(
+                'Required property \'title\' not present in ResponseGenericCitation JSON'
+            )
+        if (text := _dict.get('text')) is not None:
+            args['text'] = text
+        else:
+            raise ValueError(
+                'Required property \'text\' not present in ResponseGenericCitation JSON'
+            )
+        if (body := _dict.get('body')) is not None:
+            args['body'] = body
+        else:
+            raise ValueError(
+                'Required property \'body\' not present in ResponseGenericCitation JSON'
+            )
+        if (search_result_index :=
+                _dict.get('search_result_index')) is not None:
+            args['search_result_index'] = search_result_index
+        if (ranges := _dict.get('ranges')) is not None:
+            args['ranges'] = [
+                ResponseGenericCitationRangesItem.from_dict(v) for v in ranges
+            ]
+        else:
+            raise ValueError(
+                'Required property \'ranges\' not present in ResponseGenericCitation JSON'
+            )
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ResponseGenericCitation object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'title') and self.title is not None:
+            _dict['title'] = self.title
+        if hasattr(self, 'text') and self.text is not None:
+            _dict['text'] = self.text
+        if hasattr(self, 'body') and self.body is not None:
+            _dict['body'] = self.body
+        if hasattr(
+                self,
+                'search_result_index') and self.search_result_index is not None:
+            _dict['search_result_index'] = self.search_result_index
+        if hasattr(self, 'ranges') and self.ranges is not None:
+            ranges_list = []
+            for v in self.ranges:
+                if isinstance(v, dict):
+                    ranges_list.append(v)
+                else:
+                    ranges_list.append(v.to_dict())
+            _dict['ranges'] = ranges_list
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ResponseGenericCitation object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ResponseGenericCitation') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ResponseGenericCitation') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ResponseGenericCitationRangesItem:
+    """
+    ResponseGenericCitationRangesItem.
+
+    :param int start: (optional) The offset of the start of the citation in the
+          generated response.
+    :param int end: (optional) The offset of the end of the citation in the
+          generated response.
+    """
+
+    def __init__(
+        self,
+        *,
+        start: Optional[int] = None,
+        end: Optional[int] = None,
+    ) -> None:
+        """
+        Initialize a ResponseGenericCitationRangesItem object.
+
+        :param int start: (optional) The offset of the start of the citation in the
+               generated response.
+        :param int end: (optional) The offset of the end of the citation in the
+               generated response.
+        """
+        self.start = start
+        self.end = end
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ResponseGenericCitationRangesItem':
+        """Initialize a ResponseGenericCitationRangesItem object from a json dictionary."""
+        args = {}
+        if (start := _dict.get('start')) is not None:
+            args['start'] = start
+        if (end := _dict.get('end')) is not None:
+            args['end'] = end
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ResponseGenericCitationRangesItem object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'start') and self.start is not None:
+            _dict['start'] = self.start
+        if hasattr(self, 'end') and self.end is not None:
+            _dict['end'] = self.end
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ResponseGenericCitationRangesItem object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ResponseGenericCitationRangesItem') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ResponseGenericCitationRangesItem') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ResponseGenericConfidenceScores:
+    """
+    The confidence scores for determining whether to show the generated response or an “I
+    don't know” response.
+
+    :param float threshold: (optional) The confidence score threshold. If either the
+          pre_gen or post_gen score is below this threshold, it shows an “I don't know”
+          response to replace the generated text. You can configure the threshold in
+          either the user interface or through the Update skill API. For more information,
+          see the [watsonx Assistant documentation](
+          https://cloud.ibm.com/docs/watson-assistant?topic=watson-assistant-conversational-search#behavioral-tuning-conversational-search).
+    :param float pre_gen: (optional) The confidence score based on user query and
+          search results.
+    :param float post_gen: (optional) The confidence score based on user query,
+          search results, and the generated response.
+    :param float extractiveness: (optional) It indicates how extractive the
+          generated response is from the search results.
+    """
+
+    def __init__(
+        self,
+        *,
+        threshold: Optional[float] = None,
+        pre_gen: Optional[float] = None,
+        post_gen: Optional[float] = None,
+        extractiveness: Optional[float] = None,
+    ) -> None:
+        """
+        Initialize a ResponseGenericConfidenceScores object.
+
+        :param float threshold: (optional) The confidence score threshold. If
+               either the pre_gen or post_gen score is below this threshold, it shows an
+               “I don't know” response to replace the generated text. You can configure
+               the threshold in either the user interface or through the Update skill API.
+               For more information, see the [watsonx Assistant documentation](
+               https://cloud.ibm.com/docs/watson-assistant?topic=watson-assistant-conversational-search#behavioral-tuning-conversational-search).
+        :param float pre_gen: (optional) The confidence score based on user query
+               and search results.
+        :param float post_gen: (optional) The confidence score based on user query,
+               search results, and the generated response.
+        :param float extractiveness: (optional) It indicates how extractive the
+               generated response is from the search results.
+        """
+        self.threshold = threshold
+        self.pre_gen = pre_gen
+        self.post_gen = post_gen
+        self.extractiveness = extractiveness
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ResponseGenericConfidenceScores':
+        """Initialize a ResponseGenericConfidenceScores object from a json dictionary."""
+        args = {}
+        if (threshold := _dict.get('threshold')) is not None:
+            args['threshold'] = threshold
+        if (pre_gen := _dict.get('pre_gen')) is not None:
+            args['pre_gen'] = pre_gen
+        if (post_gen := _dict.get('post_gen')) is not None:
+            args['post_gen'] = post_gen
+        if (extractiveness := _dict.get('extractiveness')) is not None:
+            args['extractiveness'] = extractiveness
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ResponseGenericConfidenceScores object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'threshold') and self.threshold is not None:
+            _dict['threshold'] = self.threshold
+        if hasattr(self, 'pre_gen') and self.pre_gen is not None:
+            _dict['pre_gen'] = self.pre_gen
+        if hasattr(self, 'post_gen') and self.post_gen is not None:
+            _dict['post_gen'] = self.post_gen
+        if hasattr(self, 'extractiveness') and self.extractiveness is not None:
+            _dict['extractiveness'] = self.extractiveness
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ResponseGenericConfidenceScores object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ResponseGenericConfidenceScores') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ResponseGenericConfidenceScores') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class RuntimeEntity:
     """
     The entity value that was recognized in the user input.
@@ -11054,6 +12293,7 @@ class RuntimeResponseGeneric:
         """
         msg = "Cannot instantiate base class. Instead, instantiate one of the defined subclasses: {0}".format(
             ", ".join([
+                'RuntimeResponseGenericRuntimeResponseTypeConversationalSearch',
                 'RuntimeResponseGenericRuntimeResponseTypeText',
                 'RuntimeResponseGenericRuntimeResponseTypePause',
                 'RuntimeResponseGenericRuntimeResponseTypeImage',
@@ -11078,6 +12318,7 @@ class RuntimeResponseGeneric:
             return disc_class.from_dict(_dict)
         msg = "Cannot convert dictionary into an instance of base class 'RuntimeResponseGeneric'. The discriminator value should map to a valid subclass: {1}".format(
             ", ".join([
+                'RuntimeResponseGenericRuntimeResponseTypeConversationalSearch',
                 'RuntimeResponseGenericRuntimeResponseTypeText',
                 'RuntimeResponseGenericRuntimeResponseTypePause',
                 'RuntimeResponseGenericRuntimeResponseTypeImage',
@@ -11102,6 +12343,8 @@ class RuntimeResponseGeneric:
     @classmethod
     def _get_class_by_discriminator(cls, _dict: Dict) -> object:
         mapping = {}
+        mapping[
+            'conversation_search'] = 'RuntimeResponseGenericRuntimeResponseTypeConversationalSearch'
         mapping['audio'] = 'RuntimeResponseGenericRuntimeResponseTypeAudio'
         mapping[
             'channel_transfer'] = 'RuntimeResponseGenericRuntimeResponseTypeChannelTransfer'
@@ -11618,14 +12861,187 @@ class SearchResultMetadata:
         return not self == other
 
 
+class SearchResults:
+    """
+    SearchResults.
+
+    :param SearchResultsResultMetadata result_metadata: The metadata of the search
+          result.
+    :param str id: The ID of the search result. It may not be unique.
+    :param str title: The title of the search result.
+    :param str body: The body content of the search result.
+    """
+
+    def __init__(
+        self,
+        result_metadata: 'SearchResultsResultMetadata',
+        id: str,
+        title: str,
+        body: str,
+    ) -> None:
+        """
+        Initialize a SearchResults object.
+
+        :param SearchResultsResultMetadata result_metadata: The metadata of the
+               search result.
+        :param str id: The ID of the search result. It may not be unique.
+        :param str title: The title of the search result.
+        :param str body: The body content of the search result.
+        """
+        self.result_metadata = result_metadata
+        self.id = id
+        self.title = title
+        self.body = body
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'SearchResults':
+        """Initialize a SearchResults object from a json dictionary."""
+        args = {}
+        if (result_metadata := _dict.get('result_metadata')) is not None:
+            args['result_metadata'] = SearchResultsResultMetadata.from_dict(
+                result_metadata)
+        else:
+            raise ValueError(
+                'Required property \'result_metadata\' not present in SearchResults JSON'
+            )
+        if (id := _dict.get('id')) is not None:
+            args['id'] = id
+        else:
+            raise ValueError(
+                'Required property \'id\' not present in SearchResults JSON')
+        if (title := _dict.get('title')) is not None:
+            args['title'] = title
+        else:
+            raise ValueError(
+                'Required property \'title\' not present in SearchResults JSON')
+        if (body := _dict.get('body')) is not None:
+            args['body'] = body
+        else:
+            raise ValueError(
+                'Required property \'body\' not present in SearchResults JSON')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SearchResults object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self,
+                   'result_metadata') and self.result_metadata is not None:
+            if isinstance(self.result_metadata, dict):
+                _dict['result_metadata'] = self.result_metadata
+            else:
+                _dict['result_metadata'] = self.result_metadata.to_dict()
+        if hasattr(self, 'id') and self.id is not None:
+            _dict['id'] = self.id
+        if hasattr(self, 'title') and self.title is not None:
+            _dict['title'] = self.title
+        if hasattr(self, 'body') and self.body is not None:
+            _dict['body'] = self.body
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this SearchResults object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'SearchResults') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'SearchResults') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class SearchResultsResultMetadata:
+    """
+    The metadata of the search result.
+
+    :param str document_retrieval_source: (optional) The source of the search
+          result.
+    :param int score: (optional) The relevance score of the search result to the
+          user query.
+    """
+
+    def __init__(
+        self,
+        *,
+        document_retrieval_source: Optional[str] = None,
+        score: Optional[int] = None,
+    ) -> None:
+        """
+        Initialize a SearchResultsResultMetadata object.
+
+        :param str document_retrieval_source: (optional) The source of the search
+               result.
+        :param int score: (optional) The relevance score of the search result to
+               the user query.
+        """
+        self.document_retrieval_source = document_retrieval_source
+        self.score = score
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'SearchResultsResultMetadata':
+        """Initialize a SearchResultsResultMetadata object from a json dictionary."""
+        args = {}
+        if (document_retrieval_source :=
+                _dict.get('document_retrieval_source')) is not None:
+            args['document_retrieval_source'] = document_retrieval_source
+        if (score := _dict.get('score')) is not None:
+            args['score'] = score
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SearchResultsResultMetadata object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'document_retrieval_source'
+                  ) and self.document_retrieval_source is not None:
+            _dict['document_retrieval_source'] = self.document_retrieval_source
+        if hasattr(self, 'score') and self.score is not None:
+            _dict['score'] = self.score
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this SearchResultsResultMetadata object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'SearchResultsResultMetadata') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'SearchResultsResultMetadata') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class SearchSettings:
     """
     An object describing the search skill configuration.
     **Note:** Search settings are not supported in **Import skills** requests, and are not
     included in **Export skills** responses.
 
-    :param SearchSettingsDiscovery discovery: Configuration settings for the Watson
-          Discovery service instance used by the search integration.
+    :param SearchSettingsDiscovery discovery: (optional) Configuration settings for
+          the Watson Discovery service instance used by the search integration.
     :param SearchSettingsMessages messages: The messages included with responses
           from the search integration.
     :param SearchSettingsSchemaMapping schema_mapping: The mapping between fields in
@@ -11633,8 +13049,8 @@ class SearchSettings:
     :param SearchSettingsElasticSearch elastic_search: (optional) Configuration
           settings for the Elasticsearch service used by the search integration. You can
           provide either basic auth or apiKey auth.
-    :param SearchSettingsConversationalSearch conversational_search: (optional)
-          Configuration settings for conversational search.
+    :param SearchSettingsConversationalSearch conversational_search: Configuration
+          settings for conversational search.
     :param SearchSettingsServerSideSearch server_side_search: (optional)
           Configuration settings for the server-side search service used by the search
           integration. You can provide either basic auth, apiKey auth or none.
@@ -11645,31 +13061,30 @@ class SearchSettings:
 
     def __init__(
         self,
-        discovery: 'SearchSettingsDiscovery',
         messages: 'SearchSettingsMessages',
         schema_mapping: 'SearchSettingsSchemaMapping',
+        conversational_search: 'SearchSettingsConversationalSearch',
         *,
+        discovery: Optional['SearchSettingsDiscovery'] = None,
         elastic_search: Optional['SearchSettingsElasticSearch'] = None,
-        conversational_search: Optional[
-            'SearchSettingsConversationalSearch'] = None,
         server_side_search: Optional['SearchSettingsServerSideSearch'] = None,
         client_side_search: Optional['SearchSettingsClientSideSearch'] = None,
     ) -> None:
         """
         Initialize a SearchSettings object.
 
-        :param SearchSettingsDiscovery discovery: Configuration settings for the
-               Watson Discovery service instance used by the search integration.
         :param SearchSettingsMessages messages: The messages included with
                responses from the search integration.
         :param SearchSettingsSchemaMapping schema_mapping: The mapping between
                fields in the Watson Discovery collection and properties in the search
                response.
+        :param SearchSettingsConversationalSearch conversational_search:
+               Configuration settings for conversational search.
+        :param SearchSettingsDiscovery discovery: (optional) Configuration settings
+               for the Watson Discovery service instance used by the search integration.
         :param SearchSettingsElasticSearch elastic_search: (optional) Configuration
                settings for the Elasticsearch service used by the search integration. You
                can provide either basic auth or apiKey auth.
-        :param SearchSettingsConversationalSearch conversational_search: (optional)
-               Configuration settings for conversational search.
         :param SearchSettingsServerSideSearch server_side_search: (optional)
                Configuration settings for the server-side search service used by the
                search integration. You can provide either basic auth, apiKey auth or none.
@@ -11691,10 +13106,6 @@ class SearchSettings:
         args = {}
         if (discovery := _dict.get('discovery')) is not None:
             args['discovery'] = SearchSettingsDiscovery.from_dict(discovery)
-        else:
-            raise ValueError(
-                'Required property \'discovery\' not present in SearchSettings JSON'
-            )
         if (messages := _dict.get('messages')) is not None:
             args['messages'] = SearchSettingsMessages.from_dict(messages)
         else:
@@ -11716,6 +13127,10 @@ class SearchSettings:
             args[
                 'conversational_search'] = SearchSettingsConversationalSearch.from_dict(
                     conversational_search)
+        else:
+            raise ValueError(
+                'Required property \'conversational_search\' not present in SearchSettings JSON'
+            )
         if (server_side_search := _dict.get('server_side_search')) is not None:
             args[
                 'server_side_search'] = SearchSettingsServerSideSearch.from_dict(
@@ -13876,6 +15291,309 @@ class StatefulMessageResponse:
         return not self == other
 
 
+class StatelessFinalResponse:
+    """
+    Message final response content.
+
+    :param StatelessFinalResponseOutput output: (optional) Assistant output to be
+          rendered or processed by the client.
+    :param StatelessMessageContext context: (optional) Context data for the
+          conversation. You can use this property to access context variables. The context
+          is stored by the assistant on a per-session basis.
+          **Note:** The context is included in message responses only if
+          **return_context**=`true` in the message request. Full context is always
+          included in logs.
+    :param str user_id: (optional) A string value that identifies the user who is
+          interacting with the assistant. The client must provide a unique identifier for
+          each individual end user who accesses the application. For user-based plans,
+          this user ID is used to identify unique users for billing purposes. This string
+          cannot contain carriage return, newline, or tab characters. If no value is
+          specified in the input, **user_id** is automatically set to the value of
+          **context.global.session_id**.
+          **Note:** This property is the same as the **user_id** property in the global
+          system context.
+    """
+
+    def __init__(
+        self,
+        *,
+        output: Optional['StatelessFinalResponseOutput'] = None,
+        context: Optional['StatelessMessageContext'] = None,
+        user_id: Optional[str] = None,
+    ) -> None:
+        """
+        Initialize a StatelessFinalResponse object.
+
+        :param StatelessFinalResponseOutput output: (optional) Assistant output to
+               be rendered or processed by the client.
+        :param StatelessMessageContext context: (optional) Context data for the
+               conversation. You can use this property to access context variables. The
+               context is stored by the assistant on a per-session basis.
+               **Note:** The context is included in message responses only if
+               **return_context**=`true` in the message request. Full context is always
+               included in logs.
+        :param str user_id: (optional) A string value that identifies the user who
+               is interacting with the assistant. The client must provide a unique
+               identifier for each individual end user who accesses the application. For
+               user-based plans, this user ID is used to identify unique users for billing
+               purposes. This string cannot contain carriage return, newline, or tab
+               characters. If no value is specified in the input, **user_id** is
+               automatically set to the value of **context.global.session_id**.
+               **Note:** This property is the same as the **user_id** property in the
+               global system context.
+        """
+        self.output = output
+        self.context = context
+        self.user_id = user_id
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'StatelessFinalResponse':
+        """Initialize a StatelessFinalResponse object from a json dictionary."""
+        args = {}
+        if (output := _dict.get('output')) is not None:
+            args['output'] = StatelessFinalResponseOutput.from_dict(output)
+        if (context := _dict.get('context')) is not None:
+            args['context'] = StatelessMessageContext.from_dict(context)
+        if (user_id := _dict.get('user_id')) is not None:
+            args['user_id'] = user_id
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a StatelessFinalResponse object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'output') and self.output is not None:
+            if isinstance(self.output, dict):
+                _dict['output'] = self.output
+            else:
+                _dict['output'] = self.output.to_dict()
+        if hasattr(self, 'context') and self.context is not None:
+            if isinstance(self.context, dict):
+                _dict['context'] = self.context
+            else:
+                _dict['context'] = self.context.to_dict()
+        if hasattr(self, 'user_id') and self.user_id is not None:
+            _dict['user_id'] = self.user_id
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this StatelessFinalResponse object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'StatelessFinalResponse') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'StatelessFinalResponse') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class StatelessFinalResponseOutput:
+    """
+    Assistant output to be rendered or processed by the client.
+
+    :param List[RuntimeResponseGeneric] generic: (optional) Output intended for any
+          channel. It is the responsibility of the client application to implement the
+          supported response types.
+    :param List[RuntimeIntent] intents: (optional) An array of intents recognized in
+          the user input, sorted in descending order of confidence.
+    :param List[RuntimeEntity] entities: (optional) An array of entities identified
+          in the user input.
+    :param List[DialogNodeAction] actions: (optional) An array of objects describing
+          any actions requested by the dialog node.
+    :param MessageOutputDebug debug: (optional) Additional detailed information
+          about a message response and how it was generated.
+    :param dict user_defined: (optional) An object containing any custom properties
+          included in the response. This object includes any arbitrary properties defined
+          in the dialog JSON editor as part of the dialog node output.
+    :param MessageOutputSpelling spelling: (optional) Properties describing any
+          spelling corrections in the user input that was received.
+    :param List[MessageOutputLLMMetadata] llm_metadata: (optional) An array of
+          objects that provide information about calls to large language models that
+          occured as part of handling this message.
+    :param StatelessMessageContext streaming_metadata:
+    """
+
+    def __init__(
+        self,
+        streaming_metadata: 'StatelessMessageContext',
+        *,
+        generic: Optional[List['RuntimeResponseGeneric']] = None,
+        intents: Optional[List['RuntimeIntent']] = None,
+        entities: Optional[List['RuntimeEntity']] = None,
+        actions: Optional[List['DialogNodeAction']] = None,
+        debug: Optional['MessageOutputDebug'] = None,
+        user_defined: Optional[dict] = None,
+        spelling: Optional['MessageOutputSpelling'] = None,
+        llm_metadata: Optional[List['MessageOutputLLMMetadata']] = None,
+    ) -> None:
+        """
+        Initialize a StatelessFinalResponseOutput object.
+
+        :param StatelessMessageContext streaming_metadata:
+        :param List[RuntimeResponseGeneric] generic: (optional) Output intended for
+               any channel. It is the responsibility of the client application to
+               implement the supported response types.
+        :param List[RuntimeIntent] intents: (optional) An array of intents
+               recognized in the user input, sorted in descending order of confidence.
+        :param List[RuntimeEntity] entities: (optional) An array of entities
+               identified in the user input.
+        :param List[DialogNodeAction] actions: (optional) An array of objects
+               describing any actions requested by the dialog node.
+        :param MessageOutputDebug debug: (optional) Additional detailed information
+               about a message response and how it was generated.
+        :param dict user_defined: (optional) An object containing any custom
+               properties included in the response. This object includes any arbitrary
+               properties defined in the dialog JSON editor as part of the dialog node
+               output.
+        :param MessageOutputSpelling spelling: (optional) Properties describing any
+               spelling corrections in the user input that was received.
+        :param List[MessageOutputLLMMetadata] llm_metadata: (optional) An array of
+               objects that provide information about calls to large language models that
+               occured as part of handling this message.
+        """
+        self.generic = generic
+        self.intents = intents
+        self.entities = entities
+        self.actions = actions
+        self.debug = debug
+        self.user_defined = user_defined
+        self.spelling = spelling
+        self.llm_metadata = llm_metadata
+        self.streaming_metadata = streaming_metadata
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'StatelessFinalResponseOutput':
+        """Initialize a StatelessFinalResponseOutput object from a json dictionary."""
+        args = {}
+        if (generic := _dict.get('generic')) is not None:
+            args['generic'] = [
+                RuntimeResponseGeneric.from_dict(v) for v in generic
+            ]
+        if (intents := _dict.get('intents')) is not None:
+            args['intents'] = [RuntimeIntent.from_dict(v) for v in intents]
+        if (entities := _dict.get('entities')) is not None:
+            args['entities'] = [RuntimeEntity.from_dict(v) for v in entities]
+        if (actions := _dict.get('actions')) is not None:
+            args['actions'] = [DialogNodeAction.from_dict(v) for v in actions]
+        if (debug := _dict.get('debug')) is not None:
+            args['debug'] = MessageOutputDebug.from_dict(debug)
+        if (user_defined := _dict.get('user_defined')) is not None:
+            args['user_defined'] = user_defined
+        if (spelling := _dict.get('spelling')) is not None:
+            args['spelling'] = MessageOutputSpelling.from_dict(spelling)
+        if (llm_metadata := _dict.get('llm_metadata')) is not None:
+            args['llm_metadata'] = [
+                MessageOutputLLMMetadata.from_dict(v) for v in llm_metadata
+            ]
+        if (streaming_metadata := _dict.get('streaming_metadata')) is not None:
+            args['streaming_metadata'] = StatelessMessageContext.from_dict(
+                streaming_metadata)
+        else:
+            raise ValueError(
+                'Required property \'streaming_metadata\' not present in StatelessFinalResponseOutput JSON'
+            )
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a StatelessFinalResponseOutput object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'generic') and self.generic is not None:
+            generic_list = []
+            for v in self.generic:
+                if isinstance(v, dict):
+                    generic_list.append(v)
+                else:
+                    generic_list.append(v.to_dict())
+            _dict['generic'] = generic_list
+        if hasattr(self, 'intents') and self.intents is not None:
+            intents_list = []
+            for v in self.intents:
+                if isinstance(v, dict):
+                    intents_list.append(v)
+                else:
+                    intents_list.append(v.to_dict())
+            _dict['intents'] = intents_list
+        if hasattr(self, 'entities') and self.entities is not None:
+            entities_list = []
+            for v in self.entities:
+                if isinstance(v, dict):
+                    entities_list.append(v)
+                else:
+                    entities_list.append(v.to_dict())
+            _dict['entities'] = entities_list
+        if hasattr(self, 'actions') and self.actions is not None:
+            actions_list = []
+            for v in self.actions:
+                if isinstance(v, dict):
+                    actions_list.append(v)
+                else:
+                    actions_list.append(v.to_dict())
+            _dict['actions'] = actions_list
+        if hasattr(self, 'debug') and self.debug is not None:
+            if isinstance(self.debug, dict):
+                _dict['debug'] = self.debug
+            else:
+                _dict['debug'] = self.debug.to_dict()
+        if hasattr(self, 'user_defined') and self.user_defined is not None:
+            _dict['user_defined'] = self.user_defined
+        if hasattr(self, 'spelling') and self.spelling is not None:
+            if isinstance(self.spelling, dict):
+                _dict['spelling'] = self.spelling
+            else:
+                _dict['spelling'] = self.spelling.to_dict()
+        if hasattr(self, 'llm_metadata') and self.llm_metadata is not None:
+            llm_metadata_list = []
+            for v in self.llm_metadata:
+                if isinstance(v, dict):
+                    llm_metadata_list.append(v)
+                else:
+                    llm_metadata_list.append(v.to_dict())
+            _dict['llm_metadata'] = llm_metadata_list
+        if hasattr(
+                self,
+                'streaming_metadata') and self.streaming_metadata is not None:
+            if isinstance(self.streaming_metadata, dict):
+                _dict['streaming_metadata'] = self.streaming_metadata
+            else:
+                _dict['streaming_metadata'] = self.streaming_metadata.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this StatelessFinalResponseOutput object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'StatelessFinalResponseOutput') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'StatelessFinalResponseOutput') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class StatelessMessageContext:
     """
     StatelessMessageContext.
@@ -14699,6 +16417,26 @@ class StatelessMessageResponse:
         return not self == other
 
 
+class StatelessMessageStreamResponse:
+    """
+    A stateless streamed response form the watsonx Assistant service.
+
+    """
+
+    def __init__(self,) -> None:
+        """
+        Initialize a StatelessMessageStreamResponse object.
+
+        """
+        msg = "Cannot instantiate base class. Instead, instantiate one of the defined subclasses: {0}".format(
+            ", ".join([
+                'StatelessMessageStreamResponseMessageStreamPartialItem',
+                'StatelessMessageStreamResponseMessageStreamCompleteItem',
+                'StatelessMessageStreamResponseStatelessMessageStreamFinalResponse'
+            ]))
+        raise Exception(msg)
+
+
 class StatusError:
     """
     An object describing an error that occurred during processing of an asynchronous
@@ -15218,6 +16956,730 @@ class TurnEventCalloutError:
         return not self == other
 
 
+class TurnEventGenerativeAICalledCallout:
+    """
+    TurnEventGenerativeAICalledCallout.
+
+    :param bool search_called: (optional) Whether the document search engine was
+          called.
+    :param bool llm_called: (optional) Whether watsonx.ai was called during answer
+          generation.
+    :param TurnEventGenerativeAICalledCalloutSearch search: (optional)
+    :param TurnEventGenerativeAICalledCalloutLlm llm: (optional)
+    :param str idk_reason_code: (optional) Indicates why a conversational search
+          response resolved to an idk response. This field will only be available when the
+          conversational search response is an idk response.
+    """
+
+    def __init__(
+        self,
+        *,
+        search_called: Optional[bool] = None,
+        llm_called: Optional[bool] = None,
+        search: Optional['TurnEventGenerativeAICalledCalloutSearch'] = None,
+        llm: Optional['TurnEventGenerativeAICalledCalloutLlm'] = None,
+        idk_reason_code: Optional[str] = None,
+    ) -> None:
+        """
+        Initialize a TurnEventGenerativeAICalledCallout object.
+
+        :param bool search_called: (optional) Whether the document search engine
+               was called.
+        :param bool llm_called: (optional) Whether watsonx.ai was called during
+               answer generation.
+        :param TurnEventGenerativeAICalledCalloutSearch search: (optional)
+        :param TurnEventGenerativeAICalledCalloutLlm llm: (optional)
+        :param str idk_reason_code: (optional) Indicates why a conversational
+               search response resolved to an idk response. This field will only be
+               available when the conversational search response is an idk response.
+        """
+        self.search_called = search_called
+        self.llm_called = llm_called
+        self.search = search
+        self.llm = llm
+        self.idk_reason_code = idk_reason_code
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'TurnEventGenerativeAICalledCallout':
+        """Initialize a TurnEventGenerativeAICalledCallout object from a json dictionary."""
+        args = {}
+        if (search_called := _dict.get('search_called')) is not None:
+            args['search_called'] = search_called
+        if (llm_called := _dict.get('llm_called')) is not None:
+            args['llm_called'] = llm_called
+        if (search := _dict.get('search')) is not None:
+            args['search'] = TurnEventGenerativeAICalledCalloutSearch.from_dict(
+                search)
+        if (llm := _dict.get('llm')) is not None:
+            args['llm'] = TurnEventGenerativeAICalledCalloutLlm.from_dict(llm)
+        if (idk_reason_code := _dict.get('idk_reason_code')) is not None:
+            args['idk_reason_code'] = idk_reason_code
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TurnEventGenerativeAICalledCallout object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'search_called') and self.search_called is not None:
+            _dict['search_called'] = self.search_called
+        if hasattr(self, 'llm_called') and self.llm_called is not None:
+            _dict['llm_called'] = self.llm_called
+        if hasattr(self, 'search') and self.search is not None:
+            if isinstance(self.search, dict):
+                _dict['search'] = self.search
+            else:
+                _dict['search'] = self.search.to_dict()
+        if hasattr(self, 'llm') and self.llm is not None:
+            if isinstance(self.llm, dict):
+                _dict['llm'] = self.llm
+            else:
+                _dict['llm'] = self.llm.to_dict()
+        if hasattr(self,
+                   'idk_reason_code') and self.idk_reason_code is not None:
+            _dict['idk_reason_code'] = self.idk_reason_code
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this TurnEventGenerativeAICalledCallout object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'TurnEventGenerativeAICalledCallout') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'TurnEventGenerativeAICalledCallout') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class TurnEventGenerativeAICalledCalloutLlm:
+    """
+    TurnEventGenerativeAICalledCalloutLlm.
+
+    :param str type: (optional) The name of the LLM engine called by the system.
+    :param str model_id: (optional) The LLM model used to generate the response.
+    :param str model_class_id: (optional) The watsonx.ai class ID that was used
+          during the answer generation request to the LLM. This is only included when a
+          request to the LLM has been made by the system.
+    :param int generated_token_count: (optional) The number of tokens that were
+          generated in the response by the LLM. This is only included when a request to
+          the LLM was successful and a response was generated.
+    :param int input_token_count: (optional) The number of tokens that were sent to
+          the LLM during answer generation. This is only included when a request to the
+          LLM has been made by the system.
+    :param bool success: (optional) Whether the answer generation request to the LLM
+          was successful.
+    :param TurnEventGenerativeAICalledCalloutLlmResponse response: (optional)
+    :param List[SearchResults] request: (optional) n array of objects containing the
+          search results.
+    """
+
+    def __init__(
+        self,
+        *,
+        type: Optional[str] = None,
+        model_id: Optional[str] = None,
+        model_class_id: Optional[str] = None,
+        generated_token_count: Optional[int] = None,
+        input_token_count: Optional[int] = None,
+        success: Optional[bool] = None,
+        response: Optional[
+            'TurnEventGenerativeAICalledCalloutLlmResponse'] = None,
+        request: Optional[List['SearchResults']] = None,
+    ) -> None:
+        """
+        Initialize a TurnEventGenerativeAICalledCalloutLlm object.
+
+        :param str type: (optional) The name of the LLM engine called by the
+               system.
+        :param str model_id: (optional) The LLM model used to generate the
+               response.
+        :param str model_class_id: (optional) The watsonx.ai class ID that was used
+               during the answer generation request to the LLM. This is only included when
+               a request to the LLM has been made by the system.
+        :param int generated_token_count: (optional) The number of tokens that were
+               generated in the response by the LLM. This is only included when a request
+               to the LLM was successful and a response was generated.
+        :param int input_token_count: (optional) The number of tokens that were
+               sent to the LLM during answer generation. This is only included when a
+               request to the LLM has been made by the system.
+        :param bool success: (optional) Whether the answer generation request to
+               the LLM was successful.
+        :param TurnEventGenerativeAICalledCalloutLlmResponse response: (optional)
+        :param List[SearchResults] request: (optional) n array of objects
+               containing the search results.
+        """
+        self.type = type
+        self.model_id = model_id
+        self.model_class_id = model_class_id
+        self.generated_token_count = generated_token_count
+        self.input_token_count = input_token_count
+        self.success = success
+        self.response = response
+        self.request = request
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'TurnEventGenerativeAICalledCalloutLlm':
+        """Initialize a TurnEventGenerativeAICalledCalloutLlm object from a json dictionary."""
+        args = {}
+        if (type := _dict.get('type')) is not None:
+            args['type'] = type
+        if (model_id := _dict.get('model_id')) is not None:
+            args['model_id'] = model_id
+        if (model_class_id := _dict.get('model_class_id')) is not None:
+            args['model_class_id'] = model_class_id
+        if (generated_token_count :=
+                _dict.get('generated_token_count')) is not None:
+            args['generated_token_count'] = generated_token_count
+        if (input_token_count := _dict.get('input_token_count')) is not None:
+            args['input_token_count'] = input_token_count
+        if (success := _dict.get('success')) is not None:
+            args['success'] = success
+        if (response := _dict.get('response')) is not None:
+            args[
+                'response'] = TurnEventGenerativeAICalledCalloutLlmResponse.from_dict(
+                    response)
+        if (request := _dict.get('request')) is not None:
+            args['request'] = [SearchResults.from_dict(v) for v in request]
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TurnEventGenerativeAICalledCalloutLlm object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'type') and self.type is not None:
+            _dict['type'] = self.type
+        if hasattr(self, 'model_id') and self.model_id is not None:
+            _dict['model_id'] = self.model_id
+        if hasattr(self, 'model_class_id') and self.model_class_id is not None:
+            _dict['model_class_id'] = self.model_class_id
+        if hasattr(self, 'generated_token_count'
+                  ) and self.generated_token_count is not None:
+            _dict['generated_token_count'] = self.generated_token_count
+        if hasattr(self,
+                   'input_token_count') and self.input_token_count is not None:
+            _dict['input_token_count'] = self.input_token_count
+        if hasattr(self, 'success') and self.success is not None:
+            _dict['success'] = self.success
+        if hasattr(self, 'response') and self.response is not None:
+            if isinstance(self.response, dict):
+                _dict['response'] = self.response
+            else:
+                _dict['response'] = self.response.to_dict()
+        if hasattr(self, 'request') and self.request is not None:
+            request_list = []
+            for v in self.request:
+                if isinstance(v, dict):
+                    request_list.append(v)
+                else:
+                    request_list.append(v.to_dict())
+            _dict['request'] = request_list
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this TurnEventGenerativeAICalledCalloutLlm object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'TurnEventGenerativeAICalledCalloutLlm') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'TurnEventGenerativeAICalledCalloutLlm') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class TurnEventGenerativeAICalledCalloutLlmResponse:
+    """
+    
+
+    :param str text: (optional) The LLM response that is returned.
+    :param str response_type: (optional) The type of response that is returned.
+    :param bool is_idk_response: (optional) Whether the response is an idk response.
+    """
+
+    def __init__(
+        self,
+        *,
+        text: Optional[str] = None,
+        response_type: Optional[str] = None,
+        is_idk_response: Optional[bool] = None,
+    ) -> None:
+        """
+        Initialize a TurnEventGenerativeAICalledCalloutLlmResponse object.
+
+        :param str text: (optional) The LLM response that is returned.
+        :param str response_type: (optional) The type of response that is returned.
+        :param bool is_idk_response: (optional) Whether the response is an idk
+               response.
+        """
+        self.text = text
+        self.response_type = response_type
+        self.is_idk_response = is_idk_response
+
+    @classmethod
+    def from_dict(
+            cls,
+            _dict: Dict) -> 'TurnEventGenerativeAICalledCalloutLlmResponse':
+        """Initialize a TurnEventGenerativeAICalledCalloutLlmResponse object from a json dictionary."""
+        args = {}
+        if (text := _dict.get('text')) is not None:
+            args['text'] = text
+        if (response_type := _dict.get('response_type')) is not None:
+            args['response_type'] = response_type
+        if (is_idk_response := _dict.get('is_idk_response')) is not None:
+            args['is_idk_response'] = is_idk_response
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TurnEventGenerativeAICalledCalloutLlmResponse object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'text') and self.text is not None:
+            _dict['text'] = self.text
+        if hasattr(self, 'response_type') and self.response_type is not None:
+            _dict['response_type'] = self.response_type
+        if hasattr(self,
+                   'is_idk_response') and self.is_idk_response is not None:
+            _dict['is_idk_response'] = self.is_idk_response
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this TurnEventGenerativeAICalledCalloutLlmResponse object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self,
+               other: 'TurnEventGenerativeAICalledCalloutLlmResponse') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self,
+               other: 'TurnEventGenerativeAICalledCalloutLlmResponse') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class TurnEventGenerativeAICalledCalloutRequest:
+    """
+    TurnEventGenerativeAICalledCalloutRequest.
+
+    :param str method: (optional) The REST method of the request.
+    :param str url: (optional) The host URL of the request call.
+    :param str port: (optional) The host port of the request call.
+    :param str path: (optional) The URL path of the request call.
+    :param str query_parameters: (optional) Any query parameters appended to the URL
+          of the request call.
+    :param dict headers_: (optional) Any headers included in the request call.
+    :param dict body: (optional) Contains the response of the external server or an
+          object. In cases like timeouts or connections errors, it will contain details of
+          why the callout to the external server failed.
+    """
+
+    def __init__(
+        self,
+        *,
+        method: Optional[str] = None,
+        url: Optional[str] = None,
+        port: Optional[str] = None,
+        path: Optional[str] = None,
+        query_parameters: Optional[str] = None,
+        headers_: Optional[dict] = None,
+        body: Optional[dict] = None,
+    ) -> None:
+        """
+        Initialize a TurnEventGenerativeAICalledCalloutRequest object.
+
+        :param str method: (optional) The REST method of the request.
+        :param str url: (optional) The host URL of the request call.
+        :param str port: (optional) The host port of the request call.
+        :param str path: (optional) The URL path of the request call.
+        :param str query_parameters: (optional) Any query parameters appended to
+               the URL of the request call.
+        :param dict headers_: (optional) Any headers included in the request call.
+        :param dict body: (optional) Contains the response of the external server
+               or an object. In cases like timeouts or connections errors, it will contain
+               details of why the callout to the external server failed.
+        """
+        self.method = method
+        self.url = url
+        self.port = port
+        self.path = path
+        self.query_parameters = query_parameters
+        self.headers_ = headers_
+        self.body = body
+
+    @classmethod
+    def from_dict(cls,
+                  _dict: Dict) -> 'TurnEventGenerativeAICalledCalloutRequest':
+        """Initialize a TurnEventGenerativeAICalledCalloutRequest object from a json dictionary."""
+        args = {}
+        if (method := _dict.get('method')) is not None:
+            args['method'] = method
+        if (url := _dict.get('url')) is not None:
+            args['url'] = url
+        if (port := _dict.get('port')) is not None:
+            args['port'] = port
+        if (path := _dict.get('path')) is not None:
+            args['path'] = path
+        if (query_parameters := _dict.get('query_parameters')) is not None:
+            args['query_parameters'] = query_parameters
+        if (headers_ := _dict.get('headers')) is not None:
+            args['headers_'] = headers_
+        if (body := _dict.get('body')) is not None:
+            args['body'] = body
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TurnEventGenerativeAICalledCalloutRequest object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'method') and self.method is not None:
+            _dict['method'] = self.method
+        if hasattr(self, 'url') and self.url is not None:
+            _dict['url'] = self.url
+        if hasattr(self, 'port') and self.port is not None:
+            _dict['port'] = self.port
+        if hasattr(self, 'path') and self.path is not None:
+            _dict['path'] = self.path
+        if hasattr(self,
+                   'query_parameters') and self.query_parameters is not None:
+            _dict['query_parameters'] = self.query_parameters
+        if hasattr(self, 'headers_') and self.headers_ is not None:
+            _dict['headers'] = self.headers_
+        if hasattr(self, 'body') and self.body is not None:
+            _dict['body'] = self.body
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this TurnEventGenerativeAICalledCalloutRequest object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self,
+               other: 'TurnEventGenerativeAICalledCalloutRequest') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self,
+               other: 'TurnEventGenerativeAICalledCalloutRequest') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class MethodEnum(str, Enum):
+        """
+        The REST method of the request.
+        """
+
+        GET = 'GET'
+        POST = 'POST'
+        PUT = 'PUT'
+        DELETE = 'DELETE'
+        PATCH = 'PATCH'
+
+
+class TurnEventGenerativeAICalledCalloutResponse:
+    """
+    TurnEventGenerativeAICalledCalloutResponse.
+
+    :param str body: (optional) The final response string. This response is a
+          composition of every partial chunk received from the stream.
+    :param int status_code: (optional) The final status code of the response.
+    """
+
+    def __init__(
+        self,
+        *,
+        body: Optional[str] = None,
+        status_code: Optional[int] = None,
+    ) -> None:
+        """
+        Initialize a TurnEventGenerativeAICalledCalloutResponse object.
+
+        :param str body: (optional) The final response string. This response is a
+               composition of every partial chunk received from the stream.
+        :param int status_code: (optional) The final status code of the response.
+        """
+        self.body = body
+        self.status_code = status_code
+
+    @classmethod
+    def from_dict(cls,
+                  _dict: Dict) -> 'TurnEventGenerativeAICalledCalloutResponse':
+        """Initialize a TurnEventGenerativeAICalledCalloutResponse object from a json dictionary."""
+        args = {}
+        if (body := _dict.get('body')) is not None:
+            args['body'] = body
+        if (status_code := _dict.get('status_code')) is not None:
+            args['status_code'] = status_code
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TurnEventGenerativeAICalledCalloutResponse object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'body') and self.body is not None:
+            _dict['body'] = self.body
+        if hasattr(self, 'status_code') and self.status_code is not None:
+            _dict['status_code'] = self.status_code
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this TurnEventGenerativeAICalledCalloutResponse object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self,
+               other: 'TurnEventGenerativeAICalledCalloutResponse') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self,
+               other: 'TurnEventGenerativeAICalledCalloutResponse') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class TurnEventGenerativeAICalledCalloutSearch:
+    """
+    TurnEventGenerativeAICalledCalloutSearch.
+
+    :param str engine: (optional) The search engine that was used to scan the
+          documents.
+    :param str index: (optional) The name of the Elasticsearch index being used.
+          This field is only available if the engine being used is Elasticsearch.
+    :param str query: (optional) The query that will be used by the system to
+          initiate search on the document search engine.
+    :param TurnEventGenerativeAICalledCalloutRequest request: (optional)
+    :param TurnEventGenerativeAICalledCalloutResponse response: (optional)
+    """
+
+    def __init__(
+        self,
+        *,
+        engine: Optional[str] = None,
+        index: Optional[str] = None,
+        query: Optional[str] = None,
+        request: Optional['TurnEventGenerativeAICalledCalloutRequest'] = None,
+        response: Optional['TurnEventGenerativeAICalledCalloutResponse'] = None,
+    ) -> None:
+        """
+        Initialize a TurnEventGenerativeAICalledCalloutSearch object.
+
+        :param str engine: (optional) The search engine that was used to scan the
+               documents.
+        :param str index: (optional) The name of the Elasticsearch index being
+               used. This field is only available if the engine being used is
+               Elasticsearch.
+        :param str query: (optional) The query that will be used by the system to
+               initiate search on the document search engine.
+        :param TurnEventGenerativeAICalledCalloutRequest request: (optional)
+        :param TurnEventGenerativeAICalledCalloutResponse response: (optional)
+        """
+        self.engine = engine
+        self.index = index
+        self.query = query
+        self.request = request
+        self.response = response
+
+    @classmethod
+    def from_dict(cls,
+                  _dict: Dict) -> 'TurnEventGenerativeAICalledCalloutSearch':
+        """Initialize a TurnEventGenerativeAICalledCalloutSearch object from a json dictionary."""
+        args = {}
+        if (engine := _dict.get('engine')) is not None:
+            args['engine'] = engine
+        if (index := _dict.get('index')) is not None:
+            args['index'] = index
+        if (query := _dict.get('query')) is not None:
+            args['query'] = query
+        if (request := _dict.get('request')) is not None:
+            args[
+                'request'] = TurnEventGenerativeAICalledCalloutRequest.from_dict(
+                    request)
+        if (response := _dict.get('response')) is not None:
+            args[
+                'response'] = TurnEventGenerativeAICalledCalloutResponse.from_dict(
+                    response)
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TurnEventGenerativeAICalledCalloutSearch object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'engine') and self.engine is not None:
+            _dict['engine'] = self.engine
+        if hasattr(self, 'index') and self.index is not None:
+            _dict['index'] = self.index
+        if hasattr(self, 'query') and self.query is not None:
+            _dict['query'] = self.query
+        if hasattr(self, 'request') and self.request is not None:
+            if isinstance(self.request, dict):
+                _dict['request'] = self.request
+            else:
+                _dict['request'] = self.request.to_dict()
+        if hasattr(self, 'response') and self.response is not None:
+            if isinstance(self.response, dict):
+                _dict['response'] = self.response
+            else:
+                _dict['response'] = self.response.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this TurnEventGenerativeAICalledCalloutSearch object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'TurnEventGenerativeAICalledCalloutSearch') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'TurnEventGenerativeAICalledCalloutSearch') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class TurnEventGenerativeAICalledMetrics:
+    """
+    TurnEventGenerativeAICalledMetrics.
+
+    :param float search_time_ms: (optional) The amount of time (in milliseconds) it
+          took for the system to complete the search using the document search engine.
+    :param float answer_generation_time_ms: (optional) The amount of time (in
+          milliseconds) it took for the system to complete answer generation process by
+          reaching out to watsonx.ai.
+    :param float total_time_ms: (optional) The amount of time (in milliseconds) it
+          took for the system to fully process the conversational search.
+    """
+
+    def __init__(
+        self,
+        *,
+        search_time_ms: Optional[float] = None,
+        answer_generation_time_ms: Optional[float] = None,
+        total_time_ms: Optional[float] = None,
+    ) -> None:
+        """
+        Initialize a TurnEventGenerativeAICalledMetrics object.
+
+        :param float search_time_ms: (optional) The amount of time (in
+               milliseconds) it took for the system to complete the search using the
+               document search engine.
+        :param float answer_generation_time_ms: (optional) The amount of time (in
+               milliseconds) it took for the system to complete answer generation process
+               by reaching out to watsonx.ai.
+        :param float total_time_ms: (optional) The amount of time (in milliseconds)
+               it took for the system to fully process the conversational search.
+        """
+        self.search_time_ms = search_time_ms
+        self.answer_generation_time_ms = answer_generation_time_ms
+        self.total_time_ms = total_time_ms
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'TurnEventGenerativeAICalledMetrics':
+        """Initialize a TurnEventGenerativeAICalledMetrics object from a json dictionary."""
+        args = {}
+        if (search_time_ms := _dict.get('search_time_ms')) is not None:
+            args['search_time_ms'] = search_time_ms
+        if (answer_generation_time_ms :=
+                _dict.get('answer_generation_time_ms')) is not None:
+            args['answer_generation_time_ms'] = answer_generation_time_ms
+        if (total_time_ms := _dict.get('total_time_ms')) is not None:
+            args['total_time_ms'] = total_time_ms
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TurnEventGenerativeAICalledMetrics object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'search_time_ms') and self.search_time_ms is not None:
+            _dict['search_time_ms'] = self.search_time_ms
+        if hasattr(self, 'answer_generation_time_ms'
+                  ) and self.answer_generation_time_ms is not None:
+            _dict['answer_generation_time_ms'] = self.answer_generation_time_ms
+        if hasattr(self, 'total_time_ms') and self.total_time_ms is not None:
+            _dict['total_time_ms'] = self.total_time_ms
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this TurnEventGenerativeAICalledMetrics object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'TurnEventGenerativeAICalledMetrics') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'TurnEventGenerativeAICalledMetrics') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class TurnEventNodeSource:
     """
     TurnEventNodeSource.
@@ -15368,6 +17830,119 @@ class TurnEventSearchError:
     def __ne__(self, other: 'TurnEventSearchError') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
+
+
+class TurnEventStepSource:
+    """
+    TurnEventStepSource.
+
+    :param str type: (optional) The type of turn event.
+    :param str action: (optional) An action that was visited during processing of
+          the message.
+    :param str action_title: (optional) The title of the action.
+    :param str step: (optional) A step that was visited during processing of the
+          message.
+    :param bool is_ai_guided: (optional) Whether the action that the turn event was
+          generated from is an AI-guided action.
+    :param bool is_skill_based: (optional) Whether the action that the turn event
+          was generated from is a skill-guided action.
+    """
+
+    def __init__(
+        self,
+        *,
+        type: Optional[str] = None,
+        action: Optional[str] = None,
+        action_title: Optional[str] = None,
+        step: Optional[str] = None,
+        is_ai_guided: Optional[bool] = None,
+        is_skill_based: Optional[bool] = None,
+    ) -> None:
+        """
+        Initialize a TurnEventStepSource object.
+
+        :param str type: (optional) The type of turn event.
+        :param str action: (optional) An action that was visited during processing
+               of the message.
+        :param str action_title: (optional) The title of the action.
+        :param str step: (optional) A step that was visited during processing of
+               the message.
+        :param bool is_ai_guided: (optional) Whether the action that the turn event
+               was generated from is an AI-guided action.
+        :param bool is_skill_based: (optional) Whether the action that the turn
+               event was generated from is a skill-guided action.
+        """
+        self.type = type
+        self.action = action
+        self.action_title = action_title
+        self.step = step
+        self.is_ai_guided = is_ai_guided
+        self.is_skill_based = is_skill_based
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'TurnEventStepSource':
+        """Initialize a TurnEventStepSource object from a json dictionary."""
+        args = {}
+        if (type := _dict.get('type')) is not None:
+            args['type'] = type
+        if (action := _dict.get('action')) is not None:
+            args['action'] = action
+        if (action_title := _dict.get('action_title')) is not None:
+            args['action_title'] = action_title
+        if (step := _dict.get('step')) is not None:
+            args['step'] = step
+        if (is_ai_guided := _dict.get('is_ai_guided')) is not None:
+            args['is_ai_guided'] = is_ai_guided
+        if (is_skill_based := _dict.get('is_skill_based')) is not None:
+            args['is_skill_based'] = is_skill_based
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TurnEventStepSource object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'type') and self.type is not None:
+            _dict['type'] = self.type
+        if hasattr(self, 'action') and self.action is not None:
+            _dict['action'] = self.action
+        if hasattr(self, 'action_title') and self.action_title is not None:
+            _dict['action_title'] = self.action_title
+        if hasattr(self, 'step') and self.step is not None:
+            _dict['step'] = self.step
+        if hasattr(self, 'is_ai_guided') and self.is_ai_guided is not None:
+            _dict['is_ai_guided'] = self.is_ai_guided
+        if hasattr(self, 'is_skill_based') and self.is_skill_based is not None:
+            _dict['is_skill_based'] = self.is_skill_based
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this TurnEventStepSource object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'TurnEventStepSource') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'TurnEventStepSource') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class TypeEnum(str, Enum):
+        """
+        The type of turn event.
+        """
+
+        STEP = 'step'
 
 
 class UpdateEnvironmentOrchestration:
@@ -15557,6 +18132,207 @@ class CompleteItem(RuntimeResponseGeneric):
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'CompleteItem') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class GenerativeAITaskContentGroundedAnswering(GenerativeAITask):
+    """
+    GenerativeAITaskContentGroundedAnswering.
+
+    :param str task: (optional) The type of generative ai task.
+    :param bool is_idk_response: (optional) Whether response was an idk response.
+    :param bool is_hap_detected: (optional) Whether response was a hap response.
+    :param GenerativeAITaskConfidenceScores confidence_scores: (optional) The
+          confidence scores for determining whether to show the generated response or an
+          “I don't know” response.
+    :param str original_response: (optional) The original response returned by the
+          generative ai.
+    :param str inferred_query: (optional) Generated from the input text after
+          auto-correction. If this field is not present, the input text was used as the
+          query to the generative ai.
+    """
+
+    def __init__(
+        self,
+        *,
+        task: Optional[str] = None,
+        is_idk_response: Optional[bool] = None,
+        is_hap_detected: Optional[bool] = None,
+        confidence_scores: Optional['GenerativeAITaskConfidenceScores'] = None,
+        original_response: Optional[str] = None,
+        inferred_query: Optional[str] = None,
+    ) -> None:
+        """
+        Initialize a GenerativeAITaskContentGroundedAnswering object.
+
+        :param str task: (optional) The type of generative ai task.
+        :param bool is_idk_response: (optional) Whether response was an idk
+               response.
+        :param bool is_hap_detected: (optional) Whether response was a hap
+               response.
+        :param GenerativeAITaskConfidenceScores confidence_scores: (optional) The
+               confidence scores for determining whether to show the generated response or
+               an “I don't know” response.
+        :param str original_response: (optional) The original response returned by
+               the generative ai.
+        :param str inferred_query: (optional) Generated from the input text after
+               auto-correction. If this field is not present, the input text was used as
+               the query to the generative ai.
+        """
+        # pylint: disable=super-init-not-called
+        self.task = task
+        self.is_idk_response = is_idk_response
+        self.is_hap_detected = is_hap_detected
+        self.confidence_scores = confidence_scores
+        self.original_response = original_response
+        self.inferred_query = inferred_query
+
+    @classmethod
+    def from_dict(cls,
+                  _dict: Dict) -> 'GenerativeAITaskContentGroundedAnswering':
+        """Initialize a GenerativeAITaskContentGroundedAnswering object from a json dictionary."""
+        args = {}
+        if (task := _dict.get('task')) is not None:
+            args['task'] = task
+        if (is_idk_response := _dict.get('is_idk_response')) is not None:
+            args['is_idk_response'] = is_idk_response
+        if (is_hap_detected := _dict.get('is_hap_detected')) is not None:
+            args['is_hap_detected'] = is_hap_detected
+        if (confidence_scores := _dict.get('confidence_scores')) is not None:
+            args[
+                'confidence_scores'] = GenerativeAITaskConfidenceScores.from_dict(
+                    confidence_scores)
+        if (original_response := _dict.get('original_response')) is not None:
+            args['original_response'] = original_response
+        if (inferred_query := _dict.get('inferred_query')) is not None:
+            args['inferred_query'] = inferred_query
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a GenerativeAITaskContentGroundedAnswering object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'task') and self.task is not None:
+            _dict['task'] = self.task
+        if hasattr(self,
+                   'is_idk_response') and self.is_idk_response is not None:
+            _dict['is_idk_response'] = self.is_idk_response
+        if hasattr(self,
+                   'is_hap_detected') and self.is_hap_detected is not None:
+            _dict['is_hap_detected'] = self.is_hap_detected
+        if hasattr(self,
+                   'confidence_scores') and self.confidence_scores is not None:
+            if isinstance(self.confidence_scores, dict):
+                _dict['confidence_scores'] = self.confidence_scores
+            else:
+                _dict['confidence_scores'] = self.confidence_scores.to_dict()
+        if hasattr(self,
+                   'original_response') and self.original_response is not None:
+            _dict['original_response'] = self.original_response
+        if hasattr(self, 'inferred_query') and self.inferred_query is not None:
+            _dict['inferred_query'] = self.inferred_query
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this GenerativeAITaskContentGroundedAnswering object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'GenerativeAITaskContentGroundedAnswering') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'GenerativeAITaskContentGroundedAnswering') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class GenerativeAITaskGeneralPurposeAnswering(GenerativeAITask):
+    """
+    GenerativeAITaskGeneralPurposeAnswering.
+
+    :param str task: (optional) The type of generative ai task.
+    :param bool is_idk_response: (optional) Whether response was an idk response.
+    :param bool is_hap_detected: (optional) Whether response was a hap response.
+    """
+
+    def __init__(
+        self,
+        *,
+        task: Optional[str] = None,
+        is_idk_response: Optional[bool] = None,
+        is_hap_detected: Optional[bool] = None,
+    ) -> None:
+        """
+        Initialize a GenerativeAITaskGeneralPurposeAnswering object.
+
+        :param str task: (optional) The type of generative ai task.
+        :param bool is_idk_response: (optional) Whether response was an idk
+               response.
+        :param bool is_hap_detected: (optional) Whether response was a hap
+               response.
+        """
+        # pylint: disable=super-init-not-called
+        self.task = task
+        self.is_idk_response = is_idk_response
+        self.is_hap_detected = is_hap_detected
+
+    @classmethod
+    def from_dict(cls,
+                  _dict: Dict) -> 'GenerativeAITaskGeneralPurposeAnswering':
+        """Initialize a GenerativeAITaskGeneralPurposeAnswering object from a json dictionary."""
+        args = {}
+        if (task := _dict.get('task')) is not None:
+            args['task'] = task
+        if (is_idk_response := _dict.get('is_idk_response')) is not None:
+            args['is_idk_response'] = is_idk_response
+        if (is_hap_detected := _dict.get('is_hap_detected')) is not None:
+            args['is_hap_detected'] = is_hap_detected
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a GenerativeAITaskGeneralPurposeAnswering object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'task') and self.task is not None:
+            _dict['task'] = self.task
+        if hasattr(self,
+                   'is_idk_response') and self.is_idk_response is not None:
+            _dict['is_idk_response'] = self.is_idk_response
+        if hasattr(self,
+                   'is_hap_detected') and self.is_hap_detected is not None:
+            _dict['is_hap_detected'] = self.is_hap_detected
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this GenerativeAITaskGeneralPurposeAnswering object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'GenerativeAITaskGeneralPurposeAnswering') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'GenerativeAITaskGeneralPurposeAnswering') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -16050,6 +18826,117 @@ class MessageOutputDebugTurnEventTurnEventActionFinished(
         FALLBACK = 'fallback'
 
 
+class MessageOutputDebugTurnEventTurnEventActionRoutingDenied(
+        MessageOutputDebugTurnEvent):
+    """
+    MessageOutputDebugTurnEventTurnEventActionRoutingDenied.
+
+    :param str event: (optional) The type of turn event.
+    :param TurnEventActionSource source: (optional)
+    :param str condition_type: (optional) The type of condition (if any) that is
+          defined for the action.
+    :param str reason: (optional) The reason the action was visited.
+    """
+
+    def __init__(
+        self,
+        *,
+        event: Optional[str] = None,
+        source: Optional['TurnEventActionSource'] = None,
+        condition_type: Optional[str] = None,
+        reason: Optional[str] = None,
+    ) -> None:
+        """
+        Initialize a MessageOutputDebugTurnEventTurnEventActionRoutingDenied object.
+
+        :param str event: (optional) The type of turn event.
+        :param TurnEventActionSource source: (optional)
+        :param str condition_type: (optional) The type of condition (if any) that
+               is defined for the action.
+        :param str reason: (optional) The reason the action was visited.
+        """
+        # pylint: disable=super-init-not-called
+        self.event = event
+        self.source = source
+        self.condition_type = condition_type
+        self.reason = reason
+
+    @classmethod
+    def from_dict(
+        cls, _dict: Dict
+    ) -> 'MessageOutputDebugTurnEventTurnEventActionRoutingDenied':
+        """Initialize a MessageOutputDebugTurnEventTurnEventActionRoutingDenied object from a json dictionary."""
+        args = {}
+        if (event := _dict.get('event')) is not None:
+            args['event'] = event
+        if (source := _dict.get('source')) is not None:
+            args['source'] = TurnEventActionSource.from_dict(source)
+        if (condition_type := _dict.get('condition_type')) is not None:
+            args['condition_type'] = condition_type
+        if (reason := _dict.get('reason')) is not None:
+            args['reason'] = reason
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a MessageOutputDebugTurnEventTurnEventActionRoutingDenied object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'event') and self.event is not None:
+            _dict['event'] = self.event
+        if hasattr(self, 'source') and self.source is not None:
+            if isinstance(self.source, dict):
+                _dict['source'] = self.source
+            else:
+                _dict['source'] = self.source.to_dict()
+        if hasattr(self, 'condition_type') and self.condition_type is not None:
+            _dict['condition_type'] = self.condition_type
+        if hasattr(self, 'reason') and self.reason is not None:
+            _dict['reason'] = self.reason
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this MessageOutputDebugTurnEventTurnEventActionRoutingDenied object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(
+        self, other: 'MessageOutputDebugTurnEventTurnEventActionRoutingDenied'
+    ) -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(
+        self, other: 'MessageOutputDebugTurnEventTurnEventActionRoutingDenied'
+    ) -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class ConditionTypeEnum(str, Enum):
+        """
+        The type of condition (if any) that is defined for the action.
+        """
+
+        USER_DEFINED = 'user_defined'
+        WELCOME = 'welcome'
+        ANYTHING_ELSE = 'anything_else'
+
+    class ReasonEnum(str, Enum):
+        """
+        The reason the action was visited.
+        """
+
+        ACTION_CONDITIONS_FAILED = 'action_conditions_failed'
+
+
 class MessageOutputDebugTurnEventTurnEventActionVisited(
         MessageOutputDebugTurnEvent):
     """
@@ -16287,6 +19174,319 @@ class MessageOutputDebugTurnEventTurnEventCallout(MessageOutputDebugTurnEvent):
         return not self == other
 
 
+class MessageOutputDebugTurnEventTurnEventClientActions(
+        MessageOutputDebugTurnEvent):
+    """
+    MessageOutputDebugTurnEventTurnEventClientActions.
+
+    :param str event: (optional) The type of turn event.
+    :param TurnEventStepSource source: (optional)
+    :param List[ClientAction] client_actions: (optional) An array of client actions.
+    """
+
+    def __init__(
+        self,
+        *,
+        event: Optional[str] = None,
+        source: Optional['TurnEventStepSource'] = None,
+        client_actions: Optional[List['ClientAction']] = None,
+    ) -> None:
+        """
+        Initialize a MessageOutputDebugTurnEventTurnEventClientActions object.
+
+        :param str event: (optional) The type of turn event.
+        :param TurnEventStepSource source: (optional)
+        :param List[ClientAction] client_actions: (optional) An array of client
+               actions.
+        """
+        # pylint: disable=super-init-not-called
+        self.event = event
+        self.source = source
+        self.client_actions = client_actions
+
+    @classmethod
+    def from_dict(
+            cls,
+            _dict: Dict) -> 'MessageOutputDebugTurnEventTurnEventClientActions':
+        """Initialize a MessageOutputDebugTurnEventTurnEventClientActions object from a json dictionary."""
+        args = {}
+        if (event := _dict.get('event')) is not None:
+            args['event'] = event
+        if (source := _dict.get('source')) is not None:
+            args['source'] = TurnEventStepSource.from_dict(source)
+        if (client_actions := _dict.get('client_actions')) is not None:
+            args['client_actions'] = [
+                ClientAction.from_dict(v) for v in client_actions
+            ]
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a MessageOutputDebugTurnEventTurnEventClientActions object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'event') and self.event is not None:
+            _dict['event'] = self.event
+        if hasattr(self, 'source') and self.source is not None:
+            if isinstance(self.source, dict):
+                _dict['source'] = self.source
+            else:
+                _dict['source'] = self.source.to_dict()
+        if hasattr(self, 'client_actions') and self.client_actions is not None:
+            client_actions_list = []
+            for v in self.client_actions:
+                if isinstance(v, dict):
+                    client_actions_list.append(v)
+                else:
+                    client_actions_list.append(v.to_dict())
+            _dict['client_actions'] = client_actions_list
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this MessageOutputDebugTurnEventTurnEventClientActions object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(
+            self,
+            other: 'MessageOutputDebugTurnEventTurnEventClientActions') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(
+            self,
+            other: 'MessageOutputDebugTurnEventTurnEventClientActions') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class MessageOutputDebugTurnEventTurnEventConversationalSearchEnd(
+        MessageOutputDebugTurnEvent):
+    """
+    MessageOutputDebugTurnEventTurnEventConversationalSearchEnd.
+
+    :param str event: (optional) The type of turn event.
+    :param TurnEventActionSource source: (optional)
+    :param str condition_type: (optional) The type of condition (if any) that is
+          defined for the action.
+    """
+
+    def __init__(
+        self,
+        *,
+        event: Optional[str] = None,
+        source: Optional['TurnEventActionSource'] = None,
+        condition_type: Optional[str] = None,
+    ) -> None:
+        """
+        Initialize a MessageOutputDebugTurnEventTurnEventConversationalSearchEnd object.
+
+        :param str event: (optional) The type of turn event.
+        :param TurnEventActionSource source: (optional)
+        :param str condition_type: (optional) The type of condition (if any) that
+               is defined for the action.
+        """
+        # pylint: disable=super-init-not-called
+        self.event = event
+        self.source = source
+        self.condition_type = condition_type
+
+    @classmethod
+    def from_dict(
+        cls, _dict: Dict
+    ) -> 'MessageOutputDebugTurnEventTurnEventConversationalSearchEnd':
+        """Initialize a MessageOutputDebugTurnEventTurnEventConversationalSearchEnd object from a json dictionary."""
+        args = {}
+        if (event := _dict.get('event')) is not None:
+            args['event'] = event
+        if (source := _dict.get('source')) is not None:
+            args['source'] = TurnEventActionSource.from_dict(source)
+        if (condition_type := _dict.get('condition_type')) is not None:
+            args['condition_type'] = condition_type
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a MessageOutputDebugTurnEventTurnEventConversationalSearchEnd object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'event') and self.event is not None:
+            _dict['event'] = self.event
+        if hasattr(self, 'source') and self.source is not None:
+            if isinstance(self.source, dict):
+                _dict['source'] = self.source
+            else:
+                _dict['source'] = self.source.to_dict()
+        if hasattr(self, 'condition_type') and self.condition_type is not None:
+            _dict['condition_type'] = self.condition_type
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this MessageOutputDebugTurnEventTurnEventConversationalSearchEnd object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(
+        self,
+        other: 'MessageOutputDebugTurnEventTurnEventConversationalSearchEnd'
+    ) -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(
+        self,
+        other: 'MessageOutputDebugTurnEventTurnEventConversationalSearchEnd'
+    ) -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class ConditionTypeEnum(str, Enum):
+        """
+        The type of condition (if any) that is defined for the action.
+        """
+
+        USER_DEFINED = 'user_defined'
+        WELCOME = 'welcome'
+        ANYTHING_ELSE = 'anything_else'
+
+
+class MessageOutputDebugTurnEventTurnEventGenerativeAICalled(
+        MessageOutputDebugTurnEvent):
+    """
+    MessageOutputDebugTurnEventTurnEventGenerativeAICalled.
+
+    :param str event: (optional) The type of turn event.
+    :param dict source: (optional) For internal use only.
+    :param str generative_ai_start_time: (optional) The time when generative ai
+          started processing the message.
+    :param GenerativeAITask generative_ai: (optional)
+    :param TurnEventGenerativeAICalledCallout callout: (optional)
+    :param TurnEventGenerativeAICalledMetrics metrics: (optional)
+    """
+
+    def __init__(
+        self,
+        *,
+        event: Optional[str] = None,
+        source: Optional[dict] = None,
+        generative_ai_start_time: Optional[str] = None,
+        generative_ai: Optional['GenerativeAITask'] = None,
+        callout: Optional['TurnEventGenerativeAICalledCallout'] = None,
+        metrics: Optional['TurnEventGenerativeAICalledMetrics'] = None,
+    ) -> None:
+        """
+        Initialize a MessageOutputDebugTurnEventTurnEventGenerativeAICalled object.
+
+        :param str event: (optional) The type of turn event.
+        :param dict source: (optional) For internal use only.
+        :param str generative_ai_start_time: (optional) The time when generative ai
+               started processing the message.
+        :param GenerativeAITask generative_ai: (optional)
+        :param TurnEventGenerativeAICalledCallout callout: (optional)
+        :param TurnEventGenerativeAICalledMetrics metrics: (optional)
+        """
+        # pylint: disable=super-init-not-called
+        self.event = event
+        self.source = source
+        self.generative_ai_start_time = generative_ai_start_time
+        self.generative_ai = generative_ai
+        self.callout = callout
+        self.metrics = metrics
+
+    @classmethod
+    def from_dict(
+        cls, _dict: Dict
+    ) -> 'MessageOutputDebugTurnEventTurnEventGenerativeAICalled':
+        """Initialize a MessageOutputDebugTurnEventTurnEventGenerativeAICalled object from a json dictionary."""
+        args = {}
+        if (event := _dict.get('event')) is not None:
+            args['event'] = event
+        if (source := _dict.get('source')) is not None:
+            args['source'] = source
+        if (generative_ai_start_time :=
+                _dict.get('generative_ai_start_time')) is not None:
+            args['generative_ai_start_time'] = generative_ai_start_time
+        if (generative_ai := _dict.get('generative_ai')) is not None:
+            args['generative_ai'] = GenerativeAITask.from_dict(generative_ai)
+        if (callout := _dict.get('callout')) is not None:
+            args['callout'] = TurnEventGenerativeAICalledCallout.from_dict(
+                callout)
+        if (metrics := _dict.get('metrics')) is not None:
+            args['metrics'] = TurnEventGenerativeAICalledMetrics.from_dict(
+                metrics)
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a MessageOutputDebugTurnEventTurnEventGenerativeAICalled object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'event') and self.event is not None:
+            _dict['event'] = self.event
+        if hasattr(self, 'source') and self.source is not None:
+            _dict['source'] = self.source
+        if hasattr(self, 'generative_ai_start_time'
+                  ) and self.generative_ai_start_time is not None:
+            _dict['generative_ai_start_time'] = self.generative_ai_start_time
+        if hasattr(self, 'generative_ai') and self.generative_ai is not None:
+            if isinstance(self.generative_ai, dict):
+                _dict['generative_ai'] = self.generative_ai
+            else:
+                _dict['generative_ai'] = self.generative_ai.to_dict()
+        if hasattr(self, 'callout') and self.callout is not None:
+            if isinstance(self.callout, dict):
+                _dict['callout'] = self.callout
+            else:
+                _dict['callout'] = self.callout.to_dict()
+        if hasattr(self, 'metrics') and self.metrics is not None:
+            if isinstance(self.metrics, dict):
+                _dict['metrics'] = self.metrics
+            else:
+                _dict['metrics'] = self.metrics.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this MessageOutputDebugTurnEventTurnEventGenerativeAICalled object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(
+        self, other: 'MessageOutputDebugTurnEventTurnEventGenerativeAICalled'
+    ) -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(
+        self, other: 'MessageOutputDebugTurnEventTurnEventGenerativeAICalled'
+    ) -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class MessageOutputDebugTurnEventTurnEventHandlerVisited(
         MessageOutputDebugTurnEvent):
     """
@@ -16373,6 +19573,121 @@ class MessageOutputDebugTurnEventTurnEventHandlerVisited(
     ) -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
+
+
+class MessageOutputDebugTurnEventTurnEventManualRoute(
+        MessageOutputDebugTurnEvent):
+    """
+    MessageOutputDebugTurnEventTurnEventManualRoute.
+
+    :param str event: (optional) The type of turn event.
+    :param TurnEventStepSource source: (optional)
+    :param str condition_type: (optional) The type of condition (if any) that is
+          defined for the action.
+    :param str action_start_time: (optional) The time when the action started
+          processing the message.
+    :param str route_name: (optional) The name of the route.
+    """
+
+    def __init__(
+        self,
+        *,
+        event: Optional[str] = None,
+        source: Optional['TurnEventStepSource'] = None,
+        condition_type: Optional[str] = None,
+        action_start_time: Optional[str] = None,
+        route_name: Optional[str] = None,
+    ) -> None:
+        """
+        Initialize a MessageOutputDebugTurnEventTurnEventManualRoute object.
+
+        :param str event: (optional) The type of turn event.
+        :param TurnEventStepSource source: (optional)
+        :param str condition_type: (optional) The type of condition (if any) that
+               is defined for the action.
+        :param str action_start_time: (optional) The time when the action started
+               processing the message.
+        :param str route_name: (optional) The name of the route.
+        """
+        # pylint: disable=super-init-not-called
+        self.event = event
+        self.source = source
+        self.condition_type = condition_type
+        self.action_start_time = action_start_time
+        self.route_name = route_name
+
+    @classmethod
+    def from_dict(
+            cls,
+            _dict: Dict) -> 'MessageOutputDebugTurnEventTurnEventManualRoute':
+        """Initialize a MessageOutputDebugTurnEventTurnEventManualRoute object from a json dictionary."""
+        args = {}
+        if (event := _dict.get('event')) is not None:
+            args['event'] = event
+        if (source := _dict.get('source')) is not None:
+            args['source'] = TurnEventStepSource.from_dict(source)
+        if (condition_type := _dict.get('condition_type')) is not None:
+            args['condition_type'] = condition_type
+        if (action_start_time := _dict.get('action_start_time')) is not None:
+            args['action_start_time'] = action_start_time
+        if (route_name := _dict.get('route_name')) is not None:
+            args['route_name'] = route_name
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a MessageOutputDebugTurnEventTurnEventManualRoute object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'event') and self.event is not None:
+            _dict['event'] = self.event
+        if hasattr(self, 'source') and self.source is not None:
+            if isinstance(self.source, dict):
+                _dict['source'] = self.source
+            else:
+                _dict['source'] = self.source.to_dict()
+        if hasattr(self, 'condition_type') and self.condition_type is not None:
+            _dict['condition_type'] = self.condition_type
+        if hasattr(self,
+                   'action_start_time') and self.action_start_time is not None:
+            _dict['action_start_time'] = self.action_start_time
+        if hasattr(self, 'route_name') and self.route_name is not None:
+            _dict['route_name'] = self.route_name
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this MessageOutputDebugTurnEventTurnEventManualRoute object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(
+            self,
+            other: 'MessageOutputDebugTurnEventTurnEventManualRoute') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(
+            self,
+            other: 'MessageOutputDebugTurnEventTurnEventManualRoute') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class ConditionTypeEnum(str, Enum):
+        """
+        The type of condition (if any) that is defined for the action.
+        """
+
+        USER_DEFINED = 'user_defined'
+        WELCOME = 'welcome'
+        ANYTHING_ELSE = 'anything_else'
 
 
 class MessageOutputDebugTurnEventTurnEventNodeVisited(
@@ -16790,6 +20105,409 @@ class MessageOutputDebugTurnEventTurnEventStepVisited(
         USER_DEFINED = 'user_defined'
         WELCOME = 'welcome'
         ANYTHING_ELSE = 'anything_else'
+
+
+class MessageOutputDebugTurnEventTurnEventSuggestionIntentsDenied(
+        MessageOutputDebugTurnEvent):
+    """
+    MessageOutputDebugTurnEventTurnEventSuggestionIntentsDenied.
+
+    :param str event: (optional) The type of turn event.
+    :param List[RuntimeIntent] intents_denied: (optional) An array of denied
+          intents.
+    """
+
+    def __init__(
+        self,
+        *,
+        event: Optional[str] = None,
+        intents_denied: Optional[List['RuntimeIntent']] = None,
+    ) -> None:
+        """
+        Initialize a MessageOutputDebugTurnEventTurnEventSuggestionIntentsDenied object.
+
+        :param str event: (optional) The type of turn event.
+        :param List[RuntimeIntent] intents_denied: (optional) An array of denied
+               intents.
+        """
+        # pylint: disable=super-init-not-called
+        self.event = event
+        self.intents_denied = intents_denied
+
+    @classmethod
+    def from_dict(
+        cls, _dict: Dict
+    ) -> 'MessageOutputDebugTurnEventTurnEventSuggestionIntentsDenied':
+        """Initialize a MessageOutputDebugTurnEventTurnEventSuggestionIntentsDenied object from a json dictionary."""
+        args = {}
+        if (event := _dict.get('event')) is not None:
+            args['event'] = event
+        if (intents_denied := _dict.get('intents_denied')) is not None:
+            args['intents_denied'] = [
+                RuntimeIntent.from_dict(v) for v in intents_denied
+            ]
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a MessageOutputDebugTurnEventTurnEventSuggestionIntentsDenied object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'event') and self.event is not None:
+            _dict['event'] = self.event
+        if hasattr(self, 'intents_denied') and self.intents_denied is not None:
+            intents_denied_list = []
+            for v in self.intents_denied:
+                if isinstance(v, dict):
+                    intents_denied_list.append(v)
+                else:
+                    intents_denied_list.append(v.to_dict())
+            _dict['intents_denied'] = intents_denied_list
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this MessageOutputDebugTurnEventTurnEventSuggestionIntentsDenied object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(
+        self,
+        other: 'MessageOutputDebugTurnEventTurnEventSuggestionIntentsDenied'
+    ) -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(
+        self,
+        other: 'MessageOutputDebugTurnEventTurnEventSuggestionIntentsDenied'
+    ) -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class MessageOutputDebugTurnEventTurnEventTopicSwitchDenied(
+        MessageOutputDebugTurnEvent):
+    """
+    MessageOutputDebugTurnEventTurnEventTopicSwitchDenied.
+
+    :param str event: (optional) The type of turn event.
+    :param TurnEventActionSource source: (optional)
+    :param str condition_type: (optional) The type of condition (if any) that is
+          defined for the action.
+    :param str reason: (optional) The reason the action was visited.
+    """
+
+    def __init__(
+        self,
+        *,
+        event: Optional[str] = None,
+        source: Optional['TurnEventActionSource'] = None,
+        condition_type: Optional[str] = None,
+        reason: Optional[str] = None,
+    ) -> None:
+        """
+        Initialize a MessageOutputDebugTurnEventTurnEventTopicSwitchDenied object.
+
+        :param str event: (optional) The type of turn event.
+        :param TurnEventActionSource source: (optional)
+        :param str condition_type: (optional) The type of condition (if any) that
+               is defined for the action.
+        :param str reason: (optional) The reason the action was visited.
+        """
+        # pylint: disable=super-init-not-called
+        self.event = event
+        self.source = source
+        self.condition_type = condition_type
+        self.reason = reason
+
+    @classmethod
+    def from_dict(
+            cls, _dict: Dict
+    ) -> 'MessageOutputDebugTurnEventTurnEventTopicSwitchDenied':
+        """Initialize a MessageOutputDebugTurnEventTurnEventTopicSwitchDenied object from a json dictionary."""
+        args = {}
+        if (event := _dict.get('event')) is not None:
+            args['event'] = event
+        if (source := _dict.get('source')) is not None:
+            args['source'] = TurnEventActionSource.from_dict(source)
+        if (condition_type := _dict.get('condition_type')) is not None:
+            args['condition_type'] = condition_type
+        if (reason := _dict.get('reason')) is not None:
+            args['reason'] = reason
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a MessageOutputDebugTurnEventTurnEventTopicSwitchDenied object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'event') and self.event is not None:
+            _dict['event'] = self.event
+        if hasattr(self, 'source') and self.source is not None:
+            if isinstance(self.source, dict):
+                _dict['source'] = self.source
+            else:
+                _dict['source'] = self.source.to_dict()
+        if hasattr(self, 'condition_type') and self.condition_type is not None:
+            _dict['condition_type'] = self.condition_type
+        if hasattr(self, 'reason') and self.reason is not None:
+            _dict['reason'] = self.reason
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this MessageOutputDebugTurnEventTurnEventTopicSwitchDenied object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(
+            self, other: 'MessageOutputDebugTurnEventTurnEventTopicSwitchDenied'
+    ) -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(
+            self, other: 'MessageOutputDebugTurnEventTurnEventTopicSwitchDenied'
+    ) -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class ConditionTypeEnum(str, Enum):
+        """
+        The type of condition (if any) that is defined for the action.
+        """
+
+        USER_DEFINED = 'user_defined'
+        WELCOME = 'welcome'
+        ANYTHING_ELSE = 'anything_else'
+
+    class ReasonEnum(str, Enum):
+        """
+        The reason the action was visited.
+        """
+
+        ACTION_CONDITIONS_FAILED = 'action_conditions_failed'
+
+
+class MessageStreamResponseMessageStreamCompleteItem(MessageStreamResponse):
+    """
+    A completed response item. A complete item is a composition of every streamed partial
+    item with the same streaming_metadata.id, and each complete item contains its own
+    unique streaming_metadata.id.
+
+    :param CompleteItem complete_item: (optional)
+    """
+
+    def __init__(
+        self,
+        *,
+        complete_item: Optional['CompleteItem'] = None,
+    ) -> None:
+        """
+        Initialize a MessageStreamResponseMessageStreamCompleteItem object.
+
+        :param CompleteItem complete_item: (optional)
+        """
+        # pylint: disable=super-init-not-called
+        self.complete_item = complete_item
+
+    @classmethod
+    def from_dict(
+            cls,
+            _dict: Dict) -> 'MessageStreamResponseMessageStreamCompleteItem':
+        """Initialize a MessageStreamResponseMessageStreamCompleteItem object from a json dictionary."""
+        args = {}
+        if (complete_item := _dict.get('complete_item')) is not None:
+            args['complete_item'] = CompleteItem.from_dict(complete_item)
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a MessageStreamResponseMessageStreamCompleteItem object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'complete_item') and self.complete_item is not None:
+            if isinstance(self.complete_item, dict):
+                _dict['complete_item'] = self.complete_item
+            else:
+                _dict['complete_item'] = self.complete_item.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this MessageStreamResponseMessageStreamCompleteItem object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self,
+               other: 'MessageStreamResponseMessageStreamCompleteItem') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self,
+               other: 'MessageStreamResponseMessageStreamCompleteItem') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class MessageStreamResponseMessageStreamPartialItem(MessageStreamResponse):
+    """
+    A chunk of the streamed message response.
+
+    :param PartialItem partial_item: (optional) Message response partial item
+          content.
+    """
+
+    def __init__(
+        self,
+        *,
+        partial_item: Optional['PartialItem'] = None,
+    ) -> None:
+        """
+        Initialize a MessageStreamResponseMessageStreamPartialItem object.
+
+        :param PartialItem partial_item: (optional) Message response partial item
+               content.
+        """
+        # pylint: disable=super-init-not-called
+        self.partial_item = partial_item
+
+    @classmethod
+    def from_dict(
+            cls,
+            _dict: Dict) -> 'MessageStreamResponseMessageStreamPartialItem':
+        """Initialize a MessageStreamResponseMessageStreamPartialItem object from a json dictionary."""
+        args = {}
+        if (partial_item := _dict.get('partial_item')) is not None:
+            args['partial_item'] = PartialItem.from_dict(partial_item)
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a MessageStreamResponseMessageStreamPartialItem object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'partial_item') and self.partial_item is not None:
+            if isinstance(self.partial_item, dict):
+                _dict['partial_item'] = self.partial_item
+            else:
+                _dict['partial_item'] = self.partial_item.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this MessageStreamResponseMessageStreamPartialItem object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self,
+               other: 'MessageStreamResponseMessageStreamPartialItem') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self,
+               other: 'MessageStreamResponseMessageStreamPartialItem') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class MessageStreamResponseStatefulMessageStreamFinalResponse(
+        MessageStreamResponse):
+    """
+    The final and stateful message response.
+
+    :param FinalResponse final_response: (optional) Message final response content.
+    """
+
+    def __init__(
+        self,
+        *,
+        final_response: Optional['FinalResponse'] = None,
+    ) -> None:
+        """
+        Initialize a MessageStreamResponseStatefulMessageStreamFinalResponse object.
+
+        :param FinalResponse final_response: (optional) Message final response
+               content.
+        """
+        # pylint: disable=super-init-not-called
+        self.final_response = final_response
+
+    @classmethod
+    def from_dict(
+        cls, _dict: Dict
+    ) -> 'MessageStreamResponseStatefulMessageStreamFinalResponse':
+        """Initialize a MessageStreamResponseStatefulMessageStreamFinalResponse object from a json dictionary."""
+        args = {}
+        if (final_response := _dict.get('final_response')) is not None:
+            args['final_response'] = FinalResponse.from_dict(final_response)
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a MessageStreamResponseStatefulMessageStreamFinalResponse object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'final_response') and self.final_response is not None:
+            if isinstance(self.final_response, dict):
+                _dict['final_response'] = self.final_response
+            else:
+                _dict['final_response'] = self.final_response.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this MessageStreamResponseStatefulMessageStreamFinalResponse object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(
+        self, other: 'MessageStreamResponseStatefulMessageStreamFinalResponse'
+    ) -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(
+        self, other: 'MessageStreamResponseStatefulMessageStreamFinalResponse'
+    ) -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
 
 
 class ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2AuthorizationCode(
@@ -18098,6 +21816,208 @@ class RuntimeResponseGenericRuntimeResponseTypeConnectToAgent(
         return not self == other
 
 
+class RuntimeResponseGenericRuntimeResponseTypeConversationalSearch(
+        RuntimeResponseGeneric):
+    """
+    RuntimeResponseGenericRuntimeResponseTypeConversationalSearch.
+
+    :param str response_type: The type of response returned by the dialog node. The
+          specified response type must be supported by the client application or channel.
+    :param str text: The text of the conversational search response.
+    :param str citations_title: The title of the citations. The default is “How do
+          we know?”. It can be updated in the conversational search user interface.
+    :param List[ResponseGenericCitation] citations: The citations for the generated
+          response.
+    :param ResponseGenericConfidenceScores confidence_scores: The confidence scores
+          for determining whether to show the generated response or an “I don't know”
+          response.
+    :param str response_length_option: The response length option. It is used to
+          control the length of the generated response. It is configured either in the
+          user interface or through the Update skill API. For more information, see
+          [watsonx Assistant documentation](
+          https://cloud.ibm.com/docs/watson-assistant?topic=watson-assistant-conversational-search#tuning-the-generated-response-length-in-conversational-search).
+    :param List[SearchResults] search_results: An array of objects containing the
+          search results.
+    :param str disclaimer: A disclaimer for the conversational search response.
+    """
+
+    def __init__(
+        self,
+        response_type: str,
+        text: str,
+        citations_title: str,
+        citations: List['ResponseGenericCitation'],
+        confidence_scores: 'ResponseGenericConfidenceScores',
+        response_length_option: str,
+        search_results: List['SearchResults'],
+        disclaimer: str,
+    ) -> None:
+        """
+        Initialize a RuntimeResponseGenericRuntimeResponseTypeConversationalSearch object.
+
+        :param str response_type: The type of response returned by the dialog node.
+               The specified response type must be supported by the client application or
+               channel.
+        :param str text: The text of the conversational search response.
+        :param str citations_title: The title of the citations. The default is “How
+               do we know?”. It can be updated in the conversational search user
+               interface.
+        :param List[ResponseGenericCitation] citations: The citations for the
+               generated response.
+        :param ResponseGenericConfidenceScores confidence_scores: The confidence
+               scores for determining whether to show the generated response or an “I
+               don't know” response.
+        :param str response_length_option: The response length option. It is used
+               to control the length of the generated response. It is configured either in
+               the user interface or through the Update skill API. For more information,
+               see [watsonx Assistant documentation](
+               https://cloud.ibm.com/docs/watson-assistant?topic=watson-assistant-conversational-search#tuning-the-generated-response-length-in-conversational-search).
+        :param List[SearchResults] search_results: An array of objects containing
+               the search results.
+        :param str disclaimer: A disclaimer for the conversational search response.
+        """
+        # pylint: disable=super-init-not-called
+        self.response_type = response_type
+        self.text = text
+        self.citations_title = citations_title
+        self.citations = citations
+        self.confidence_scores = confidence_scores
+        self.response_length_option = response_length_option
+        self.search_results = search_results
+        self.disclaimer = disclaimer
+
+    @classmethod
+    def from_dict(
+        cls, _dict: Dict
+    ) -> 'RuntimeResponseGenericRuntimeResponseTypeConversationalSearch':
+        """Initialize a RuntimeResponseGenericRuntimeResponseTypeConversationalSearch object from a json dictionary."""
+        args = {}
+        if (response_type := _dict.get('response_type')) is not None:
+            args['response_type'] = response_type
+        else:
+            raise ValueError(
+                'Required property \'response_type\' not present in RuntimeResponseGenericRuntimeResponseTypeConversationalSearch JSON'
+            )
+        if (text := _dict.get('text')) is not None:
+            args['text'] = text
+        else:
+            raise ValueError(
+                'Required property \'text\' not present in RuntimeResponseGenericRuntimeResponseTypeConversationalSearch JSON'
+            )
+        if (citations_title := _dict.get('citations_title')) is not None:
+            args['citations_title'] = citations_title
+        else:
+            raise ValueError(
+                'Required property \'citations_title\' not present in RuntimeResponseGenericRuntimeResponseTypeConversationalSearch JSON'
+            )
+        if (citations := _dict.get('citations')) is not None:
+            args['citations'] = [
+                ResponseGenericCitation.from_dict(v) for v in citations
+            ]
+        else:
+            raise ValueError(
+                'Required property \'citations\' not present in RuntimeResponseGenericRuntimeResponseTypeConversationalSearch JSON'
+            )
+        if (confidence_scores := _dict.get('confidence_scores')) is not None:
+            args[
+                'confidence_scores'] = ResponseGenericConfidenceScores.from_dict(
+                    confidence_scores)
+        else:
+            raise ValueError(
+                'Required property \'confidence_scores\' not present in RuntimeResponseGenericRuntimeResponseTypeConversationalSearch JSON'
+            )
+        if (response_length_option :=
+                _dict.get('response_length_option')) is not None:
+            args['response_length_option'] = response_length_option
+        else:
+            raise ValueError(
+                'Required property \'response_length_option\' not present in RuntimeResponseGenericRuntimeResponseTypeConversationalSearch JSON'
+            )
+        if (search_results := _dict.get('search_results')) is not None:
+            args['search_results'] = [
+                SearchResults.from_dict(v) for v in search_results
+            ]
+        else:
+            raise ValueError(
+                'Required property \'search_results\' not present in RuntimeResponseGenericRuntimeResponseTypeConversationalSearch JSON'
+            )
+        if (disclaimer := _dict.get('disclaimer')) is not None:
+            args['disclaimer'] = disclaimer
+        else:
+            raise ValueError(
+                'Required property \'disclaimer\' not present in RuntimeResponseGenericRuntimeResponseTypeConversationalSearch JSON'
+            )
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a RuntimeResponseGenericRuntimeResponseTypeConversationalSearch object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'response_type') and self.response_type is not None:
+            _dict['response_type'] = self.response_type
+        if hasattr(self, 'text') and self.text is not None:
+            _dict['text'] = self.text
+        if hasattr(self,
+                   'citations_title') and self.citations_title is not None:
+            _dict['citations_title'] = self.citations_title
+        if hasattr(self, 'citations') and self.citations is not None:
+            citations_list = []
+            for v in self.citations:
+                if isinstance(v, dict):
+                    citations_list.append(v)
+                else:
+                    citations_list.append(v.to_dict())
+            _dict['citations'] = citations_list
+        if hasattr(self,
+                   'confidence_scores') and self.confidence_scores is not None:
+            if isinstance(self.confidence_scores, dict):
+                _dict['confidence_scores'] = self.confidence_scores
+            else:
+                _dict['confidence_scores'] = self.confidence_scores.to_dict()
+        if hasattr(self, 'response_length_option'
+                  ) and self.response_length_option is not None:
+            _dict['response_length_option'] = self.response_length_option
+        if hasattr(self, 'search_results') and self.search_results is not None:
+            search_results_list = []
+            for v in self.search_results:
+                if isinstance(v, dict):
+                    search_results_list.append(v)
+                else:
+                    search_results_list.append(v.to_dict())
+            _dict['search_results'] = search_results_list
+        if hasattr(self, 'disclaimer') and self.disclaimer is not None:
+            _dict['disclaimer'] = self.disclaimer
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this RuntimeResponseGenericRuntimeResponseTypeConversationalSearch object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(
+        self,
+        other: 'RuntimeResponseGenericRuntimeResponseTypeConversationalSearch'
+    ) -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(
+        self,
+        other: 'RuntimeResponseGenericRuntimeResponseTypeConversationalSearch'
+    ) -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class RuntimeResponseGenericRuntimeResponseTypeDate(RuntimeResponseGeneric):
     """
     RuntimeResponseGenericRuntimeResponseTypeDate.
@@ -19343,5 +23263,221 @@ class RuntimeResponseGenericRuntimeResponseTypeVideo(RuntimeResponseGeneric):
 
     def __ne__(self,
                other: 'RuntimeResponseGenericRuntimeResponseTypeVideo') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class StatelessMessageStreamResponseMessageStreamCompleteItem(
+        StatelessMessageStreamResponse):
+    """
+    A completed response item. A complete item is a composition of every streamed partial
+    item with the same streaming_metadata.id, and each complete item contains its own
+    unique streaming_metadata.id.
+
+    :param CompleteItem complete_item: (optional)
+    """
+
+    def __init__(
+        self,
+        *,
+        complete_item: Optional['CompleteItem'] = None,
+    ) -> None:
+        """
+        Initialize a StatelessMessageStreamResponseMessageStreamCompleteItem object.
+
+        :param CompleteItem complete_item: (optional)
+        """
+        # pylint: disable=super-init-not-called
+        self.complete_item = complete_item
+
+    @classmethod
+    def from_dict(
+        cls, _dict: Dict
+    ) -> 'StatelessMessageStreamResponseMessageStreamCompleteItem':
+        """Initialize a StatelessMessageStreamResponseMessageStreamCompleteItem object from a json dictionary."""
+        args = {}
+        if (complete_item := _dict.get('complete_item')) is not None:
+            args['complete_item'] = CompleteItem.from_dict(complete_item)
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a StatelessMessageStreamResponseMessageStreamCompleteItem object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'complete_item') and self.complete_item is not None:
+            if isinstance(self.complete_item, dict):
+                _dict['complete_item'] = self.complete_item
+            else:
+                _dict['complete_item'] = self.complete_item.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this StatelessMessageStreamResponseMessageStreamCompleteItem object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(
+        self, other: 'StatelessMessageStreamResponseMessageStreamCompleteItem'
+    ) -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(
+        self, other: 'StatelessMessageStreamResponseMessageStreamCompleteItem'
+    ) -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class StatelessMessageStreamResponseMessageStreamPartialItem(
+        StatelessMessageStreamResponse):
+    """
+    A chunk of the streamed message response.
+
+    :param PartialItem partial_item: (optional) Message response partial item
+          content.
+    """
+
+    def __init__(
+        self,
+        *,
+        partial_item: Optional['PartialItem'] = None,
+    ) -> None:
+        """
+        Initialize a StatelessMessageStreamResponseMessageStreamPartialItem object.
+
+        :param PartialItem partial_item: (optional) Message response partial item
+               content.
+        """
+        # pylint: disable=super-init-not-called
+        self.partial_item = partial_item
+
+    @classmethod
+    def from_dict(
+        cls, _dict: Dict
+    ) -> 'StatelessMessageStreamResponseMessageStreamPartialItem':
+        """Initialize a StatelessMessageStreamResponseMessageStreamPartialItem object from a json dictionary."""
+        args = {}
+        if (partial_item := _dict.get('partial_item')) is not None:
+            args['partial_item'] = PartialItem.from_dict(partial_item)
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a StatelessMessageStreamResponseMessageStreamPartialItem object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'partial_item') and self.partial_item is not None:
+            if isinstance(self.partial_item, dict):
+                _dict['partial_item'] = self.partial_item
+            else:
+                _dict['partial_item'] = self.partial_item.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this StatelessMessageStreamResponseMessageStreamPartialItem object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(
+        self, other: 'StatelessMessageStreamResponseMessageStreamPartialItem'
+    ) -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(
+        self, other: 'StatelessMessageStreamResponseMessageStreamPartialItem'
+    ) -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class StatelessMessageStreamResponseStatelessMessageStreamFinalResponse(
+        StatelessMessageStreamResponse):
+    """
+    The final and stateless message response.
+
+    :param StatelessFinalResponse final_response: (optional) Message final response
+          content.
+    """
+
+    def __init__(
+        self,
+        *,
+        final_response: Optional['StatelessFinalResponse'] = None,
+    ) -> None:
+        """
+        Initialize a StatelessMessageStreamResponseStatelessMessageStreamFinalResponse object.
+
+        :param StatelessFinalResponse final_response: (optional) Message final
+               response content.
+        """
+        # pylint: disable=super-init-not-called
+        self.final_response = final_response
+
+    @classmethod
+    def from_dict(
+        cls, _dict: Dict
+    ) -> 'StatelessMessageStreamResponseStatelessMessageStreamFinalResponse':
+        """Initialize a StatelessMessageStreamResponseStatelessMessageStreamFinalResponse object from a json dictionary."""
+        args = {}
+        if (final_response := _dict.get('final_response')) is not None:
+            args['final_response'] = StatelessFinalResponse.from_dict(
+                final_response)
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a StatelessMessageStreamResponseStatelessMessageStreamFinalResponse object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'final_response') and self.final_response is not None:
+            if isinstance(self.final_response, dict):
+                _dict['final_response'] = self.final_response
+            else:
+                _dict['final_response'] = self.final_response.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this StatelessMessageStreamResponseStatelessMessageStreamFinalResponse object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(
+        self,
+        other: 'StatelessMessageStreamResponseStatelessMessageStreamFinalResponse'
+    ) -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(
+        self,
+        other: 'StatelessMessageStreamResponseStatelessMessageStreamFinalResponse'
+    ) -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other

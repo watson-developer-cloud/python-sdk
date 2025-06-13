@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2019, 2024.
+# (C) Copyright IBM Corp. 2019, 2025.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -1170,7 +1170,7 @@ class TestMessage:
         """
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/sessions/testString/message')
-        mock_response = '{"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id", "masked_output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "masked_input": {"message_type": "text", "text": "text", "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "suggestion_id": "suggestion_id", "attachments": [{"url": "url", "media_type": "media_type"}], "analytics": {"browser": "browser", "device": "device", "pageUrl": "page_url"}, "options": {"restart": false, "alternate_intents": false, "async_callout": false, "spelling": {"suggestions": false, "auto_correct": true}, "debug": false, "return_context": false, "export": false}}}'
+        mock_response = '{"output": {"generic": [{"response_type": "conversation_search", "text": "text", "citations_title": "citations_title", "citations": [{"title": "title", "text": "text", "body": "body", "search_result_index": 19, "ranges": [{"start": 5, "end": 3}]}], "confidence_scores": {"threshold": 9, "pre_gen": 7, "post_gen": 8, "extractiveness": 14}, "response_length_option": "response_length_option", "search_results": [{"result_metadata": {"document_retrieval_source": "document_retrieval_source", "score": 5}, "id": "id", "title": "title", "body": "body"}], "disclaimer": "disclaimer"}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}, "llm_metadata": [{"task": "task", "model_id": "model_id"}]}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id", "masked_output": {"generic": [{"response_type": "conversation_search", "text": "text", "citations_title": "citations_title", "citations": [{"title": "title", "text": "text", "body": "body", "search_result_index": 19, "ranges": [{"start": 5, "end": 3}]}], "confidence_scores": {"threshold": 9, "pre_gen": 7, "post_gen": 8, "extractiveness": 14}, "response_length_option": "response_length_option", "search_results": [{"result_metadata": {"document_retrieval_source": "document_retrieval_source", "score": 5}, "id": "id", "title": "title", "body": "body"}], "disclaimer": "disclaimer"}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}, "llm_metadata": [{"task": "task", "model_id": "model_id"}]}, "masked_input": {"message_type": "text", "text": "text", "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "suggestion_id": "suggestion_id", "attachments": [{"url": "url", "media_type": "media_type"}], "analytics": {"browser": "browser", "device": "device", "pageUrl": "page_url"}, "options": {"restart": false, "alternate_intents": false, "async_callout": false, "spelling": {"suggestions": false, "auto_correct": true}, "debug": false, "return_context": false, "export": false}}}'
         responses.add(
             responses.POST,
             url,
@@ -1364,7 +1364,7 @@ class TestMessage:
         """
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/sessions/testString/message')
-        mock_response = '{"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id", "masked_output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "masked_input": {"message_type": "text", "text": "text", "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "suggestion_id": "suggestion_id", "attachments": [{"url": "url", "media_type": "media_type"}], "analytics": {"browser": "browser", "device": "device", "pageUrl": "page_url"}, "options": {"restart": false, "alternate_intents": false, "async_callout": false, "spelling": {"suggestions": false, "auto_correct": true}, "debug": false, "return_context": false, "export": false}}}'
+        mock_response = '{"output": {"generic": [{"response_type": "conversation_search", "text": "text", "citations_title": "citations_title", "citations": [{"title": "title", "text": "text", "body": "body", "search_result_index": 19, "ranges": [{"start": 5, "end": 3}]}], "confidence_scores": {"threshold": 9, "pre_gen": 7, "post_gen": 8, "extractiveness": 14}, "response_length_option": "response_length_option", "search_results": [{"result_metadata": {"document_retrieval_source": "document_retrieval_source", "score": 5}, "id": "id", "title": "title", "body": "body"}], "disclaimer": "disclaimer"}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}, "llm_metadata": [{"task": "task", "model_id": "model_id"}]}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id", "masked_output": {"generic": [{"response_type": "conversation_search", "text": "text", "citations_title": "citations_title", "citations": [{"title": "title", "text": "text", "body": "body", "search_result_index": 19, "ranges": [{"start": 5, "end": 3}]}], "confidence_scores": {"threshold": 9, "pre_gen": 7, "post_gen": 8, "extractiveness": 14}, "response_length_option": "response_length_option", "search_results": [{"result_metadata": {"document_retrieval_source": "document_retrieval_source", "score": 5}, "id": "id", "title": "title", "body": "body"}], "disclaimer": "disclaimer"}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}, "llm_metadata": [{"task": "task", "model_id": "model_id"}]}, "masked_input": {"message_type": "text", "text": "text", "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "suggestion_id": "suggestion_id", "attachments": [{"url": "url", "media_type": "media_type"}], "analytics": {"browser": "browser", "device": "device", "pageUrl": "page_url"}, "options": {"restart": false, "alternate_intents": false, "async_callout": false, "spelling": {"suggestions": false, "auto_correct": true}, "debug": false, "return_context": false, "export": false}}}'
         responses.add(
             responses.POST,
             url,
@@ -1406,7 +1406,7 @@ class TestMessage:
         """
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/sessions/testString/message')
-        mock_response = '{"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id", "masked_output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "masked_input": {"message_type": "text", "text": "text", "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "suggestion_id": "suggestion_id", "attachments": [{"url": "url", "media_type": "media_type"}], "analytics": {"browser": "browser", "device": "device", "pageUrl": "page_url"}, "options": {"restart": false, "alternate_intents": false, "async_callout": false, "spelling": {"suggestions": false, "auto_correct": true}, "debug": false, "return_context": false, "export": false}}}'
+        mock_response = '{"output": {"generic": [{"response_type": "conversation_search", "text": "text", "citations_title": "citations_title", "citations": [{"title": "title", "text": "text", "body": "body", "search_result_index": 19, "ranges": [{"start": 5, "end": 3}]}], "confidence_scores": {"threshold": 9, "pre_gen": 7, "post_gen": 8, "extractiveness": 14}, "response_length_option": "response_length_option", "search_results": [{"result_metadata": {"document_retrieval_source": "document_retrieval_source", "score": 5}, "id": "id", "title": "title", "body": "body"}], "disclaimer": "disclaimer"}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}, "llm_metadata": [{"task": "task", "model_id": "model_id"}]}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id", "masked_output": {"generic": [{"response_type": "conversation_search", "text": "text", "citations_title": "citations_title", "citations": [{"title": "title", "text": "text", "body": "body", "search_result_index": 19, "ranges": [{"start": 5, "end": 3}]}], "confidence_scores": {"threshold": 9, "pre_gen": 7, "post_gen": 8, "extractiveness": 14}, "response_length_option": "response_length_option", "search_results": [{"result_metadata": {"document_retrieval_source": "document_retrieval_source", "score": 5}, "id": "id", "title": "title", "body": "body"}], "disclaimer": "disclaimer"}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}, "llm_metadata": [{"task": "task", "model_id": "model_id"}]}, "masked_input": {"message_type": "text", "text": "text", "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "suggestion_id": "suggestion_id", "attachments": [{"url": "url", "media_type": "media_type"}], "analytics": {"browser": "browser", "device": "device", "pageUrl": "page_url"}, "options": {"restart": false, "alternate_intents": false, "async_callout": false, "spelling": {"suggestions": false, "auto_correct": true}, "debug": false, "return_context": false, "export": false}}}'
         responses.add(
             responses.POST,
             url,
@@ -1453,7 +1453,7 @@ class TestMessageStateless:
         """
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/message')
-        mock_response = '{"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}, "private_action_variables": {"anyKey": "anyValue"}, "private_skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "masked_output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "masked_input": {"message_type": "text", "text": "text", "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "suggestion_id": "suggestion_id", "attachments": [{"url": "url", "media_type": "media_type"}], "analytics": {"browser": "browser", "device": "device", "pageUrl": "page_url"}, "options": {"restart": false, "alternate_intents": false, "async_callout": false, "spelling": {"suggestions": false, "auto_correct": true}, "debug": false, "return_context": false, "export": false}}, "user_id": "user_id"}'
+        mock_response = '{"output": {"generic": [{"response_type": "conversation_search", "text": "text", "citations_title": "citations_title", "citations": [{"title": "title", "text": "text", "body": "body", "search_result_index": 19, "ranges": [{"start": 5, "end": 3}]}], "confidence_scores": {"threshold": 9, "pre_gen": 7, "post_gen": 8, "extractiveness": 14}, "response_length_option": "response_length_option", "search_results": [{"result_metadata": {"document_retrieval_source": "document_retrieval_source", "score": 5}, "id": "id", "title": "title", "body": "body"}], "disclaimer": "disclaimer"}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}, "llm_metadata": [{"task": "task", "model_id": "model_id"}]}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}, "private_action_variables": {"anyKey": "anyValue"}, "private_skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "masked_output": {"generic": [{"response_type": "conversation_search", "text": "text", "citations_title": "citations_title", "citations": [{"title": "title", "text": "text", "body": "body", "search_result_index": 19, "ranges": [{"start": 5, "end": 3}]}], "confidence_scores": {"threshold": 9, "pre_gen": 7, "post_gen": 8, "extractiveness": 14}, "response_length_option": "response_length_option", "search_results": [{"result_metadata": {"document_retrieval_source": "document_retrieval_source", "score": 5}, "id": "id", "title": "title", "body": "body"}], "disclaimer": "disclaimer"}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}, "llm_metadata": [{"task": "task", "model_id": "model_id"}]}, "masked_input": {"message_type": "text", "text": "text", "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "suggestion_id": "suggestion_id", "attachments": [{"url": "url", "media_type": "media_type"}], "analytics": {"browser": "browser", "device": "device", "pageUrl": "page_url"}, "options": {"restart": false, "alternate_intents": false, "async_callout": false, "spelling": {"suggestions": false, "auto_correct": true}, "debug": false, "return_context": false, "export": false}}, "user_id": "user_id"}'
         responses.add(
             responses.POST,
             url,
@@ -1646,7 +1646,7 @@ class TestMessageStateless:
         """
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/message')
-        mock_response = '{"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}, "private_action_variables": {"anyKey": "anyValue"}, "private_skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "masked_output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "masked_input": {"message_type": "text", "text": "text", "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "suggestion_id": "suggestion_id", "attachments": [{"url": "url", "media_type": "media_type"}], "analytics": {"browser": "browser", "device": "device", "pageUrl": "page_url"}, "options": {"restart": false, "alternate_intents": false, "async_callout": false, "spelling": {"suggestions": false, "auto_correct": true}, "debug": false, "return_context": false, "export": false}}, "user_id": "user_id"}'
+        mock_response = '{"output": {"generic": [{"response_type": "conversation_search", "text": "text", "citations_title": "citations_title", "citations": [{"title": "title", "text": "text", "body": "body", "search_result_index": 19, "ranges": [{"start": 5, "end": 3}]}], "confidence_scores": {"threshold": 9, "pre_gen": 7, "post_gen": 8, "extractiveness": 14}, "response_length_option": "response_length_option", "search_results": [{"result_metadata": {"document_retrieval_source": "document_retrieval_source", "score": 5}, "id": "id", "title": "title", "body": "body"}], "disclaimer": "disclaimer"}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}, "llm_metadata": [{"task": "task", "model_id": "model_id"}]}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}, "private_action_variables": {"anyKey": "anyValue"}, "private_skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "masked_output": {"generic": [{"response_type": "conversation_search", "text": "text", "citations_title": "citations_title", "citations": [{"title": "title", "text": "text", "body": "body", "search_result_index": 19, "ranges": [{"start": 5, "end": 3}]}], "confidence_scores": {"threshold": 9, "pre_gen": 7, "post_gen": 8, "extractiveness": 14}, "response_length_option": "response_length_option", "search_results": [{"result_metadata": {"document_retrieval_source": "document_retrieval_source", "score": 5}, "id": "id", "title": "title", "body": "body"}], "disclaimer": "disclaimer"}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}, "llm_metadata": [{"task": "task", "model_id": "model_id"}]}, "masked_input": {"message_type": "text", "text": "text", "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "suggestion_id": "suggestion_id", "attachments": [{"url": "url", "media_type": "media_type"}], "analytics": {"browser": "browser", "device": "device", "pageUrl": "page_url"}, "options": {"restart": false, "alternate_intents": false, "async_callout": false, "spelling": {"suggestions": false, "auto_correct": true}, "debug": false, "return_context": false, "export": false}}, "user_id": "user_id"}'
         responses.add(
             responses.POST,
             url,
@@ -1686,7 +1686,7 @@ class TestMessageStateless:
         """
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/message')
-        mock_response = '{"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}, "private_action_variables": {"anyKey": "anyValue"}, "private_skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "masked_output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "masked_input": {"message_type": "text", "text": "text", "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "suggestion_id": "suggestion_id", "attachments": [{"url": "url", "media_type": "media_type"}], "analytics": {"browser": "browser", "device": "device", "pageUrl": "page_url"}, "options": {"restart": false, "alternate_intents": false, "async_callout": false, "spelling": {"suggestions": false, "auto_correct": true}, "debug": false, "return_context": false, "export": false}}, "user_id": "user_id"}'
+        mock_response = '{"output": {"generic": [{"response_type": "conversation_search", "text": "text", "citations_title": "citations_title", "citations": [{"title": "title", "text": "text", "body": "body", "search_result_index": 19, "ranges": [{"start": 5, "end": 3}]}], "confidence_scores": {"threshold": 9, "pre_gen": 7, "post_gen": 8, "extractiveness": 14}, "response_length_option": "response_length_option", "search_results": [{"result_metadata": {"document_retrieval_source": "document_retrieval_source", "score": 5}, "id": "id", "title": "title", "body": "body"}], "disclaimer": "disclaimer"}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}, "llm_metadata": [{"task": "task", "model_id": "model_id"}]}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}, "private_action_variables": {"anyKey": "anyValue"}, "private_skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "masked_output": {"generic": [{"response_type": "conversation_search", "text": "text", "citations_title": "citations_title", "citations": [{"title": "title", "text": "text", "body": "body", "search_result_index": 19, "ranges": [{"start": 5, "end": 3}]}], "confidence_scores": {"threshold": 9, "pre_gen": 7, "post_gen": 8, "extractiveness": 14}, "response_length_option": "response_length_option", "search_results": [{"result_metadata": {"document_retrieval_source": "document_retrieval_source", "score": 5}, "id": "id", "title": "title", "body": "body"}], "disclaimer": "disclaimer"}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}, "llm_metadata": [{"task": "task", "model_id": "model_id"}]}, "masked_input": {"message_type": "text", "text": "text", "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "suggestion_id": "suggestion_id", "attachments": [{"url": "url", "media_type": "media_type"}], "analytics": {"browser": "browser", "device": "device", "pageUrl": "page_url"}, "options": {"restart": false, "alternate_intents": false, "async_callout": false, "spelling": {"suggestions": false, "auto_correct": true}, "debug": false, "return_context": false, "export": false}}, "user_id": "user_id"}'
         responses.add(
             responses.POST,
             url,
@@ -2420,7 +2420,7 @@ class TestListLogs:
         """
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/logs')
-        mock_response = '{"logs": [{"log_id": "log_id", "request": {"input": {"message_type": "text", "text": "text", "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "suggestion_id": "suggestion_id", "attachments": [{"url": "url", "media_type": "media_type"}], "analytics": {"browser": "browser", "device": "device", "pageUrl": "page_url"}, "options": {"restart": false, "alternate_intents": false, "async_callout": false, "spelling": {"suggestions": false, "auto_correct": true}, "debug": false, "return_context": false, "export": false}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}, "response": {"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}, "assistant_id": "assistant_id", "session_id": "session_id", "skill_id": "skill_id", "snapshot": "snapshot", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "language": "language", "customer_id": "customer_id"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
+        mock_response = '{"logs": [{"log_id": "log_id", "request": {"input": {"message_type": "text", "text": "text", "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "suggestion_id": "suggestion_id", "attachments": [{"url": "url", "media_type": "media_type"}], "analytics": {"browser": "browser", "device": "device", "pageUrl": "page_url"}, "options": {"restart": false, "alternate_intents": false, "async_callout": false, "spelling": {"suggestions": false, "auto_correct": true}, "debug": false, "return_context": false, "export": false}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}, "response": {"output": {"generic": [{"response_type": "conversation_search", "text": "text", "citations_title": "citations_title", "citations": [{"title": "title", "text": "text", "body": "body", "search_result_index": 19, "ranges": [{"start": 5, "end": 3}]}], "confidence_scores": {"threshold": 9, "pre_gen": 7, "post_gen": 8, "extractiveness": 14}, "response_length_option": "response_length_option", "search_results": [{"result_metadata": {"document_retrieval_source": "document_retrieval_source", "score": 5}, "id": "id", "title": "title", "body": "body"}], "disclaimer": "disclaimer"}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}, "llm_metadata": [{"task": "task", "model_id": "model_id"}]}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}, "assistant_id": "assistant_id", "session_id": "session_id", "skill_id": "skill_id", "snapshot": "snapshot", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "language": "language", "customer_id": "customer_id"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
         responses.add(
             responses.GET,
             url,
@@ -2473,7 +2473,7 @@ class TestListLogs:
         """
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/logs')
-        mock_response = '{"logs": [{"log_id": "log_id", "request": {"input": {"message_type": "text", "text": "text", "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "suggestion_id": "suggestion_id", "attachments": [{"url": "url", "media_type": "media_type"}], "analytics": {"browser": "browser", "device": "device", "pageUrl": "page_url"}, "options": {"restart": false, "alternate_intents": false, "async_callout": false, "spelling": {"suggestions": false, "auto_correct": true}, "debug": false, "return_context": false, "export": false}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}, "response": {"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}, "assistant_id": "assistant_id", "session_id": "session_id", "skill_id": "skill_id", "snapshot": "snapshot", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "language": "language", "customer_id": "customer_id"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
+        mock_response = '{"logs": [{"log_id": "log_id", "request": {"input": {"message_type": "text", "text": "text", "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "suggestion_id": "suggestion_id", "attachments": [{"url": "url", "media_type": "media_type"}], "analytics": {"browser": "browser", "device": "device", "pageUrl": "page_url"}, "options": {"restart": false, "alternate_intents": false, "async_callout": false, "spelling": {"suggestions": false, "auto_correct": true}, "debug": false, "return_context": false, "export": false}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}, "response": {"output": {"generic": [{"response_type": "conversation_search", "text": "text", "citations_title": "citations_title", "citations": [{"title": "title", "text": "text", "body": "body", "search_result_index": 19, "ranges": [{"start": 5, "end": 3}]}], "confidence_scores": {"threshold": 9, "pre_gen": 7, "post_gen": 8, "extractiveness": 14}, "response_length_option": "response_length_option", "search_results": [{"result_metadata": {"document_retrieval_source": "document_retrieval_source", "score": 5}, "id": "id", "title": "title", "body": "body"}], "disclaimer": "disclaimer"}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}, "llm_metadata": [{"task": "task", "model_id": "model_id"}]}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}, "assistant_id": "assistant_id", "session_id": "session_id", "skill_id": "skill_id", "snapshot": "snapshot", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "language": "language", "customer_id": "customer_id"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
         responses.add(
             responses.GET,
             url,
@@ -2511,7 +2511,7 @@ class TestListLogs:
         """
         # Set up mock
         url = preprocess_url('/v2/assistants/testString/logs')
-        mock_response = '{"logs": [{"log_id": "log_id", "request": {"input": {"message_type": "text", "text": "text", "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "suggestion_id": "suggestion_id", "attachments": [{"url": "url", "media_type": "media_type"}], "analytics": {"browser": "browser", "device": "device", "pageUrl": "page_url"}, "options": {"restart": false, "alternate_intents": false, "async_callout": false, "spelling": {"suggestions": false, "auto_correct": true}, "debug": false, "return_context": false, "export": false}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}, "response": {"output": {"generic": [{"response_type": "text", "text": "text", "channels": [{"channel": "channel"}]}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}, "assistant_id": "assistant_id", "session_id": "session_id", "skill_id": "skill_id", "snapshot": "snapshot", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "language": "language", "customer_id": "customer_id"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
+        mock_response = '{"logs": [{"log_id": "log_id", "request": {"input": {"message_type": "text", "text": "text", "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "suggestion_id": "suggestion_id", "attachments": [{"url": "url", "media_type": "media_type"}], "analytics": {"browser": "browser", "device": "device", "pageUrl": "page_url"}, "options": {"restart": false, "alternate_intents": false, "async_callout": false, "spelling": {"suggestions": false, "auto_correct": true}, "debug": false, "return_context": false, "export": false}}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}, "response": {"output": {"generic": [{"response_type": "conversation_search", "text": "text", "citations_title": "citations_title", "citations": [{"title": "title", "text": "text", "body": "body", "search_result_index": 19, "ranges": [{"start": 5, "end": 3}]}], "confidence_scores": {"threshold": 9, "pre_gen": 7, "post_gen": 8, "extractiveness": 14}, "response_length_option": "response_length_option", "search_results": [{"result_metadata": {"document_retrieval_source": "document_retrieval_source", "score": 5}, "id": "id", "title": "title", "body": "body"}], "disclaimer": "disclaimer"}], "intents": [{"intent": "intent", "confidence": 10, "skill": "skill"}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}, "skill": "skill"}], "actions": [{"name": "name", "type": "client", "parameters": {"anyKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "debug": {"nodes_visited": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "message": "message", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "branch_exited": false, "branch_exited_reason": "completed", "turn_events": [{"event": "action_visited", "source": {"type": "action", "action": "action", "action_title": "action_title", "condition": "condition"}, "action_start_time": "action_start_time", "condition_type": "user_defined", "reason": "intent", "result_variable": "result_variable"}]}, "user_defined": {"anyKey": "anyValue"}, "spelling": {"text": "text", "original_text": "original_text", "suggested_text": "suggested_text"}, "llm_metadata": [{"task": "task", "model_id": "model_id"}]}, "context": {"global": {"system": {"timezone": "timezone", "user_id": "user_id", "turn_count": 10, "locale": "en-us", "reference_time": "reference_time", "session_start_time": "session_start_time", "state": "state", "skip_user_input": false}, "session_id": "session_id"}, "skills": {"main skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}}, "actions skill": {"user_defined": {"anyKey": "anyValue"}, "system": {"state": "state"}, "action_variables": {"anyKey": "anyValue"}, "skill_variables": {"anyKey": "anyValue"}}}, "integrations": {"anyKey": "anyValue"}}, "user_id": "user_id"}, "assistant_id": "assistant_id", "session_id": "session_id", "skill_id": "skill_id", "snapshot": "snapshot", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "language": "language", "customer_id": "customer_id"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
         responses.add(
             responses.GET,
             url,
@@ -5816,6 +5816,40 @@ class TestModel_ChannelTransferTargetChat:
         assert channel_transfer_target_chat_model_json2 == channel_transfer_target_chat_model_json
 
 
+class TestModel_ClientAction:
+    """
+    Test Class for ClientAction
+    """
+
+    def test_client_action_serialization(self):
+        """
+        Test serialization/deserialization for ClientAction
+        """
+
+        # Construct a json representation of a ClientAction model
+        client_action_model_json = {}
+        client_action_model_json['name'] = 'testString'
+        client_action_model_json['result_variable'] = 'testString'
+        client_action_model_json['type'] = 'testString'
+        client_action_model_json['skill'] = 'main skill'
+        client_action_model_json['parameters'] = {'anyKey': 'anyValue'}
+
+        # Construct a model instance of ClientAction by calling from_dict on the json representation
+        client_action_model = ClientAction.from_dict(client_action_model_json)
+        assert client_action_model != False
+
+        # Construct a model instance of ClientAction by calling from_dict on the json representation
+        client_action_model_dict = ClientAction.from_dict(client_action_model_json).__dict__
+        client_action_model2 = ClientAction(**client_action_model_dict)
+
+        # Verify the model instances are equivalent
+        assert client_action_model == client_action_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        client_action_model_json2 = client_action_model.to_dict()
+        assert client_action_model_json2 == client_action_model_json
+
+
 class TestModel_CreateAssistantReleaseImportResponse:
     """
     Test Class for CreateAssistantReleaseImportResponse
@@ -6663,6 +6697,504 @@ class TestModel_EnvironmentSkill:
         assert environment_skill_model_json2 == environment_skill_model_json
 
 
+class TestModel_FinalResponse:
+    """
+    Test Class for FinalResponse
+    """
+
+    def test_final_response_serialization(self):
+        """
+        Test serialization/deserialization for FinalResponse
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        response_generic_citation_ranges_item_model = {}  # ResponseGenericCitationRangesItem
+        response_generic_citation_ranges_item_model['start'] = 38
+        response_generic_citation_ranges_item_model['end'] = 38
+
+        response_generic_citation_model = {}  # ResponseGenericCitation
+        response_generic_citation_model['title'] = 'testString'
+        response_generic_citation_model['text'] = 'testString'
+        response_generic_citation_model['body'] = 'testString'
+        response_generic_citation_model['search_result_index'] = 38
+        response_generic_citation_model['ranges'] = [response_generic_citation_ranges_item_model]
+
+        response_generic_confidence_scores_model = {}  # ResponseGenericConfidenceScores
+        response_generic_confidence_scores_model['threshold'] = 72.5
+        response_generic_confidence_scores_model['pre_gen'] = 72.5
+        response_generic_confidence_scores_model['post_gen'] = 72.5
+        response_generic_confidence_scores_model['extractiveness'] = 72.5
+
+        search_results_result_metadata_model = {}  # SearchResultsResultMetadata
+        search_results_result_metadata_model['document_retrieval_source'] = 'testString'
+        search_results_result_metadata_model['score'] = 38
+
+        search_results_model = {}  # SearchResults
+        search_results_model['result_metadata'] = search_results_result_metadata_model
+        search_results_model['id'] = 'testString'
+        search_results_model['title'] = 'testString'
+        search_results_model['body'] = 'testString'
+
+        runtime_response_generic_model = {}  # RuntimeResponseGenericRuntimeResponseTypeConversationalSearch
+        runtime_response_generic_model['response_type'] = 'conversation_search'
+        runtime_response_generic_model['text'] = 'testString'
+        runtime_response_generic_model['citations_title'] = 'testString'
+        runtime_response_generic_model['citations'] = [response_generic_citation_model]
+        runtime_response_generic_model['confidence_scores'] = response_generic_confidence_scores_model
+        runtime_response_generic_model['response_length_option'] = 'testString'
+        runtime_response_generic_model['search_results'] = [search_results_model]
+        runtime_response_generic_model['disclaimer'] = 'testString'
+
+        runtime_intent_model = {}  # RuntimeIntent
+        runtime_intent_model['intent'] = 'testString'
+        runtime_intent_model['confidence'] = 72.5
+        runtime_intent_model['skill'] = 'testString'
+
+        capture_group_model = {}  # CaptureGroup
+        capture_group_model['group'] = 'testString'
+        capture_group_model['location'] = [38]
+
+        runtime_entity_interpretation_model = {}  # RuntimeEntityInterpretation
+        runtime_entity_interpretation_model['calendar_type'] = 'testString'
+        runtime_entity_interpretation_model['datetime_link'] = 'testString'
+        runtime_entity_interpretation_model['festival'] = 'testString'
+        runtime_entity_interpretation_model['granularity'] = 'day'
+        runtime_entity_interpretation_model['range_link'] = 'testString'
+        runtime_entity_interpretation_model['range_modifier'] = 'testString'
+        runtime_entity_interpretation_model['relative_day'] = 72.5
+        runtime_entity_interpretation_model['relative_month'] = 72.5
+        runtime_entity_interpretation_model['relative_week'] = 72.5
+        runtime_entity_interpretation_model['relative_weekend'] = 72.5
+        runtime_entity_interpretation_model['relative_year'] = 72.5
+        runtime_entity_interpretation_model['specific_day'] = 72.5
+        runtime_entity_interpretation_model['specific_day_of_week'] = 'testString'
+        runtime_entity_interpretation_model['specific_month'] = 72.5
+        runtime_entity_interpretation_model['specific_quarter'] = 72.5
+        runtime_entity_interpretation_model['specific_year'] = 72.5
+        runtime_entity_interpretation_model['numeric_value'] = 72.5
+        runtime_entity_interpretation_model['subtype'] = 'testString'
+        runtime_entity_interpretation_model['part_of_day'] = 'testString'
+        runtime_entity_interpretation_model['relative_hour'] = 72.5
+        runtime_entity_interpretation_model['relative_minute'] = 72.5
+        runtime_entity_interpretation_model['relative_second'] = 72.5
+        runtime_entity_interpretation_model['specific_hour'] = 72.5
+        runtime_entity_interpretation_model['specific_minute'] = 72.5
+        runtime_entity_interpretation_model['specific_second'] = 72.5
+        runtime_entity_interpretation_model['timezone'] = 'testString'
+
+        runtime_entity_alternative_model = {}  # RuntimeEntityAlternative
+        runtime_entity_alternative_model['value'] = 'testString'
+        runtime_entity_alternative_model['confidence'] = 72.5
+
+        runtime_entity_role_model = {}  # RuntimeEntityRole
+        runtime_entity_role_model['type'] = 'date_from'
+
+        runtime_entity_model = {}  # RuntimeEntity
+        runtime_entity_model['entity'] = 'testString'
+        runtime_entity_model['location'] = [38]
+        runtime_entity_model['value'] = 'testString'
+        runtime_entity_model['confidence'] = 72.5
+        runtime_entity_model['groups'] = [capture_group_model]
+        runtime_entity_model['interpretation'] = runtime_entity_interpretation_model
+        runtime_entity_model['alternatives'] = [runtime_entity_alternative_model]
+        runtime_entity_model['role'] = runtime_entity_role_model
+        runtime_entity_model['skill'] = 'testString'
+
+        dialog_node_action_model = {}  # DialogNodeAction
+        dialog_node_action_model['name'] = 'testString'
+        dialog_node_action_model['type'] = 'client'
+        dialog_node_action_model['parameters'] = {'anyKey': 'anyValue'}
+        dialog_node_action_model['result_variable'] = 'testString'
+        dialog_node_action_model['credentials'] = 'testString'
+
+        dialog_node_visited_model = {}  # DialogNodeVisited
+        dialog_node_visited_model['dialog_node'] = 'testString'
+        dialog_node_visited_model['title'] = 'testString'
+        dialog_node_visited_model['conditions'] = 'testString'
+
+        log_message_source_model = {}  # LogMessageSourceDialogNode
+        log_message_source_model['type'] = 'dialog_node'
+        log_message_source_model['dialog_node'] = 'testString'
+
+        dialog_log_message_model = {}  # DialogLogMessage
+        dialog_log_message_model['level'] = 'info'
+        dialog_log_message_model['message'] = 'testString'
+        dialog_log_message_model['code'] = 'testString'
+        dialog_log_message_model['source'] = log_message_source_model
+
+        turn_event_action_source_model = {}  # TurnEventActionSource
+        turn_event_action_source_model['type'] = 'action'
+        turn_event_action_source_model['action'] = 'testString'
+        turn_event_action_source_model['action_title'] = 'testString'
+        turn_event_action_source_model['condition'] = 'testString'
+
+        message_output_debug_turn_event_model = {}  # MessageOutputDebugTurnEventTurnEventActionVisited
+        message_output_debug_turn_event_model['event'] = 'action_visited'
+        message_output_debug_turn_event_model['source'] = turn_event_action_source_model
+        message_output_debug_turn_event_model['action_start_time'] = 'testString'
+        message_output_debug_turn_event_model['condition_type'] = 'user_defined'
+        message_output_debug_turn_event_model['reason'] = 'intent'
+        message_output_debug_turn_event_model['result_variable'] = 'testString'
+
+        message_output_debug_model = {}  # MessageOutputDebug
+        message_output_debug_model['nodes_visited'] = [dialog_node_visited_model]
+        message_output_debug_model['log_messages'] = [dialog_log_message_model]
+        message_output_debug_model['branch_exited'] = True
+        message_output_debug_model['branch_exited_reason'] = 'completed'
+        message_output_debug_model['turn_events'] = [message_output_debug_turn_event_model]
+
+        message_output_spelling_model = {}  # MessageOutputSpelling
+        message_output_spelling_model['text'] = 'testString'
+        message_output_spelling_model['original_text'] = 'testString'
+        message_output_spelling_model['suggested_text'] = 'testString'
+
+        message_output_llm_metadata_model = {}  # MessageOutputLLMMetadata
+        message_output_llm_metadata_model['task'] = 'testString'
+        message_output_llm_metadata_model['model_id'] = 'testString'
+
+        metadata_model = {}  # Metadata
+        metadata_model['id'] = 38
+
+        message_stream_metadata_model = {}  # MessageStreamMetadata
+        message_stream_metadata_model['streaming_metadata'] = metadata_model
+
+        final_response_output_model = {}  # FinalResponseOutput
+        final_response_output_model['generic'] = [runtime_response_generic_model]
+        final_response_output_model['intents'] = [runtime_intent_model]
+        final_response_output_model['entities'] = [runtime_entity_model]
+        final_response_output_model['actions'] = [dialog_node_action_model]
+        final_response_output_model['debug'] = message_output_debug_model
+        final_response_output_model['user_defined'] = {'anyKey': 'anyValue'}
+        final_response_output_model['spelling'] = message_output_spelling_model
+        final_response_output_model['llm_metadata'] = [message_output_llm_metadata_model]
+        final_response_output_model['streaming_metadata'] = message_stream_metadata_model
+
+        message_context_global_system_model = {}  # MessageContextGlobalSystem
+        message_context_global_system_model['timezone'] = 'testString'
+        message_context_global_system_model['user_id'] = 'testString'
+        message_context_global_system_model['turn_count'] = 38
+        message_context_global_system_model['locale'] = 'en-us'
+        message_context_global_system_model['reference_time'] = 'testString'
+        message_context_global_system_model['session_start_time'] = 'testString'
+        message_context_global_system_model['state'] = 'testString'
+        message_context_global_system_model['skip_user_input'] = True
+
+        message_context_global_model = {}  # MessageContextGlobal
+        message_context_global_model['system'] = message_context_global_system_model
+
+        message_context_skill_system_model = {}  # MessageContextSkillSystem
+        message_context_skill_system_model['state'] = 'testString'
+        message_context_skill_system_model['foo'] = 'testString'
+
+        message_context_dialog_skill_model = {}  # MessageContextDialogSkill
+        message_context_dialog_skill_model['user_defined'] = {'anyKey': 'anyValue'}
+        message_context_dialog_skill_model['system'] = message_context_skill_system_model
+
+        message_context_action_skill_model = {}  # MessageContextActionSkill
+        message_context_action_skill_model['user_defined'] = {'anyKey': 'anyValue'}
+        message_context_action_skill_model['system'] = message_context_skill_system_model
+        message_context_action_skill_model['action_variables'] = {'anyKey': 'anyValue'}
+        message_context_action_skill_model['skill_variables'] = {'anyKey': 'anyValue'}
+
+        message_context_skills_model = {}  # MessageContextSkills
+        message_context_skills_model['main skill'] = message_context_dialog_skill_model
+        message_context_skills_model['actions skill'] = message_context_action_skill_model
+
+        message_context_model = {}  # MessageContext
+        message_context_model['global'] = message_context_global_model
+        message_context_model['skills'] = message_context_skills_model
+        message_context_model['integrations'] = {'anyKey': 'anyValue'}
+
+        message_output_model = {}  # MessageOutput
+        message_output_model['generic'] = [runtime_response_generic_model]
+        message_output_model['intents'] = [runtime_intent_model]
+        message_output_model['entities'] = [runtime_entity_model]
+        message_output_model['actions'] = [dialog_node_action_model]
+        message_output_model['debug'] = message_output_debug_model
+        message_output_model['user_defined'] = {'anyKey': 'anyValue'}
+        message_output_model['spelling'] = message_output_spelling_model
+        message_output_model['llm_metadata'] = [message_output_llm_metadata_model]
+
+        message_input_attachment_model = {}  # MessageInputAttachment
+        message_input_attachment_model['url'] = 'testString'
+        message_input_attachment_model['media_type'] = 'testString'
+
+        request_analytics_model = {}  # RequestAnalytics
+        request_analytics_model['browser'] = 'testString'
+        request_analytics_model['device'] = 'testString'
+        request_analytics_model['pageUrl'] = 'testString'
+
+        message_input_options_spelling_model = {}  # MessageInputOptionsSpelling
+        message_input_options_spelling_model['suggestions'] = True
+        message_input_options_spelling_model['auto_correct'] = True
+
+        message_input_options_model = {}  # MessageInputOptions
+        message_input_options_model['restart'] = False
+        message_input_options_model['alternate_intents'] = False
+        message_input_options_model['async_callout'] = False
+        message_input_options_model['spelling'] = message_input_options_spelling_model
+        message_input_options_model['debug'] = False
+        message_input_options_model['return_context'] = False
+        message_input_options_model['export'] = False
+
+        message_input_model = {}  # MessageInput
+        message_input_model['message_type'] = 'text'
+        message_input_model['text'] = 'testString'
+        message_input_model['intents'] = [runtime_intent_model]
+        message_input_model['entities'] = [runtime_entity_model]
+        message_input_model['suggestion_id'] = 'testString'
+        message_input_model['attachments'] = [message_input_attachment_model]
+        message_input_model['analytics'] = request_analytics_model
+        message_input_model['options'] = message_input_options_model
+
+        # Construct a json representation of a FinalResponse model
+        final_response_model_json = {}
+        final_response_model_json['output'] = final_response_output_model
+        final_response_model_json['context'] = message_context_model
+        final_response_model_json['user_id'] = 'testString'
+        final_response_model_json['masked_output'] = message_output_model
+        final_response_model_json['masked_input'] = message_input_model
+
+        # Construct a model instance of FinalResponse by calling from_dict on the json representation
+        final_response_model = FinalResponse.from_dict(final_response_model_json)
+        assert final_response_model != False
+
+        # Construct a model instance of FinalResponse by calling from_dict on the json representation
+        final_response_model_dict = FinalResponse.from_dict(final_response_model_json).__dict__
+        final_response_model2 = FinalResponse(**final_response_model_dict)
+
+        # Verify the model instances are equivalent
+        assert final_response_model == final_response_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        final_response_model_json2 = final_response_model.to_dict()
+        assert final_response_model_json2 == final_response_model_json
+
+
+class TestModel_FinalResponseOutput:
+    """
+    Test Class for FinalResponseOutput
+    """
+
+    def test_final_response_output_serialization(self):
+        """
+        Test serialization/deserialization for FinalResponseOutput
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        response_generic_citation_ranges_item_model = {}  # ResponseGenericCitationRangesItem
+        response_generic_citation_ranges_item_model['start'] = 38
+        response_generic_citation_ranges_item_model['end'] = 38
+
+        response_generic_citation_model = {}  # ResponseGenericCitation
+        response_generic_citation_model['title'] = 'testString'
+        response_generic_citation_model['text'] = 'testString'
+        response_generic_citation_model['body'] = 'testString'
+        response_generic_citation_model['search_result_index'] = 38
+        response_generic_citation_model['ranges'] = [response_generic_citation_ranges_item_model]
+
+        response_generic_confidence_scores_model = {}  # ResponseGenericConfidenceScores
+        response_generic_confidence_scores_model['threshold'] = 72.5
+        response_generic_confidence_scores_model['pre_gen'] = 72.5
+        response_generic_confidence_scores_model['post_gen'] = 72.5
+        response_generic_confidence_scores_model['extractiveness'] = 72.5
+
+        search_results_result_metadata_model = {}  # SearchResultsResultMetadata
+        search_results_result_metadata_model['document_retrieval_source'] = 'testString'
+        search_results_result_metadata_model['score'] = 38
+
+        search_results_model = {}  # SearchResults
+        search_results_model['result_metadata'] = search_results_result_metadata_model
+        search_results_model['id'] = 'testString'
+        search_results_model['title'] = 'testString'
+        search_results_model['body'] = 'testString'
+
+        runtime_response_generic_model = {}  # RuntimeResponseGenericRuntimeResponseTypeConversationalSearch
+        runtime_response_generic_model['response_type'] = 'conversation_search'
+        runtime_response_generic_model['text'] = 'testString'
+        runtime_response_generic_model['citations_title'] = 'testString'
+        runtime_response_generic_model['citations'] = [response_generic_citation_model]
+        runtime_response_generic_model['confidence_scores'] = response_generic_confidence_scores_model
+        runtime_response_generic_model['response_length_option'] = 'testString'
+        runtime_response_generic_model['search_results'] = [search_results_model]
+        runtime_response_generic_model['disclaimer'] = 'testString'
+
+        runtime_intent_model = {}  # RuntimeIntent
+        runtime_intent_model['intent'] = 'testString'
+        runtime_intent_model['confidence'] = 72.5
+        runtime_intent_model['skill'] = 'testString'
+
+        capture_group_model = {}  # CaptureGroup
+        capture_group_model['group'] = 'testString'
+        capture_group_model['location'] = [38]
+
+        runtime_entity_interpretation_model = {}  # RuntimeEntityInterpretation
+        runtime_entity_interpretation_model['calendar_type'] = 'testString'
+        runtime_entity_interpretation_model['datetime_link'] = 'testString'
+        runtime_entity_interpretation_model['festival'] = 'testString'
+        runtime_entity_interpretation_model['granularity'] = 'day'
+        runtime_entity_interpretation_model['range_link'] = 'testString'
+        runtime_entity_interpretation_model['range_modifier'] = 'testString'
+        runtime_entity_interpretation_model['relative_day'] = 72.5
+        runtime_entity_interpretation_model['relative_month'] = 72.5
+        runtime_entity_interpretation_model['relative_week'] = 72.5
+        runtime_entity_interpretation_model['relative_weekend'] = 72.5
+        runtime_entity_interpretation_model['relative_year'] = 72.5
+        runtime_entity_interpretation_model['specific_day'] = 72.5
+        runtime_entity_interpretation_model['specific_day_of_week'] = 'testString'
+        runtime_entity_interpretation_model['specific_month'] = 72.5
+        runtime_entity_interpretation_model['specific_quarter'] = 72.5
+        runtime_entity_interpretation_model['specific_year'] = 72.5
+        runtime_entity_interpretation_model['numeric_value'] = 72.5
+        runtime_entity_interpretation_model['subtype'] = 'testString'
+        runtime_entity_interpretation_model['part_of_day'] = 'testString'
+        runtime_entity_interpretation_model['relative_hour'] = 72.5
+        runtime_entity_interpretation_model['relative_minute'] = 72.5
+        runtime_entity_interpretation_model['relative_second'] = 72.5
+        runtime_entity_interpretation_model['specific_hour'] = 72.5
+        runtime_entity_interpretation_model['specific_minute'] = 72.5
+        runtime_entity_interpretation_model['specific_second'] = 72.5
+        runtime_entity_interpretation_model['timezone'] = 'testString'
+
+        runtime_entity_alternative_model = {}  # RuntimeEntityAlternative
+        runtime_entity_alternative_model['value'] = 'testString'
+        runtime_entity_alternative_model['confidence'] = 72.5
+
+        runtime_entity_role_model = {}  # RuntimeEntityRole
+        runtime_entity_role_model['type'] = 'date_from'
+
+        runtime_entity_model = {}  # RuntimeEntity
+        runtime_entity_model['entity'] = 'testString'
+        runtime_entity_model['location'] = [38]
+        runtime_entity_model['value'] = 'testString'
+        runtime_entity_model['confidence'] = 72.5
+        runtime_entity_model['groups'] = [capture_group_model]
+        runtime_entity_model['interpretation'] = runtime_entity_interpretation_model
+        runtime_entity_model['alternatives'] = [runtime_entity_alternative_model]
+        runtime_entity_model['role'] = runtime_entity_role_model
+        runtime_entity_model['skill'] = 'testString'
+
+        dialog_node_action_model = {}  # DialogNodeAction
+        dialog_node_action_model['name'] = 'testString'
+        dialog_node_action_model['type'] = 'client'
+        dialog_node_action_model['parameters'] = {'anyKey': 'anyValue'}
+        dialog_node_action_model['result_variable'] = 'testString'
+        dialog_node_action_model['credentials'] = 'testString'
+
+        dialog_node_visited_model = {}  # DialogNodeVisited
+        dialog_node_visited_model['dialog_node'] = 'testString'
+        dialog_node_visited_model['title'] = 'testString'
+        dialog_node_visited_model['conditions'] = 'testString'
+
+        log_message_source_model = {}  # LogMessageSourceDialogNode
+        log_message_source_model['type'] = 'dialog_node'
+        log_message_source_model['dialog_node'] = 'testString'
+
+        dialog_log_message_model = {}  # DialogLogMessage
+        dialog_log_message_model['level'] = 'info'
+        dialog_log_message_model['message'] = 'testString'
+        dialog_log_message_model['code'] = 'testString'
+        dialog_log_message_model['source'] = log_message_source_model
+
+        turn_event_action_source_model = {}  # TurnEventActionSource
+        turn_event_action_source_model['type'] = 'action'
+        turn_event_action_source_model['action'] = 'testString'
+        turn_event_action_source_model['action_title'] = 'testString'
+        turn_event_action_source_model['condition'] = 'testString'
+
+        message_output_debug_turn_event_model = {}  # MessageOutputDebugTurnEventTurnEventActionVisited
+        message_output_debug_turn_event_model['event'] = 'action_visited'
+        message_output_debug_turn_event_model['source'] = turn_event_action_source_model
+        message_output_debug_turn_event_model['action_start_time'] = 'testString'
+        message_output_debug_turn_event_model['condition_type'] = 'user_defined'
+        message_output_debug_turn_event_model['reason'] = 'intent'
+        message_output_debug_turn_event_model['result_variable'] = 'testString'
+
+        message_output_debug_model = {}  # MessageOutputDebug
+        message_output_debug_model['nodes_visited'] = [dialog_node_visited_model]
+        message_output_debug_model['log_messages'] = [dialog_log_message_model]
+        message_output_debug_model['branch_exited'] = True
+        message_output_debug_model['branch_exited_reason'] = 'completed'
+        message_output_debug_model['turn_events'] = [message_output_debug_turn_event_model]
+
+        message_output_spelling_model = {}  # MessageOutputSpelling
+        message_output_spelling_model['text'] = 'testString'
+        message_output_spelling_model['original_text'] = 'testString'
+        message_output_spelling_model['suggested_text'] = 'testString'
+
+        message_output_llm_metadata_model = {}  # MessageOutputLLMMetadata
+        message_output_llm_metadata_model['task'] = 'testString'
+        message_output_llm_metadata_model['model_id'] = 'testString'
+
+        metadata_model = {}  # Metadata
+        metadata_model['id'] = 38
+
+        message_stream_metadata_model = {}  # MessageStreamMetadata
+        message_stream_metadata_model['streaming_metadata'] = metadata_model
+
+        # Construct a json representation of a FinalResponseOutput model
+        final_response_output_model_json = {}
+        final_response_output_model_json['generic'] = [runtime_response_generic_model]
+        final_response_output_model_json['intents'] = [runtime_intent_model]
+        final_response_output_model_json['entities'] = [runtime_entity_model]
+        final_response_output_model_json['actions'] = [dialog_node_action_model]
+        final_response_output_model_json['debug'] = message_output_debug_model
+        final_response_output_model_json['user_defined'] = {'anyKey': 'anyValue'}
+        final_response_output_model_json['spelling'] = message_output_spelling_model
+        final_response_output_model_json['llm_metadata'] = [message_output_llm_metadata_model]
+        final_response_output_model_json['streaming_metadata'] = message_stream_metadata_model
+
+        # Construct a model instance of FinalResponseOutput by calling from_dict on the json representation
+        final_response_output_model = FinalResponseOutput.from_dict(final_response_output_model_json)
+        assert final_response_output_model != False
+
+        # Construct a model instance of FinalResponseOutput by calling from_dict on the json representation
+        final_response_output_model_dict = FinalResponseOutput.from_dict(final_response_output_model_json).__dict__
+        final_response_output_model2 = FinalResponseOutput(**final_response_output_model_dict)
+
+        # Verify the model instances are equivalent
+        assert final_response_output_model == final_response_output_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        final_response_output_model_json2 = final_response_output_model.to_dict()
+        assert final_response_output_model_json2 == final_response_output_model_json
+
+
+class TestModel_GenerativeAITaskConfidenceScores:
+    """
+    Test Class for GenerativeAITaskConfidenceScores
+    """
+
+    def test_generative_ai_task_confidence_scores_serialization(self):
+        """
+        Test serialization/deserialization for GenerativeAITaskConfidenceScores
+        """
+
+        # Construct a json representation of a GenerativeAITaskConfidenceScores model
+        generative_ai_task_confidence_scores_model_json = {}
+        generative_ai_task_confidence_scores_model_json['pre_gen'] = 72.5
+        generative_ai_task_confidence_scores_model_json['pre_gen_threshold'] = 72.5
+        generative_ai_task_confidence_scores_model_json['post_gen'] = 72.5
+        generative_ai_task_confidence_scores_model_json['post_gen_threshold'] = 72.5
+
+        # Construct a model instance of GenerativeAITaskConfidenceScores by calling from_dict on the json representation
+        generative_ai_task_confidence_scores_model = GenerativeAITaskConfidenceScores.from_dict(generative_ai_task_confidence_scores_model_json)
+        assert generative_ai_task_confidence_scores_model != False
+
+        # Construct a model instance of GenerativeAITaskConfidenceScores by calling from_dict on the json representation
+        generative_ai_task_confidence_scores_model_dict = GenerativeAITaskConfidenceScores.from_dict(generative_ai_task_confidence_scores_model_json).__dict__
+        generative_ai_task_confidence_scores_model2 = GenerativeAITaskConfidenceScores(**generative_ai_task_confidence_scores_model_dict)
+
+        # Verify the model instances are equivalent
+        assert generative_ai_task_confidence_scores_model == generative_ai_task_confidence_scores_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        generative_ai_task_confidence_scores_model_json2 = generative_ai_task_confidence_scores_model.to_dict()
+        assert generative_ai_task_confidence_scores_model_json2 == generative_ai_task_confidence_scores_model_json
+
+
 class TestModel_IntegrationReference:
     """
     Test Class for IntegrationReference
@@ -6834,13 +7366,42 @@ class TestModel_Log:
         log_request_model['context'] = message_context_model
         log_request_model['user_id'] = 'testString'
 
-        response_generic_channel_model = {}  # ResponseGenericChannel
-        response_generic_channel_model['channel'] = 'testString'
+        response_generic_citation_ranges_item_model = {}  # ResponseGenericCitationRangesItem
+        response_generic_citation_ranges_item_model['start'] = 38
+        response_generic_citation_ranges_item_model['end'] = 38
 
-        runtime_response_generic_model = {}  # RuntimeResponseGenericRuntimeResponseTypeText
-        runtime_response_generic_model['response_type'] = 'text'
+        response_generic_citation_model = {}  # ResponseGenericCitation
+        response_generic_citation_model['title'] = 'testString'
+        response_generic_citation_model['text'] = 'testString'
+        response_generic_citation_model['body'] = 'testString'
+        response_generic_citation_model['search_result_index'] = 38
+        response_generic_citation_model['ranges'] = [response_generic_citation_ranges_item_model]
+
+        response_generic_confidence_scores_model = {}  # ResponseGenericConfidenceScores
+        response_generic_confidence_scores_model['threshold'] = 72.5
+        response_generic_confidence_scores_model['pre_gen'] = 72.5
+        response_generic_confidence_scores_model['post_gen'] = 72.5
+        response_generic_confidence_scores_model['extractiveness'] = 72.5
+
+        search_results_result_metadata_model = {}  # SearchResultsResultMetadata
+        search_results_result_metadata_model['document_retrieval_source'] = 'testString'
+        search_results_result_metadata_model['score'] = 38
+
+        search_results_model = {}  # SearchResults
+        search_results_model['result_metadata'] = search_results_result_metadata_model
+        search_results_model['id'] = 'testString'
+        search_results_model['title'] = 'testString'
+        search_results_model['body'] = 'testString'
+
+        runtime_response_generic_model = {}  # RuntimeResponseGenericRuntimeResponseTypeConversationalSearch
+        runtime_response_generic_model['response_type'] = 'conversation_search'
         runtime_response_generic_model['text'] = 'testString'
-        runtime_response_generic_model['channels'] = [response_generic_channel_model]
+        runtime_response_generic_model['citations_title'] = 'testString'
+        runtime_response_generic_model['citations'] = [response_generic_citation_model]
+        runtime_response_generic_model['confidence_scores'] = response_generic_confidence_scores_model
+        runtime_response_generic_model['response_length_option'] = 'testString'
+        runtime_response_generic_model['search_results'] = [search_results_model]
+        runtime_response_generic_model['disclaimer'] = 'testString'
 
         dialog_node_action_model = {}  # DialogNodeAction
         dialog_node_action_model['name'] = 'testString'
@@ -6890,6 +7451,10 @@ class TestModel_Log:
         message_output_spelling_model['original_text'] = 'testString'
         message_output_spelling_model['suggested_text'] = 'testString'
 
+        message_output_llm_metadata_model = {}  # MessageOutputLLMMetadata
+        message_output_llm_metadata_model['task'] = 'testString'
+        message_output_llm_metadata_model['model_id'] = 'testString'
+
         log_response_output_model = {}  # LogResponseOutput
         log_response_output_model['generic'] = [runtime_response_generic_model]
         log_response_output_model['intents'] = [runtime_intent_model]
@@ -6898,6 +7463,7 @@ class TestModel_Log:
         log_response_output_model['debug'] = message_output_debug_model
         log_response_output_model['user_defined'] = {'anyKey': 'anyValue'}
         log_response_output_model['spelling'] = message_output_spelling_model
+        log_response_output_model['llm_metadata'] = [message_output_llm_metadata_model]
 
         log_response_model = {}  # LogResponse
         log_response_model['output'] = log_response_output_model
@@ -7074,13 +7640,42 @@ class TestModel_LogCollection:
         log_request_model['context'] = message_context_model
         log_request_model['user_id'] = 'testString'
 
-        response_generic_channel_model = {}  # ResponseGenericChannel
-        response_generic_channel_model['channel'] = 'testString'
+        response_generic_citation_ranges_item_model = {}  # ResponseGenericCitationRangesItem
+        response_generic_citation_ranges_item_model['start'] = 38
+        response_generic_citation_ranges_item_model['end'] = 38
 
-        runtime_response_generic_model = {}  # RuntimeResponseGenericRuntimeResponseTypeText
-        runtime_response_generic_model['response_type'] = 'text'
+        response_generic_citation_model = {}  # ResponseGenericCitation
+        response_generic_citation_model['title'] = 'testString'
+        response_generic_citation_model['text'] = 'testString'
+        response_generic_citation_model['body'] = 'testString'
+        response_generic_citation_model['search_result_index'] = 38
+        response_generic_citation_model['ranges'] = [response_generic_citation_ranges_item_model]
+
+        response_generic_confidence_scores_model = {}  # ResponseGenericConfidenceScores
+        response_generic_confidence_scores_model['threshold'] = 72.5
+        response_generic_confidence_scores_model['pre_gen'] = 72.5
+        response_generic_confidence_scores_model['post_gen'] = 72.5
+        response_generic_confidence_scores_model['extractiveness'] = 72.5
+
+        search_results_result_metadata_model = {}  # SearchResultsResultMetadata
+        search_results_result_metadata_model['document_retrieval_source'] = 'testString'
+        search_results_result_metadata_model['score'] = 38
+
+        search_results_model = {}  # SearchResults
+        search_results_model['result_metadata'] = search_results_result_metadata_model
+        search_results_model['id'] = 'testString'
+        search_results_model['title'] = 'testString'
+        search_results_model['body'] = 'testString'
+
+        runtime_response_generic_model = {}  # RuntimeResponseGenericRuntimeResponseTypeConversationalSearch
+        runtime_response_generic_model['response_type'] = 'conversation_search'
         runtime_response_generic_model['text'] = 'testString'
-        runtime_response_generic_model['channels'] = [response_generic_channel_model]
+        runtime_response_generic_model['citations_title'] = 'testString'
+        runtime_response_generic_model['citations'] = [response_generic_citation_model]
+        runtime_response_generic_model['confidence_scores'] = response_generic_confidence_scores_model
+        runtime_response_generic_model['response_length_option'] = 'testString'
+        runtime_response_generic_model['search_results'] = [search_results_model]
+        runtime_response_generic_model['disclaimer'] = 'testString'
 
         dialog_node_action_model = {}  # DialogNodeAction
         dialog_node_action_model['name'] = 'testString'
@@ -7130,6 +7725,10 @@ class TestModel_LogCollection:
         message_output_spelling_model['original_text'] = 'testString'
         message_output_spelling_model['suggested_text'] = 'testString'
 
+        message_output_llm_metadata_model = {}  # MessageOutputLLMMetadata
+        message_output_llm_metadata_model['task'] = 'testString'
+        message_output_llm_metadata_model['model_id'] = 'testString'
+
         log_response_output_model = {}  # LogResponseOutput
         log_response_output_model['generic'] = [runtime_response_generic_model]
         log_response_output_model['intents'] = [runtime_intent_model]
@@ -7138,6 +7737,7 @@ class TestModel_LogCollection:
         log_response_output_model['debug'] = message_output_debug_model
         log_response_output_model['user_defined'] = {'anyKey': 'anyValue'}
         log_response_output_model['spelling'] = message_output_spelling_model
+        log_response_output_model['llm_metadata'] = [message_output_llm_metadata_model]
 
         log_response_model = {}  # LogResponse
         log_response_model['output'] = log_response_output_model
@@ -7500,13 +8100,42 @@ class TestModel_LogResponse:
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        response_generic_channel_model = {}  # ResponseGenericChannel
-        response_generic_channel_model['channel'] = 'testString'
+        response_generic_citation_ranges_item_model = {}  # ResponseGenericCitationRangesItem
+        response_generic_citation_ranges_item_model['start'] = 38
+        response_generic_citation_ranges_item_model['end'] = 38
 
-        runtime_response_generic_model = {}  # RuntimeResponseGenericRuntimeResponseTypeText
-        runtime_response_generic_model['response_type'] = 'text'
+        response_generic_citation_model = {}  # ResponseGenericCitation
+        response_generic_citation_model['title'] = 'testString'
+        response_generic_citation_model['text'] = 'testString'
+        response_generic_citation_model['body'] = 'testString'
+        response_generic_citation_model['search_result_index'] = 38
+        response_generic_citation_model['ranges'] = [response_generic_citation_ranges_item_model]
+
+        response_generic_confidence_scores_model = {}  # ResponseGenericConfidenceScores
+        response_generic_confidence_scores_model['threshold'] = 72.5
+        response_generic_confidence_scores_model['pre_gen'] = 72.5
+        response_generic_confidence_scores_model['post_gen'] = 72.5
+        response_generic_confidence_scores_model['extractiveness'] = 72.5
+
+        search_results_result_metadata_model = {}  # SearchResultsResultMetadata
+        search_results_result_metadata_model['document_retrieval_source'] = 'testString'
+        search_results_result_metadata_model['score'] = 38
+
+        search_results_model = {}  # SearchResults
+        search_results_model['result_metadata'] = search_results_result_metadata_model
+        search_results_model['id'] = 'testString'
+        search_results_model['title'] = 'testString'
+        search_results_model['body'] = 'testString'
+
+        runtime_response_generic_model = {}  # RuntimeResponseGenericRuntimeResponseTypeConversationalSearch
+        runtime_response_generic_model['response_type'] = 'conversation_search'
         runtime_response_generic_model['text'] = 'testString'
-        runtime_response_generic_model['channels'] = [response_generic_channel_model]
+        runtime_response_generic_model['citations_title'] = 'testString'
+        runtime_response_generic_model['citations'] = [response_generic_citation_model]
+        runtime_response_generic_model['confidence_scores'] = response_generic_confidence_scores_model
+        runtime_response_generic_model['response_length_option'] = 'testString'
+        runtime_response_generic_model['search_results'] = [search_results_model]
+        runtime_response_generic_model['disclaimer'] = 'testString'
 
         runtime_intent_model = {}  # RuntimeIntent
         runtime_intent_model['intent'] = 'testString'
@@ -7611,6 +8240,10 @@ class TestModel_LogResponse:
         message_output_spelling_model['original_text'] = 'testString'
         message_output_spelling_model['suggested_text'] = 'testString'
 
+        message_output_llm_metadata_model = {}  # MessageOutputLLMMetadata
+        message_output_llm_metadata_model['task'] = 'testString'
+        message_output_llm_metadata_model['model_id'] = 'testString'
+
         log_response_output_model = {}  # LogResponseOutput
         log_response_output_model['generic'] = [runtime_response_generic_model]
         log_response_output_model['intents'] = [runtime_intent_model]
@@ -7619,6 +8252,7 @@ class TestModel_LogResponse:
         log_response_output_model['debug'] = message_output_debug_model
         log_response_output_model['user_defined'] = {'anyKey': 'anyValue'}
         log_response_output_model['spelling'] = message_output_spelling_model
+        log_response_output_model['llm_metadata'] = [message_output_llm_metadata_model]
 
         message_context_global_system_model = {}  # MessageContextGlobalSystem
         message_context_global_system_model['timezone'] = 'testString'
@@ -7690,13 +8324,42 @@ class TestModel_LogResponseOutput:
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        response_generic_channel_model = {}  # ResponseGenericChannel
-        response_generic_channel_model['channel'] = 'testString'
+        response_generic_citation_ranges_item_model = {}  # ResponseGenericCitationRangesItem
+        response_generic_citation_ranges_item_model['start'] = 38
+        response_generic_citation_ranges_item_model['end'] = 38
 
-        runtime_response_generic_model = {}  # RuntimeResponseGenericRuntimeResponseTypeText
-        runtime_response_generic_model['response_type'] = 'text'
+        response_generic_citation_model = {}  # ResponseGenericCitation
+        response_generic_citation_model['title'] = 'testString'
+        response_generic_citation_model['text'] = 'testString'
+        response_generic_citation_model['body'] = 'testString'
+        response_generic_citation_model['search_result_index'] = 38
+        response_generic_citation_model['ranges'] = [response_generic_citation_ranges_item_model]
+
+        response_generic_confidence_scores_model = {}  # ResponseGenericConfidenceScores
+        response_generic_confidence_scores_model['threshold'] = 72.5
+        response_generic_confidence_scores_model['pre_gen'] = 72.5
+        response_generic_confidence_scores_model['post_gen'] = 72.5
+        response_generic_confidence_scores_model['extractiveness'] = 72.5
+
+        search_results_result_metadata_model = {}  # SearchResultsResultMetadata
+        search_results_result_metadata_model['document_retrieval_source'] = 'testString'
+        search_results_result_metadata_model['score'] = 38
+
+        search_results_model = {}  # SearchResults
+        search_results_model['result_metadata'] = search_results_result_metadata_model
+        search_results_model['id'] = 'testString'
+        search_results_model['title'] = 'testString'
+        search_results_model['body'] = 'testString'
+
+        runtime_response_generic_model = {}  # RuntimeResponseGenericRuntimeResponseTypeConversationalSearch
+        runtime_response_generic_model['response_type'] = 'conversation_search'
         runtime_response_generic_model['text'] = 'testString'
-        runtime_response_generic_model['channels'] = [response_generic_channel_model]
+        runtime_response_generic_model['citations_title'] = 'testString'
+        runtime_response_generic_model['citations'] = [response_generic_citation_model]
+        runtime_response_generic_model['confidence_scores'] = response_generic_confidence_scores_model
+        runtime_response_generic_model['response_length_option'] = 'testString'
+        runtime_response_generic_model['search_results'] = [search_results_model]
+        runtime_response_generic_model['disclaimer'] = 'testString'
 
         runtime_intent_model = {}  # RuntimeIntent
         runtime_intent_model['intent'] = 'testString'
@@ -7801,6 +8464,10 @@ class TestModel_LogResponseOutput:
         message_output_spelling_model['original_text'] = 'testString'
         message_output_spelling_model['suggested_text'] = 'testString'
 
+        message_output_llm_metadata_model = {}  # MessageOutputLLMMetadata
+        message_output_llm_metadata_model['task'] = 'testString'
+        message_output_llm_metadata_model['model_id'] = 'testString'
+
         # Construct a json representation of a LogResponseOutput model
         log_response_output_model_json = {}
         log_response_output_model_json['generic'] = [runtime_response_generic_model]
@@ -7810,6 +8477,7 @@ class TestModel_LogResponseOutput:
         log_response_output_model_json['debug'] = message_output_debug_model
         log_response_output_model_json['user_defined'] = {'anyKey': 'anyValue'}
         log_response_output_model_json['spelling'] = message_output_spelling_model
+        log_response_output_model_json['llm_metadata'] = [message_output_llm_metadata_model]
 
         # Construct a model instance of LogResponseOutput by calling from_dict on the json representation
         log_response_output_model = LogResponseOutput.from_dict(log_response_output_model_json)
@@ -8367,13 +9035,42 @@ class TestModel_MessageOutput:
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        response_generic_channel_model = {}  # ResponseGenericChannel
-        response_generic_channel_model['channel'] = 'testString'
+        response_generic_citation_ranges_item_model = {}  # ResponseGenericCitationRangesItem
+        response_generic_citation_ranges_item_model['start'] = 38
+        response_generic_citation_ranges_item_model['end'] = 38
 
-        runtime_response_generic_model = {}  # RuntimeResponseGenericRuntimeResponseTypeText
-        runtime_response_generic_model['response_type'] = 'text'
+        response_generic_citation_model = {}  # ResponseGenericCitation
+        response_generic_citation_model['title'] = 'testString'
+        response_generic_citation_model['text'] = 'testString'
+        response_generic_citation_model['body'] = 'testString'
+        response_generic_citation_model['search_result_index'] = 38
+        response_generic_citation_model['ranges'] = [response_generic_citation_ranges_item_model]
+
+        response_generic_confidence_scores_model = {}  # ResponseGenericConfidenceScores
+        response_generic_confidence_scores_model['threshold'] = 72.5
+        response_generic_confidence_scores_model['pre_gen'] = 72.5
+        response_generic_confidence_scores_model['post_gen'] = 72.5
+        response_generic_confidence_scores_model['extractiveness'] = 72.5
+
+        search_results_result_metadata_model = {}  # SearchResultsResultMetadata
+        search_results_result_metadata_model['document_retrieval_source'] = 'testString'
+        search_results_result_metadata_model['score'] = 38
+
+        search_results_model = {}  # SearchResults
+        search_results_model['result_metadata'] = search_results_result_metadata_model
+        search_results_model['id'] = 'testString'
+        search_results_model['title'] = 'testString'
+        search_results_model['body'] = 'testString'
+
+        runtime_response_generic_model = {}  # RuntimeResponseGenericRuntimeResponseTypeConversationalSearch
+        runtime_response_generic_model['response_type'] = 'conversation_search'
         runtime_response_generic_model['text'] = 'testString'
-        runtime_response_generic_model['channels'] = [response_generic_channel_model]
+        runtime_response_generic_model['citations_title'] = 'testString'
+        runtime_response_generic_model['citations'] = [response_generic_citation_model]
+        runtime_response_generic_model['confidence_scores'] = response_generic_confidence_scores_model
+        runtime_response_generic_model['response_length_option'] = 'testString'
+        runtime_response_generic_model['search_results'] = [search_results_model]
+        runtime_response_generic_model['disclaimer'] = 'testString'
 
         runtime_intent_model = {}  # RuntimeIntent
         runtime_intent_model['intent'] = 'testString'
@@ -8478,6 +9175,10 @@ class TestModel_MessageOutput:
         message_output_spelling_model['original_text'] = 'testString'
         message_output_spelling_model['suggested_text'] = 'testString'
 
+        message_output_llm_metadata_model = {}  # MessageOutputLLMMetadata
+        message_output_llm_metadata_model['task'] = 'testString'
+        message_output_llm_metadata_model['model_id'] = 'testString'
+
         # Construct a json representation of a MessageOutput model
         message_output_model_json = {}
         message_output_model_json['generic'] = [runtime_response_generic_model]
@@ -8487,6 +9188,7 @@ class TestModel_MessageOutput:
         message_output_model_json['debug'] = message_output_debug_model
         message_output_model_json['user_defined'] = {'anyKey': 'anyValue'}
         message_output_model_json['spelling'] = message_output_spelling_model
+        message_output_model_json['llm_metadata'] = [message_output_llm_metadata_model]
 
         # Construct a model instance of MessageOutput by calling from_dict on the json representation
         message_output_model = MessageOutput.from_dict(message_output_model_json)
@@ -8569,6 +9271,37 @@ class TestModel_MessageOutputDebug:
         assert message_output_debug_model_json2 == message_output_debug_model_json
 
 
+class TestModel_MessageOutputLLMMetadata:
+    """
+    Test Class for MessageOutputLLMMetadata
+    """
+
+    def test_message_output_llm_metadata_serialization(self):
+        """
+        Test serialization/deserialization for MessageOutputLLMMetadata
+        """
+
+        # Construct a json representation of a MessageOutputLLMMetadata model
+        message_output_llm_metadata_model_json = {}
+        message_output_llm_metadata_model_json['task'] = 'testString'
+        message_output_llm_metadata_model_json['model_id'] = 'testString'
+
+        # Construct a model instance of MessageOutputLLMMetadata by calling from_dict on the json representation
+        message_output_llm_metadata_model = MessageOutputLLMMetadata.from_dict(message_output_llm_metadata_model_json)
+        assert message_output_llm_metadata_model != False
+
+        # Construct a model instance of MessageOutputLLMMetadata by calling from_dict on the json representation
+        message_output_llm_metadata_model_dict = MessageOutputLLMMetadata.from_dict(message_output_llm_metadata_model_json).__dict__
+        message_output_llm_metadata_model2 = MessageOutputLLMMetadata(**message_output_llm_metadata_model_dict)
+
+        # Verify the model instances are equivalent
+        assert message_output_llm_metadata_model == message_output_llm_metadata_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        message_output_llm_metadata_model_json2 = message_output_llm_metadata_model.to_dict()
+        assert message_output_llm_metadata_model_json2 == message_output_llm_metadata_model_json
+
+
 class TestModel_MessageOutputSpelling:
     """
     Test Class for MessageOutputSpelling
@@ -8599,6 +9332,41 @@ class TestModel_MessageOutputSpelling:
         # Convert model instance back to dict and verify no loss of data
         message_output_spelling_model_json2 = message_output_spelling_model.to_dict()
         assert message_output_spelling_model_json2 == message_output_spelling_model_json
+
+
+class TestModel_MessageStreamMetadata:
+    """
+    Test Class for MessageStreamMetadata
+    """
+
+    def test_message_stream_metadata_serialization(self):
+        """
+        Test serialization/deserialization for MessageStreamMetadata
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        metadata_model = {}  # Metadata
+        metadata_model['id'] = 38
+
+        # Construct a json representation of a MessageStreamMetadata model
+        message_stream_metadata_model_json = {}
+        message_stream_metadata_model_json['streaming_metadata'] = metadata_model
+
+        # Construct a model instance of MessageStreamMetadata by calling from_dict on the json representation
+        message_stream_metadata_model = MessageStreamMetadata.from_dict(message_stream_metadata_model_json)
+        assert message_stream_metadata_model != False
+
+        # Construct a model instance of MessageStreamMetadata by calling from_dict on the json representation
+        message_stream_metadata_model_dict = MessageStreamMetadata.from_dict(message_stream_metadata_model_json).__dict__
+        message_stream_metadata_model2 = MessageStreamMetadata(**message_stream_metadata_model_dict)
+
+        # Verify the model instances are equivalent
+        assert message_stream_metadata_model == message_stream_metadata_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        message_stream_metadata_model_json2 = message_stream_metadata_model.to_dict()
+        assert message_stream_metadata_model_json2 == message_stream_metadata_model_json
 
 
 class TestModel_Metadata:
@@ -8694,6 +9462,43 @@ class TestModel_Pagination:
         # Convert model instance back to dict and verify no loss of data
         pagination_model_json2 = pagination_model.to_dict()
         assert pagination_model_json2 == pagination_model_json
+
+
+class TestModel_PartialItem:
+    """
+    Test Class for PartialItem
+    """
+
+    def test_partial_item_serialization(self):
+        """
+        Test serialization/deserialization for PartialItem
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        metadata_model = {}  # Metadata
+        metadata_model['id'] = 38
+
+        # Construct a json representation of a PartialItem model
+        partial_item_model_json = {}
+        partial_item_model_json['response_type'] = 'testString'
+        partial_item_model_json['text'] = 'testString'
+        partial_item_model_json['streaming_metadata'] = metadata_model
+
+        # Construct a model instance of PartialItem by calling from_dict on the json representation
+        partial_item_model = PartialItem.from_dict(partial_item_model_json)
+        assert partial_item_model != False
+
+        # Construct a model instance of PartialItem by calling from_dict on the json representation
+        partial_item_model_dict = PartialItem.from_dict(partial_item_model_json).__dict__
+        partial_item_model2 = PartialItem(**partial_item_model_dict)
+
+        # Verify the model instances are equivalent
+        assert partial_item_model == partial_item_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        partial_item_model_json2 = partial_item_model.to_dict()
+        assert partial_item_model_json2 == partial_item_model_json
 
 
 class TestModel_ProviderAuthenticationOAuth2:
@@ -9724,6 +10529,110 @@ class TestModel_ResponseGenericChannel:
         assert response_generic_channel_model_json2 == response_generic_channel_model_json
 
 
+class TestModel_ResponseGenericCitation:
+    """
+    Test Class for ResponseGenericCitation
+    """
+
+    def test_response_generic_citation_serialization(self):
+        """
+        Test serialization/deserialization for ResponseGenericCitation
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        response_generic_citation_ranges_item_model = {}  # ResponseGenericCitationRangesItem
+        response_generic_citation_ranges_item_model['start'] = 38
+        response_generic_citation_ranges_item_model['end'] = 38
+
+        # Construct a json representation of a ResponseGenericCitation model
+        response_generic_citation_model_json = {}
+        response_generic_citation_model_json['title'] = 'testString'
+        response_generic_citation_model_json['text'] = 'testString'
+        response_generic_citation_model_json['body'] = 'testString'
+        response_generic_citation_model_json['search_result_index'] = 38
+        response_generic_citation_model_json['ranges'] = [response_generic_citation_ranges_item_model]
+
+        # Construct a model instance of ResponseGenericCitation by calling from_dict on the json representation
+        response_generic_citation_model = ResponseGenericCitation.from_dict(response_generic_citation_model_json)
+        assert response_generic_citation_model != False
+
+        # Construct a model instance of ResponseGenericCitation by calling from_dict on the json representation
+        response_generic_citation_model_dict = ResponseGenericCitation.from_dict(response_generic_citation_model_json).__dict__
+        response_generic_citation_model2 = ResponseGenericCitation(**response_generic_citation_model_dict)
+
+        # Verify the model instances are equivalent
+        assert response_generic_citation_model == response_generic_citation_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        response_generic_citation_model_json2 = response_generic_citation_model.to_dict()
+        assert response_generic_citation_model_json2 == response_generic_citation_model_json
+
+
+class TestModel_ResponseGenericCitationRangesItem:
+    """
+    Test Class for ResponseGenericCitationRangesItem
+    """
+
+    def test_response_generic_citation_ranges_item_serialization(self):
+        """
+        Test serialization/deserialization for ResponseGenericCitationRangesItem
+        """
+
+        # Construct a json representation of a ResponseGenericCitationRangesItem model
+        response_generic_citation_ranges_item_model_json = {}
+        response_generic_citation_ranges_item_model_json['start'] = 38
+        response_generic_citation_ranges_item_model_json['end'] = 38
+
+        # Construct a model instance of ResponseGenericCitationRangesItem by calling from_dict on the json representation
+        response_generic_citation_ranges_item_model = ResponseGenericCitationRangesItem.from_dict(response_generic_citation_ranges_item_model_json)
+        assert response_generic_citation_ranges_item_model != False
+
+        # Construct a model instance of ResponseGenericCitationRangesItem by calling from_dict on the json representation
+        response_generic_citation_ranges_item_model_dict = ResponseGenericCitationRangesItem.from_dict(response_generic_citation_ranges_item_model_json).__dict__
+        response_generic_citation_ranges_item_model2 = ResponseGenericCitationRangesItem(**response_generic_citation_ranges_item_model_dict)
+
+        # Verify the model instances are equivalent
+        assert response_generic_citation_ranges_item_model == response_generic_citation_ranges_item_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        response_generic_citation_ranges_item_model_json2 = response_generic_citation_ranges_item_model.to_dict()
+        assert response_generic_citation_ranges_item_model_json2 == response_generic_citation_ranges_item_model_json
+
+
+class TestModel_ResponseGenericConfidenceScores:
+    """
+    Test Class for ResponseGenericConfidenceScores
+    """
+
+    def test_response_generic_confidence_scores_serialization(self):
+        """
+        Test serialization/deserialization for ResponseGenericConfidenceScores
+        """
+
+        # Construct a json representation of a ResponseGenericConfidenceScores model
+        response_generic_confidence_scores_model_json = {}
+        response_generic_confidence_scores_model_json['threshold'] = 72.5
+        response_generic_confidence_scores_model_json['pre_gen'] = 72.5
+        response_generic_confidence_scores_model_json['post_gen'] = 72.5
+        response_generic_confidence_scores_model_json['extractiveness'] = 72.5
+
+        # Construct a model instance of ResponseGenericConfidenceScores by calling from_dict on the json representation
+        response_generic_confidence_scores_model = ResponseGenericConfidenceScores.from_dict(response_generic_confidence_scores_model_json)
+        assert response_generic_confidence_scores_model != False
+
+        # Construct a model instance of ResponseGenericConfidenceScores by calling from_dict on the json representation
+        response_generic_confidence_scores_model_dict = ResponseGenericConfidenceScores.from_dict(response_generic_confidence_scores_model_json).__dict__
+        response_generic_confidence_scores_model2 = ResponseGenericConfidenceScores(**response_generic_confidence_scores_model_dict)
+
+        # Verify the model instances are equivalent
+        assert response_generic_confidence_scores_model == response_generic_confidence_scores_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        response_generic_confidence_scores_model_json2 = response_generic_confidence_scores_model.to_dict()
+        assert response_generic_confidence_scores_model_json2 == response_generic_confidence_scores_model_json
+
+
 class TestModel_RuntimeEntity:
     """
     Test Class for RuntimeEntity
@@ -10106,6 +11015,76 @@ class TestModel_SearchResultMetadata:
         # Convert model instance back to dict and verify no loss of data
         search_result_metadata_model_json2 = search_result_metadata_model.to_dict()
         assert search_result_metadata_model_json2 == search_result_metadata_model_json
+
+
+class TestModel_SearchResults:
+    """
+    Test Class for SearchResults
+    """
+
+    def test_search_results_serialization(self):
+        """
+        Test serialization/deserialization for SearchResults
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        search_results_result_metadata_model = {}  # SearchResultsResultMetadata
+        search_results_result_metadata_model['document_retrieval_source'] = 'testString'
+        search_results_result_metadata_model['score'] = 38
+
+        # Construct a json representation of a SearchResults model
+        search_results_model_json = {}
+        search_results_model_json['result_metadata'] = search_results_result_metadata_model
+        search_results_model_json['id'] = 'testString'
+        search_results_model_json['title'] = 'testString'
+        search_results_model_json['body'] = 'testString'
+
+        # Construct a model instance of SearchResults by calling from_dict on the json representation
+        search_results_model = SearchResults.from_dict(search_results_model_json)
+        assert search_results_model != False
+
+        # Construct a model instance of SearchResults by calling from_dict on the json representation
+        search_results_model_dict = SearchResults.from_dict(search_results_model_json).__dict__
+        search_results_model2 = SearchResults(**search_results_model_dict)
+
+        # Verify the model instances are equivalent
+        assert search_results_model == search_results_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        search_results_model_json2 = search_results_model.to_dict()
+        assert search_results_model_json2 == search_results_model_json
+
+
+class TestModel_SearchResultsResultMetadata:
+    """
+    Test Class for SearchResultsResultMetadata
+    """
+
+    def test_search_results_result_metadata_serialization(self):
+        """
+        Test serialization/deserialization for SearchResultsResultMetadata
+        """
+
+        # Construct a json representation of a SearchResultsResultMetadata model
+        search_results_result_metadata_model_json = {}
+        search_results_result_metadata_model_json['document_retrieval_source'] = 'testString'
+        search_results_result_metadata_model_json['score'] = 38
+
+        # Construct a model instance of SearchResultsResultMetadata by calling from_dict on the json representation
+        search_results_result_metadata_model = SearchResultsResultMetadata.from_dict(search_results_result_metadata_model_json)
+        assert search_results_result_metadata_model != False
+
+        # Construct a model instance of SearchResultsResultMetadata by calling from_dict on the json representation
+        search_results_result_metadata_model_dict = SearchResultsResultMetadata.from_dict(search_results_result_metadata_model_json).__dict__
+        search_results_result_metadata_model2 = SearchResultsResultMetadata(**search_results_result_metadata_model_dict)
+
+        # Verify the model instances are equivalent
+        assert search_results_result_metadata_model == search_results_result_metadata_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        search_results_result_metadata_model_json2 = search_results_result_metadata_model.to_dict()
+        assert search_results_result_metadata_model_json2 == search_results_result_metadata_model_json
 
 
 class TestModel_SearchSettings:
@@ -10992,13 +11971,42 @@ class TestModel_StatefulMessageResponse:
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        response_generic_channel_model = {}  # ResponseGenericChannel
-        response_generic_channel_model['channel'] = 'testString'
+        response_generic_citation_ranges_item_model = {}  # ResponseGenericCitationRangesItem
+        response_generic_citation_ranges_item_model['start'] = 38
+        response_generic_citation_ranges_item_model['end'] = 38
 
-        runtime_response_generic_model = {}  # RuntimeResponseGenericRuntimeResponseTypeText
-        runtime_response_generic_model['response_type'] = 'text'
+        response_generic_citation_model = {}  # ResponseGenericCitation
+        response_generic_citation_model['title'] = 'testString'
+        response_generic_citation_model['text'] = 'testString'
+        response_generic_citation_model['body'] = 'testString'
+        response_generic_citation_model['search_result_index'] = 38
+        response_generic_citation_model['ranges'] = [response_generic_citation_ranges_item_model]
+
+        response_generic_confidence_scores_model = {}  # ResponseGenericConfidenceScores
+        response_generic_confidence_scores_model['threshold'] = 72.5
+        response_generic_confidence_scores_model['pre_gen'] = 72.5
+        response_generic_confidence_scores_model['post_gen'] = 72.5
+        response_generic_confidence_scores_model['extractiveness'] = 72.5
+
+        search_results_result_metadata_model = {}  # SearchResultsResultMetadata
+        search_results_result_metadata_model['document_retrieval_source'] = 'testString'
+        search_results_result_metadata_model['score'] = 38
+
+        search_results_model = {}  # SearchResults
+        search_results_model['result_metadata'] = search_results_result_metadata_model
+        search_results_model['id'] = 'testString'
+        search_results_model['title'] = 'testString'
+        search_results_model['body'] = 'testString'
+
+        runtime_response_generic_model = {}  # RuntimeResponseGenericRuntimeResponseTypeConversationalSearch
+        runtime_response_generic_model['response_type'] = 'conversation_search'
         runtime_response_generic_model['text'] = 'testString'
-        runtime_response_generic_model['channels'] = [response_generic_channel_model]
+        runtime_response_generic_model['citations_title'] = 'testString'
+        runtime_response_generic_model['citations'] = [response_generic_citation_model]
+        runtime_response_generic_model['confidence_scores'] = response_generic_confidence_scores_model
+        runtime_response_generic_model['response_length_option'] = 'testString'
+        runtime_response_generic_model['search_results'] = [search_results_model]
+        runtime_response_generic_model['disclaimer'] = 'testString'
 
         runtime_intent_model = {}  # RuntimeIntent
         runtime_intent_model['intent'] = 'testString'
@@ -11103,6 +12111,10 @@ class TestModel_StatefulMessageResponse:
         message_output_spelling_model['original_text'] = 'testString'
         message_output_spelling_model['suggested_text'] = 'testString'
 
+        message_output_llm_metadata_model = {}  # MessageOutputLLMMetadata
+        message_output_llm_metadata_model['task'] = 'testString'
+        message_output_llm_metadata_model['model_id'] = 'testString'
+
         message_output_model = {}  # MessageOutput
         message_output_model['generic'] = [runtime_response_generic_model]
         message_output_model['intents'] = [runtime_intent_model]
@@ -11111,6 +12123,7 @@ class TestModel_StatefulMessageResponse:
         message_output_model['debug'] = message_output_debug_model
         message_output_model['user_defined'] = {'anyKey': 'anyValue'}
         message_output_model['spelling'] = message_output_spelling_model
+        message_output_model['llm_metadata'] = [message_output_llm_metadata_model]
 
         message_context_global_system_model = {}  # MessageContextGlobalSystem
         message_context_global_system_model['timezone'] = 'testString'
@@ -11202,6 +12215,457 @@ class TestModel_StatefulMessageResponse:
         # Convert model instance back to dict and verify no loss of data
         stateful_message_response_model_json2 = stateful_message_response_model.to_dict()
         assert stateful_message_response_model_json2 == stateful_message_response_model_json
+
+
+class TestModel_StatelessFinalResponse:
+    """
+    Test Class for StatelessFinalResponse
+    """
+
+    def test_stateless_final_response_serialization(self):
+        """
+        Test serialization/deserialization for StatelessFinalResponse
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        response_generic_citation_ranges_item_model = {}  # ResponseGenericCitationRangesItem
+        response_generic_citation_ranges_item_model['start'] = 38
+        response_generic_citation_ranges_item_model['end'] = 38
+
+        response_generic_citation_model = {}  # ResponseGenericCitation
+        response_generic_citation_model['title'] = 'testString'
+        response_generic_citation_model['text'] = 'testString'
+        response_generic_citation_model['body'] = 'testString'
+        response_generic_citation_model['search_result_index'] = 38
+        response_generic_citation_model['ranges'] = [response_generic_citation_ranges_item_model]
+
+        response_generic_confidence_scores_model = {}  # ResponseGenericConfidenceScores
+        response_generic_confidence_scores_model['threshold'] = 72.5
+        response_generic_confidence_scores_model['pre_gen'] = 72.5
+        response_generic_confidence_scores_model['post_gen'] = 72.5
+        response_generic_confidence_scores_model['extractiveness'] = 72.5
+
+        search_results_result_metadata_model = {}  # SearchResultsResultMetadata
+        search_results_result_metadata_model['document_retrieval_source'] = 'testString'
+        search_results_result_metadata_model['score'] = 38
+
+        search_results_model = {}  # SearchResults
+        search_results_model['result_metadata'] = search_results_result_metadata_model
+        search_results_model['id'] = 'testString'
+        search_results_model['title'] = 'testString'
+        search_results_model['body'] = 'testString'
+
+        runtime_response_generic_model = {}  # RuntimeResponseGenericRuntimeResponseTypeConversationalSearch
+        runtime_response_generic_model['response_type'] = 'conversation_search'
+        runtime_response_generic_model['text'] = 'testString'
+        runtime_response_generic_model['citations_title'] = 'testString'
+        runtime_response_generic_model['citations'] = [response_generic_citation_model]
+        runtime_response_generic_model['confidence_scores'] = response_generic_confidence_scores_model
+        runtime_response_generic_model['response_length_option'] = 'testString'
+        runtime_response_generic_model['search_results'] = [search_results_model]
+        runtime_response_generic_model['disclaimer'] = 'testString'
+
+        runtime_intent_model = {}  # RuntimeIntent
+        runtime_intent_model['intent'] = 'testString'
+        runtime_intent_model['confidence'] = 72.5
+        runtime_intent_model['skill'] = 'testString'
+
+        capture_group_model = {}  # CaptureGroup
+        capture_group_model['group'] = 'testString'
+        capture_group_model['location'] = [38]
+
+        runtime_entity_interpretation_model = {}  # RuntimeEntityInterpretation
+        runtime_entity_interpretation_model['calendar_type'] = 'testString'
+        runtime_entity_interpretation_model['datetime_link'] = 'testString'
+        runtime_entity_interpretation_model['festival'] = 'testString'
+        runtime_entity_interpretation_model['granularity'] = 'day'
+        runtime_entity_interpretation_model['range_link'] = 'testString'
+        runtime_entity_interpretation_model['range_modifier'] = 'testString'
+        runtime_entity_interpretation_model['relative_day'] = 72.5
+        runtime_entity_interpretation_model['relative_month'] = 72.5
+        runtime_entity_interpretation_model['relative_week'] = 72.5
+        runtime_entity_interpretation_model['relative_weekend'] = 72.5
+        runtime_entity_interpretation_model['relative_year'] = 72.5
+        runtime_entity_interpretation_model['specific_day'] = 72.5
+        runtime_entity_interpretation_model['specific_day_of_week'] = 'testString'
+        runtime_entity_interpretation_model['specific_month'] = 72.5
+        runtime_entity_interpretation_model['specific_quarter'] = 72.5
+        runtime_entity_interpretation_model['specific_year'] = 72.5
+        runtime_entity_interpretation_model['numeric_value'] = 72.5
+        runtime_entity_interpretation_model['subtype'] = 'testString'
+        runtime_entity_interpretation_model['part_of_day'] = 'testString'
+        runtime_entity_interpretation_model['relative_hour'] = 72.5
+        runtime_entity_interpretation_model['relative_minute'] = 72.5
+        runtime_entity_interpretation_model['relative_second'] = 72.5
+        runtime_entity_interpretation_model['specific_hour'] = 72.5
+        runtime_entity_interpretation_model['specific_minute'] = 72.5
+        runtime_entity_interpretation_model['specific_second'] = 72.5
+        runtime_entity_interpretation_model['timezone'] = 'testString'
+
+        runtime_entity_alternative_model = {}  # RuntimeEntityAlternative
+        runtime_entity_alternative_model['value'] = 'testString'
+        runtime_entity_alternative_model['confidence'] = 72.5
+
+        runtime_entity_role_model = {}  # RuntimeEntityRole
+        runtime_entity_role_model['type'] = 'date_from'
+
+        runtime_entity_model = {}  # RuntimeEntity
+        runtime_entity_model['entity'] = 'testString'
+        runtime_entity_model['location'] = [38]
+        runtime_entity_model['value'] = 'testString'
+        runtime_entity_model['confidence'] = 72.5
+        runtime_entity_model['groups'] = [capture_group_model]
+        runtime_entity_model['interpretation'] = runtime_entity_interpretation_model
+        runtime_entity_model['alternatives'] = [runtime_entity_alternative_model]
+        runtime_entity_model['role'] = runtime_entity_role_model
+        runtime_entity_model['skill'] = 'testString'
+
+        dialog_node_action_model = {}  # DialogNodeAction
+        dialog_node_action_model['name'] = 'testString'
+        dialog_node_action_model['type'] = 'client'
+        dialog_node_action_model['parameters'] = {'anyKey': 'anyValue'}
+        dialog_node_action_model['result_variable'] = 'testString'
+        dialog_node_action_model['credentials'] = 'testString'
+
+        dialog_node_visited_model = {}  # DialogNodeVisited
+        dialog_node_visited_model['dialog_node'] = 'testString'
+        dialog_node_visited_model['title'] = 'testString'
+        dialog_node_visited_model['conditions'] = 'testString'
+
+        log_message_source_model = {}  # LogMessageSourceDialogNode
+        log_message_source_model['type'] = 'dialog_node'
+        log_message_source_model['dialog_node'] = 'testString'
+
+        dialog_log_message_model = {}  # DialogLogMessage
+        dialog_log_message_model['level'] = 'info'
+        dialog_log_message_model['message'] = 'testString'
+        dialog_log_message_model['code'] = 'testString'
+        dialog_log_message_model['source'] = log_message_source_model
+
+        turn_event_action_source_model = {}  # TurnEventActionSource
+        turn_event_action_source_model['type'] = 'action'
+        turn_event_action_source_model['action'] = 'testString'
+        turn_event_action_source_model['action_title'] = 'testString'
+        turn_event_action_source_model['condition'] = 'testString'
+
+        message_output_debug_turn_event_model = {}  # MessageOutputDebugTurnEventTurnEventActionVisited
+        message_output_debug_turn_event_model['event'] = 'action_visited'
+        message_output_debug_turn_event_model['source'] = turn_event_action_source_model
+        message_output_debug_turn_event_model['action_start_time'] = 'testString'
+        message_output_debug_turn_event_model['condition_type'] = 'user_defined'
+        message_output_debug_turn_event_model['reason'] = 'intent'
+        message_output_debug_turn_event_model['result_variable'] = 'testString'
+
+        message_output_debug_model = {}  # MessageOutputDebug
+        message_output_debug_model['nodes_visited'] = [dialog_node_visited_model]
+        message_output_debug_model['log_messages'] = [dialog_log_message_model]
+        message_output_debug_model['branch_exited'] = True
+        message_output_debug_model['branch_exited_reason'] = 'completed'
+        message_output_debug_model['turn_events'] = [message_output_debug_turn_event_model]
+
+        message_output_spelling_model = {}  # MessageOutputSpelling
+        message_output_spelling_model['text'] = 'testString'
+        message_output_spelling_model['original_text'] = 'testString'
+        message_output_spelling_model['suggested_text'] = 'testString'
+
+        message_output_llm_metadata_model = {}  # MessageOutputLLMMetadata
+        message_output_llm_metadata_model['task'] = 'testString'
+        message_output_llm_metadata_model['model_id'] = 'testString'
+
+        message_context_global_system_model = {}  # MessageContextGlobalSystem
+        message_context_global_system_model['timezone'] = 'testString'
+        message_context_global_system_model['user_id'] = 'testString'
+        message_context_global_system_model['turn_count'] = 38
+        message_context_global_system_model['locale'] = 'en-us'
+        message_context_global_system_model['reference_time'] = 'testString'
+        message_context_global_system_model['session_start_time'] = 'testString'
+        message_context_global_system_model['state'] = 'testString'
+        message_context_global_system_model['skip_user_input'] = True
+
+        stateless_message_context_global_model = {}  # StatelessMessageContextGlobal
+        stateless_message_context_global_model['system'] = message_context_global_system_model
+        stateless_message_context_global_model['session_id'] = 'testString'
+
+        message_context_skill_system_model = {}  # MessageContextSkillSystem
+        message_context_skill_system_model['state'] = 'testString'
+        message_context_skill_system_model['foo'] = 'testString'
+
+        message_context_dialog_skill_model = {}  # MessageContextDialogSkill
+        message_context_dialog_skill_model['user_defined'] = {'anyKey': 'anyValue'}
+        message_context_dialog_skill_model['system'] = message_context_skill_system_model
+
+        stateless_message_context_skills_actions_skill_model = {}  # StatelessMessageContextSkillsActionsSkill
+        stateless_message_context_skills_actions_skill_model['user_defined'] = {'anyKey': 'anyValue'}
+        stateless_message_context_skills_actions_skill_model['system'] = message_context_skill_system_model
+        stateless_message_context_skills_actions_skill_model['action_variables'] = {'anyKey': 'anyValue'}
+        stateless_message_context_skills_actions_skill_model['skill_variables'] = {'anyKey': 'anyValue'}
+        stateless_message_context_skills_actions_skill_model['private_action_variables'] = {'anyKey': 'anyValue'}
+        stateless_message_context_skills_actions_skill_model['private_skill_variables'] = {'anyKey': 'anyValue'}
+
+        stateless_message_context_skills_model = {}  # StatelessMessageContextSkills
+        stateless_message_context_skills_model['main skill'] = message_context_dialog_skill_model
+        stateless_message_context_skills_model['actions skill'] = stateless_message_context_skills_actions_skill_model
+
+        stateless_message_context_model = {}  # StatelessMessageContext
+        stateless_message_context_model['global'] = stateless_message_context_global_model
+        stateless_message_context_model['skills'] = stateless_message_context_skills_model
+        stateless_message_context_model['integrations'] = {'anyKey': 'anyValue'}
+
+        stateless_final_response_output_model = {}  # StatelessFinalResponseOutput
+        stateless_final_response_output_model['generic'] = [runtime_response_generic_model]
+        stateless_final_response_output_model['intents'] = [runtime_intent_model]
+        stateless_final_response_output_model['entities'] = [runtime_entity_model]
+        stateless_final_response_output_model['actions'] = [dialog_node_action_model]
+        stateless_final_response_output_model['debug'] = message_output_debug_model
+        stateless_final_response_output_model['user_defined'] = {'anyKey': 'anyValue'}
+        stateless_final_response_output_model['spelling'] = message_output_spelling_model
+        stateless_final_response_output_model['llm_metadata'] = [message_output_llm_metadata_model]
+        stateless_final_response_output_model['streaming_metadata'] = stateless_message_context_model
+
+        # Construct a json representation of a StatelessFinalResponse model
+        stateless_final_response_model_json = {}
+        stateless_final_response_model_json['output'] = stateless_final_response_output_model
+        stateless_final_response_model_json['context'] = stateless_message_context_model
+        stateless_final_response_model_json['user_id'] = 'testString'
+
+        # Construct a model instance of StatelessFinalResponse by calling from_dict on the json representation
+        stateless_final_response_model = StatelessFinalResponse.from_dict(stateless_final_response_model_json)
+        assert stateless_final_response_model != False
+
+        # Construct a model instance of StatelessFinalResponse by calling from_dict on the json representation
+        stateless_final_response_model_dict = StatelessFinalResponse.from_dict(stateless_final_response_model_json).__dict__
+        stateless_final_response_model2 = StatelessFinalResponse(**stateless_final_response_model_dict)
+
+        # Verify the model instances are equivalent
+        assert stateless_final_response_model == stateless_final_response_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        stateless_final_response_model_json2 = stateless_final_response_model.to_dict()
+        assert stateless_final_response_model_json2 == stateless_final_response_model_json
+
+
+class TestModel_StatelessFinalResponseOutput:
+    """
+    Test Class for StatelessFinalResponseOutput
+    """
+
+    def test_stateless_final_response_output_serialization(self):
+        """
+        Test serialization/deserialization for StatelessFinalResponseOutput
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        response_generic_citation_ranges_item_model = {}  # ResponseGenericCitationRangesItem
+        response_generic_citation_ranges_item_model['start'] = 38
+        response_generic_citation_ranges_item_model['end'] = 38
+
+        response_generic_citation_model = {}  # ResponseGenericCitation
+        response_generic_citation_model['title'] = 'testString'
+        response_generic_citation_model['text'] = 'testString'
+        response_generic_citation_model['body'] = 'testString'
+        response_generic_citation_model['search_result_index'] = 38
+        response_generic_citation_model['ranges'] = [response_generic_citation_ranges_item_model]
+
+        response_generic_confidence_scores_model = {}  # ResponseGenericConfidenceScores
+        response_generic_confidence_scores_model['threshold'] = 72.5
+        response_generic_confidence_scores_model['pre_gen'] = 72.5
+        response_generic_confidence_scores_model['post_gen'] = 72.5
+        response_generic_confidence_scores_model['extractiveness'] = 72.5
+
+        search_results_result_metadata_model = {}  # SearchResultsResultMetadata
+        search_results_result_metadata_model['document_retrieval_source'] = 'testString'
+        search_results_result_metadata_model['score'] = 38
+
+        search_results_model = {}  # SearchResults
+        search_results_model['result_metadata'] = search_results_result_metadata_model
+        search_results_model['id'] = 'testString'
+        search_results_model['title'] = 'testString'
+        search_results_model['body'] = 'testString'
+
+        runtime_response_generic_model = {}  # RuntimeResponseGenericRuntimeResponseTypeConversationalSearch
+        runtime_response_generic_model['response_type'] = 'conversation_search'
+        runtime_response_generic_model['text'] = 'testString'
+        runtime_response_generic_model['citations_title'] = 'testString'
+        runtime_response_generic_model['citations'] = [response_generic_citation_model]
+        runtime_response_generic_model['confidence_scores'] = response_generic_confidence_scores_model
+        runtime_response_generic_model['response_length_option'] = 'testString'
+        runtime_response_generic_model['search_results'] = [search_results_model]
+        runtime_response_generic_model['disclaimer'] = 'testString'
+
+        runtime_intent_model = {}  # RuntimeIntent
+        runtime_intent_model['intent'] = 'testString'
+        runtime_intent_model['confidence'] = 72.5
+        runtime_intent_model['skill'] = 'testString'
+
+        capture_group_model = {}  # CaptureGroup
+        capture_group_model['group'] = 'testString'
+        capture_group_model['location'] = [38]
+
+        runtime_entity_interpretation_model = {}  # RuntimeEntityInterpretation
+        runtime_entity_interpretation_model['calendar_type'] = 'testString'
+        runtime_entity_interpretation_model['datetime_link'] = 'testString'
+        runtime_entity_interpretation_model['festival'] = 'testString'
+        runtime_entity_interpretation_model['granularity'] = 'day'
+        runtime_entity_interpretation_model['range_link'] = 'testString'
+        runtime_entity_interpretation_model['range_modifier'] = 'testString'
+        runtime_entity_interpretation_model['relative_day'] = 72.5
+        runtime_entity_interpretation_model['relative_month'] = 72.5
+        runtime_entity_interpretation_model['relative_week'] = 72.5
+        runtime_entity_interpretation_model['relative_weekend'] = 72.5
+        runtime_entity_interpretation_model['relative_year'] = 72.5
+        runtime_entity_interpretation_model['specific_day'] = 72.5
+        runtime_entity_interpretation_model['specific_day_of_week'] = 'testString'
+        runtime_entity_interpretation_model['specific_month'] = 72.5
+        runtime_entity_interpretation_model['specific_quarter'] = 72.5
+        runtime_entity_interpretation_model['specific_year'] = 72.5
+        runtime_entity_interpretation_model['numeric_value'] = 72.5
+        runtime_entity_interpretation_model['subtype'] = 'testString'
+        runtime_entity_interpretation_model['part_of_day'] = 'testString'
+        runtime_entity_interpretation_model['relative_hour'] = 72.5
+        runtime_entity_interpretation_model['relative_minute'] = 72.5
+        runtime_entity_interpretation_model['relative_second'] = 72.5
+        runtime_entity_interpretation_model['specific_hour'] = 72.5
+        runtime_entity_interpretation_model['specific_minute'] = 72.5
+        runtime_entity_interpretation_model['specific_second'] = 72.5
+        runtime_entity_interpretation_model['timezone'] = 'testString'
+
+        runtime_entity_alternative_model = {}  # RuntimeEntityAlternative
+        runtime_entity_alternative_model['value'] = 'testString'
+        runtime_entity_alternative_model['confidence'] = 72.5
+
+        runtime_entity_role_model = {}  # RuntimeEntityRole
+        runtime_entity_role_model['type'] = 'date_from'
+
+        runtime_entity_model = {}  # RuntimeEntity
+        runtime_entity_model['entity'] = 'testString'
+        runtime_entity_model['location'] = [38]
+        runtime_entity_model['value'] = 'testString'
+        runtime_entity_model['confidence'] = 72.5
+        runtime_entity_model['groups'] = [capture_group_model]
+        runtime_entity_model['interpretation'] = runtime_entity_interpretation_model
+        runtime_entity_model['alternatives'] = [runtime_entity_alternative_model]
+        runtime_entity_model['role'] = runtime_entity_role_model
+        runtime_entity_model['skill'] = 'testString'
+
+        dialog_node_action_model = {}  # DialogNodeAction
+        dialog_node_action_model['name'] = 'testString'
+        dialog_node_action_model['type'] = 'client'
+        dialog_node_action_model['parameters'] = {'anyKey': 'anyValue'}
+        dialog_node_action_model['result_variable'] = 'testString'
+        dialog_node_action_model['credentials'] = 'testString'
+
+        dialog_node_visited_model = {}  # DialogNodeVisited
+        dialog_node_visited_model['dialog_node'] = 'testString'
+        dialog_node_visited_model['title'] = 'testString'
+        dialog_node_visited_model['conditions'] = 'testString'
+
+        log_message_source_model = {}  # LogMessageSourceDialogNode
+        log_message_source_model['type'] = 'dialog_node'
+        log_message_source_model['dialog_node'] = 'testString'
+
+        dialog_log_message_model = {}  # DialogLogMessage
+        dialog_log_message_model['level'] = 'info'
+        dialog_log_message_model['message'] = 'testString'
+        dialog_log_message_model['code'] = 'testString'
+        dialog_log_message_model['source'] = log_message_source_model
+
+        turn_event_action_source_model = {}  # TurnEventActionSource
+        turn_event_action_source_model['type'] = 'action'
+        turn_event_action_source_model['action'] = 'testString'
+        turn_event_action_source_model['action_title'] = 'testString'
+        turn_event_action_source_model['condition'] = 'testString'
+
+        message_output_debug_turn_event_model = {}  # MessageOutputDebugTurnEventTurnEventActionVisited
+        message_output_debug_turn_event_model['event'] = 'action_visited'
+        message_output_debug_turn_event_model['source'] = turn_event_action_source_model
+        message_output_debug_turn_event_model['action_start_time'] = 'testString'
+        message_output_debug_turn_event_model['condition_type'] = 'user_defined'
+        message_output_debug_turn_event_model['reason'] = 'intent'
+        message_output_debug_turn_event_model['result_variable'] = 'testString'
+
+        message_output_debug_model = {}  # MessageOutputDebug
+        message_output_debug_model['nodes_visited'] = [dialog_node_visited_model]
+        message_output_debug_model['log_messages'] = [dialog_log_message_model]
+        message_output_debug_model['branch_exited'] = True
+        message_output_debug_model['branch_exited_reason'] = 'completed'
+        message_output_debug_model['turn_events'] = [message_output_debug_turn_event_model]
+
+        message_output_spelling_model = {}  # MessageOutputSpelling
+        message_output_spelling_model['text'] = 'testString'
+        message_output_spelling_model['original_text'] = 'testString'
+        message_output_spelling_model['suggested_text'] = 'testString'
+
+        message_output_llm_metadata_model = {}  # MessageOutputLLMMetadata
+        message_output_llm_metadata_model['task'] = 'testString'
+        message_output_llm_metadata_model['model_id'] = 'testString'
+
+        message_context_global_system_model = {}  # MessageContextGlobalSystem
+        message_context_global_system_model['timezone'] = 'testString'
+        message_context_global_system_model['user_id'] = 'testString'
+        message_context_global_system_model['turn_count'] = 38
+        message_context_global_system_model['locale'] = 'en-us'
+        message_context_global_system_model['reference_time'] = 'testString'
+        message_context_global_system_model['session_start_time'] = 'testString'
+        message_context_global_system_model['state'] = 'testString'
+        message_context_global_system_model['skip_user_input'] = True
+
+        stateless_message_context_global_model = {}  # StatelessMessageContextGlobal
+        stateless_message_context_global_model['system'] = message_context_global_system_model
+        stateless_message_context_global_model['session_id'] = 'testString'
+
+        message_context_skill_system_model = {}  # MessageContextSkillSystem
+        message_context_skill_system_model['state'] = 'testString'
+        message_context_skill_system_model['foo'] = 'testString'
+
+        message_context_dialog_skill_model = {}  # MessageContextDialogSkill
+        message_context_dialog_skill_model['user_defined'] = {'anyKey': 'anyValue'}
+        message_context_dialog_skill_model['system'] = message_context_skill_system_model
+
+        stateless_message_context_skills_actions_skill_model = {}  # StatelessMessageContextSkillsActionsSkill
+        stateless_message_context_skills_actions_skill_model['user_defined'] = {'anyKey': 'anyValue'}
+        stateless_message_context_skills_actions_skill_model['system'] = message_context_skill_system_model
+        stateless_message_context_skills_actions_skill_model['action_variables'] = {'anyKey': 'anyValue'}
+        stateless_message_context_skills_actions_skill_model['skill_variables'] = {'anyKey': 'anyValue'}
+        stateless_message_context_skills_actions_skill_model['private_action_variables'] = {'anyKey': 'anyValue'}
+        stateless_message_context_skills_actions_skill_model['private_skill_variables'] = {'anyKey': 'anyValue'}
+
+        stateless_message_context_skills_model = {}  # StatelessMessageContextSkills
+        stateless_message_context_skills_model['main skill'] = message_context_dialog_skill_model
+        stateless_message_context_skills_model['actions skill'] = stateless_message_context_skills_actions_skill_model
+
+        stateless_message_context_model = {}  # StatelessMessageContext
+        stateless_message_context_model['global'] = stateless_message_context_global_model
+        stateless_message_context_model['skills'] = stateless_message_context_skills_model
+        stateless_message_context_model['integrations'] = {'anyKey': 'anyValue'}
+
+        # Construct a json representation of a StatelessFinalResponseOutput model
+        stateless_final_response_output_model_json = {}
+        stateless_final_response_output_model_json['generic'] = [runtime_response_generic_model]
+        stateless_final_response_output_model_json['intents'] = [runtime_intent_model]
+        stateless_final_response_output_model_json['entities'] = [runtime_entity_model]
+        stateless_final_response_output_model_json['actions'] = [dialog_node_action_model]
+        stateless_final_response_output_model_json['debug'] = message_output_debug_model
+        stateless_final_response_output_model_json['user_defined'] = {'anyKey': 'anyValue'}
+        stateless_final_response_output_model_json['spelling'] = message_output_spelling_model
+        stateless_final_response_output_model_json['llm_metadata'] = [message_output_llm_metadata_model]
+        stateless_final_response_output_model_json['streaming_metadata'] = stateless_message_context_model
+
+        # Construct a model instance of StatelessFinalResponseOutput by calling from_dict on the json representation
+        stateless_final_response_output_model = StatelessFinalResponseOutput.from_dict(stateless_final_response_output_model_json)
+        assert stateless_final_response_output_model != False
+
+        # Construct a model instance of StatelessFinalResponseOutput by calling from_dict on the json representation
+        stateless_final_response_output_model_dict = StatelessFinalResponseOutput.from_dict(stateless_final_response_output_model_json).__dict__
+        stateless_final_response_output_model2 = StatelessFinalResponseOutput(**stateless_final_response_output_model_dict)
+
+        # Verify the model instances are equivalent
+        assert stateless_final_response_output_model == stateless_final_response_output_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        stateless_final_response_output_model_json2 = stateless_final_response_output_model.to_dict()
+        assert stateless_final_response_output_model_json2 == stateless_final_response_output_model_json
 
 
 class TestModel_StatelessMessageContext:
@@ -11571,13 +13035,42 @@ class TestModel_StatelessMessageResponse:
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        response_generic_channel_model = {}  # ResponseGenericChannel
-        response_generic_channel_model['channel'] = 'testString'
+        response_generic_citation_ranges_item_model = {}  # ResponseGenericCitationRangesItem
+        response_generic_citation_ranges_item_model['start'] = 38
+        response_generic_citation_ranges_item_model['end'] = 38
 
-        runtime_response_generic_model = {}  # RuntimeResponseGenericRuntimeResponseTypeText
-        runtime_response_generic_model['response_type'] = 'text'
+        response_generic_citation_model = {}  # ResponseGenericCitation
+        response_generic_citation_model['title'] = 'testString'
+        response_generic_citation_model['text'] = 'testString'
+        response_generic_citation_model['body'] = 'testString'
+        response_generic_citation_model['search_result_index'] = 38
+        response_generic_citation_model['ranges'] = [response_generic_citation_ranges_item_model]
+
+        response_generic_confidence_scores_model = {}  # ResponseGenericConfidenceScores
+        response_generic_confidence_scores_model['threshold'] = 72.5
+        response_generic_confidence_scores_model['pre_gen'] = 72.5
+        response_generic_confidence_scores_model['post_gen'] = 72.5
+        response_generic_confidence_scores_model['extractiveness'] = 72.5
+
+        search_results_result_metadata_model = {}  # SearchResultsResultMetadata
+        search_results_result_metadata_model['document_retrieval_source'] = 'testString'
+        search_results_result_metadata_model['score'] = 38
+
+        search_results_model = {}  # SearchResults
+        search_results_model['result_metadata'] = search_results_result_metadata_model
+        search_results_model['id'] = 'testString'
+        search_results_model['title'] = 'testString'
+        search_results_model['body'] = 'testString'
+
+        runtime_response_generic_model = {}  # RuntimeResponseGenericRuntimeResponseTypeConversationalSearch
+        runtime_response_generic_model['response_type'] = 'conversation_search'
         runtime_response_generic_model['text'] = 'testString'
-        runtime_response_generic_model['channels'] = [response_generic_channel_model]
+        runtime_response_generic_model['citations_title'] = 'testString'
+        runtime_response_generic_model['citations'] = [response_generic_citation_model]
+        runtime_response_generic_model['confidence_scores'] = response_generic_confidence_scores_model
+        runtime_response_generic_model['response_length_option'] = 'testString'
+        runtime_response_generic_model['search_results'] = [search_results_model]
+        runtime_response_generic_model['disclaimer'] = 'testString'
 
         runtime_intent_model = {}  # RuntimeIntent
         runtime_intent_model['intent'] = 'testString'
@@ -11682,6 +13175,10 @@ class TestModel_StatelessMessageResponse:
         message_output_spelling_model['original_text'] = 'testString'
         message_output_spelling_model['suggested_text'] = 'testString'
 
+        message_output_llm_metadata_model = {}  # MessageOutputLLMMetadata
+        message_output_llm_metadata_model['task'] = 'testString'
+        message_output_llm_metadata_model['model_id'] = 'testString'
+
         message_output_model = {}  # MessageOutput
         message_output_model['generic'] = [runtime_response_generic_model]
         message_output_model['intents'] = [runtime_intent_model]
@@ -11690,6 +13187,7 @@ class TestModel_StatelessMessageResponse:
         message_output_model['debug'] = message_output_debug_model
         message_output_model['user_defined'] = {'anyKey': 'anyValue'}
         message_output_model['spelling'] = message_output_spelling_model
+        message_output_model['llm_metadata'] = [message_output_llm_metadata_model]
 
         message_context_global_system_model = {}  # MessageContextGlobalSystem
         message_context_global_system_model['timezone'] = 'testString'
@@ -11995,6 +13493,321 @@ class TestModel_TurnEventCalloutError:
         assert turn_event_callout_error_model_json2 == turn_event_callout_error_model_json
 
 
+class TestModel_TurnEventGenerativeAICalledCallout:
+    """
+    Test Class for TurnEventGenerativeAICalledCallout
+    """
+
+    def test_turn_event_generative_ai_called_callout_serialization(self):
+        """
+        Test serialization/deserialization for TurnEventGenerativeAICalledCallout
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        turn_event_generative_ai_called_callout_request_model = {}  # TurnEventGenerativeAICalledCalloutRequest
+        turn_event_generative_ai_called_callout_request_model['method'] = 'GET'
+        turn_event_generative_ai_called_callout_request_model['url'] = 'testString'
+        turn_event_generative_ai_called_callout_request_model['port'] = 'testString'
+        turn_event_generative_ai_called_callout_request_model['path'] = 'testString'
+        turn_event_generative_ai_called_callout_request_model['query_parameters'] = 'testString'
+        turn_event_generative_ai_called_callout_request_model['headers'] = {'anyKey': 'anyValue'}
+        turn_event_generative_ai_called_callout_request_model['body'] = {'anyKey': 'anyValue'}
+
+        turn_event_generative_ai_called_callout_response_model = {}  # TurnEventGenerativeAICalledCalloutResponse
+        turn_event_generative_ai_called_callout_response_model['body'] = 'testString'
+        turn_event_generative_ai_called_callout_response_model['status_code'] = 38
+
+        turn_event_generative_ai_called_callout_search_model = {}  # TurnEventGenerativeAICalledCalloutSearch
+        turn_event_generative_ai_called_callout_search_model['engine'] = 'testString'
+        turn_event_generative_ai_called_callout_search_model['index'] = 'testString'
+        turn_event_generative_ai_called_callout_search_model['query'] = 'testString'
+        turn_event_generative_ai_called_callout_search_model['request'] = turn_event_generative_ai_called_callout_request_model
+        turn_event_generative_ai_called_callout_search_model['response'] = turn_event_generative_ai_called_callout_response_model
+
+        turn_event_generative_ai_called_callout_llm_response_model = {}  # TurnEventGenerativeAICalledCalloutLlmResponse
+        turn_event_generative_ai_called_callout_llm_response_model['text'] = 'testString'
+        turn_event_generative_ai_called_callout_llm_response_model['response_type'] = 'testString'
+        turn_event_generative_ai_called_callout_llm_response_model['is_idk_response'] = True
+
+        search_results_result_metadata_model = {}  # SearchResultsResultMetadata
+        search_results_result_metadata_model['document_retrieval_source'] = 'testString'
+        search_results_result_metadata_model['score'] = 38
+
+        search_results_model = {}  # SearchResults
+        search_results_model['result_metadata'] = search_results_result_metadata_model
+        search_results_model['id'] = 'testString'
+        search_results_model['title'] = 'testString'
+        search_results_model['body'] = 'testString'
+
+        turn_event_generative_ai_called_callout_llm_model = {}  # TurnEventGenerativeAICalledCalloutLlm
+        turn_event_generative_ai_called_callout_llm_model['type'] = 'testString'
+        turn_event_generative_ai_called_callout_llm_model['model_id'] = 'testString'
+        turn_event_generative_ai_called_callout_llm_model['model_class_id'] = 'testString'
+        turn_event_generative_ai_called_callout_llm_model['generated_token_count'] = 38
+        turn_event_generative_ai_called_callout_llm_model['input_token_count'] = 38
+        turn_event_generative_ai_called_callout_llm_model['success'] = True
+        turn_event_generative_ai_called_callout_llm_model['response'] = turn_event_generative_ai_called_callout_llm_response_model
+        turn_event_generative_ai_called_callout_llm_model['request'] = [search_results_model]
+
+        # Construct a json representation of a TurnEventGenerativeAICalledCallout model
+        turn_event_generative_ai_called_callout_model_json = {}
+        turn_event_generative_ai_called_callout_model_json['search_called'] = True
+        turn_event_generative_ai_called_callout_model_json['llm_called'] = True
+        turn_event_generative_ai_called_callout_model_json['search'] = turn_event_generative_ai_called_callout_search_model
+        turn_event_generative_ai_called_callout_model_json['llm'] = turn_event_generative_ai_called_callout_llm_model
+        turn_event_generative_ai_called_callout_model_json['idk_reason_code'] = 'testString'
+
+        # Construct a model instance of TurnEventGenerativeAICalledCallout by calling from_dict on the json representation
+        turn_event_generative_ai_called_callout_model = TurnEventGenerativeAICalledCallout.from_dict(turn_event_generative_ai_called_callout_model_json)
+        assert turn_event_generative_ai_called_callout_model != False
+
+        # Construct a model instance of TurnEventGenerativeAICalledCallout by calling from_dict on the json representation
+        turn_event_generative_ai_called_callout_model_dict = TurnEventGenerativeAICalledCallout.from_dict(turn_event_generative_ai_called_callout_model_json).__dict__
+        turn_event_generative_ai_called_callout_model2 = TurnEventGenerativeAICalledCallout(**turn_event_generative_ai_called_callout_model_dict)
+
+        # Verify the model instances are equivalent
+        assert turn_event_generative_ai_called_callout_model == turn_event_generative_ai_called_callout_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        turn_event_generative_ai_called_callout_model_json2 = turn_event_generative_ai_called_callout_model.to_dict()
+        assert turn_event_generative_ai_called_callout_model_json2 == turn_event_generative_ai_called_callout_model_json
+
+
+class TestModel_TurnEventGenerativeAICalledCalloutLlm:
+    """
+    Test Class for TurnEventGenerativeAICalledCalloutLlm
+    """
+
+    def test_turn_event_generative_ai_called_callout_llm_serialization(self):
+        """
+        Test serialization/deserialization for TurnEventGenerativeAICalledCalloutLlm
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        turn_event_generative_ai_called_callout_llm_response_model = {}  # TurnEventGenerativeAICalledCalloutLlmResponse
+        turn_event_generative_ai_called_callout_llm_response_model['text'] = 'testString'
+        turn_event_generative_ai_called_callout_llm_response_model['response_type'] = 'testString'
+        turn_event_generative_ai_called_callout_llm_response_model['is_idk_response'] = True
+
+        search_results_result_metadata_model = {}  # SearchResultsResultMetadata
+        search_results_result_metadata_model['document_retrieval_source'] = 'testString'
+        search_results_result_metadata_model['score'] = 38
+
+        search_results_model = {}  # SearchResults
+        search_results_model['result_metadata'] = search_results_result_metadata_model
+        search_results_model['id'] = 'testString'
+        search_results_model['title'] = 'testString'
+        search_results_model['body'] = 'testString'
+
+        # Construct a json representation of a TurnEventGenerativeAICalledCalloutLlm model
+        turn_event_generative_ai_called_callout_llm_model_json = {}
+        turn_event_generative_ai_called_callout_llm_model_json['type'] = 'testString'
+        turn_event_generative_ai_called_callout_llm_model_json['model_id'] = 'testString'
+        turn_event_generative_ai_called_callout_llm_model_json['model_class_id'] = 'testString'
+        turn_event_generative_ai_called_callout_llm_model_json['generated_token_count'] = 38
+        turn_event_generative_ai_called_callout_llm_model_json['input_token_count'] = 38
+        turn_event_generative_ai_called_callout_llm_model_json['success'] = True
+        turn_event_generative_ai_called_callout_llm_model_json['response'] = turn_event_generative_ai_called_callout_llm_response_model
+        turn_event_generative_ai_called_callout_llm_model_json['request'] = [search_results_model]
+
+        # Construct a model instance of TurnEventGenerativeAICalledCalloutLlm by calling from_dict on the json representation
+        turn_event_generative_ai_called_callout_llm_model = TurnEventGenerativeAICalledCalloutLlm.from_dict(turn_event_generative_ai_called_callout_llm_model_json)
+        assert turn_event_generative_ai_called_callout_llm_model != False
+
+        # Construct a model instance of TurnEventGenerativeAICalledCalloutLlm by calling from_dict on the json representation
+        turn_event_generative_ai_called_callout_llm_model_dict = TurnEventGenerativeAICalledCalloutLlm.from_dict(turn_event_generative_ai_called_callout_llm_model_json).__dict__
+        turn_event_generative_ai_called_callout_llm_model2 = TurnEventGenerativeAICalledCalloutLlm(**turn_event_generative_ai_called_callout_llm_model_dict)
+
+        # Verify the model instances are equivalent
+        assert turn_event_generative_ai_called_callout_llm_model == turn_event_generative_ai_called_callout_llm_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        turn_event_generative_ai_called_callout_llm_model_json2 = turn_event_generative_ai_called_callout_llm_model.to_dict()
+        assert turn_event_generative_ai_called_callout_llm_model_json2 == turn_event_generative_ai_called_callout_llm_model_json
+
+
+class TestModel_TurnEventGenerativeAICalledCalloutLlmResponse:
+    """
+    Test Class for TurnEventGenerativeAICalledCalloutLlmResponse
+    """
+
+    def test_turn_event_generative_ai_called_callout_llm_response_serialization(self):
+        """
+        Test serialization/deserialization for TurnEventGenerativeAICalledCalloutLlmResponse
+        """
+
+        # Construct a json representation of a TurnEventGenerativeAICalledCalloutLlmResponse model
+        turn_event_generative_ai_called_callout_llm_response_model_json = {}
+        turn_event_generative_ai_called_callout_llm_response_model_json['text'] = 'testString'
+        turn_event_generative_ai_called_callout_llm_response_model_json['response_type'] = 'testString'
+        turn_event_generative_ai_called_callout_llm_response_model_json['is_idk_response'] = True
+
+        # Construct a model instance of TurnEventGenerativeAICalledCalloutLlmResponse by calling from_dict on the json representation
+        turn_event_generative_ai_called_callout_llm_response_model = TurnEventGenerativeAICalledCalloutLlmResponse.from_dict(turn_event_generative_ai_called_callout_llm_response_model_json)
+        assert turn_event_generative_ai_called_callout_llm_response_model != False
+
+        # Construct a model instance of TurnEventGenerativeAICalledCalloutLlmResponse by calling from_dict on the json representation
+        turn_event_generative_ai_called_callout_llm_response_model_dict = TurnEventGenerativeAICalledCalloutLlmResponse.from_dict(turn_event_generative_ai_called_callout_llm_response_model_json).__dict__
+        turn_event_generative_ai_called_callout_llm_response_model2 = TurnEventGenerativeAICalledCalloutLlmResponse(**turn_event_generative_ai_called_callout_llm_response_model_dict)
+
+        # Verify the model instances are equivalent
+        assert turn_event_generative_ai_called_callout_llm_response_model == turn_event_generative_ai_called_callout_llm_response_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        turn_event_generative_ai_called_callout_llm_response_model_json2 = turn_event_generative_ai_called_callout_llm_response_model.to_dict()
+        assert turn_event_generative_ai_called_callout_llm_response_model_json2 == turn_event_generative_ai_called_callout_llm_response_model_json
+
+
+class TestModel_TurnEventGenerativeAICalledCalloutRequest:
+    """
+    Test Class for TurnEventGenerativeAICalledCalloutRequest
+    """
+
+    def test_turn_event_generative_ai_called_callout_request_serialization(self):
+        """
+        Test serialization/deserialization for TurnEventGenerativeAICalledCalloutRequest
+        """
+
+        # Construct a json representation of a TurnEventGenerativeAICalledCalloutRequest model
+        turn_event_generative_ai_called_callout_request_model_json = {}
+        turn_event_generative_ai_called_callout_request_model_json['method'] = 'GET'
+        turn_event_generative_ai_called_callout_request_model_json['url'] = 'testString'
+        turn_event_generative_ai_called_callout_request_model_json['port'] = 'testString'
+        turn_event_generative_ai_called_callout_request_model_json['path'] = 'testString'
+        turn_event_generative_ai_called_callout_request_model_json['query_parameters'] = 'testString'
+        turn_event_generative_ai_called_callout_request_model_json['headers'] = {'anyKey': 'anyValue'}
+        turn_event_generative_ai_called_callout_request_model_json['body'] = {'anyKey': 'anyValue'}
+
+        # Construct a model instance of TurnEventGenerativeAICalledCalloutRequest by calling from_dict on the json representation
+        turn_event_generative_ai_called_callout_request_model = TurnEventGenerativeAICalledCalloutRequest.from_dict(turn_event_generative_ai_called_callout_request_model_json)
+        assert turn_event_generative_ai_called_callout_request_model != False
+
+        # Construct a model instance of TurnEventGenerativeAICalledCalloutRequest by calling from_dict on the json representation
+        turn_event_generative_ai_called_callout_request_model_dict = TurnEventGenerativeAICalledCalloutRequest.from_dict(turn_event_generative_ai_called_callout_request_model_json).__dict__
+        turn_event_generative_ai_called_callout_request_model2 = TurnEventGenerativeAICalledCalloutRequest(**turn_event_generative_ai_called_callout_request_model_dict)
+
+        # Verify the model instances are equivalent
+        assert turn_event_generative_ai_called_callout_request_model == turn_event_generative_ai_called_callout_request_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        turn_event_generative_ai_called_callout_request_model_json2 = turn_event_generative_ai_called_callout_request_model.to_dict()
+        assert turn_event_generative_ai_called_callout_request_model_json2 == turn_event_generative_ai_called_callout_request_model_json
+
+
+class TestModel_TurnEventGenerativeAICalledCalloutResponse:
+    """
+    Test Class for TurnEventGenerativeAICalledCalloutResponse
+    """
+
+    def test_turn_event_generative_ai_called_callout_response_serialization(self):
+        """
+        Test serialization/deserialization for TurnEventGenerativeAICalledCalloutResponse
+        """
+
+        # Construct a json representation of a TurnEventGenerativeAICalledCalloutResponse model
+        turn_event_generative_ai_called_callout_response_model_json = {}
+        turn_event_generative_ai_called_callout_response_model_json['body'] = 'testString'
+        turn_event_generative_ai_called_callout_response_model_json['status_code'] = 38
+
+        # Construct a model instance of TurnEventGenerativeAICalledCalloutResponse by calling from_dict on the json representation
+        turn_event_generative_ai_called_callout_response_model = TurnEventGenerativeAICalledCalloutResponse.from_dict(turn_event_generative_ai_called_callout_response_model_json)
+        assert turn_event_generative_ai_called_callout_response_model != False
+
+        # Construct a model instance of TurnEventGenerativeAICalledCalloutResponse by calling from_dict on the json representation
+        turn_event_generative_ai_called_callout_response_model_dict = TurnEventGenerativeAICalledCalloutResponse.from_dict(turn_event_generative_ai_called_callout_response_model_json).__dict__
+        turn_event_generative_ai_called_callout_response_model2 = TurnEventGenerativeAICalledCalloutResponse(**turn_event_generative_ai_called_callout_response_model_dict)
+
+        # Verify the model instances are equivalent
+        assert turn_event_generative_ai_called_callout_response_model == turn_event_generative_ai_called_callout_response_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        turn_event_generative_ai_called_callout_response_model_json2 = turn_event_generative_ai_called_callout_response_model.to_dict()
+        assert turn_event_generative_ai_called_callout_response_model_json2 == turn_event_generative_ai_called_callout_response_model_json
+
+
+class TestModel_TurnEventGenerativeAICalledCalloutSearch:
+    """
+    Test Class for TurnEventGenerativeAICalledCalloutSearch
+    """
+
+    def test_turn_event_generative_ai_called_callout_search_serialization(self):
+        """
+        Test serialization/deserialization for TurnEventGenerativeAICalledCalloutSearch
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        turn_event_generative_ai_called_callout_request_model = {}  # TurnEventGenerativeAICalledCalloutRequest
+        turn_event_generative_ai_called_callout_request_model['method'] = 'GET'
+        turn_event_generative_ai_called_callout_request_model['url'] = 'testString'
+        turn_event_generative_ai_called_callout_request_model['port'] = 'testString'
+        turn_event_generative_ai_called_callout_request_model['path'] = 'testString'
+        turn_event_generative_ai_called_callout_request_model['query_parameters'] = 'testString'
+        turn_event_generative_ai_called_callout_request_model['headers'] = {'anyKey': 'anyValue'}
+        turn_event_generative_ai_called_callout_request_model['body'] = {'anyKey': 'anyValue'}
+
+        turn_event_generative_ai_called_callout_response_model = {}  # TurnEventGenerativeAICalledCalloutResponse
+        turn_event_generative_ai_called_callout_response_model['body'] = 'testString'
+        turn_event_generative_ai_called_callout_response_model['status_code'] = 38
+
+        # Construct a json representation of a TurnEventGenerativeAICalledCalloutSearch model
+        turn_event_generative_ai_called_callout_search_model_json = {}
+        turn_event_generative_ai_called_callout_search_model_json['engine'] = 'testString'
+        turn_event_generative_ai_called_callout_search_model_json['index'] = 'testString'
+        turn_event_generative_ai_called_callout_search_model_json['query'] = 'testString'
+        turn_event_generative_ai_called_callout_search_model_json['request'] = turn_event_generative_ai_called_callout_request_model
+        turn_event_generative_ai_called_callout_search_model_json['response'] = turn_event_generative_ai_called_callout_response_model
+
+        # Construct a model instance of TurnEventGenerativeAICalledCalloutSearch by calling from_dict on the json representation
+        turn_event_generative_ai_called_callout_search_model = TurnEventGenerativeAICalledCalloutSearch.from_dict(turn_event_generative_ai_called_callout_search_model_json)
+        assert turn_event_generative_ai_called_callout_search_model != False
+
+        # Construct a model instance of TurnEventGenerativeAICalledCalloutSearch by calling from_dict on the json representation
+        turn_event_generative_ai_called_callout_search_model_dict = TurnEventGenerativeAICalledCalloutSearch.from_dict(turn_event_generative_ai_called_callout_search_model_json).__dict__
+        turn_event_generative_ai_called_callout_search_model2 = TurnEventGenerativeAICalledCalloutSearch(**turn_event_generative_ai_called_callout_search_model_dict)
+
+        # Verify the model instances are equivalent
+        assert turn_event_generative_ai_called_callout_search_model == turn_event_generative_ai_called_callout_search_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        turn_event_generative_ai_called_callout_search_model_json2 = turn_event_generative_ai_called_callout_search_model.to_dict()
+        assert turn_event_generative_ai_called_callout_search_model_json2 == turn_event_generative_ai_called_callout_search_model_json
+
+
+class TestModel_TurnEventGenerativeAICalledMetrics:
+    """
+    Test Class for TurnEventGenerativeAICalledMetrics
+    """
+
+    def test_turn_event_generative_ai_called_metrics_serialization(self):
+        """
+        Test serialization/deserialization for TurnEventGenerativeAICalledMetrics
+        """
+
+        # Construct a json representation of a TurnEventGenerativeAICalledMetrics model
+        turn_event_generative_ai_called_metrics_model_json = {}
+        turn_event_generative_ai_called_metrics_model_json['search_time_ms'] = 'unknown type: float'
+        turn_event_generative_ai_called_metrics_model_json['answer_generation_time_ms'] = 'unknown type: float'
+        turn_event_generative_ai_called_metrics_model_json['total_time_ms'] = 'unknown type: float'
+
+        # Construct a model instance of TurnEventGenerativeAICalledMetrics by calling from_dict on the json representation
+        turn_event_generative_ai_called_metrics_model = TurnEventGenerativeAICalledMetrics.from_dict(turn_event_generative_ai_called_metrics_model_json)
+        assert turn_event_generative_ai_called_metrics_model != False
+
+        # Construct a model instance of TurnEventGenerativeAICalledMetrics by calling from_dict on the json representation
+        turn_event_generative_ai_called_metrics_model_dict = TurnEventGenerativeAICalledMetrics.from_dict(turn_event_generative_ai_called_metrics_model_json).__dict__
+        turn_event_generative_ai_called_metrics_model2 = TurnEventGenerativeAICalledMetrics(**turn_event_generative_ai_called_metrics_model_dict)
+
+        # Verify the model instances are equivalent
+        assert turn_event_generative_ai_called_metrics_model == turn_event_generative_ai_called_metrics_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        turn_event_generative_ai_called_metrics_model_json2 = turn_event_generative_ai_called_metrics_model.to_dict()
+        assert turn_event_generative_ai_called_metrics_model_json2 == turn_event_generative_ai_called_metrics_model_json
+
+
 class TestModel_TurnEventNodeSource:
     """
     Test Class for TurnEventNodeSource
@@ -12056,6 +13869,41 @@ class TestModel_TurnEventSearchError:
         # Convert model instance back to dict and verify no loss of data
         turn_event_search_error_model_json2 = turn_event_search_error_model.to_dict()
         assert turn_event_search_error_model_json2 == turn_event_search_error_model_json
+
+
+class TestModel_TurnEventStepSource:
+    """
+    Test Class for TurnEventStepSource
+    """
+
+    def test_turn_event_step_source_serialization(self):
+        """
+        Test serialization/deserialization for TurnEventStepSource
+        """
+
+        # Construct a json representation of a TurnEventStepSource model
+        turn_event_step_source_model_json = {}
+        turn_event_step_source_model_json['type'] = 'step'
+        turn_event_step_source_model_json['action'] = 'testString'
+        turn_event_step_source_model_json['action_title'] = 'testString'
+        turn_event_step_source_model_json['step'] = 'testString'
+        turn_event_step_source_model_json['is_ai_guided'] = True
+        turn_event_step_source_model_json['is_skill_based'] = True
+
+        # Construct a model instance of TurnEventStepSource by calling from_dict on the json representation
+        turn_event_step_source_model = TurnEventStepSource.from_dict(turn_event_step_source_model_json)
+        assert turn_event_step_source_model != False
+
+        # Construct a model instance of TurnEventStepSource by calling from_dict on the json representation
+        turn_event_step_source_model_dict = TurnEventStepSource.from_dict(turn_event_step_source_model_json).__dict__
+        turn_event_step_source_model2 = TurnEventStepSource(**turn_event_step_source_model_dict)
+
+        # Verify the model instances are equivalent
+        assert turn_event_step_source_model == turn_event_step_source_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        turn_event_step_source_model_json2 = turn_event_step_source_model.to_dict()
+        assert turn_event_step_source_model_json2 == turn_event_step_source_model_json
 
 
 class TestModel_UpdateEnvironmentOrchestration:
@@ -12151,6 +13999,81 @@ class TestModel_CompleteItem:
         # Convert model instance back to dict and verify no loss of data
         complete_item_model_json2 = complete_item_model.to_dict()
         assert complete_item_model_json2 == complete_item_model_json
+
+
+class TestModel_GenerativeAITaskContentGroundedAnswering:
+    """
+    Test Class for GenerativeAITaskContentGroundedAnswering
+    """
+
+    def test_generative_ai_task_content_grounded_answering_serialization(self):
+        """
+        Test serialization/deserialization for GenerativeAITaskContentGroundedAnswering
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        generative_ai_task_confidence_scores_model = {}  # GenerativeAITaskConfidenceScores
+        generative_ai_task_confidence_scores_model['pre_gen'] = 72.5
+        generative_ai_task_confidence_scores_model['pre_gen_threshold'] = 72.5
+        generative_ai_task_confidence_scores_model['post_gen'] = 72.5
+        generative_ai_task_confidence_scores_model['post_gen_threshold'] = 72.5
+
+        # Construct a json representation of a GenerativeAITaskContentGroundedAnswering model
+        generative_ai_task_content_grounded_answering_model_json = {}
+        generative_ai_task_content_grounded_answering_model_json['task'] = 'content_grounded_answering'
+        generative_ai_task_content_grounded_answering_model_json['is_idk_response'] = True
+        generative_ai_task_content_grounded_answering_model_json['is_hap_detected'] = True
+        generative_ai_task_content_grounded_answering_model_json['confidence_scores'] = generative_ai_task_confidence_scores_model
+        generative_ai_task_content_grounded_answering_model_json['original_response'] = 'testString'
+        generative_ai_task_content_grounded_answering_model_json['inferred_query'] = 'testString'
+
+        # Construct a model instance of GenerativeAITaskContentGroundedAnswering by calling from_dict on the json representation
+        generative_ai_task_content_grounded_answering_model = GenerativeAITaskContentGroundedAnswering.from_dict(generative_ai_task_content_grounded_answering_model_json)
+        assert generative_ai_task_content_grounded_answering_model != False
+
+        # Construct a model instance of GenerativeAITaskContentGroundedAnswering by calling from_dict on the json representation
+        generative_ai_task_content_grounded_answering_model_dict = GenerativeAITaskContentGroundedAnswering.from_dict(generative_ai_task_content_grounded_answering_model_json).__dict__
+        generative_ai_task_content_grounded_answering_model2 = GenerativeAITaskContentGroundedAnswering(**generative_ai_task_content_grounded_answering_model_dict)
+
+        # Verify the model instances are equivalent
+        assert generative_ai_task_content_grounded_answering_model == generative_ai_task_content_grounded_answering_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        generative_ai_task_content_grounded_answering_model_json2 = generative_ai_task_content_grounded_answering_model.to_dict()
+        assert generative_ai_task_content_grounded_answering_model_json2 == generative_ai_task_content_grounded_answering_model_json
+
+
+class TestModel_GenerativeAITaskGeneralPurposeAnswering:
+    """
+    Test Class for GenerativeAITaskGeneralPurposeAnswering
+    """
+
+    def test_generative_ai_task_general_purpose_answering_serialization(self):
+        """
+        Test serialization/deserialization for GenerativeAITaskGeneralPurposeAnswering
+        """
+
+        # Construct a json representation of a GenerativeAITaskGeneralPurposeAnswering model
+        generative_ai_task_general_purpose_answering_model_json = {}
+        generative_ai_task_general_purpose_answering_model_json['task'] = 'general_purpose_answering'
+        generative_ai_task_general_purpose_answering_model_json['is_idk_response'] = True
+        generative_ai_task_general_purpose_answering_model_json['is_hap_detected'] = True
+
+        # Construct a model instance of GenerativeAITaskGeneralPurposeAnswering by calling from_dict on the json representation
+        generative_ai_task_general_purpose_answering_model = GenerativeAITaskGeneralPurposeAnswering.from_dict(generative_ai_task_general_purpose_answering_model_json)
+        assert generative_ai_task_general_purpose_answering_model != False
+
+        # Construct a model instance of GenerativeAITaskGeneralPurposeAnswering by calling from_dict on the json representation
+        generative_ai_task_general_purpose_answering_model_dict = GenerativeAITaskGeneralPurposeAnswering.from_dict(generative_ai_task_general_purpose_answering_model_json).__dict__
+        generative_ai_task_general_purpose_answering_model2 = GenerativeAITaskGeneralPurposeAnswering(**generative_ai_task_general_purpose_answering_model_dict)
+
+        # Verify the model instances are equivalent
+        assert generative_ai_task_general_purpose_answering_model == generative_ai_task_general_purpose_answering_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        generative_ai_task_general_purpose_answering_model_json2 = generative_ai_task_general_purpose_answering_model.to_dict()
+        assert generative_ai_task_general_purpose_answering_model_json2 == generative_ai_task_general_purpose_answering_model_json
 
 
 class TestModel_LogMessageSourceAction:
@@ -12323,6 +14246,47 @@ class TestModel_MessageOutputDebugTurnEventTurnEventActionFinished:
         assert message_output_debug_turn_event_turn_event_action_finished_model_json2 == message_output_debug_turn_event_turn_event_action_finished_model_json
 
 
+class TestModel_MessageOutputDebugTurnEventTurnEventActionRoutingDenied:
+    """
+    Test Class for MessageOutputDebugTurnEventTurnEventActionRoutingDenied
+    """
+
+    def test_message_output_debug_turn_event_turn_event_action_routing_denied_serialization(self):
+        """
+        Test serialization/deserialization for MessageOutputDebugTurnEventTurnEventActionRoutingDenied
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        turn_event_action_source_model = {}  # TurnEventActionSource
+        turn_event_action_source_model['type'] = 'action'
+        turn_event_action_source_model['action'] = 'testString'
+        turn_event_action_source_model['action_title'] = 'testString'
+        turn_event_action_source_model['condition'] = 'testString'
+
+        # Construct a json representation of a MessageOutputDebugTurnEventTurnEventActionRoutingDenied model
+        message_output_debug_turn_event_turn_event_action_routing_denied_model_json = {}
+        message_output_debug_turn_event_turn_event_action_routing_denied_model_json['event'] = 'action_routing_denied'
+        message_output_debug_turn_event_turn_event_action_routing_denied_model_json['source'] = turn_event_action_source_model
+        message_output_debug_turn_event_turn_event_action_routing_denied_model_json['condition_type'] = 'user_defined'
+        message_output_debug_turn_event_turn_event_action_routing_denied_model_json['reason'] = 'action_conditions_failed'
+
+        # Construct a model instance of MessageOutputDebugTurnEventTurnEventActionRoutingDenied by calling from_dict on the json representation
+        message_output_debug_turn_event_turn_event_action_routing_denied_model = MessageOutputDebugTurnEventTurnEventActionRoutingDenied.from_dict(message_output_debug_turn_event_turn_event_action_routing_denied_model_json)
+        assert message_output_debug_turn_event_turn_event_action_routing_denied_model != False
+
+        # Construct a model instance of MessageOutputDebugTurnEventTurnEventActionRoutingDenied by calling from_dict on the json representation
+        message_output_debug_turn_event_turn_event_action_routing_denied_model_dict = MessageOutputDebugTurnEventTurnEventActionRoutingDenied.from_dict(message_output_debug_turn_event_turn_event_action_routing_denied_model_json).__dict__
+        message_output_debug_turn_event_turn_event_action_routing_denied_model2 = MessageOutputDebugTurnEventTurnEventActionRoutingDenied(**message_output_debug_turn_event_turn_event_action_routing_denied_model_dict)
+
+        # Verify the model instances are equivalent
+        assert message_output_debug_turn_event_turn_event_action_routing_denied_model == message_output_debug_turn_event_turn_event_action_routing_denied_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        message_output_debug_turn_event_turn_event_action_routing_denied_model_json2 = message_output_debug_turn_event_turn_event_action_routing_denied_model.to_dict()
+        assert message_output_debug_turn_event_turn_event_action_routing_denied_model_json2 == message_output_debug_turn_event_turn_event_action_routing_denied_model_json
+
+
 class TestModel_MessageOutputDebugTurnEventTurnEventActionVisited:
     """
     Test Class for MessageOutputDebugTurnEventTurnEventActionVisited
@@ -12430,6 +14394,203 @@ class TestModel_MessageOutputDebugTurnEventTurnEventCallout:
         assert message_output_debug_turn_event_turn_event_callout_model_json2 == message_output_debug_turn_event_turn_event_callout_model_json
 
 
+class TestModel_MessageOutputDebugTurnEventTurnEventClientActions:
+    """
+    Test Class for MessageOutputDebugTurnEventTurnEventClientActions
+    """
+
+    def test_message_output_debug_turn_event_turn_event_client_actions_serialization(self):
+        """
+        Test serialization/deserialization for MessageOutputDebugTurnEventTurnEventClientActions
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        turn_event_step_source_model = {}  # TurnEventStepSource
+        turn_event_step_source_model['type'] = 'step'
+        turn_event_step_source_model['action'] = 'testString'
+        turn_event_step_source_model['action_title'] = 'testString'
+        turn_event_step_source_model['step'] = 'testString'
+        turn_event_step_source_model['is_ai_guided'] = True
+        turn_event_step_source_model['is_skill_based'] = True
+
+        client_action_model = {}  # ClientAction
+        client_action_model['name'] = 'testString'
+        client_action_model['result_variable'] = 'testString'
+        client_action_model['type'] = 'testString'
+        client_action_model['skill'] = 'main skill'
+        client_action_model['parameters'] = {'anyKey': 'anyValue'}
+
+        # Construct a json representation of a MessageOutputDebugTurnEventTurnEventClientActions model
+        message_output_debug_turn_event_turn_event_client_actions_model_json = {}
+        message_output_debug_turn_event_turn_event_client_actions_model_json['event'] = 'client_actions'
+        message_output_debug_turn_event_turn_event_client_actions_model_json['source'] = turn_event_step_source_model
+        message_output_debug_turn_event_turn_event_client_actions_model_json['client_actions'] = [client_action_model]
+
+        # Construct a model instance of MessageOutputDebugTurnEventTurnEventClientActions by calling from_dict on the json representation
+        message_output_debug_turn_event_turn_event_client_actions_model = MessageOutputDebugTurnEventTurnEventClientActions.from_dict(message_output_debug_turn_event_turn_event_client_actions_model_json)
+        assert message_output_debug_turn_event_turn_event_client_actions_model != False
+
+        # Construct a model instance of MessageOutputDebugTurnEventTurnEventClientActions by calling from_dict on the json representation
+        message_output_debug_turn_event_turn_event_client_actions_model_dict = MessageOutputDebugTurnEventTurnEventClientActions.from_dict(message_output_debug_turn_event_turn_event_client_actions_model_json).__dict__
+        message_output_debug_turn_event_turn_event_client_actions_model2 = MessageOutputDebugTurnEventTurnEventClientActions(**message_output_debug_turn_event_turn_event_client_actions_model_dict)
+
+        # Verify the model instances are equivalent
+        assert message_output_debug_turn_event_turn_event_client_actions_model == message_output_debug_turn_event_turn_event_client_actions_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        message_output_debug_turn_event_turn_event_client_actions_model_json2 = message_output_debug_turn_event_turn_event_client_actions_model.to_dict()
+        assert message_output_debug_turn_event_turn_event_client_actions_model_json2 == message_output_debug_turn_event_turn_event_client_actions_model_json
+
+
+class TestModel_MessageOutputDebugTurnEventTurnEventConversationalSearchEnd:
+    """
+    Test Class for MessageOutputDebugTurnEventTurnEventConversationalSearchEnd
+    """
+
+    def test_message_output_debug_turn_event_turn_event_conversational_search_end_serialization(self):
+        """
+        Test serialization/deserialization for MessageOutputDebugTurnEventTurnEventConversationalSearchEnd
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        turn_event_action_source_model = {}  # TurnEventActionSource
+        turn_event_action_source_model['type'] = 'action'
+        turn_event_action_source_model['action'] = 'testString'
+        turn_event_action_source_model['action_title'] = 'testString'
+        turn_event_action_source_model['condition'] = 'testString'
+
+        # Construct a json representation of a MessageOutputDebugTurnEventTurnEventConversationalSearchEnd model
+        message_output_debug_turn_event_turn_event_conversational_search_end_model_json = {}
+        message_output_debug_turn_event_turn_event_conversational_search_end_model_json['event'] = 'conversational_search_end'
+        message_output_debug_turn_event_turn_event_conversational_search_end_model_json['source'] = turn_event_action_source_model
+        message_output_debug_turn_event_turn_event_conversational_search_end_model_json['condition_type'] = 'user_defined'
+
+        # Construct a model instance of MessageOutputDebugTurnEventTurnEventConversationalSearchEnd by calling from_dict on the json representation
+        message_output_debug_turn_event_turn_event_conversational_search_end_model = MessageOutputDebugTurnEventTurnEventConversationalSearchEnd.from_dict(message_output_debug_turn_event_turn_event_conversational_search_end_model_json)
+        assert message_output_debug_turn_event_turn_event_conversational_search_end_model != False
+
+        # Construct a model instance of MessageOutputDebugTurnEventTurnEventConversationalSearchEnd by calling from_dict on the json representation
+        message_output_debug_turn_event_turn_event_conversational_search_end_model_dict = MessageOutputDebugTurnEventTurnEventConversationalSearchEnd.from_dict(message_output_debug_turn_event_turn_event_conversational_search_end_model_json).__dict__
+        message_output_debug_turn_event_turn_event_conversational_search_end_model2 = MessageOutputDebugTurnEventTurnEventConversationalSearchEnd(**message_output_debug_turn_event_turn_event_conversational_search_end_model_dict)
+
+        # Verify the model instances are equivalent
+        assert message_output_debug_turn_event_turn_event_conversational_search_end_model == message_output_debug_turn_event_turn_event_conversational_search_end_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        message_output_debug_turn_event_turn_event_conversational_search_end_model_json2 = message_output_debug_turn_event_turn_event_conversational_search_end_model.to_dict()
+        assert message_output_debug_turn_event_turn_event_conversational_search_end_model_json2 == message_output_debug_turn_event_turn_event_conversational_search_end_model_json
+
+
+class TestModel_MessageOutputDebugTurnEventTurnEventGenerativeAICalled:
+    """
+    Test Class for MessageOutputDebugTurnEventTurnEventGenerativeAICalled
+    """
+
+    def test_message_output_debug_turn_event_turn_event_generative_ai_called_serialization(self):
+        """
+        Test serialization/deserialization for MessageOutputDebugTurnEventTurnEventGenerativeAICalled
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        generative_ai_task_confidence_scores_model = {}  # GenerativeAITaskConfidenceScores
+        generative_ai_task_confidence_scores_model['pre_gen'] = 72.5
+        generative_ai_task_confidence_scores_model['pre_gen_threshold'] = 72.5
+        generative_ai_task_confidence_scores_model['post_gen'] = 72.5
+        generative_ai_task_confidence_scores_model['post_gen_threshold'] = 72.5
+
+        generative_ai_task_model = {}  # GenerativeAITaskContentGroundedAnswering
+        generative_ai_task_model['task'] = 'content_grounded_answering'
+        generative_ai_task_model['is_idk_response'] = True
+        generative_ai_task_model['is_hap_detected'] = True
+        generative_ai_task_model['confidence_scores'] = generative_ai_task_confidence_scores_model
+        generative_ai_task_model['original_response'] = 'testString'
+        generative_ai_task_model['inferred_query'] = 'testString'
+
+        turn_event_generative_ai_called_callout_request_model = {}  # TurnEventGenerativeAICalledCalloutRequest
+        turn_event_generative_ai_called_callout_request_model['method'] = 'GET'
+        turn_event_generative_ai_called_callout_request_model['url'] = 'testString'
+        turn_event_generative_ai_called_callout_request_model['port'] = 'testString'
+        turn_event_generative_ai_called_callout_request_model['path'] = 'testString'
+        turn_event_generative_ai_called_callout_request_model['query_parameters'] = 'testString'
+        turn_event_generative_ai_called_callout_request_model['headers'] = {'anyKey': 'anyValue'}
+        turn_event_generative_ai_called_callout_request_model['body'] = {'anyKey': 'anyValue'}
+
+        turn_event_generative_ai_called_callout_response_model = {}  # TurnEventGenerativeAICalledCalloutResponse
+        turn_event_generative_ai_called_callout_response_model['body'] = 'testString'
+        turn_event_generative_ai_called_callout_response_model['status_code'] = 38
+
+        turn_event_generative_ai_called_callout_search_model = {}  # TurnEventGenerativeAICalledCalloutSearch
+        turn_event_generative_ai_called_callout_search_model['engine'] = 'testString'
+        turn_event_generative_ai_called_callout_search_model['index'] = 'testString'
+        turn_event_generative_ai_called_callout_search_model['query'] = 'testString'
+        turn_event_generative_ai_called_callout_search_model['request'] = turn_event_generative_ai_called_callout_request_model
+        turn_event_generative_ai_called_callout_search_model['response'] = turn_event_generative_ai_called_callout_response_model
+
+        turn_event_generative_ai_called_callout_llm_response_model = {}  # TurnEventGenerativeAICalledCalloutLlmResponse
+        turn_event_generative_ai_called_callout_llm_response_model['text'] = 'testString'
+        turn_event_generative_ai_called_callout_llm_response_model['response_type'] = 'testString'
+        turn_event_generative_ai_called_callout_llm_response_model['is_idk_response'] = True
+
+        search_results_result_metadata_model = {}  # SearchResultsResultMetadata
+        search_results_result_metadata_model['document_retrieval_source'] = 'testString'
+        search_results_result_metadata_model['score'] = 38
+
+        search_results_model = {}  # SearchResults
+        search_results_model['result_metadata'] = search_results_result_metadata_model
+        search_results_model['id'] = 'testString'
+        search_results_model['title'] = 'testString'
+        search_results_model['body'] = 'testString'
+
+        turn_event_generative_ai_called_callout_llm_model = {}  # TurnEventGenerativeAICalledCalloutLlm
+        turn_event_generative_ai_called_callout_llm_model['type'] = 'testString'
+        turn_event_generative_ai_called_callout_llm_model['model_id'] = 'testString'
+        turn_event_generative_ai_called_callout_llm_model['model_class_id'] = 'testString'
+        turn_event_generative_ai_called_callout_llm_model['generated_token_count'] = 38
+        turn_event_generative_ai_called_callout_llm_model['input_token_count'] = 38
+        turn_event_generative_ai_called_callout_llm_model['success'] = True
+        turn_event_generative_ai_called_callout_llm_model['response'] = turn_event_generative_ai_called_callout_llm_response_model
+        turn_event_generative_ai_called_callout_llm_model['request'] = [search_results_model]
+
+        turn_event_generative_ai_called_callout_model = {}  # TurnEventGenerativeAICalledCallout
+        turn_event_generative_ai_called_callout_model['search_called'] = True
+        turn_event_generative_ai_called_callout_model['llm_called'] = True
+        turn_event_generative_ai_called_callout_model['search'] = turn_event_generative_ai_called_callout_search_model
+        turn_event_generative_ai_called_callout_model['llm'] = turn_event_generative_ai_called_callout_llm_model
+        turn_event_generative_ai_called_callout_model['idk_reason_code'] = 'testString'
+
+        turn_event_generative_ai_called_metrics_model = {}  # TurnEventGenerativeAICalledMetrics
+        turn_event_generative_ai_called_metrics_model['search_time_ms'] = 'unknown type: float'
+        turn_event_generative_ai_called_metrics_model['answer_generation_time_ms'] = 'unknown type: float'
+        turn_event_generative_ai_called_metrics_model['total_time_ms'] = 'unknown type: float'
+
+        # Construct a json representation of a MessageOutputDebugTurnEventTurnEventGenerativeAICalled model
+        message_output_debug_turn_event_turn_event_generative_ai_called_model_json = {}
+        message_output_debug_turn_event_turn_event_generative_ai_called_model_json['event'] = 'generative_ai_called'
+        message_output_debug_turn_event_turn_event_generative_ai_called_model_json['source'] = {'anyKey': 'anyValue'}
+        message_output_debug_turn_event_turn_event_generative_ai_called_model_json['generative_ai_start_time'] = 'testString'
+        message_output_debug_turn_event_turn_event_generative_ai_called_model_json['generative_ai'] = generative_ai_task_model
+        message_output_debug_turn_event_turn_event_generative_ai_called_model_json['callout'] = turn_event_generative_ai_called_callout_model
+        message_output_debug_turn_event_turn_event_generative_ai_called_model_json['metrics'] = turn_event_generative_ai_called_metrics_model
+
+        # Construct a model instance of MessageOutputDebugTurnEventTurnEventGenerativeAICalled by calling from_dict on the json representation
+        message_output_debug_turn_event_turn_event_generative_ai_called_model = MessageOutputDebugTurnEventTurnEventGenerativeAICalled.from_dict(message_output_debug_turn_event_turn_event_generative_ai_called_model_json)
+        assert message_output_debug_turn_event_turn_event_generative_ai_called_model != False
+
+        # Construct a model instance of MessageOutputDebugTurnEventTurnEventGenerativeAICalled by calling from_dict on the json representation
+        message_output_debug_turn_event_turn_event_generative_ai_called_model_dict = MessageOutputDebugTurnEventTurnEventGenerativeAICalled.from_dict(message_output_debug_turn_event_turn_event_generative_ai_called_model_json).__dict__
+        message_output_debug_turn_event_turn_event_generative_ai_called_model2 = MessageOutputDebugTurnEventTurnEventGenerativeAICalled(**message_output_debug_turn_event_turn_event_generative_ai_called_model_dict)
+
+        # Verify the model instances are equivalent
+        assert message_output_debug_turn_event_turn_event_generative_ai_called_model == message_output_debug_turn_event_turn_event_generative_ai_called_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        message_output_debug_turn_event_turn_event_generative_ai_called_model_json2 = message_output_debug_turn_event_turn_event_generative_ai_called_model.to_dict()
+        assert message_output_debug_turn_event_turn_event_generative_ai_called_model_json2 == message_output_debug_turn_event_turn_event_generative_ai_called_model_json
+
+
 class TestModel_MessageOutputDebugTurnEventTurnEventHandlerVisited:
     """
     Test Class for MessageOutputDebugTurnEventTurnEventHandlerVisited
@@ -12468,6 +14629,50 @@ class TestModel_MessageOutputDebugTurnEventTurnEventHandlerVisited:
         # Convert model instance back to dict and verify no loss of data
         message_output_debug_turn_event_turn_event_handler_visited_model_json2 = message_output_debug_turn_event_turn_event_handler_visited_model.to_dict()
         assert message_output_debug_turn_event_turn_event_handler_visited_model_json2 == message_output_debug_turn_event_turn_event_handler_visited_model_json
+
+
+class TestModel_MessageOutputDebugTurnEventTurnEventManualRoute:
+    """
+    Test Class for MessageOutputDebugTurnEventTurnEventManualRoute
+    """
+
+    def test_message_output_debug_turn_event_turn_event_manual_route_serialization(self):
+        """
+        Test serialization/deserialization for MessageOutputDebugTurnEventTurnEventManualRoute
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        turn_event_step_source_model = {}  # TurnEventStepSource
+        turn_event_step_source_model['type'] = 'step'
+        turn_event_step_source_model['action'] = 'testString'
+        turn_event_step_source_model['action_title'] = 'testString'
+        turn_event_step_source_model['step'] = 'testString'
+        turn_event_step_source_model['is_ai_guided'] = True
+        turn_event_step_source_model['is_skill_based'] = True
+
+        # Construct a json representation of a MessageOutputDebugTurnEventTurnEventManualRoute model
+        message_output_debug_turn_event_turn_event_manual_route_model_json = {}
+        message_output_debug_turn_event_turn_event_manual_route_model_json['event'] = 'manual_route'
+        message_output_debug_turn_event_turn_event_manual_route_model_json['source'] = turn_event_step_source_model
+        message_output_debug_turn_event_turn_event_manual_route_model_json['condition_type'] = 'user_defined'
+        message_output_debug_turn_event_turn_event_manual_route_model_json['action_start_time'] = 'testString'
+        message_output_debug_turn_event_turn_event_manual_route_model_json['route_name'] = 'testString'
+
+        # Construct a model instance of MessageOutputDebugTurnEventTurnEventManualRoute by calling from_dict on the json representation
+        message_output_debug_turn_event_turn_event_manual_route_model = MessageOutputDebugTurnEventTurnEventManualRoute.from_dict(message_output_debug_turn_event_turn_event_manual_route_model_json)
+        assert message_output_debug_turn_event_turn_event_manual_route_model != False
+
+        # Construct a model instance of MessageOutputDebugTurnEventTurnEventManualRoute by calling from_dict on the json representation
+        message_output_debug_turn_event_turn_event_manual_route_model_dict = MessageOutputDebugTurnEventTurnEventManualRoute.from_dict(message_output_debug_turn_event_turn_event_manual_route_model_json).__dict__
+        message_output_debug_turn_event_turn_event_manual_route_model2 = MessageOutputDebugTurnEventTurnEventManualRoute(**message_output_debug_turn_event_turn_event_manual_route_model_dict)
+
+        # Verify the model instances are equivalent
+        assert message_output_debug_turn_event_turn_event_manual_route_model == message_output_debug_turn_event_turn_event_manual_route_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        message_output_debug_turn_event_turn_event_manual_route_model_json2 = message_output_debug_turn_event_turn_event_manual_route_model.to_dict()
+        assert message_output_debug_turn_event_turn_event_manual_route_model_json2 == message_output_debug_turn_event_turn_event_manual_route_model_json
 
 
 class TestModel_MessageOutputDebugTurnEventTurnEventNodeVisited:
@@ -12635,6 +14840,441 @@ class TestModel_MessageOutputDebugTurnEventTurnEventStepVisited:
         # Convert model instance back to dict and verify no loss of data
         message_output_debug_turn_event_turn_event_step_visited_model_json2 = message_output_debug_turn_event_turn_event_step_visited_model.to_dict()
         assert message_output_debug_turn_event_turn_event_step_visited_model_json2 == message_output_debug_turn_event_turn_event_step_visited_model_json
+
+
+class TestModel_MessageOutputDebugTurnEventTurnEventSuggestionIntentsDenied:
+    """
+    Test Class for MessageOutputDebugTurnEventTurnEventSuggestionIntentsDenied
+    """
+
+    def test_message_output_debug_turn_event_turn_event_suggestion_intents_denied_serialization(self):
+        """
+        Test serialization/deserialization for MessageOutputDebugTurnEventTurnEventSuggestionIntentsDenied
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        runtime_intent_model = {}  # RuntimeIntent
+        runtime_intent_model['intent'] = 'testString'
+        runtime_intent_model['confidence'] = 72.5
+        runtime_intent_model['skill'] = 'testString'
+
+        # Construct a json representation of a MessageOutputDebugTurnEventTurnEventSuggestionIntentsDenied model
+        message_output_debug_turn_event_turn_event_suggestion_intents_denied_model_json = {}
+        message_output_debug_turn_event_turn_event_suggestion_intents_denied_model_json['event'] = 'suggestion_intents_denied'
+        message_output_debug_turn_event_turn_event_suggestion_intents_denied_model_json['intents_denied'] = [runtime_intent_model]
+
+        # Construct a model instance of MessageOutputDebugTurnEventTurnEventSuggestionIntentsDenied by calling from_dict on the json representation
+        message_output_debug_turn_event_turn_event_suggestion_intents_denied_model = MessageOutputDebugTurnEventTurnEventSuggestionIntentsDenied.from_dict(message_output_debug_turn_event_turn_event_suggestion_intents_denied_model_json)
+        assert message_output_debug_turn_event_turn_event_suggestion_intents_denied_model != False
+
+        # Construct a model instance of MessageOutputDebugTurnEventTurnEventSuggestionIntentsDenied by calling from_dict on the json representation
+        message_output_debug_turn_event_turn_event_suggestion_intents_denied_model_dict = MessageOutputDebugTurnEventTurnEventSuggestionIntentsDenied.from_dict(message_output_debug_turn_event_turn_event_suggestion_intents_denied_model_json).__dict__
+        message_output_debug_turn_event_turn_event_suggestion_intents_denied_model2 = MessageOutputDebugTurnEventTurnEventSuggestionIntentsDenied(**message_output_debug_turn_event_turn_event_suggestion_intents_denied_model_dict)
+
+        # Verify the model instances are equivalent
+        assert message_output_debug_turn_event_turn_event_suggestion_intents_denied_model == message_output_debug_turn_event_turn_event_suggestion_intents_denied_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        message_output_debug_turn_event_turn_event_suggestion_intents_denied_model_json2 = message_output_debug_turn_event_turn_event_suggestion_intents_denied_model.to_dict()
+        assert message_output_debug_turn_event_turn_event_suggestion_intents_denied_model_json2 == message_output_debug_turn_event_turn_event_suggestion_intents_denied_model_json
+
+
+class TestModel_MessageOutputDebugTurnEventTurnEventTopicSwitchDenied:
+    """
+    Test Class for MessageOutputDebugTurnEventTurnEventTopicSwitchDenied
+    """
+
+    def test_message_output_debug_turn_event_turn_event_topic_switch_denied_serialization(self):
+        """
+        Test serialization/deserialization for MessageOutputDebugTurnEventTurnEventTopicSwitchDenied
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        turn_event_action_source_model = {}  # TurnEventActionSource
+        turn_event_action_source_model['type'] = 'action'
+        turn_event_action_source_model['action'] = 'testString'
+        turn_event_action_source_model['action_title'] = 'testString'
+        turn_event_action_source_model['condition'] = 'testString'
+
+        # Construct a json representation of a MessageOutputDebugTurnEventTurnEventTopicSwitchDenied model
+        message_output_debug_turn_event_turn_event_topic_switch_denied_model_json = {}
+        message_output_debug_turn_event_turn_event_topic_switch_denied_model_json['event'] = 'topic_switch_denied'
+        message_output_debug_turn_event_turn_event_topic_switch_denied_model_json['source'] = turn_event_action_source_model
+        message_output_debug_turn_event_turn_event_topic_switch_denied_model_json['condition_type'] = 'user_defined'
+        message_output_debug_turn_event_turn_event_topic_switch_denied_model_json['reason'] = 'action_conditions_failed'
+
+        # Construct a model instance of MessageOutputDebugTurnEventTurnEventTopicSwitchDenied by calling from_dict on the json representation
+        message_output_debug_turn_event_turn_event_topic_switch_denied_model = MessageOutputDebugTurnEventTurnEventTopicSwitchDenied.from_dict(message_output_debug_turn_event_turn_event_topic_switch_denied_model_json)
+        assert message_output_debug_turn_event_turn_event_topic_switch_denied_model != False
+
+        # Construct a model instance of MessageOutputDebugTurnEventTurnEventTopicSwitchDenied by calling from_dict on the json representation
+        message_output_debug_turn_event_turn_event_topic_switch_denied_model_dict = MessageOutputDebugTurnEventTurnEventTopicSwitchDenied.from_dict(message_output_debug_turn_event_turn_event_topic_switch_denied_model_json).__dict__
+        message_output_debug_turn_event_turn_event_topic_switch_denied_model2 = MessageOutputDebugTurnEventTurnEventTopicSwitchDenied(**message_output_debug_turn_event_turn_event_topic_switch_denied_model_dict)
+
+        # Verify the model instances are equivalent
+        assert message_output_debug_turn_event_turn_event_topic_switch_denied_model == message_output_debug_turn_event_turn_event_topic_switch_denied_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        message_output_debug_turn_event_turn_event_topic_switch_denied_model_json2 = message_output_debug_turn_event_turn_event_topic_switch_denied_model.to_dict()
+        assert message_output_debug_turn_event_turn_event_topic_switch_denied_model_json2 == message_output_debug_turn_event_turn_event_topic_switch_denied_model_json
+
+
+class TestModel_MessageStreamResponseMessageStreamCompleteItem:
+    """
+    Test Class for MessageStreamResponseMessageStreamCompleteItem
+    """
+
+    def test_message_stream_response_message_stream_complete_item_serialization(self):
+        """
+        Test serialization/deserialization for MessageStreamResponseMessageStreamCompleteItem
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        metadata_model = {}  # Metadata
+        metadata_model['id'] = 38
+
+        complete_item_model = {}  # CompleteItem
+        complete_item_model['streaming_metadata'] = metadata_model
+
+        # Construct a json representation of a MessageStreamResponseMessageStreamCompleteItem model
+        message_stream_response_message_stream_complete_item_model_json = {}
+        message_stream_response_message_stream_complete_item_model_json['complete_item'] = complete_item_model
+
+        # Construct a model instance of MessageStreamResponseMessageStreamCompleteItem by calling from_dict on the json representation
+        message_stream_response_message_stream_complete_item_model = MessageStreamResponseMessageStreamCompleteItem.from_dict(message_stream_response_message_stream_complete_item_model_json)
+        assert message_stream_response_message_stream_complete_item_model != False
+
+        # Construct a model instance of MessageStreamResponseMessageStreamCompleteItem by calling from_dict on the json representation
+        message_stream_response_message_stream_complete_item_model_dict = MessageStreamResponseMessageStreamCompleteItem.from_dict(message_stream_response_message_stream_complete_item_model_json).__dict__
+        message_stream_response_message_stream_complete_item_model2 = MessageStreamResponseMessageStreamCompleteItem(**message_stream_response_message_stream_complete_item_model_dict)
+
+        # Verify the model instances are equivalent
+        assert message_stream_response_message_stream_complete_item_model == message_stream_response_message_stream_complete_item_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        message_stream_response_message_stream_complete_item_model_json2 = message_stream_response_message_stream_complete_item_model.to_dict()
+        assert message_stream_response_message_stream_complete_item_model_json2 == message_stream_response_message_stream_complete_item_model_json
+
+
+class TestModel_MessageStreamResponseMessageStreamPartialItem:
+    """
+    Test Class for MessageStreamResponseMessageStreamPartialItem
+    """
+
+    def test_message_stream_response_message_stream_partial_item_serialization(self):
+        """
+        Test serialization/deserialization for MessageStreamResponseMessageStreamPartialItem
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        metadata_model = {}  # Metadata
+        metadata_model['id'] = 38
+
+        partial_item_model = {}  # PartialItem
+        partial_item_model['response_type'] = 'testString'
+        partial_item_model['text'] = 'testString'
+        partial_item_model['streaming_metadata'] = metadata_model
+
+        # Construct a json representation of a MessageStreamResponseMessageStreamPartialItem model
+        message_stream_response_message_stream_partial_item_model_json = {}
+        message_stream_response_message_stream_partial_item_model_json['partial_item'] = partial_item_model
+
+        # Construct a model instance of MessageStreamResponseMessageStreamPartialItem by calling from_dict on the json representation
+        message_stream_response_message_stream_partial_item_model = MessageStreamResponseMessageStreamPartialItem.from_dict(message_stream_response_message_stream_partial_item_model_json)
+        assert message_stream_response_message_stream_partial_item_model != False
+
+        # Construct a model instance of MessageStreamResponseMessageStreamPartialItem by calling from_dict on the json representation
+        message_stream_response_message_stream_partial_item_model_dict = MessageStreamResponseMessageStreamPartialItem.from_dict(message_stream_response_message_stream_partial_item_model_json).__dict__
+        message_stream_response_message_stream_partial_item_model2 = MessageStreamResponseMessageStreamPartialItem(**message_stream_response_message_stream_partial_item_model_dict)
+
+        # Verify the model instances are equivalent
+        assert message_stream_response_message_stream_partial_item_model == message_stream_response_message_stream_partial_item_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        message_stream_response_message_stream_partial_item_model_json2 = message_stream_response_message_stream_partial_item_model.to_dict()
+        assert message_stream_response_message_stream_partial_item_model_json2 == message_stream_response_message_stream_partial_item_model_json
+
+
+class TestModel_MessageStreamResponseStatefulMessageStreamFinalResponse:
+    """
+    Test Class for MessageStreamResponseStatefulMessageStreamFinalResponse
+    """
+
+    def test_message_stream_response_stateful_message_stream_final_response_serialization(self):
+        """
+        Test serialization/deserialization for MessageStreamResponseStatefulMessageStreamFinalResponse
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        response_generic_citation_ranges_item_model = {}  # ResponseGenericCitationRangesItem
+        response_generic_citation_ranges_item_model['start'] = 38
+        response_generic_citation_ranges_item_model['end'] = 38
+
+        response_generic_citation_model = {}  # ResponseGenericCitation
+        response_generic_citation_model['title'] = 'testString'
+        response_generic_citation_model['text'] = 'testString'
+        response_generic_citation_model['body'] = 'testString'
+        response_generic_citation_model['search_result_index'] = 38
+        response_generic_citation_model['ranges'] = [response_generic_citation_ranges_item_model]
+
+        response_generic_confidence_scores_model = {}  # ResponseGenericConfidenceScores
+        response_generic_confidence_scores_model['threshold'] = 72.5
+        response_generic_confidence_scores_model['pre_gen'] = 72.5
+        response_generic_confidence_scores_model['post_gen'] = 72.5
+        response_generic_confidence_scores_model['extractiveness'] = 72.5
+
+        search_results_result_metadata_model = {}  # SearchResultsResultMetadata
+        search_results_result_metadata_model['document_retrieval_source'] = 'testString'
+        search_results_result_metadata_model['score'] = 38
+
+        search_results_model = {}  # SearchResults
+        search_results_model['result_metadata'] = search_results_result_metadata_model
+        search_results_model['id'] = 'testString'
+        search_results_model['title'] = 'testString'
+        search_results_model['body'] = 'testString'
+
+        runtime_response_generic_model = {}  # RuntimeResponseGenericRuntimeResponseTypeConversationalSearch
+        runtime_response_generic_model['response_type'] = 'conversation_search'
+        runtime_response_generic_model['text'] = 'testString'
+        runtime_response_generic_model['citations_title'] = 'testString'
+        runtime_response_generic_model['citations'] = [response_generic_citation_model]
+        runtime_response_generic_model['confidence_scores'] = response_generic_confidence_scores_model
+        runtime_response_generic_model['response_length_option'] = 'testString'
+        runtime_response_generic_model['search_results'] = [search_results_model]
+        runtime_response_generic_model['disclaimer'] = 'testString'
+
+        runtime_intent_model = {}  # RuntimeIntent
+        runtime_intent_model['intent'] = 'testString'
+        runtime_intent_model['confidence'] = 72.5
+        runtime_intent_model['skill'] = 'testString'
+
+        capture_group_model = {}  # CaptureGroup
+        capture_group_model['group'] = 'testString'
+        capture_group_model['location'] = [38]
+
+        runtime_entity_interpretation_model = {}  # RuntimeEntityInterpretation
+        runtime_entity_interpretation_model['calendar_type'] = 'testString'
+        runtime_entity_interpretation_model['datetime_link'] = 'testString'
+        runtime_entity_interpretation_model['festival'] = 'testString'
+        runtime_entity_interpretation_model['granularity'] = 'day'
+        runtime_entity_interpretation_model['range_link'] = 'testString'
+        runtime_entity_interpretation_model['range_modifier'] = 'testString'
+        runtime_entity_interpretation_model['relative_day'] = 72.5
+        runtime_entity_interpretation_model['relative_month'] = 72.5
+        runtime_entity_interpretation_model['relative_week'] = 72.5
+        runtime_entity_interpretation_model['relative_weekend'] = 72.5
+        runtime_entity_interpretation_model['relative_year'] = 72.5
+        runtime_entity_interpretation_model['specific_day'] = 72.5
+        runtime_entity_interpretation_model['specific_day_of_week'] = 'testString'
+        runtime_entity_interpretation_model['specific_month'] = 72.5
+        runtime_entity_interpretation_model['specific_quarter'] = 72.5
+        runtime_entity_interpretation_model['specific_year'] = 72.5
+        runtime_entity_interpretation_model['numeric_value'] = 72.5
+        runtime_entity_interpretation_model['subtype'] = 'testString'
+        runtime_entity_interpretation_model['part_of_day'] = 'testString'
+        runtime_entity_interpretation_model['relative_hour'] = 72.5
+        runtime_entity_interpretation_model['relative_minute'] = 72.5
+        runtime_entity_interpretation_model['relative_second'] = 72.5
+        runtime_entity_interpretation_model['specific_hour'] = 72.5
+        runtime_entity_interpretation_model['specific_minute'] = 72.5
+        runtime_entity_interpretation_model['specific_second'] = 72.5
+        runtime_entity_interpretation_model['timezone'] = 'testString'
+
+        runtime_entity_alternative_model = {}  # RuntimeEntityAlternative
+        runtime_entity_alternative_model['value'] = 'testString'
+        runtime_entity_alternative_model['confidence'] = 72.5
+
+        runtime_entity_role_model = {}  # RuntimeEntityRole
+        runtime_entity_role_model['type'] = 'date_from'
+
+        runtime_entity_model = {}  # RuntimeEntity
+        runtime_entity_model['entity'] = 'testString'
+        runtime_entity_model['location'] = [38]
+        runtime_entity_model['value'] = 'testString'
+        runtime_entity_model['confidence'] = 72.5
+        runtime_entity_model['groups'] = [capture_group_model]
+        runtime_entity_model['interpretation'] = runtime_entity_interpretation_model
+        runtime_entity_model['alternatives'] = [runtime_entity_alternative_model]
+        runtime_entity_model['role'] = runtime_entity_role_model
+        runtime_entity_model['skill'] = 'testString'
+
+        dialog_node_action_model = {}  # DialogNodeAction
+        dialog_node_action_model['name'] = 'testString'
+        dialog_node_action_model['type'] = 'client'
+        dialog_node_action_model['parameters'] = {'anyKey': 'anyValue'}
+        dialog_node_action_model['result_variable'] = 'testString'
+        dialog_node_action_model['credentials'] = 'testString'
+
+        dialog_node_visited_model = {}  # DialogNodeVisited
+        dialog_node_visited_model['dialog_node'] = 'testString'
+        dialog_node_visited_model['title'] = 'testString'
+        dialog_node_visited_model['conditions'] = 'testString'
+
+        log_message_source_model = {}  # LogMessageSourceDialogNode
+        log_message_source_model['type'] = 'dialog_node'
+        log_message_source_model['dialog_node'] = 'testString'
+
+        dialog_log_message_model = {}  # DialogLogMessage
+        dialog_log_message_model['level'] = 'info'
+        dialog_log_message_model['message'] = 'testString'
+        dialog_log_message_model['code'] = 'testString'
+        dialog_log_message_model['source'] = log_message_source_model
+
+        turn_event_action_source_model = {}  # TurnEventActionSource
+        turn_event_action_source_model['type'] = 'action'
+        turn_event_action_source_model['action'] = 'testString'
+        turn_event_action_source_model['action_title'] = 'testString'
+        turn_event_action_source_model['condition'] = 'testString'
+
+        message_output_debug_turn_event_model = {}  # MessageOutputDebugTurnEventTurnEventActionVisited
+        message_output_debug_turn_event_model['event'] = 'action_visited'
+        message_output_debug_turn_event_model['source'] = turn_event_action_source_model
+        message_output_debug_turn_event_model['action_start_time'] = 'testString'
+        message_output_debug_turn_event_model['condition_type'] = 'user_defined'
+        message_output_debug_turn_event_model['reason'] = 'intent'
+        message_output_debug_turn_event_model['result_variable'] = 'testString'
+
+        message_output_debug_model = {}  # MessageOutputDebug
+        message_output_debug_model['nodes_visited'] = [dialog_node_visited_model]
+        message_output_debug_model['log_messages'] = [dialog_log_message_model]
+        message_output_debug_model['branch_exited'] = True
+        message_output_debug_model['branch_exited_reason'] = 'completed'
+        message_output_debug_model['turn_events'] = [message_output_debug_turn_event_model]
+
+        message_output_spelling_model = {}  # MessageOutputSpelling
+        message_output_spelling_model['text'] = 'testString'
+        message_output_spelling_model['original_text'] = 'testString'
+        message_output_spelling_model['suggested_text'] = 'testString'
+
+        message_output_llm_metadata_model = {}  # MessageOutputLLMMetadata
+        message_output_llm_metadata_model['task'] = 'testString'
+        message_output_llm_metadata_model['model_id'] = 'testString'
+
+        metadata_model = {}  # Metadata
+        metadata_model['id'] = 38
+
+        message_stream_metadata_model = {}  # MessageStreamMetadata
+        message_stream_metadata_model['streaming_metadata'] = metadata_model
+
+        final_response_output_model = {}  # FinalResponseOutput
+        final_response_output_model['generic'] = [runtime_response_generic_model]
+        final_response_output_model['intents'] = [runtime_intent_model]
+        final_response_output_model['entities'] = [runtime_entity_model]
+        final_response_output_model['actions'] = [dialog_node_action_model]
+        final_response_output_model['debug'] = message_output_debug_model
+        final_response_output_model['user_defined'] = {'anyKey': 'anyValue'}
+        final_response_output_model['spelling'] = message_output_spelling_model
+        final_response_output_model['llm_metadata'] = [message_output_llm_metadata_model]
+        final_response_output_model['streaming_metadata'] = message_stream_metadata_model
+
+        message_context_global_system_model = {}  # MessageContextGlobalSystem
+        message_context_global_system_model['timezone'] = 'testString'
+        message_context_global_system_model['user_id'] = 'testString'
+        message_context_global_system_model['turn_count'] = 38
+        message_context_global_system_model['locale'] = 'en-us'
+        message_context_global_system_model['reference_time'] = 'testString'
+        message_context_global_system_model['session_start_time'] = 'testString'
+        message_context_global_system_model['state'] = 'testString'
+        message_context_global_system_model['skip_user_input'] = True
+
+        message_context_global_model = {}  # MessageContextGlobal
+        message_context_global_model['system'] = message_context_global_system_model
+
+        message_context_skill_system_model = {}  # MessageContextSkillSystem
+        message_context_skill_system_model['state'] = 'testString'
+        message_context_skill_system_model['foo'] = 'testString'
+
+        message_context_dialog_skill_model = {}  # MessageContextDialogSkill
+        message_context_dialog_skill_model['user_defined'] = {'anyKey': 'anyValue'}
+        message_context_dialog_skill_model['system'] = message_context_skill_system_model
+
+        message_context_action_skill_model = {}  # MessageContextActionSkill
+        message_context_action_skill_model['user_defined'] = {'anyKey': 'anyValue'}
+        message_context_action_skill_model['system'] = message_context_skill_system_model
+        message_context_action_skill_model['action_variables'] = {'anyKey': 'anyValue'}
+        message_context_action_skill_model['skill_variables'] = {'anyKey': 'anyValue'}
+
+        message_context_skills_model = {}  # MessageContextSkills
+        message_context_skills_model['main skill'] = message_context_dialog_skill_model
+        message_context_skills_model['actions skill'] = message_context_action_skill_model
+
+        message_context_model = {}  # MessageContext
+        message_context_model['global'] = message_context_global_model
+        message_context_model['skills'] = message_context_skills_model
+        message_context_model['integrations'] = {'anyKey': 'anyValue'}
+
+        message_output_model = {}  # MessageOutput
+        message_output_model['generic'] = [runtime_response_generic_model]
+        message_output_model['intents'] = [runtime_intent_model]
+        message_output_model['entities'] = [runtime_entity_model]
+        message_output_model['actions'] = [dialog_node_action_model]
+        message_output_model['debug'] = message_output_debug_model
+        message_output_model['user_defined'] = {'anyKey': 'anyValue'}
+        message_output_model['spelling'] = message_output_spelling_model
+        message_output_model['llm_metadata'] = [message_output_llm_metadata_model]
+
+        message_input_attachment_model = {}  # MessageInputAttachment
+        message_input_attachment_model['url'] = 'testString'
+        message_input_attachment_model['media_type'] = 'testString'
+
+        request_analytics_model = {}  # RequestAnalytics
+        request_analytics_model['browser'] = 'testString'
+        request_analytics_model['device'] = 'testString'
+        request_analytics_model['pageUrl'] = 'testString'
+
+        message_input_options_spelling_model = {}  # MessageInputOptionsSpelling
+        message_input_options_spelling_model['suggestions'] = True
+        message_input_options_spelling_model['auto_correct'] = True
+
+        message_input_options_model = {}  # MessageInputOptions
+        message_input_options_model['restart'] = False
+        message_input_options_model['alternate_intents'] = False
+        message_input_options_model['async_callout'] = False
+        message_input_options_model['spelling'] = message_input_options_spelling_model
+        message_input_options_model['debug'] = False
+        message_input_options_model['return_context'] = False
+        message_input_options_model['export'] = False
+
+        message_input_model = {}  # MessageInput
+        message_input_model['message_type'] = 'text'
+        message_input_model['text'] = 'testString'
+        message_input_model['intents'] = [runtime_intent_model]
+        message_input_model['entities'] = [runtime_entity_model]
+        message_input_model['suggestion_id'] = 'testString'
+        message_input_model['attachments'] = [message_input_attachment_model]
+        message_input_model['analytics'] = request_analytics_model
+        message_input_model['options'] = message_input_options_model
+
+        final_response_model = {}  # FinalResponse
+        final_response_model['output'] = final_response_output_model
+        final_response_model['context'] = message_context_model
+        final_response_model['user_id'] = 'testString'
+        final_response_model['masked_output'] = message_output_model
+        final_response_model['masked_input'] = message_input_model
+
+        # Construct a json representation of a MessageStreamResponseStatefulMessageStreamFinalResponse model
+        message_stream_response_stateful_message_stream_final_response_model_json = {}
+        message_stream_response_stateful_message_stream_final_response_model_json['final_response'] = final_response_model
+
+        # Construct a model instance of MessageStreamResponseStatefulMessageStreamFinalResponse by calling from_dict on the json representation
+        message_stream_response_stateful_message_stream_final_response_model = MessageStreamResponseStatefulMessageStreamFinalResponse.from_dict(message_stream_response_stateful_message_stream_final_response_model_json)
+        assert message_stream_response_stateful_message_stream_final_response_model != False
+
+        # Construct a model instance of MessageStreamResponseStatefulMessageStreamFinalResponse by calling from_dict on the json representation
+        message_stream_response_stateful_message_stream_final_response_model_dict = MessageStreamResponseStatefulMessageStreamFinalResponse.from_dict(message_stream_response_stateful_message_stream_final_response_model_json).__dict__
+        message_stream_response_stateful_message_stream_final_response_model2 = MessageStreamResponseStatefulMessageStreamFinalResponse(**message_stream_response_stateful_message_stream_final_response_model_dict)
+
+        # Verify the model instances are equivalent
+        assert message_stream_response_stateful_message_stream_final_response_model == message_stream_response_stateful_message_stream_final_response_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        message_stream_response_stateful_message_stream_final_response_model_json2 = message_stream_response_stateful_message_stream_final_response_model.to_dict()
+        assert message_stream_response_stateful_message_stream_final_response_model_json2 == message_stream_response_stateful_message_stream_final_response_model_json
 
 
 class TestModel_ProviderAuthenticationOAuth2FlowsProviderAuthenticationOAuth2AuthorizationCode:
@@ -13103,6 +15743,72 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeConnectToAgent:
         # Convert model instance back to dict and verify no loss of data
         runtime_response_generic_runtime_response_type_connect_to_agent_model_json2 = runtime_response_generic_runtime_response_type_connect_to_agent_model.to_dict()
         assert runtime_response_generic_runtime_response_type_connect_to_agent_model_json2 == runtime_response_generic_runtime_response_type_connect_to_agent_model_json
+
+
+class TestModel_RuntimeResponseGenericRuntimeResponseTypeConversationalSearch:
+    """
+    Test Class for RuntimeResponseGenericRuntimeResponseTypeConversationalSearch
+    """
+
+    def test_runtime_response_generic_runtime_response_type_conversational_search_serialization(self):
+        """
+        Test serialization/deserialization for RuntimeResponseGenericRuntimeResponseTypeConversationalSearch
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        response_generic_citation_ranges_item_model = {}  # ResponseGenericCitationRangesItem
+        response_generic_citation_ranges_item_model['start'] = 38
+        response_generic_citation_ranges_item_model['end'] = 38
+
+        response_generic_citation_model = {}  # ResponseGenericCitation
+        response_generic_citation_model['title'] = 'testString'
+        response_generic_citation_model['text'] = 'testString'
+        response_generic_citation_model['body'] = 'testString'
+        response_generic_citation_model['search_result_index'] = 38
+        response_generic_citation_model['ranges'] = [response_generic_citation_ranges_item_model]
+
+        response_generic_confidence_scores_model = {}  # ResponseGenericConfidenceScores
+        response_generic_confidence_scores_model['threshold'] = 72.5
+        response_generic_confidence_scores_model['pre_gen'] = 72.5
+        response_generic_confidence_scores_model['post_gen'] = 72.5
+        response_generic_confidence_scores_model['extractiveness'] = 72.5
+
+        search_results_result_metadata_model = {}  # SearchResultsResultMetadata
+        search_results_result_metadata_model['document_retrieval_source'] = 'testString'
+        search_results_result_metadata_model['score'] = 38
+
+        search_results_model = {}  # SearchResults
+        search_results_model['result_metadata'] = search_results_result_metadata_model
+        search_results_model['id'] = 'testString'
+        search_results_model['title'] = 'testString'
+        search_results_model['body'] = 'testString'
+
+        # Construct a json representation of a RuntimeResponseGenericRuntimeResponseTypeConversationalSearch model
+        runtime_response_generic_runtime_response_type_conversational_search_model_json = {}
+        runtime_response_generic_runtime_response_type_conversational_search_model_json['response_type'] = 'conversation_search'
+        runtime_response_generic_runtime_response_type_conversational_search_model_json['text'] = 'testString'
+        runtime_response_generic_runtime_response_type_conversational_search_model_json['citations_title'] = 'testString'
+        runtime_response_generic_runtime_response_type_conversational_search_model_json['citations'] = [response_generic_citation_model]
+        runtime_response_generic_runtime_response_type_conversational_search_model_json['confidence_scores'] = response_generic_confidence_scores_model
+        runtime_response_generic_runtime_response_type_conversational_search_model_json['response_length_option'] = 'testString'
+        runtime_response_generic_runtime_response_type_conversational_search_model_json['search_results'] = [search_results_model]
+        runtime_response_generic_runtime_response_type_conversational_search_model_json['disclaimer'] = 'testString'
+
+        # Construct a model instance of RuntimeResponseGenericRuntimeResponseTypeConversationalSearch by calling from_dict on the json representation
+        runtime_response_generic_runtime_response_type_conversational_search_model = RuntimeResponseGenericRuntimeResponseTypeConversationalSearch.from_dict(runtime_response_generic_runtime_response_type_conversational_search_model_json)
+        assert runtime_response_generic_runtime_response_type_conversational_search_model != False
+
+        # Construct a model instance of RuntimeResponseGenericRuntimeResponseTypeConversationalSearch by calling from_dict on the json representation
+        runtime_response_generic_runtime_response_type_conversational_search_model_dict = RuntimeResponseGenericRuntimeResponseTypeConversationalSearch.from_dict(runtime_response_generic_runtime_response_type_conversational_search_model_json).__dict__
+        runtime_response_generic_runtime_response_type_conversational_search_model2 = RuntimeResponseGenericRuntimeResponseTypeConversationalSearch(**runtime_response_generic_runtime_response_type_conversational_search_model_dict)
+
+        # Verify the model instances are equivalent
+        assert runtime_response_generic_runtime_response_type_conversational_search_model == runtime_response_generic_runtime_response_type_conversational_search_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        runtime_response_generic_runtime_response_type_conversational_search_model_json2 = runtime_response_generic_runtime_response_type_conversational_search_model.to_dict()
+        assert runtime_response_generic_runtime_response_type_conversational_search_model_json2 == runtime_response_generic_runtime_response_type_conversational_search_model_json
 
 
 class TestModel_RuntimeResponseGenericRuntimeResponseTypeDate:
@@ -13695,6 +16401,315 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeVideo:
         # Convert model instance back to dict and verify no loss of data
         runtime_response_generic_runtime_response_type_video_model_json2 = runtime_response_generic_runtime_response_type_video_model.to_dict()
         assert runtime_response_generic_runtime_response_type_video_model_json2 == runtime_response_generic_runtime_response_type_video_model_json
+
+
+class TestModel_StatelessMessageStreamResponseMessageStreamCompleteItem:
+    """
+    Test Class for StatelessMessageStreamResponseMessageStreamCompleteItem
+    """
+
+    def test_stateless_message_stream_response_message_stream_complete_item_serialization(self):
+        """
+        Test serialization/deserialization for StatelessMessageStreamResponseMessageStreamCompleteItem
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        metadata_model = {}  # Metadata
+        metadata_model['id'] = 38
+
+        complete_item_model = {}  # CompleteItem
+        complete_item_model['streaming_metadata'] = metadata_model
+
+        # Construct a json representation of a StatelessMessageStreamResponseMessageStreamCompleteItem model
+        stateless_message_stream_response_message_stream_complete_item_model_json = {}
+        stateless_message_stream_response_message_stream_complete_item_model_json['complete_item'] = complete_item_model
+
+        # Construct a model instance of StatelessMessageStreamResponseMessageStreamCompleteItem by calling from_dict on the json representation
+        stateless_message_stream_response_message_stream_complete_item_model = StatelessMessageStreamResponseMessageStreamCompleteItem.from_dict(stateless_message_stream_response_message_stream_complete_item_model_json)
+        assert stateless_message_stream_response_message_stream_complete_item_model != False
+
+        # Construct a model instance of StatelessMessageStreamResponseMessageStreamCompleteItem by calling from_dict on the json representation
+        stateless_message_stream_response_message_stream_complete_item_model_dict = StatelessMessageStreamResponseMessageStreamCompleteItem.from_dict(stateless_message_stream_response_message_stream_complete_item_model_json).__dict__
+        stateless_message_stream_response_message_stream_complete_item_model2 = StatelessMessageStreamResponseMessageStreamCompleteItem(**stateless_message_stream_response_message_stream_complete_item_model_dict)
+
+        # Verify the model instances are equivalent
+        assert stateless_message_stream_response_message_stream_complete_item_model == stateless_message_stream_response_message_stream_complete_item_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        stateless_message_stream_response_message_stream_complete_item_model_json2 = stateless_message_stream_response_message_stream_complete_item_model.to_dict()
+        assert stateless_message_stream_response_message_stream_complete_item_model_json2 == stateless_message_stream_response_message_stream_complete_item_model_json
+
+
+class TestModel_StatelessMessageStreamResponseMessageStreamPartialItem:
+    """
+    Test Class for StatelessMessageStreamResponseMessageStreamPartialItem
+    """
+
+    def test_stateless_message_stream_response_message_stream_partial_item_serialization(self):
+        """
+        Test serialization/deserialization for StatelessMessageStreamResponseMessageStreamPartialItem
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        metadata_model = {}  # Metadata
+        metadata_model['id'] = 38
+
+        partial_item_model = {}  # PartialItem
+        partial_item_model['response_type'] = 'testString'
+        partial_item_model['text'] = 'testString'
+        partial_item_model['streaming_metadata'] = metadata_model
+
+        # Construct a json representation of a StatelessMessageStreamResponseMessageStreamPartialItem model
+        stateless_message_stream_response_message_stream_partial_item_model_json = {}
+        stateless_message_stream_response_message_stream_partial_item_model_json['partial_item'] = partial_item_model
+
+        # Construct a model instance of StatelessMessageStreamResponseMessageStreamPartialItem by calling from_dict on the json representation
+        stateless_message_stream_response_message_stream_partial_item_model = StatelessMessageStreamResponseMessageStreamPartialItem.from_dict(stateless_message_stream_response_message_stream_partial_item_model_json)
+        assert stateless_message_stream_response_message_stream_partial_item_model != False
+
+        # Construct a model instance of StatelessMessageStreamResponseMessageStreamPartialItem by calling from_dict on the json representation
+        stateless_message_stream_response_message_stream_partial_item_model_dict = StatelessMessageStreamResponseMessageStreamPartialItem.from_dict(stateless_message_stream_response_message_stream_partial_item_model_json).__dict__
+        stateless_message_stream_response_message_stream_partial_item_model2 = StatelessMessageStreamResponseMessageStreamPartialItem(**stateless_message_stream_response_message_stream_partial_item_model_dict)
+
+        # Verify the model instances are equivalent
+        assert stateless_message_stream_response_message_stream_partial_item_model == stateless_message_stream_response_message_stream_partial_item_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        stateless_message_stream_response_message_stream_partial_item_model_json2 = stateless_message_stream_response_message_stream_partial_item_model.to_dict()
+        assert stateless_message_stream_response_message_stream_partial_item_model_json2 == stateless_message_stream_response_message_stream_partial_item_model_json
+
+
+class TestModel_StatelessMessageStreamResponseStatelessMessageStreamFinalResponse:
+    """
+    Test Class for StatelessMessageStreamResponseStatelessMessageStreamFinalResponse
+    """
+
+    def test_stateless_message_stream_response_stateless_message_stream_final_response_serialization(self):
+        """
+        Test serialization/deserialization for StatelessMessageStreamResponseStatelessMessageStreamFinalResponse
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        response_generic_citation_ranges_item_model = {}  # ResponseGenericCitationRangesItem
+        response_generic_citation_ranges_item_model['start'] = 38
+        response_generic_citation_ranges_item_model['end'] = 38
+
+        response_generic_citation_model = {}  # ResponseGenericCitation
+        response_generic_citation_model['title'] = 'testString'
+        response_generic_citation_model['text'] = 'testString'
+        response_generic_citation_model['body'] = 'testString'
+        response_generic_citation_model['search_result_index'] = 38
+        response_generic_citation_model['ranges'] = [response_generic_citation_ranges_item_model]
+
+        response_generic_confidence_scores_model = {}  # ResponseGenericConfidenceScores
+        response_generic_confidence_scores_model['threshold'] = 72.5
+        response_generic_confidence_scores_model['pre_gen'] = 72.5
+        response_generic_confidence_scores_model['post_gen'] = 72.5
+        response_generic_confidence_scores_model['extractiveness'] = 72.5
+
+        search_results_result_metadata_model = {}  # SearchResultsResultMetadata
+        search_results_result_metadata_model['document_retrieval_source'] = 'testString'
+        search_results_result_metadata_model['score'] = 38
+
+        search_results_model = {}  # SearchResults
+        search_results_model['result_metadata'] = search_results_result_metadata_model
+        search_results_model['id'] = 'testString'
+        search_results_model['title'] = 'testString'
+        search_results_model['body'] = 'testString'
+
+        runtime_response_generic_model = {}  # RuntimeResponseGenericRuntimeResponseTypeConversationalSearch
+        runtime_response_generic_model['response_type'] = 'conversation_search'
+        runtime_response_generic_model['text'] = 'testString'
+        runtime_response_generic_model['citations_title'] = 'testString'
+        runtime_response_generic_model['citations'] = [response_generic_citation_model]
+        runtime_response_generic_model['confidence_scores'] = response_generic_confidence_scores_model
+        runtime_response_generic_model['response_length_option'] = 'testString'
+        runtime_response_generic_model['search_results'] = [search_results_model]
+        runtime_response_generic_model['disclaimer'] = 'testString'
+
+        runtime_intent_model = {}  # RuntimeIntent
+        runtime_intent_model['intent'] = 'testString'
+        runtime_intent_model['confidence'] = 72.5
+        runtime_intent_model['skill'] = 'testString'
+
+        capture_group_model = {}  # CaptureGroup
+        capture_group_model['group'] = 'testString'
+        capture_group_model['location'] = [38]
+
+        runtime_entity_interpretation_model = {}  # RuntimeEntityInterpretation
+        runtime_entity_interpretation_model['calendar_type'] = 'testString'
+        runtime_entity_interpretation_model['datetime_link'] = 'testString'
+        runtime_entity_interpretation_model['festival'] = 'testString'
+        runtime_entity_interpretation_model['granularity'] = 'day'
+        runtime_entity_interpretation_model['range_link'] = 'testString'
+        runtime_entity_interpretation_model['range_modifier'] = 'testString'
+        runtime_entity_interpretation_model['relative_day'] = 72.5
+        runtime_entity_interpretation_model['relative_month'] = 72.5
+        runtime_entity_interpretation_model['relative_week'] = 72.5
+        runtime_entity_interpretation_model['relative_weekend'] = 72.5
+        runtime_entity_interpretation_model['relative_year'] = 72.5
+        runtime_entity_interpretation_model['specific_day'] = 72.5
+        runtime_entity_interpretation_model['specific_day_of_week'] = 'testString'
+        runtime_entity_interpretation_model['specific_month'] = 72.5
+        runtime_entity_interpretation_model['specific_quarter'] = 72.5
+        runtime_entity_interpretation_model['specific_year'] = 72.5
+        runtime_entity_interpretation_model['numeric_value'] = 72.5
+        runtime_entity_interpretation_model['subtype'] = 'testString'
+        runtime_entity_interpretation_model['part_of_day'] = 'testString'
+        runtime_entity_interpretation_model['relative_hour'] = 72.5
+        runtime_entity_interpretation_model['relative_minute'] = 72.5
+        runtime_entity_interpretation_model['relative_second'] = 72.5
+        runtime_entity_interpretation_model['specific_hour'] = 72.5
+        runtime_entity_interpretation_model['specific_minute'] = 72.5
+        runtime_entity_interpretation_model['specific_second'] = 72.5
+        runtime_entity_interpretation_model['timezone'] = 'testString'
+
+        runtime_entity_alternative_model = {}  # RuntimeEntityAlternative
+        runtime_entity_alternative_model['value'] = 'testString'
+        runtime_entity_alternative_model['confidence'] = 72.5
+
+        runtime_entity_role_model = {}  # RuntimeEntityRole
+        runtime_entity_role_model['type'] = 'date_from'
+
+        runtime_entity_model = {}  # RuntimeEntity
+        runtime_entity_model['entity'] = 'testString'
+        runtime_entity_model['location'] = [38]
+        runtime_entity_model['value'] = 'testString'
+        runtime_entity_model['confidence'] = 72.5
+        runtime_entity_model['groups'] = [capture_group_model]
+        runtime_entity_model['interpretation'] = runtime_entity_interpretation_model
+        runtime_entity_model['alternatives'] = [runtime_entity_alternative_model]
+        runtime_entity_model['role'] = runtime_entity_role_model
+        runtime_entity_model['skill'] = 'testString'
+
+        dialog_node_action_model = {}  # DialogNodeAction
+        dialog_node_action_model['name'] = 'testString'
+        dialog_node_action_model['type'] = 'client'
+        dialog_node_action_model['parameters'] = {'anyKey': 'anyValue'}
+        dialog_node_action_model['result_variable'] = 'testString'
+        dialog_node_action_model['credentials'] = 'testString'
+
+        dialog_node_visited_model = {}  # DialogNodeVisited
+        dialog_node_visited_model['dialog_node'] = 'testString'
+        dialog_node_visited_model['title'] = 'testString'
+        dialog_node_visited_model['conditions'] = 'testString'
+
+        log_message_source_model = {}  # LogMessageSourceDialogNode
+        log_message_source_model['type'] = 'dialog_node'
+        log_message_source_model['dialog_node'] = 'testString'
+
+        dialog_log_message_model = {}  # DialogLogMessage
+        dialog_log_message_model['level'] = 'info'
+        dialog_log_message_model['message'] = 'testString'
+        dialog_log_message_model['code'] = 'testString'
+        dialog_log_message_model['source'] = log_message_source_model
+
+        turn_event_action_source_model = {}  # TurnEventActionSource
+        turn_event_action_source_model['type'] = 'action'
+        turn_event_action_source_model['action'] = 'testString'
+        turn_event_action_source_model['action_title'] = 'testString'
+        turn_event_action_source_model['condition'] = 'testString'
+
+        message_output_debug_turn_event_model = {}  # MessageOutputDebugTurnEventTurnEventActionVisited
+        message_output_debug_turn_event_model['event'] = 'action_visited'
+        message_output_debug_turn_event_model['source'] = turn_event_action_source_model
+        message_output_debug_turn_event_model['action_start_time'] = 'testString'
+        message_output_debug_turn_event_model['condition_type'] = 'user_defined'
+        message_output_debug_turn_event_model['reason'] = 'intent'
+        message_output_debug_turn_event_model['result_variable'] = 'testString'
+
+        message_output_debug_model = {}  # MessageOutputDebug
+        message_output_debug_model['nodes_visited'] = [dialog_node_visited_model]
+        message_output_debug_model['log_messages'] = [dialog_log_message_model]
+        message_output_debug_model['branch_exited'] = True
+        message_output_debug_model['branch_exited_reason'] = 'completed'
+        message_output_debug_model['turn_events'] = [message_output_debug_turn_event_model]
+
+        message_output_spelling_model = {}  # MessageOutputSpelling
+        message_output_spelling_model['text'] = 'testString'
+        message_output_spelling_model['original_text'] = 'testString'
+        message_output_spelling_model['suggested_text'] = 'testString'
+
+        message_output_llm_metadata_model = {}  # MessageOutputLLMMetadata
+        message_output_llm_metadata_model['task'] = 'testString'
+        message_output_llm_metadata_model['model_id'] = 'testString'
+
+        message_context_global_system_model = {}  # MessageContextGlobalSystem
+        message_context_global_system_model['timezone'] = 'testString'
+        message_context_global_system_model['user_id'] = 'testString'
+        message_context_global_system_model['turn_count'] = 38
+        message_context_global_system_model['locale'] = 'en-us'
+        message_context_global_system_model['reference_time'] = 'testString'
+        message_context_global_system_model['session_start_time'] = 'testString'
+        message_context_global_system_model['state'] = 'testString'
+        message_context_global_system_model['skip_user_input'] = True
+
+        stateless_message_context_global_model = {}  # StatelessMessageContextGlobal
+        stateless_message_context_global_model['system'] = message_context_global_system_model
+        stateless_message_context_global_model['session_id'] = 'testString'
+
+        message_context_skill_system_model = {}  # MessageContextSkillSystem
+        message_context_skill_system_model['state'] = 'testString'
+        message_context_skill_system_model['foo'] = 'testString'
+
+        message_context_dialog_skill_model = {}  # MessageContextDialogSkill
+        message_context_dialog_skill_model['user_defined'] = {'anyKey': 'anyValue'}
+        message_context_dialog_skill_model['system'] = message_context_skill_system_model
+
+        stateless_message_context_skills_actions_skill_model = {}  # StatelessMessageContextSkillsActionsSkill
+        stateless_message_context_skills_actions_skill_model['user_defined'] = {'anyKey': 'anyValue'}
+        stateless_message_context_skills_actions_skill_model['system'] = message_context_skill_system_model
+        stateless_message_context_skills_actions_skill_model['action_variables'] = {'anyKey': 'anyValue'}
+        stateless_message_context_skills_actions_skill_model['skill_variables'] = {'anyKey': 'anyValue'}
+        stateless_message_context_skills_actions_skill_model['private_action_variables'] = {'anyKey': 'anyValue'}
+        stateless_message_context_skills_actions_skill_model['private_skill_variables'] = {'anyKey': 'anyValue'}
+
+        stateless_message_context_skills_model = {}  # StatelessMessageContextSkills
+        stateless_message_context_skills_model['main skill'] = message_context_dialog_skill_model
+        stateless_message_context_skills_model['actions skill'] = stateless_message_context_skills_actions_skill_model
+
+        stateless_message_context_model = {}  # StatelessMessageContext
+        stateless_message_context_model['global'] = stateless_message_context_global_model
+        stateless_message_context_model['skills'] = stateless_message_context_skills_model
+        stateless_message_context_model['integrations'] = {'anyKey': 'anyValue'}
+
+        stateless_final_response_output_model = {}  # StatelessFinalResponseOutput
+        stateless_final_response_output_model['generic'] = [runtime_response_generic_model]
+        stateless_final_response_output_model['intents'] = [runtime_intent_model]
+        stateless_final_response_output_model['entities'] = [runtime_entity_model]
+        stateless_final_response_output_model['actions'] = [dialog_node_action_model]
+        stateless_final_response_output_model['debug'] = message_output_debug_model
+        stateless_final_response_output_model['user_defined'] = {'anyKey': 'anyValue'}
+        stateless_final_response_output_model['spelling'] = message_output_spelling_model
+        stateless_final_response_output_model['llm_metadata'] = [message_output_llm_metadata_model]
+        stateless_final_response_output_model['streaming_metadata'] = stateless_message_context_model
+
+        stateless_final_response_model = {}  # StatelessFinalResponse
+        stateless_final_response_model['output'] = stateless_final_response_output_model
+        stateless_final_response_model['context'] = stateless_message_context_model
+        stateless_final_response_model['user_id'] = 'testString'
+
+        # Construct a json representation of a StatelessMessageStreamResponseStatelessMessageStreamFinalResponse model
+        stateless_message_stream_response_stateless_message_stream_final_response_model_json = {}
+        stateless_message_stream_response_stateless_message_stream_final_response_model_json['final_response'] = stateless_final_response_model
+
+        # Construct a model instance of StatelessMessageStreamResponseStatelessMessageStreamFinalResponse by calling from_dict on the json representation
+        stateless_message_stream_response_stateless_message_stream_final_response_model = StatelessMessageStreamResponseStatelessMessageStreamFinalResponse.from_dict(stateless_message_stream_response_stateless_message_stream_final_response_model_json)
+        assert stateless_message_stream_response_stateless_message_stream_final_response_model != False
+
+        # Construct a model instance of StatelessMessageStreamResponseStatelessMessageStreamFinalResponse by calling from_dict on the json representation
+        stateless_message_stream_response_stateless_message_stream_final_response_model_dict = StatelessMessageStreamResponseStatelessMessageStreamFinalResponse.from_dict(stateless_message_stream_response_stateless_message_stream_final_response_model_json).__dict__
+        stateless_message_stream_response_stateless_message_stream_final_response_model2 = StatelessMessageStreamResponseStatelessMessageStreamFinalResponse(**stateless_message_stream_response_stateless_message_stream_final_response_model_dict)
+
+        # Verify the model instances are equivalent
+        assert stateless_message_stream_response_stateless_message_stream_final_response_model == stateless_message_stream_response_stateless_message_stream_final_response_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        stateless_message_stream_response_stateless_message_stream_final_response_model_json2 = stateless_message_stream_response_stateless_message_stream_final_response_model.to_dict()
+        assert stateless_message_stream_response_stateless_message_stream_final_response_model_json2 == stateless_message_stream_response_stateless_message_stream_final_response_model_json
 
 
 # endregion
