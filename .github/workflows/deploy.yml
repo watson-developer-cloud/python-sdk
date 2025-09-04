@@ -71,7 +71,7 @@ jobs:
 
     - name: Publish distribution to Test PyPI
       continue-on-error: true
-      uses: pypa/gh-action-pypi-publish@v1.4.2 # Try to update version tag every release
+      uses: pypa/gh-action-pypi-publish@v1.13.0 # Try to update version tag every release
       with:
         password: ${{ secrets.PYPI_TOKEN }}
         repository_url: https://upload.pypi.org/legacy/ # This must be changed if testing deploys to test.pypi.org
