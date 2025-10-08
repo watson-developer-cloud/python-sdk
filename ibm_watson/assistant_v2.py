@@ -641,19 +641,10 @@ class AssistantV2(BaseService):
         (including context data) stored by watsonx Assistant for the duration of the
         session.
 
-        :param str assistant_id: The assistant ID or the environment ID of the
-               environment where the assistant is deployed.
-                Set the value for this ID depending on the type of request:
-                - For message, session, and log requests, specify the environment ID of
-               the environment where the assistant is deployed.
-                 - For all other requests, specify the assistant ID of the assistant.
-                To get the **assistant ID** and **environment ID** in the watsonx
-               Assistant interface, open the **Assistant settings** page, and scroll to
-               the **Assistant IDs and API details** section and click **View Details**.
-                **Note:** If you are using the classic Watson Assistant experience, always
-               use the assistant ID.
-                To find the **assistant ID** in the user interface, open the **Assistant
-               settings** and click **API Details**.
+        :param str assistant_id: Unique identifier of the assistant. To get the
+               **assistant ID** in the watsonx Assistant interface, open the **Assistant
+               settings** page, and scroll to the **Assistant IDs and API details**
+               section and click **View Details**.
         :param str environment_id: Unique identifier of the environment. To find
                the environment ID in the watsonx Assistant user interface, open the
                environment settings and click **API Details**. **Note:** Currently, the
@@ -722,7 +713,7 @@ class AssistantV2(BaseService):
         path_param_values = self.encode_path_vars(assistant_id, environment_id,
                                                   session_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = '/v2/assistants/{assistant_id}/sessions/{session_id}/message'.format(
+        url = '/v2/assistants/{assistant_id}/environments/{environment_id}/sessions/{session_id}/message'.format(
             **path_param_dict)
         request = self.prepare_request(
             method='POST',
@@ -751,19 +742,10 @@ class AssistantV2(BaseService):
         Send user input to an assistant and receive a response, with conversation state
         (including context data) managed by your application.
 
-        :param str assistant_id: The assistant ID or the environment ID of the
-               environment where the assistant is deployed.
-                Set the value for this ID depending on the type of request:
-                - For message, session, and log requests, specify the environment ID of
-               the environment where the assistant is deployed.
-                 - For all other requests, specify the assistant ID of the assistant.
-                To get the **assistant ID** and **environment ID** in the watsonx
-               Assistant interface, open the **Assistant settings** page, and scroll to
-               the **Assistant IDs and API details** section and click **View Details**.
-                **Note:** If you are using the classic Watson Assistant experience, always
-               use the assistant ID.
-                To find the **assistant ID** in the user interface, open the **Assistant
-               settings** and click **API Details**.
+        :param str assistant_id: Unique identifier of the assistant. To get the
+               **assistant ID** in the watsonx Assistant interface, open the **Assistant
+               settings** page, and scroll to the **Assistant IDs and API details**
+               section and click **View Details**.
         :param str environment_id: Unique identifier of the environment. To find
                the environment ID in the watsonx Assistant user interface, open the
                environment settings and click **API Details**. **Note:** Currently, the
@@ -829,7 +811,8 @@ class AssistantV2(BaseService):
         path_param_keys = ['assistant_id', 'environment_id']
         path_param_values = self.encode_path_vars(assistant_id, environment_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = '/v2/assistants/{assistant_id}/message'.format(**path_param_dict)
+        url = '/v2/assistants/{assistant_id}/environments/{environment_id}/message'.format(
+            **path_param_dict)
         request = self.prepare_request(
             method='POST',
             url=url,
