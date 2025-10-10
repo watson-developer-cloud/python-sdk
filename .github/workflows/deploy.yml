@@ -67,11 +67,9 @@ jobs:
     - name: Build binary wheel and a source tarball
       run: |
         pip3 install setuptools wheel twine build
-        python -m build --sdist --outdir dist/
+        python setup.py sdist
 
-    - name: Publish distribution to Test PyPI
-      continue-on-error: true
-      uses: pypa/gh-action-pypi-publish@v1.4.2 # Try to update version tag every release
+    - name: Publish package distributions to PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
       with:
         password: ${{ secrets.PYPI_TOKEN }}
-        repository_url: https://upload.pypi.org/legacy/ # This must be changed if testing deploys to test.pypi.org
