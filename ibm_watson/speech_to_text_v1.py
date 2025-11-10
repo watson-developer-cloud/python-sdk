@@ -218,6 +218,7 @@ class SpeechToTextV1(BaseService):
         end_of_phrase_silence_time: Optional[float] = None,
         split_transcript_at_phrase_end: Optional[bool] = None,
         speech_detector_sensitivity: Optional[float] = None,
+        sad_module: Optional[int] = None,
         background_audio_suppression: Optional[float] = None,
         low_latency: Optional[bool] = None,
         character_insertion_bias: Optional[float] = None,
@@ -351,8 +352,9 @@ class SpeechToTextV1(BaseService):
                activity is detected in the stream. This can be used both in standard and
                low latency mode. This feature enables client applications to know that
                some words/speech has been detected and the service is in the process of
-               decoding. This can be used in lieu of interim results in standard mode. See
-               [Using speech recognition
+               decoding. This can be used in lieu of interim results in standard mode. Use
+               `sad_module: 2` to increase accuracy and performance in detecting speech
+               boundaries within the audio stream. See [Using speech recognition
                parameters](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-service-features#features-parameters).
         :param str language_customization_id: (optional) The customization ID
                (GUID) of a custom language model that is to be used with the recognition
@@ -555,6 +557,12 @@ class SpeechToTextV1(BaseService):
                sensitivity](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-detection#detection-parameters-sensitivity)
                and [Language model
                support](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-detection#detection-support).
+        :param int sad_module: (optional) Detects speech boundaries within the
+               audio stream with better performance, improved noise suppression, faster
+               responsiveness, and increased accuracy.
+               Specify `sad_module: 2`
+                See [Speech Activity Detection
+               (SAD)](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-detection#sad).
         :param float background_audio_suppression: (optional) The level to which
                the service is to suppress background audio based on its volume to prevent
                it from being transcribed as speech. Use the parameter to suppress side
@@ -647,6 +655,7 @@ class SpeechToTextV1(BaseService):
             'end_of_phrase_silence_time': end_of_phrase_silence_time,
             'split_transcript_at_phrase_end': split_transcript_at_phrase_end,
             'speech_detector_sensitivity': speech_detector_sensitivity,
+            'sad_module': sad_module,
             'background_audio_suppression': background_audio_suppression,
             'low_latency': low_latency,
             'character_insertion_bias': character_insertion_bias,
@@ -845,6 +854,7 @@ class SpeechToTextV1(BaseService):
         end_of_phrase_silence_time: Optional[float] = None,
         split_transcript_at_phrase_end: Optional[bool] = None,
         speech_detector_sensitivity: Optional[float] = None,
+        sad_module: Optional[int] = None,
         background_audio_suppression: Optional[float] = None,
         low_latency: Optional[bool] = None,
         character_insertion_bias: Optional[float] = None,
@@ -1244,6 +1254,12 @@ class SpeechToTextV1(BaseService):
                sensitivity](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-detection#detection-parameters-sensitivity)
                and [Language model
                support](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-detection#detection-support).
+        :param int sad_module: (optional) Detects speech boundaries within the
+               audio stream with better performance, improved noise suppression, faster
+               responsiveness, and increased accuracy.
+               Specify `sad_module: 2`
+                See [Speech Activity Detection
+               (SAD)](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-detection#sad).
         :param float background_audio_suppression: (optional) The level to which
                the service is to suppress background audio based on its volume to prevent
                it from being transcribed as speech. Use the parameter to suppress side
@@ -1341,6 +1357,7 @@ class SpeechToTextV1(BaseService):
             'end_of_phrase_silence_time': end_of_phrase_silence_time,
             'split_transcript_at_phrase_end': split_transcript_at_phrase_end,
             'speech_detector_sensitivity': speech_detector_sensitivity,
+            'sad_module': sad_module,
             'background_audio_suppression': background_audio_suppression,
             'low_latency': low_latency,
             'character_insertion_bias': character_insertion_bias,

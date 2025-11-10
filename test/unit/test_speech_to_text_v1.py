@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2024.
+# (C) Copyright IBM Corp. 2025.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -239,6 +239,7 @@ class TestRecognize:
         end_of_phrase_silence_time = 0.8
         split_transcript_at_phrase_end = False
         speech_detector_sensitivity = 0.5
+        sad_module = 1
         background_audio_suppression = 0.0
         low_latency = False
         character_insertion_bias = 0.0
@@ -270,6 +271,7 @@ class TestRecognize:
             end_of_phrase_silence_time=end_of_phrase_silence_time,
             split_transcript_at_phrase_end=split_transcript_at_phrase_end,
             speech_detector_sensitivity=speech_detector_sensitivity,
+            sad_module=sad_module,
             background_audio_suppression=background_audio_suppression,
             low_latency=low_latency,
             character_insertion_bias=character_insertion_bias,
@@ -302,6 +304,7 @@ class TestRecognize:
         assert 'audio_metrics={}'.format('true' if audio_metrics else 'false') in query_string
         assert 'end_of_phrase_silence_time={}'.format(end_of_phrase_silence_time) in query_string
         assert 'split_transcript_at_phrase_end={}'.format('true' if split_transcript_at_phrase_end else 'false') in query_string
+        assert 'sad_module={}'.format(sad_module) in query_string
         assert 'low_latency={}'.format('true' if low_latency else 'false') in query_string
         # Validate body params
 
@@ -663,6 +666,7 @@ class TestCreateJob:
         end_of_phrase_silence_time = 0.8
         split_transcript_at_phrase_end = False
         speech_detector_sensitivity = 0.5
+        sad_module = 1
         background_audio_suppression = 0.0
         low_latency = False
         character_insertion_bias = 0.0
@@ -699,6 +703,7 @@ class TestCreateJob:
             end_of_phrase_silence_time=end_of_phrase_silence_time,
             split_transcript_at_phrase_end=split_transcript_at_phrase_end,
             speech_detector_sensitivity=speech_detector_sensitivity,
+            sad_module=sad_module,
             background_audio_suppression=background_audio_suppression,
             low_latency=low_latency,
             character_insertion_bias=character_insertion_bias,
@@ -735,6 +740,7 @@ class TestCreateJob:
         assert 'audio_metrics={}'.format('true' if audio_metrics else 'false') in query_string
         assert 'end_of_phrase_silence_time={}'.format(end_of_phrase_silence_time) in query_string
         assert 'split_transcript_at_phrase_end={}'.format('true' if split_transcript_at_phrase_end else 'false') in query_string
+        assert 'sad_module={}'.format(sad_module) in query_string
         assert 'low_latency={}'.format('true' if low_latency else 'false') in query_string
         # Validate body params
 
