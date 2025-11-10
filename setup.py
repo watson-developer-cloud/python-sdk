@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# (C) Copyright IBM Corp. 2015, 2020.
+# (C) Copyright IBM Corp. 2015, 2025.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 from setuptools import setup
 from os import path
 
-__version__ = '10.0.0'
+__version__ = '11.0.0'
 
 # read contents of README file
 this_directory = path.abspath(path.dirname(__file__))
