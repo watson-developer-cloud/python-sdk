@@ -57,6 +57,7 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
                                   background_audio_suppression=None,
                                   low_latency=None,
                                   character_insertion_bias=None,
+                                  sad_module=None,
                                   **kwargs):
         """
         Sends audio for speech recognition using web sockets.
@@ -309,6 +310,12 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
                `Narrowband` models.
                See [Character insertion
                bias](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-parsing#insertion-bias).
+        :param int sad_module: (optional) Detects speech boundaries within the
+               audio stream with better performance, improved noise suppression, faster
+               responsiveness, and increased accuracy.
+               Specify `sad_module: 2`
+                See [Speech Activity Detection
+               (SAD)](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-detection#sad).
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `SpeechRecognitionResults` response.
         :rtype: dict
@@ -377,6 +384,7 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
             'background_audio_suppression': background_audio_suppression,
             'character_insertion_bias': character_insertion_bias,
             'low_latency': low_latency,
+            'sad_module': sad_module,
         }
         options = {k: v for k, v in options.items() if v is not None}
         request['options'] = options
