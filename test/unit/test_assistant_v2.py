@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2019, 2025.
+# (C) Copyright IBM Corp. 2019, 2026.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -6537,6 +6537,37 @@ class TestModel_DialogSuggestionValue:
         # Convert model instance back to dict and verify no loss of data
         dialog_suggestion_value_model_json2 = dialog_suggestion_value_model.to_dict()
         assert dialog_suggestion_value_model_json2 == dialog_suggestion_value_model_json
+
+
+class TestModel_DtmfCommandInfo:
+    """
+    Test Class for DtmfCommandInfo
+    """
+
+    def test_dtmf_command_info_serialization(self):
+        """
+        Test serialization/deserialization for DtmfCommandInfo
+        """
+
+        # Construct a json representation of a DtmfCommandInfo model
+        dtmf_command_info_model_json = {}
+        dtmf_command_info_model_json['type'] = 'collect'
+        dtmf_command_info_model_json['parameters'] = {'anyKey': 'anyValue'}
+
+        # Construct a model instance of DtmfCommandInfo by calling from_dict on the json representation
+        dtmf_command_info_model = DtmfCommandInfo.from_dict(dtmf_command_info_model_json)
+        assert dtmf_command_info_model != False
+
+        # Construct a model instance of DtmfCommandInfo by calling from_dict on the json representation
+        dtmf_command_info_model_dict = DtmfCommandInfo.from_dict(dtmf_command_info_model_json).__dict__
+        dtmf_command_info_model2 = DtmfCommandInfo(**dtmf_command_info_model_dict)
+
+        # Verify the model instances are equivalent
+        assert dtmf_command_info_model == dtmf_command_info_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        dtmf_command_info_model_json2 = dtmf_command_info_model.to_dict()
+        assert dtmf_command_info_model_json2 == dtmf_command_info_model_json
 
 
 class TestModel_Environment:
@@ -15849,6 +15880,78 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeDate:
         # Convert model instance back to dict and verify no loss of data
         runtime_response_generic_runtime_response_type_date_model_json2 = runtime_response_generic_runtime_response_type_date_model.to_dict()
         assert runtime_response_generic_runtime_response_type_date_model_json2 == runtime_response_generic_runtime_response_type_date_model_json
+
+
+class TestModel_RuntimeResponseGenericRuntimeResponseTypeDtmf:
+    """
+    Test Class for RuntimeResponseGenericRuntimeResponseTypeDtmf
+    """
+
+    def test_runtime_response_generic_runtime_response_type_dtmf_serialization(self):
+        """
+        Test serialization/deserialization for RuntimeResponseGenericRuntimeResponseTypeDtmf
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        dtmf_command_info_model = {}  # DtmfCommandInfo
+        dtmf_command_info_model['type'] = 'collect'
+        dtmf_command_info_model['parameters'] = {'anyKey': 'anyValue'}
+
+        response_generic_channel_model = {}  # ResponseGenericChannel
+        response_generic_channel_model['channel'] = 'testString'
+
+        # Construct a json representation of a RuntimeResponseGenericRuntimeResponseTypeDtmf model
+        runtime_response_generic_runtime_response_type_dtmf_model_json = {}
+        runtime_response_generic_runtime_response_type_dtmf_model_json['response_type'] = 'dtmf'
+        runtime_response_generic_runtime_response_type_dtmf_model_json['command_info'] = dtmf_command_info_model
+        runtime_response_generic_runtime_response_type_dtmf_model_json['channels'] = [response_generic_channel_model]
+
+        # Construct a model instance of RuntimeResponseGenericRuntimeResponseTypeDtmf by calling from_dict on the json representation
+        runtime_response_generic_runtime_response_type_dtmf_model = RuntimeResponseGenericRuntimeResponseTypeDtmf.from_dict(runtime_response_generic_runtime_response_type_dtmf_model_json)
+        assert runtime_response_generic_runtime_response_type_dtmf_model != False
+
+        # Construct a model instance of RuntimeResponseGenericRuntimeResponseTypeDtmf by calling from_dict on the json representation
+        runtime_response_generic_runtime_response_type_dtmf_model_dict = RuntimeResponseGenericRuntimeResponseTypeDtmf.from_dict(runtime_response_generic_runtime_response_type_dtmf_model_json).__dict__
+        runtime_response_generic_runtime_response_type_dtmf_model2 = RuntimeResponseGenericRuntimeResponseTypeDtmf(**runtime_response_generic_runtime_response_type_dtmf_model_dict)
+
+        # Verify the model instances are equivalent
+        assert runtime_response_generic_runtime_response_type_dtmf_model == runtime_response_generic_runtime_response_type_dtmf_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        runtime_response_generic_runtime_response_type_dtmf_model_json2 = runtime_response_generic_runtime_response_type_dtmf_model.to_dict()
+        assert runtime_response_generic_runtime_response_type_dtmf_model_json2 == runtime_response_generic_runtime_response_type_dtmf_model_json
+
+
+class TestModel_RuntimeResponseGenericRuntimeResponseTypeEndSession:
+    """
+    Test Class for RuntimeResponseGenericRuntimeResponseTypeEndSession
+    """
+
+    def test_runtime_response_generic_runtime_response_type_end_session_serialization(self):
+        """
+        Test serialization/deserialization for RuntimeResponseGenericRuntimeResponseTypeEndSession
+        """
+
+        # Construct a json representation of a RuntimeResponseGenericRuntimeResponseTypeEndSession model
+        runtime_response_generic_runtime_response_type_end_session_model_json = {}
+        runtime_response_generic_runtime_response_type_end_session_model_json['response_type'] = 'end_session'
+        runtime_response_generic_runtime_response_type_end_session_model_json['channel_options'] = {'anyKey': 'anyValue'}
+
+        # Construct a model instance of RuntimeResponseGenericRuntimeResponseTypeEndSession by calling from_dict on the json representation
+        runtime_response_generic_runtime_response_type_end_session_model = RuntimeResponseGenericRuntimeResponseTypeEndSession.from_dict(runtime_response_generic_runtime_response_type_end_session_model_json)
+        assert runtime_response_generic_runtime_response_type_end_session_model != False
+
+        # Construct a model instance of RuntimeResponseGenericRuntimeResponseTypeEndSession by calling from_dict on the json representation
+        runtime_response_generic_runtime_response_type_end_session_model_dict = RuntimeResponseGenericRuntimeResponseTypeEndSession.from_dict(runtime_response_generic_runtime_response_type_end_session_model_json).__dict__
+        runtime_response_generic_runtime_response_type_end_session_model2 = RuntimeResponseGenericRuntimeResponseTypeEndSession(**runtime_response_generic_runtime_response_type_end_session_model_dict)
+
+        # Verify the model instances are equivalent
+        assert runtime_response_generic_runtime_response_type_end_session_model == runtime_response_generic_runtime_response_type_end_session_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        runtime_response_generic_runtime_response_type_end_session_model_json2 = runtime_response_generic_runtime_response_type_end_session_model.to_dict()
+        assert runtime_response_generic_runtime_response_type_end_session_model_json2 == runtime_response_generic_runtime_response_type_end_session_model_json
 
 
 class TestModel_RuntimeResponseGenericRuntimeResponseTypeIframe:

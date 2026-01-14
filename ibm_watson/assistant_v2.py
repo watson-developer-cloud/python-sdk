@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2019, 2025.
+# (C) Copyright IBM Corp. 2019, 2026.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -4675,6 +4675,88 @@ class DialogSuggestionValue:
     def __ne__(self, other: 'DialogSuggestionValue') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
+
+
+class DtmfCommandInfo:
+    """
+    DtmfCommandInfo.
+
+    :param str type: Specifies the type of DTMF command for the phone integration.
+    :param dict parameters: (optional) Parameters specified by the command type.
+    """
+
+    def __init__(
+        self,
+        type: str,
+        *,
+        parameters: Optional[dict] = None,
+    ) -> None:
+        """
+        Initialize a DtmfCommandInfo object.
+
+        :param str type: Specifies the type of DTMF command for the phone
+               integration.
+        :param dict parameters: (optional) Parameters specified by the command
+               type.
+        """
+        self.type = type
+        self.parameters = parameters
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'DtmfCommandInfo':
+        """Initialize a DtmfCommandInfo object from a json dictionary."""
+        args = {}
+        if (type := _dict.get('type')) is not None:
+            args['type'] = type
+        else:
+            raise ValueError(
+                'Required property \'type\' not present in DtmfCommandInfo JSON'
+            )
+        if (parameters := _dict.get('parameters')) is not None:
+            args['parameters'] = parameters
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DtmfCommandInfo object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'type') and self.type is not None:
+            _dict['type'] = self.type
+        if hasattr(self, 'parameters') and self.parameters is not None:
+            _dict['parameters'] = self.parameters
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this DtmfCommandInfo object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'DtmfCommandInfo') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'DtmfCommandInfo') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class TypeEnum(str, Enum):
+        """
+        Specifies the type of DTMF command for the phone integration.
+        """
+
+        COLLECT = 'collect'
+        DISABLE_BARGE_IN = 'disable_barge_in'
+        ENABLE_BARGE_IN = 'enable_barge_in'
+        SEND = 'send'
 
 
 class Environment:
@@ -12107,7 +12189,9 @@ class RuntimeResponseGeneric:
                 'RuntimeResponseGenericRuntimeResponseTypeVideo',
                 'RuntimeResponseGenericRuntimeResponseTypeAudio',
                 'RuntimeResponseGenericRuntimeResponseTypeIframe',
-                'RuntimeResponseGenericRuntimeResponseTypeDate'
+                'RuntimeResponseGenericRuntimeResponseTypeDate',
+                'RuntimeResponseGenericRuntimeResponseTypeDtmf',
+                'RuntimeResponseGenericRuntimeResponseTypeEndSession'
             ]))
         raise Exception(msg)
 
@@ -12132,7 +12216,9 @@ class RuntimeResponseGeneric:
                 'RuntimeResponseGenericRuntimeResponseTypeVideo',
                 'RuntimeResponseGenericRuntimeResponseTypeAudio',
                 'RuntimeResponseGenericRuntimeResponseTypeIframe',
-                'RuntimeResponseGenericRuntimeResponseTypeDate'
+                'RuntimeResponseGenericRuntimeResponseTypeDate',
+                'RuntimeResponseGenericRuntimeResponseTypeDtmf',
+                'RuntimeResponseGenericRuntimeResponseTypeEndSession'
             ]))
         raise Exception(msg)
 
@@ -12163,6 +12249,9 @@ class RuntimeResponseGeneric:
         mapping[
             'user_defined'] = 'RuntimeResponseGenericRuntimeResponseTypeUserDefined'
         mapping['video'] = 'RuntimeResponseGenericRuntimeResponseTypeVideo'
+        mapping['dtmf'] = 'RuntimeResponseGenericRuntimeResponseTypeDtmf'
+        mapping[
+            'end_session'] = 'RuntimeResponseGenericRuntimeResponseTypeEndSession'
         disc_value = _dict.get('response_type')
         if disc_value is None:
             raise ValueError(
@@ -21884,6 +21973,191 @@ class RuntimeResponseGenericRuntimeResponseTypeDate(RuntimeResponseGeneric):
 
     def __ne__(self,
                other: 'RuntimeResponseGenericRuntimeResponseTypeDate') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class RuntimeResponseGenericRuntimeResponseTypeDtmf(RuntimeResponseGeneric):
+    """
+    RuntimeResponseGenericRuntimeResponseTypeDtmf.
+
+    :param str response_type: The type of response returned by the dialog node. The
+          specified response type must be supported by the client application or channel.
+    :param DtmfCommandInfo command_info: (optional)
+    :param List[ResponseGenericChannel] channels: (optional) An array of objects
+          specifying channels for which the response is intended. If **channels** is
+          present, the response is intended for a built-in integration and should not be
+          handled by an API client.
+    """
+
+    def __init__(
+        self,
+        response_type: str,
+        *,
+        command_info: Optional['DtmfCommandInfo'] = None,
+        channels: Optional[List['ResponseGenericChannel']] = None,
+    ) -> None:
+        """
+        Initialize a RuntimeResponseGenericRuntimeResponseTypeDtmf object.
+
+        :param str response_type: The type of response returned by the dialog node.
+               The specified response type must be supported by the client application or
+               channel.
+        :param DtmfCommandInfo command_info: (optional)
+        :param List[ResponseGenericChannel] channels: (optional) An array of
+               objects specifying channels for which the response is intended. If
+               **channels** is present, the response is intended for a built-in
+               integration and should not be handled by an API client.
+        """
+        # pylint: disable=super-init-not-called
+        self.response_type = response_type
+        self.command_info = command_info
+        self.channels = channels
+
+    @classmethod
+    def from_dict(
+            cls,
+            _dict: Dict) -> 'RuntimeResponseGenericRuntimeResponseTypeDtmf':
+        """Initialize a RuntimeResponseGenericRuntimeResponseTypeDtmf object from a json dictionary."""
+        args = {}
+        if (response_type := _dict.get('response_type')) is not None:
+            args['response_type'] = response_type
+        else:
+            raise ValueError(
+                'Required property \'response_type\' not present in RuntimeResponseGenericRuntimeResponseTypeDtmf JSON'
+            )
+        if (command_info := _dict.get('command_info')) is not None:
+            args['command_info'] = DtmfCommandInfo.from_dict(command_info)
+        if (channels := _dict.get('channels')) is not None:
+            args['channels'] = [
+                ResponseGenericChannel.from_dict(v) for v in channels
+            ]
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a RuntimeResponseGenericRuntimeResponseTypeDtmf object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'response_type') and self.response_type is not None:
+            _dict['response_type'] = self.response_type
+        if hasattr(self, 'command_info') and self.command_info is not None:
+            if isinstance(self.command_info, dict):
+                _dict['command_info'] = self.command_info
+            else:
+                _dict['command_info'] = self.command_info.to_dict()
+        if hasattr(self, 'channels') and self.channels is not None:
+            channels_list = []
+            for v in self.channels:
+                if isinstance(v, dict):
+                    channels_list.append(v)
+                else:
+                    channels_list.append(v.to_dict())
+            _dict['channels'] = channels_list
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this RuntimeResponseGenericRuntimeResponseTypeDtmf object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self,
+               other: 'RuntimeResponseGenericRuntimeResponseTypeDtmf') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self,
+               other: 'RuntimeResponseGenericRuntimeResponseTypeDtmf') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class RuntimeResponseGenericRuntimeResponseTypeEndSession(
+        RuntimeResponseGeneric):
+    """
+    RuntimeResponseGenericRuntimeResponseTypeEndSession.
+
+    :param str response_type: The type of response returned by the dialog node. The
+          specified response type must be supported by the client application or channel.
+    :param dict channel_options: (optional) For internal use only.
+    """
+
+    def __init__(
+        self,
+        response_type: str,
+        *,
+        channel_options: Optional[dict] = None,
+    ) -> None:
+        """
+        Initialize a RuntimeResponseGenericRuntimeResponseTypeEndSession object.
+
+        :param str response_type: The type of response returned by the dialog node.
+               The specified response type must be supported by the client application or
+               channel.
+        :param dict channel_options: (optional) For internal use only.
+        """
+        # pylint: disable=super-init-not-called
+        self.response_type = response_type
+        self.channel_options = channel_options
+
+    @classmethod
+    def from_dict(
+            cls, _dict: Dict
+    ) -> 'RuntimeResponseGenericRuntimeResponseTypeEndSession':
+        """Initialize a RuntimeResponseGenericRuntimeResponseTypeEndSession object from a json dictionary."""
+        args = {}
+        if (response_type := _dict.get('response_type')) is not None:
+            args['response_type'] = response_type
+        else:
+            raise ValueError(
+                'Required property \'response_type\' not present in RuntimeResponseGenericRuntimeResponseTypeEndSession JSON'
+            )
+        if (channel_options := _dict.get('channel_options')) is not None:
+            args['channel_options'] = channel_options
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a RuntimeResponseGenericRuntimeResponseTypeEndSession object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'response_type') and self.response_type is not None:
+            _dict['response_type'] = self.response_type
+        if hasattr(self,
+                   'channel_options') and self.channel_options is not None:
+            _dict['channel_options'] = self.channel_options
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this RuntimeResponseGenericRuntimeResponseTypeEndSession object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(
+            self, other: 'RuntimeResponseGenericRuntimeResponseTypeEndSession'
+    ) -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(
+            self, other: 'RuntimeResponseGenericRuntimeResponseTypeEndSession'
+    ) -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
