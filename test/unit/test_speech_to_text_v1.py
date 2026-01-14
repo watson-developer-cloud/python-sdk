@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2025.
+# (C) Copyright IBM Corp. 2026.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -204,7 +204,7 @@ class TestRecognize:
         """
         # Set up mock
         url = preprocess_url('/v1/recognize')
-        mock_response = '{"results": [{"final": false, "alternatives": [{"transcript": "transcript", "confidence": 0, "timestamps": ["timestamps"], "word_confidence": ["word_confidence"]}], "keywords_result": {"mapKey": [{"normalized_text": "normalized_text", "start_time": 10, "end_time": 8, "confidence": 0}]}, "word_alternatives": [{"start_time": 10, "end_time": 8, "alternatives": [{"confidence": 0, "word": "word"}]}], "end_of_utterance": "end_of_data"}], "result_index": 12, "speaker_labels": [{"from": 5, "to": 2, "speaker": 7, "confidence": 10, "final": false}], "processing_metrics": {"processed_audio": {"received": 8, "seen_by_engine": 14, "transcription": 13, "speaker_labels": 14}, "wall_clock_since_first_byte_received": 36, "periodic": true}, "audio_metrics": {"sampling_interval": 17, "accumulated": {"final": false, "end_time": 8, "signal_to_noise_ratio": 21, "speech_ratio": 12, "high_frequency_loss": 19, "direct_current_offset": [{"begin": 5, "end": 3, "count": 5}], "clipping_rate": [{"begin": 5, "end": 3, "count": 5}], "speech_level": [{"begin": 5, "end": 3, "count": 5}], "non_speech_level": [{"begin": 5, "end": 3, "count": 5}]}}, "warnings": ["warnings"]}'
+        mock_response = '{"results": [{"final": false, "alternatives": [{"transcript": "transcript", "confidence": 0, "timestamps": ["timestamps"], "word_confidence": ["word_confidence"]}], "keywords_result": {"mapKey": [{"normalized_text": "normalized_text", "start_time": 10, "end_time": 8, "confidence": 0}]}, "word_alternatives": [{"start_time": 10, "end_time": 8, "alternatives": [{"confidence": 0, "word": "word"}]}], "end_of_utterance": "end_of_data"}], "result_index": 12, "speaker_labels": [{"from": 5, "to": 2, "speaker": 7, "confidence": 10, "final": false}], "processing_metrics": {"processed_audio": {"received": 8, "seen_by_engine": 14, "transcription": 13, "speaker_labels": 14}, "wall_clock_since_first_byte_received": 36, "periodic": true}, "audio_metrics": {"sampling_interval": 17, "accumulated": {"final": false, "end_time": 8, "signal_to_noise_ratio": 21, "speech_ratio": 12, "high_frequency_loss": 19, "direct_current_offset": [{"begin": 5, "end": 3, "count": 5}], "clipping_rate": [{"begin": 5, "end": 3, "count": 5}], "speech_level": [{"begin": 5, "end": 3, "count": 5}], "non_speech_level": [{"begin": 5, "end": 3, "count": 5}]}}, "warnings": ["warnings"], "enriched_results": {"transcript": {"text": "text", "timestamp": {"from": 5, "to": 2}}, "status": "status"}}'
         responses.add(
             responses.POST,
             url,
@@ -218,6 +218,7 @@ class TestRecognize:
         content_type = 'application/octet-stream'
         model = 'en-US_BroadbandModel'
         speech_begin_event = False
+        enrichments = 'testString'
         language_customization_id = 'testString'
         acoustic_customization_id = 'testString'
         base_model_version = 'testString'
@@ -250,6 +251,7 @@ class TestRecognize:
             content_type=content_type,
             model=model,
             speech_begin_event=speech_begin_event,
+            enrichments=enrichments,
             language_customization_id=language_customization_id,
             acoustic_customization_id=acoustic_customization_id,
             base_model_version=base_model_version,
@@ -286,6 +288,7 @@ class TestRecognize:
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'model={}'.format(model) in query_string
         assert 'speech_begin_event={}'.format('true' if speech_begin_event else 'false') in query_string
+        assert 'enrichments={}'.format(enrichments) in query_string
         assert 'language_customization_id={}'.format(language_customization_id) in query_string
         assert 'acoustic_customization_id={}'.format(acoustic_customization_id) in query_string
         assert 'base_model_version={}'.format(base_model_version) in query_string
@@ -324,7 +327,7 @@ class TestRecognize:
         """
         # Set up mock
         url = preprocess_url('/v1/recognize')
-        mock_response = '{"results": [{"final": false, "alternatives": [{"transcript": "transcript", "confidence": 0, "timestamps": ["timestamps"], "word_confidence": ["word_confidence"]}], "keywords_result": {"mapKey": [{"normalized_text": "normalized_text", "start_time": 10, "end_time": 8, "confidence": 0}]}, "word_alternatives": [{"start_time": 10, "end_time": 8, "alternatives": [{"confidence": 0, "word": "word"}]}], "end_of_utterance": "end_of_data"}], "result_index": 12, "speaker_labels": [{"from": 5, "to": 2, "speaker": 7, "confidence": 10, "final": false}], "processing_metrics": {"processed_audio": {"received": 8, "seen_by_engine": 14, "transcription": 13, "speaker_labels": 14}, "wall_clock_since_first_byte_received": 36, "periodic": true}, "audio_metrics": {"sampling_interval": 17, "accumulated": {"final": false, "end_time": 8, "signal_to_noise_ratio": 21, "speech_ratio": 12, "high_frequency_loss": 19, "direct_current_offset": [{"begin": 5, "end": 3, "count": 5}], "clipping_rate": [{"begin": 5, "end": 3, "count": 5}], "speech_level": [{"begin": 5, "end": 3, "count": 5}], "non_speech_level": [{"begin": 5, "end": 3, "count": 5}]}}, "warnings": ["warnings"]}'
+        mock_response = '{"results": [{"final": false, "alternatives": [{"transcript": "transcript", "confidence": 0, "timestamps": ["timestamps"], "word_confidence": ["word_confidence"]}], "keywords_result": {"mapKey": [{"normalized_text": "normalized_text", "start_time": 10, "end_time": 8, "confidence": 0}]}, "word_alternatives": [{"start_time": 10, "end_time": 8, "alternatives": [{"confidence": 0, "word": "word"}]}], "end_of_utterance": "end_of_data"}], "result_index": 12, "speaker_labels": [{"from": 5, "to": 2, "speaker": 7, "confidence": 10, "final": false}], "processing_metrics": {"processed_audio": {"received": 8, "seen_by_engine": 14, "transcription": 13, "speaker_labels": 14}, "wall_clock_since_first_byte_received": 36, "periodic": true}, "audio_metrics": {"sampling_interval": 17, "accumulated": {"final": false, "end_time": 8, "signal_to_noise_ratio": 21, "speech_ratio": 12, "high_frequency_loss": 19, "direct_current_offset": [{"begin": 5, "end": 3, "count": 5}], "clipping_rate": [{"begin": 5, "end": 3, "count": 5}], "speech_level": [{"begin": 5, "end": 3, "count": 5}], "non_speech_level": [{"begin": 5, "end": 3, "count": 5}]}}, "warnings": ["warnings"], "enriched_results": {"transcript": {"text": "text", "timestamp": {"from": 5, "to": 2}}, "status": "status"}}'
         responses.add(
             responses.POST,
             url,
@@ -363,7 +366,7 @@ class TestRecognize:
         """
         # Set up mock
         url = preprocess_url('/v1/recognize')
-        mock_response = '{"results": [{"final": false, "alternatives": [{"transcript": "transcript", "confidence": 0, "timestamps": ["timestamps"], "word_confidence": ["word_confidence"]}], "keywords_result": {"mapKey": [{"normalized_text": "normalized_text", "start_time": 10, "end_time": 8, "confidence": 0}]}, "word_alternatives": [{"start_time": 10, "end_time": 8, "alternatives": [{"confidence": 0, "word": "word"}]}], "end_of_utterance": "end_of_data"}], "result_index": 12, "speaker_labels": [{"from": 5, "to": 2, "speaker": 7, "confidence": 10, "final": false}], "processing_metrics": {"processed_audio": {"received": 8, "seen_by_engine": 14, "transcription": 13, "speaker_labels": 14}, "wall_clock_since_first_byte_received": 36, "periodic": true}, "audio_metrics": {"sampling_interval": 17, "accumulated": {"final": false, "end_time": 8, "signal_to_noise_ratio": 21, "speech_ratio": 12, "high_frequency_loss": 19, "direct_current_offset": [{"begin": 5, "end": 3, "count": 5}], "clipping_rate": [{"begin": 5, "end": 3, "count": 5}], "speech_level": [{"begin": 5, "end": 3, "count": 5}], "non_speech_level": [{"begin": 5, "end": 3, "count": 5}]}}, "warnings": ["warnings"]}'
+        mock_response = '{"results": [{"final": false, "alternatives": [{"transcript": "transcript", "confidence": 0, "timestamps": ["timestamps"], "word_confidence": ["word_confidence"]}], "keywords_result": {"mapKey": [{"normalized_text": "normalized_text", "start_time": 10, "end_time": 8, "confidence": 0}]}, "word_alternatives": [{"start_time": 10, "end_time": 8, "alternatives": [{"confidence": 0, "word": "word"}]}], "end_of_utterance": "end_of_data"}], "result_index": 12, "speaker_labels": [{"from": 5, "to": 2, "speaker": 7, "confidence": 10, "final": false}], "processing_metrics": {"processed_audio": {"received": 8, "seen_by_engine": 14, "transcription": 13, "speaker_labels": 14}, "wall_clock_since_first_byte_received": 36, "periodic": true}, "audio_metrics": {"sampling_interval": 17, "accumulated": {"final": false, "end_time": 8, "signal_to_noise_ratio": 21, "speech_ratio": 12, "high_frequency_loss": 19, "direct_current_offset": [{"begin": 5, "end": 3, "count": 5}], "clipping_rate": [{"begin": 5, "end": 3, "count": 5}], "speech_level": [{"begin": 5, "end": 3, "count": 5}], "non_speech_level": [{"begin": 5, "end": 3, "count": 5}]}}, "warnings": ["warnings"], "enriched_results": {"transcript": {"text": "text", "timestamp": {"from": 5, "to": 2}}, "status": "status"}}'
         responses.add(
             responses.POST,
             url,
@@ -626,7 +629,7 @@ class TestCreateJob:
         """
         # Set up mock
         url = preprocess_url('/v1/recognitions')
-        mock_response = '{"id": "id", "status": "waiting", "created": "created", "updated": "updated", "url": "url", "user_token": "user_token", "results": [{"results": [{"final": false, "alternatives": [{"transcript": "transcript", "confidence": 0, "timestamps": ["timestamps"], "word_confidence": ["word_confidence"]}], "keywords_result": {"mapKey": [{"normalized_text": "normalized_text", "start_time": 10, "end_time": 8, "confidence": 0}]}, "word_alternatives": [{"start_time": 10, "end_time": 8, "alternatives": [{"confidence": 0, "word": "word"}]}], "end_of_utterance": "end_of_data"}], "result_index": 12, "speaker_labels": [{"from": 5, "to": 2, "speaker": 7, "confidence": 10, "final": false}], "processing_metrics": {"processed_audio": {"received": 8, "seen_by_engine": 14, "transcription": 13, "speaker_labels": 14}, "wall_clock_since_first_byte_received": 36, "periodic": true}, "audio_metrics": {"sampling_interval": 17, "accumulated": {"final": false, "end_time": 8, "signal_to_noise_ratio": 21, "speech_ratio": 12, "high_frequency_loss": 19, "direct_current_offset": [{"begin": 5, "end": 3, "count": 5}], "clipping_rate": [{"begin": 5, "end": 3, "count": 5}], "speech_level": [{"begin": 5, "end": 3, "count": 5}], "non_speech_level": [{"begin": 5, "end": 3, "count": 5}]}}, "warnings": ["warnings"]}], "warnings": ["warnings"]}'
+        mock_response = '{"id": "id", "status": "waiting", "created": "created", "updated": "updated", "url": "url", "user_token": "user_token", "results": [{"results": [{"final": false, "alternatives": [{"transcript": "transcript", "confidence": 0, "timestamps": ["timestamps"], "word_confidence": ["word_confidence"]}], "keywords_result": {"mapKey": [{"normalized_text": "normalized_text", "start_time": 10, "end_time": 8, "confidence": 0}]}, "word_alternatives": [{"start_time": 10, "end_time": 8, "alternatives": [{"confidence": 0, "word": "word"}]}], "end_of_utterance": "end_of_data"}], "result_index": 12, "speaker_labels": [{"from": 5, "to": 2, "speaker": 7, "confidence": 10, "final": false}], "processing_metrics": {"processed_audio": {"received": 8, "seen_by_engine": 14, "transcription": 13, "speaker_labels": 14}, "wall_clock_since_first_byte_received": 36, "periodic": true}, "audio_metrics": {"sampling_interval": 17, "accumulated": {"final": false, "end_time": 8, "signal_to_noise_ratio": 21, "speech_ratio": 12, "high_frequency_loss": 19, "direct_current_offset": [{"begin": 5, "end": 3, "count": 5}], "clipping_rate": [{"begin": 5, "end": 3, "count": 5}], "speech_level": [{"begin": 5, "end": 3, "count": 5}], "non_speech_level": [{"begin": 5, "end": 3, "count": 5}]}}, "warnings": ["warnings"], "enriched_results": {"transcript": {"text": "text", "timestamp": {"from": 5, "to": 2}}, "status": "status"}}], "warnings": ["warnings"]}'
         responses.add(
             responses.POST,
             url,
@@ -643,6 +646,8 @@ class TestCreateJob:
         events = 'recognitions.started'
         user_token = 'testString'
         results_ttl = 38
+        speech_begin_event = False
+        enrichments = 'testString'
         language_customization_id = 'testString'
         acoustic_customization_id = 'testString'
         base_model_version = 'testString'
@@ -680,6 +685,8 @@ class TestCreateJob:
             events=events,
             user_token=user_token,
             results_ttl=results_ttl,
+            speech_begin_event=speech_begin_event,
+            enrichments=enrichments,
             language_customization_id=language_customization_id,
             acoustic_customization_id=acoustic_customization_id,
             base_model_version=base_model_version,
@@ -721,6 +728,8 @@ class TestCreateJob:
         assert 'events={}'.format(events) in query_string
         assert 'user_token={}'.format(user_token) in query_string
         assert 'results_ttl={}'.format(results_ttl) in query_string
+        assert 'speech_begin_event={}'.format('true' if speech_begin_event else 'false') in query_string
+        assert 'enrichments={}'.format(enrichments) in query_string
         assert 'language_customization_id={}'.format(language_customization_id) in query_string
         assert 'acoustic_customization_id={}'.format(acoustic_customization_id) in query_string
         assert 'base_model_version={}'.format(base_model_version) in query_string
@@ -760,7 +769,7 @@ class TestCreateJob:
         """
         # Set up mock
         url = preprocess_url('/v1/recognitions')
-        mock_response = '{"id": "id", "status": "waiting", "created": "created", "updated": "updated", "url": "url", "user_token": "user_token", "results": [{"results": [{"final": false, "alternatives": [{"transcript": "transcript", "confidence": 0, "timestamps": ["timestamps"], "word_confidence": ["word_confidence"]}], "keywords_result": {"mapKey": [{"normalized_text": "normalized_text", "start_time": 10, "end_time": 8, "confidence": 0}]}, "word_alternatives": [{"start_time": 10, "end_time": 8, "alternatives": [{"confidence": 0, "word": "word"}]}], "end_of_utterance": "end_of_data"}], "result_index": 12, "speaker_labels": [{"from": 5, "to": 2, "speaker": 7, "confidence": 10, "final": false}], "processing_metrics": {"processed_audio": {"received": 8, "seen_by_engine": 14, "transcription": 13, "speaker_labels": 14}, "wall_clock_since_first_byte_received": 36, "periodic": true}, "audio_metrics": {"sampling_interval": 17, "accumulated": {"final": false, "end_time": 8, "signal_to_noise_ratio": 21, "speech_ratio": 12, "high_frequency_loss": 19, "direct_current_offset": [{"begin": 5, "end": 3, "count": 5}], "clipping_rate": [{"begin": 5, "end": 3, "count": 5}], "speech_level": [{"begin": 5, "end": 3, "count": 5}], "non_speech_level": [{"begin": 5, "end": 3, "count": 5}]}}, "warnings": ["warnings"]}], "warnings": ["warnings"]}'
+        mock_response = '{"id": "id", "status": "waiting", "created": "created", "updated": "updated", "url": "url", "user_token": "user_token", "results": [{"results": [{"final": false, "alternatives": [{"transcript": "transcript", "confidence": 0, "timestamps": ["timestamps"], "word_confidence": ["word_confidence"]}], "keywords_result": {"mapKey": [{"normalized_text": "normalized_text", "start_time": 10, "end_time": 8, "confidence": 0}]}, "word_alternatives": [{"start_time": 10, "end_time": 8, "alternatives": [{"confidence": 0, "word": "word"}]}], "end_of_utterance": "end_of_data"}], "result_index": 12, "speaker_labels": [{"from": 5, "to": 2, "speaker": 7, "confidence": 10, "final": false}], "processing_metrics": {"processed_audio": {"received": 8, "seen_by_engine": 14, "transcription": 13, "speaker_labels": 14}, "wall_clock_since_first_byte_received": 36, "periodic": true}, "audio_metrics": {"sampling_interval": 17, "accumulated": {"final": false, "end_time": 8, "signal_to_noise_ratio": 21, "speech_ratio": 12, "high_frequency_loss": 19, "direct_current_offset": [{"begin": 5, "end": 3, "count": 5}], "clipping_rate": [{"begin": 5, "end": 3, "count": 5}], "speech_level": [{"begin": 5, "end": 3, "count": 5}], "non_speech_level": [{"begin": 5, "end": 3, "count": 5}]}}, "warnings": ["warnings"], "enriched_results": {"transcript": {"text": "text", "timestamp": {"from": 5, "to": 2}}, "status": "status"}}], "warnings": ["warnings"]}'
         responses.add(
             responses.POST,
             url,
@@ -799,7 +808,7 @@ class TestCreateJob:
         """
         # Set up mock
         url = preprocess_url('/v1/recognitions')
-        mock_response = '{"id": "id", "status": "waiting", "created": "created", "updated": "updated", "url": "url", "user_token": "user_token", "results": [{"results": [{"final": false, "alternatives": [{"transcript": "transcript", "confidence": 0, "timestamps": ["timestamps"], "word_confidence": ["word_confidence"]}], "keywords_result": {"mapKey": [{"normalized_text": "normalized_text", "start_time": 10, "end_time": 8, "confidence": 0}]}, "word_alternatives": [{"start_time": 10, "end_time": 8, "alternatives": [{"confidence": 0, "word": "word"}]}], "end_of_utterance": "end_of_data"}], "result_index": 12, "speaker_labels": [{"from": 5, "to": 2, "speaker": 7, "confidence": 10, "final": false}], "processing_metrics": {"processed_audio": {"received": 8, "seen_by_engine": 14, "transcription": 13, "speaker_labels": 14}, "wall_clock_since_first_byte_received": 36, "periodic": true}, "audio_metrics": {"sampling_interval": 17, "accumulated": {"final": false, "end_time": 8, "signal_to_noise_ratio": 21, "speech_ratio": 12, "high_frequency_loss": 19, "direct_current_offset": [{"begin": 5, "end": 3, "count": 5}], "clipping_rate": [{"begin": 5, "end": 3, "count": 5}], "speech_level": [{"begin": 5, "end": 3, "count": 5}], "non_speech_level": [{"begin": 5, "end": 3, "count": 5}]}}, "warnings": ["warnings"]}], "warnings": ["warnings"]}'
+        mock_response = '{"id": "id", "status": "waiting", "created": "created", "updated": "updated", "url": "url", "user_token": "user_token", "results": [{"results": [{"final": false, "alternatives": [{"transcript": "transcript", "confidence": 0, "timestamps": ["timestamps"], "word_confidence": ["word_confidence"]}], "keywords_result": {"mapKey": [{"normalized_text": "normalized_text", "start_time": 10, "end_time": 8, "confidence": 0}]}, "word_alternatives": [{"start_time": 10, "end_time": 8, "alternatives": [{"confidence": 0, "word": "word"}]}], "end_of_utterance": "end_of_data"}], "result_index": 12, "speaker_labels": [{"from": 5, "to": 2, "speaker": 7, "confidence": 10, "final": false}], "processing_metrics": {"processed_audio": {"received": 8, "seen_by_engine": 14, "transcription": 13, "speaker_labels": 14}, "wall_clock_since_first_byte_received": 36, "periodic": true}, "audio_metrics": {"sampling_interval": 17, "accumulated": {"final": false, "end_time": 8, "signal_to_noise_ratio": 21, "speech_ratio": 12, "high_frequency_loss": 19, "direct_current_offset": [{"begin": 5, "end": 3, "count": 5}], "clipping_rate": [{"begin": 5, "end": 3, "count": 5}], "speech_level": [{"begin": 5, "end": 3, "count": 5}], "non_speech_level": [{"begin": 5, "end": 3, "count": 5}]}}, "warnings": ["warnings"], "enriched_results": {"transcript": {"text": "text", "timestamp": {"from": 5, "to": 2}}, "status": "status"}}], "warnings": ["warnings"]}'
         responses.add(
             responses.POST,
             url,
@@ -842,7 +851,7 @@ class TestCheckJobs:
         """
         # Set up mock
         url = preprocess_url('/v1/recognitions')
-        mock_response = '{"recognitions": [{"id": "id", "status": "waiting", "created": "created", "updated": "updated", "url": "url", "user_token": "user_token", "results": [{"results": [{"final": false, "alternatives": [{"transcript": "transcript", "confidence": 0, "timestamps": ["timestamps"], "word_confidence": ["word_confidence"]}], "keywords_result": {"mapKey": [{"normalized_text": "normalized_text", "start_time": 10, "end_time": 8, "confidence": 0}]}, "word_alternatives": [{"start_time": 10, "end_time": 8, "alternatives": [{"confidence": 0, "word": "word"}]}], "end_of_utterance": "end_of_data"}], "result_index": 12, "speaker_labels": [{"from": 5, "to": 2, "speaker": 7, "confidence": 10, "final": false}], "processing_metrics": {"processed_audio": {"received": 8, "seen_by_engine": 14, "transcription": 13, "speaker_labels": 14}, "wall_clock_since_first_byte_received": 36, "periodic": true}, "audio_metrics": {"sampling_interval": 17, "accumulated": {"final": false, "end_time": 8, "signal_to_noise_ratio": 21, "speech_ratio": 12, "high_frequency_loss": 19, "direct_current_offset": [{"begin": 5, "end": 3, "count": 5}], "clipping_rate": [{"begin": 5, "end": 3, "count": 5}], "speech_level": [{"begin": 5, "end": 3, "count": 5}], "non_speech_level": [{"begin": 5, "end": 3, "count": 5}]}}, "warnings": ["warnings"]}], "warnings": ["warnings"]}]}'
+        mock_response = '{"recognitions": [{"id": "id", "status": "waiting", "created": "created", "updated": "updated", "url": "url", "user_token": "user_token", "results": [{"results": [{"final": false, "alternatives": [{"transcript": "transcript", "confidence": 0, "timestamps": ["timestamps"], "word_confidence": ["word_confidence"]}], "keywords_result": {"mapKey": [{"normalized_text": "normalized_text", "start_time": 10, "end_time": 8, "confidence": 0}]}, "word_alternatives": [{"start_time": 10, "end_time": 8, "alternatives": [{"confidence": 0, "word": "word"}]}], "end_of_utterance": "end_of_data"}], "result_index": 12, "speaker_labels": [{"from": 5, "to": 2, "speaker": 7, "confidence": 10, "final": false}], "processing_metrics": {"processed_audio": {"received": 8, "seen_by_engine": 14, "transcription": 13, "speaker_labels": 14}, "wall_clock_since_first_byte_received": 36, "periodic": true}, "audio_metrics": {"sampling_interval": 17, "accumulated": {"final": false, "end_time": 8, "signal_to_noise_ratio": 21, "speech_ratio": 12, "high_frequency_loss": 19, "direct_current_offset": [{"begin": 5, "end": 3, "count": 5}], "clipping_rate": [{"begin": 5, "end": 3, "count": 5}], "speech_level": [{"begin": 5, "end": 3, "count": 5}], "non_speech_level": [{"begin": 5, "end": 3, "count": 5}]}}, "warnings": ["warnings"], "enriched_results": {"transcript": {"text": "text", "timestamp": {"from": 5, "to": 2}}, "status": "status"}}], "warnings": ["warnings"]}]}'
         responses.add(
             responses.GET,
             url,
@@ -880,7 +889,7 @@ class TestCheckJob:
         """
         # Set up mock
         url = preprocess_url('/v1/recognitions/testString')
-        mock_response = '{"id": "id", "status": "waiting", "created": "created", "updated": "updated", "url": "url", "user_token": "user_token", "results": [{"results": [{"final": false, "alternatives": [{"transcript": "transcript", "confidence": 0, "timestamps": ["timestamps"], "word_confidence": ["word_confidence"]}], "keywords_result": {"mapKey": [{"normalized_text": "normalized_text", "start_time": 10, "end_time": 8, "confidence": 0}]}, "word_alternatives": [{"start_time": 10, "end_time": 8, "alternatives": [{"confidence": 0, "word": "word"}]}], "end_of_utterance": "end_of_data"}], "result_index": 12, "speaker_labels": [{"from": 5, "to": 2, "speaker": 7, "confidence": 10, "final": false}], "processing_metrics": {"processed_audio": {"received": 8, "seen_by_engine": 14, "transcription": 13, "speaker_labels": 14}, "wall_clock_since_first_byte_received": 36, "periodic": true}, "audio_metrics": {"sampling_interval": 17, "accumulated": {"final": false, "end_time": 8, "signal_to_noise_ratio": 21, "speech_ratio": 12, "high_frequency_loss": 19, "direct_current_offset": [{"begin": 5, "end": 3, "count": 5}], "clipping_rate": [{"begin": 5, "end": 3, "count": 5}], "speech_level": [{"begin": 5, "end": 3, "count": 5}], "non_speech_level": [{"begin": 5, "end": 3, "count": 5}]}}, "warnings": ["warnings"]}], "warnings": ["warnings"]}'
+        mock_response = '{"id": "id", "status": "waiting", "created": "created", "updated": "updated", "url": "url", "user_token": "user_token", "results": [{"results": [{"final": false, "alternatives": [{"transcript": "transcript", "confidence": 0, "timestamps": ["timestamps"], "word_confidence": ["word_confidence"]}], "keywords_result": {"mapKey": [{"normalized_text": "normalized_text", "start_time": 10, "end_time": 8, "confidence": 0}]}, "word_alternatives": [{"start_time": 10, "end_time": 8, "alternatives": [{"confidence": 0, "word": "word"}]}], "end_of_utterance": "end_of_data"}], "result_index": 12, "speaker_labels": [{"from": 5, "to": 2, "speaker": 7, "confidence": 10, "final": false}], "processing_metrics": {"processed_audio": {"received": 8, "seen_by_engine": 14, "transcription": 13, "speaker_labels": 14}, "wall_clock_since_first_byte_received": 36, "periodic": true}, "audio_metrics": {"sampling_interval": 17, "accumulated": {"final": false, "end_time": 8, "signal_to_noise_ratio": 21, "speech_ratio": 12, "high_frequency_loss": 19, "direct_current_offset": [{"begin": 5, "end": 3, "count": 5}], "clipping_rate": [{"begin": 5, "end": 3, "count": 5}], "speech_level": [{"begin": 5, "end": 3, "count": 5}], "non_speech_level": [{"begin": 5, "end": 3, "count": 5}]}}, "warnings": ["warnings"], "enriched_results": {"transcript": {"text": "text", "timestamp": {"from": 5, "to": 2}}, "status": "status"}}], "warnings": ["warnings"]}'
         responses.add(
             responses.GET,
             url,
@@ -918,7 +927,7 @@ class TestCheckJob:
         """
         # Set up mock
         url = preprocess_url('/v1/recognitions/testString')
-        mock_response = '{"id": "id", "status": "waiting", "created": "created", "updated": "updated", "url": "url", "user_token": "user_token", "results": [{"results": [{"final": false, "alternatives": [{"transcript": "transcript", "confidence": 0, "timestamps": ["timestamps"], "word_confidence": ["word_confidence"]}], "keywords_result": {"mapKey": [{"normalized_text": "normalized_text", "start_time": 10, "end_time": 8, "confidence": 0}]}, "word_alternatives": [{"start_time": 10, "end_time": 8, "alternatives": [{"confidence": 0, "word": "word"}]}], "end_of_utterance": "end_of_data"}], "result_index": 12, "speaker_labels": [{"from": 5, "to": 2, "speaker": 7, "confidence": 10, "final": false}], "processing_metrics": {"processed_audio": {"received": 8, "seen_by_engine": 14, "transcription": 13, "speaker_labels": 14}, "wall_clock_since_first_byte_received": 36, "periodic": true}, "audio_metrics": {"sampling_interval": 17, "accumulated": {"final": false, "end_time": 8, "signal_to_noise_ratio": 21, "speech_ratio": 12, "high_frequency_loss": 19, "direct_current_offset": [{"begin": 5, "end": 3, "count": 5}], "clipping_rate": [{"begin": 5, "end": 3, "count": 5}], "speech_level": [{"begin": 5, "end": 3, "count": 5}], "non_speech_level": [{"begin": 5, "end": 3, "count": 5}]}}, "warnings": ["warnings"]}], "warnings": ["warnings"]}'
+        mock_response = '{"id": "id", "status": "waiting", "created": "created", "updated": "updated", "url": "url", "user_token": "user_token", "results": [{"results": [{"final": false, "alternatives": [{"transcript": "transcript", "confidence": 0, "timestamps": ["timestamps"], "word_confidence": ["word_confidence"]}], "keywords_result": {"mapKey": [{"normalized_text": "normalized_text", "start_time": 10, "end_time": 8, "confidence": 0}]}, "word_alternatives": [{"start_time": 10, "end_time": 8, "alternatives": [{"confidence": 0, "word": "word"}]}], "end_of_utterance": "end_of_data"}], "result_index": 12, "speaker_labels": [{"from": 5, "to": 2, "speaker": 7, "confidence": 10, "final": false}], "processing_metrics": {"processed_audio": {"received": 8, "seen_by_engine": 14, "transcription": 13, "speaker_labels": 14}, "wall_clock_since_first_byte_received": 36, "periodic": true}, "audio_metrics": {"sampling_interval": 17, "accumulated": {"final": false, "end_time": 8, "signal_to_noise_ratio": 21, "speech_ratio": 12, "high_frequency_loss": 19, "direct_current_offset": [{"begin": 5, "end": 3, "count": 5}], "clipping_rate": [{"begin": 5, "end": 3, "count": 5}], "speech_level": [{"begin": 5, "end": 3, "count": 5}], "non_speech_level": [{"begin": 5, "end": 3, "count": 5}]}}, "warnings": ["warnings"], "enriched_results": {"transcript": {"text": "text", "timestamp": {"from": 5, "to": 2}}, "status": "status"}}], "warnings": ["warnings"]}'
         responses.add(
             responses.GET,
             url,
@@ -4071,6 +4080,152 @@ class TestDeleteUserData:
 # End of Service: UserData
 ##############################################################################
 
+##############################################################################
+# Start of Service: LanguageIdentification
+##############################################################################
+# region
+
+
+class TestDetectLanguage:
+    """
+    Test Class for detect_language
+    """
+
+    @responses.activate
+    def test_detect_language_all_params(self):
+        """
+        detect_language()
+        """
+        # Set up mock
+        url = preprocess_url('/v1/detect_language')
+        mock_response = '{"results": [{"language_info": [{"confidence": 10, "language": "language", "timestamp": 9}]}], "result_index": 12}'
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Set up parameter values
+        lid_confidence = 36.0
+        audio = io.BytesIO(b'This is a mock file.').getvalue()
+        content_type = 'application/octet-stream'
+
+        # Invoke method
+        response = _service.detect_language(
+            lid_confidence,
+            audio,
+            content_type=content_type,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate query params
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
+        query_string = urllib.parse.unquote_plus(query_string)
+        # Validate body params
+
+    def test_detect_language_all_params_with_retries(self):
+        # Enable retries and run test_detect_language_all_params.
+        _service.enable_retries()
+        self.test_detect_language_all_params()
+
+        # Disable retries and run test_detect_language_all_params.
+        _service.disable_retries()
+        self.test_detect_language_all_params()
+
+    @responses.activate
+    def test_detect_language_required_params(self):
+        """
+        test_detect_language_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/v1/detect_language')
+        mock_response = '{"results": [{"language_info": [{"confidence": 10, "language": "language", "timestamp": 9}]}], "result_index": 12}'
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Set up parameter values
+        lid_confidence = 36.0
+        audio = io.BytesIO(b'This is a mock file.').getvalue()
+
+        # Invoke method
+        response = _service.detect_language(
+            lid_confidence,
+            audio,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate query params
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
+        query_string = urllib.parse.unquote_plus(query_string)
+        # Validate body params
+
+    def test_detect_language_required_params_with_retries(self):
+        # Enable retries and run test_detect_language_required_params.
+        _service.enable_retries()
+        self.test_detect_language_required_params()
+
+        # Disable retries and run test_detect_language_required_params.
+        _service.disable_retries()
+        self.test_detect_language_required_params()
+
+    @responses.activate
+    def test_detect_language_value_error(self):
+        """
+        test_detect_language_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v1/detect_language')
+        mock_response = '{"results": [{"language_info": [{"confidence": 10, "language": "language", "timestamp": 9}]}], "result_index": 12}'
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Set up parameter values
+        lid_confidence = 36.0
+        audio = io.BytesIO(b'This is a mock file.').getvalue()
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "lid_confidence": lid_confidence,
+            "audio": audio,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.detect_language(**req_copy)
+
+    def test_detect_language_value_error_with_retries(self):
+        # Enable retries and run test_detect_language_value_error.
+        _service.enable_retries()
+        self.test_detect_language_value_error()
+
+        # Disable retries and run test_detect_language_value_error.
+        _service.disable_retries()
+        self.test_detect_language_value_error()
+
+
+# endregion
+##############################################################################
+# End of Service: LanguageIdentification
+##############################################################################
+
 
 ##############################################################################
 # Start of Model Tests
@@ -4565,6 +4720,115 @@ class TestModel_CustomWord:
         assert custom_word_model_json2 == custom_word_model_json
 
 
+class TestModel_EnrichedResults:
+    """
+    Test Class for EnrichedResults
+    """
+
+    def test_enriched_results_serialization(self):
+        """
+        Test serialization/deserialization for EnrichedResults
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        enriched_results_transcript_timestamp_model = {}  # EnrichedResultsTranscriptTimestamp
+        enriched_results_transcript_timestamp_model['from'] = 36.0
+        enriched_results_transcript_timestamp_model['to'] = 36.0
+
+        enriched_results_transcript_model = {}  # EnrichedResultsTranscript
+        enriched_results_transcript_model['text'] = 'testString'
+        enriched_results_transcript_model['timestamp'] = enriched_results_transcript_timestamp_model
+
+        # Construct a json representation of a EnrichedResults model
+        enriched_results_model_json = {}
+        enriched_results_model_json['transcript'] = enriched_results_transcript_model
+        enriched_results_model_json['status'] = 'testString'
+
+        # Construct a model instance of EnrichedResults by calling from_dict on the json representation
+        enriched_results_model = EnrichedResults.from_dict(enriched_results_model_json)
+        assert enriched_results_model != False
+
+        # Construct a model instance of EnrichedResults by calling from_dict on the json representation
+        enriched_results_model_dict = EnrichedResults.from_dict(enriched_results_model_json).__dict__
+        enriched_results_model2 = EnrichedResults(**enriched_results_model_dict)
+
+        # Verify the model instances are equivalent
+        assert enriched_results_model == enriched_results_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        enriched_results_model_json2 = enriched_results_model.to_dict()
+        assert enriched_results_model_json2 == enriched_results_model_json
+
+
+class TestModel_EnrichedResultsTranscript:
+    """
+    Test Class for EnrichedResultsTranscript
+    """
+
+    def test_enriched_results_transcript_serialization(self):
+        """
+        Test serialization/deserialization for EnrichedResultsTranscript
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        enriched_results_transcript_timestamp_model = {}  # EnrichedResultsTranscriptTimestamp
+        enriched_results_transcript_timestamp_model['from'] = 36.0
+        enriched_results_transcript_timestamp_model['to'] = 36.0
+
+        # Construct a json representation of a EnrichedResultsTranscript model
+        enriched_results_transcript_model_json = {}
+        enriched_results_transcript_model_json['text'] = 'testString'
+        enriched_results_transcript_model_json['timestamp'] = enriched_results_transcript_timestamp_model
+
+        # Construct a model instance of EnrichedResultsTranscript by calling from_dict on the json representation
+        enriched_results_transcript_model = EnrichedResultsTranscript.from_dict(enriched_results_transcript_model_json)
+        assert enriched_results_transcript_model != False
+
+        # Construct a model instance of EnrichedResultsTranscript by calling from_dict on the json representation
+        enriched_results_transcript_model_dict = EnrichedResultsTranscript.from_dict(enriched_results_transcript_model_json).__dict__
+        enriched_results_transcript_model2 = EnrichedResultsTranscript(**enriched_results_transcript_model_dict)
+
+        # Verify the model instances are equivalent
+        assert enriched_results_transcript_model == enriched_results_transcript_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        enriched_results_transcript_model_json2 = enriched_results_transcript_model.to_dict()
+        assert enriched_results_transcript_model_json2 == enriched_results_transcript_model_json
+
+
+class TestModel_EnrichedResultsTranscriptTimestamp:
+    """
+    Test Class for EnrichedResultsTranscriptTimestamp
+    """
+
+    def test_enriched_results_transcript_timestamp_serialization(self):
+        """
+        Test serialization/deserialization for EnrichedResultsTranscriptTimestamp
+        """
+
+        # Construct a json representation of a EnrichedResultsTranscriptTimestamp model
+        enriched_results_transcript_timestamp_model_json = {}
+        enriched_results_transcript_timestamp_model_json['from'] = 36.0
+        enriched_results_transcript_timestamp_model_json['to'] = 36.0
+
+        # Construct a model instance of EnrichedResultsTranscriptTimestamp by calling from_dict on the json representation
+        enriched_results_transcript_timestamp_model = EnrichedResultsTranscriptTimestamp.from_dict(enriched_results_transcript_timestamp_model_json)
+        assert enriched_results_transcript_timestamp_model != False
+
+        # Construct a model instance of EnrichedResultsTranscriptTimestamp by calling from_dict on the json representation
+        enriched_results_transcript_timestamp_model_dict = EnrichedResultsTranscriptTimestamp.from_dict(enriched_results_transcript_timestamp_model_json).__dict__
+        enriched_results_transcript_timestamp_model2 = EnrichedResultsTranscriptTimestamp(**enriched_results_transcript_timestamp_model_dict)
+
+        # Verify the model instances are equivalent
+        assert enriched_results_transcript_timestamp_model == enriched_results_transcript_timestamp_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        enriched_results_transcript_timestamp_model_json2 = enriched_results_transcript_timestamp_model.to_dict()
+        assert enriched_results_transcript_timestamp_model_json2 == enriched_results_transcript_timestamp_model_json
+
+
 class TestModel_Grammar:
     """
     Test Class for Grammar
@@ -4667,6 +4931,116 @@ class TestModel_KeywordResult:
         # Convert model instance back to dict and verify no loss of data
         keyword_result_model_json2 = keyword_result_model.to_dict()
         assert keyword_result_model_json2 == keyword_result_model_json
+
+
+class TestModel_LanguageDetectionResult:
+    """
+    Test Class for LanguageDetectionResult
+    """
+
+    def test_language_detection_result_serialization(self):
+        """
+        Test serialization/deserialization for LanguageDetectionResult
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        language_info_model = {}  # LanguageInfo
+        language_info_model['confidence'] = 36.0
+        language_info_model['language'] = 'testString'
+        language_info_model['timestamp'] = 36.0
+
+        # Construct a json representation of a LanguageDetectionResult model
+        language_detection_result_model_json = {}
+        language_detection_result_model_json['language_info'] = [language_info_model]
+
+        # Construct a model instance of LanguageDetectionResult by calling from_dict on the json representation
+        language_detection_result_model = LanguageDetectionResult.from_dict(language_detection_result_model_json)
+        assert language_detection_result_model != False
+
+        # Construct a model instance of LanguageDetectionResult by calling from_dict on the json representation
+        language_detection_result_model_dict = LanguageDetectionResult.from_dict(language_detection_result_model_json).__dict__
+        language_detection_result_model2 = LanguageDetectionResult(**language_detection_result_model_dict)
+
+        # Verify the model instances are equivalent
+        assert language_detection_result_model == language_detection_result_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        language_detection_result_model_json2 = language_detection_result_model.to_dict()
+        assert language_detection_result_model_json2 == language_detection_result_model_json
+
+
+class TestModel_LanguageDetectionResults:
+    """
+    Test Class for LanguageDetectionResults
+    """
+
+    def test_language_detection_results_serialization(self):
+        """
+        Test serialization/deserialization for LanguageDetectionResults
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        language_info_model = {}  # LanguageInfo
+        language_info_model['confidence'] = 36.0
+        language_info_model['language'] = 'testString'
+        language_info_model['timestamp'] = 36.0
+
+        language_detection_result_model = {}  # LanguageDetectionResult
+        language_detection_result_model['language_info'] = [language_info_model]
+
+        # Construct a json representation of a LanguageDetectionResults model
+        language_detection_results_model_json = {}
+        language_detection_results_model_json['results'] = [language_detection_result_model]
+        language_detection_results_model_json['result_index'] = 38
+
+        # Construct a model instance of LanguageDetectionResults by calling from_dict on the json representation
+        language_detection_results_model = LanguageDetectionResults.from_dict(language_detection_results_model_json)
+        assert language_detection_results_model != False
+
+        # Construct a model instance of LanguageDetectionResults by calling from_dict on the json representation
+        language_detection_results_model_dict = LanguageDetectionResults.from_dict(language_detection_results_model_json).__dict__
+        language_detection_results_model2 = LanguageDetectionResults(**language_detection_results_model_dict)
+
+        # Verify the model instances are equivalent
+        assert language_detection_results_model == language_detection_results_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        language_detection_results_model_json2 = language_detection_results_model.to_dict()
+        assert language_detection_results_model_json2 == language_detection_results_model_json
+
+
+class TestModel_LanguageInfo:
+    """
+    Test Class for LanguageInfo
+    """
+
+    def test_language_info_serialization(self):
+        """
+        Test serialization/deserialization for LanguageInfo
+        """
+
+        # Construct a json representation of a LanguageInfo model
+        language_info_model_json = {}
+        language_info_model_json['confidence'] = 36.0
+        language_info_model_json['language'] = 'testString'
+        language_info_model_json['timestamp'] = 36.0
+
+        # Construct a model instance of LanguageInfo by calling from_dict on the json representation
+        language_info_model = LanguageInfo.from_dict(language_info_model_json)
+        assert language_info_model != False
+
+        # Construct a model instance of LanguageInfo by calling from_dict on the json representation
+        language_info_model_dict = LanguageInfo.from_dict(language_info_model_json).__dict__
+        language_info_model2 = LanguageInfo(**language_info_model_dict)
+
+        # Verify the model instances are equivalent
+        assert language_info_model == language_info_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        language_info_model_json2 = language_info_model.to_dict()
+        assert language_info_model_json2 == language_info_model_json
 
 
 class TestModel_LanguageModel:
@@ -4911,6 +5285,18 @@ class TestModel_RecognitionJob:
         audio_metrics_model['sampling_interval'] = 36.0
         audio_metrics_model['accumulated'] = audio_metrics_details_model
 
+        enriched_results_transcript_timestamp_model = {}  # EnrichedResultsTranscriptTimestamp
+        enriched_results_transcript_timestamp_model['from'] = 36.0
+        enriched_results_transcript_timestamp_model['to'] = 36.0
+
+        enriched_results_transcript_model = {}  # EnrichedResultsTranscript
+        enriched_results_transcript_model['text'] = 'testString'
+        enriched_results_transcript_model['timestamp'] = enriched_results_transcript_timestamp_model
+
+        enriched_results_model = {}  # EnrichedResults
+        enriched_results_model['transcript'] = enriched_results_transcript_model
+        enriched_results_model['status'] = 'testString'
+
         speech_recognition_results_model = {}  # SpeechRecognitionResults
         speech_recognition_results_model['results'] = [speech_recognition_result_model]
         speech_recognition_results_model['result_index'] = 38
@@ -4918,6 +5304,7 @@ class TestModel_RecognitionJob:
         speech_recognition_results_model['processing_metrics'] = processing_metrics_model
         speech_recognition_results_model['audio_metrics'] = audio_metrics_model
         speech_recognition_results_model['warnings'] = ['testString']
+        speech_recognition_results_model['enriched_results'] = enriched_results_model
 
         # Construct a json representation of a RecognitionJob model
         recognition_job_model_json = {}
@@ -5024,6 +5411,18 @@ class TestModel_RecognitionJobs:
         audio_metrics_model['sampling_interval'] = 36.0
         audio_metrics_model['accumulated'] = audio_metrics_details_model
 
+        enriched_results_transcript_timestamp_model = {}  # EnrichedResultsTranscriptTimestamp
+        enriched_results_transcript_timestamp_model['from'] = 36.0
+        enriched_results_transcript_timestamp_model['to'] = 36.0
+
+        enriched_results_transcript_model = {}  # EnrichedResultsTranscript
+        enriched_results_transcript_model['text'] = 'testString'
+        enriched_results_transcript_model['timestamp'] = enriched_results_transcript_timestamp_model
+
+        enriched_results_model = {}  # EnrichedResults
+        enriched_results_model['transcript'] = enriched_results_transcript_model
+        enriched_results_model['status'] = 'testString'
+
         speech_recognition_results_model = {}  # SpeechRecognitionResults
         speech_recognition_results_model['results'] = [speech_recognition_result_model]
         speech_recognition_results_model['result_index'] = 38
@@ -5031,6 +5430,7 @@ class TestModel_RecognitionJobs:
         speech_recognition_results_model['processing_metrics'] = processing_metrics_model
         speech_recognition_results_model['audio_metrics'] = audio_metrics_model
         speech_recognition_results_model['warnings'] = ['testString']
+        speech_recognition_results_model['enriched_results'] = enriched_results_model
 
         recognition_job_model = {}  # RecognitionJob
         recognition_job_model['id'] = 'testString'
@@ -5384,6 +5784,18 @@ class TestModel_SpeechRecognitionResults:
         audio_metrics_model['sampling_interval'] = 36.0
         audio_metrics_model['accumulated'] = audio_metrics_details_model
 
+        enriched_results_transcript_timestamp_model = {}  # EnrichedResultsTranscriptTimestamp
+        enriched_results_transcript_timestamp_model['from'] = 36.0
+        enriched_results_transcript_timestamp_model['to'] = 36.0
+
+        enriched_results_transcript_model = {}  # EnrichedResultsTranscript
+        enriched_results_transcript_model['text'] = 'testString'
+        enriched_results_transcript_model['timestamp'] = enriched_results_transcript_timestamp_model
+
+        enriched_results_model = {}  # EnrichedResults
+        enriched_results_model['transcript'] = enriched_results_transcript_model
+        enriched_results_model['status'] = 'testString'
+
         # Construct a json representation of a SpeechRecognitionResults model
         speech_recognition_results_model_json = {}
         speech_recognition_results_model_json['results'] = [speech_recognition_result_model]
@@ -5392,6 +5804,7 @@ class TestModel_SpeechRecognitionResults:
         speech_recognition_results_model_json['processing_metrics'] = processing_metrics_model
         speech_recognition_results_model_json['audio_metrics'] = audio_metrics_model
         speech_recognition_results_model_json['warnings'] = ['testString']
+        speech_recognition_results_model_json['enriched_results'] = enriched_results_model
 
         # Construct a model instance of SpeechRecognitionResults by calling from_dict on the json representation
         speech_recognition_results_model = SpeechRecognitionResults.from_dict(speech_recognition_results_model_json)

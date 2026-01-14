@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2015, 2025.
+# (C) Copyright IBM Corp. 2015, 2026.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -197,6 +197,7 @@ class SpeechToTextV1(BaseService):
         content_type: Optional[str] = None,
         model: Optional[str] = None,
         speech_begin_event: Optional[bool] = None,
+        enrichments: Optional[str] = None,
         language_customization_id: Optional[str] = None,
         acoustic_customization_id: Optional[str] = None,
         base_model_version: Optional[str] = None,
@@ -356,6 +357,16 @@ class SpeechToTextV1(BaseService):
                `sad_module: 2` to increase accuracy and performance in detecting speech
                boundaries within the audio stream. See [Using speech recognition
                parameters](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-service-features#features-parameters).
+        :param str enrichments: (optional) Speech transcript enrichment improves
+               readability of raw ASR transcripts by adding punctuation (periods, commas,
+               question marks, exclamation points) and intelligent capitalization
+               (sentence beginnings, proper nouns, acronyms, brand names). To enable
+               enrichment, add the `enrichments=punctuation` parameter to your recognition
+               request. Supported languages include English (US, UK, Australia, India),
+               French (France, Canada), German, Italian, Portuguese (Brazil, Portugal),
+               Spanish (Spain, Latin America, Argentina, Chile, Colombia, Mexico, Peru),
+               and Japanese. See [Speech transcript
+               enrichment](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-speech-transcript-enrichment).
         :param str language_customization_id: (optional) The customization ID
                (GUID) of a custom language model that is to be used with the recognition
                request. The base model of the specified custom language model must match
@@ -634,6 +645,7 @@ class SpeechToTextV1(BaseService):
         params = {
             'model': model,
             'speech_begin_event': speech_begin_event,
+            'enrichments': enrichments,
             'language_customization_id': language_customization_id,
             'acoustic_customization_id': acoustic_customization_id,
             'base_model_version': base_model_version,
@@ -831,6 +843,8 @@ class SpeechToTextV1(BaseService):
         events: Optional[str] = None,
         user_token: Optional[str] = None,
         results_ttl: Optional[int] = None,
+        speech_begin_event: Optional[bool] = None,
+        enrichments: Optional[str] = None,
         language_customization_id: Optional[str] = None,
         acoustic_customization_id: Optional[str] = None,
         base_model_version: Optional[str] = None,
@@ -1031,6 +1045,25 @@ class SpeechToTextV1(BaseService):
                via a callback, the results must be retrieved within this time. Omit the
                parameter to use a time to live of one week. The parameter is valid with or
                without a callback URL.
+        :param bool speech_begin_event: (optional) If `true`, the service returns a
+               response object `SpeechActivity` which contains the time when a speech
+               activity is detected in the stream. This can be used both in standard and
+               low latency mode. This feature enables client applications to know that
+               some words/speech has been detected and the service is in the process of
+               decoding. This can be used in lieu of interim results in standard mode. Use
+               `sad_module: 2` to increase accuracy and performance in detecting speech
+               boundaries within the audio stream. See [Using speech recognition
+               parameters](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-service-features#features-parameters).
+        :param str enrichments: (optional) Speech transcript enrichment improves
+               readability of raw ASR transcripts by adding punctuation (periods, commas,
+               question marks, exclamation points) and intelligent capitalization
+               (sentence beginnings, proper nouns, acronyms, brand names). To enable
+               enrichment, add the `enrichments=punctuation` parameter to your recognition
+               request. Supported languages include English (US, UK, Australia, India),
+               French (France, Canada), German, Italian, Portuguese (Brazil, Portugal),
+               Spanish (Spain, Latin America, Argentina, Chile, Colombia, Mexico, Peru),
+               and Japanese. See [Speech transcript
+               enrichment](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-speech-transcript-enrichment).
         :param str language_customization_id: (optional) The customization ID
                (GUID) of a custom language model that is to be used with the recognition
                request. The base model of the specified custom language model must match
@@ -1334,6 +1367,8 @@ class SpeechToTextV1(BaseService):
             'events': events,
             'user_token': user_token,
             'results_ttl': results_ttl,
+            'speech_begin_event': speech_begin_event,
+            'enrichments': enrichments,
             'language_customization_id': language_customization_id,
             'acoustic_customization_id': acoustic_customization_id,
             'base_model_version': base_model_version,
@@ -4311,6 +4346,75 @@ class SpeechToTextV1(BaseService):
         response = self.send(request, **kwargs)
         return response
 
+    #########################
+    # Language identification
+    #########################
+
+    def detect_language(
+        self,
+        lid_confidence: float,
+        audio: BinaryIO,
+        *,
+        content_type: Optional[str] = None,
+        **kwargs,
+    ) -> DetailedResponse:
+        """
+        Spoken language identification.
+
+        Detects the spoken language in audio streams. The endpoint is
+        `/v1/detect_language` and user can optionally include `lid_confidence` parameter
+        to set a custom confidence threshold for detection. The model continuously
+        processes incoming audio and returns the identified language when it reaches a
+        confidence level higher than the specified threshold (0.99 by default). See
+        [Spoken language
+        identification](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-speech-language-identification).
+
+        :param float lid_confidence: Set a custom confidence threshold for
+               detection.
+        :param BinaryIO audio: The audio to transcribe.
+        :param str content_type: (optional) The type of the input.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `LanguageDetectionResults` object
+        """
+
+        if lid_confidence is None:
+            raise ValueError('lid_confidence must be provided')
+        if audio is None:
+            raise ValueError('audio must be provided')
+        headers = {
+            'Content-Type': content_type,
+        }
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='detect_language',
+        )
+        headers.update(sdk_headers)
+
+        params = {
+            'lid_confidence': lid_confidence,
+        }
+
+        data = audio
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        url = '/v1/detect_language'
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+        )
+
+        response = self.send(request, **kwargs)
+        return response
+
 
 class GetModelEnums:
     """
@@ -4916,6 +5020,34 @@ class AddAudioEnums:
         _For an audio-type resource_, omit the header.
         """
 
+        AUDIO_ALAW = 'audio/alaw'
+        AUDIO_BASIC = 'audio/basic'
+        AUDIO_FLAC = 'audio/flac'
+        AUDIO_G729 = 'audio/g729'
+        AUDIO_L16 = 'audio/l16'
+        AUDIO_MP3 = 'audio/mp3'
+        AUDIO_MPEG = 'audio/mpeg'
+        AUDIO_MULAW = 'audio/mulaw'
+        AUDIO_OGG = 'audio/ogg'
+        AUDIO_OGG_CODECS_OPUS = 'audio/ogg;codecs=opus'
+        AUDIO_OGG_CODECS_VORBIS = 'audio/ogg;codecs=vorbis'
+        AUDIO_WAV = 'audio/wav'
+        AUDIO_WEBM = 'audio/webm'
+        AUDIO_WEBM_CODECS_OPUS = 'audio/webm;codecs=opus'
+        AUDIO_WEBM_CODECS_VORBIS = 'audio/webm;codecs=vorbis'
+
+
+class DetectLanguageEnums:
+    """
+    Enums for detect_language parameters.
+    """
+
+    class ContentType(str, Enum):
+        """
+        The type of the input.
+        """
+
+        APPLICATION_OCTET_STREAM = 'application/octet-stream'
         AUDIO_ALAW = 'audio/alaw'
         AUDIO_BASIC = 'audio/basic'
         AUDIO_FLAC = 'audio/flac'
@@ -6593,6 +6725,224 @@ class CustomWord:
         return not self == other
 
 
+class EnrichedResults:
+    """
+    If enriched results are requested, transcription with inserted punctuation marks such
+    as periods, commas, question marks, and exclamation points.
+
+    :param EnrichedResultsTranscript transcript: (optional) If enriched results are
+          requested, transcription with inserted punctuation marks such as periods,
+          commas, question marks, and exclamation points.
+    :param str status: (optional) The status of the enriched transcription.
+    """
+
+    def __init__(
+        self,
+        *,
+        transcript: Optional['EnrichedResultsTranscript'] = None,
+        status: Optional[str] = None,
+    ) -> None:
+        """
+        Initialize a EnrichedResults object.
+
+        :param EnrichedResultsTranscript transcript: (optional) If enriched results
+               are requested, transcription with inserted punctuation marks such as
+               periods, commas, question marks, and exclamation points.
+        :param str status: (optional) The status of the enriched transcription.
+        """
+        self.transcript = transcript
+        self.status = status
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'EnrichedResults':
+        """Initialize a EnrichedResults object from a json dictionary."""
+        args = {}
+        if (transcript := _dict.get('transcript')) is not None:
+            args['transcript'] = EnrichedResultsTranscript.from_dict(transcript)
+        if (status := _dict.get('status')) is not None:
+            args['status'] = status
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a EnrichedResults object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'transcript') and self.transcript is not None:
+            if isinstance(self.transcript, dict):
+                _dict['transcript'] = self.transcript
+            else:
+                _dict['transcript'] = self.transcript.to_dict()
+        if hasattr(self, 'status') and self.status is not None:
+            _dict['status'] = self.status
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this EnrichedResults object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'EnrichedResults') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'EnrichedResults') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class EnrichedResultsTranscript:
+    """
+    If enriched results are requested, transcription with inserted punctuation marks such
+    as periods, commas, question marks, and exclamation points.
+
+    :param str text: (optional) The transcript text.
+    :param EnrichedResultsTranscriptTimestamp timestamp: (optional) The speaking
+          time from the beginning of the transcript to the end.
+    """
+
+    def __init__(
+        self,
+        *,
+        text: Optional[str] = None,
+        timestamp: Optional['EnrichedResultsTranscriptTimestamp'] = None,
+    ) -> None:
+        """
+        Initialize a EnrichedResultsTranscript object.
+
+        :param str text: (optional) The transcript text.
+        :param EnrichedResultsTranscriptTimestamp timestamp: (optional) The
+               speaking time from the beginning of the transcript to the end.
+        """
+        self.text = text
+        self.timestamp = timestamp
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'EnrichedResultsTranscript':
+        """Initialize a EnrichedResultsTranscript object from a json dictionary."""
+        args = {}
+        if (text := _dict.get('text')) is not None:
+            args['text'] = text
+        if (timestamp := _dict.get('timestamp')) is not None:
+            args['timestamp'] = EnrichedResultsTranscriptTimestamp.from_dict(
+                timestamp)
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a EnrichedResultsTranscript object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'text') and self.text is not None:
+            _dict['text'] = self.text
+        if hasattr(self, 'timestamp') and self.timestamp is not None:
+            if isinstance(self.timestamp, dict):
+                _dict['timestamp'] = self.timestamp
+            else:
+                _dict['timestamp'] = self.timestamp.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this EnrichedResultsTranscript object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'EnrichedResultsTranscript') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'EnrichedResultsTranscript') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class EnrichedResultsTranscriptTimestamp:
+    """
+    The speaking time from the beginning of the transcript to the end.
+
+    :param float from_: (optional) The start time of a word from the transcript. The
+          value matches the start time of a word from the `timestamps` array.
+    :param float to: (optional) The end time of a word from the transcript. The
+          value matches the end time of a word from the `timestamps` array.
+    """
+
+    def __init__(
+        self,
+        *,
+        from_: Optional[float] = None,
+        to: Optional[float] = None,
+    ) -> None:
+        """
+        Initialize a EnrichedResultsTranscriptTimestamp object.
+
+        :param float from_: (optional) The start time of a word from the
+               transcript. The value matches the start time of a word from the
+               `timestamps` array.
+        :param float to: (optional) The end time of a word from the transcript. The
+               value matches the end time of a word from the `timestamps` array.
+        """
+        self.from_ = from_
+        self.to = to
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'EnrichedResultsTranscriptTimestamp':
+        """Initialize a EnrichedResultsTranscriptTimestamp object from a json dictionary."""
+        args = {}
+        if (from_ := _dict.get('from')) is not None:
+            args['from_'] = from_
+        if (to := _dict.get('to')) is not None:
+            args['to'] = to
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a EnrichedResultsTranscriptTimestamp object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'from_') and self.from_ is not None:
+            _dict['from'] = self.from_
+        if hasattr(self, 'to') and self.to is not None:
+            _dict['to'] = self.to
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this EnrichedResultsTranscriptTimestamp object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'EnrichedResultsTranscriptTimestamp') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'EnrichedResultsTranscriptTimestamp') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class Grammar:
     """
     Information about a grammar from a custom language model.
@@ -6897,6 +7247,237 @@ class KeywordResult:
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'KeywordResult') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class LanguageDetectionResult:
+    """
+    Language detection results.
+
+    :param List[LanguageInfo] language_info: (optional) An array of `LanguageInfo`
+          objects.
+    """
+
+    def __init__(
+        self,
+        *,
+        language_info: Optional[List['LanguageInfo']] = None,
+    ) -> None:
+        """
+        Initialize a LanguageDetectionResult object.
+
+        :param List[LanguageInfo] language_info: (optional) An array of
+               `LanguageInfo` objects.
+        """
+        self.language_info = language_info
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'LanguageDetectionResult':
+        """Initialize a LanguageDetectionResult object from a json dictionary."""
+        args = {}
+        if (language_info := _dict.get('language_info')) is not None:
+            args['language_info'] = [
+                LanguageInfo.from_dict(v) for v in language_info
+            ]
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a LanguageDetectionResult object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'language_info') and self.language_info is not None:
+            language_info_list = []
+            for v in self.language_info:
+                if isinstance(v, dict):
+                    language_info_list.append(v)
+                else:
+                    language_info_list.append(v.to_dict())
+            _dict['language_info'] = language_info_list
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this LanguageDetectionResult object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'LanguageDetectionResult') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'LanguageDetectionResult') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class LanguageDetectionResults:
+    """
+    Language detection results.
+
+    :param List[LanguageDetectionResult] results: (optional) An array of
+          `LanguageDetectionResult` objects.
+    :param int result_index: (optional) An index that indicates a change point in
+          the `results` array. The service increments the index for additional results
+          that it sends for new audio for the same request. All results with the same
+          index are delivered at the same time. The same index can include multiple final
+          results that are delivered with the same response.
+    """
+
+    def __init__(
+        self,
+        *,
+        results: Optional[List['LanguageDetectionResult']] = None,
+        result_index: Optional[int] = None,
+    ) -> None:
+        """
+        Initialize a LanguageDetectionResults object.
+
+        :param List[LanguageDetectionResult] results: (optional) An array of
+               `LanguageDetectionResult` objects.
+        :param int result_index: (optional) An index that indicates a change point
+               in the `results` array. The service increments the index for additional
+               results that it sends for new audio for the same request. All results with
+               the same index are delivered at the same time. The same index can include
+               multiple final results that are delivered with the same response.
+        """
+        self.results = results
+        self.result_index = result_index
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'LanguageDetectionResults':
+        """Initialize a LanguageDetectionResults object from a json dictionary."""
+        args = {}
+        if (results := _dict.get('results')) is not None:
+            args['results'] = [
+                LanguageDetectionResult.from_dict(v) for v in results
+            ]
+        if (result_index := _dict.get('result_index')) is not None:
+            args['result_index'] = result_index
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a LanguageDetectionResults object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'results') and self.results is not None:
+            results_list = []
+            for v in self.results:
+                if isinstance(v, dict):
+                    results_list.append(v)
+                else:
+                    results_list.append(v.to_dict())
+            _dict['results'] = results_list
+        if hasattr(self, 'result_index') and self.result_index is not None:
+            _dict['result_index'] = self.result_index
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this LanguageDetectionResults object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'LanguageDetectionResults') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'LanguageDetectionResults') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class LanguageInfo:
+    """
+    Language detection info such as confidence and language detected.
+
+    :param float confidence: (optional) A score that indicates the service's
+          confidence in its identification of the language in the range of 0.0 to 1.0.
+    :param str language: (optional) The language detected in standard abbreviated
+          ISO 639 format.
+    :param float timestamp: (optional) The timestamp of the detected language.
+    """
+
+    def __init__(
+        self,
+        *,
+        confidence: Optional[float] = None,
+        language: Optional[str] = None,
+        timestamp: Optional[float] = None,
+    ) -> None:
+        """
+        Initialize a LanguageInfo object.
+
+        :param float confidence: (optional) A score that indicates the service's
+               confidence in its identification of the language in the range of 0.0 to
+               1.0.
+        :param str language: (optional) The language detected in standard
+               abbreviated ISO 639 format.
+        :param float timestamp: (optional) The timestamp of the detected language.
+        """
+        self.confidence = confidence
+        self.language = language
+        self.timestamp = timestamp
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'LanguageInfo':
+        """Initialize a LanguageInfo object from a json dictionary."""
+        args = {}
+        if (confidence := _dict.get('confidence')) is not None:
+            args['confidence'] = confidence
+        if (language := _dict.get('language')) is not None:
+            args['language'] = language
+        if (timestamp := _dict.get('timestamp')) is not None:
+            args['timestamp'] = timestamp
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a LanguageInfo object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'confidence') and self.confidence is not None:
+            _dict['confidence'] = self.confidence
+        if hasattr(self, 'language') and self.language is not None:
+            _dict['language'] = self.language
+        if hasattr(self, 'timestamp') and self.timestamp is not None:
+            _dict['timestamp'] = self.timestamp
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this LanguageInfo object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'LanguageInfo') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'LanguageInfo') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -8350,8 +8931,8 @@ class SpeechRecognitionResult:
           to be updated further.
           * If `false`, the results are interim. They can be updated with further interim
           results until final results are eventually sent.
-          **Note:** Because `final` is a reserved word in Java and Swift, the field is
-          renamed `xFinal` in Java and is escaped with back quotes in Swift.
+          **Note:** Because `final` is a reserved word in Java, the field is renamed
+          `xFinal` in Java.
     :param List[SpeechRecognitionAlternative] alternatives: An array of alternative
           transcripts. The `alternatives` array can include additional requested output
           such as word confidence or timestamps.
@@ -8395,8 +8976,8 @@ class SpeechRecognitionResult:
                not to be updated further.
                * If `false`, the results are interim. They can be updated with further
                interim results until final results are eventually sent.
-               **Note:** Because `final` is a reserved word in Java and Swift, the field
-               is renamed `xFinal` in Java and is escaped with back quotes in Swift.
+               **Note:** Because `final` is a reserved word in Java, the field is renamed
+               `xFinal` in Java.
         :param List[SpeechRecognitionAlternative] alternatives: An array of
                alternative transcripts. The `alternatives` array can include additional
                requested output such as word confidence or timestamps.
@@ -8578,6 +9159,9 @@ class SpeechRecognitionResults:
           do not do that you will be automatically switched to base model when you used
           the non-updated custom model."`
           In both cases, the request succeeds despite the warnings.
+    :param EnrichedResults enriched_results: (optional) If enriched results are
+          requested, transcription with inserted punctuation marks such as periods,
+          commas, question marks, and exclamation points.
     """
 
     def __init__(
@@ -8589,6 +9173,7 @@ class SpeechRecognitionResults:
         processing_metrics: Optional['ProcessingMetrics'] = None,
         audio_metrics: Optional['AudioMetrics'] = None,
         warnings: Optional[List[str]] = None,
+        enriched_results: Optional['EnrichedResults'] = None,
     ) -> None:
         """
         Initialize a SpeechRecognitionResults object.
@@ -8639,6 +9224,9 @@ class SpeechRecognitionResults:
                the new base model. If you do not do that you will be automatically
                switched to base model when you used the non-updated custom model."`
                In both cases, the request succeeds despite the warnings.
+        :param EnrichedResults enriched_results: (optional) If enriched results are
+               requested, transcription with inserted punctuation marks such as periods,
+               commas, question marks, and exclamation points.
         """
         self.results = results
         self.result_index = result_index
@@ -8646,6 +9234,7 @@ class SpeechRecognitionResults:
         self.processing_metrics = processing_metrics
         self.audio_metrics = audio_metrics
         self.warnings = warnings
+        self.enriched_results = enriched_results
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'SpeechRecognitionResults':
@@ -8668,6 +9257,9 @@ class SpeechRecognitionResults:
             args['audio_metrics'] = AudioMetrics.from_dict(audio_metrics)
         if (warnings := _dict.get('warnings')) is not None:
             args['warnings'] = warnings
+        if (enriched_results := _dict.get('enriched_results')) is not None:
+            args['enriched_results'] = EnrichedResults.from_dict(
+                enriched_results)
         return cls(**args)
 
     @classmethod
@@ -8710,6 +9302,12 @@ class SpeechRecognitionResults:
                 _dict['audio_metrics'] = self.audio_metrics.to_dict()
         if hasattr(self, 'warnings') and self.warnings is not None:
             _dict['warnings'] = self.warnings
+        if hasattr(self,
+                   'enriched_results') and self.enriched_results is not None:
+            if isinstance(self.enriched_results, dict):
+                _dict['enriched_results'] = self.enriched_results
+            else:
+                _dict['enriched_results'] = self.enriched_results.to_dict()
         return _dict
 
     def _to_dict(self):
