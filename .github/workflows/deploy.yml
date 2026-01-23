@@ -15,61 +15,81 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+# default: least privileged permissions across all jobs
+permissions:
+  contents: read
+
 jobs:
-  deploy:
-    if: "!contains(github.event.head_commit.message, 'skip ci')"
-    name: Deploy and Publish
+  release:
     runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.workflow }}-release-${{ github.ref_name }}
+      cancel-in-progress: false
+
+    permissions:
+      contents: write
 
     steps:
-    - uses: actions/checkout@v2
-      with:
-        persist-credentials: false
+      # Note: We checkout the repository at the branch that triggered the workflow.
+      # Python Semantic Release will automatically convert shallow clones to full clones
+      # if needed to ensure proper history evaluation. However, we forcefully reset the
+      # branch to the workflow sha because it is possible that the branch was updated
+      # while the workflow was running, which prevents accidentally releasing un-evaluated
+      # changes.
+      - name: Setup | Checkout Repository on Release Branch
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.ref_name }}
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.11'
+      - name: Setup | Force release branch to be at workflow sha
+        run: |
+          git reset --hard ${{ github.sha }}
 
-    - name: Setup Node
-      uses: actions/setup-node@v2
-      with:
-        node-version: 20
+      - name: Action | Semantic Version Release
+        id: release
+        # Adjust tag with desired version if applicable.
+        uses: python-semantic-release/python-semantic-release@v10.5.3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          git_committer_name: "github-actions"
+          git_committer_email: "actions@users.noreply.github.com"
 
-    - name: Install Semantic Release dependencies
-      run: |
-        sudo apt-get install bumpversion
-        npm install -g semantic-release
-        npm install -g @semantic-release/changelog
-        npm install -g @semantic-release/exec
-        npm install -g @semantic-release/git
-        npm install -g @semantic-release/github
-        npm install -g @semantic-release/commit-analyzer
-        npm install -g @semantic-release/release-notes-generator
+      - name: Publish | Upload to GitHub Release Assets
+        uses: python-semantic-release/publish-action@v10.5.3
+        if: steps.release.outputs.released == 'true'
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ steps.release.outputs.tag }}
 
-    - name: Publish js docs
-      if: ${{ github.event.workflow_run.conclusion == 'success' }}
-      env:
-        GH_TOKEN: ${{ secrets.GH_TOKEN }}
-        GHA_BRANCH: ${{ github.ref }} # non PR only need to get last part
-        GHA_COMMIT: ${{ github.sha }}
-      run: |
-        sudo apt-get install python3-sphinx
-        docs/publish_gha.sh
+      - name: Upload | Distribution Artifacts
+        uses: actions/upload-artifact@v5
+        with:
+          name: distribution-artifacts
+          path: dist/
+          if-no-files-found: error
 
-    - name: Publish to Git Releases and Tags
-      if: ${{ github.event.workflow_run.conclusion == 'success' }}
-      env:
-        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      run: npx semantic-release #--dry-run --branches 9388_gha Uncomment for testing purposes
+    outputs:
+      released: ${{ steps.release.outputs.released || 'false' }}
 
-    - name: Build binary wheel and a source tarball
-      run: |
-        pip3 install setuptools wheel twine build
-        python setup.py sdist
+  deploy:
+    # 1. Separate out the deploy step from the publish step to run each step at
+    #    the least amount of token privilege
+    # 2. Also, deployments can fail, and its better to have a separate job if you need to retry
+    #    and it won't require reversing the release.
+    runs-on: ubuntu-latest
+    needs: release
+    if: ${{ needs.release.outputs.released == 'true' }}
 
-    - name: Publish package distributions to PyPI
-      uses: pypa/gh-action-pypi-publish@release/v1
-      with:
-        password: ${{ secrets.PYPI_TOKEN }}
+    permissions:
+      contents: read
+      id-token: write  # IMPORTANT: mandatory for trusted publishing
+
+    steps:
+      - name: Download all the dists
+        uses: actions/download-artifact@v6
+        with:
+          name: distribution-artifacts
+          path: dist/
+
+      - name: Publish distribution 📦 to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
