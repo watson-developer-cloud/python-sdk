@@ -22,6 +22,7 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     concurrency:
       group: ${{ github.workflow }}-release-${{ github.ref_name }}
       cancel-in-progress: false
@@ -45,20 +46,28 @@ jobs:
         run: |
           git reset --hard ${{ github.sha }}
 
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+
       - name: Action | Semantic Version Release
         id: release
         # Adjust tag with desired version if applicable.
         uses: python-semantic-release/python-semantic-release@v10.5.3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          git_committer_name: "github-actions"
-          git_committer_email: "actions@users.noreply.github.com"
+          github_token: ${{ secrets.GH_TOKEN }}
+          git_committer_name: "Watson Github Bot"
+          git_committer_email: "watdevex@us.ibm.com"
+
+      - name: Build a binary wheel and a source tarball
+        run: pip3 install setuptools wheel twine build && python setup.py sdist
 
       - name: Publish | Upload to GitHub Release Assets
         uses: python-semantic-release/publish-action@v10.5.3
         if: steps.release.outputs.released == 'true'
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GH_TOKEN }}
           tag: ${{ steps.release.outputs.tag }}
 
       - name: Upload | Distribution Artifacts
